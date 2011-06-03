@@ -19,7 +19,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 
 /**
  * This is jaxb adapter for org.kuali.rice.kim.bo.types.dto.AttributeSet. 

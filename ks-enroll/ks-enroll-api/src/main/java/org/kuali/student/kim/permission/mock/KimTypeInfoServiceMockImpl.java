@@ -18,9 +18,9 @@ package org.kuali.student.kim.permission.mock;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.kuali.rice.kim.bo.types.dto.KimTypeInfo;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kim.service.KimTypeInfoService;
+
+import org.kuali.rice.kim.api.type.KimType;
+import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.service.support.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.KimTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
@@ -33,32 +33,31 @@ import org.kuali.rice.kim.service.support.impl.PrincipalDerivedRoleTypeServiceIm
  */
 public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
 
-    private Map<String, KimTypeInfo> kimTypeInfoCache = new HashMap<String, KimTypeInfo>();
+    private Map<String, KimType> kimTypeInfoCache = new HashMap<String, KimType>();
     private Map<String, KimRoleTypeService> kimRoleTypeServiceCache = new HashMap <String, KimRoleTypeService> ();
     {
-        KimTypeInfo info = null;
-
-        info = new KimTypeInfo ();
-        info.setKimTypeId("2");
-        info.setKimTypeServiceName(PrincipalDerivedRoleTypeServiceImpl.class.getName());
+        KimType.Builder info = KimType.Builder.create();
+        info.setId("2");
+        info.setServiceName(PrincipalDerivedRoleTypeServiceImpl.class.getName());
         info.setName(PrincipalDerivedRoleTypeServiceImpl.class.getSimpleName());
         info.setNamespaceCode(KimPermissionConstants.KR_IDM_NAMESPACE);
-        this.kimTypeInfoCache.put(info.getKimTypeId(), info);
-        this.kimRoleTypeServiceCache.put (info.getKimTypeServiceName(), new PrincipalDerivedRoleTypeServiceImpl ());
+        KimType data = info.build();
+        this.kimTypeInfoCache.put(info.getId(), data);
+        this.kimRoleTypeServiceCache.put (data.getServiceName(), new PrincipalDerivedRoleTypeServiceImpl ());
     }
     @Override
-    public Collection<KimTypeInfo> getAllTypes() {
+    public Collection<KimType> findAllKimTypes() {
         return this.kimTypeInfoCache.values();
     }
 
     @Override
-    public KimTypeInfo getKimType(String kimTypeId) {
+    public KimType getKimType(String kimTypeId) {
         return this.kimTypeInfoCache.get(kimTypeId);
     }
 
     @Override
-    public KimTypeInfo getKimTypeByName(String namespaceCode, String typeName) {
-        for (KimTypeInfo info : this.kimTypeInfoCache.values()) {
+    public KimType findKimTypeByNameAndNamespace(String namespaceCode, String typeName) {
+        for (KimType info : this.kimTypeInfoCache.values()) {
             if (info.getNamespaceCode().equals(namespaceCode)) {
                 if (info.getName().equals(typeName)) {
                     return info;
@@ -68,8 +67,8 @@ public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
         return null;
     }
 
-    public KimRoleTypeService getRoleTypeService(KimTypeInfo typeInfo) {
-        String serviceName = typeInfo.getKimTypeServiceName();
+    public KimRoleTypeService getRoleTypeService(KimType typeInfo) {
+        String serviceName = typeInfo.getServiceName();
         if (serviceName == null) {
             return null;
         }
@@ -79,13 +78,13 @@ public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
             if (service != null && service instanceof KimRoleTypeService) {
                 return (KimRoleTypeService) service;
             } else {
-//                return (KimRoleTypeService) KIMServiceLocator.getService("kimNoMembersRoleTypeService");
+//                return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
                 return new KimDerivedRoleTypeServiceBase ();
             }
         } catch (Exception ex) {
 //            LOG.error("Unable to find role type service with name: " + serviceName);
 //            LOG.error(ex.getClass().getName() + " : " + ex.getMessage());
-//            return (KimRoleTypeService) KIMServiceLocator.getService("kimNoMembersRoleTypeService");
+//            return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
             return new KimDerivedRoleTypeServiceBase ();
         }
     }

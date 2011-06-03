@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
@@ -85,11 +85,11 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
         return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributeSet(qualification));
     }
 
-	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
+	protected String getDocumentNumber(AttributeSet qualification) throws WorkflowException {
 		// first check for a valid document id passed in
 		String documentId = qualification.get( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
         if (StringUtils.isNotEmpty(documentId)) {
-            return Long.valueOf(documentId);
+            return documentId;
         } else {
             LOG.warn("Could not find workflow document id in qualification list:");
             LOG.warn(qualification.formattedDump(20));
@@ -112,7 +112,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 //		if (docDetail == null) {
 //			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
 //		}
-//		return docDetail.getRouteHeaderId();
+//		return docDetail.getDocumentId();
 	}
 
 	public boolean isCheckFutureRequests() {
@@ -139,7 +139,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		validateRequiredAttributesAgainstReceived(paramQualification);
 		AttributeSet qualification = translateInputAttributeSet(paramQualification);
-		Long documentNumber = null;
+		String documentNumber = null;
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
@@ -176,7 +176,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
         validateRequiredAttributesAgainstReceived(paramQualification);
         AttributeSet qualification = translateInputAttributeSet(paramQualification);
         boolean isUserInRouteLog = false;
-		Long documentNumber = null;
+		String documentNumber = null;
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {

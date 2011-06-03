@@ -34,6 +34,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kim-api</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
       <version>${project.version}</version>

@@ -3,9 +3,8 @@ package org.kuali.student.core.bo;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.core.api.services.CoreApiServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
 public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements KsMetaBusinessObject {
@@ -63,7 +62,7 @@ public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements Ks
         }
 
         if (this.getCreateDate() == null) {
-            this.setCreateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
+            this.setCreateDate(CoreApiServiceLocator.getDateTimeService().getCurrentSqlDate());
         }
     }
 
@@ -72,7 +71,7 @@ public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements Ks
         super.preUpdate();
 
         this.setUpdateId(GlobalVariables.getUserSession().getPrincipalName());
-        this.setUpdateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setUpdateDate(CoreApiServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
 
     public String getCreateId() {

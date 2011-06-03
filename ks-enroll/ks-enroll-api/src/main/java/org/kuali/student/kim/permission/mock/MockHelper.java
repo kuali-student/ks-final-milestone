@@ -4,8 +4,8 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.group.Group;
 
 /**
  *
@@ -21,15 +21,9 @@ public class MockHelper {
         return copy;
     }
 
-    public GroupInfo copy(GroupInfo info) {
-        GroupInfo copy = new GroupInfo();
-        copy.setActive(info.isActive());
-        copy.setAttributes(this.copy(info.getAttributes()));
-        copy.setGroupDescription(info.getGroupDescription());
-        copy.setGroupId(info.getGroupId());
-        copy.setGroupName(info.getGroupName());
-        copy.setKimTypeId(info.getKimTypeId());
-        copy.setNamespaceCode(info.getNamespaceCode());
-        return copy;
+    public Group copy(Group info) {
+        Group.Builder copy = Group.Builder.create(info);
+        copy.setId(null);
+        return copy.build();
     }
 }

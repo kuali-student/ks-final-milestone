@@ -23,7 +23,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.group.GroupUpdateService;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
@@ -32,11 +34,9 @@ import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.GroupUpdateService;
-import org.kuali.rice.kim.service.KimTypeInfoService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.RoleUpdateService;
+import org.kuali.rice.kim.service.support.KimTypeService;
 
 /**
  * @author nwright
@@ -50,7 +50,7 @@ public class RoleServiceMockImpl implements
     private transient Map<String, RoleMemberCompleteInfo> roleMemberCompleteInfoCache = new HashMap<String, RoleMemberCompleteInfo>();
     private GroupService groupService;
     private GroupUpdateService groupUpdateService;
-    private KimTypeInfoService kimTypeInfoService;
+    private KimTypeService kimTypeInfoService;
 
     public GroupService getGroupService() {
         return groupService;
@@ -60,11 +60,11 @@ public class RoleServiceMockImpl implements
         this.groupService = groupService;
     }
 
-    public KimTypeInfoService getKimTypeInfoService() {
+    public KimTypeService getKimTypeService() {
         return kimTypeInfoService;
     }
 
-    public void setKimTypeInfoService(KimTypeInfoService kimTypeInfoService) {
+    public void setKimTypeService(KimTypeService kimTypeInfoService) {
         this.kimTypeInfoService = kimTypeInfoService;
     }
 

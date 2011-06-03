@@ -19,8 +19,8 @@ import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.core.xml.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.common.rice.authorization.PermissionType;
@@ -219,7 +219,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException {
         try {
-            String[] nodeNames = getWorkflowUtilityService().getPreviousRouteNodeNames(Long.parseLong(workflowId));
+            String[] nodeNames = getWorkflowUtilityService().getPreviousRouteNodeNames(workflowId);
             return Arrays.asList(nodeNames);
         } catch (Exception e) {
             LOG.error("Error approving document",e);
@@ -242,7 +242,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             LOG.debug("Calling action requested with user:"+principalId+" and workflowId:" + workflowId);
 
             Map<String,String> results = new HashMap<String,String>();
-            AttributeSet kewActionsRequested = getWorkflowUtilityService().getActionsRequested(principalId, Long.parseLong(workflowId));
+            AttributeSet kewActionsRequested = getWorkflowUtilityService().getActionsRequested(principalId, workflowId);
             for (String key : kewActionsRequested.keySet()) {
             	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
             		results.put(key,"true");
@@ -252,7 +252,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
 
-            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
+            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(workflowId);
 
             for(Map.Entry<String,String> entry:results.entrySet()){
             	// if saved or initiated status... must show only 'complete' button
@@ -301,7 +301,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                     PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                     PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new AttributeSet(permDetails2), 
                     new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
-            for (String nodeName : getCurrentActiveNodeNames(docDetail.getRouteHeaderId())) {
+            for (String nodeName : getCurrentActiveNodeNames(docDetail.getDocumentId())) {
                 if (canBlanketApprove) {
                     break;
                 }
@@ -324,7 +324,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
 	}
 
-	protected List<String> getCurrentActiveNodeNames(Long routeHeaderId) throws OperationFailedException, WorkflowException {
+	protected List<String> getCurrentActiveNodeNames(String routeHeaderId) throws OperationFailedException, WorkflowException {
         List<String> currentActiveNodeNames = new ArrayList<String>();
         RouteNodeInstanceDTO[] nodeInstances = getWorkflowUtilityService().getActiveNodeInstances(routeHeaderId);
         if (null != nodeInstances) {
@@ -340,8 +340,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		if (workflowId != null && !workflowId.isEmpty()){
 			try {
-				Long documentId = Long.valueOf(workflowId);
-				return workflowUtilityService.getDocumentStatus(documentId);
+				return workflowUtilityService.getDocumentStatus(workflowId);
 			} catch (Exception e) {
 				throw new OperationFailedException("Error getting document status. " + e.getMessage());
 			}
@@ -366,8 +365,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	        	LOG.error("Nothing found for id: "+dataId);
 	        	return null;
 	        }
-	        Long workflowId=docDetail.getRouteHeaderId();
-	        return null==workflowId?null:workflowId.toString();
+	        return docDetail.getDocumentId();
 		} catch (Exception e) {
 			LOG.error("Call Failed getting workflowId for id: "+dataId, e);
 		}
@@ -392,9 +390,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		List<String> routeNodeNames = new ArrayList<String>();
 
-		Long documentId = Long.valueOf(workflowId);
 		try{
-			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(documentId);
+			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(workflowId);
 			if (routeNodes != null){
 				for (RouteNodeInstanceDTO routeNodeInstanceDTO : routeNodes) {
 					routeNodeNames.add(routeNodeInstanceDTO.getName());
@@ -419,15 +416,15 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             String username = SecurityUtils.getCurrentUserId();
 
             //Get the workflow ID
-            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(workflowId);
             if(docDetail==null){
             	throw new OperationFailedException("Error found getting document. " );
             }
-            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(workflowId);
 
             String routeComment = "Routed";
 
-            StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent.getApplicationContent(), routeComment);
+            StandardResponse stdResp = simpleDocService.route(docDetail.getDocumentId().toString(), username, docDetail.getDocTitle(), docContent.getApplicationContent(), routeComment);
 
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
@@ -477,7 +474,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	public Boolean isAuthorizedRemoveReviewers(String docId) throws OperationFailedException {
 	    try {
             if (docId != null && (!"".equals(docId.trim()))) {
-                DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(docId));
+                DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(docId);
                 DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
                 AttributeSet permissionDetails = new AttributeSet();
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());

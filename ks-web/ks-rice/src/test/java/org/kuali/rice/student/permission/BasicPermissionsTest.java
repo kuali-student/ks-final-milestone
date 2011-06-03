@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.util.KimConstants;
@@ -72,32 +72,32 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify testuser1 has correct permissions as initiator
 		principalId = "testuser1";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// send adhoc approve to 'testuser3'
 		doc.adHocRouteDocumentToPrincipal(KEWConstants.ACTION_REQUEST_APPROVE_REQ, "", "testuser3", "", true);
 		
 		// verify testuser2 has no permissions
 		principalId = "testuser2";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// verify testuser3 has no permissions
 		principalId = "testuser3";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.TRUE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		doc.routeDocument("");
 		
 		// verify testuser1 has correct permissions as initiator
@@ -105,103 +105,103 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 		
 		// verify testuser3 has correct permissions as router
 		principalId = "testuser3";
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 		
 		// verify fred has request for approval and correct permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("Approval should be requested of user '" + principalId + "'", doc.isApprovalRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.TRUE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// verify doug has request for approval and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 		
 		// appprove the document as fred and re-verify his and doug's permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 
 		// verify fred has no request for approval and correct permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertFalse("Approval should be requested of user '" + principalId + "'", doc.isApprovalRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// verify doug still has request for FYI and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 		
 		// verify edna has request for Acknoweldge and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("Acknowledge should be requested of user '" + principalId + "'", doc.isAcknowledgeRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// route the document to PROCESSED
 		principalId = "fran";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 		principalId = "user1";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 
 		// verify edna still has request for Acknoweldge and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("", doc.stateIsProcessed());
 		assertTrue("Acknowledge should be requested of user '" + principalId + "'", doc.isAcknowledgeRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// move document to FINAL
 		doc.acknowledge("");
 
 		// verify edna has no request and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("Doc should be FINAL", doc.stateIsFinal());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 		// verify doug still has request for FYI and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getRouteHeaderId());
+		doc = new WorkflowDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
-		verifyPermissions(principalId, ""+doc.getRouteHeaderId(), hasPermissionByPermissionName);
+		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
 	}
 }

@@ -17,7 +17,7 @@ package org.kuali.student.core.document.ui.server;
 
 import java.util.List;
 
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.rice.StudentIdentityConstants;

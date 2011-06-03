@@ -16,7 +16,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.XmlJotter;
+import org.kuali.rice.core.util.xml.XmlJotter;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
@@ -271,7 +271,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
         LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
-        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getRouteHeaderId(), routeNodeDefinition);
+        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;

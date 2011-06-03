@@ -31,7 +31,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -133,7 +133,7 @@ public class KimQualificationHelper {
 			}
 			if (StringUtils.isNotBlank(documentNumber)) {
 				// document id exists so look up KEW document instance using it
-				docDetail = getWorkflowUtility().getDocumentDetail(Long.valueOf(documentNumber));
+				docDetail = getWorkflowUtility().getDocumentDetail(documentNumber);
 			}
 			else {
 				// document id does not exist so attempt lookup by Document Type Name and Application ID
@@ -175,7 +175,7 @@ public class KimQualificationHelper {
 		if (docDetail != null) {
 			// add document id if necessary
 			if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
-				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getRouteHeaderId().toString());
+				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getDocumentId());
 			}
 			// add KS proposal id if possible
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID) && StringUtils.isNotBlank(proposalId)) {
@@ -198,7 +198,7 @@ public class KimQualificationHelper {
 				}
 			}
 			else {
-				String errorMsg = "Could not find valid KEW document type for document id " + docDetail.getRouteHeaderId(); 
+				String errorMsg = "Could not find valid KEW document type for document id " + docDetail.getDocumentId(); 
 				LOG.error(errorMsg);
 				throw new RuntimeException(errorMsg);
 			}

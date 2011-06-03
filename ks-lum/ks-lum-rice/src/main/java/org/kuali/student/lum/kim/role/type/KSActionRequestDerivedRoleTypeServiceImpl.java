@@ -25,7 +25,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.xml.dto.AttributeSet;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -33,7 +33,7 @@ import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -115,11 +115,11 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
         return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributeSet(qualification));
     }
 
-	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
+	protected String getDocumentNumber(AttributeSet qualification) throws WorkflowException {
 		// first check for a valid document id passed in
 		String documentId = qualification.get( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
         if (StringUtils.isNotEmpty(documentId)) {
-            return Long.valueOf(documentId);
+            return documentId;
         } else {
             LOG.warn("Could not find workflow document id in qualification list:");
             LOG.warn(qualification.formattedDump(20));
@@ -144,7 +144,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 //			return null;
 ////			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
 //		}
-//		return docDetail.getRouteHeaderId();
+//		return docDetail.getDocumentId();
 	}
 
 	protected void addMember(Map<String,List<ActionRequestDTO>> requestsByPrincipalId, String principalId, ActionRequestDTO actionRequest) {
@@ -166,7 +166,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		try {
 			// check for valid qualification data to check
-			Long documentNumber = getDocumentNumber(qualification);
+			String documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				// get all action requests for the document id given
 				ActionRequestDTO[] actionRequests = getWorkflowUtility().getAllActionRequests(documentNumber);
@@ -179,7 +179,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	            	}
 	            	// if the request is a group request
 	            	else if (actionRequest.isGroupRequest()) {
-	            		for (String principalId : KIMServiceLocator.getGroupService().getMemberPrincipalIds(actionRequest.getGroupId())) {
+	            		for (String principalId : KimApiServiceLocator.getGroupService().getMemberPrincipalIds(actionRequest.getGroupId())) {
 		            		addMember(requestsByPrincipalId, principalId, actionRequest);
 						}
 	            	}
@@ -207,7 +207,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
         validateRequiredAttributesAgainstReceived(paramQualification);
         AttributeSet qualification = translateInputAttributeSet(paramQualification);
 		try {
-			Long documentNumber = getDocumentNumber(qualification);
+			String documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				ActionRequestDTO[] actionRequests = getWorkflowUtility().getActionRequests(documentNumber, null, principalId);
 				return containsActivatedRequest(roleName, actionRequests);

@@ -15,13 +15,18 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.*;
-import org.kuali.rice.kim.bo.Group;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.kuali.rice.kim.api.group.Group;
+import org.kuali.rice.kim.api.group.GroupMember;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.group.GroupUpdateService;
 import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.group.dto.GroupInfo;
-import org.kuali.rice.kim.bo.group.dto.GroupMembershipInfo;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.GroupUpdateService;
 
 /**
  * @author nwright
@@ -29,14 +34,14 @@ import org.kuali.rice.kim.service.GroupUpdateService;
 public class GroupServiceMockImpl implements GroupService,
         GroupUpdateService {
 
-    private transient Map<String, GroupInfo> groupCache = new HashMap<String, GroupInfo>();
-    private transient Map<String, GroupMembershipInfo> groupMembershipCache = new HashMap<String, GroupMembershipInfo>();
+    private transient Map<String, Group> groupCache = new HashMap<String, Group>();
+    private transient Map<String, GroupMember> groupMembershipCache = new HashMap<String, GroupMember>();
 
     @Override
     public List<String> getDirectGroupIdsForPrincipal(String principalId) {
         List<String> groups = new ArrayList<String>();
-        for (GroupMembershipInfo groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+        for (GroupMember groupMembership : this.groupMembershipCache.values()) {
+            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getMemberId().equals(principalId)) {
                     groups.add(groupMembership.getGroupId());
                 }
@@ -48,8 +53,8 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getDirectMemberGroupIds(String groupId) {
         List<String> members = new ArrayList<String>();
-        for (GroupMembershipInfo groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+        for (GroupMember groupMembership : this.groupMembershipCache.values()) {
+            if (groupMembership.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                 if (groupMembership.getGroupId().equals(groupId)) {
                     members.add(groupMembership.getMemberId());
                 }
@@ -61,8 +66,8 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getDirectMemberPrincipalIds(String groupId) {
         List<String> members = new ArrayList<String>();
-        for (GroupMembershipInfo groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+        for (GroupMember groupMembership : this.groupMembershipCache.values()) {
+            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getGroupId().equals(groupId)) {
                     members.add(groupMembership.getMemberId());
                 }
@@ -74,8 +79,8 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getDirectParentGroupIds(String groupId) {
         List<String> members = new ArrayList<String>();
-        for (GroupMembershipInfo groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+        for (GroupMember groupMembership : this.groupMembershipCache.values()) {
+            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getMemberId().equals(groupId)) {
                     members.add(groupMembership.getGroupId());
                 }
@@ -86,7 +91,7 @@ public class GroupServiceMockImpl implements GroupService,
 
     @Override
     public Map<String, String> getGroupAttributes(String groupId) {
-        return this.getGroupInfo(groupId).getAttributes();
+        return this.getGroup(groupId).getAttributeSet();
     }
 
     @Override
@@ -108,15 +113,15 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public GroupInfo getGroupInfo(String groupId) {
+    public Group getGroup(String groupId) {
         return this.groupCache.get(groupId);
     }
 
     @Override
-    public GroupInfo getGroupInfoByName(String namespaceCode, String groupName) {
-        for (GroupInfo group : this.groupCache.values()) {
+    public Group getGroupByName(String namespaceCode, String groupName) {
+        for (Group group : this.groupCache.values()) {
             if (namespaceCode.equals(group.getNamespaceCode())) {
-                if (groupName.equals(group.getGroupName())) {
+                if (groupName.equals(group.getName())) {
                     return group;
                 }
             }
@@ -125,19 +130,19 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public Map<String, GroupInfo> getGroupInfos(Collection<String> groupIds) {
-        Map<String, GroupInfo> groups = new HashMap<String, GroupInfo>();
+    public Map<String, Group> getGroups(Collection<String> groupIds) {
+        Map<String, Group> groups = new HashMap<String, Group>();
         for (String groupId : groupIds) {
-            GroupInfo info = this.getGroupInfo(groupId);
+            Group info = this.getGroup(groupId);
             groups.put(groupId, info);
         }
         return groups;
     }
 
     @Override
-    public Collection<GroupMembershipInfo> getGroupMembers(List<String> groupIds) {
-        Collection<GroupMembershipInfo> infos = new ArrayList<GroupMembershipInfo>();
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+    public List<GroupMember> getMembers(List<String> groupIds) {
+        List<GroupMember> infos = new ArrayList<GroupMember>();
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupIds.contains(info.getGroupId())) {
                 infos.add(info);
             }
@@ -146,9 +151,9 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public Collection<GroupMembershipInfo> getGroupMembersOfGroup(String groupId) {
-        Collection<GroupMembershipInfo> infos = new ArrayList<GroupMembershipInfo>();
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+    public List<GroupMember> getMembersOfGroup(String groupId) {
+        List<GroupMember> infos = new ArrayList<GroupMember>();
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
                 infos.add(info);
             }
@@ -157,21 +162,21 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public List<GroupInfo> getGroupsForPrincipal(String principalId) {
+    public List<Group> getGroupsForPrincipal(String principalId) {
         Collection<String> groupIds = this.getGroupIdsForPrincipal(principalId);
-        List<GroupInfo> groups = new ArrayList<GroupInfo>();
+        List<Group> groups = new ArrayList<Group>();
         for (String groupId : groupIds) {
-            GroupInfo group = this.getGroupInfo(groupId);
+            Group group = this.getGroup(groupId);
             groups.add(group);
         }
         return groups;
     }
 
     @Override
-    public List<GroupInfo> getGroupsForPrincipalByNamespace(String principalId,
+    public List<Group> getGroupsForPrincipalByNamespace(String principalId,
             String namespaceCode) {
-        List<GroupInfo> groups = new ArrayList<GroupInfo>();
-        for (GroupInfo group : this.getGroupsForPrincipal(principalId)) {
+        List<Group> groups = new ArrayList<Group>();
+        for (Group group : this.getGroupsForPrincipal(principalId)) {
             if (namespaceCode.equals(group.getNamespaceCode())) {
                 groups.add(group);
             }
@@ -182,9 +187,9 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getMemberGroupIds(String groupId) {
         List<String> groupIds = new ArrayList<String>();
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                     groupIds.add(info.getMemberId());
                     groupIds.addAll(this.getMemberGroupIds(info.getMemberId()));
                 }
@@ -197,11 +202,11 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getMemberPrincipalIds(String groupId) {
         List<String> principalIds = new ArrayList<String>();
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                     principalIds.addAll(this.getMemberPrincipalIds(info.getMemberId()));
-                } else if (info.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+                } else if (info.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
                     principalIds.add(info.getMemberId());
                 }
             }
@@ -212,8 +217,8 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public List<String> getParentGroupIds(String groupId) {
         List<String> groupIds = new ArrayList<String>();
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
-            if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
+            if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                 if (groupId.equals(info.getMemberId())) {
                     groupIds.add(info.getGroupId());
                     groupIds.addAll(this.getParentGroupIds(info.getGroupId()));
@@ -225,9 +230,9 @@ public class GroupServiceMockImpl implements GroupService,
 
     @Override
     public boolean isDirectMemberOfGroup(String principalId, String groupId) {
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+                if (info.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
                     if (principalId.equals(info.getMemberId())) {
                         return true;
                     }
@@ -237,9 +242,9 @@ public class GroupServiceMockImpl implements GroupService,
         return false;
     }
 
-    @Override
+    // no longer provided in api
     public boolean isGroupActive(String groupId) {
-        return this.getGroupInfo(groupId).isActive();
+        return this.getGroup(groupId).isActive();
     }
 
     @Override
@@ -282,13 +287,12 @@ public class GroupServiceMockImpl implements GroupService,
         if (this.getDirectMemberGroupIds(parentId).contains(childId)) {
             return false;
         }
-        GroupMembershipInfo groupMembership = new GroupMembershipInfo(parentId,
-                UUID.randomUUID().toString(),
-                childId,
-                Role.GROUP_MEMBER_TYPE,
-                new Date(),
-                null);
-        this.groupMembershipCache.put(groupMembership.getGroupMemberId(), groupMembership);
+        GroupMember.Builder GMB = GroupMember.Builder.create(parentId,
+        		childId,
+                Role.GROUP_MEMBER_TYPE);
+        GMB.setId(UUID.randomUUID().toString());
+        GroupMember groupMembership = GMB.build();
+        this.groupMembershipCache.put(groupMembership.getMemberId(), groupMembership);
         return true;
     }
 
@@ -298,51 +302,53 @@ public class GroupServiceMockImpl implements GroupService,
         if (this.getDirectMemberPrincipalIds(groupId).contains(principalId)) {
             return false;
         }
-        GroupMembershipInfo groupMembership = new GroupMembershipInfo(groupId,
-                UUID.randomUUID().toString(),
+        GroupMember.Builder GMB = GroupMember.Builder.create(groupId,
                 principalId,
-                Role.PRINCIPAL_MEMBER_TYPE,
-                new Date(),
-                null);
-        this.groupMembershipCache.put(groupMembership.getGroupMemberId(), groupMembership);
+                Role.PRINCIPAL_MEMBER_TYPE);
+        GMB.setId(UUID.randomUUID().toString());
+        GroupMember groupMembership = GMB.build();
+        
+        
+        
+        this.groupMembershipCache.put(groupMembership.getMemberId(), groupMembership);
         return true;
     }
 
     @Override
-    public GroupInfo createGroup(GroupInfo groupInfo)
+    public Group createGroup(Group group)
             throws UnsupportedOperationException {
-        GroupInfo copy = new MockHelper().copy(groupInfo);
-        if (copy.getGroupId() != null) {
-            if (this.getGroupInfo(copy.getGroupId()) != null) {
+        Group copy = new MockHelper().copy(group);
+        if (copy.getId() != null) {
+            if (this.getGroup(copy.getId()) != null) {
                 throw new IllegalArgumentException("duplicate id");
             }
         } else {
-            copy.setGroupId(UUID.randomUUID().toString());
+            Group.Builder.create(group) .setId(UUID.randomUUID().toString());
         }
-        if (this.getGroupInfoByName(copy.getNamespaceCode(), copy.getGroupName()) != null) {
+        if (this.getGroupByName(copy.getNamespaceCode(), copy.getName()) != null) {
             throw new IllegalArgumentException("name in use");
         }
-        this.groupCache.put(copy.getGroupId(), copy);
+        this.groupCache.put(copy.getId(), copy);
         return copy;
 
     }
 
     @Override
-    public void removeAllGroupMembers(String groupId) throws UnsupportedOperationException {
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+    public void removeAllMembers(String groupId) throws UnsupportedOperationException {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (info.getGroupId().equals(groupId)) {
-                groupMembershipCache.remove(info.getGroupMemberId());
+                groupMembershipCache.remove(info.getMemberId());
             }
         }
     }
 
     @Override
     public boolean removeGroupFromGroup(String childId, String parentId) throws UnsupportedOperationException {
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (info.getGroupId().equals(parentId)) {
-                if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                     if (info.getMemberId().equals(childId)) {
-                        groupMembershipCache.remove(info.getGroupMemberId());
+                        groupMembershipCache.remove(info.getMemberId());
                         return true;
                     }
                 }
@@ -354,14 +360,14 @@ public class GroupServiceMockImpl implements GroupService,
     @Override
     public boolean removePrincipalFromGroup(String principalId, String groupId)
             throws UnsupportedOperationException {
-        for (GroupMembershipInfo info : this.groupMembershipCache.values()) {
+        for (GroupMember info : this.groupMembershipCache.values()) {
             if (info.getGroupId().equals(groupId)) {
-                if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
                     if (this.removePrincipalFromGroup(principalId, info.getMemberId())) {
                         return true;
                     }
                     if (info.getMemberId().equals(principalId)) {
-                        groupMembershipCache.remove(info.getGroupMemberId());
+                        groupMembershipCache.remove(info.getMemberId());
                         return true;
                     }
                 }
@@ -371,25 +377,25 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public GroupInfo updateGroup(String groupId, GroupInfo groupInfo) throws UnsupportedOperationException {
+    public Group updateGroup(String groupId, Group Group) throws UnsupportedOperationException {
         if (groupId == null) {
             throw new IllegalArgumentException("Group id cannot be null");
         }
-        if (groupInfo.getGroupId() == null) {
+        if (Group.getId() == null) {
             throw new IllegalArgumentException("New group id cannot be null");
         }
-        GroupInfo existing = this.getGroupInfo(groupId);
+        Group existing = this.getGroup(groupId);
         if (existing == null) {
             throw new IllegalArgumentException("group id not found");
         }
-        GroupInfo matching = this.getGroupInfoByName(groupInfo.getNamespaceCode(), groupInfo.getGroupName());
+        Group matching = this.getGroupByName(Group.getNamespaceCode(), Group.getName());
         if (matching != null) {
             if (matching != existing) {
                 throw new IllegalArgumentException("name in use");
             }
         }
-        GroupInfo copy = new MockHelper().copy(groupInfo);
-        this.groupCache.put(copy.getGroupId(), copy);
+        Group copy = new MockHelper().copy(Group);
+        this.groupCache.put(copy.getId(), copy);
         return copy;
     }
 }

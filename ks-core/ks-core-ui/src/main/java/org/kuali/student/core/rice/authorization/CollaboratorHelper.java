@@ -17,8 +17,8 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.core.xml.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.service.RoleUpdateService;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -100,7 +100,7 @@ public class CollaboratorHelper implements Serializable {
 
         try {
             String recipientPrincipalId = null;
-            ActionRequestDTO[] actionRequests = getWorkflowUtilityService().getAllActionRequests(Long.parseLong(docId));
+            ActionRequestDTO[] actionRequests = getWorkflowUtilityService().getAllActionRequests(docId);
             for (ActionRequestDTO actionRequestDTO : actionRequests) {
                 if (StringUtils.equals(actionRequestId, actionRequestDTO.getActionRequestId().toString())) {
                     recipientPrincipalId = actionRequestDTO.getPrincipalId();
@@ -139,7 +139,7 @@ public class CollaboratorHelper implements Serializable {
 			AttributeSet qualification = new AttributeSet();
 			qualification.put("documentNumber", docId);
 	
-			ActionRequestDTO[] items = getWorkflowUtilityService().getAllActionRequests(Long.parseLong(docId));
+			ActionRequestDTO[] items = getWorkflowUtilityService().getAllActionRequests(docId);
 	        if(items!=null){
 	        	for(ActionRequestDTO item:items){
 	        		if (item.isAdHocRequest()) {
@@ -204,7 +204,7 @@ public class CollaboratorHelper implements Serializable {
     }
 	
 	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
-    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
+    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(docId);
     	DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
     	AttributeSet roleMemberQuals = new AttributeSet();
     	roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
@@ -213,7 +213,7 @@ public class CollaboratorHelper implements Serializable {
 	}
 
 	private void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
-        DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.valueOf(docId));
+        DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(docId);
         DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
         AttributeSet roleMemberQuals = new AttributeSet();
         roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());

@@ -18,8 +18,8 @@ package org.kuali.student.core.authorization.ui.server.gwt;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.xml.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 

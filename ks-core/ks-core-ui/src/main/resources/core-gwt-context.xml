@@ -70,11 +70,11 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService" />
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.services.IdentityManagementService" />
 		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP" />
 	</bean>
     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.services.IdentityManagementService"/>
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
     </bean>
     

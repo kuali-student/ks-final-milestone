@@ -17,10 +17,10 @@ package org.kuali.student.core.comments.ui.server;
 
 import java.util.List;
 
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
-import org.kuali.rice.core.xml.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
