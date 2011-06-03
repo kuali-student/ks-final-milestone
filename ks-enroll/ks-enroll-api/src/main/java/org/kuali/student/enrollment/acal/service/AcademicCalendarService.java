@@ -23,6 +23,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -45,7 +46,7 @@ import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+
 
 /**
  * Academic Calendar Service Description and Assumptions.
@@ -1119,6 +1120,125 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public List<KeyDateInfo> getKeyDatesForAllTermsByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * 
+     * Searches for Academic Calendars that meet the search criteria and returns
+     * a list of {@link AcademicCalendarInfo} objects that meet the criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<AcademicCalendarInfo> searchForAcademicCalendars(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * 
+     * Searches for Academic Calendars that meet the search criteria and returns
+     * a list of academic calendar identifiers that meet the criteria
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForAcademicCalendarIds(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * 
+     * Searches for Campus Calendars that meet the search criteria and returns
+     * a list of {@link CampusCalendarInfo}  that meet the criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<CampusCalendarInfo> searchForCampusCalendars(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * Searches for Campus Calendars that meet the search criteria and returns
+     * a list of campus calendar identifiers that meet the criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForCampusCalendarIds(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * Searches for Terms that meet the search criteria and returns
+     * a list of {@link TermInfo} that meet the criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<TermInfo> searchForTerms(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Searches for Terms that meet the search criteria and returns
+     * a list of Term identifiers that meet the criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForTermIds(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
+    
+    /**
+     * 
+     * Searches for KeyDates based on the criteria and returns a list of
+     * {@link KeyDateInfo} which match the search criteria
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<KeyDateInfo> searchForKeyDates(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+
+    /**
+     * 
+     * Searches for KeyDates based on the criteria and returns a list of
+     * key date identifiers which match the search criteria
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForKeyDateIds(@WebParam(name = "criteria") CriteriaInfo criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /** 
      * Validates a key date. Depending on the value of validationType,
      * this validation could be limited to tests on just the current

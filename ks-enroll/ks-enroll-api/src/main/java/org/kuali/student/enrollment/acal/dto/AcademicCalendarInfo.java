@@ -51,7 +51,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements
 	private String credentialProgramTypeKey;
 
 	@XmlElement
-	private Date startDate;
+	private Date startDate; 
 
 	@XmlElement
 	private Date endDate;

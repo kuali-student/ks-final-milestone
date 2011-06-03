@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -26,19 +27,20 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
 
-public abstract class AcademicCalendarServiceDecorator implements
-AcademicCalendarService {
+public abstract class AcademicCalendarServiceDecorator implements AcademicCalendarService {
+    
+    
 	protected AcademicCalendarService nextDecorator;
 	
     public AcademicCalendarService getNextDecorator() {
         return nextDecorator;
     }
-   
+    
     public void setNextDecorator(AcademicCalendarService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
 
-    @Override
+    @Override 
     public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return this.nextDecorator.getAcademicCalendarState(academicCalendarStateKey, context);
     }
@@ -628,6 +630,63 @@ AcademicCalendarService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
     	return this.nextDecorator.getTermsForAcademicCalendar(academicCalendarKey, context);
+    }
+
+    @Override
+    public List<AcademicCalendarInfo> searchForAcademicCalendars(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return this.nextDecorator.searchForAcademicCalendars(criteria, context);
+    }
+
+    @Override
+    public List<String> searchForAcademicCalendarIds(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return this.nextDecorator.searchForAcademicCalendarIds(criteria, context);
+    }
+
+    @Override
+    public List<CampusCalendarInfo> searchForCampusCalendars(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return this.nextDecorator.searchForCampusCalendars(criteria, context);
+    }
+
+    @Override
+    public List<String> searchForCampusCalendarIds(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return this.nextDecorator.searchForCampusCalendarIds(criteria, context);
+    }
+
+    @Override
+    public List<String> searchForTermIds(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return this.nextDecorator.searchForTermIds(criteria, context);
+    }
+
+    @Override
+    public List<TermInfo> searchForTerms(CriteriaInfo criteria, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.nextDecorator.searchForTerms(criteria, context);
+    }
+
+    @Override
+    public List<KeyDateInfo> searchForKeyDates(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForKeyDateIds(CriteriaInfo criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
 
