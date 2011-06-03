@@ -79,7 +79,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
 
         List<AttributeInfo> attributes = (null != acal.getAttributes() ? acal.getAttributes() : new ArrayList<AttributeInfo>());
         
-        if (acal.getCredentialProgramTypeKey() != null) {
+        if (noAttributeEntryWithKey(attributes, "CredentialProgramType") && acal.getCredentialProgramTypeKey() != null) {
             AttributeInfo cpt = new AttributeInfo();
             cpt.setKey("CredentialProgramType");
             cpt.setValue(acal.getCredentialProgramTypeKey());
@@ -97,6 +97,15 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
         }        
         
         return atp;   
+    }
+
+    private boolean noAttributeEntryWithKey(List<AttributeInfo> attributes, String key) {
+        for (AttributeInfo attInfo : attributes) {
+            if (attInfo.getKey().equals(key)) {
+                return false;
+            }
+        }
+        return true;
     }
 
  }
