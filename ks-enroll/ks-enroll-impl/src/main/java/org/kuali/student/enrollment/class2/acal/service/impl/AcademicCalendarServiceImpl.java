@@ -3,8 +3,6 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.jws.WebService;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -29,12 +27,10 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
-//@WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     private AtpService atpService;
@@ -171,16 +167,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             PermissionDeniedException, VersionMismatchException {
         
         try{
-            atpService.getAtp(academicCalendarKey, context);
-            AtpInfo atp;
-
-            atp = acalAssembler.disassemble(academicCalendarInfo, context);
-
-            if(atp != null)
-                atpService.updateAtp(academicCalendarKey, atp, context);
-                    
+        	AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
+        	if(existing != null){
+	            AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
+	
+	            if(atp != null)
+	                atpService.updateAtp(academicCalendarKey, atp, context);
+        	}
+        	else
+        		throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
         } catch (DoesNotExistException e1) {
-            return null;
+            throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
         }
         
         return academicCalendarInfo;

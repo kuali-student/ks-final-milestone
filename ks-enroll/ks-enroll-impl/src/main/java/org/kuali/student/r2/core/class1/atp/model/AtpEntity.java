@@ -69,7 +69,9 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != atp.getAttributes()) {
             for (Attribute att : atp.getAttributes()) {
-                this.getAttributes().add(new AtpAttributeEntity(att));
+            	AtpAttributeEntity attEntity = new AtpAttributeEntity(att);
+            	attEntity.setVersionNumber((long) 0);
+                this.getAttributes().add(attEntity);
             }
         }
         }catch (Exception e){

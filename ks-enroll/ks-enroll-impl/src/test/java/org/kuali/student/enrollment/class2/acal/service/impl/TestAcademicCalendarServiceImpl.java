@@ -140,7 +140,7 @@ public class TestAcademicCalendarServiceImpl{
             fail("exception from service call :" + ex.getMessage());
         }
     }
-    @Ignore
+
     @Test 
     public void testUpdateAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
