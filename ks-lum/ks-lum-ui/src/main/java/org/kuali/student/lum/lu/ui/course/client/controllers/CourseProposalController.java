@@ -137,7 +137,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final DateFormat df = DateFormat.getInstance();
 
 	private final BlockingTask initializingTask = new BlockingTask("Loading");
-	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
+	protected final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
 
 	protected CourseRequirementsDataModel reqDataModel;
@@ -444,7 +444,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     @SuppressWarnings("unchecked")
-    private void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    protected void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
     	getCourseProposalRpcService().getData(id, new KSAsyncCallback<Data>(){
 
@@ -474,7 +474,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
     @SuppressWarnings("unchecked")
-	private void getCourseComparisonModelAndReqs(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
+	protected void getCourseComparisonModelAndReqs(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
 			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
 	

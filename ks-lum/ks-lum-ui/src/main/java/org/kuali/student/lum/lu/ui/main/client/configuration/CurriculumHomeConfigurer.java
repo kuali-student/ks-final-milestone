@@ -147,9 +147,14 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	                    SelectedResults value = result.get(0);
 	                    ViewContext viewContext = new ViewContext();
 	                    viewContext.setId(value.getResultRow().getId());
-	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, value.getResultRow().getValue("proposal.resultColumn.proposalOptionalType"));
+	                    String proposalType = value.getResultRow().getValue("proposal.resultColumn.proposalOptionalType");
+	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalType);
 	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-	                    Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	                    if("kuali.proposal.type.course.create.admin".equals(proposalType)){
+	                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+	                    }else{
+	                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	                    }
 	                    ((KSPicker) searchWidget).getSearchWindow().hide();
                 	}
                 }

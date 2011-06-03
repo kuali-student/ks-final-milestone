@@ -1,16 +1,20 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
@@ -20,6 +24,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionLis
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 
 /**
  * Controller for create/modify admin screens
@@ -141,5 +146,36 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 		//FIXME: Need to add proper authorization checks for admin modify.
 		return false;
 	}
+	
+	//Copy the get from proposal if method so we can use the proposal version of the rpc call to do a get
+    @Override
+	@SuppressWarnings("unchecked")
+    protected void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    	KSBlockingProgressIndicator.addTask(loadDataTask);
+    	cluProposalRpcServiceAsync.getData(id, new KSAsyncCallback<Data>(){
 
+			@Override
+			public void handleFailure(Throwable caught) {
+                Window.alert("Error loading Proposal: "+caught.getMessage());
+                createNewCluProposalModel(callback, workCompleteCallback);
+                KSBlockingProgressIndicator.removeTask(loadDataTask);
+			}
+
+			@Override
+			public void onSuccess(Data result) {
+				cluProposalModel.setRoot(result);
+		        setHeaderTitle();
+		        setLastUpdated();
+                reqDataModel.retrieveStatementTypes(cluProposalModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                       if(result){
+                          getCourseComparisonModelAndReqs(callback, workCompleteCallback);
+                       }
+                    }
+                });
+			}
+
+    	});
+    }
 }
