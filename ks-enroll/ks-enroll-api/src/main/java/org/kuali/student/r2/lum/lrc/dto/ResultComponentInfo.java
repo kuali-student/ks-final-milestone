@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
-import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 import org.w3c.dom.Element;
 
 /**
@@ -108,15 +107,8 @@ public class ResultComponentInfo extends IdEntityInfo implements
 	}
 
 	@Override
-	public ResultValueRange getResultValueRange() {
+	public ResultValueRangeInfo getResultValueRange() {
 		return resultValueRange;
 	}
 
-    public List<Element> get_futureElements() {
-        return _futureElements;
-    }
-
-    public void set_futureElements(List<Element> _futureElements) {
-        this._futureElements = _futureElements;
-    }
 }

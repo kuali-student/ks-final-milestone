@@ -43,6 +43,8 @@ public class AtpServiceConstants {
     public static final String ATP_AY_TYPE_KEY = "kuali.atp.type.AY";
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
     // terms
+    public static final String ATP_TERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term";
+    
     public static final String ATP_FALL_TYPE_KEY = "kuali.atp.type.Fall";
     public static final String ATP_HALF_FALL_1_TYPE_KEY = "kuali.atp.type.HalfFall1";
     public static final String ATP_HALF_FALL_2_TYPE_KEY = "kuali.atp.type.HalfFall2";
@@ -63,6 +65,26 @@ public class AtpServiceConstants {
     public static final String ATP_WINTER_TYPE_KEY = "kuali.atp.type.Winter";
     // adhoc
     public static final String ATP_ADHOC_TYPE_KEY = "kuali.atp.type.Adhoc";
+    public static final String[] ATP_TERM_GROUPING = {ATP_FALL_TYPE_KEY,
+        ATP_HALF_FALL_1_TYPE_KEY,
+        ATP_HALF_FALL_2_TYPE_KEY,
+        ATP_HALF_SPRING_1_TYPE_KEY,
+        ATP_HALF_SPRING_2_TYPE_KEY,
+        ATP_MINI_MESTER_1_A_TYPE_KEY,
+        ATP_MINI_MESTER_1_B_TYPE_KEY,
+        ATP_MINI_MESTER_2_C_TYPE_KEY,
+        ATP_MINI_MESTER_2_D_TYPE_KEY,
+        ATP_SESSION_1_TYPE_KEY,
+        ATP_SESSION_2_TYPE_KEY,
+        ATP_SESSION_G1_TYPE_KEY,
+        ATP_SESSION_G2_TYPE_KEY,
+        ATP_SPRING_TYPE_KEY,
+        ATP_SPRING_BREAK_TYPE_KEY,
+        ATP_SUMMER_TYPE_KEY,
+        ATP_SUMMER_EVE_TYPE_KEY,
+        ATP_WINTER_TYPE_KEY,
+        ATP_ADHOC_TYPE_KEY};
+
     // program
     public static final String ATP_UNDERGRAD_PROGRAM_TYPE_KEY = "kuali.atp.type.UndergradProgram";
     public static final String ATP_FRESHMAN_YEAR_TYPE_KEY = "kuali.atp.type.FreshmanYear";
@@ -215,6 +237,7 @@ public class AtpServiceConstants {
      * ATP ATP Relation Types
      */
     public static final String ATP_ATP_RELATION_INCLUDES_TYPE_KEY = "kuali.atp.atp.relation.includes";
+    public static final String ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY ="kuali.atp.atp.relation.associated";
     public static final String ATP_ATP_RELATION_PRECEDES_TYPE_KEY = "kuali.atp.atp.relation.precedes";
     /**
      * ATP ATP Relation States

@@ -20,7 +20,6 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.r2.common.infc.Entity;
 
-import org.kuali.student.r2.common.infc.RichText;
 
 @SuppressWarnings("serial")
 @XmlTransient
@@ -65,12 +64,12 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements
 	}
 
 	@Override
-	public RichText getDescr() {
+	public RichTextInfo getDescr() {
 		return descr;
 	}
 
-	public void setDescr(RichText descr) {
-		this.descr = new RichTextInfo(descr);
+	public void setDescr(RichTextInfo descr) {
+		this.descr = descr;
 	}
 
 	@Override

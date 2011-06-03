@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
-import org.kuali.student.r2.common.infc.Meta;
 
 @SuppressWarnings("serial")
 @XmlTransient
@@ -37,11 +36,11 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
 	}
 
 	@Override
-	public Meta getMeta() {
+	public MetaInfo getMeta() {
 		return this.meta;
 	}
 
-	public void setMeta(Meta metaInfo) {
-		this.meta = MetaInfo.getInstance(metaInfo);
+	public void setMeta(MetaInfo metaInfo) {
+		this.meta = metaInfo;
 	}
 }
