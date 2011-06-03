@@ -9,11 +9,12 @@ insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, 
 insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, ST, ORG, RELATED_ORG, TYPE, OBJ_ID) values ('ba7b62b4-f93f-4555-84ae-f5e8308b087c', null, null, 'admin', TIMESTAMP '2010-12-13 12:10:36', 3, TIMESTAMP '2009-12-31 03:00:00', null, null, '222', '223', 'kuali.org.Contain', '98771af9-0071-4c7e-9b0d-7a6b2039f60e')
 /
 --update the oversight
-update KSLU_CLU_ADMIN_ORG set org_id='222' where TYPE='kuali.adminOrg.type.CurriculumOversightDivision' and org_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
+--update the oversight
+update KSLU_CLU_ADMIN_ORG set org_id='222' where TYPE='kuali.adminOrg.type.CurriculumOversightDivision' and clu_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
 /
-update KSLU_CLU_ADMIN_ORG set org_id='222' where TYPE='kuali.adminOrg.type.StudentOversightDivision' and org_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
+update KSLU_CLU_ADMIN_ORG set org_id='222' where TYPE='kuali.adminOrg.type.StudentOversightDivision' and clu_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
 /
-update KSLU_CLU_ADMIN_ORG set org_id='223' where TYPE='kuali.adminOrg.type.CurriculumOversightUnit' and org_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
+update KSLU_CLU_ADMIN_ORG set org_id='223' where TYPE='kuali.adminOrg.type.CurriculumOversightUnit' and clu_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
 /
-update KSLU_CLU_ADMIN_ORG set org_id='223' where TYPE='kuali.adminOrg.type.StudentOversightUnit' and org_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
+update KSLU_CLU_ADMIN_ORG set org_id='223' where TYPE='kuali.adminOrg.type.StudentOversightUnit' and clu_id IN('REFERENCEPROG-CORE','REFERENCEPROG-BACC')
 /
