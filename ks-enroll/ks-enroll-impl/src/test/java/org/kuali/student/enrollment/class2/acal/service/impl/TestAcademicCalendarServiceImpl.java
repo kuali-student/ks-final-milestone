@@ -168,7 +168,7 @@ public class TestAcademicCalendarServiceImpl{
                 fail("exception from service call :" + ex.getMessage());
             }
     }
-    @Ignore
+
     @Test 
     public void testDeleteAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -185,10 +185,12 @@ public class TestAcademicCalendarServiceImpl{
                 assertEquals("testDeletedAcalId", created.getKey());
 
                 StatusInfo ret = acalServiceValidation.deleteAcademicCalendar("testDeletedAcalId", callContext);
-                assertTrue(ret.isSuccess() == Boolean.TRUE);
+                assertTrue(ret.isSuccess());
 
                 AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testDeletedAcalId", callContext);
                 assertNull(existed);
+            } catch (DoesNotExistException dnee) {
+            	//this is expected
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
             }
