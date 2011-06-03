@@ -140,10 +140,8 @@ public class TestAcademicCalendarServiceImpl{
             fail("exception from service call :" + ex.getMessage());
         }
     }
-    
     @Ignore
     @Test 
-    //TODO: fix locking issue
     public void testUpdateAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -170,8 +168,7 @@ public class TestAcademicCalendarServiceImpl{
                 fail("exception from service call :" + ex.getMessage());
             }
     }
-    
-	@Ignore
+    @Ignore
     @Test 
     public void testDeleteAcademicCalendar()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -216,7 +213,7 @@ public class TestAcademicCalendarServiceImpl{
         	//TODO: test exception aspect & get dictionary ready, this is expected
         } 
 	}
-	@Ignore
+
     @Test 
     public void testCreateAndGetTerm() throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
