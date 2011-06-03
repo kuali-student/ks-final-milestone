@@ -4605,10 +4605,10 @@
 		</list>
 	</property>
  </bean>
- <bean id="credentialProgramInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="credentialProgramInfo.divisionsContentOwner" parent="majorDisciplineInfo-divisionsContentOwner-lookup-binding-parent">
   <property name="path" value="credentialProgramInfo.divisionsContentOwner" />
  </bean>
- <bean id="coreProgramInfo.divisionsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="coreProgramInfo.divisionsContentOwner" parent="majorDisciplineInfo-divisionsContentOwner-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.divisionsContentOwner" />
  </bean>
  <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo-divisionsContentOwner-lookup-binding-parent">
@@ -4651,10 +4651,10 @@
   <property name="path" value="majorDisciplineInfo.unitsContentOwner" />
  </bean>
  
- <bean id="credentialProgramInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="credentialProgramInfo.unitsContentOwner" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="credentialProgramInfo.unitsContentOwner" />
  </bean>
- <bean id="coreProgramInfo.unitsContentOwner" parent="department-lookup-binding-parent">
+ <bean id="coreProgramInfo.unitsContentOwner" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.unitsContentOwner" />
  </bean>
  <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo-unitsContentOwner-lookup-binding-parent">
@@ -4696,10 +4696,10 @@
  <bean id="majorDisciplineInfo.unitsStudentOversight" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="majorDisciplineInfo.unitsStudentOversight" />
  </bean>
- <bean id="credentialProgramInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+ <bean id="credentialProgramInfo.unitsStudentOversight" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="credentialProgramInfo.unitsStudentOversight" />
  </bean>
- <bean id="coreProgramInfo.unitsStudentOversight" parent="department-lookup-binding-parent">
+ <bean id="coreProgramInfo.unitsStudentOversight" parent="limitedDepartment-lookup-binding-parent">
   <property name="path" value="coreProgramInfo.unitsStudentOversight" />
  </bean>
  <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo-unitsStudentOversight-lookup-binding-parent">
@@ -5224,10 +5224,10 @@
 	</property>
  </bean>
 	
-     <bean id="credentialProgramInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+     <bean id="credentialProgramInfo.divisionsStudentOversight" parent="majorDisciplineInfo-divisionsStudentOversight-lookup-binding-parent">
 		<property name="path" value="credentialProgramInfo.divisionsStudentOversight" />
 	</bean>
-    <bean id="coreProgramInfo.divisionsStudentOversight" parent="department-lookup-binding-parent">
+    <bean id="coreProgramInfo.divisionsStudentOversight" parent="majorDisciplineInfo-divisionsStudentOversight-lookup-binding-parent">
 		<property name="path" value="coreProgramInfo.divisionsStudentOversight" />
 	</bean>
     <bean id="programVariationInfo.divisionsStudentOversight" parent="programVariationInfo-divisionsStudentOversight-lookup-binding-parent">

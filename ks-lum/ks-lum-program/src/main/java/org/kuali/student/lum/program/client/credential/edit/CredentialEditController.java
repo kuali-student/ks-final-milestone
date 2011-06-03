@@ -3,13 +3,13 @@ package org.kuali.student.lum.program.client.credential.edit;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -24,7 +24,6 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.credential.CredentialController;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
@@ -50,8 +49,6 @@ public class CredentialEditController extends CredentialController {
 
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
-
-    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -299,4 +296,32 @@ public class CredentialEditController extends CredentialController {
             }
         }
     }
+    
+	@Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		if(!initialized){
+			Application.getApplicationContext().clearCrossConstraintMap(null);
+			Application.getApplicationContext().clearPathToFieldMapping(null);
+		}
+		//Clear the parent path again
+		Application.getApplicationContext().setParentPath("");
+		super.beforeShow(onReadyCallback);
+	}
+	
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+		        showWarnings();	
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
+	}
 }
