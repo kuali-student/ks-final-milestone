@@ -602,4 +602,12 @@ public class AtpServiceMockImpl implements AtpService {
 
         return atpRltnList;
     }
+
+    @Override
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(String atpKey, String relationType,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }

@@ -481,6 +481,23 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      */
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * Retrieves ATP relationships by ATP and the type of relationship to
+     * the ATP. For an implementation, the relationships retrieved still 
+     * have to checked to ensure that the intended object type is being returned.   
+     * 
+     * @param atpKey
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "relationType") String relationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+    
     /** 
      * Validates an ATP/ATP relationship. Depending on the value
      * of validationType, this validation could be limited to tests on
