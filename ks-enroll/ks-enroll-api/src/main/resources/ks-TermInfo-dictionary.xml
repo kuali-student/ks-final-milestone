@@ -43,7 +43,7 @@
                 <ref bean="termInfo.startDate"/>
                 <ref bean="termInfo.endDate"/>
                 <ref bean="termInfo.attributes"/>
-                <ref bean="termInfo.metaInfo"/>
+                <!-- <ref bean="termInfo.metaInfo"/>-->
             </list>
         </property>
     </bean>
