@@ -268,7 +268,7 @@
         TYPE="kuali.adminOrg.type.TestOversightDivision" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-CORE"
         ID="17cde7a2-1433-4b9a-9aa2-34b80bad3e5a" IS_PR="0"
-        OBJ_ID="326473c4-c7b2-4c46-9095-a86815fd0859" ORG_ID="208"
+        OBJ_ID="326473c4-c7b2-4c46-9095-a86815fd0859" ORG_ID="222"
         TYPE="kuali.adminOrg.type.StudentOversightDivision" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEBSCI465"
         ID="17e7e6f7-1f38-446d-a668-669de7396bd6" IS_PR="0"
@@ -633,7 +633,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-BACC"
         ID="34c6c036-dd76-4c1d-abba-2e84ec2c6790" IS_PR="0"
-        OBJ_ID="8b3ba133-2968-4958-9a33-36f811418572" ORG_ID="208"
+        OBJ_ID="8b3ba133-2968-4958-9a33-36f811418572" ORG_ID="223"
         TYPE="kuali.adminOrg.type.StudentOversightUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEGEOG342"
         ID="34caaa20-7629-41ac-9753-9350678db4e9" IS_PR="0"
@@ -1670,7 +1670,7 @@
         TYPE="kuali.adminOrg.type.DeploymentUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-BACC"
         ID="8a9b9573-f1d2-4744-bfc7-8318276107f6" IS_PR="0"
-        OBJ_ID="cf89ce89-7c6d-4287-a96c-e99960a97ac6" ORG_ID="208"
+        OBJ_ID="cf89ce89-7c6d-4287-a96c-e99960a97ac6" ORG_ID="223"
         TYPE="kuali.adminOrg.type.CurriculumOversightUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLU-ID-GRE-SUBJ-GEOLOGY"
         ID="8adc4abd-1d90-4234-926e-d10c6ce30fcb" IS_PR="0"
@@ -1844,7 +1844,7 @@
         TYPE="kuali.adminOrg.type.FinancialResourcesUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-CORE"
         ID="9c226c3f-3fe2-42be-b8f8-7be90eab2b37" IS_PR="0"
-        OBJ_ID="e0370964-a8bf-491c-abbc-7439f2210e07" ORG_ID="208"
+        OBJ_ID="e0370964-a8bf-491c-abbc-7439f2210e07" ORG_ID="223"
         TYPE="kuali.adminOrg.type.StudentOversightUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEGVPT475"
         ID="9c25c205-1433-4387-855d-411c2a881e97" IS_PR="0"
@@ -2216,7 +2216,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-CORE"
         ID="c256ec5b-c927-4ff7-bef3-9665351cf2e7" IS_PR="0"
-        OBJ_ID="2b982743-e047-4094-bdb1-74cfd695bac7" ORG_ID="208"
+        OBJ_ID="2b982743-e047-4094-bdb1-74cfd695bac7" ORG_ID="222"
         TYPE="kuali.adminOrg.type.CurriculumOversightDivision" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEENGL101"
         ID="c36f64b3-49e5-4a47-8f6c-16734a162b18" IS_PR="0"
@@ -2385,7 +2385,7 @@
         TYPE="kuali.adminOrg.type.TestOversightDivision" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-BACC"
         ID="d387215c-0ec8-4d6f-8b9d-c841676e0d2d" IS_PR="0"
-        OBJ_ID="e21269cc-995b-4056-858d-5b87fbf5de6f" ORG_ID="208"
+        OBJ_ID="e21269cc-995b-4056-858d-5b87fbf5de6f" ORG_ID="222"
         TYPE="kuali.adminOrg.type.StudentOversightDivision" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="CLU-ID-GRE-SUBJ-ECONOMICS"
         ID="d503f534-3beb-4d3d-9a95-5987b2ba0fa7" IS_PR="0"
@@ -2588,7 +2588,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-BACC"
         ID="e9f03f87-a1dc-427d-b86b-2a145dcbdbbb" IS_PR="0"
-        OBJ_ID="e1b9dde3-6e35-4c95-90e0-9fa52354e408" ORG_ID="208"
+        OBJ_ID="e1b9dde3-6e35-4c95-90e0-9fa52354e408" ORG_ID="222"
         TYPE="kuali.adminOrg.type.CurriculumOversightDivision" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="21f7a0b2-abbc-4f77-8bf2-a4fde41c97ca"
         ID="e9fd3b53-11cd-4ed5-87d1-f6aac62ae973" IS_PR="0"
@@ -2791,7 +2791,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCEPROG-CORE"
         ID="fd02a64f-bb51-468f-b286-99772bf960e3" IS_PR="0"
-        OBJ_ID="b070f986-0a64-4d04-a4e8-84f4beb00dda" ORG_ID="208"
+        OBJ_ID="b070f986-0a64-4d04-a4e8-84f4beb00dda" ORG_ID="223"
         TYPE="kuali.adminOrg.type.CurriculumOversightUnit" VER_NBR="1"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="e95ceaba-b059-476a-8239-be4eb458639a"
         ID="fd12fffb-42d0-4960-9dab-3c4789508e93" IS_PR="0"
