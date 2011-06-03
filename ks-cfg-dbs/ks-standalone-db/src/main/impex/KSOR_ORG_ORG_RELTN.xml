@@ -1038,6 +1038,16 @@
         RELATED_ORG="208" TYPE="kuali.org.Contain" UPDATEID="admin"
         UPDATETIME="20101213121036" VER_NBR="3"/>
     <KSOR_ORG_ORG_RELTN EFF_DT="20091231030000"
+        ID="ba7b62b4-f93f-4555-84ae-f5e8308b087b"
+        OBJ_ID="98771af9-0071-4c7e-9b0d-7a6b2039f60d" ORG="15"
+        RELATED_ORG="222" TYPE="kuali.org.Contain" UPDATEID="admin"
+        UPDATETIME="20101213121036" VER_NBR="3"/>
+    <KSOR_ORG_ORG_RELTN EFF_DT="20091231030000"
+        ID="ba7b62b4-f93f-4555-84ae-f5e8308b087c"
+        OBJ_ID="98771af9-0071-4c7e-9b0d-7a6b2039f60e" ORG="222"
+        RELATED_ORG="223" TYPE="kuali.org.Contain" UPDATEID="admin"
+        UPDATETIME="20101213121036" VER_NBR="3"/>
+    <KSOR_ORG_ORG_RELTN EFF_DT="20091231030000"
         ID="c20a6af6-dc1f-4a6f-b480-e46c72be29fb"
         OBJ_ID="f88dd6ff-ad72-43b1-8471-a73726868e4e" ORG="28"
         RELATED_ORG="49" TYPE="kuali.org.CurriculumParent"

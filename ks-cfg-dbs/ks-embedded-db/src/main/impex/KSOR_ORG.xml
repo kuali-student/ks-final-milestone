@@ -843,6 +843,17 @@
         OBJ_ID="b4293cdc-dedd-43e4-adbe-c4cb85079766"
         SHRT_NAME="TheatreDancePerfCOC" TYPE="kuali.org.COC"
         UPDATEID="admin" UPDATETIME="20101213120811" VER_NBR="4"/>
+    <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20000101000000"
+        EFF_DT="20000101000000" ID="222"
+        LNG_NAME="Academic Affairs (College)"
+        OBJ_ID="5E7E3AACF7474BA9BF8667B6364531A3" SHRT_NAME="Academics"
+        TYPE="kuali.org.College" UPDATEID="admin"
+        UPDATETIME="20000101000000" VER_NBR="2"/>
+    <KSOR_ORG CREATETIME="20000101000000" EFF_DT="20000101000000"
+        ID="223" LNG_NAME="Office of Undergraduate Studies (Department)"
+        OBJ_ID="c1069a5a-613c-4f38-b9ba-c465cc02136b"
+        SHRT_NAME="UndergraduateStudies" TYPE="kuali.org.Department"
+        UPDATEID="admin" UPDATETIME="20000101000000" VER_NBR="1"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
         EFF_DT="20000101000000" ID="23"
         LNG_NAME="Information Technology"
