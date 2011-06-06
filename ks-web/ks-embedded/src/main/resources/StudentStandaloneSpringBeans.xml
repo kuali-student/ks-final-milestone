@@ -38,10 +38,13 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
-			
+			    <!-- 
 				<value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
+				<value>classpath:ks-TermInfo-dictionary.xml</value>
+				-->
 				<value>classpath:AcademicCalendarView.xml</value>
 				<value>classpath:AcademicCalendarLookupView.xml</value>
+ 				<value>classpath:AcademicCalendarMaintenance.xml</value> 
 				
 			</list>
 		</property>
