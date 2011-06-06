@@ -58,7 +58,7 @@
         OBJ_ID="76F9F4423DD0425C99F074858EB725A3"
         TYPE_DESC="A Deliberative body" TYPE_KEY="kuali.org.Senate" VER_NBR="0"/>
     <KSOR_ORG_TYPE EFF_DT="20100701000000" NAME="Testing Service"
-        OBJ_ID="A4D528C1D45B3927E040C60AF05B7D17"
+        OBJ_ID="A50E5D7531F71D7CE040C60AF05B34EC"
         TYPE_DESC="An organization creates and administers standardized tests"
         TYPE_KEY="kuali.org.TestingService" VER_NBR="0"/>
     <KSOR_ORG_TYPE EFF_DT="20000101000000" NAME="Work Group"
