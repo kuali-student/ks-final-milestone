@@ -7,7 +7,7 @@ import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
-public abstract class CourseCompletionProposition implements Proposition {
+public abstract class CourseCompletionProposition extends AbstractProposition implements Proposition {
     
     protected final boolean checkForAllCompleted;
     

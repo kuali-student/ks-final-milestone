@@ -8,7 +8,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
-public class TestScoreCompareProposition implements Proposition {
+public class TestScoreCompareProposition extends AbstractProposition implements Proposition {
 
     private ComparisonOperator operator;
     private Float compareScore;

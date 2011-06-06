@@ -8,7 +8,7 @@ import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
-public abstract class ComparisonOverCourseSetProposition implements Proposition {
+public abstract class ComparisonOverCourseSetProposition extends AbstractProposition implements Proposition {
 
     private Term courseSetTerm;
     

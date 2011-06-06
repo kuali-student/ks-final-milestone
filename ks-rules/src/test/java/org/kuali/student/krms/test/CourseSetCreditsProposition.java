@@ -8,7 +8,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
-public class CourseSetCreditsProposition implements Proposition {
+public class CourseSetCreditsProposition extends AbstractProposition implements Proposition {
 
     private ComparisonOperator operator;
     private Integer compareCreditCount;

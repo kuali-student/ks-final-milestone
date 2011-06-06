@@ -3,7 +3,7 @@ package org.kuali.student.krms.test;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.Proposition;
 
-public class OrgPermissionProposition implements Proposition {
+public class OrgPermissionProposition extends AbstractProposition implements Proposition {
     
     private final String orgId;
     
