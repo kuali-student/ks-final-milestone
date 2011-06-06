@@ -42,7 +42,7 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
             if(atpRels != null && !atpRels.isEmpty()){                  
                 for(AtpAtpRelationInfo atpRelInfo : atpRels){
                 	if(atpRelInfo.getAtpKey().equals(atpKey)){
-	                    if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)){
+	                    if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)){
 	                    	AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpKey(), context);
 	                        if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
 	                        ccKeys.add(atpRelInfo.getRelatedAtpKey());
@@ -93,7 +93,7 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
             if(atpRels != null && !atpRels.isEmpty()){
                 for(AtpAtpRelationInfo atpRelInfo : atpRels){
                 	if(atpRelInfo.getAtpKey().equals(atpKey)){
-	                    if(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY.equals(atpRelInfo.getTypeKey())){
+	                    if(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY.equals(atpRelInfo.getTypeKey())){
 	                        AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpKey(), context);
 	                        if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
 	                            currentRelIds.put(atpRelInfo.getRelatedAtpKey(), atpRelInfo.getId());
