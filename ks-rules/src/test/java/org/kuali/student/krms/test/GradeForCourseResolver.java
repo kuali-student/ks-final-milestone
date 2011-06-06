@@ -67,10 +67,10 @@ public class GradeForCourseResolver implements TermResolver<GradeInfo> {
                 }
             }
         } catch(Exception e) {
-            throw new TermResolutionException(e);
+            throw new TermResolutionException(e, this, parameters);
         }
 
-        throw new TermResolutionException("Could not find grade for student id: " + studentId + " and course id: " + courseId);
+        throw new TermResolutionException("Could not find grade for student id: " + studentId + " and course id: " + courseId, this, parameters);
     }
 
     private GradeInfo getFailGrade() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

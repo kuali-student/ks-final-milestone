@@ -37,7 +37,7 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
         String courseSetId = parameters.get(Constants.COURSE_SET_ID_TERM_PROPERTY_NAME);
         
         if(courseSetId == null) {
-            throw new TermResolutionException("No parameter found with name: " + Constants.COURSE_SET_ID_TERM_PROPERTY_NAME);
+            throw new TermResolutionException("No parameter found with name: " + Constants.COURSE_SET_ID_TERM_PROPERTY_NAME, this, parameters);
         }
         
         if(courseSetId.equals("1")) {
@@ -47,7 +47,7 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
             return Arrays.asList("2", "3");
         }
         else {
-            throw new TermResolutionException("Could not find course ids for course set: " + courseSetId);
+            throw new TermResolutionException("Could not find course ids for course set: " + courseSetId, this, parameters);
         }
         
     }

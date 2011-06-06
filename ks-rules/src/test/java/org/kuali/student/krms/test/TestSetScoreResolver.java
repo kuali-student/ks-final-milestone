@@ -39,7 +39,7 @@ public class TestSetScoreResolver implements TermResolver<Float> {
             return 88.8f;
         }
         
-        throw new TermResolutionException("Could not find test score for test set id: " + testSetId);
+        throw new TermResolutionException("Could not find test score for test set id: " + testSetId, this, parameters);
     }
 
 }

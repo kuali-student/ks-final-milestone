@@ -46,7 +46,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
             return Arrays.asList("1", "2", "3");
         }
         else {
-            throw new TermResolutionException("Could not find completed course ids for student id: " + studentId);
+            throw new TermResolutionException("Could not find completed course ids for student id: " + studentId, this, parameters);
         }
         
     }
