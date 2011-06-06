@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
@@ -68,6 +69,11 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     	    // Return updates to view
     		DataSaveResult result = new DataSaveResult();
     		result.setValue(data);
+    		return result;
+ 	    } catch(DataValidationErrorException e){
+ 	    	LOG.error("Error Updating Major Dicipline State", e); 	        
+ 	    	DataSaveResult result = new DataSaveResult();
+    		result.setValidationResults(e.getValidationResults());
     		return result;
  	    } catch(Exception e){
  	    	LOG.error("Error Updating Major Dicipline State", e); 	        

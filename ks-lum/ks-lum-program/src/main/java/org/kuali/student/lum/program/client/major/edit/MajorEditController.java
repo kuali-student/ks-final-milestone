@@ -155,6 +155,8 @@ public class MajorEditController extends MajorController {
 		                                                }
 		                                            }
 		                                        });
+		                                    }else{
+		                                    	KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
 		                                    }
 		                                }
 		                            };

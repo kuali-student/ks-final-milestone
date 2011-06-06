@@ -8,6 +8,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -439,10 +440,21 @@ public abstract class ProgramController extends MenuSectionController {
        	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
                 @Override
                 public void onSuccess(DataSaveResult result) {
-                    super.onSuccess(result);
-                    okCallback.exec(true);
-                    refreshModelAndView(result);
+                	if(result.getValidationResults()==null || result.getValidationResults().isEmpty()){
+                        super.onSuccess(result);
+                        okCallback.exec(true);
+                        refreshModelAndView(result);
+                	}else{
+                		//Remove the blocking progress
+                		super.onSuccess(result);
+                		//Do proper validation error handling
+                		isValid(result.getValidationResults(), false, true);
+                		ProgramUtils.handleValidationErrorsForSpecializations(result.getValidationResults(), programModel);
+                		//return false since this was not successful
+                		okCallback.exec(false);
+                	}
                }
+                
             }); 
     	 
      }

@@ -118,7 +118,7 @@ public class FieldDescriptor {
     	setupField();
     	
     	//Add mapping from path to field definition
-    	if(getFieldWidget() instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
+    	if((getFieldWidget() instanceof HasDataValue || getFieldWidget() instanceof KSTextBox)&&!(this instanceof FieldDescriptorReadOnly)){
     		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
 		}
 
@@ -152,7 +152,7 @@ public class FieldDescriptor {
     	setupField();
     	
     	//Add mapping from path to field definition if the definition has a data value
-    	if(fieldWidget instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
+    	if((fieldWidget instanceof HasDataValue || fieldWidget instanceof KSTextBox) &&!(this instanceof FieldDescriptorReadOnly)){
     		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
 		}
     	
