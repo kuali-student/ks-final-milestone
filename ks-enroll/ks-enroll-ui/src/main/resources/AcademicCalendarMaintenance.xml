@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:p="http://www.springframework.org/schema/p" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+    <!-- AcademicCalendarInfo-->
+    <bean id="AcademicCalendarInfo" parent="AcademicCalendarInfo-parent"/>
+    <bean id="AcademicCalendarInfo-parent" abstract="true" parent="DataObjectEntry">
+    	<property name="objectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+        <property name="objectLabel" value="Academic Calendar Info"/>
+        <property name="titleAttribute" value="key"/>
+        <!-- 
+        <property name="name" value="academicCalendarInfo"/>        
+        <property name="objectDescription" value=""/>
+        -->
+        
+        <property name="primaryKeys">
+            <list>
+                <value>key</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="AcademicCalendarInfo-key"/>
+                <!-- 
+                <ref bean="academicCalendarInfo.typeKey"/>
+                <ref bean="academicCalendarInfo.stateKey"/>
+                <ref bean="academicCalendarInfo.name"/>
+                <ref bean="academicCalendarInfo.descr"/>
+                <ref bean="academicCalendarInfo.attributes"/>
+                -->
+                <ref bean="AcademicCalendarInfo-startDate"/>
+                <ref bean="AcademicCalendarInfo-endDate"/>
+                <ref bean="AcademicCalendarInfo-credentialProgramTypeKey"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="AcademicCalendarInfo-key" parent="AcademicCalendarInfo-key-parent"/>
+    <bean id="AcademicCalendarInfo-key-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="key"/>        
+        <property name="label" value="Key" />
+        <property name="required" value="true"/>
+        <!-- <property name="unique" value="true"/> -->
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="TextControl" p:size="42"/>
+    	</property> 
+    </bean>
+
+    <bean id="AcademicCalendarInfo-startDate" parent="academicCalendarInfo-startDate-parent"/>
+    <bean id="academicCalendarInfo-startDate-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="startDate"/>
+        <property name="label" value="Start Date" />
+        <property name="required" value="true"/>
+        <property name="controlField">
+      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+    	</property>
+    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+    </bean>
+
+    <bean id="AcademicCalendarInfo-endDate" parent="academicCalendarInfo-endDate-parent"/>
+    <bean id="academicCalendarInfo-endDate-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="endDate"/>
+        <property name="label" value="End Date" />
+        <property name="required" value="true"/>
+        <property name="controlField">
+      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+    	</property>
+    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+    </bean>
+ 
+   	<bean id="AcademicCalendarInfo-credentialProgramTypeKey" parent="AcademicCalendarInfo-credentialProgramTypeKey-parent"/>
+    <bean id="AcademicCalendarInfo-credentialProgramTypeKey-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="credentialProgramTypeKey"/>
+        <property name="label" value="Credential Program Type Key"/>
+        <property name="required" value="true"/>
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="TextControl" p:size="42"/>
+    	</property> 
+    </bean>    
+    
+  <bean id="AcademicCalendarInfo-MaintenanceView" parent="MaintenanceView">
+     <property name="title" value="Academic Calendar Maintenance"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
+     
+     <property name="items">
+       <list merge="true">
+          <bean parent="MaintenanceGroupSectionGridLayout">
+          	 <property name="title" value="Academic Calendar"/>
+             <property name="items">
+               <list>
+                <bean parent="AttributeField" p:propertyName="startDate"/>
+                <bean parent="AttributeField" p:propertyName="endDate"/>
+                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey"/>
+               </list>
+             </property>             
+          </bean> 
+          <!-- 
+          <bean parent="MaintenanceCollectionGroupSection">
+              <property name="title" value="Academic Calendar Terms"/>  
+              <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+              <property name="propertyName" value="fiscalOfficer.accounts"/>
+              <property name="items">
+                <list>
+                  <bean parent="AttributeField" p:propertyName="number"/>
+                  <bean parent="AttributeField" p:propertyName="name"/>
+                  <bean parent="AttributeField" p:propertyName="foId"/>
+                </list>
+              </property>   
+              <property name="layoutManager.summaryTitle" value="Travel Account"/> 
+              <property name="layoutManager.summaryFields">
+                <list>
+                  <value>number</value>
+                </list>
+              </property>
+           </bean> 
+           -->         
+       </list>
+     </property>
+  </bean>  
+
+
+  <bean id="AcademicCalendarInfoMaintenanceDocument" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
+    <property name="documentTypeName" value="AcademicCalendarInfoMaintenanceDocument"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="lockingKeys">
+      <list>
+        <value>key</value>
+      </list>
+    </property>
+  </bean>  
+
+</beans>
