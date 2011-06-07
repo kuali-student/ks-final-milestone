@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.core.atp.service.impl.AtpAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
@@ -42,6 +44,7 @@ import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -160,8 +163,12 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
+
+        if (null == atpType) {
+            throw new DoesNotExistException();
+        }
+        return atpType.toDto();
     }
 
     @Override
@@ -868,7 +875,6 @@ public class AtpServiceImpl implements AtpService{
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(String atpKey, String relationType,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 

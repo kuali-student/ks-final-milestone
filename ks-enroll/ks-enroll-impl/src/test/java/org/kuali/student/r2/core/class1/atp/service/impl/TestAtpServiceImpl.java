@@ -23,6 +23,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -48,7 +49,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao")} )
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
-public class TestAtpServiceImpl extends AbstractServiceTest{
+public class TestAtpServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl")
     
     public AtpService atpService;
@@ -682,4 +683,18 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         }
     }
     
+    @Test
+    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        try {
+	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, callContext);
+	        assertNotNull(typeInfo);
+	        try {
+		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
+		        fail("Did not receive DoesNotExistException when getting nonexistent TypeInfo");
+	        } catch (DoesNotExistException dnee) { /* expected */ }
+	        
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
 }
