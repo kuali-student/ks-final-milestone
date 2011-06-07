@@ -29,6 +29,8 @@ import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -74,7 +76,23 @@ public class StylishDropDown extends Composite{
 		}
 		
 	};
-	
+
+	private KeyDownHandler downHandler = new KeyDownHandler(){
+
+		@Override
+		public void onKeyDown(KeyDownEvent event) {
+			if(enabled){
+				if(!menuPanel.isShowing()){								
+					StylishDropDown.this.showMenu();
+				}
+				else{
+					StylishDropDown.this.hideMenu();
+				}
+			}
+		}
+		
+	};
+
 	private MenuEventHandler menuHandler = new MenuEventHandler(){
 
 		@Override
@@ -172,6 +190,7 @@ public class StylishDropDown extends Composite{
 		});
 		menuPanel.setWidget(menu);
 		namePanel.addClickHandler(panelHandler);
+		namePanel.addKeyDownHandler(downHandler);
 		menuPanel.setAutoHideEnabled(true);
 		menuPanel.addAutoHidePartner(namePanel.getElement());
 		namePanel.getElement().setAttribute("id", HTMLPanel.createUniqueId());
