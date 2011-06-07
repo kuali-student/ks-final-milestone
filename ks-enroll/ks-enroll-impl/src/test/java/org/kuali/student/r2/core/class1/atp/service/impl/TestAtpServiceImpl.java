@@ -692,7 +692,31 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
 		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
 		        fail("Did not receive DoesNotExistException when getting nonexistent TypeInfo");
 	        } catch (DoesNotExistException dnee) { /* expected */ }
-	        
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
+    
+    @Test
+    public void testGetTypesByRefObjectURI() {
+        try {
+            List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(4, typeInfos.size());
+            
+            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(4, typeInfos.size());
+            
+            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(1, typeInfos.size());
+            assertEquals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, typeInfos.get(0).getKey());
+            
+            try {
+	            typeInfos = atpService.getTypesByRefObjectURI("totally.bogus.object.uri", callContext);
+		        fail("Did not receive DoesNotExistException when getting TypeInfos for nonexistent refObjectURI");
+	        } catch (DoesNotExistException dnee) { /* expected */ }
 	    } catch (Exception e) {
 	        fail(e.getMessage());
 	    }

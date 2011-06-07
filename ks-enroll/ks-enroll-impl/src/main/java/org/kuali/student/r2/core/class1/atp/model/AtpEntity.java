@@ -54,27 +54,29 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     public AtpEntity(){}
     
     public AtpEntity(Atp atp){
-        super(atp);
-        try{
-        this.setId(atp.getKey());
-        this.setName(atp.getName());
-        
-        if (atp.getStartDate() != null)
-            this.setStartDate(atp.getStartDate());
-        if (atp.getEndDate() != null)
-            this.setEndDate(atp.getEndDate());
-        if(atp.getDescr() != null)
-            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
-        
-        this.setAttributes(new ArrayList<AtpAttributeEntity>());
-        if (null != atp.getAttributes()) {
-            for (Attribute att : atp.getAttributes()) {
-            	AtpAttributeEntity attEntity = new AtpAttributeEntity(att);
-            	attEntity.setVersionNumber((long) 0);
-                this.getAttributes().add(attEntity);
-            }
-        }
-        }catch (Exception e){
+        super(atp); 
+        try {
+	        this.setId(atp.getKey());
+	        this.setName(atp.getName());
+	        
+	        if (atp.getStartDate() != null) {
+	            this.setStartDate(atp.getStartDate());
+	        }
+	        if (atp.getEndDate() != null) {
+	            this.setEndDate(atp.getEndDate());
+	        }
+	        if(atp.getDescr() != null) {
+	            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
+	        }
+	        this.setAttributes(new ArrayList<AtpAttributeEntity>());
+	        if (null != atp.getAttributes()) {
+	            for (Attribute att : atp.getAttributes()) {
+	            	AtpAttributeEntity attEntity = new AtpAttributeEntity(att);
+	            	attEntity.setVersionNumber((long) 0);
+	                this.getAttributes().add(attEntity);
+	            }
+	        }
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

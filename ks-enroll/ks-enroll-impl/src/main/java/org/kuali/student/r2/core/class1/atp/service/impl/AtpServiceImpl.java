@@ -15,6 +15,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.TypeEntity;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
@@ -175,8 +178,26 @@ public class AtpServiceImpl implements AtpService{
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+        
+        if (null == refObjectURI) {
+            throw new MissingParameterException("refObjectUri parameter cannot be null");
+        }
+        if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP)) {
+            typeEntities.addAll(atpTypeDao.findAll());
+        } else if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
+            typeEntities.addAll(milestoneTypeDao.findAll());
+        } else if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION)) {
+            typeEntities.addAll(atpMilestoneRelationTypeDao.findAll());
+        } else {
+            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
+        }
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeEntity<? extends BaseAttributeEntity> typeEntity : typeEntities) {
+            typeInfos.add(typeEntity.toDto());
+        }
+        return typeInfos;
     }
 
     @Override
