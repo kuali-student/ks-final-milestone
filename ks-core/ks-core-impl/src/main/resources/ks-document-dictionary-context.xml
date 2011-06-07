@@ -83,6 +83,7 @@
 
  <bean id="documentBinaryInfo.binary-parent" abstract="true" parent="baseStringReallyLong">
   <property name="name" value="binary"/>
+  <property name="maxLength" value="10000000"/>
  </bean>
  <bean id="documentBinaryInfo.binary" parent="documentBinaryInfo.binary-parent"/>
 
