@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -75,7 +76,7 @@ public class TestAtpServiceValidationDecorator {
         rel.setExpirationDate(cal.getTime());
         
         rel.setId("newRelId");
-        rel.setStateKey("kuali.atpatprelation.state.Active");
+        rel.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         rel.setTypeKey("kuali.atp.milestone.relation.owns");
         
         List<ValidationResultInfo> existingResults = atpService.validateAtpMilestoneRelation(ValidationType.FULL_VALIDATION.toString(), rel, callContext);

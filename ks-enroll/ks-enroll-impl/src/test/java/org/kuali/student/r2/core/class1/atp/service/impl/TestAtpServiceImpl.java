@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -443,7 +444,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertEquals(relation.getMilestoneKey(), "testId");
         assertEquals(relation.getAtpKey(), "testAtpId1");
         assertEquals(relation.getTypeKey(), "kuali.atp.milestone.relation.owns");
-        assertEquals(relation.getStateKey(), "kuali.atpatprelation.state.Active");
+        assertEquals(relation.getStateKey(), AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         
         AtpMilestoneRelationInfo fakeRelation = null;
         try {
@@ -597,7 +598,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         rel.setExpirationDate(cal.getTime());
         
         rel.setId("newRelId");
-        rel.setStateKey("kuali.atpatprelation.state.Active");
+        rel.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         rel.setTypeKey("kuali.atp.milestone.relation.owns");
         
         AtpMilestoneRelationInfo created = atpService.createAtpMilestoneRelation(rel, callContext);
@@ -609,7 +610,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         assertEquals(retrieved.getId(), "newRelId");
         assertEquals(retrieved.getTypeKey(), "kuali.atp.milestone.relation.owns");
-        assertEquals(retrieved.getStateKey(), "kuali.atpatprelation.state.Active");
+        assertEquals(retrieved.getStateKey(), AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         
         AtpMilestoneRelationInfo shouldBeNull = null;
         try {
