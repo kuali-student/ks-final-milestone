@@ -357,6 +357,7 @@ public class SearchPanel extends Composite{
     private interface HasSearchParam{
         public SearchParam getSearchParam();
         public String getFieldName();
+        public String getSearchText();
     }
 
     private static class CustomLine extends Composite implements HasSearchParam{
@@ -417,6 +418,11 @@ public class SearchPanel extends Composite{
         public String getFieldName(){
             String id = paramSelector.getSelectedItem();
             return listItems.getItemText(id);
+        }
+
+        @Override
+        public String getSearchText() {
+            return SearchPanel.getSearchText(widget);
         }
     }
 
@@ -583,6 +589,11 @@ public class SearchPanel extends Composite{
         public String getFieldName() {
             return fieldName;
         }
+
+        @Override
+        public String getSearchText() {
+            return SearchPanel.getSearchText(widget);
+        }
     }
 
     private static SearchParam getSearchParam(final Widget widget, String key){
@@ -620,16 +631,38 @@ public class SearchPanel extends Composite{
 
         return param;
     }
+    
+    private static String getSearchText(final Widget widget){
+        if(widget instanceof HasText){
+            return ((HasText) widget).getText();
+        }
+        else if(widget instanceof HasValue){
+            Object value = ((HasValue) widget).getValue();
+            if(value != null){
+            //TODO need to handle date and other types here, how they are converted for search, etc
+                if(value instanceof String){
+                    return (String)value;
+                }
+                else{
+                    GWT.log("Fields in search probably(?) shouldnt have values other than string", null);
+                    return value.toString();
+                }
+            }
+        }
+        else if (widget instanceof KSPicker){
+            return ((KSPicker)widget).getDisplayValue();
+        }
+        return "";
+    }
 
     private void showCriteriaChosen(List<HasSearchParam> fields){
         enteredCriteriaString.clear();
         boolean first = true;;
         for(HasSearchParam field: fields){
             String name = field.getFieldName();
-            //TODO Should be string only, needs type safety
-            String value = field.getSearchParam().getValue().toString();
+            String value = field.getSearchText();
             if(!value.isEmpty()){
-                HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b> ");
+                HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b>&nbsp;");
                 if (!first) {
                     label.addStyleName("KS-Advanced-Search-Search-Criteria-Text");
                 }
