@@ -208,7 +208,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         milestone.setStartDate(new Date());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
-        milestone.setStateKey("kuali.atp.state.Draft");
+        milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
         RichTextInfo descr = new RichTextInfo();
         descr.setPlain("Test");
@@ -248,7 +248,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         milestone.setStartDate(new Date());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
-        milestone.setStateKey("kuali.atp.state.Draft");
+        milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
        
         RichTextInfo descr = new RichTextInfo();
@@ -328,7 +328,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         assertEquals("testId", milestoneInfo.getKey());
         assertEquals("testId", milestoneInfo.getName());
         assertEquals("Desc 105", milestoneInfo.getDescr().getPlain());
-        assertEquals("kuali.atp.state.Draft", milestoneInfo.getStateKey());
+        assertEquals(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, milestoneInfo.getStateKey());
         assertEquals("kuali.atp.milestone.AdvanceRegistrationPeriod", milestoneInfo.getTypeKey());
         
         MilestoneInfo fakeMilestone = null;
@@ -630,7 +630,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         retrieved.setMilestoneKey("testId2");
         retrieved.setEffectiveDate(new Date());
-        retrieved.setStateKey("kuali.atp.state.Draft");
+        retrieved.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         
         AtpMilestoneRelationInfo updated = atpService.updateAtpMilestoneRelation("newRelId", retrieved, callContext);
         
@@ -643,7 +643,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest{
         
         assertNotNull(freshRetrieved);
         assertEquals(freshRetrieved.getMilestoneKey(), "testId2");
-        assertEquals(freshRetrieved.getStateKey(), "kuali.atp.state.Draft");
+        assertEquals(freshRetrieved.getStateKey(), AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
         
         // check for expected DoesNotExistException
         AtpMilestoneRelationInfo fakeUpdated = null;
