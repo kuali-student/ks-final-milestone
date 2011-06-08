@@ -7,4 +7,8 @@ public interface ValidationProcessable {
 	public ErrorLevel processValidationResult(ValidationResultInfo vr);
 
 	public boolean shouldProcessValidationResult(ValidationResultInfo vr);
+	
+	public void clearValidationWarnings();
+	
+	public void clearValidationErrors();
 }

@@ -526,4 +526,18 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 		return false;
 	}
 
+	@Override
+	public void clearValidationErrors() {
+		for (KSItemLabel itemLabel:selectedItems){
+			itemLabel.clearValidationErrors();
+		}
+	}
+
+	@Override
+	public void clearValidationWarnings() {
+		for (KSItemLabel itemLabel:selectedItems){
+			itemLabel.clearValidationWarnings();
+		}		
+	}
+	
 }

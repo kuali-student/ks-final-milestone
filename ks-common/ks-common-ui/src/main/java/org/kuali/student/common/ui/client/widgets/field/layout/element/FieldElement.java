@@ -502,22 +502,32 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	}
 
 	/**
-	 * Clears validation error and highlighting that may exist on this panel
+	 * Clears validation error and highlighting that may exist on this panel or widget
 	 */
 	public void clearValidationErrors(){
 		this.setErrorState(false);
 		if(validationPanel != null){
 			this.validationPanel.clearErrors();
 		}
+		
+		//Clear errors on widget if widget responsible for its own errors
+		if(getFieldWidget() instanceof ValidationProcessable){
+			((ValidationProcessable)getFieldWidget()).clearValidationErrors();
+		}
 	}
 
 	/**
-	 * Clears validation warnings and highlighting that may exist on this panel
+	 * Clears validation warnings and highlighting that may exist on this panel or widget
 	 */
 	public void clearValidationWarnings(){
 		this.setWarnState(false);
 		if(validationPanel != null){
 			this.validationPanel.clearWarnings();
+		}				
+		
+		//Clear warnings on widget if widget responsible for its own warnings
+		if(getFieldWidget() instanceof ValidationProcessable){
+			((ValidationProcessable)getFieldWidget()).clearValidationWarnings();
 		}
 	}
 

@@ -410,7 +410,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public boolean isValid(List<ValidationResultInfo> validationResults, boolean checkCurrentSectionOnly, boolean allFields){
 		
 		boolean isValid = true;
-
+		
+		clearAllWarnings();
+		
 		if (checkCurrentSectionOnly){
 			//Check for validation errors on the currently displayed section only
 	    	View v = getCurrentView();
@@ -501,8 +503,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	/**
 	 * Shows warnings stored to the application context
 	 */
-	protected void showWarnings(){
-		clearAllWarnings();		
+	protected void showWarnings(){		
 		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
 			isValid(Application.getApplicationContext().getValidationWarnings(), true);
     	}				

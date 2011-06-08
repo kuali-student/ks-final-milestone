@@ -772,7 +772,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    				}
 	    				
 	    				if (ValidatorClientUtils.hasWarnings(result.getValidationResults())){
-		    				//isValid(result.getValidationResults(), false, true);
+	    					if (!saveActionEvent.gotoNextView()){
+	    						//Need to display warnings when view has not changed.
+	    						isValid(result.getValidationResults(), false, true);
+	    					}
 	    					KSNotifier.show("Saved with Warnings");
 	    				} else {
 	    					KSNotifier.show("Save Successful");
