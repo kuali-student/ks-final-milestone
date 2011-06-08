@@ -65,6 +65,11 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>org.kuali.student.db</groupId>
+      <artifactId>ks-rice-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
       <version>${kuali.rice.version}</version>

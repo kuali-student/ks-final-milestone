@@ -65,6 +65,11 @@
       <artifactId>spring-aspects</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.kuali.student.db</groupId>
+      <artifactId>ks-standalone-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
       <version>${project.version}</version>
