@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -66,6 +67,7 @@ public class AtpServiceImpl implements AtpService{
     private MilestoneTypeDao milestoneTypeDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
     private AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao;
+    private StateService stateService;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -148,7 +150,15 @@ public class AtpServiceImpl implements AtpService{
         this.atpMilestoneRelationTypeDao = atpMilestoneRelationTypeDao;
     }
 
-    @Override
+    public StateService getStateService() {
+		return stateService;
+	}
+
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
+
+	@Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
@@ -226,8 +236,8 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+    	return stateInfo;
     }
 
     @Override
@@ -255,6 +265,7 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         AtpEntity atp = atpDao.find(atpKey);
         if (null == atp) {
             throw new DoesNotExistException(atpKey);

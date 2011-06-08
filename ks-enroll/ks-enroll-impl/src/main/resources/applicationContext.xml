@@ -45,8 +45,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
     	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
+    	<property name="stateService" ref="stateService"/>
     </bean>
- 
+    
+	<bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao"/>
+    </bean> 
+    
      <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpService"/>
     	<property name="acalAssembler" ref="acalAssembler" />

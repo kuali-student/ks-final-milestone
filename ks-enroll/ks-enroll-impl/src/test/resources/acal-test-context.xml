@@ -112,6 +112,7 @@
 	  	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
+    	<property name="stateService" ref="stateService"/>
     </bean>
  
      <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
@@ -189,7 +190,15 @@
     <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
-      	   
+    
+	<bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao"/>
+    </bean>
+    
+    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+          	   
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		
