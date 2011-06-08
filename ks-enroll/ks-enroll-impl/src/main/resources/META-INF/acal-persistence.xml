@@ -29,6 +29,8 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
+		
+		<class>org.kuali.student.r2.common.model.StateEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>

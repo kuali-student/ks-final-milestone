@@ -4,6 +4,10 @@
 
     <import resource="classpath:services-commons.xml"/>
 
+    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>
