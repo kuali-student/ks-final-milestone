@@ -49,6 +49,10 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return new StateInfo(state);
     }
 
+    public static StateInfo newInstance(){
+    	return new StateInfo();
+    }
+    
     private StateInfo() {
         key = null;
         name = null;
@@ -60,12 +64,14 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
 
     private StateInfo(State sInfo) {
         super(sInfo);
-        this.key = sInfo.getKey();
-        this.name = sInfo.getName();
-        this.descr = sInfo.getDescr();
-        this.effectiveDate = null != sInfo.getEffectiveDate() ? new Date(sInfo.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != sInfo.getExpirationDate() ? new Date(sInfo.getExpirationDate().getTime()) : null;
-        this._futureElements = null;
+        if(sInfo != null){
+	        this.key = sInfo.getKey();
+	        this.name = sInfo.getName();
+	        this.descr = sInfo.getDescr();
+	        this.effectiveDate = null != sInfo.getEffectiveDate() ? new Date(sInfo.getEffectiveDate().getTime()) : null;
+	        this.expirationDate = null != sInfo.getExpirationDate() ? new Date(sInfo.getExpirationDate().getTime()) : null;
+	        this._futureElements = null;
+        }
     }
 
     @Override
@@ -100,21 +106,23 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
 
     @Override
     public Date getEffectiveDate() {
-        return effectiveDate;
+        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
     }
 
     
     public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = new Date(effectiveDate.getTime());
+    	if(effectiveDate != null)
+    		this.effectiveDate = new Date(effectiveDate.getTime());
     }
 
     @Override
     public Date getExpirationDate() {
-        return expirationDate;
+    	return expirationDate != null ? new Date(expirationDate.getTime()) : null;
     }
 
     
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = new Date(expirationDate.getTime());
+    	if(expirationDate != null)
+    		this.expirationDate = new Date(expirationDate.getTime());
     }
 }
