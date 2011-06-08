@@ -4,6 +4,8 @@ import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
@@ -32,6 +34,10 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
 
     	if (modelDefinition.getMetadata().isCanEdit()) {
             layout.addView(generateCourseAdminView((CourseAdminController)layout));
+    	} else {
+			CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+			layout.removeMenuNavigation();
+			layout.addView(summaryConfigurer.generateProposalSummarySection(false));    		
     	}
     }
 
