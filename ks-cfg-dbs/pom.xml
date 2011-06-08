@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
@@ -80,9 +81,11 @@
     <ks.impex.oracle.sql.create>
       CREATE USER ${ks.impex.username}
       IDENTIFIED BY ${ks.impex.password}
-      DEFAULT TABLESPACE ${ks.impex.oracle.defaultTablespace}
+      DEFAULT TABLESPACE
+      ${ks.impex.oracle.defaultTablespace}
       TEMPORARY TABLESPACE ${ks.impex.oracle.temporaryTablespace}
-      QUOTA ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
+      QUOTA
+      ${ks.impex.oracle.quota} ON ${ks.impex.oracle.defaultTablespace}
       /
     </ks.impex.oracle.sql.create>
 
@@ -93,19 +96,22 @@
       , CREATE SESSION
       , CREATE SYNONYM
       , CREATE TABLE
-      , CREATE TRIGGER
+      ,
+      CREATE TRIGGER
       , CREATE TYPE
       , CREATE VIEW
       TO ${ks.impex.username}
       /
 
-      GRANT SELECT ON pending_trans$ to ${ks.impex.username}
+      GRANT SELECT ON pending_trans$ to
+      ${ks.impex.username}
       /
 
       GRANT SELECT ON dba_2pc_pending to ${ks.impex.username}
       /
 
-      GRANT SELECT ON dba_pending_transactions to ${ks.impex.username}
+      GRANT SELECT ON
+      dba_pending_transactions to ${ks.impex.username}
       /
 
       GRANT EXECUTE ON dbms_system to ${ks.impex.username}
@@ -446,7 +452,7 @@
       </properties>
       <activation>
         <property>
-          <name>skipImpex</name>
+          <name>ks.impex.skip</name>
         </property>
       </activation>
     </profile>
