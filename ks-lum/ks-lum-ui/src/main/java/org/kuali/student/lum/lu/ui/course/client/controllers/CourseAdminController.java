@@ -41,6 +41,7 @@ import com.google.gwt.user.client.DOM;
  */
 public class CourseAdminController extends CourseProposalController{
 	
+	//Need to keep track of cancel buttons, so they can be enabled when course has been saved. 
 	List<KSButton> cancelButtons = new ArrayList<KSButton>();
 	
 	/**
@@ -67,19 +68,25 @@ public class CourseAdminController extends CourseProposalController{
 	 */
 	@Override
 	public KSButton getSaveButton(){
-		return new KSButton("Save", new ClickHandler(){
+		KSButton saveButton = new KSButton("Save", new ClickHandler(){
             public void onClick(ClickEvent event) {
             	handleButtonClick(DtoConstants.STATE_DRAFT);            	
             }
         });		
+		
+		saveButton.addStyleName("ks-button-spacing");
+		return saveButton;
 	}
 		
 	public KSButton getApproveButton(){
-		return new KSButton("Approve", new ClickHandler(){
+		KSButton approveButton = new KSButton("Approve", new ClickHandler(){
             public void onClick(ClickEvent event) {       
             	handleButtonClick(DtoConstants.STATE_APPROVED);
             }
         });
+		
+		approveButton.addStyleName("ks-button-spacing");
+		return approveButton;
     }
 		
 	public KSButton getApproveAndActivateButton(){
@@ -111,7 +118,8 @@ public class CourseAdminController extends CourseProposalController{
 			//until they click save.
 			cancelButton.setEnabled(false);
 		}
-	
+		
+		cancelButton.addStyleName("ks-button-spacing");
 		cancelButtons.add(cancelButton);
 		return cancelButton;
     }

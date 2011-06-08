@@ -28,7 +28,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
  *
  */
 public class CourseAdminWithoutVersionController extends CourseAdminController{
-	
+		
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
 	 */
@@ -50,19 +50,29 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 	 */
 	@Override
 	public KSButton getSaveButton(){
-		return new KSButton("Save", new ClickHandler(){
+		KSButton saveButton =  new KSButton("Save", new ClickHandler(){
             public void onClick(ClickEvent event) {
             	handleButtonClick(DtoConstants.STATE_APPROVED);            	
             }
-        });		
+        });
+		
+		return saveButton;
 	}
 		
 	public KSButton getActivateButton(){
-		return new KSButton("Activate", new ClickHandler(){
+		KSButton activateButton = new KSButton("Activate", new ClickHandler(){
             public void onClick(ClickEvent event) {       
             	handleButtonClick(DtoConstants.STATE_ACTIVE);
             }
         });
+		
+		activateButton.addStyleName("ks-button-spacing");		
+		
+		//Enable the activateButton only when state is not active 
+		boolean isApproved = DtoConstants.STATE_APPROVED.equalsIgnoreCase((String)cluProposalModel.get("state"));
+		activateButton.setEnabled(isApproved);
+
+		return activateButton;
     }
 		
 	public KSButton getCancelButton(){
@@ -72,6 +82,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
             }
         });
 	
+		button.addStyleName("ks-button-spacing");
 		return button;
     }
 	
@@ -111,6 +122,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
     	});
         CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent);		
 	}
+	
 	
 	/**
      * Override the setHeaderTitle to display proper header title for admin screens
