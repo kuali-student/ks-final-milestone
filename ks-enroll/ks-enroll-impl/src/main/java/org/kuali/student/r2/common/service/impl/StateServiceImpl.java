@@ -1,5 +1,6 @@
 package org.kuali.student.r2.common.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -11,7 +12,9 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")
@@ -41,8 +44,11 @@ public class StateServiceImpl implements StateService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		StateEntity state = stateDao.getState(processKey, stateKey);
+		if (null == state) {
+		    throw new DoesNotExistException("This state does not exist: processKey=" + processKey + ", stateKey=" + stateKey);
+		}
+		return state.toDto();
 	}
 
 	@Override
@@ -50,8 +56,19 @@ public class StateServiceImpl implements StateService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		List<StateInfo> stateInfos = null;
+		List<StateEntity> states = stateDao.getStatesByProcess(processKey);
+		
+		if(null != states && !states.isEmpty()){
+			stateInfos = new ArrayList<StateInfo>();
+			for(StateEntity se : states){
+				stateInfos.add(se.toDto());
+			}
+		}			
+		else
+			throw new DoesNotExistException("No state exists for this process: " + processKey);
+		
+		return stateInfos;			
 	}
 
 	@Override

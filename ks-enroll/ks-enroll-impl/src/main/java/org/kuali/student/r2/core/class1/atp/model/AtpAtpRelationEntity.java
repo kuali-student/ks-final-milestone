@@ -92,19 +92,21 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     }
 
     public Date getEffectiveDate() {
-        return effectiveDate;
+    	return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    	if(effectiveDate != null)
+    		this.effectiveDate = new Date(effectiveDate.getTime());
     }
 
     public Date getExpirationDate() {
-        return expirationDate;
+    	return expirationDate != null ? new Date(expirationDate.getTime()) : null;
     }
 
     public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+    	if(expirationDate != null)
+    		this.expirationDate = new Date(expirationDate.getTime());
     }
 
 
