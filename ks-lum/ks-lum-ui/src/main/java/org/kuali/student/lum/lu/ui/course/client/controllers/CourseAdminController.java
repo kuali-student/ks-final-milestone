@@ -7,8 +7,6 @@ import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -29,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for create/modify course with proposal wrapper admin screens. This controller uses a different
@@ -132,9 +131,10 @@ public class CourseAdminController extends CourseProposalController{
 	 * ACTIVE=Approve & Activate
 	 */
 	protected void handleButtonClick(final String state){
+		
     	cluProposalModel.set(QueryPath.parse(CreditCourseConstants.STATE), state);
     	final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
-    	
+
     	if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
         	// For "Approve" and "Approve & Activate" actions, automatically blanket approve the admin proposal so it 
         	// enters final state. This is accomplished by first saving the course (via saveActionEvent) and then by 
@@ -192,7 +192,20 @@ public class CourseAdminController extends CourseProposalController{
     		});
     	}
     	
-        CourseAdminController.this.fireApplicationEvent(saveActionEvent);		
+    	//Store the rules if save was called
+    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
+    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
+    			public void exec(Boolean result) {
+					if(result){
+						CourseAdminController.this.fireApplicationEvent(saveActionEvent); 
+					}else{
+						KSNotifier.show("Error saving rules.");
+					}
+				}
+    		});
+    	}else{
+            CourseAdminController.this.fireApplicationEvent(saveActionEvent);    		
+    	}
 	}
 	
 	/**
@@ -229,7 +242,7 @@ public class CourseAdminController extends CourseProposalController{
 	 * @param sectionId
 	 * @param section
 	 */
-    public void addMenuItemSection(String parentMenu, final String sectionName, final String sectionId, final Section section) {    	
+    public void addMenuItemSection(String parentMenu, final String sectionName, final String widgetId, final Widget widget) {    	
         KSMenuItemData parentItem = null;
         for (int i = 0; i < topLevelMenuItems.size(); i++) {
             if (topLevelMenuItems.get(i).getLabel().equals(parentMenu)) {
@@ -239,11 +252,11 @@ public class CourseAdminController extends CourseProposalController{
         }
 
         KSMenuItemData item = new KSMenuItemData(sectionName);
-    	((BaseSection)section).setSectionId(sectionId);
+    	widget.getElement().setId(widgetId);
     	item.setClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {		
 				//FIXME: This doesn't scroll to exactly the position stuff
-				DOM.getElementById(sectionId).scrollIntoView();
+				DOM.getElementById(widgetId).scrollIntoView();
 			}    		
     	});
 
@@ -255,5 +268,5 @@ public class CourseAdminController extends CourseProposalController{
 
         menu.refresh();
     }
-    
+
 }

@@ -127,4 +127,8 @@ public class CourseRequirementsViewController extends BasicLayout {
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
 		showDefaultView(onReadyCallback);
 	}
+    
+    public void storeRules(Callback<Boolean> callback){
+    	preview.storeRules(true, callback);
+    }
 }

@@ -14,6 +14,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminWithoutVersionConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
@@ -93,6 +94,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 	 */
 	protected void handleButtonClick(final String state){
 		final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
+
     	saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 			@Override
 			public void onActionComplete(ActionEvent actionEvent) {
@@ -120,7 +122,21 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 				}      
 			}
     	});
-        CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent);		
+    	
+    	//Store the rules if save was called
+    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
+    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
+    			public void exec(Boolean result) {
+					if(result){
+						CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent); 
+					}else{
+						KSNotifier.show("Error saving rules.");
+					}
+				}
+    		});
+    	}else{
+    		CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent);    		
+    	}
 	}
 	
 	
