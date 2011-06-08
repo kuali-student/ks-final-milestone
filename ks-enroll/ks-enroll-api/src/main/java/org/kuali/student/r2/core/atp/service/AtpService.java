@@ -58,7 +58,8 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-@WebService(name = "AtpService", targetNamespace = AtpServiceConstants.NAMESPACE)
+//@WebService(name = "AtpService", targetNamespace = AtpServiceConstants.NAMESPACE)
+@WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface AtpService extends DataDictionaryService, TypeService, StateService {
