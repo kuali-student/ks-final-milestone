@@ -73,7 +73,7 @@
 
     <bean id="lumDataSource"
           class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
-        <property name="transactionManager" ref="jotm"/>
+        <property name="transactionManager" ref="userTransaction"/>
         <property name="driverClassName" value="${ks.lum.datasource.driver.name}"/>
         <property name="maxSize" value="${ks.lum.datasource.maxSize}"/>
         <property name="minSize" value="${ks.lum.datasource.minSize}"/>

@@ -19,6 +19,9 @@
 	<bean id="messageEntityManager" parent="nullBean" />
 	<bean id="messageDao" parent="nullBean" />
 	<bean id="ks.exp.messageService" parent="nullBean" />
+	<!-- turn off exporting of message service with the mock service -->
+	<bean id="subjectCodeServiceImpl" parent="nullBean" />
+	<bean id="ks.exp.subjectCodeService" parent="nullBean" />
 
 	<!-- the ksb exporter for the ks-core message service does not have an id so override the jpa impl with the ks-admin ojb impl -->
 	<!--<alias alias="messageServiceImpl" name="ks.messageService" />-->
@@ -33,13 +36,6 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
 	</bean>
 
-	<bean id="subjectCodeServiceImpl" parent="ks.subjectCodeService"/>	
-
-	<bean id="ks.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubejctCodeService" />
-	</bean>
-		
 	<!-- Caching -->
 	<bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
 		<constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
