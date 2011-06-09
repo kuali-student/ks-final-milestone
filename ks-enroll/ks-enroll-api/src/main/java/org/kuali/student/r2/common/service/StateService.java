@@ -15,6 +15,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,7 +26,7 @@ import org.kuali.student.r2.common.util.constants.StateServiceConstants;
  * Provides a read-only view of states and state flow information. 
  * 
  * This service needs to be implemented by any KS service that is going to handle states
-  *
+ *
  * Version: 1.0 (Dev)
  *
  * @author kamal
@@ -34,12 +35,15 @@ import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StateService {
 
+               
+    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
    
     /**
      * 
      * This method retrieves the list of process keys associated with a type of object.
      * 
-     * @param typeKey Type key
+     * @param objectTypeKey Type key
      * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of process keys
      * @throws DoesNotExistException typeKey not found
@@ -47,7 +51,7 @@ public interface StateService {
      * @throws MissingParameterException missing typeKey
      * @throws OperationFailedException unable to complete request
      */
-    public List<String> getProcessKeys(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getProcessByObjectType(@WebParam(name = "objectTypeKey") String objectTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      *  

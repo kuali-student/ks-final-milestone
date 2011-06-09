@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
@@ -575,14 +576,19 @@ public class LuiPersonRelationServiceMockImpl implements
 		return null;
 	}
 
+	
 	@Override
-	public List<String> getProcessKeys(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+	    return null;
 	}
-
+	
+	@Override
+	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+	    return null;
+	}
+	
 	@Override
 	public List<StateInfo> getInitialValidStates(String processKey,
 			ContextInfo context) throws DoesNotExistException,

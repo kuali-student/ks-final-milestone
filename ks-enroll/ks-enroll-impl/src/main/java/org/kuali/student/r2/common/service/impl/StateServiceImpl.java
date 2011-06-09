@@ -8,6 +8,7 @@ import javax.jws.WebService;
 import org.kuali.student.r2.common.dao.StateDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -32,13 +33,15 @@ public class StateServiceImpl implements StateService{
 	}
 
 	@Override
-	public List<String> getProcessKeys(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return null;
 	}
 
+	@Override
+	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return null;
+	}	
+	
 	@Override
 	public StateInfo getState(String processKey, String stateKey,
 			ContextInfo context) throws DoesNotExistException,

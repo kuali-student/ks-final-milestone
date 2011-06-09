@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
@@ -95,12 +96,13 @@ public class AtpServiceDecorator implements AtpService {
 	}
 
 	@Override
-	public List<String> getProcessKeys(String typeKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException {
-		return this.nextDecorator.getProcessKeys(typeKey,context);
+	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return nextDecorator.getProcessByKey(processKey, context);
+	}
+	
+	@Override
+	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return nextDecorator.getProcessByObjectType(objectTypeKey, context);
 	}
 
 	@Override
