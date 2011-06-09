@@ -60,13 +60,13 @@ public class TypeTypeRelationInfo extends KeyEntityInfo implements TypeTypeRelat
 		_futureElements = null;
 	}
 		
-	public TypeTypeRelationInfo(TypeTypeRelation builder) {
-		super(builder);
-    	this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
-    	this.ownerTypeKey = builder.getOwnerTypeKey();
-    	this.relatedTypeKey = builder.getRelatedTypeKey();
-    	this.rank = builder.getRank();
+	public TypeTypeRelationInfo(TypeTypeRelation typeTypeRel) {
+		super(typeTypeRel);
+    	this.effectiveDate = null != typeTypeRel.getEffectiveDate() ? new Date(typeTypeRel.getEffectiveDate().getTime()) : null;
+    	this.expirationDate = null != typeTypeRel.getExpirationDate() ? new Date(typeTypeRel.getExpirationDate().getTime()) : null;
+    	this.ownerTypeKey = typeTypeRel.getOwnerTypeKey();
+    	this.relatedTypeKey = typeTypeRel.getRelatedTypeKey();
+    	this.rank = typeTypeRel.getRank();
     	this._futureElements = null;
 	}
 	

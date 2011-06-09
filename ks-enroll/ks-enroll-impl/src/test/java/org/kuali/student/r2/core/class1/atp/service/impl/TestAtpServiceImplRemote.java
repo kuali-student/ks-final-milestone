@@ -704,7 +704,7 @@ public class TestAtpServiceImplRemote {
         try {
             List<TypeInfo> typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertNotNull(typeInfos);
-            assertEquals(4, typeInfos.size());
+            assertEquals(13, typeInfos.size());
             
             typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
             assertNotNull(typeInfos);
@@ -712,7 +712,7 @@ public class TestAtpServiceImplRemote {
             
             typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION, callContext);
             assertNotNull(typeInfos);
-            assertEquals(1, typeInfos.size());
+            assertEquals(2, typeInfos.size());
             assertEquals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, typeInfos.get(0).getKey());
             
             try {

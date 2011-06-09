@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.kuali.student.core.atp.service.impl.AtpAssembler;
+import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.entity.TypeEntity;
+import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -27,7 +28,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -68,6 +68,7 @@ public class AtpServiceImpl implements AtpService{
     private MilestoneTypeDao milestoneTypeDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
     private AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao;
+    private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
     
     public AtpDao getAtpDao() {
@@ -151,6 +152,14 @@ public class AtpServiceImpl implements AtpService{
         this.atpMilestoneRelationTypeDao = atpMilestoneRelationTypeDao;
     }
 
+    public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
+        this.typeTypeRelationDao = typeTypeRelationDao;
+    }
+
+    public TypeTypeRelationDao getTypeTypeRelationDao() {
+        return typeTypeRelationDao;
+    }
+
     public StateService getStateService() {
 		return stateService;
 	}
@@ -159,7 +168,7 @@ public class AtpServiceImpl implements AtpService{
 		this.stateService = stateService;
 	}
 
-	@Override
+    @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
@@ -223,8 +232,23 @@ public class AtpServiceImpl implements AtpService{
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
+        
+        if (null == relationTypeKey || null == ownerTypeKey) {
+            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
+        } else if (relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY) ||
+                   relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY) ||
+                   relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_PRECEDES_TYPE_KEY)) {
+            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey, relationTypeKey));
+        } else {
+            throw new DoesNotExistException("This method does not know how to handle relations of type: " + relationTypeKey);
+        }
+        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
+        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
+            ttrInfos.add(ttrEntity.toDto());
+        }
+        return ttrInfos;
     }
 
 
@@ -272,7 +296,6 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
         AtpEntity atp = atpDao.find(atpKey);
         if (null == atp) {
             throw new DoesNotExistException(atpKey);

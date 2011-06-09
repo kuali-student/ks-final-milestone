@@ -112,6 +112,7 @@
 	  	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
+    	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
     </bean>
 	
@@ -153,6 +154,10 @@
     </bean>
     
     <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
     

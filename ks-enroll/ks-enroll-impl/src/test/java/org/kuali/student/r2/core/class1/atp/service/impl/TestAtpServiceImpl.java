@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -47,7 +48,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
-    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao")} )
+    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao"),
+    @Dao(value = "org.kuali.student.r2.common.dao.TypeTypeRelationDao")} )
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestAtpServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl")
@@ -135,7 +137,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         try{
 	        atpService.deleteAtp("testDeleteAtpId1", callContext);
 	        try {
-		        AtpInfo deleted = atpService.getAtp("testDeleteAtpId1", callContext);
+		        atpService.getAtp("testDeleteAtpId1", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e){
@@ -193,7 +195,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         try{
 	        atpService.deleteAtp("testDeleteAtpId2", callContext);
 	        try {
-		        AtpInfo deleted = atpService.getAtp("testDeleteAtpId2", callContext);
+		        atpService.getAtp("testDeleteAtpId2", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e) {
@@ -698,11 +700,22 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     }
     
     @Test
+    public void testGetTypeRelationsByOwnerType() {
+        try {
+            List<TypeTypeRelationInfo> typeInfos = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_AY_TYPE_KEY, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(3, typeInfos.size());
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
+    
+    @Test
     public void testGetTypesByRefObjectURI() {
         try {
             List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertNotNull(typeInfos);
-            assertEquals(4, typeInfos.size());
+            assertEquals(13, typeInfos.size());
             
             typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
             assertNotNull(typeInfos);
@@ -710,8 +723,8 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
             
             typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION, callContext);
             assertNotNull(typeInfos);
-            assertEquals(1, typeInfos.size());
-            assertEquals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, typeInfos.get(0).getKey());
+            assertEquals(2, typeInfos.size());
+            assertTrue(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY.equals(typeInfos.get(0).getKey()) || AtpServiceConstants.ATP_MILESTONE_RELATION_REUSES_TYPE_KEY.equals(typeInfos.get(1).getKey()));
             
             try {
 	            typeInfos = atpService.getTypesByRefObjectURI("totally.bogus.object.uri", callContext);
