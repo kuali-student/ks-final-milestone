@@ -243,8 +243,8 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	List<StateInfo> stateInfos = stateService.getStatesByProcess(processKey, context);
+        return stateInfos;
     }
 
     @Override

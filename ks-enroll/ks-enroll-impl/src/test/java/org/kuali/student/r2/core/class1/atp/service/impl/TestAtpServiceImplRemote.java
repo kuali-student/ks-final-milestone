@@ -725,12 +725,28 @@ public class TestAtpServiceImplRemote {
     }
     
     @Test
-    public void testGetState(){
+    public void testGetState()throws DoesNotExistException,
+	InvalidParameterException, MissingParameterException,
+	OperationFailedException{
     	try{
     		StateInfo stateInfo = atpServiceValidation.getState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
     		assertNotNull(stateInfo);
+    		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
     	 } catch (Exception e) {
  	        fail(e.getMessage());
  	    }
+    }
+    
+    @Test
+    public void testGetStatesByProcess()throws DoesNotExistException,
+	InvalidParameterException, MissingParameterException,
+	OperationFailedException{
+    	try{
+    		List<StateInfo> stateInfos = atpServiceValidation.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    		assertNotNull(stateInfos);
+    		assertEquals(stateInfos.size(), 2);
+    	 } catch (Exception e) {
+ 	        fail(e.getMessage());
+ 	    }   	
     }
 }
