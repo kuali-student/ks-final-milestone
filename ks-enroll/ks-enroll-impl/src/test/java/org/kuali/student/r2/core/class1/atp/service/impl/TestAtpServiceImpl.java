@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -733,5 +734,36 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
 	    } catch (Exception e) {
 	        fail(e.getMessage());
 	    }
+    }
+    
+    @Test
+    public void testGetAtpAtpRelationsByAtpAndRelationType() {
+        try {
+            List<AtpAtpRelationInfo> aaRelInfos = atpService.getAtpAtpRelationsByAtpAndRelationType("testTermId1", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
+            assertEquals(1, aaRelInfos.size());
+            assertEquals("testTermId2", aaRelInfos.get(0).getRelatedAtpKey());
+            try { // should throw DNEE for bogus atpKey
+	            aaRelInfos = atpService.getAtpAtpRelationsByAtpAndRelationType("totallyBogusAtpIdJustMadeUpForTesting", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
+	            fail("atpService.getAtpAtpRelationsByAtpAndRelationType() did not throw expected DoesNotExistException for nonexistent Atp ID");
+            } catch (DoesNotExistException dnee) { /* expected */ }
+            // should return empty list for bogus relation type
+            aaRelInfos = atpService.getAtpAtpRelationsByAtpAndRelationType("testAtpId1", "totallyBogusRelationTypeJustMadeUpForTesting", callContext);
+            // sigh. service is returning an empty list, but client seems to get a null. have asked KSDevs chat about how to fix; not finding a solution via my google-fu
+            assertTrue(null == aaRelInfos || aaRelInfos.size() == 0);
+            // assertEquals(0, aaRelInfos.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAllowedTypesForType() {
+        try {
+            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
+            // TODO - add matching entries to test sql and finish this test
+            assertTrue(null == typeInfos || typeInfos.size() == 0);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }

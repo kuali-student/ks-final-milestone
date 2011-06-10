@@ -204,6 +204,8 @@ public class AtpServiceImpl implements AtpService{
         if (null == refObjectURI) {
             throw new MissingParameterException("refObjectUri parameter cannot be null");
         }
+        // TODO - this is where having a DAO per entity-type becomes a pain; perhaps at least coalesce these Type entities into one type&table,
+        // rather than having a Type entity per domain entity?
         if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP)) {
             typeEntities.addAll(atpTypeDao.findAll());
         } else if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
@@ -237,13 +239,9 @@ public class AtpServiceImpl implements AtpService{
         
         if (null == relationTypeKey || null == ownerTypeKey) {
             throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
-        } else if (relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY) ||
-                   relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY) ||
-                   relationTypeKey.equals(AtpServiceConstants.ATP_ATP_RELATION_PRECEDES_TYPE_KEY)) {
-            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey, relationTypeKey));
         } else {
-            throw new DoesNotExistException("This method does not know how to handle relations of type: " + relationTypeKey);
-        }
+            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey, relationTypeKey));
+        } 
         List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
         for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
             ttrInfos.add(ttrEntity.toDto());
@@ -937,7 +935,21 @@ public class AtpServiceImpl implements AtpService{
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(String atpKey, String relationType,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return null;
+        List<AtpAtpRelationInfo> aaRelInfos = new ArrayList<AtpAtpRelationInfo>();
+        
+        List<AtpAtpRelationEntity> aaRelEntities = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(atpKey, relationType);
+        if (null != aaRelEntities) {
+            if (aaRelEntities.size() == 0) { // need to throw DoesNotExistException if no such ATP
+                try {
+		            getAtp(atpKey, context); 
+                } catch (DoesNotExistException dnee) { // catch so as to add more info
+                    throw new DoesNotExistException("Atp does not exist: " + dnee.getMessage(), dnee);
+                }
+            }
+            for (AtpAtpRelationEntity aaRelEntity : aaRelEntities) {
+                aaRelInfos.add(aaRelEntity.toDto());
+            }
+        }
+        return aaRelInfos;
     }
-
 }
