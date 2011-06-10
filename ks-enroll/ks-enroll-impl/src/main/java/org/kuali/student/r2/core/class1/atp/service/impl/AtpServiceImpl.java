@@ -252,8 +252,8 @@ public class AtpServiceImpl implements AtpService{
 
     @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        StateProcessInfo spInfo = stateService.getProcessByKey(processKey, context);
+        return spInfo;
     }
     
     @Override
@@ -279,16 +279,16 @@ public class AtpServiceImpl implements AtpService{
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	List<StateInfo> stateInfos = stateService.getInitialValidStates(processKey, context);
+        return stateInfos;
     }
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	StateInfo stateInfo = stateService.getNextHappyState(processKey, currentStateKey, context);
+        return stateInfo;
     }
 
     @Override

@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -749,4 +750,25 @@ public class TestAtpServiceImplRemote {
  	        fail(e.getMessage());
  	    }   	
     }
+    
+    @Test
+    public void testGetProcessByKey()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+    	StateProcessInfo spInfo = atpServiceValidation.getProcessByKey(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    	assertNotNull(spInfo);
+		assertEquals(spInfo.getKey(), AtpServiceConstants.ATP_PROCESS_KEY);    	
+    }
+    
+	@Test
+	public void testGetInitialValidStates()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		List<StateInfo> stateInfo = atpServiceValidation.getInitialValidStates(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+		assertNotNull(stateInfo);
+		assertEquals(stateInfo.size(), 1);
+	}
+	
+	@Test
+	public void testGetNextHappyState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		StateInfo stateInfo = atpServiceValidation.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+		assertNotNull(stateInfo);
+		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+	}
 }
