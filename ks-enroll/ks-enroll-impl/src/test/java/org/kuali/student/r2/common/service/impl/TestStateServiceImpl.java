@@ -1,5 +1,6 @@
 package org.kuali.student.r2.common.service.impl;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -15,14 +16,18 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-@Daos( { @Dao(value = "org.kuali.student.r2.common.dao.StateDao", testSqlFile = "classpath:ks-common.sql")} )
+@Daos( { @Dao(value = "org.kuali.student.r2.common.dao.StateDao", testSqlFile = "classpath:ks-common.sql"),
+	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessDao"),
+	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessRelationDao")} )
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestStateServiceImpl  extends AbstractServiceTest{
 	@Client(value = "org.kuali.student.r2.common.service.impl.StateServiceImpl")
@@ -47,6 +52,13 @@ public class TestStateServiceImpl  extends AbstractServiceTest{
     	StateInfo stateInfo = stateService.getState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
     	assertNotNull(stateInfo);
 		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+		
+		try{
+			StateInfo invalid = stateService.getState("testId", AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+			assertNull(invalid);
+		}catch(DoesNotExistException ex){
+			//expected
+		}
     }
     
     @Test
@@ -56,4 +68,24 @@ public class TestStateServiceImpl  extends AbstractServiceTest{
     	assertEquals(stateInfo.size(), 2);
     }
     
+    @Test
+    public void testGetProcessByKey()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+    	StateProcessInfo spInfo = stateService.getProcessByKey(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    	assertNotNull(spInfo);
+		assertEquals(spInfo.getKey(), AtpServiceConstants.ATP_PROCESS_KEY);    	
+    }
+    
+	@Test
+	public void testGetInitialValidStates()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		List<StateInfo> stateInfo = stateService.getInitialValidStates(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+		assertNotNull(stateInfo);
+		assertEquals(stateInfo.size(), 1);
+	}
+	
+	@Test
+	public void testGetNextHappyState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		StateInfo stateInfo = stateService.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+		assertNotNull(stateInfo);
+		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+	}
 }

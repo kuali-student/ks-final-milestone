@@ -9,8 +9,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.common.model.StateProcessEntity;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")

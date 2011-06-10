@@ -18,5 +18,5 @@ public class StateDao extends GenericEntityDao<StateEntity>{
 		return  (List<StateEntity>)em.createQuery("from StateEntity se where se.processKey=:processKey")
 		.setParameter("processKey", processKey)
 		.getResultList();		
-	}
+	}	
 }

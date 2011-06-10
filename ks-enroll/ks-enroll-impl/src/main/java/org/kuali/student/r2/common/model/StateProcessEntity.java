@@ -13,22 +13,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.State;
+import org.kuali.student.r2.common.infc.StateProcess;
 
 @Entity
-@Table(name = "KSEN_COMM_STATE")
-public class StateEntity extends MetaEntity {
+@Table(name = "KSEN_STATE_PROCESS")
+public class StateProcessEntity extends MetaEntity{
 	@Column(name="NAME")
     private String name;
 
     @Column(name="DESCR")
     private String description;
-    
-    @Column(name="PROCESS_KEY")
-    private String processKey;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -37,34 +34,25 @@ public class StateEntity extends MetaEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
- 
+    
     @OneToMany(cascade = CascadeType.ALL)
     private List<StateAttributeEntity> attributes;
-    
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-	public String getProcessKey() {
-		return processKey;
+	public String getName() {
+		return name;
 	}
 
-	public void setProcessKey(String processKey) {
-		this.processKey = processKey;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -80,7 +68,7 @@ public class StateEntity extends MetaEntity {
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	
+
 	public List<StateAttributeEntity> getAttributes() {
 		return attributes;
 	}
@@ -88,21 +76,21 @@ public class StateEntity extends MetaEntity {
 	public void setAttributes(List<StateAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
+	
+	public StateProcessEntity(){}
 
-	public StateEntity(){}
-
-	public StateEntity(State state){
+	public StateProcessEntity(StateProcess process){
 		super();
 		try{
-			this.setId(state.getKey());
-			this.setName(state.getName());
-			this.setDescription(state.getDescr());
+			this.setId(process.getKey());
+			this.setName(process.getName());
+			this.setDescription(process.getDescr());
 			this.setVersionNumber((long) 0);
-			this.setEffectiveDate(state.getEffectiveDate());
-	        this.setExpirationDate(state.getExpirationDate());
+			this.setEffectiveDate(process.getEffectiveDate());
+	        this.setExpirationDate(process.getExpirationDate());
 			this.setAttributes(new ArrayList<StateAttributeEntity>());
-			if(null != state.getAttributes()){
-				for (Attribute att : state.getAttributes()) {
+			if(null != process.getAttributes()){
+				for (Attribute att : process.getAttributes()) {
 					StateAttributeEntity attEntity = new StateAttributeEntity(att);
 		        	attEntity.setVersionNumber((long) 0);
 		            this.getAttributes().add(attEntity);
@@ -113,21 +101,21 @@ public class StateEntity extends MetaEntity {
         }		
 	}
 	
-	public StateInfo toDto(){
-		StateInfo state = StateInfo.newInstance();
-		state.setKey(getId());
-		state.setName(name);
-		state.setDescr(description);
-		state.setEffectiveDate(effectiveDate);
-		state.setExpirationDate(expirationDate);
+	public StateProcessInfo toDto(){
+		StateProcessInfo process = StateProcessInfo.newInstance();
+		process.setKey(getId());
+		process.setName(name);
+		process.setDescr(description);
+		process.setEffectiveDate(effectiveDate);
+		process.setExpirationDate(expirationDate);
 		
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
-        state.setAttributes(atts);
+        process.setAttributes(atts);
         
-        return state;
+        return process;
 	}
 }

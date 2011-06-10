@@ -7,7 +7,15 @@
     <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
         <property name="em" ref="entityManager"/>
     </bean>
-    
+
+    <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+            
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>
