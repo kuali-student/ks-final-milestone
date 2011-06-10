@@ -49,7 +49,7 @@ public abstract class EntityInfo extends HasAttributesAndMetaInfo implements
 	public EntityInfo(Entity entity) {
 		super(entity);
 		this.name = entity.getName();
-		this.descr = new RichTextInfo( entity.getDescr());
+		this.descr = (null != entity.getDescr()) ? new RichTextInfo( entity.getDescr()) : null;
 		this.typeKey = entity.getTypeKey();
 		this.stateKey = entity.getStateKey();
 	}
