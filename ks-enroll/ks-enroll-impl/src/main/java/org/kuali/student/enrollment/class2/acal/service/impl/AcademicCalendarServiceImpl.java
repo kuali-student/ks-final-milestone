@@ -151,6 +151,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
             if(existing == null) {
                 atpService.createAtp(academicCalendarKey, atp, context);
+            } else { 
+                throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey + " already exists");
             }
         } catch (DoesNotExistException e1) {
             atpService.createAtp(academicCalendarKey, atp, context);

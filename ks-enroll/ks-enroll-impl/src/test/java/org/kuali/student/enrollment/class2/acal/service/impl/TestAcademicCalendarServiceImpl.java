@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -139,6 +138,10 @@ public class TestAcademicCalendarServiceImpl{
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
+        try {
+            acalServiceValidation.createAcademicCalendar("testAcalId1", acal, callContext);
+            fail("AcademicCalendarService.createAcademicCalendar() did not throw expected AlreadyExistsException");
+        } catch (AlreadyExistsException aee) { /* expected */ }
     }
 
     @Test 
