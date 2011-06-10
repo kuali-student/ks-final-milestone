@@ -42,8 +42,9 @@ public interface StateService {
     /**
      * 
      * This method retrieves the list of process keys associated with a type of object.
+     * TODO: consider changing the name of this method to getProcessByRefObjectUri
      * 
-     * @param objectTypeKey Type key
+     * @param refObjectUri unique name for an object that states are attached
      * @param context Context information containing the principalId and locale information about the caller of service operation
      * @return List of process keys
      * @throws DoesNotExistException typeKey not found
@@ -51,7 +52,7 @@ public interface StateService {
      * @throws MissingParameterException missing typeKey
      * @throws OperationFailedException unable to complete request
      */
-    public List<String> getProcessByObjectType(@WebParam(name = "objectTypeKey") String objectTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      *  

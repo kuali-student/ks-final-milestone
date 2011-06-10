@@ -108,8 +108,8 @@ public class HoldServiceDecorator implements HoldService {
     }
     
     @Override
-    public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getHoldService().getProcessByObjectType(objectTypeKey, context);
+    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getHoldService().getProcessByObjectType(refObjectUri, context);
     }
 
     @Override

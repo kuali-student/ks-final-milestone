@@ -101,8 +101,8 @@ public class AtpServiceDecorator implements AtpService {
 	}
 	
 	@Override
-	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    return nextDecorator.getProcessByObjectType(objectTypeKey, context);
+	public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return nextDecorator.getProcessByObjectType(refObjectUri, context);
 	}
 
 	@Override
