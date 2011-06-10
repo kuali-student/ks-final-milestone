@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.infc.State;
 import org.kuali.student.r2.common.infc.StateProcess;
 import org.kuali.student.r2.common.infc.Type;
 import org.w3c.dom.Element;
@@ -53,6 +54,13 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
     @XmlAnyElement
     private List<Element> _futureElements;    
 	
+    public static StateProcessInfo getInstance(StateProcess process) {
+        return new StateProcessInfo((Type)process);
+    }
+
+    public static StateProcessInfo newInstance(){
+    	return new StateProcessInfo();
+    }
     
 	public StateProcessInfo() {
 		key = null;

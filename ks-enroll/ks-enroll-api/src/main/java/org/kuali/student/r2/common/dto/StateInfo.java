@@ -53,7 +53,7 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
     	return new StateInfo();
     }
     
-    private StateInfo() {
+    public StateInfo() {
         key = null;
         name = null;
         descr = null;
@@ -62,7 +62,7 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         _futureElements = null;
     }
 
-    private StateInfo(State sInfo) {
+    public StateInfo(State sInfo) {
         super(sInfo);
         if(sInfo != null){
 	        this.key = sInfo.getKey();
