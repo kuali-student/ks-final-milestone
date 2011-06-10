@@ -14,8 +14,10 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
@@ -58,8 +60,7 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
-   		//this.removeMenu();  	   		   		
+   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;  	   		   		
     }
     
 	/**
@@ -124,7 +125,7 @@ public class CourseAdminController extends CourseProposalController{
     }
 	
 	/**
-	 * This processes the save, approve, or approve and activate button clicks. The action is determined
+	 * Processes the save, approve, or approve and activate button clicks. The action is determined
 	 * by the value of the state parameter.
 	 * 
 	 * @param state The state to set on the course when saving course data. DRAFT=Save, APPROVED=Approve, and
@@ -132,10 +133,38 @@ public class CourseAdminController extends CourseProposalController{
 	 */
 	protected void handleButtonClick(final String state){
 		
-    	cluProposalModel.set(QueryPath.parse(CreditCourseConstants.STATE), state);
+    	//Set state on course before performing save action
+		cluProposalModel.set(QueryPath.parse(CreditCourseConstants.STATE), state);
+    	
+    	final SaveActionEvent saveActionEvent = getSaveActionEvent(state);
+    	
+    	//Store the rules if save was called
+    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
+    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
+    			public void exec(Boolean result) {
+					if(result){
+						doAdminSaveAction(saveActionEvent, state);
+					}else{
+						KSNotifier.show("Error saving rules.");
+					}
+				}
+    		});
+    	}else{
+            doAdminSaveAction(saveActionEvent, state);    		
+    	}
+	}
+		
+	/**
+	 * Returns a SaveActionEvent with the appropriate ActionCompleteCallback, which will take additional admin actions once
+	 * save is complete. The action (i.e. button clicked) is determined by the value of the state parameter 
+	 * 
+	 * @param state The state to set on the course when saving course data. DRAFT=Save, APPROVED=Approve, and
+	 * ACTIVE=Approve & Activate
+	 * @return the save event that will be fired based on the button click
+	 */
+	private SaveActionEvent getSaveActionEvent(final String state){
     	final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
-
-    	if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
+		if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
         	// For "Approve" and "Approve & Activate" actions, automatically blanket approve the admin proposal so it 
         	// enters final state. This is accomplished by first saving the course (via saveActionEvent) and then by 
         	// executing the the blanket approve call upon a successful save. When user clicks either of these buttons 
@@ -181,7 +210,8 @@ public class CourseAdminController extends CourseProposalController{
 				}
 	    	});
     	} else {
-    		//For a save event all this does is enable the cancel button to allow user to cancel the proposal.
+    		//User clicked Save button. When user clicks save, the save action event handler simply enables
+    		//the cancel button to allow user to cancel the proposal.
     		saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 				@Override
 				public void onActionComplete(ActionEvent action) {
@@ -191,21 +221,38 @@ public class CourseAdminController extends CourseProposalController{
 				}    			
     		});
     	}
-    	
-    	//Store the rules if save was called
-    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
-    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
-    			public void exec(Boolean result) {
-					if(result){
-						CourseAdminController.this.fireApplicationEvent(saveActionEvent); 
-					}else{
-						KSNotifier.show("Error saving rules.");
-					}
-				}
-    		});
-    	}else{
-            CourseAdminController.this.fireApplicationEvent(saveActionEvent);    		
-    	}
+		
+		return saveActionEvent;
+	}
+	
+	/**
+	 * Fires the SaveActionEvent to be handled by the {@link CourseProposalController}. 
+	 * 
+	 *  @see CourseProposalController#registerModelsAndHandlers()
+	 *  @param saveActionEvent SaveActionEvent to fire
+	 *  @param state The state to set on the course when saving course data. DRAFT=Save, APPROVED=Approve, and
+	 *  ACTIVE=Approve & Activate
+	 */
+	private void doAdminSaveAction(final SaveActionEvent saveActionEvent, String state){
+		if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
+			//For Approved action, validate required fields for next (i.e.Approved) state before firing the save action
+			cluProposalModel.validateNextState((new Callback<List<ValidationResultInfo>>() {
+	            @Override
+	            public void exec(List<ValidationResultInfo> result) {
+	
+	            	boolean isSectionValid = isValid(result, true);
+	
+	            	if(isSectionValid){
+	            		CourseAdminController.this.fireApplicationEvent(saveActionEvent);            	}
+	            	else{
+	            		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+	            	}
+	
+	            }
+	        }));
+		} else {
+    		CourseAdminController.this.fireApplicationEvent(saveActionEvent);			
+		} 		
 	}
 	
 	/**
