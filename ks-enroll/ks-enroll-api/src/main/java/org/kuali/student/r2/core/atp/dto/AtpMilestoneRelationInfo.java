@@ -70,7 +70,7 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements
 		return atpKey;
 	}
 
-	@Override
+	
 	public void setAtpKey(String atpKey) {
 		this.atpKey = atpKey;
 	}
@@ -80,7 +80,7 @@ public class AtpMilestoneRelationInfo extends RelationshipInfo implements
 		return milestoneKey;
 	}
 
-	@Override
+	
 	public void setMilestoneKey(String milestoneKey) {
 		this.milestoneKey = milestoneKey;
 	}

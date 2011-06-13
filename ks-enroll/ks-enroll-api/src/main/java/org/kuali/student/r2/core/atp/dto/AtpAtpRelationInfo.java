@@ -69,7 +69,7 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements
 		return atpKey;
 	}
 
-	@Override
+	
 	public void setAtpKey(String atpKey) {
 		this.atpKey = atpKey;
 	}
@@ -79,7 +79,7 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements
 		return relatedAtpKey;
 	}
 
-	@Override
+	
 	public void setRelatedAtpKey(String relatedAtpKey) {
 		this.relatedAtpKey = relatedAtpKey;
 	}
