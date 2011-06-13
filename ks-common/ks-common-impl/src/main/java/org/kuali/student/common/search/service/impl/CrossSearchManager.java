@@ -506,5 +506,8 @@ public class CrossSearchManager {
 		this.searchDispatcher = searchDispatcher;
 	}
 
-
+	public SearchDispatcher getSearchDispatcher() {
+		return searchDispatcher;
+	}
+		
 }
