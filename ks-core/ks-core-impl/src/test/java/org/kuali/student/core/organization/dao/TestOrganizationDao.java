@@ -54,6 +54,8 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
+import org.kuali.student.core.organizationsearch.service.impl.OrganizationHierarchySearch;
+import org.kuali.student.core.organizationsearch.service.impl.OrganizationSearch;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -471,4 +473,44 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("VPStudentsOffice", orgOrgRelations.get(0).getOrg().getShortName());
 		assertEquals("UndergraduateProgram", orgOrgRelations.get(1).getOrg().getShortName());
 	}
+	
+	@Test
+    public void getOrgByRelatedOrgAndType() {
+	    Org org = dao.getOrgByRelatedOrgAndType("51", "kuali.org.Part");
+        assertNotNull(org);
+    }
+	
+	@Test
+    public void testSearchRecursiveSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+	    OrganizationHierarchySearch search = new OrganizationHierarchySearch();
+	    search.setOrganizationDao(dao);
+	    
+        List<SearchParam> searchParams = new ArrayList<SearchParam>();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setKey("org.queryParam.optionalRelationType");
+        searchParam.setValue("kuali.org.Part");
+        searchParams.add(searchParam);
+        
+        searchParam = new SearchParam();
+        searchParam.setKey("org.queryParam.relatedOrgIds");
+        List<String> values = new ArrayList<String>();
+        values.add("51");
+        values.add("28");
+        values.add("29");
+        searchParam.setValue(values);
+        searchParams.add(searchParam);
+        
+        searchParam = new SearchParam();
+        searchParam.setKey("org.queryParam.optionalOrgTypeList");
+        values = new ArrayList<String>();
+        values.add("kuali.org.College");
+        searchParam.setValue(values);
+        searchParams.add(searchParam);
+        
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
+        searchRequest.setParams(searchParams);
+        SearchResult result = search.search(searchRequest);
+        assertEquals(2,result.getRows().size());
+    }
 }
