@@ -115,12 +115,22 @@
         class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="orgEntityManager" />
     </bean>
+    
+    <bean id="organizationSearch" 
+    	class="org.kuali.student.core.organizationsearch.service.impl.OrganizationHierarchySearch">
+    	<property name="organizationDao" ref="orgDao" />
+    </bean>
 
     <bean id="orgServiceImpl"
         class="org.kuali.student.core.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
         <property name="searchManager" ref="orgSearchManager" />
         <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+        <property name="searchOperations">
+        	<map>
+        		<entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
+        	</map>
+        </property>
     </bean>
 
     <bean id="orgSearchManager"
