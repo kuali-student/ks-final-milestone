@@ -670,6 +670,7 @@
 			<ref bean="lu.resultColumn.cluType" />
 			<ref bean="lu.resultColumn.cluState"/>
 			<ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+			<ref bean="lu.resultColumn.luOptionalVersionIndId" />
 			<ref bean="lu.resultColumn.loId" />			
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
@@ -1764,7 +1765,7 @@
 				
 				<entry key="lu.search.allLoQuickView">
 					<value>
-                       SELECT DISTINCT clu.id, clu.luType.name, clu.state, clu.officialIdentifier.code, rel.loId 
+                       SELECT DISTINCT clu.id, clu.luType.name, clu.state, clu.officialIdentifier.code, clu.version.versionIndId, rel.loId 
                        FROM CluLoRelation rel 
                        JOIN rel.clu clu
                        LEFT JOIN clu.adminOrgs adminOrg                              
