@@ -224,21 +224,66 @@ public class TestAcademicCalendarServiceImpl{
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TermInfo term = new TermInfo();
         term.setKey("testTermId2");
-        term.setName("testTerm2");
+        term.setName("testNewTerm");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         try{
-            TermInfo created = acalServiceValidation.createTerm("testTermId2", term, callContext);
+        	TermInfo created;
+        	
+        	try{
+        		created = acalServiceValidation.createTerm("testTermId2", term, callContext);
+        	 } catch (AlreadyExistsException ex) {
+                 //expected);
+             }   	
+        	 
+        	term.setKey("testNewTermId");
+        	created = acalServiceValidation.createTerm("testNewTermId", term, callContext);
             assertNotNull(created);
-            assertEquals("testTermId2", created.getKey());
+            assertEquals("testNewTermId", created.getKey());
             
-            TermInfo existed = acalServiceValidation.getTerm("testTermId2", callContext);
+            TermInfo existed = acalServiceValidation.getTerm("testNewTermId", callContext);
 
             assertNotNull(existed);
-            assertEquals("testTermId2", existed.getKey());
-            assertEquals("testTerm2", existed.getName());
+            assertEquals("testNewTermId", existed.getKey());
+            assertEquals("testNewTerm", existed.getName());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }       
+    }
+    
+    @Test 
+    public void testAddTermToAcademicCalendar()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException, AlreadyExistsException{
+    	try{
+	    	try{
+	    	acalServiceValidation.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
+	    	} catch (AlreadyExistsException ex) {
+	            //expected);
+	        } 
+	    	
+	    	StatusInfo status = acalServiceValidation.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
+	    	assertTrue(status.isSuccess());
+    	} catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        } 	    	
+    }
+    
+    @Test 
+    public void testGetTermToAcademicCalendar()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException, AlreadyExistsException{
+    	try{
+    		try{
+    			acalServiceValidation.getTermsForAcademicCalendar("testTermId1", callContext);
+    		}catch (OperationFailedException ex){
+    			//expected because it's not an acal
+    		}
+    		
+    		List<TermInfo> terms = acalServiceValidation.getTermsForAcademicCalendar("testAtpId1", callContext);
+    		 assertNotNull(terms);
+             assertEquals("testTermId1", terms.get(0).getKey());
+    		
+    	} catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        } 	
     }
 }

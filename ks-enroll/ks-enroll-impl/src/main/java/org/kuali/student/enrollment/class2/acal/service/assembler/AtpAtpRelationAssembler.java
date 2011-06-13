@@ -115,9 +115,10 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
             for (String relatedKey : relatedAtpKeys){
                 createAtpAtpRelations(atpKey, relatedKey, context);
             }
+        }
     }
-    }
-    private void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
+    
+    public void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
     	AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
@@ -129,7 +130,7 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
         atpService.createAtpAtpRelation(atpRel, context);        
     }
     
-    private void updateAtpAtpRelations(String atpAtpRelationId, ContextInfo context) throws AlreadyExistsException,
+    public void updateAtpAtpRelations(String atpAtpRelationId, ContextInfo context) throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException{
         AtpAtpRelationInfo atpRel;
