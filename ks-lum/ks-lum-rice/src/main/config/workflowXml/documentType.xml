@@ -267,7 +267,7 @@
 <!-- END CREDIT COURSE DOCUMENTS -->
 <!-- Program Documents -->
     <documentType>
-      <name>kuali.proposal.type.majorDicipline.create</name>
+      <name>kuali.proposal.type.majorDiscipline.create</name>
       <parent>CluCreditCourseParentDocument</parent>
       <description>Create Major Discipline Proposal</description>
       <label>Create Major Discipline Proposal</label>
@@ -294,7 +294,7 @@
       </routeNodes>
     </documentType>
     <documentType>
-      <name>kuali.proposal.type.majorDicipline.modify</name>
+      <name>kuali.proposal.type.majorDiscipline.modify</name>
       <parent>CluCreditCourseParentDocument</parent>
       <description>Modify Major Discipline Proposal</description>
       <label>Modify Major Discipline Proposal</label>
