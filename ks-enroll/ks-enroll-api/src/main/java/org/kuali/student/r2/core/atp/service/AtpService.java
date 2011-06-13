@@ -483,19 +483,21 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves ATP relationships by ATP and the type of relationship
+     * to the ATP. For an implementation, the relationships retrieved
+     * still have to checked to ensure that the intended object type
+     * is being returned.
      * 
-     * Retrieves ATP relationships by ATP and the type of relationship to
-     * the ATP. For an implementation, the relationships retrieved still 
-     * have to checked to ensure that the intended object type is being returned.   
-     * 
-     * @param atpKey
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @param atpKey a unique key for an ATP
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of ATP-ATP relations
+     * @throws DoesNotExistException atpKey does not exist
+     * @throws InvalidParameterException a parameter is invalid
+     * @throws MissingParameterException a parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure occurred
      */
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "relationType") String relationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
     
