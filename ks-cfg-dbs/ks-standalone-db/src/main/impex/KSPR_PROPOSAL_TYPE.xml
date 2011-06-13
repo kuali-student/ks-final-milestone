@@ -31,10 +31,10 @@
         NAME="Create Major Discipline Proposal"
         OBJ_ID="b9a5ed17-ba00-4eae-bcbb-660d293d8107"
         TYPE_DESC="Create Major Discipline Proposal"
-        TYPE_KEY="kuali.proposal.type.majorDicipline.create" VER_NBR="0"/>
+        TYPE_KEY="kuali.proposal.type.majorDiscipline.create" VER_NBR="0"/>
     <KSPR_PROPOSAL_TYPE EFF_DT="20000101000000"
         NAME="Modify Major Discipline Proposal"
         OBJ_ID="70c7efa4-d269-472e-8333-41decae7c041"
         TYPE_DESC="Modify Major Discipline Proposal"
-        TYPE_KEY="kuali.proposal.type.majorDicipline.modify" VER_NBR="0"/>
+        TYPE_KEY="kuali.proposal.type.majorDiscipline.modify" VER_NBR="0"/>
 </dataset>
