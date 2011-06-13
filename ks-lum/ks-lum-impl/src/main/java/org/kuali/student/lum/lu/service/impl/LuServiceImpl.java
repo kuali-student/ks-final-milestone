@@ -2256,7 +2256,7 @@ public class LuServiceImpl implements LuService {
 		if(cluSetInfo.getMembershipQuery() == null) {
 			return;
 		}
-		List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+		List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());		
 		cluSetInfo.getCluIds().addAll(cluIds);
 	}
 
@@ -2275,7 +2275,8 @@ public class LuServiceImpl implements LuService {
 		for(SearchResultRow row : rows) {
 			List<SearchResultCell> cells = row.getCells();
 			for(SearchResultCell cell : cells) {
-				if(cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")&&cell.getValue()!=null) {
+				if((cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId") || cell.getKey().equals("lo.resultColumn.loLuOptionalVersionIndId")) 
+						&& (cell.getValue() != null)) {
 					cluIds.add(cell.getValue());
 				}
 			}
