@@ -16,6 +16,7 @@ package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 
 /**
@@ -31,6 +32,7 @@ public class AtpServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "atp";
     public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_ATP_ATP_RELATION = NAMESPACE + "/" + AtpAtpRelationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ATP_MILESTONE_RELATION = NAMESPACE + "/" + AtpMilestoneRelationInfo.class.getSimpleName();
     /**
      * ATP Types

@@ -56,7 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class AtpServiceImpl implements AtpService{
+public class AtpServiceImpl implements AtpService {
 
     private AtpDao atpDao;
     private AtpTypeDao atpTypeDao;
@@ -226,8 +226,30 @@ public class AtpServiceImpl implements AtpService{
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+        
+        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao.getTypeTypeRelationsByOwnerType(ownerTypeKey);
+        List<String> ids = new ArrayList<String>();
+        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+            ids.add(entity.getRelatedTypeId());
+        }
+        
+        if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP)) {
+            typeEntities.addAll(atpTypeDao.findByIds(ids));
+        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
+            typeEntities.addAll(milestoneTypeDao.findByIds(ids));
+        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_ATP_RELATION)) {
+            typeEntities.addAll(atpRelTypeDao.findByIds(ids));
+        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION)) {
+            typeEntities.addAll(atpMilestoneRelationTypeDao.findByIds(ids));
+        } else {
+            throw new DoesNotExistException("This method does not know how to handle object type:" + relatedRefObjectURI);
+        }
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeEntity<? extends BaseAttributeEntity> entity : typeEntities) {
+            typeInfos.add(entity.toDto());
+        }
+        return typeInfos;
     }
 
     @Override

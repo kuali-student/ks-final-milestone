@@ -716,7 +716,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         try {
             List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertNotNull(typeInfos);
-            assertEquals(13, typeInfos.size());
+            assertEquals(29, typeInfos.size());
             
             typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
             assertNotNull(typeInfos);
@@ -760,8 +760,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     public void testGetAllowedTypesForType() {
         try {
             List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
-            // TODO - add matching entries to test sql and finish this test
-            assertTrue(null == typeInfos || typeInfos.size() == 0);
+            assertEquals(19, typeInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());
         }
