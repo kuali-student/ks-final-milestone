@@ -49,6 +49,7 @@
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionIndId" subSearchKey="clu" resultParam="lo.resultColumn.loLuOptionalVersionIndId"/>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 	</search:crossSearchType>
 	
