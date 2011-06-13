@@ -23,6 +23,7 @@ import java.util.Map;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -30,6 +31,7 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfo
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
@@ -145,6 +147,14 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         }
     }
 
+    @Override
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+    	VersionDisplayInfo versionDisplayInfo = courseService.getLatestVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndId);
+    	Long latestSequenceNumber = versionDisplayInfo.getSequenceNumber();
+    	boolean isLatest = latestSequenceNumber.equals(versionSequenceNumber); 
+    	return isLatest;
+	}
+    
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }

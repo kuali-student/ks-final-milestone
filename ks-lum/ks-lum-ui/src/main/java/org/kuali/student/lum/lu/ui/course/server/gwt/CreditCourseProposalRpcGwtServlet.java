@@ -35,41 +35,6 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	private static final long serialVersionUID = 1L;
 	private CopyCourseServiceImpl copyCourseService;
 	
-
-    @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
-        return null;  
-    }
-
-    @Override
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
-        return null;
-    }
-
-    @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return null;  
-    }
-
-    @Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return null;  
-    }
-    
-    @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
-        return null;
-    }
-    
-    @Override
-    public StatusInfo changeState(String courseId, String newState) throws Exception {
-    	return null;
-    }
-    
-    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
-    	return null;
-    }
-
 	@Override
 	public DataSaveResult createCopyCourse(String originalCluId)
 			throws Exception {
@@ -92,9 +57,48 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 		}
 
 	}
+	
+    @Override
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    @Override
+    public StatusInfo changeState(String courseId, String newState) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+	
+    @Override
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+	}
 
 	public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
 		this.copyCourseService = copyCourseService;
 	}
-	
+
 }

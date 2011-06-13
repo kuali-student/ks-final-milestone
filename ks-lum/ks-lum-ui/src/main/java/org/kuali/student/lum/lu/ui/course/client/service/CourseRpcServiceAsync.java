@@ -40,4 +40,5 @@ public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAs
 	
     public void createCopyCourse(String originalCluId, AsyncCallback<DataSaveResult> asyncCallback);
 	public void createCopyCourseProposal(String originalProposalId, AsyncCallback<DataSaveResult> asyncCallback);
+	public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
 }

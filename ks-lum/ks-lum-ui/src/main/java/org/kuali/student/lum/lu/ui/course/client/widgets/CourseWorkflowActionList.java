@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.QueryPath;
@@ -17,13 +16,15 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -39,6 +40,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -90,7 +92,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		if (!this.isInitialized) {
 	    	buildActivateDialog(stateChangeCallback);
 	    	
-	    	this.isCurrentVersion = CourseWorkflowActionList.isCurrentVersion(model);
+	    	this.isCurrentVersion = true;
 	    	
 	    	// TODO: use messages
 
@@ -226,7 +228,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	//Create a dialog for course selection
     	modifyDialog.setTitle((getMessage("modifyCourse")));
 
-        VerticalPanel layout = new VerticalPanel();
+        final VerticalPanel layout = new VerticalPanel();
         layout.addStyleName("ks-form-module-fields");
                 
         final KSButton continueButton = new KSButton(getMessage("continue"));
@@ -270,11 +272,6 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			}
         });
         
-        
-        layout.add(radioOptionModifyNoVersion);
-        layout.add(radioOptionModifyWithVersion);
-        layout.add(curriculumReviewOption);
-        
         continueButton.addClickHandler(new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
@@ -297,6 +294,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		    	modifyDialog.hide();
 			}        	
         });
+        
+        //Check that this is the latest version with an async call and only show modify with version options if it is the latest
+       
+        layout.add(radioOptionModifyNoVersion);
+        if(isCurrentVersion){
+        	layout.add(radioOptionModifyWithVersion);
+            layout.add(curriculumReviewOption);
+        }
         modifyDialog.setWidget(layout);
         modifyDialog.show();
     }
@@ -338,7 +343,31 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	 *  Changes here will affect assumptions made there.
  	 *
 	 */
-    public void updateCourseActionItems(DataModel cluModel) {
+    public void updateCourseActionItems(final DataModel cluModel) {
+    	
+		//First we need the model
+		String courseVerIndId = getCourseVersionIndId(cluModel);
+		Long courseVersionSequence = getCourseVersionSequenceNumber(cluModel);
+		//Do an async check if this is the current version
+		if(courseVerIndId==null){
+			isCurrentVersion = true;
+			doUpdateCourseActionItems(cluModel);
+		}else{
+			courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+				public void onFailure(Throwable caught) {
+					KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
+				}
+				
+				public void onSuccess(Boolean result) {
+					isCurrentVersion = result;
+					doUpdateCourseActionItems(cluModel);
+				}
+			});
+		}
+    }
+    
+	private void doUpdateCourseActionItems(DataModel cluModel) {
+		
     	String cluState = cluModel.get("state");
     	courseId = cluModel.get(CreditCourseConstants.ID);
     	
@@ -361,9 +390,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		items.add(copyCourseActionItem);
 
     	setItems(items);
-    		
-    }
-    
+	}
+	
     public boolean isEmpty() {
     	return (items.size() == 0);
     }
@@ -376,21 +404,6 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	return msg;
     }
 
-    /**
-     * Check to see if the course being displayed is the current version of the course
-     * 
-     * @param courseModel
-     * @return true if the course is the current version
-     */
-    public static boolean isCurrentVersion(DataModel courseModel) {
-    	Date curVerStartDt = courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_START);		
-    	Date curVerEndDt = courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_CURRENT_VERSION_END);
-    	if (curVerStartDt != null && curVerEndDt == null) 
-    		return true;
-    	else
-    		return false;
-    	
-    }
 
     /** 
      * This checks the ViewContext passed in to determine if it contains a non-empty courseId
@@ -409,5 +422,15 @@ public class CourseWorkflowActionList extends StylishDropDown {
      */
     private String getCourseVersionIndId(DataModel courseModel){
     	return (String)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_IND_ID);    	
+    }
+    
+    /**
+     * Retrieves the version sequence number from the course data model
+     * 
+     * @param courseModel
+     * @return version sequence number id of course
+     */
+    private Long getCourseVersionSequenceNumber(DataModel courseModel){
+   		return (Long)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_SEQ_NUMBER);
     }
 }

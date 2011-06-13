@@ -40,4 +40,5 @@ public interface CourseRpcService extends BaseDataOrchestrationRpcService{
  
 	public DataSaveResult createCopyCourse(String originalCluId) throws Exception;
 	public DataSaveResult createCopyCourseProposal(String originalProposalId) throws Exception;
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception;
 }
