@@ -15,15 +15,17 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -31,7 +33,7 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfo
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
@@ -40,6 +42,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
+    private LuService luService;
 	private StatementService statementService;
 	private CourseStateChangeServiceImpl stateChangeService;
 
@@ -149,10 +152,21 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 
     @Override
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
-    	VersionDisplayInfo versionDisplayInfo = courseService.getLatestVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, versionIndId);
-    	Long latestSequenceNumber = versionDisplayInfo.getSequenceNumber();
-    	boolean isLatest = latestSequenceNumber.equals(versionSequenceNumber); 
-    	return isLatest;
+    	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+    	//We don't want to version if there are
+    	SearchRequest request = new SearchRequest("lu.search.isVersionable");
+    	request.addParam("lu.queryParam.versionIndId", versionIndId);
+    	request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+    	List<String> states = new ArrayList<String>();
+    	states.add("Approved");
+    	states.add("Active");
+    	states.add("Draft");
+    	states.add("Superseded");
+    	request.addParam("lu.queryParam.luOptionalState", states);
+    	SearchResult result = luService.search(request);
+    	
+    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
+    	return "0".equals(resultString);
 	}
     
     public void setCourseService(CourseService courseService) {
@@ -166,5 +180,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	public void setStateChangeService(
 			CourseStateChangeServiceImpl stateChangeService) {
 		this.stateChangeService = stateChangeService;
+	}
+
+	public void setLuService(LuService luService) {
+		this.luService = luService;
 	}
 }

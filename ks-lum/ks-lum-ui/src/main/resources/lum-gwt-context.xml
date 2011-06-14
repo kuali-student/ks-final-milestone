@@ -252,7 +252,8 @@
         <property name="courseService" ref="courseClient"/>
         <property name="dataService" ref="CourseDataService"/>
         <property name="statementService" ref="statementServiceClient"/> 
-        <property name="stateChangeService" ref="stateChangeService"/>         
+        <property name="stateChangeService" ref="stateChangeService"/>  
+        <property name="luService" ref="luClient"/>       
     </bean>
 	
 	<bean id="stateChangeService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseStateChangeServiceImpl">
@@ -534,6 +535,16 @@
 	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.modify"/>
 					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>
+				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify.admin"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle} (Admin Proposal)"/>	            	
 					<property name="docContentFieldMap">					
 	           			<map>
 		                	<entry key="cluId" value="id"/>

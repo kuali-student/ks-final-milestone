@@ -101,6 +101,38 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
 	</search:crossSearchType>
 	
+	<!-- lu.search.isVersionable -->
+	<search:searchType id="lu.search.isVersionable">
+        <search:name>Determine if the course version is versionable</search:name>
+        <search:desc>Determine if the course version is versionable</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.isVersionable" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.isVersionable" />
+        </search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.isVersionable" parent="lu.criteria.isVersionable-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.isVersionable-parent" abstract="true">
+		<search:name>IsVersionable Criteria</search:name>
+		<search:desc>IsVersionable Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.versionIndId"/>
+			<ref bean="lu.queryParam.sequenceNumber"/>
+			<ref bean="lu.queryParam.luOptionalState"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:searchResultTypeInfo id="lu.result.isVersionable" parent="lu.result.isVersionable-parent"/>
+	<search:searchResultTypeInfo id="lu.result.isVersionable-parent" abstract="true">
+		<search:name>Is Versionable Results</search:name>
+		<search:desc>Is Versionable Results</search:desc>
+		<search:resultColumns>
+            <ref bean="lu.resultColumn.isVersionable" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
 	<!-- lu.search.proposalsByCourseCode -->
 	<search:searchType id="lu.search.proposalsByCourseCode">
         <search:name>Proposal search by course codes</search:name>
@@ -440,6 +472,25 @@
 	    </dict:fieldDescriptor>
 	</search:queryParam>
 
+	<search:queryParam id="lu.queryParam.versionIndId" parent="lu.queryParam.versionIndId-parent"/>
+	<search:queryParam id="lu.queryParam.versionIndId-parent" optional="false" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Version Independent Id</dict:name>
+            <dict:desc>Version Independent Id</dict:desc>
+            <dict:dataType>string</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="lu.queryParam.sequenceNumber" parent="lu.queryParam.sequenceNumber-parent"/>
+	<search:queryParam id="lu.queryParam.sequenceNumber-parent" optional="false" abstract="true">
+	    <dict:fieldDescriptor>
+            <dict:name>Sequence Number</dict:name>
+            <dict:desc>Sequence Number</dict:desc>
+            <dict:dataType>long</dict:dataType>
+	    </dict:fieldDescriptor>
+	</search:queryParam>
+
+
 	<search:searchResultTypeInfo id="lu.result.generic" parent="lu.result.generic-parent"/>
 	<search:searchResultTypeInfo id="lu.result.generic-parent"  abstract="true">
 		<search:name>Lu Full View</search:name>
@@ -501,6 +552,13 @@
 		<search:name>State</search:name>
 		<search:desc>Lu State</search:desc>
 		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+	
+	<search:resultColumn id="lu.resultColumn.isVersionable" parent="lu.resultColumn.isVersionable-parent"/>
+	<search:resultColumn id="lu.resultColumn.isVersionable-parent"  abstract="true">
+		<search:name>IsVersionable</search:name>
+		<search:desc>IsVersionable</search:desc>
+		<search:dataType>boolean</search:dataType>
 	</search:resultColumn>
 	
 	<search:resultColumn id="lu.resultColumn.luOptionalExpFirstAtp" parent="lu.resultColumn.luOptionalExpFirstAtp-parent"/>
@@ -1864,6 +1922,10 @@
                     FROM CluCluRelation rel
                     WHERE rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
                     AND rel.relatedClu.luType.id = 'kuali.lu.type.Variation' ORDER BY rel.relatedClu.officialIdentifier.longName ASC
+                    </value>
+                </entry>
+                <entry key="lu.search.isVersionable">
+                	<value>SELECT COUNT(clu) FROM Clu clu WHERE clu.version.versionIndId = :lu_queryParam_versionIndId AND clu.version.sequenceNumber > :lu_queryParam_sequenceNumber
                     </value>
                 </entry>
             </map>
