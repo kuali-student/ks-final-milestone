@@ -39,6 +39,4 @@ public class CourseSetCompletionProposition extends CourseCompletionProposition 
         return courseIds;
     }
 
-    
-
 }
