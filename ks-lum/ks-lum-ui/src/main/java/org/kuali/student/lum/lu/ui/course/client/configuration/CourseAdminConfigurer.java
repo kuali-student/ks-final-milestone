@@ -35,6 +35,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
+        layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
     	if (modelDefinition.getMetadata().isCanEdit()) {
             layout.addView(generateCourseAdminView((CourseAdminController)layout));
     	} else {
