@@ -341,15 +341,46 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<AtpInfo> getAtpsByKeyList(List<String> atpKeyList, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<AtpEntity> atps = atpDao.findByIds(atpKeyList);
+        
+        if(atps == null) {
+            throw new DoesNotExistException();
+        }
+        
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        for(AtpEntity entity : atps) {
+            if(entity == null) {
+                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+        
+        return result;
     }
 
     @Override
     public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        try {
+            TypeInfo type = getType(atpTypeKey, context);
+            if(type == null) {
+                throw new InvalidParameterException("No type found for key: " + atpTypeKey);
+            }
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException("No type found for key: " + atpTypeKey);
+        }
+        
+        List<AtpEntity> results = atpDao.getByAtpTypeId(atpTypeKey);
+        
+        List<String> keys = new ArrayList<String>(results.size());
+        
+        for(AtpEntity atp : results) {
+            keys.add(atp.getId());
+        }
+        
+        return keys;
     }
 
     @Override
