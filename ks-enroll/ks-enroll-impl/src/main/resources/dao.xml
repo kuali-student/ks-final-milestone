@@ -64,4 +64,8 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>
+    
 </beans>
