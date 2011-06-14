@@ -525,15 +525,13 @@ public class TestAcademicCalendarServiceImpl{
         assertTrue(!result.isEmpty());
     }
     
-    @Ignore
     @Test
     public void testGetTermTypesForAcademicCalendarType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO
-        List<TypeInfo> results = acalServiceValidation.getTermTypesForAcademicCalendarType("test", callContext);
+        List<TypeInfo> results = acalServiceValidation.getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, callContext);
         
         assertNotNull(results);
         List<String> expectedIds = new ArrayList<String>(2);
-        expectedIds.addAll(Arrays.asList("id1", "id2"));
+        expectedIds.addAll(Arrays.asList("kuali.atp.type.Fall", "kuali.atp.type.Spring"));
         
         // check that all the expected ids came back
         for(TypeInfo info : results) {
@@ -551,9 +549,6 @@ public class TestAcademicCalendarServiceImpl{
             assertNull(fakeTypes);
         }
         
-        List<TypeInfo> expectedEmpty = acalServiceValidation.getTermTypesForAcademicCalendarType("expectedEmptyAcalType", callContext);
-        
-        assertTrue(expectedEmpty == null || expectedEmpty.isEmpty());
     }
     
     @Ignore

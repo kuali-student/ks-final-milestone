@@ -363,15 +363,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-    	return atpService.getAllowedTypesForType(academicCalendarTypeKey, AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+        
+        TypeInfo acalType = atpService.getType(academicCalendarTypeKey, context);
+        
+    	return atpService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        TypeInfo termType = getTermType(termTypeKey, context);
+        
+        return atpService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
