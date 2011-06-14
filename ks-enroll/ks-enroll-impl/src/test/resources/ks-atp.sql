@@ -205,3 +205,39 @@ INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION
 --INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.type.SummerEve', 'Summer Eve', 'Summer Eve', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 --INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.type.Winter', 'Winter', 'Winter', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
 --INSERT INTO KSEN_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.type.Adhoc', 'Ad hoc', 'Ad hoc', 'http://student.kuali.org/wsdl/atp/AtpInfo', 0)
+
+// Term Rich Text entities
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-1', '<p>Desc term rich text 1</p>', 'Desc term rich text 1',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-2', '<p>Desc term rich text 2</p>', 'Desc term rich text 2',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-3', '<p>Desc term rich text 3</p>', 'Desc term rich text 3',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-4', '<p>Desc term rich text 4</p>', 'Desc term rich text 4',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-5', '<p>Desc term rich text 5</p>', 'Desc term rich text 5',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-6', '<p>Desc term rich text 6</p>', 'Desc term rich text 6',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-7', '<p>Desc term rich text 7</p>', 'Desc term rich text 7',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-8', '<p>Desc term rich text 8</p>', 'Desc term rich text 8',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-9', '<p>Desc term rich text 9</p>', 'Desc term rich text 9',0)
+
+// Term Atps for testing
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm1', 'testingTerm1', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-1', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm2', 'testingTerm2', {ts '2001-01-01 00:00:00.0'}, {ts '2001-05-31 00:00:00.0'}, 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-2', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm3', 'testingTerm3', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-7', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm4', 'testingTerm4', {ts '2011-01-01 00:00:00.0'}, {ts '2011-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-8', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTermDelete', 'testingTermDelete', {ts '2031-01-01 00:00:00.0'}, {ts '2031-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-9', 0)
+
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal1', 'testingAcal1', {ts '2000-09-01 00:00:00.0'}, {ts '2001-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-3', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal2', 'testingAcal2', {ts '2001-09-01 00:00:00.0'}, {ts '2002-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-4', 0)
+
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate1', 'testKeyDate1', {ts '2001-09-10 00:00:00.0'}, {ts '2001-09-20 00:00:00.0'}, 'kuali.atp.milestone.AdvanceRegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-5', 0)
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate2', 'testKeyDate2', {ts '2001-08-01 00:00:00.0'}, {ts '2001-10-01 00:00:00.0'}, 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-6', 0)
+
+// Term to Term AtpAtpRelations for testing
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2')
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm3', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm4')
+
+// Acal to Term AtpAtpRelations for testing
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm1')
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal2', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2')
+
+// Term to KeyDate AtpMilestoneRelations for testing
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('termRelationTestingRel-TermDate-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'termRelationTestingTerm1', 'testKeyDate1', 'kuali.atp.milestone.relation.owns')
+
