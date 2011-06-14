@@ -334,8 +334,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return atpService.getAllowedTypesForType(academicCalendarTypeKey, AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
@@ -410,14 +409,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     }
 
     private void getTermsForAcademicCalendar(List<TermInfo> terms, String academicCalendarKey, ContextInfo context)
-		    throws InvalidParameterException, MissingParameterException,
+		    throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 		    OperationFailedException, PermissionDeniedException {
     	List<AtpAtpRelationInfo> atpRels = null;
 		try {
 			atpRels = atpService.getAtpAtpRelationsByAtpAndRelationType(academicCalendarKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
 		} catch (DoesNotExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new DoesNotExistException("AcademicCalendar with id = " + academicCalendarKey + " has no relations.");
 		}
     	
     	if(atpRels != null && !atpRels.isEmpty()){

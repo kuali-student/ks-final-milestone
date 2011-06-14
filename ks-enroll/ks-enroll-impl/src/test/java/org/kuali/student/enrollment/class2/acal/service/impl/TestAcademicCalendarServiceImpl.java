@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -285,5 +286,13 @@ public class TestAcademicCalendarServiceImpl{
     	} catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         } 	
+    }
+    
+    @Test 
+    public void testGetTermTypesForAcademicCalendarType() throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException {
+    	List<TypeInfo> termTypes = acalServiceValidation.getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, callContext);
+    	assertNotNull(termTypes);
+    	assertEquals(termTypes.size(), 2);
     }
 }
