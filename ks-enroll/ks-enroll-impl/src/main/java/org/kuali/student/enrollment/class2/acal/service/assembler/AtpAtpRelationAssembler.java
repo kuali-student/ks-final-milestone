@@ -105,7 +105,7 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
             
             for (String relatedKey : relatedAtpKeys){
                 if (!currentRelIds.containsKey(relatedKey))
-                    createAtpAtpRelations(atpKey, relatedKey, context);
+                    createAtpAtpRelations(atpKey, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
                 else
                     updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
@@ -113,19 +113,19 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
         } catch (DoesNotExistException e) {
             //if not exist, create relations
             for (String relatedKey : relatedAtpKeys){
-                createAtpAtpRelations(atpKey, relatedKey, context);
+                createAtpAtpRelations(atpKey, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
             }
         }
     }
     
-    public void createAtpAtpRelations(String atpKey, String relatedAtpKey, ContextInfo context) throws AlreadyExistsException,
+    public void createAtpAtpRelations(String atpKey, String relatedAtpKey, String relationType, ContextInfo context) throws AlreadyExistsException,
     DataValidationErrorException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
     	AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpKey(atpKey);
         atpRel.setRelatedAtpKey(relatedAtpKey);
-        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
+        atpRel.setTypeKey(relationType);
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpService.createAtpAtpRelation(atpRel, context);        
     }

@@ -600,7 +600,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 	        		if(checkTypeForTermType(term.getTypeKey(), context)){
 	        			if(!termAlreadyExists(academicCalendarKey, termKey, context)){
 			        		try {
-			        			acalAssembler.getRelAssembler().createAtpAtpRelations(academicCalendarKey, termKey, context);
+			        			acalAssembler.getRelAssembler().createAtpAtpRelations(academicCalendarKey, termKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
 					          } catch (DataValidationErrorException e) {
 					              status.setSuccess(Boolean.FALSE);     
 					          }
