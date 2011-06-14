@@ -539,10 +539,10 @@ public class TestAtpServiceImplRemote {
         List<String> results = atpServiceValidation.getAtpMilestoneRelationIdsByType("kuali.atp.milestone.relation.owns", callContext);
         
         assertNotNull(results);
-        assertEquals(2, results.size());
+        assertEquals(3, results.size());
         
         Collection<String> listToCheck = new ArrayList<String>();
-        listToCheck.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2"));
+        listToCheck.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2", "termRelationTestingRel-TermDate-1"));
         
         for(String id : results) {
             listToCheck.remove(id);
@@ -559,7 +559,6 @@ public class TestAtpServiceImplRemote {
             assertNull(fakeIds);
         }
     }
-    
     @Test
     public void testGetMilestonesByAtp() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestones = atpServiceValidation.getMilestonesByAtp("testAtpId1", callContext);
