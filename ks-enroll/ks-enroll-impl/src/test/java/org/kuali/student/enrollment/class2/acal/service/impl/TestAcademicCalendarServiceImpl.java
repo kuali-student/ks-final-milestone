@@ -704,4 +704,44 @@ public class TestAcademicCalendarServiceImpl{
             assertNull(shouldBeNull);
         }
     }
+    
+    @Test
+    @Ignore
+    public void testAddTermToTerm() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        StatusInfo status = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+        
+        assertNotNull(status);
+        assertTrue(status.isSuccess());
+        
+        // retrieve the terms for the parent term and make sure it does include the added term
+        List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm5", callContext);
+        
+        assertNotNull(results);
+        assertEquals(1, results.size());
+        
+        TermInfo added = results.iterator().next();
+        assertEquals("termRelationTestingTerm6", added);
+        
+        // assert that we can't add the term to the same term twice
+        StatusInfo nullStatus = null;
+        
+        try { 
+            nullStatus = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+            fail("Did not get an AlreadyExistsException when expected");
+        }
+        catch(AlreadyExistsException e) {
+            assertNull(nullStatus);
+        }
+        
+        // assert that adding an invalid term fails
+        try {
+            nullStatus = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(nullStatus);
+        }
+        
+    }
 }
