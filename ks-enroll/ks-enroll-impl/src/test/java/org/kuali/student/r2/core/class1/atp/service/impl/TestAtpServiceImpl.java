@@ -540,10 +540,10 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         List<String> results = atpService.getAtpMilestoneRelationIdsByType("kuali.atp.milestone.relation.owns", callContext);
         
         assertNotNull(results);
-        assertEquals(2, results.size());
+        assertEquals(3, results.size());
         
         Collection<String> listToCheck = new ArrayList<String>();
-        listToCheck.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2"));
+        listToCheck.addAll(Arrays.asList("ATPMSTONEREL-1", "ATPMSTONEREL-2", "termRelationTestingRel-TermDate-1"));
         
         for(String id : results) {
             listToCheck.remove(id);
@@ -764,6 +764,64 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
             assertEquals(19, typeInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetAtpsByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> atpKeys = new ArrayList<String>();
+        atpKeys.addAll(Arrays.asList("testAtpId1", "testAtpId2"));
+        
+        List<AtpInfo> atps = atpService.getAtpsByKeyList(atpKeys, callContext);
+        
+        assertNotNull(atps);
+        assertEquals(atpKeys.size(), atps.size());
+        
+        // check that all the expected ids came back
+        for(AtpInfo info : atps) {
+            atpKeys.remove(info.getKey());
+        }
+        
+        assertTrue(atpKeys.isEmpty());
+        
+        // now make sure an exception is thrown for any not found keys
+        
+        List<String> fakeKeys = Arrays.asList("testAtpId1", "fakeKey1", "fakeKey2");
+        
+        List<AtpInfo> shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getAtpsByKeyList(fakeKeys, callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+    
+    @Test
+    public void testGetAtpKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String expectedAtpType = AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;
+        
+        List<String> atpKeys = atpService.getAtpKeysByType(expectedAtpType, callContext);
+        
+        assertTrue(atpKeys.contains("testAtpId1"));
+        assertTrue(atpKeys.contains("termRelationTestingAcal1"));
+        
+        String expectedEmptyAtpType = AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY;
+        
+        atpKeys = atpService.getAtpKeysByType(expectedEmptyAtpType, callContext);
+        
+        assertTrue(atpKeys == null || atpKeys.isEmpty());
+        
+        String fakeAtpType = "fakeTypeKey";
+        
+        List<String> shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getAtpKeysByType(fakeAtpType, callContext);
+            fail("Did not get a InvalidParameterException when expected");
+        }
+        catch(InvalidParameterException e) {
+            assertNull(shouldBeNull);
         }
     }
 }
