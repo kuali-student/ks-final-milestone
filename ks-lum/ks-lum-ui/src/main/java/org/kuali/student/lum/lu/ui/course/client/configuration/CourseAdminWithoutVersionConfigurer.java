@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
@@ -36,6 +37,13 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
+        KSLabel courseStatusLabel = new KSLabel("");
+        if (layout.getCourseState() != null)
+        	courseStatusLabel.setText("Status: " + layout.getCourseState());
+        else
+        	courseStatusLabel.setText("Status: Unknown");
+        layout.addContentWidget(courseStatusLabel); 
+        		
     	layout.addView(generateCourseAdminView((CourseAdminWithoutVersionController)layout));
     }
 
