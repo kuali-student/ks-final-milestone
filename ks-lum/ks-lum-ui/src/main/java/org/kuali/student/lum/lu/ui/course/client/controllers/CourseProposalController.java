@@ -256,7 +256,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         } else if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.OBJECT_ID){
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-        	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
+        	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))||
+       			LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
         		createModifyCluProposalModel("versionComment", callback, workCompleteCallback);
         	}else{
         		createCopyCourseModel(getViewContext().getId(), callback, workCompleteCallback);
@@ -309,8 +310,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		if(idType != null){
 		    			idAttributes.put(IdAttributes.ID_TYPE, idType);
 		    		}
-		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
+		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("") && !LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(currentDocType)){
 		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
+		    		}
+		    		//Check for admin modify type
+		    		if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(cluProposalModel.get(cfg.getProposalPath()+"/type"))){
+		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN;
 		    		}
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
 		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());
@@ -540,7 +545,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Data data = new Data();
         
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+        this.currentDocType = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+        proposalData.set(new Data.StringKey("type"), currentDocType);
         data.set(new Data.StringKey("proposal"), proposalData);
         
         Data versionData = new Data();
@@ -1035,7 +1041,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
     public KSButton getSaveButton(){
-    	if(currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY){
+    	if(currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY && currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN){
 	        return new KSButton("Save and Continue", new ClickHandler(){
 	                    public void onClick(ClickEvent event) {
 	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));

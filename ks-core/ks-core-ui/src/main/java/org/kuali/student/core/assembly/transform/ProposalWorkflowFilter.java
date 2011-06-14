@@ -127,7 +127,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				proposalInfo.getProposalReference().add(referenceId);
 				
                 // TODO: this needs to be defined as a constant where all references will resolve
-                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())) {
+                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())||
+              		"kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
 

@@ -113,7 +113,8 @@ public class CourseAdminController extends CourseProposalController{
             }
         });
 	
-		if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN.equals(currentDocType)){
+		if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN.equals(currentDocType) || 
+				LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(currentDocType)){
 			//For new admin proposal, disable the cancel button intially since proposal doesn't exist
 			//until they click save.
 			cancelButton.setEnabled(false);

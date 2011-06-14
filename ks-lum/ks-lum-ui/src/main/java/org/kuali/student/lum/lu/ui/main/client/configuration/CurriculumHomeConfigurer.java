@@ -150,7 +150,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	                    String proposalType = value.getResultRow().getValue("proposal.resultColumn.proposalOptionalType");
 	                    viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalType);
 	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-	                    if("kuali.proposal.type.course.create.admin".equals(proposalType)){
+	                    if("kuali.proposal.type.course.create.admin".equals(proposalType)||"kuali.proposal.type.course.modify.admin".equals(proposalType)){
 	                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
 	                    }else{
 	                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
