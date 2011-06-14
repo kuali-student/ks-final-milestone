@@ -927,27 +927,29 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		final Callback<Boolean> reallyOkToChange = new Callback<Boolean>(){
 			@Override
 			public void exec(Boolean result) {
-				if(CourseSections.GOVERNANCE.equals(viewChangingTo)){
-					getView(CourseSections.COURSE_INFO, new Callback<View>(){
-						@Override
-						public void exec(final View view) {
-							if(view!=null && view instanceof SectionView){
-								requestModel(new ModelRequestCallback<DataModel>(){
-									public void onModelReady(DataModel model) {
-										((SectionView)view).updateWidgetData(model);
-										okToChange.exec(true);
-									}
-									public void onRequestFail(Throwable cause) {
-										okToChange.exec(false);
-									}
-								});
-							}else{
-								okToChange.exec(true);
-							}
-						}});
-				}else{
-					okToChange.exec(true);
-				}
+				if(result){
+					if(CourseSections.GOVERNANCE.equals(viewChangingTo)){
+						getView(CourseSections.COURSE_INFO, new Callback<View>(){
+							@Override
+							public void exec(final View view) {
+								if(view!=null && view instanceof SectionView){
+									requestModel(new ModelRequestCallback<DataModel>(){
+										public void onModelReady(DataModel model) {
+											((SectionView)view).updateWidgetData(model);
+											okToChange.exec(true);
+										}
+										public void onRequestFail(Throwable cause) {
+											okToChange.exec(false);
+										}
+									});
+								}else{
+									okToChange.exec(true);
+								}
+							}});
+					} else
+						okToChange.exec(true);					
+				} else 	
+					okToChange.exec(false);
 			}
 		};
 		
