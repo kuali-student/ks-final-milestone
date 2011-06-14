@@ -760,7 +760,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetAllowedTypesForType() {
         try {
-            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
+            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertEquals(19, typeInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());

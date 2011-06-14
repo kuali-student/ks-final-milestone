@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
@@ -228,7 +229,7 @@ public class AtpServiceImpl implements AtpService {
             OperationFailedException {
         List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
         
-        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao.getTypeTypeRelationsByOwnerType(ownerTypeKey);
+        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
         List<String> ids = new ArrayList<String>();
         for (TypeTypeRelationEntity entity : typeTypeRelations) {
             ids.add(entity.getRelatedTypeId());
