@@ -35,7 +35,7 @@ public class CourseSetGradeProposition extends ComparisonOverCourseSetPropositio
         Term term = new Term(Constants.gradeForCourseTermSpec, Collections.singletonMap(Constants.COURSE_ID_TERM_PROPERTY_NAME, courseId));
         
         try {
-            discoveredGrade = environment.resolveTerm(term);
+            discoveredGrade = environment.resolveTerm(term, this);
         } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }

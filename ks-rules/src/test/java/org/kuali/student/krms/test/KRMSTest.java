@@ -1,3 +1,10 @@
+/**
+ * 
+ * NOTE - this test will compile but doesn't run
+ * we are keeping it around to illustrate a few processes
+ * 
+ */
+
 package org.kuali.student.krms.test;
 
 import java.util.ArrayList;

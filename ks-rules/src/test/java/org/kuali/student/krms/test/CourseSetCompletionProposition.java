@@ -30,7 +30,7 @@ public class CourseSetCompletionProposition extends CourseCompletionProposition 
             Term term = new Term(Constants.courseSetTermSpec, Collections.singletonMap(Constants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
             
             try {
-                courseIds = environment.resolveTerm(term);
+                courseIds = environment.resolveTerm(term, this);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

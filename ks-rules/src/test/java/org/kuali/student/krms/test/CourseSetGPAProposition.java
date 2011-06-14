@@ -26,7 +26,7 @@ public class CourseSetGPAProposition extends ComparisonOverCourseSetProposition 
         Float discoveredGpa = null;
         
         try {
-            discoveredGpa = environment.resolveTerm(term);
+            discoveredGpa = environment.resolveTerm(term, this);
         } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }

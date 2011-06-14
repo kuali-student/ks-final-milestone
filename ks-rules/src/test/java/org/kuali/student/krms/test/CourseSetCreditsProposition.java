@@ -7,6 +7,8 @@ import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.PropositionResult;
+
 
 public class CourseSetCreditsProposition extends AbstractProposition implements Proposition {
 
@@ -23,18 +25,18 @@ public class CourseSetCreditsProposition extends AbstractProposition implements 
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment environment) {
+    public PropositionResult evaluate(ExecutionEnvironment environment) {
         
         Integer termValue;
         try {
-            termValue = environment.resolveTerm(creditsTerm);
+            termValue = environment.resolveTerm(creditsTerm, this);
         } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }
         
         boolean result = Boolean.valueOf(operator.compare(termValue, compareCreditCount));
         
-        return result;
+        return new PropositionResult(result, "");
     }
 
 }

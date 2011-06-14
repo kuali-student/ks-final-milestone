@@ -7,6 +7,8 @@ import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.ComparisonOperator;
 import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.PropositionResult;
+
 
 public class TestScoreCompareProposition extends AbstractProposition implements Proposition {
 
@@ -23,18 +25,18 @@ public class TestScoreCompareProposition extends AbstractProposition implements 
     }
 
     @Override
-    public boolean evaluate(ExecutionEnvironment environment) {
+    public PropositionResult evaluate(ExecutionEnvironment environment) {
         
         Float testScore = null;
         
         try {
-            testScore = environment.resolveTerm(testScoreTerm);
+            testScore = environment.resolveTerm(testScoreTerm, this);
         } catch (TermResolutionException e) {
             throw new RuntimeException(e);
         }
         
         
-        return operator.compare(testScore, compareScore);
+        return new PropositionResult(operator.compare(testScore, compareScore), "");
     }
 
 }

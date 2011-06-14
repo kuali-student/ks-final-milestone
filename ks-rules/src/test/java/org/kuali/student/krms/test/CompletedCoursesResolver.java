@@ -35,7 +35,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     @Override
     public Collection<String> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = resolvedPrereqs.get(Constants.studentIdTermSpec).toString();
-        
+                
         if(studentId.equals("1")) {
             return Arrays.asList("1");
         }

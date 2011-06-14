@@ -44,6 +44,8 @@ public class StatementServiceTranslationTest {
     private StatementService statementService;
     
     private LrcService lrcService;
+    
+    private Map<StatementTreeViewInfo, Proposition> statementPropositionMap = new HashMap<StatementTreeViewInfo, Proposition>();
 
     //private ApplicationContext appContext;
     
@@ -141,8 +143,10 @@ public class StatementServiceTranslationTest {
             InvalidParameterException, MissingParameterException, OperationFailedException {
         
         StatementTreeViewInfo statementTreeView = statementService.getStatementTreeView(statmentId);
-        
+                
         Proposition rootProposition = buildPropositionFromComponents(statementTreeView);
+        
+        statementPropositionMap.put(statementTreeView, rootProposition);
         
         Rule rule = new BasicRule(rootProposition, null);
         
@@ -152,23 +156,40 @@ public class StatementServiceTranslationTest {
         AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
         
         Map<String, String> emptyStringMap = Collections.emptyMap();
+        
         Agenda result = new BasicAgenda(Constants.STATEMENT_EVENT_NAME, emptyStringMap, agendaTree);
         
         return result;
         
     }
 
+    
+    /**
+     * 
+     * 
+     * Results Aggregation Collection Point
+     * 
+     * This is where we would need to keep a mapping between the propositions and the statement tree
+     * 
+     * 
+     * 
+     */
+    
     private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
         if(statementTreeView.getType().equals(COREQUISITE_STATMENT_TYPE)) {
             if(statementTreeView.getStatements().isEmpty()) {
                 // if no sub-statements, there are only one or two req components
-                return translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator());
+            	
+                return translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator());                
             }
             
             // otherwise, make a compound proposition out of the recursive result for each sub-statement
             List<Proposition> subProps = new ArrayList<Proposition>(statementTreeView.getStatements().size());
             for(StatementTreeViewInfo subStatement : statementTreeView.getStatements()) {
+            	
                 subProps.add(buildPropositionFromComponents(subStatement));
+                                
+                
             }
             
             
@@ -177,6 +198,18 @@ public class StatementServiceTranslationTest {
         
         return null;
     }
+    
+    
+    /**
+     * 
+     * 
+     * Results Aggregation Collection Point
+     * 
+     * This is where we would need to keep a mapping between the propositions and the requirement components
+     * 
+     * 
+     * 
+     */
 
     private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
         
@@ -188,6 +221,9 @@ public class StatementServiceTranslationTest {
         
         req1 = reqComponents.get(0);
         Proposition prop1 = buildPropositionForRequirementComponent(req1);
+        
+        System.out.println("req1: " + req1 + " prop1 " + prop1);
+        
         
         Proposition prop2 = null;
         if(reqComponents.size() == 2) {
@@ -398,4 +434,9 @@ public class StatementServiceTranslationTest {
         return result;
     }
 
+    
+    public Map<StatementTreeViewInfo, Proposition> getStatementPropositionMap() {
+    	return statementPropositionMap;
+    }
+    
 }

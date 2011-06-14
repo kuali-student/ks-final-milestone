@@ -7,6 +7,7 @@ import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.PropositionResult;
 
 public abstract class ComparisonOverCourseSetProposition extends AbstractProposition implements Proposition {
 
@@ -29,12 +30,13 @@ public abstract class ComparisonOverCourseSetProposition extends AbstractProposi
         this.expectedCompareCount = numCourses;
     }
     
+    
     @Override
-    public boolean evaluate(ExecutionEnvironment environment) {
+    public PropositionResult evaluate(ExecutionEnvironment environment) {
         
         if(courseIds == null) {
             try {
-                courseIds = environment.resolveTerm(courseSetTerm);
+                courseIds = environment.resolveTerm(courseSetTerm, this);
             } catch (TermResolutionException e) {
                 throw new RuntimeException(e);
             }
@@ -52,18 +54,18 @@ public abstract class ComparisonOverCourseSetProposition extends AbstractProposi
             
             // if all courses must meet the comparison, and any one of them does not, the evaluation is false
             if(checkAllCourses && !singleCourseComparison) {
-                return false;
+                return new PropositionResult(false, "");
             }
             
         }
         
         // if no single comparison failed and we are checking all courses, return true
         if(checkAllCourses) {
-            return true;
+            return new PropositionResult(true, "");
         }
         // otherwise compare the number of true comparisons to the expected amount
         else {
-            return trueComparisonCount >= expectedCompareCount;
+            return new PropositionResult(trueComparisonCount >= expectedCompareCount, "");
         }
         
     }
