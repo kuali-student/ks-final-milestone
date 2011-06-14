@@ -215,13 +215,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     	
 		for(CourseWorkflowActionList widget: actionDropDownWidgets){
 			widget.updateCourseActionItems(cluModel);
-			widget.setEnabled(true);
-			if(widget.isEmpty()) {
-				widget.setVisible(false);
-			}
-			else{
-				widget.setVisible(true);
-			}
 		}
     }
 

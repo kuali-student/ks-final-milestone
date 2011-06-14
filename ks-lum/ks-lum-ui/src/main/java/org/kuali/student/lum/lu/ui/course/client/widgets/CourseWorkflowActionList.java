@@ -63,7 +63,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	private VerticalSection activateSection = new VerticalSection();
     
     private boolean isCurrentVersion;
-    private boolean isInitialized = false;
+    private Boolean isInitialized = false;
     private String courseId;
        
     
@@ -286,7 +286,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 						viewContext.setId(getCourseVersionIndId(model));
 						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 			            //FIXME: This needs to use a new workflow document type for admin modify with version
-						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
 			        }
 
 			    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
@@ -390,6 +390,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		items.add(copyCourseActionItem);
 
     	setItems(items);
+		
+    	CourseWorkflowActionList.this.setEnabled(true);
+		if(CourseWorkflowActionList.this.isEmpty()) {
+			CourseWorkflowActionList.this.setVisible(false);
+		}
+		else{
+			CourseWorkflowActionList.this.setVisible(true);
+		}
 	}
 	
     public boolean isEmpty() {

@@ -31,6 +31,7 @@ public class LUConstants {
     public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
     public final static String PROPOSAL_TYPE_COURSE_MODIFY = "kuali.proposal.type.course.modify";
     public final static String PROPOSAL_TYPE_COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";    
+    public final static String PROPOSAL_TYPE_COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";  
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
     public final static String PROGRAM_GROUP_NAME = "program";    
     public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";

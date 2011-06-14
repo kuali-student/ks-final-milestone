@@ -318,13 +318,7 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 			        }
 				});
 				widget.updateCourseActionItems(cluModel);
-				widget.setEnabled(true);
-				if(widget.isEmpty()) {
-					widget.setVisible(false);
-				}
-				else{
-					widget.setVisible(true);
-				}
+
 			}
     	}
     }
