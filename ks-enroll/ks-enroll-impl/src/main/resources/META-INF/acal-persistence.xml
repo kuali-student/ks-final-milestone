@@ -30,7 +30,6 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
         <class>org.kuali.student.r2.common.model.StateEntity</class>
-		<class>org.kuali.student.r2.common.model.StateAttributeEntity</class>
 	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
  		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeEntity</class>
