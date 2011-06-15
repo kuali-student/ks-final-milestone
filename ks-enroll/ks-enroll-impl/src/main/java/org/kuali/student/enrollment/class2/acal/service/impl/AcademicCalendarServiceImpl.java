@@ -586,6 +586,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     }
 
     @Override
+    @Transactional
     public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
@@ -693,11 +694,32 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     }
 
     @Override
+    @Transactional
     public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        TermInfo term = getTerm(termKey, context);
+        
+        TermInfo includedTerm = getTerm(includedTermKey, context);
+        
+        // check if the relationship already exists
+        List<TermInfo> terms = getIncludedTermsInTerm(term.getKey(), context);
+        for(TermInfo t : terms) {
+            if(t.getKey().equals(includedTerm.getKey())) {
+                throw new AlreadyExistsException("A relationship already exists exists between term: " + termKey + " and included term: " + includedTermKey);
+            }
+        }
+        
+        StatusInfo resultStatus = new StatusInfo();
+        
+        try {
+            acalAssembler.getRelAssembler().createAtpAtpRelations(termKey, includedTermKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+        } catch (DataValidationErrorException e) {
+            resultStatus.setSuccess(false);
+            resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: " + e.getMessage());
+        }
+        
+        return resultStatus;
     }
 
     @Override
