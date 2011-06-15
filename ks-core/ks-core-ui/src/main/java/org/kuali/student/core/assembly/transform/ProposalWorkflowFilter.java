@@ -83,8 +83,12 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		//Get the proposal data portion from the data
 		Data proposalData = data.query("proposal");
 		data.remove(new StringKey("proposal"));
-		ProposalInfo proposalInfo = (ProposalInfo)mapper.convertFromData(proposalData, ProposalInfo.class, getProposalMetadata());
-				
+		
+		ProposalInfo proposalInfo = null;
+		if (proposalData != null){
+		       proposalInfo = (ProposalInfo)mapper.convertFromData(proposalData, ProposalInfo.class, getProposalMetadata());	        
+		}
+		
 		//Create new proposalInfo if no proposal data sent from client
 		if (proposalInfo == null) {
 			proposalInfo = new ProposalInfo();			
@@ -131,7 +135,11 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
               		"kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
-
+                // TODO: this needs to be defined as a constant where all references will resolve
+                if ("kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
+                    proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+                }
+                
 				proposalInfo.setState("Saved");
 								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			

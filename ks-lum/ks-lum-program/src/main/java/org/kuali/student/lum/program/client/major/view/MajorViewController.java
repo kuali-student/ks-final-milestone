@@ -54,6 +54,18 @@ public class MajorViewController extends MajorController {
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                 }
+                else if (actionType == ActionType.PROPOSED_PROGRAM_MODIFICATION) {
+                     // This block is duplicated in the CoreViewController and CredentialViewController
+                    
+                     // Need to place the ID on the view context so it is available in the controller
+                     // when the drop-down is selected
+                     String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
+                     viewContext.setId(versionIndId);
+                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+                    
+                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                     HistoryManager.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
+                }
             }
         });
         eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {

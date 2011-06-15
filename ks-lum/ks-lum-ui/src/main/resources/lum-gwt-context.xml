@@ -82,6 +82,8 @@
                        value-ref="metadataGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineRpcService"
                        value-ref="majorDisciplineRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineProposalRpcService"
+                       value-ref="majorDisciplineProposalRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credentialProgramRpcService"
                        value-ref="credentialProgramRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
@@ -116,6 +118,12 @@
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="majorDisciplineRpcServlet"/>
         <property name="servletInstance" ref="majorDisciplineRpcServlet"/>
+    </bean>
+    
+    <bean id="majorDisciplineProposalRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="majorDisciplineProposalRpcServlet"/>
+        <property name="servletInstance" ref="majorDisciplineProposalRpcServlet"/>
     </bean>
 
     <bean id="credentialProgramRpcServletController"
@@ -356,6 +364,13 @@
     </bean>
     
 
+    <bean id="majorDisciplineProposalRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineProposalRpcServlet">
+		<property name="dataService" ref="majorDisciplineProposalDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="statementService" ref="statementServiceClient"/>      
+        <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
+     </bean>
+
     <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
 		<property name="dataService" ref="majorDisciplineDataService"/>
 		<property name="programService" ref="programClient"/>
@@ -379,6 +394,13 @@
 
     <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">
         <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="majorDisciplineProposalDataService" class="org.kuali.student.lum.program.server.MajorDisciplineProposalDataService">
+        <property name="transformationManager" ref="majorDisciplineProposalTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
@@ -439,6 +461,21 @@
             </list>
         </property>
     </bean>
+
+    <bean id="majorDisciplineProposalTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="programMetadataServiceImpl"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="majorCredentialProgramFilter"/>
+                <ref bean="versionProgramFilter"/>                
+                <ref bean="idTranslatorFilter"/>
+                <ref bean="majorDisciplineProposalWorkflowFilter"/>
+            </list>
+        </property>
+    </bean>
+
 
     <bean id="loCategoryTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImpl"/>
@@ -525,6 +562,45 @@
 	            <bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.create.admin"/>
 	        		<property name="defaultDocumentTitle" value="{courseTitle} (Admin Proposal)"/>
+	        		<property name="docContentFieldMap">
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+					</property>
+	            </bean>
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>
+				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify.admin"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle} (Admin Proposal)"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>            
+ 			</list>
+		</property>			
+    </bean>
+
+    <bean id="majorDisciplineProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
+        <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
+        <property name="defaultDocType" value="kuali.proposal.type.majorDiscipline.modify"/>
+        <property name="docTypeConfigs">
+	        <list>
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.majorDiscipline.modify"/>
+	        		<property name="defaultDocumentTitle" value="{shortTitle}"/>
 	        		<property name="docContentFieldMap">
 	           			<map>
 		                	<entry key="cluId" value="id"/>

@@ -12,7 +12,8 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 public enum ActionType {
     NO_ACTION(ProgramProperties.get().programAction_title()),
     MODIFY(ProgramProperties.get().programAction_modify()),
-    MODIFY_VERSION(ProgramProperties.get().programAction_modifyVersion());
+    MODIFY_VERSION(ProgramProperties.get().programAction_modifyVersion()),
+    PROPOSED_PROGRAM_MODIFICATION(ProgramProperties.get().programAction_proposedProgramModification());
 
     private final String value;
 

@@ -39,6 +39,10 @@ public class ProgramConstants {
     public static final String END_PROGRAM_ENROLL_TERM = "endTerm";
     public static final String PROGRAM_APPROVAL_DATE = "approvalDate";
 
+    // Proposal Information
+    public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    
+    
     //Program Title
     public static final String LONG_TITLE = "longTitle";
     public static final String SHORT_TITLE = "shortTitle";

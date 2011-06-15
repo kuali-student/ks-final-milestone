@@ -180,7 +180,7 @@ public class ProgramServiceImpl implements ProgramService {
 			PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
 		//step one, get the original
 		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, majorDisciplineVerIndId);
-		MajorDisciplineInfo originalMajorDicipline = getMajorDiscipline(currentVersion.getId());
+		MajorDisciplineInfo originalMajorDiscipline = getMajorDiscipline(currentVersion.getId());
 
 		//Version the Clu
 		CluInfo newVersionClu = luService.createNewCluVersion(majorDisciplineVerIndId, versionComment);
@@ -189,18 +189,18 @@ public class ProgramServiceImpl implements ProgramService {
 	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDicipline, true);
+			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDiscipline, true);
 
 			//Clear Ids from the original so it will make a copy and do other processing
-			processCopy(originalMajorDicipline, currentVersion.getId());
+			processCopy(originalMajorDiscipline, currentVersion.getId());
            
             // Since we are creating a new version, update the requirements and statement
 			// tree and set the state to Draft
-            List<String> programRequirementIds = originalMajorDicipline.getProgramRequirements();
+            List<String> programRequirementIds = originalMajorDiscipline.getProgramRequirements();
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT);
             
 			//Disassemble the new major discipline
-			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
+			results = majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE);
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
@@ -399,7 +399,7 @@ public class ProgramServiceImpl implements ProgramService {
 			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getState());
 		}
 		
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -422,7 +422,7 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -441,7 +441,7 @@ public class ProgramServiceImpl implements ProgramService {
 		for(LoDisplayInfo lo:originalCoreProgram.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -487,7 +487,7 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 			//Create the new copy
 			ProgramRequirementInfo createdProgramRequirement = createProgramRequirement(programRequirementInfo);
-			//add the copy's id back to the majorDicipline's list of requirements
+			//add the copy's id back to the majorDiscipline's list of requirements
 			originalProgramRequirementIds.add(createdProgramRequirement.getId());
 		}
     }

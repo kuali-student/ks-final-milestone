@@ -135,9 +135,21 @@ public class CurriculumHomeController extends LayoutController {
 //                    }
 //                });
                 break;
-            case PROGRAM_VIEW:
+            case PROGRAM_PROPOSAL:
 //                GWT.runAsync(new RunAsyncGetView() {
 //                    @Override
+//                    public void onSuccess() {
+                         if (ProgramRegistry.isCreateNew()) {
+                           ProgramRegistry.setCreateNew(false);
+                            majorManager = new MajorManager();
+                         }
+                         callback.exec(majorManager.getMajorProposalController());
+//                    }
+//                });
+                break;
+             case PROGRAM_VIEW:
+//                GWT.runAsync(new RunAsyncGetView() {
+//                   @Override
 //                    public void onSuccess() {
                         if (ProgramRegistry.isCreateNew()) {
                             ProgramRegistry.setCreateNew(false);

@@ -7,6 +7,7 @@ import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
+import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.major.view.MajorViewController;
 import org.kuali.student.lum.program.client.variation.edit.VariationEditController;
 import org.kuali.student.lum.program.client.variation.view.VariationViewController;
@@ -21,6 +22,8 @@ import com.google.gwt.user.client.Window;
  */
 public class MajorManager {
 
+    private MajorProposalController majorProposalController;
+    
     private MajorViewController majorViewController;
 
     private MajorEditController majorEditController;
@@ -126,7 +129,15 @@ public class MajorManager {
         return eventBus;
     }
 
-    private MajorEditController getMajorEditController() {
+    public MajorProposalController getMajorProposalController() {
+        if (majorProposalController == null) {
+            majorProposalController = new MajorProposalController(programModel, viewContext, eventBus);
+        }
+        return majorProposalController;
+    }
+    
+    
+    public MajorEditController getMajorEditController() {
         if (majorEditController == null) {
             majorEditController = new MajorEditController(programModel, viewContext, eventBus);
         }

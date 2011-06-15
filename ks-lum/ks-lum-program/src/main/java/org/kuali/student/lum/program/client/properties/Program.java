@@ -392,6 +392,16 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Sections")
   @Key("program.menu.sections")
   String program_menu_sections();
+  
+  /**
+   * Translated "Supporting Documents".
+   * 
+   * @return translated "Supporting Documents"
+   */
+  @DefaultMessage("Proposal Information")
+  @Key("program.menu.sections.proposalInformation")
+  String program_menu_sections_proposalInformation();
+
 
   /**
    * Translated "Description and Catalog Information".
@@ -493,6 +503,25 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programAction_modifyVersion();
 
   /**
+   * Translated "Proposed Program Modification".
+   * 
+   * @return translated "Proposed Program Modification"
+   */
+  @DefaultMessage("Proposed Program Modification")
+  @Key("programAction.proposedProgramModification")
+  String programAction_proposedProgramModification();
+  
+  /**
+   * Translated "Proposed Program Modification".
+   * 
+   * @return translated "Proposed Program Modification"
+   */
+  @DefaultMessage("Proposal Title")
+  @Key("cluProposalTitle")
+  String proposalInformation_cluProgramTitle();
+ 
+  
+   /**
    * Translated "Program Actions: Modify, Retire...".
    * 
    * @return translated "Program Actions: Modify, Retire..."
