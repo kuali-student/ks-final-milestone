@@ -272,7 +272,11 @@ public class TestAcademicCalendarServiceImpl{
 	    	assertTrue(status.isSuccess());
     	} catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
-        } 	    	
+    	}
+    	
+    	List<TermInfo> terms = acalServiceValidation.getTermsForAcademicCalendar("testAtpId1", callContext);
+    	
+    	assertEquals(2, terms.size());
     }
     
     @Test 
@@ -286,8 +290,18 @@ public class TestAcademicCalendarServiceImpl{
     		}
     		
     		List<TermInfo> terms = acalServiceValidation.getTermsForAcademicCalendar("testAtpId1", callContext);
-    		 assertNotNull(terms);
-             assertEquals("testTermId1", terms.get(0).getKey());
+    		assertNotNull(terms);
+    		
+    		// make sure an expected term is in the list of returned terms
+    		boolean found = false;
+    		for(TermInfo term : terms) {
+    		    if(term.getKey().equals("testTermId1")) {
+    		        found = true;
+    		        break;
+    		    }
+    		}
+    		 
+    		assertTrue(found);
     		
     	} catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
@@ -706,7 +720,6 @@ public class TestAcademicCalendarServiceImpl{
     }
     
     @Test
-    @Ignore
     public void testAddTermToTerm() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
         StatusInfo status = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
@@ -721,7 +734,7 @@ public class TestAcademicCalendarServiceImpl{
         assertEquals(1, results.size());
         
         TermInfo added = results.iterator().next();
-        assertEquals("termRelationTestingTerm6", added);
+        assertEquals("termRelationTestingTerm6", added.getKey());
         
         // assert that we can't add the term to the same term twice
         StatusInfo nullStatus = null;

@@ -233,6 +233,8 @@ INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TR
 INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-7', '<p>Desc term rich text 7</p>', 'Desc term rich text 7',0)
 INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-8', '<p>Desc term rich text 8</p>', 'Desc term rich text 8',0)
 INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-9', '<p>Desc term rich text 9</p>', 'Desc term rich text 9',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-10', '<p>Desc term rich text 10</p>', 'Desc term rich text 10',0)
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-11', '<p>Desc term rich text 11</p>', 'Desc term rich text 11',0)
 
 // Term Atps for testing
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm1', 'testingTerm1', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-1', 0)
@@ -240,6 +242,8 @@ INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm3', 'testingTerm3', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-7', 0)
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm4', 'testingTerm4', {ts '2011-01-01 00:00:00.0'}, {ts '2011-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-8', 0)
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTermDelete', 'testingTermDelete', {ts '2031-01-01 00:00:00.0'}, {ts '2031-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-9', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm5', 'testingTerm3', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-10', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm6', 'testingTerm4', {ts '2011-01-01 00:00:00.0'}, {ts '2011-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall2', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-11', 0)
 
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal1', 'testingAcal1', {ts '2000-09-01 00:00:00.0'}, {ts '2001-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-3', 0)
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal2', 'testingAcal2', {ts '2001-09-01 00:00:00.0'}, {ts '2002-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-4', 0)
