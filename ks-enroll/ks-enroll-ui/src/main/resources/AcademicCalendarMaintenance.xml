@@ -67,7 +67,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
     <bean id="AcademicCalendarInfo-startDate" parent="academicCalendarInfo-startDate-parent"/>
-    <bean id="academicCalendarInfo-startDate-parent" abstract="true" parent="AttributeDefinition">
+    <bean id="academicCalendarInfo-startDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="startDate"/>
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
@@ -78,7 +78,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
     <bean id="AcademicCalendarInfo-endDate" parent="academicCalendarInfo-endDate-parent"/>
-    <bean id="academicCalendarInfo-endDate-parent" abstract="true" parent="AttributeDefinition">
+    <bean id="academicCalendarInfo-endDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="endDate"/>
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
@@ -96,10 +96,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
             	  p:allowWhitespace="false" />
-    	</property>
+    	</property>    	
     	<property name="controlField">
       		<bean parent="TextControl" p:size="42"/>
-    	</property> 
+    	</property>     	
+        <property name="control" >
+      		<bean parent="SelectControlDefinition"
+            	p:valuesFinderClass="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues" />
+    	</property>
     </bean>    
     
   <bean id="AcademicCalendarInfo-MaintenanceView" parent="MaintenanceView">
@@ -115,7 +119,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                <list>
                 <bean parent="AttributeField" p:propertyName="startDate"/>
                 <bean parent="AttributeField" p:propertyName="endDate"/>
-                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey"/>
+                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey">
+                    <property name="control">
+              			<bean parent="SelectControl"/>
+            		</property>
+            		<property name="optionsFinder">
+              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
+            		</property>
+                </bean>
                </list>
              </property>             
           </bean> 
