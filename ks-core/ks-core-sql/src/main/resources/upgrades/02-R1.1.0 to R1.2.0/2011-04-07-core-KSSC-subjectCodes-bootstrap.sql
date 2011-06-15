@@ -70,7 +70,7 @@ CREATE
         CONSTRAINT KSSC_SUBJ_CD_JN_ORG_FK1 FOREIGN KEY (SUBJ_CD_ID) REFERENCES KSSC_SUBJ_CD (ID)
     )
 /
-/* -- This Should be ingested in RICE using the documentTypes.xml config file 
+/* --This Should be ingested in RICE using the documentTypes.xml config file 
 delete from KREW_DOC_TYP_T WHERE DOC_TYP_NM IN('SubjectCodeTypeMaintenanceDocument', 'SubjectCodeMaintenanceDocument', 'SubjectCodeJoinOrgMaintenanceDocument')
 /
 
