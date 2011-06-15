@@ -36,6 +36,9 @@
         <class>org.kuali.student.r2.common.entity.TypeEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeTypeRelationAttributeEntity</class>
+        
+        <class>org.kuali.student.r2.common.model.AttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>

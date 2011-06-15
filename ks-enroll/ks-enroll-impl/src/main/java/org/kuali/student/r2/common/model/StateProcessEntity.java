@@ -36,7 +36,7 @@ public class StateProcessEntity extends MetaEntity{
     private Date expirationDate;
     
     @OneToMany(cascade = CascadeType.ALL)
-    private List<StateAttributeEntity> attributes;
+    private List<AttributeEntity> attributes;
 	public String getName() {
 		return name;
 	}
@@ -69,11 +69,11 @@ public class StateProcessEntity extends MetaEntity{
 		this.expirationDate = expirationDate;
 	}
 
-	public List<StateAttributeEntity> getAttributes() {
+	public List<AttributeEntity> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<StateAttributeEntity> attributes) {
+	public void setAttributes(List<AttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 	
@@ -88,10 +88,10 @@ public class StateProcessEntity extends MetaEntity{
 			this.setVersionNumber((long) 0);
 			this.setEffectiveDate(process.getEffectiveDate());
 	        this.setExpirationDate(process.getExpirationDate());
-			this.setAttributes(new ArrayList<StateAttributeEntity>());
+			this.setAttributes(new ArrayList<AttributeEntity>());
 			if(null != process.getAttributes()){
 				for (Attribute att : process.getAttributes()) {
-					StateAttributeEntity attEntity = new StateAttributeEntity(att);
+					AttributeEntity attEntity = new AttributeEntity(att);
 		        	attEntity.setVersionNumber((long) 0);
 		            this.getAttributes().add(attEntity);
 		        }				
@@ -110,7 +110,7 @@ public class StateProcessEntity extends MetaEntity{
 		process.setExpirationDate(expirationDate);
 		
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (StateAttributeEntity att : getAttributes()) {
+        for (AttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }

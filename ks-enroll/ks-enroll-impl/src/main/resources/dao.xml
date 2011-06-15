@@ -67,5 +67,8 @@
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
     	<property name="em" ref="entityManager"/>
     </bean>
-    
+ 
+     <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>   
 </beans>
