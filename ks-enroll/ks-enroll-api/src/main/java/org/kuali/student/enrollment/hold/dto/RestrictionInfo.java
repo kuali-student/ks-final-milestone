@@ -36,7 +36,7 @@ public class RestrictionInfo extends KeyEntityInfo implements Restriction,
 	@XmlAnyElement
 	private final List<Element> _futureElements;
 
-	private RestrictionInfo() {
+	public RestrictionInfo() {
 		_futureElements = null;
 	}
 
