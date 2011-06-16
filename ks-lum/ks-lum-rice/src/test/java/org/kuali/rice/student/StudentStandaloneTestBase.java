@@ -27,7 +27,7 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
 import org.kuali.rice.kew.exception.WorkflowRuntimeException;
-import org.kuali.rice.kim.service.KIMServiceLocatorWeb;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.test.BaselineTestCase;
 import org.kuali.rice.test.SQLDataLoader;
 
@@ -68,8 +68,8 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 	
 	public class ClearCacheLifecycle extends BaseLifecycle {
 		public void stop() throws Exception {
-			KIMServiceLocatorWeb.getIdentityManagementService().flushAllCaches();
-			KIMServiceLocatorWeb.getRoleManagementService().flushRoleCaches();
+			KimApiServiceLocator.getIdentityManagementService().flushAllCaches();
+			KimApiServiceLocator.getRoleManagementService().flushRoleCaches();
 			super.stop();
 		}
 	}
