@@ -20,9 +20,11 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.infc.Issue;
@@ -38,6 +40,9 @@ import org.kuali.student.r2.common.model.StateEntity;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+
+@Entity
+@Table(name = "KSEN_ISSUE")
 public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeEntity> {
 
     @Column(name = "NAME")
@@ -55,12 +60,9 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
     @Column(name = "TYPE_ID")
     private String typeId;
     
-    /*
-     * TODO Description field....is this a new type of RichTextEntity or an AtpRichTextEntity?
-     * @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-     * @JoinColumn(name = "RT_DESCR_ID")
-     * private AtpRichTextEntity descr;
-     */
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "RT_DESCR_ID")
+    private HoldRichTextEntity descr;
     
     @OneToMany(cascade = CascadeType.ALL)
     private List<AttributeEntity> attributes;
@@ -74,12 +76,13 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
 
     public IssueEntity(Issue issue) {
         super(issue);
-        this.name = issue.getName();
-        this.organizationId = issue.getOrganizationId();
-        this.typeId = issue.getTypeKey();
-        this.issueState = new StateEntity();
+        setName(issue.getName());
+        setOrganizationId(issue.getOrganizationId());
+        setTypeId(issue.getTypeKey());
+        setIssueState(new StateEntity());
         issueState.setId(issue.getStateKey());
         
+        setDescr(new HoldRichTextEntity(issue.getDescr()));
     }
     
     @Override
@@ -123,6 +126,14 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
     public void setIssueState(StateEntity issueState) {
         this.issueState = issueState;
     }
+
+    public HoldRichTextEntity getDescr() {
+        return descr;
+    }
+
+    public void setDescr(HoldRichTextEntity descr) {
+        this.descr = descr;
+    }
     
     public IssueInfo toDto() {
         IssueInfo info = new IssueInfo();
@@ -141,7 +152,9 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
         }
         info.setAttributes(atts);
         
+        info.setDescr(getDescr().toDto());
+        
         return info;
     }
-
+    
 }

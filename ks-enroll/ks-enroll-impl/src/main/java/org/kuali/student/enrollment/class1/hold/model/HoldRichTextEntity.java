@@ -1,9 +1,15 @@
 package org.kuali.student.enrollment.class1.hold.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.RichTextEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
+
+@Entity
+@Table(name = "KSEN_HOLD_RICH_TEXT")
 public class HoldRichTextEntity extends RichTextEntity {
 
     public HoldRichTextEntity() {
