@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.AttributeEntity;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 
 @Entity
 @Table(name = "KSEN_RESTRICTION")
@@ -31,12 +32,9 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;   
    
-    //TODO:use common TypeEntity
-//    @ManyToOne(optional=false)
-//    @JoinColumn(name = "TYPE_ID")
-//    private TypeEntity restrictionType;
-    @Column(name = "TYPE_ID")
-    String restrictionType;
+    @ManyToOne(optional=false)
+    @JoinColumn(name = "TYPE_ID")
+    private HoldTypeEntity restrictionType;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
@@ -74,7 +72,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
     	obj.setKey(getId());
     	obj.setName(name);
         if(restrictionType != null)
-            obj.setTypeKey(restrictionType);
+            obj.setTypeKey(restrictionType.getId());
         if(restrictionState != null)
             obj.setStateKey(restrictionState.getId());
         obj.setMeta(super.toDTO());
@@ -91,11 +89,11 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
         return obj;
     }
 
-	public String getRestrictionType() {
+	public HoldTypeEntity getRestrictionType() {
 		return restrictionType;
 	}
 
-	public void setRestrictionType(String restrictionType) {
+	public void setRestrictionType(HoldTypeEntity restrictionType) {
 		this.restrictionType = restrictionType;
 	}
 

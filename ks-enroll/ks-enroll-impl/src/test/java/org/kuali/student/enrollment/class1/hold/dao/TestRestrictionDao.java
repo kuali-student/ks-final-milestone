@@ -25,7 +25,7 @@ public class TestRestrictionDao extends AbstractTransactionalDaoTest{
 			assertNotNull(obj);
 	        assertEquals("Restriction one", obj.getName()); 
 	        assertEquals(HoldServiceConstants.RESTRICTION_ACIVE_STATE_KEY, obj.getRestrictionState().getId()); 
-	        assertEquals(HoldServiceConstants.REGISTERATION_RESTRICTION_TYPE_KEY, obj.getRestrictionType()); 
+	        assertEquals(HoldServiceConstants.REGISTERATION_RESTRICTION_TYPE_KEY, obj.getRestrictionType().getId()); 
 	        assertEquals("Hold Desc 101", obj.getDescr().getPlain());  
 		}catch (Exception ex){
 			ex.printStackTrace();

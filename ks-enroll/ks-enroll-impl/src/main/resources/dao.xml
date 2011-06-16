@@ -68,7 +68,11 @@
     	<property name="em" ref="entityManager"/>
     </bean>
  
-     <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
+    <bean id="restrictionDao" class="org.kuali.student.enrollment.class1.hold.dao.RestrictionDao">
+    	<property name="em" ref="entityManager"/>
+    </bean> 
+    
+    <bean id="holdTypeDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao">
     	<property name="em" ref="entityManager"/>
     </bean>   
 </beans>
