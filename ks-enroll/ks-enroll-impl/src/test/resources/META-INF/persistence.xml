@@ -8,6 +8,8 @@
     <!-- JPA test "unit" -->
     <persistence-unit name="persistentUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        
+        <class>org.kuali.student.r2.common.model.StateEntity</class>
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
@@ -28,6 +30,11 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
+        
+        <class>org.kuali.student.r2.common.model.AttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
