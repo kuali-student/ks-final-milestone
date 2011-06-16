@@ -7,10 +7,18 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSection
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
  * This is the screen configuration and layout for the create/modify admin screens
@@ -63,16 +71,38 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         loSection.addSection(generateLearningObjectivesNestedSection());
         Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
         Section financialSection = generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY));
-                
+        
+        //Create the requisite section
+        requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
+
+        //Create the document upload section
+        documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
+        documentTool.setController(layout);
+        documentTool.setTitle(getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
+        documentTool.addStyleName(LUUIConstants.STYLE_SECTION);
+
+        //Create and add the comment tool
+        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
+        commentTool.setController(layout);        
+        layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+            
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        }));
+
+        
         //Add course admin sections to view
         view.addSection(courseSection);
         view.addSection(governanceSection);
         view.addSection(logisticsSection);
         view.addSection(loSection);
-        requisitesSection = getRequisitesSection(layout);
         view.addView(requisitesSection);
         view.addSection(activeDatesSection);
         view.addSection(financialSection);
+        view.addView(documentTool);
         
         //Add menu items for sections
         String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
@@ -84,6 +114,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), LUUIConstants.REQUISITES_LABEL_KEY, requisitesSection);
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY), LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection.getLayout());
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection.getLayout());
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY), LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY, financialSection.getLayout());        
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
@@ -98,12 +129,25 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         return view;
 	}
     
-    public CourseRequirementsViewController getRequisitesSection(CourseAdminController layout) {
-		if(requisitesSection == null){
-			requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
-		}
+    /**
+     * Gets the requisite view associated with the CourseAdminConfigurer
+     * 
+     * @param layout
+     * @return The requisite view used by this configurer
+     */
+    public CourseRequirementsViewController getRequisitesSection() {
     	return requisitesSection;
 	}
+    
+    /**
+     * Gets the Document Tool View associated with the CourseAdminConfigurer
+     * 
+     * @param layout
+     * @return The DocumentTool used by this configurer
+     */
+    public DocumentTool getDocumentTool(){
+    	return documentTool;
+    }
 
 	protected Section initSection(String labelKey){
     	return initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);	    

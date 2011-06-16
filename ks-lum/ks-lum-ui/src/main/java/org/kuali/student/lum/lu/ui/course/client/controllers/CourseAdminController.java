@@ -141,7 +141,7 @@ public class CourseAdminController extends CourseProposalController{
     	
     	//Store the rules if save was called
     	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
-    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
+    		((CourseAdminConfigurer )cfg).getRequisitesSection().storeRules(new Callback<Boolean>(){
     			public void exec(Boolean result) {
 					if(result){
 						doAdminSaveAction(saveActionEvent, state);
@@ -211,13 +211,13 @@ public class CourseAdminController extends CourseProposalController{
 				}
 	    	});
     	} else {
-    		//User clicked Save button. When user clicks save, the save action event handler simply enables
-    		//the cancel button to allow user to cancel the proposal.
+    		//User clicked Save button. When user clicks save, both document upload and cancel should be enabled
     		saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 				@Override
 				public void onActionComplete(ActionEvent action) {
 					for (KSButton cancelButton:cancelButtons){
 						cancelButton.setEnabled(true);
+						((CourseAdminConfigurer )cfg).getDocumentTool().beforeShow(NO_OP_CALLBACK);
 					}					
 				}    			
     		});

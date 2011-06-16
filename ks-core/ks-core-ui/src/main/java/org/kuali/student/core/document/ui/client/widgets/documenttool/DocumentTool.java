@@ -402,6 +402,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
 	@Override
 	protected Widget createWidget() {
+		SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+		viewTitle.addStyleName("ks-layout-header");
+		
+		layout.add(viewTitle);
 		layout.add(saveWarning);
 		saveWarning.setVisible(false);
 		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -580,4 +584,6 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 }

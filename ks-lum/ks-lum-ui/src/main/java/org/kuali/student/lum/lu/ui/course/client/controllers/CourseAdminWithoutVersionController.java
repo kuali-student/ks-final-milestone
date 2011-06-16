@@ -125,7 +125,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
     	
     	//Store the rules if save was called
     	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
-    		((CourseAdminConfigurer )cfg).getRequisitesSection(this).storeRules(new Callback<Boolean>(){
+    		((CourseAdminConfigurer )cfg).getRequisitesSection().storeRules(new Callback<Boolean>(){
     			public void exec(Boolean result) {
 					if(result){
 						CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent); 
