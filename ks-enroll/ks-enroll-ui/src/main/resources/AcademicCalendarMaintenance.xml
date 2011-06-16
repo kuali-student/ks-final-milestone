@@ -91,7 +91,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
    	<bean id="AcademicCalendarInfo-credentialProgramTypeKey" parent="AcademicCalendarInfo-credentialProgramTypeKey-parent"/>
     <bean id="AcademicCalendarInfo-credentialProgramTypeKey-parent" abstract="true" parent="AttributeDefinition">
         <property name="name" value="credentialProgramTypeKey"/>
-        <property name="label" value="Credential Program Type Key"/>
+        <property name="label" value="Credential Program"/>
         <property name="required" value="true"/>
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
