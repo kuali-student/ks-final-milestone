@@ -2895,32 +2895,6 @@
  <bean id="programRequirementInfo.descr-parent" abstract="true" parent="cluInfo.descr-parent">
   <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="programRequirementInfo.descr.RichTextInfo" />
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>APPROVED</value>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluInfo.descr-parent">
-         <property name="minOccurs" value="1" />
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
  </bean>
  <bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
 
