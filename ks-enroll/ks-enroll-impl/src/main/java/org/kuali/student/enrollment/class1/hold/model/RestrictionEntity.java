@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.AttributeEntity;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 
 @Entity
 @Table(name = "KSEN_RESTRICTION")
@@ -30,7 +29,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
-    private AtpRichTextEntity descr;   
+    private HoldRichTextEntity descr;   
    
     @ManyToOne(optional=false)
     @JoinColumn(name = "TYPE_ID")
@@ -52,7 +51,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 	        this.setName(restriction.getName());
 	        
 	        if(restriction.getDescr() != null) {
-	            this.setDescr(new AtpRichTextEntity(restriction.getDescr()));
+	            this.setDescr(new HoldRichTextEntity(restriction.getDescr()));
 	        }
 	        this.setAttributes(new ArrayList<AttributeEntity>());
 	        if (null != restriction.getAttributes()) {
@@ -104,11 +103,11 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 		this.name = name;
 	}
 
-	public AtpRichTextEntity getDescr() {
+	public HoldRichTextEntity getDescr() {
 		return descr;
 	}
 
-	public void setDescr(AtpRichTextEntity descr) {
+	public void setDescr(HoldRichTextEntity descr) {
 		this.descr = descr;
 	}
 

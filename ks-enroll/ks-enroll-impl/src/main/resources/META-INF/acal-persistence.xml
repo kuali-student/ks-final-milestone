@@ -39,6 +39,7 @@
         <class>org.kuali.student.r2.common.model.AttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>

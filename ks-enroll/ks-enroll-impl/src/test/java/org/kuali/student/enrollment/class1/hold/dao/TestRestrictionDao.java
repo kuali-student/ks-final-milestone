@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
@@ -37,7 +38,7 @@ public class TestRestrictionDao extends AbstractTransactionalDaoTest{
 	        
 			RestrictionEntity obj = new RestrictionEntity();
 			obj.setName("Restriction Test");
-			obj.setDescr(new AtpRichTextEntity("plain", "formatted"));
+			obj.setDescr(new HoldRichTextEntity("plain", "formatted"));
 			obj.setRestrictionState(existingEntity.getRestrictionState());
 			obj.setRestrictionType(existingEntity.getRestrictionType());
 	        dao.persist(obj);
@@ -56,7 +57,7 @@ public class TestRestrictionDao extends AbstractTransactionalDaoTest{
 			RestrictionEntity existingEntity = dao.find("Hold-Restriction-1");
 	       
 			existingEntity.setName("Restriction Updated");
-			existingEntity.setDescr(new AtpRichTextEntity("plain", "formatted"));
+			existingEntity.setDescr(new HoldRichTextEntity("plain", "formatted"));
 	        dao.merge(existingEntity);
 
 	        RestrictionEntity obj2 = dao.find(existingEntity.getId());
