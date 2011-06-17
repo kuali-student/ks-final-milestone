@@ -18,7 +18,7 @@ import org.kuali.student.common.entity.KSEntityConstants;
 @AttributeOverrides({
 @AttributeOverride(name="id", column=@Column(name="TYPE_KEY"))})
 @Table(name = "KSLP_LPR_TYPE")
-public class BaseTypeEntity extends BaseEntity {
+public class BaseTypeEntity extends BaseVersionEntity {
 	@Column(name = "NAME")
 	private String name;
 	

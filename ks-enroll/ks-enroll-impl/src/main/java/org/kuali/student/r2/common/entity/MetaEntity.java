@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.Meta;
 
 @MappedSuperclass
 @Embeddable
-public abstract class MetaEntity extends BaseEntity{
+public abstract class MetaEntity extends BaseVersionEntity{
 	
 	// Hibernate will not allow @Version in @Embeddable for some annoying reason
 //	@Version

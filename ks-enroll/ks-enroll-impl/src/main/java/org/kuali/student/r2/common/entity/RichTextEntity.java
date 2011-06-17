@@ -10,7 +10,7 @@ import org.kuali.student.common.entity.KSEntityConstants;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RichTextEntity extends BaseEntity{
+public class RichTextEntity extends BaseVersionEntity{
     @Column(name = "PLAIN",length=KSEntityConstants.LONG_TEXT_LENGTH)
     private String plain;
     

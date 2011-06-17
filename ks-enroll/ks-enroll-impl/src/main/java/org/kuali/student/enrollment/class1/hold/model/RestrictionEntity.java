@@ -58,7 +58,6 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 	        if (null != restriction.getAttributes()) {
 	            for (Attribute att : restriction.getAttributes()) {
 	            	AttributeEntity attEntity = new AttributeEntity(att);
-	            	attEntity.setVersionNumber((long) 0);
 	                this.getAttributes().add(attEntity);
 	            }
 	        }

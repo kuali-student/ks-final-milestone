@@ -92,7 +92,6 @@ public class StateProcessEntity extends MetaEntity{
 			if(null != process.getAttributes()){
 				for (Attribute att : process.getAttributes()) {
 					AttributeEntity attEntity = new AttributeEntity(att);
-		        	attEntity.setVersionNumber((long) 0);
 		            this.getAttributes().add(attEntity);
 		        }				
 			}

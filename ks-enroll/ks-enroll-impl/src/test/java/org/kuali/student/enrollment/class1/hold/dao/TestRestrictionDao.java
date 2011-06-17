@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.hold.dao;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 //@Ignore
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
