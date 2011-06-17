@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,7 +42,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-
 
 public class ResultsReportTest {
     
@@ -120,6 +120,10 @@ public class ResultsReportTest {
         
         System.out.println("Results for Student 1, agenda 1");
         printEngineResults(results1);
+        System.out.println("Terms for Engine Results: ");
+        printPropositionTermsForEngineResults(results1);
+        System.out.println("Statement Proposition for Student 1, agenda 1");
+        printStatementPropositionMap();
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
@@ -141,8 +145,7 @@ public class ResultsReportTest {
         
         
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
-        
-        
+
        
         System.out.println("Results for Student 2, agenda 1");
         printEngineResults(results1);
@@ -215,7 +218,11 @@ public class ResultsReportTest {
     }
         
     private void printEngineResults(EngineResults results) {
-        for(ResultEvent result : results.getAllResults()) {
+        
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    	for(ResultEvent result : results.getAllResults()) {
             System.out.println("Result Type: " + result.getType());
             System.out.println("Source object is of type: " + result.getSource().getClass().toString());
             System.out.println("Result Time Stamp: " + result.getTimestamp());
@@ -229,17 +236,43 @@ public class ResultsReportTest {
     
     private void printStatementPropositionMap() {
     	
-    	System.out.println("*** Number of Mappings: " + statementTranslator.getStatementPropositionMap().size());
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    	System.out.println("Number of Statement To Proposition Mappings: " + statementTranslator.getStatementPropositionMap().size());
     	
     	for (Map.Entry<StatementTreeViewInfo, Proposition> entry : statementTranslator.getStatementPropositionMap().entrySet()) {
     	    StatementTreeViewInfo statementTreeViewInfo = entry.getKey();
-    	    Proposition value = entry.getValue();
+    	    Proposition proposition = entry.getValue();
     	
-    	    System.out.println("Size: " + statementTreeViewInfo.getReqComponents().size());
+    	    System.out.println("Statement: " + statementTreeViewInfo + " Proposition: " + proposition); 
+    	}
+    	
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    }
+    
+    private void printPropositionTermsForEngineResults(EngineResults results) {
+    	    	
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    	System.out.println("Number Of Proposition to Term Mappings: " + results.getTermPropositionMap().size());
+    	
+    	for (Map.Entry<Object, Set<Term>> entry : results.getTermPropositionMap().entrySet()) {
+    	    Proposition proposition = (Proposition)entry.getKey();
+    	    
+    	    System.out.println("Proposition: " + proposition);
+    	    
+    	    for(Term term : results.getTermPropositionMap().get(proposition)) {
+    	    	System.out.println("Term: " + term);
+    	    }
     	
     	}
     	
-    	    	
+        System.out.println("---------------------------");
+        System.out.println();
     	
     }
     
