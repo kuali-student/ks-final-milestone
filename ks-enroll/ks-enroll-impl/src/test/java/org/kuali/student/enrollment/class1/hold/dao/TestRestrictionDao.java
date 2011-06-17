@@ -10,11 +10,11 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
+
 //@Ignore
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestRestrictionDao extends AbstractTransactionalDaoTest{
-	@Dao(value = "org.kuali.student.enrollment.class1.hold.dao.RestrictionDao", testSqlFile = "classpath:ks-atp.sql")
+	@Dao(value = "org.kuali.student.enrollment.class1.hold.dao.RestrictionDao", testSqlFile = "classpath:ks-hold.sql")
 	private RestrictionDao dao;
 	
 	@Test
