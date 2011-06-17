@@ -58,6 +58,8 @@ INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hol
 INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.restriction.type.bursar.refund', 'Bursar Refund', 'Stops a student from receiving a refund even if they have a creadit balance', 0)
 INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.restriction.type.verification', 'Verification', 'Blocks a student from having a request to verify her attendance or degrees processed', 0)
 INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.restriction.type.status', 'Status', 'Student is not allowed to register, be on campus, or use any campus facilities or resources', 0)
+INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.issue.type.residency', 'Residency', 'Indicates there is a discrepancy or incomplete information to establish residency status', 0)
+INSERT INTO KSEN_HOLD_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.hold.issue.type.unpaid.fee', 'Unpaid fees', 'Indicates that this issue has to do with fees that were incurred but never paid', 0)
 
 //RestrictionEntity
 INSERT INTO KSEN_RESTRICTION (ID, NAME, TYPE_ID, STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('Hold-Restriction-1', 'Restriction one', 'kuali.hold.restriction.type.registration', 'kuali.hold.restriction.state.active', 'RICHTEXT-Hold-101', 0)
