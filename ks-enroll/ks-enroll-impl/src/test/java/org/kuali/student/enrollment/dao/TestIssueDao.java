@@ -3,6 +3,9 @@ package org.kuali.student.enrollment.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -64,6 +67,16 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
         dao.remove(obj);
         IssueEntity old = dao.find("Hold-Issue-2");
         assertNull(old);
+    }
+    
+    @Test
+    public void testGetByOrgId() {
+        List<IssueEntity> result = dao.getByOrganizationId("1");
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        
+        List<IssueEntity> emptyResults = dao.getByOrganizationId("3");
+        assertTrue(emptyResults == null || emptyResults.isEmpty());
     }
 
 }
