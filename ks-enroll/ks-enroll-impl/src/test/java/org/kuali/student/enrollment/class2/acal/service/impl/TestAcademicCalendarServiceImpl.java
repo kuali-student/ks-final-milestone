@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -565,15 +564,14 @@ public class TestAcademicCalendarServiceImpl{
         
     }
     
-    @Ignore
     @Test
     public void testGetTermTypesForTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO
-        List<TypeInfo> results = acalServiceValidation.getTermTypesForTermType("test", callContext);
+        List<TypeInfo> results = acalServiceValidation.getTermTypesForTermType(AtpServiceConstants.ATP_SPRING_TYPE_KEY, callContext);
         
         assertNotNull(results);
         List<String> expectedIds = new ArrayList<String>(2);
-        expectedIds.addAll(Arrays.asList("id1", "id2"));
+        expectedIds.addAll(Arrays.asList(AtpServiceConstants.ATP_HALF_SPRING_1_TYPE_KEY, AtpServiceConstants.ATP_HALF_SPRING_2_TYPE_KEY, AtpServiceConstants.ATP_SPRING_BREAK_TYPE_KEY));
         
         // check that all the expected ids came back
         for(TypeInfo info : results) {
@@ -591,7 +589,7 @@ public class TestAcademicCalendarServiceImpl{
             assertNull(fakeTypes);
         }
         
-        List<TypeInfo> expectedEmpty = acalServiceValidation.getTermTypesForTermType("expectedEmptyAcalType", callContext);
+        List<TypeInfo> expectedEmpty = acalServiceValidation.getTermTypesForTermType(AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY, callContext);
         
         assertTrue(expectedEmpty == null || expectedEmpty.isEmpty());
     }
@@ -674,7 +672,6 @@ public class TestAcademicCalendarServiceImpl{
             assertNull(fakeTerm);
         }
         
-        // TODO get a real id
         TermInfo existing = acalServiceValidation.getTerm("termRelationTestingTerm3", callContext);
         String updatedName = "updated " + existing.getName();
         
