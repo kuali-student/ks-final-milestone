@@ -33,11 +33,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
     @JoinColumn(name = "RT_DESCR_ID")
     private HoldRichTextEntity descr;   
    
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=false)
     @JoinColumn(name = "TYPE_ID")
     private HoldTypeEntity holdType;
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
     private StateEntity holdState;
  
@@ -55,7 +55,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
     @Column(name="IS_OVERRIDABLE")
     private boolean isOverridable;
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=false)
     @JoinColumn(name = "ISSUE_ID")
     private IssueEntity issue;
     
