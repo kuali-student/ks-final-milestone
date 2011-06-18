@@ -5,8 +5,8 @@ INSERT INTO KSEN_HOLD_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT
 INSERT INTO KSEN_HOLD_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-Hold-201', '<p>Hold Desc for deletion test</p>', 'Hold Desc for deletion test',0)
 INSERT INTO KSEN_HOLD_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-Hold-301', '<p>Hold Desc student</p>', 'Hold Desc student',0)
 INSERT INTO KSEN_HOLD_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-Hold-401', '<p>Hold Desc instructor</p>', 'Hold Desc instructor',0)
-/
-/StateProcessEntity
+
+//StateProcessEntity
 INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.atp.process', 'kuali.atp.process', 'kuali atp state process', 0)
 INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.milestone.process', 'kuali.milestone.process', 'kuali milestone state process', 0)
 INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.atp.atp.relation.process', 'kuali.atp.atp.relation.process', 'kuali atp-atp relation state process', 0)
