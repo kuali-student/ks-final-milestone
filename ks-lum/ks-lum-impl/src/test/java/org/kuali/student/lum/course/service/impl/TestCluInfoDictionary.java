@@ -102,7 +102,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (5, validationResults.size ());
+  assertEquals (6, validationResults.size ());
 
   // test that we can put completely blank timeAmountInfo structures
   info.setIntensity (new AmountInfo ());

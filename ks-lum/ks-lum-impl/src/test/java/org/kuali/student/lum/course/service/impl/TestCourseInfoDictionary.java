@@ -33,6 +33,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
 import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
 import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
+import org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.springframework.context.ApplicationContext;
@@ -78,6 +79,7 @@ public class TestCourseInfoDictionary {
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
+		vList.add(new SubjectAreaUnitOwnerValidator());
 		vList.add(getActiveDatesValidator());
 		vf.setValidatorList(vList);
 		
