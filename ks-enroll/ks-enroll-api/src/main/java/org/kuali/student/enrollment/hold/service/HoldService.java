@@ -44,7 +44,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
 /**
- * Version: DRAFT - NOT READY FOR RELEASE.
+ * Version: DRAFT - NOT READY FOR RELEASE. 
  *
  * The Hold Service defines a service to manage Restrictions on a
  * Person by Person basis. Restrictions are a way to put a "stop" on
