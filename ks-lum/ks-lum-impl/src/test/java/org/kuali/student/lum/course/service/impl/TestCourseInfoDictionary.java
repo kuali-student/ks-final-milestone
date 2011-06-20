@@ -157,7 +157,7 @@ public class TestCourseInfoDictionary {
 ///descr validation.required
 ///finalExamStatus validation.validCharsFailed
 ///finalExamRationale validation.required
-		assertEquals(5, validationResults.size());
+		assertEquals(7, validationResults.size());
 
 		
 		// Test custom validation 
