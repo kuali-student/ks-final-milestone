@@ -156,22 +156,27 @@ public class DependencyAnalysisView extends ViewComposite{
                 KSSuggestBox suggestBox = (KSSuggestBox)triggerPicker.getInputWidget();
                 IdableSuggestion selectedSuggestion = suggestBox.getCurrentSuggestion();
                 
-                selectedCourseName = selectedSuggestion.getAttrMap().get("lu.resultColumn.luOptionalLongName");
-                if (!selectedCourseId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
-    				KSBlockingProgressIndicator.addTask(loadDataTask);
-                	selectedCourseCd = triggerPicker.getDisplayValue();                
-	                if (depResultPanel != null){
-	                	resultContainer.remove(depResultPanel);
+                // We need to make sure we only search for courses that have been selected from the suggest box
+                if(selectedSuggestion != null && selectedSuggestion.getReplacementString().equalsIgnoreCase(suggestBox.getText())){
+	                selectedCourseName = selectedSuggestion.getAttrMap().get("lu.resultColumn.luOptionalLongName");
+	                if (!selectedCourseId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)){
+	    				KSBlockingProgressIndicator.addTask(loadDataTask);
+	                	selectedCourseCd = triggerPicker.getDisplayValue();                
+		                if (depResultPanel != null){
+		                	resultContainer.remove(depResultPanel);
+		                }
+		                depResultPanel = new DependencyResultPanel();
+		                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
+		                resultContainer.add(depResultPanel);
+		                resultContainer.setVisible(true);
+		                updateDependencyResults();
+		                
+		                ((DependencyAnalysisController) DependencyAnalysisView.this.getController()).showExport(isExportButtonActive());
+		                header.showPrint(true);
+		                header.setPrintContent(depResultPanel); // we only want to print the results panel
 	                }
-	                depResultPanel = new DependencyResultPanel();
-	                depResultPanel.setHeaderTitle(selectedCourseCd + " - " + selectedCourseName);		
-	                resultContainer.add(depResultPanel);
-	                resultContainer.setVisible(true);
-	                updateDependencyResults();
+	                
                 }
-                ((DependencyAnalysisController) DependencyAnalysisView.this.getController()).showExport(isExportButtonActive());
-                header.showPrint(true);
-                header.setPrintContent(depResultPanel); // we only want to print the results panel
 			}
 			
 		});
