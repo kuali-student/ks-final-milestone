@@ -45,8 +45,10 @@ public class StatementServiceTranslationTest {
     
     private LrcService lrcService;
     
-    private Map<StatementTreeViewInfo, Proposition> statementPropositionMap = new HashMap<StatementTreeViewInfo, Proposition>();
-
+    private List<Proposition> propositions = new ArrayList<Proposition>();
+    private Map<Proposition, StatementTreeViewInfo> statementPropositionMap = new HashMap<Proposition, StatementTreeViewInfo>();
+    private Map<Proposition, ReqComponentInfo> reqComponentPropositionMap = new HashMap<Proposition, ReqComponentInfo>();
+    
     //private ApplicationContext appContext;
     
     private static final List<String> validRequirementComponentTypes;
@@ -146,7 +148,8 @@ public class StatementServiceTranslationTest {
                 
         Proposition rootProposition = buildPropositionFromComponents(statementTreeView);
         
-        statementPropositionMap.put(statementTreeView, rootProposition);
+        propositions.add(rootProposition);
+        statementPropositionMap.put(rootProposition, statementTreeView);
         
         Rule rule = new BasicRule(rootProposition, null);
         
@@ -163,18 +166,7 @@ public class StatementServiceTranslationTest {
         
     }
 
-    
-    /**
-     * 
-     * 
-     * Results Aggregation Collection Point
-     * 
-     * This is where we would need to keep a mapping between the propositions and the statement tree
-     * 
-     * 
-     * 
-     */
-    
+        
     private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
         if(statementTreeView.getType().equals(COREQUISITE_STATMENT_TYPE)) {
             if(statementTreeView.getStatements().isEmpty()) {
@@ -200,17 +192,6 @@ public class StatementServiceTranslationTest {
     }
     
     
-    /**
-     * 
-     * 
-     * Results Aggregation Collection Point
-     * 
-     * This is where we would need to keep a mapping between the propositions and the requirement components
-     * 
-     * 
-     * 
-     */
-
     private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
         
         ReqComponentInfo req1 = null, req2 = null;
@@ -222,13 +203,18 @@ public class StatementServiceTranslationTest {
         req1 = reqComponents.get(0);
         Proposition prop1 = buildPropositionForRequirementComponent(req1);
         
-        System.out.println("req1: " + req1 + " prop1 " + prop1);
-        
+        propositions.add(prop1);
+        reqComponentPropositionMap.put(prop1, req1);
+
         
         Proposition prop2 = null;
         if(reqComponents.size() == 2) {
             req2 = reqComponents.get(1);
             prop2 = buildPropositionForRequirementComponent(req2);
+            
+            propositions.add(prop2);
+            reqComponentPropositionMap.put(prop2, req2);
+
         }
         
         if(prop2 == null) {
@@ -434,9 +420,14 @@ public class StatementServiceTranslationTest {
         return result;
     }
 
-    
-    public Map<StatementTreeViewInfo, Proposition> getStatementPropositionMap() {
+    public List<Proposition> getPropositions() {
+    	return propositions;
+    }
+    public Map<Proposition, StatementTreeViewInfo> getStatementPropositionMap() {
     	return statementPropositionMap;
     }
     
+    public Map<Proposition, ReqComponentInfo> getReqComponentPropositionMap() {
+    	return reqComponentPropositionMap;
+    }    
 }

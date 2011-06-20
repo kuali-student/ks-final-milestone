@@ -122,18 +122,20 @@ public class ResultsReportTest {
         printEngineResults(results1);
         System.out.println("Terms for Engine Results: ");
         printPropositionTermsForEngineResults(results1);
-        System.out.println("Statement Proposition for Student 1, agenda 1");
-        printStatementPropositionMap();
+        printPropositions();
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 2");
         printEngineResults(results2);
+        printPropositions();
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 3");
         printEngineResults(results3);
+        printPropositions();
+
         
     }
 
@@ -143,22 +145,25 @@ public class ResultsReportTest {
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
         
-        
-        EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
-
-       
+        EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);       
         System.out.println("Results for Student 2, agenda 1");
         printEngineResults(results1);
+        printPropositions();
+
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 2, agenda 2");
         printEngineResults(results2);
+        printPropositions();
+
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 2, agenda 3");
         printEngineResults(results3);
+        printPropositions();
+
         
     }
     
@@ -175,17 +180,22 @@ public class ResultsReportTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 1");
         printEngineResults(results1);
-        printStatementPropositionMap();
+        printPropositions();
+
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 2");
         printEngineResults(results2);
+        printPropositions();
+
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 3");
         printEngineResults(results3);
+        printPropositions();
+
         
         // revert permission propositions
         OrgPermissionProposition.setHasPermission(true);
@@ -233,13 +243,13 @@ public class ResultsReportTest {
         System.out.println();
     }
     
-    
-    private void printStatementPropositionMap() {
+    /*
+    private void printPropositionStatementMap() {
     	
         System.out.println("---------------------------");
         System.out.println();
     	
-    	System.out.println("Number of Statement To Proposition Mappings: " + statementTranslator.getStatementPropositionMap().size());
+    	System.out.println("Number of Proposition to Statement Mappings: " + statementTranslator.getStatementPropositionMap().size());
     	
     	for (Map.Entry<StatementTreeViewInfo, Proposition> entry : statementTranslator.getStatementPropositionMap().entrySet()) {
     	    StatementTreeViewInfo statementTreeViewInfo = entry.getKey();
@@ -250,6 +260,25 @@ public class ResultsReportTest {
     	
         System.out.println("---------------------------");
         System.out.println();
+    	
+    }
+    */
+    
+    private void printPropositions() {
+    	
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    	System.out.println("Number of Propositions: " + statementTranslator.getPropositions().size());
+    	
+    	for(Proposition proposition : statementTranslator.getPropositions()) {
+    		
+    		System.out.println("Proposition: " + proposition);
+    		System.out.println("--- Statement: " + statementTranslator.getStatementPropositionMap().get(proposition));
+    		System.out.println("--- Req Component: " + statementTranslator.getReqComponentPropositionMap().get(proposition));
+    		
+    		
+    	}
     	
     }
     
