@@ -20,6 +20,8 @@
   <strong>KS Enroll</strong>
   <ul class="chan">
     <li><portal:portalLink displayTitle="true" title="Academic Calendar Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
+    <li><portal:portalLink displayTitle="true" title="Manage Hold Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.hold.dto.HoldInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
+    
 	<li><portal:portalLink displayTitle="true" title="Academic Calendar" url="${ConfigProperties.application.url}/spring/acal?viewId=AcademicCalendarView&methodToCall=start" /></li>
     <li><portal:portalLink displayTitle="true" title="Academic Calendar Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 <!-- 
