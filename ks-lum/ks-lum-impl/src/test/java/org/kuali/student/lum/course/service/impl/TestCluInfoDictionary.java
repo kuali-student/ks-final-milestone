@@ -123,7 +123,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (6, validationResults.size ());
+  assertEquals (8, validationResults.size ());
 
 
  }
