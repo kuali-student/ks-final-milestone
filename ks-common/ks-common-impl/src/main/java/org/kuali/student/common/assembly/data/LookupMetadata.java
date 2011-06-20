@@ -29,7 +29,7 @@ public class LookupMetadata implements Serializable {
     private String name;			//name of this search
     private String desc;
     private String title;   		//advanced search window title
-
+    
     private List<LookupParamMetadata> params;
     
     private List<LookupResultMetadata> results;
@@ -43,6 +43,8 @@ public class LookupMetadata implements Serializable {
     private String resultDisplayKey;
     
     private String resultSortKey;
+    
+    private Integer minQuerySize;     //min size of request query before starting search
 
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
@@ -201,6 +203,14 @@ public class LookupMetadata implements Serializable {
 	public void setWidget(Widget widget) {
 		this.widget = widget;
 	}
+	
+	public Integer getMinQuerySize() {
+        return minQuerySize;
+    }
+
+    public void setMinQuerySize(Integer minQuerySize) {
+        this.minQuerySize = minQuerySize;
+    }
 
     public String toString(){
         StringBuffer sb = new StringBuffer();
