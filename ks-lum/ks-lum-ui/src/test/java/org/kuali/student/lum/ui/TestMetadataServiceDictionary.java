@@ -165,21 +165,9 @@ public class TestMetadataServiceDictionary {
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.statement.statements.*.statements.*.statements.* is of type DATA but it has no properties
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 
-			// These 8 are caused by reusing search params external to the search config file in cross searches. 
-			// Need to update dictionary to allow for reuse of external params
 			
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalCode that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalDivision that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalLevel that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalState that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byCourse that has a parameter lu.queryParam.luOptionalType that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalLongName that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalState that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//error: org.kuali.student.lum.course.dto.CourseInfo.courseSpecificLOs.*.loInfo.desc has an additional lookup : kuali.lu.lookup.advanced.learningObjectives.byProgram that has a parameter lu.queryParam.luOptionalType that does not exist in the underlying search lo.search.loByCategoryCluCrossSearch
-			//Also 16 similar ones for major discipline and variation lo search.
-			
-			// 30 errors found when validating metadata
-			if (errors.size() != 30) {
+			// 28 errors found when validating metadata
+			if (errors.size() != 28) {
 				fail(errors.size() + " errors found when validating metadata");
 			}
 		}

@@ -41,35 +41,33 @@ public class MetadataServiceDictionaryValidator {
 
 	private Map<String, SearchTypeInfo> searchInfoTypeMap = null;
 
+	@SuppressWarnings("unchecked")
 	private Map<String, SearchTypeInfo> getSearchInfoTypeMap() {
 		if (this.searchInfoTypeMap != null) {
 			return this.searchInfoTypeMap;
 		}
-		String[] searchConfigFiles = { "lu", "lo", "lrc", "proposal",
-				"organization", "atp", "em" };
+		String[] searchConfigFiles = { "lu", "lo", "lrc", "proposal", "organization", "atp", "em" };
+		
 		for (int i = 0; i < searchConfigFiles.length; i++) {
 			System.out.println("loading search configurations for "
 					+ searchConfigFiles[i]);
-			ApplicationContext ac = new ClassPathXmlApplicationContext(
-					"classpath:" + searchConfigFiles[i] + "-search-config.xml");
+			ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + searchConfigFiles[i] + "-search-config.xml");
 			if (searchInfoTypeMap == null) {
 				searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
 			} else {
-				searchInfoTypeMap.putAll(ac
-						.getBeansOfType(SearchTypeInfo.class));
+				searchInfoTypeMap.putAll(ac.getBeansOfType(SearchTypeInfo.class));
 			}
 		}
-		SearchTypeInfo personSearchType = new QuickViewByGivenNameSearchTypeCreator()
-				.get();
+		
+		SearchTypeInfo personSearchType = new QuickViewByGivenNameSearchTypeCreator().get();
 		searchInfoTypeMap.put(personSearchType.getKey(), personSearchType);
 
 		return searchInfoTypeMap;
 	}
 
 	public List<String> validateMetadata(Metadata md, String name, String type) {
-		List<String> errors = new ArrayList();
-		if (md.getInitialLookup() != null
-				&& md.getInitialLookup().getSearchTypeId() != null) {
+		List<String> errors = new ArrayList<String>();
+		if (md.getInitialLookup() != null && md.getInitialLookup().getSearchTypeId() != null) {
 			errors.addAll(validateLookup(md.getInitialLookup(), name, type,
 					"initial"));
 		}
@@ -165,22 +163,24 @@ public class MetadataServiceDictionaryValidator {
 		// check params
 		for (LookupParamMetadata param : lookup.getParams()) {
 			QueryParamInfo qp = findQueryParam(st, param.getKey());
-			if (qp == null) {
+			if (qp == null && !(st instanceof CrossSearchTypeInfo)) {				
+				//Report error for missing query param def, but not for cross searches 
+				//since cross search params may not be defined in same config file
 				errors.add(buildErrorPrefix3(lookup, name, type, lookupType)
 						+ " that has a parameter " + param.getKey()
 						+ " that does not exist in the underlying search "
 						+ lookup.getSearchTypeId());
 				continue;
 			}
-			if (!dataTypeMatches(qp.getFieldDescriptor().getDataType(), param
-					.getDataType())) {
-				errors
-						.add(buildErrorPrefix3(lookup, name, type, lookupType)
-								+ " that has a parameter "
-								+ param.getKey()
-								+ " that who's datatype does not match the underlying parameter "
-								+ qp.getFieldDescriptor().getDataType()
-								+ " vs. " + param.getDataType());
+			
+			if (qp != null && !dataTypeMatches(qp.getFieldDescriptor().getDataType(), param.getDataType())) {
+				//Verify parameter data type
+				errors.add(buildErrorPrefix3(lookup, name, type, lookupType)
+						+ " that has a parameter "
+						+ param.getKey()
+						+ " who's datatype does not match the underlying parameter "
+						+ qp.getFieldDescriptor().getDataType()
+						+ " vs. " + param.getDataType());
 				continue;
 			}
 		}
@@ -199,7 +199,7 @@ public class MetadataServiceDictionaryValidator {
 						.add(buildErrorPrefix3(lookup, name, type, lookupType)
 								+ " that has a result column "
 								+ result.getKey()
-								+ " that who's datatype does not match the underlying result column "
+								+ " who's datatype does not match the underlying result column "
 								+ rc.getDataType() + " vs. "
 								+ result.getDataType());
 				continue;
