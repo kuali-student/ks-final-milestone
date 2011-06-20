@@ -75,11 +75,15 @@ public class TestCourseInfoDictionary {
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
+		SubjectAreaUnitOwnerValidator saVal = new SubjectAreaUnitOwnerValidator();
+		
 		List<Validator> vList = new ArrayList<Validator>();
+		
+		saVal.setSearchDispatcher(new MockSearchDispatcher());
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
-		vList.add(new SubjectAreaUnitOwnerValidator());
+		vList.add(saVal);
 		vList.add(getActiveDatesValidator());
 		vf.setValidatorList(vList);
 		

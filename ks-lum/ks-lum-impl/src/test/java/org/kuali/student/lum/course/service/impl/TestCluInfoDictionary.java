@@ -112,7 +112,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (5, validationResults.size ());
+  assertEquals (6, validationResults.size ());
 
   // test the requires constraint
   // that requires a unity if we have a unitQuantity
