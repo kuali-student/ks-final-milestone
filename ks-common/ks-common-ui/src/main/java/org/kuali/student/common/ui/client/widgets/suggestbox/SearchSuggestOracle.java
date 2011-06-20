@@ -131,7 +131,13 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     
     @Override
     public void requestSuggestions(Request request, Callback callback) {
-        if (currentCallback == null) {
+        // Check if the request query is smaller than the minimum size allowed
+        String query = request.getQuery().trim();
+        int minQuerySize = 0;
+        if (lookupMetaData.getMinQuerySize() != null){
+            minQuerySize = lookupMetaData.getMinQuerySize().intValue();
+        }
+        if ((currentCallback == null) && (query.length() >= minQuerySize)){
           final int x = ((Widget)this.textWidget).getAbsoluteLeft() + ((Widget)this.textWidget).getOffsetWidth();
   		  final int y = ((Widget)this.textWidget).getAbsoluteTop() + ((Widget)this.textWidget).getOffsetHeight();
   		  loading.setPopupPositionAndShow(new PositionCallback(){
