@@ -121,20 +121,19 @@ public class ResultsReportTest {
         System.out.println("Results for Student 1, agenda 1");
         printEngineResults(results1);
         System.out.println("Terms for Engine Results: ");
-        printPropositionTermsForEngineResults(results1);
-        printPropositions();
+        printPropositions(results1);
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 2");
         printEngineResults(results2);
-        printPropositions();
+        printPropositions(results2);
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 3");
         printEngineResults(results3);
-        printPropositions();
+        printPropositions(results3);
 
         
     }
@@ -148,21 +147,21 @@ public class ResultsReportTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);       
         System.out.println("Results for Student 2, agenda 1");
         printEngineResults(results1);
-        printPropositions();
+        printPropositions(results1);
 
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 2, agenda 2");
         printEngineResults(results2);
-        printPropositions();
+        printPropositions(results2);
 
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 2, agenda 3");
         printEngineResults(results3);
-        printPropositions();
+        printPropositions(results3);
 
         
     }
@@ -180,21 +179,21 @@ public class ResultsReportTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 1");
         printEngineResults(results1);
-        printPropositions();
+        printPropositions(results1);
 
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 2");
         printEngineResults(results2);
-        printPropositions();
+        printPropositions(results2);
 
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 3, agenda 3");
         printEngineResults(results3);
-        printPropositions();
+        printPropositions(results3);
 
         
         // revert permission propositions
@@ -264,7 +263,7 @@ public class ResultsReportTest {
     }
     */
     
-    private void printPropositions() {
+    private void printPropositions(EngineResults results) {
     	
         System.out.println("---------------------------");
         System.out.println();
@@ -276,34 +275,61 @@ public class ResultsReportTest {
     		System.out.println("Proposition: " + proposition);
     		System.out.println("--- Statement: " + statementTranslator.getStatementPropositionMap().get(proposition));
     		System.out.println("--- Req Component: " + statementTranslator.getReqComponentPropositionMap().get(proposition));
+    	
+    		System.out.println("--- Terms: ");
     		
+    		if(results.getTermPropositionMap() == null) {
+    			System.out.println("no terms associated with " + proposition);
+    		} else {
+    			
+    			Set<Term> terms = results.getTermPropositionMap().get(proposition);
+    		
+    			if(terms == null) {
+    				System.out.println("no terms associated with " + proposition);
+    			} else {
+    			
+	    			for(Term term : terms) {
+	    				System.out.println("--- --- Term: " + term);
+	    			}
+    			
+    			}
+    			
+    		}
     		
     	}
     	
     }
     
-    private void printPropositionTermsForEngineResults(EngineResults results) {
+    /*
+    private void printPropositionTermsForEngineResults(EngineResults results, Proposition proposition) {
     	    	
         System.out.println("---------------------------");
         System.out.println();
     	
-    	System.out.println("Number Of Proposition to Term Mappings: " + results.getTermPropositionMap().size());
+        if(results.getTermPropositionMap() == null) {
+        	System.out.println("No proposition-term mappings exist for this test");
+        } else {
+        
+	    	System.out.println("Number Of Proposition to Term Mappings: " + results.getTermPropositionMap().size());
+	    	
+	    	for (Map.Entry<Object, Set<Term>> entry : results.getTermPropositionMap().entrySet()) {
+	    	    Proposition proposition = (Proposition)entry.getKey();
+	    	    
+	    	    System.out.println("Proposition: " + proposition);
+	    	    
+	    	    for(Term term : results.getTermPropositionMap().get(proposition)) {
+	    	    	System.out.println("Term: " + term);
+	    	    }
+	    	
+	    	}
     	
-    	for (Map.Entry<Object, Set<Term>> entry : results.getTermPropositionMap().entrySet()) {
-    	    Proposition proposition = (Proposition)entry.getKey();
-    	    
-    	    System.out.println("Proposition: " + proposition);
-    	    
-    	    for(Term term : results.getTermPropositionMap().get(proposition)) {
-    	    	System.out.println("Term: " + term);
-    	    }
-    	
-    	}
+        }
     	
         System.out.println("---------------------------");
         System.out.println();
     	
     }
+    */
     
 
   
