@@ -121,7 +121,12 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		//Get easy access to params
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		for(SearchParam param:searchRequest.getParams()){
-			paramMap.put(param.getKey(), param.getValue());
+			if("subjectCode.queryParam.code".equals(param.getKey()) && param.getValue() != null){
+				// Note: this is a hack because of a bug in rice: KSLAB-2050
+				paramMap.put(param.getKey(), ((String)param.getValue()).toUpperCase());
+			}else{
+				paramMap.put(param.getKey(), param.getValue());
+			}
 		}
 		
 		SearchResult searchResult = null;
