@@ -33,6 +33,8 @@ public class UILookupData extends CommonLookup{
 	    private String resultDisplayKey;
 	    
 	    private String resultSortKey;
+	    
+	    private Integer minQuerySize; //minimum size of query before initiating search.
 
 	    // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 		// and custom screens of the advanced search lightbox
@@ -163,8 +165,16 @@ public class UILookupData extends CommonLookup{
 		public void setWidget(Widget widget) {
 			this.widget = widget;
 		}
+		
+		public Integer getMinQuerySize() {
+            return minQuerySize;
+        }
 
-	    public String toString(){
+        public void setMinQuerySize(Integer minQuerySize) {
+            this.minQuerySize = minQuerySize;
+        }
+
+        public String toString(){
 	        StringBuffer sb = new StringBuffer();
 	        sb.append(id);
 	        sb.append(",");        
