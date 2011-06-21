@@ -59,7 +59,7 @@
 		<constructor-arg index="0">
 			<list>
 				<bean id="ricePostProcessor"
-					class="org.kuali.rice.kns.org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
+					class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
 					<property name="jtaDataSource"
 						ref="dataSource" />
 				</bean>
