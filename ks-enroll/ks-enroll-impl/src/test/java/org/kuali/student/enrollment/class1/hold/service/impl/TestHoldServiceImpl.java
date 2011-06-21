@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -59,7 +58,7 @@ public class TestHoldServiceImpl {
         
         assertNotNull(issue);
         assertEquals("Issue one", issue.getName());
-        assertEquals("1", issue.getOrganizationId());
+        assertEquals("102", issue.getOrganizationId());
         
         IssueInfo fakeTest = null;
         try {
@@ -105,15 +104,20 @@ public class TestHoldServiceImpl {
     
     @Test
     public void testGetIssuesByOrg() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<IssueInfo> issues = holdService.getIssuesByOrg("1", callContext);
+        List<IssueInfo> issues = holdService.getIssuesByOrg("102", callContext);
         
         assertNotNull(issues);
-        assertEquals(1, issues.size());
+        assertEquals(2, issues.size());
         
-        // check that the expected issue was returned
-        IssueInfo issue = issues.iterator().next();
+        List<String> issueKeys = new ArrayList<String>();
+        issueKeys.addAll(Arrays.asList("Hold-Issue-1", "Hold-Issue-2"));
         
-        assertEquals("Hold-Issue-1", issue.getId());
+        // check that all the expected ids came back
+        for(IssueInfo info : issues) {
+            issueKeys.remove(info.getId());
+        }
+        
+        assertTrue(issueKeys.isEmpty());
         
         // now make sure an empty list is returned for a non matching org id
         List<IssueInfo> shouldBeEmpty = holdService.getIssuesByOrg("fakeOrg", callContext);
