@@ -74,9 +74,17 @@
     
     <bean id="holdTypeDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao">
     	<property name="em" ref="entityManager"/>
+    </bean>
+    
+    <bean id="holdRichTextDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao">
+    	<property name="em" ref="entityManager"/>
     </bean>   
     
     <bean id="holdDao" class="org.kuali.student.enrollment.class1.hold.dao.HoldDao">
     	<property name="em" ref="entityManager"/>
-    </bean>   
+    </bean>
+    
+    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>
 </beans>
