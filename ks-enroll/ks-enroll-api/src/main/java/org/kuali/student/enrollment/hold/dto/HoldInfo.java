@@ -118,19 +118,21 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
 	@Override
 	public Date getEffectiveDate() {
-		return effectiveDate;
+		return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
 	}
 
 	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = new Date(effectiveDate.getTime());
+		if (effectiveDate != null)
+			this.effectiveDate = new Date(effectiveDate.getTime());
 	}
 
 	@Override
 	public Date getReleasedDate() {
-		return releasedDate;
+		return releasedDate != null ? new Date(releasedDate.getTime()) : null;
 	}
 
 	public void setReleasedDate(Date releasedDate) {
-		this.releasedDate = new Date(releasedDate.getTime());
+		if (releasedDate != null)
+			this.releasedDate = new Date(releasedDate.getTime());
 	}
 }
