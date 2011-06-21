@@ -128,7 +128,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.6</junit.version>
-    <kuali.rice.version>2.0.0-m4</kuali.rice.version>
+    <kuali.rice.version>2.0.0-m5</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -812,7 +812,7 @@
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>2.3</version>
+        <version>2.6</version>
       </dependency>
 
       <!-- Pom dependencies for impl specific jars -->
@@ -898,7 +898,7 @@
       </dependency>
       <dependency>
         <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-api</artifactId>
+        <artifactId>rice-kim-api</artifactId>
         <version>${kuali.rice.version}</version>
       </dependency>
       <dependency>

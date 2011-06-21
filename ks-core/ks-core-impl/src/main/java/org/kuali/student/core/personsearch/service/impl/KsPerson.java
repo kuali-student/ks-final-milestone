@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.bo.entity.KimEntityName;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kim.api.entity.principal.Principal;
 import org.kuali.rice.core.util.type.KualiDecimal;
 
 /**
@@ -46,7 +46,7 @@ public class KsPerson implements Person {
     private String lastName;
 	private String principalName;
 
-    public KsPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
+    public KsPerson(KimEntityDefaultInfo entity, Principal principal) {
         this.principalId = principal.getPrincipalId();
         this.entityId = entity.getEntityId();
         populateNameInfo(entity, principal);
@@ -309,7 +309,7 @@ public class KsPerson implements Person {
 
     }
 
-    protected void populateNameInfo(KimEntityDefaultInfo entity, KimPrincipal principal) {
+    protected void populateNameInfo(KimEntityDefaultInfo entity, Principal principal) {
     	this.principalName = principal.getPrincipalName();
         if (entity != null) {
             KimEntityName entityName = entity.getDefaultName();

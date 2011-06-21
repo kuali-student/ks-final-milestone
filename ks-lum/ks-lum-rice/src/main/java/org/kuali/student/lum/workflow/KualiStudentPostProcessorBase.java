@@ -37,7 +37,7 @@ import org.kuali.rice.kew.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.api.entity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
@@ -252,7 +252,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected String getPrincipalIdForSystemUser() {
-        KimPrincipalInfo principal = KimApiServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+        Principal principal = KimApiServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
         if (principal == null) {
             throw new RuntimeException("Cannot find Principal for principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
         }

@@ -119,7 +119,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-sampleapp</artifactId>
+      <artifactId>sampleapp</artifactId>
       <version>${kuali.rice.version}</version>
       <type>war</type>
       <scope>runtime</scope>

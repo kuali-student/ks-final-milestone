@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kew.dto.DocumentContentDTO;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.dto.DocumentTypeDTO;
@@ -18,8 +19,7 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.entity.principal.Principal;
 import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
@@ -181,7 +181,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 		try{
             String username = SecurityUtils.getCurrentUserId();
-			KimPrincipalInfo systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			Principal systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			if (systemPrincipal == null) {
 				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			}

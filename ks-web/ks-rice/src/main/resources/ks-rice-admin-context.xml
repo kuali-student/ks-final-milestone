@@ -47,9 +47,9 @@
 	</bean>
 -->
 
-	<bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+	<bean id="ks.exp.messageService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
 				<property name="jaxWsService" value="true" />
 				<property name="service" ref="ks.messageService" />
 				<property name="serviceInterface" value="org.kuali.student.common.messages.service.MessageService" />

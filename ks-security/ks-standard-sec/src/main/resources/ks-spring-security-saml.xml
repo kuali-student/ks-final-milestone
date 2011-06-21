@@ -31,9 +31,9 @@
 		<property name="proxyCallBackUrl" value="${ks.default.security.cas.webapp.service.context}/secure/receptor"/>
 	</bean>
 
-    <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="samlIssuerServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.security.saml.service.SamlIssuerService" />

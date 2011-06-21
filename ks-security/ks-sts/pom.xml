@@ -70,7 +70,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
     </dependency>
   </dependencies>
   <build>

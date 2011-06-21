@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
-import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.api.entity.principal.Principal;
+import org.kuali.rice.kim.api.entity.services.IdentityService;
 import org.kuali.student.common.util.security.UserWithId;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,7 +43,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
    
     private boolean enabled = true;
     private boolean nonlocked = true;
-    
+    	
     private IdentityService identityService = null;
     
     // Spring Security requires roles to have a prefix of ROLE_ , 
@@ -65,13 +65,13 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
             return new User(username, password, enabled, true, true, nonlocked, authorities);
         }
         
-        KimPrincipalInfo kimPrincipalInfo = null;
-        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+        Principal principal = null;
+        principal = identityService.getPrincipalByPrincipalName(username);
         
         String userId;
-        if (null != kimPrincipalInfo) {
-            username = kimPrincipalInfo.getPrincipalName();
-            userId = kimPrincipalInfo.getPrincipalId();
+        if (null != principal) {
+            username = principal.getPrincipalName();
+            userId = principal.getPrincipalId();
         } else {
         // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
         // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
@@ -99,18 +99,18 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         
         password = (String)authentication.getCredentials();
         
-        KimPrincipalInfo kimPrincipalInfo = null;
+        Principal principal = null;
         
-        kimPrincipalInfo = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
+        principal = identityService.getPrincipalByPrincipalNameAndPassword(username, password);
         String userId;
-        if (null != kimPrincipalInfo) {
-            username = kimPrincipalInfo.getPrincipalName();
-            userId = kimPrincipalInfo.getPrincipalId();
+        if (null != principal) {
+            username = principal.getPrincipalName();
+            userId = principal.getPrincipalId();
         } else {
         // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
         // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
         // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
-            //System.out.println("kimPrincipalInfo is null ");
+            //System.out.println("principal is null ");
             throw new KimUserNotFoundException("Invalid username or password");  
         }
         ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, authorities);

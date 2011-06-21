@@ -27,6 +27,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
+import org.kuali.rice.ksb.messaging.config.ServiceHolder;
 
 /**
  * Wraps {@link BeanFactory} in {@link BeanFactoryResourceLoader} and places the {@link ResourceLoader} 
@@ -51,7 +52,7 @@ public class RiceSpringResourceLoaderConfigurer implements BeanFactoryAware, Ini
 	public void afterPropertiesSet() throws Exception {
 		if (this.name == null) {
 			if (this.getServiceNameSpaceURI() == null) {
-				this.setServiceNameSpaceURI(ConfigContext.getCurrentContextConfig().getServiceNamespace());
+				this.setServiceNameSpaceURI((new ServiceHolder()).getServiceNameSpaceURI());
 			}
 			if (this.getLocalServiceName() == null) {
 				throw new ConfigurationException("Need to give " + this.getClass().getName() + " a LocalServiceName");

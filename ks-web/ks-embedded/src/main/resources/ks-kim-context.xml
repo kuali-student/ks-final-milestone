@@ -57,8 +57,8 @@
 	<!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
 	<bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
   
-	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="serviceBus" ref="rice.ksb.serviceBus" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
 				p:localServiceName="kimPermissionService">

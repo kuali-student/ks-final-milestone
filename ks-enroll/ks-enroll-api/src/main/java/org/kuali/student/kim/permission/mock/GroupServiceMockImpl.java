@@ -27,6 +27,8 @@ import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.group.GroupUpdateService;
 import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.core.api.mo.common.Attributes;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 /**
  * @author nwright
@@ -90,8 +92,8 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public Map<String, String> getGroupAttributes(String groupId) {
-        return this.getGroup(groupId).getAttributeSet();
+    public Attributes getAttributes (String groupId) throws RiceIllegalArgumentException {
+        return this.getGroup(groupId).getAttributes();
     }
 
     @Override
@@ -397,6 +399,12 @@ public class GroupServiceMockImpl implements GroupService,
         Group copy = new MockHelper().copy(Group);
         this.groupCache.put(copy.getId(), copy);
         return copy;
+    }
+    
+    @Override
+    // Redirects to the above method in order to satisfy the new requirements of interface GroupUpdateService
+    public Group updateGroup(Group Group) throws UnsupportedOperationException {
+    	return updateGroup(Group.getId(), Group);
     }
 }
 

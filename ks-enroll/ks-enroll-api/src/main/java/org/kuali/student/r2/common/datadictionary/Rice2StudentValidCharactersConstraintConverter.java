@@ -29,7 +29,7 @@ public class Rice2StudentValidCharactersConstraintConverter {
     public ValidCharactersConstraintInfo convert(ValidCharactersConstraint rice) {
        ValidCharactersConstraintInfo.Builder bldr = new ValidCharactersConstraintInfo.Builder();
        bldr.setApplyClientSide(rice.getApplyClientSide());
-       bldr.setJsValue(rice.getJsValue());
+//       bldr.setJsValue(rice.getJsValue());
        bldr.setLabelKey(rice.getLabelKey());
        bldr.setValue (rice.getValue());
        return bldr.build();

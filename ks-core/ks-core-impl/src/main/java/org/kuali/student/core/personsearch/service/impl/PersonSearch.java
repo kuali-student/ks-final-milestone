@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.api.entity.principal.Principal;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeDefaultInfo;
+import org.kuali.rice.kim.api.entity.type.EntityTypeDataDefault;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 
 /**
  * Utility methods for dealing with Person searches
@@ -42,7 +42,7 @@ public class PersonSearch {
         if (entities != null) {
             for (KimEntityDefaultInfo e : entities) {
                 // get to get all principals for the entity as well
-                for (KimPrincipal p : e.getPrincipals()) {
+                for (Principal p : e.getPrincipals()) {
                     Person person = convertEntityToPerson(e, p);
                     if (person != null) {
                         people.add(person);
@@ -57,10 +57,10 @@ public class PersonSearch {
         return people;
     }
 
-    protected Person convertEntityToPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
+    protected Person convertEntityToPerson(KimEntityDefaultInfo entity, Principal principal) {
         try {
             // get the EntityEntityType for the EntityType corresponding to a Person
-           KimEntityEntityTypeDefaultInfo entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
+        	EntityTypeDataDefault entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
             // if no "person" entity type present for the given principal, skip to the next type in the list
             if (entType == null) {
                 return null;

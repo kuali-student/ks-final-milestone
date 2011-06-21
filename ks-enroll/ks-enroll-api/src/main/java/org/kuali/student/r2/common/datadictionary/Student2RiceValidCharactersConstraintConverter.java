@@ -29,7 +29,7 @@ public class Student2RiceValidCharactersConstraintConverter {
     public ValidCharactersConstraint convert(ValidCharactersConstraintInfc student) {
        ValidCharactersConstraint rice = new ValidCharactersConstraint ();
        rice.setApplyClientSide(student.isApplyClientSide());
-       rice.setJsValue(student.getJsValue());
+//       rice.setJsValue(student.getJsValue());
        rice.setLabelKey(student.getLabelKey());
        rice.setValue (student.getValue());
        return rice;

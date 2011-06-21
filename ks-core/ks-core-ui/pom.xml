@@ -174,7 +174,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
   </dependencies>

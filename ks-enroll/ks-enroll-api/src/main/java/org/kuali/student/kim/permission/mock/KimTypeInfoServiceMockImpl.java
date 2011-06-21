@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
-import org.kuali.rice.kim.service.support.KimRoleTypeService;
+import org.kuali.rice.kim.framework.type.KimRoleTypeService;
 import org.kuali.rice.kim.service.support.KimTypeService;
 import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.service.support.impl.PrincipalDerivedRoleTypeServiceImpl;

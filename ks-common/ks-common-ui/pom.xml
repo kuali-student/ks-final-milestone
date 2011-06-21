@@ -118,7 +118,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
