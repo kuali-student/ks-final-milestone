@@ -183,7 +183,7 @@ public class HoldServiceDecorator implements HoldService {
     }
 
     @Override
-    public HoldInfo releaseHold(String holdId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public HoldInfo releaseHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	return getHoldService().releaseHold(holdId, context);
     }
 

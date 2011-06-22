@@ -347,12 +347,13 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return the modified HoldInfo
+     * @throws DoesNotExistException the Hold does not exist
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-     public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Deletes an existing Hold record.
