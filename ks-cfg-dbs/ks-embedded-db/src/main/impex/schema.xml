@@ -6044,6 +6044,10 @@
         <foreign-key foreignTable="KSST_REQ_COM_TYPE" name="KSST_RCTYP_JN_RCFLDTYP_FK2">
             <reference foreign="TYPE_KEY" local="REQ_COMP_TYPE_ID"/>
         </foreign-key>
+        <unique name="IX1">
+            <unique-column name="REQ_COMP_TYPE_ID"/>
+            <unique-column name="REQ_COMP_FIELD_TYPE_ID"/>
+        </unique>
         <index name="KSST_RCTYP_JN_RCFLDTYP_I1">
             <index-column name="REQ_COMP_FIELD_TYPE_ID"/>
         </index>
