@@ -16,15 +16,19 @@
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao;
 import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
 import org.kuali.student.enrollment.class1.hold.dao.RestrictionDao;
+import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
+import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
@@ -47,9 +51,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
+import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -146,8 +150,8 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+    	return stateInfo;
     }
 
     @Override
@@ -263,29 +267,92 @@ public class HoldServiceImpl implements HoldService {
         // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
+    
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+    	StateEntity stEntity = null;
+		try {
+        	StateInfo stInfo = getState(processKey, stateKey, context);
+        	if(stInfo != null) stEntity = new StateEntity(stInfo);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}
+		
+		return stEntity;
+    }
+    
     @Override
     public HoldInfo createHold(HoldInfo holdInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        HoldEntity entity = new HoldEntity(holdInfo);
+        entity.setId(UUIDHelper.genStringUUID());
+        
+        if(null != holdInfo.getIssueId())
+        	entity.setIssue(issueDao.find(holdInfo.getIssueId()));
+
+        if (null != holdInfo.getStateKey())
+        	entity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
+        
+        if (null != holdInfo.getTypeKey())
+        	entity.setHoldType(holdTypeDao.find(holdInfo.getTypeKey()));
+
+        if (null != holdInfo.getDescr())
+        	entity.setDescr(new HoldRichTextEntity(holdInfo.getDescr()));
+        
+        HoldEntity existing = holdDao.find(entity.getId());
+        if( existing != null) {
+            throw new AlreadyExistsException();
+	    }
+        holdDao.persist(entity);
+        
+        return holdDao.find(entity.getId()).toDto();
     }
 
     @Override
     public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	HoldEntity entity = holdDao.find(holdId);
+        
+        if( null != entity){
+        	HoldEntity modifiedEntity = new HoldEntity(holdInfo);
+            if(null != holdInfo.getIssueId())
+            	entity.setIssue(issueDao.find(holdInfo.getIssueId()));
+            if(holdInfo.getStateKey() != null)
+            	modifiedEntity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
+            if(holdInfo.getTypeKey() != null)
+            	modifiedEntity.setHoldType(holdTypeDao.find(holdInfo.getTypeKey()));
+            
+            holdDao.merge(modifiedEntity);
+	        return holdDao.find(modifiedEntity.getId()).toDto();
+        }
+        else
+            throw new DoesNotExistException(holdId);
     }
 
+    private HoldInfo updateHoldState(String holdId, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+    	HoldEntity entity = holdDao.find(holdId);
+        
+        if( null != entity){
+        	entity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, stateKey, context));
+        	entity.setReleasedDate(new Date());
+        	
+        	holdDao.merge(entity);
+ 	        return holdDao.find(entity.getId()).toDto();
+        }
+        else
+        	 throw new DoesNotExistException("The hold does not exist." + holdId);
+       	
+    }
+    
     @Override
-    public HoldInfo releaseHold(String holdId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public HoldInfo releaseHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return updateHoldState(holdId, HoldServiceConstants.HOLD_RELEASED_STATE_KEY, context);
     }
 
     @Override
     public StatusInfo deleteHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        
+    	updateHoldState(holdId, HoldServiceConstants.HOLD_CANCELED_STATE_KEY, context);
+    	return status;
     }
 
     @Override
