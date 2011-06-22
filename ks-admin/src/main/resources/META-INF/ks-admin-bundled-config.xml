@@ -15,8 +15,7 @@
 -->
 <config>
   <param name="module.name">ks-admin</param>
-  <param name="service.namespace">KSADMIN</param>
-  <param name="app.namespace">KS-ADMIN</param>
+  <param name="application.id">KS-ADMIN</param>
   <param name="app.code">ks-admin</param>
 
   <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
