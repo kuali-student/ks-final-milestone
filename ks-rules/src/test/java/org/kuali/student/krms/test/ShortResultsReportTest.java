@@ -43,7 +43,7 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 
-public class ResultsReportTest {
+public class ShortResultsReportTest {
     
     private static final ResultLogger LOG = ResultLogger.getInstance();
 
@@ -115,31 +115,22 @@ public class ResultsReportTest {
         HashMap<Term, Object> execFacts = buildExecFacts("1");
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
-        
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
-        
         System.out.println("Results for Student 1, agenda 1");
         printEngineResults(results1);
-        System.out.println("Terms for Engine Results: ");
-        printPropositions(results1);
         
-        /*
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 2");
         printEngineResults(results2);
-        printPropositions(results2);
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("Results for Student 1, agenda 3");
-        printEngineResults(results3);
-        printPropositions(results3);
-		*/
-        
+        printEngineResults(results3); 
     }
 
-    /*
+
     @Test
     public void executeStatementsForStudent2() {
         HashMap<Term, Object> execFacts = buildExecFacts("2");
@@ -147,24 +138,21 @@ public class ResultsReportTest {
         ProviderBasedEngine engine1 = buildEngine(agenda1);
         
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);       
+        System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 1");
         printEngineResults(results1);
-        printPropositions(results1);
-
-        
+    
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 2");
         printEngineResults(results2);
-        printPropositions(results2);
 
-        
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 3");
         printEngineResults(results3);
-        printPropositions(results3);
-
         
     }
     
@@ -179,30 +167,26 @@ public class ResultsReportTest {
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 1");
         printEngineResults(results1);
-        printPropositions(results1);
-
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 2");
         printEngineResults(results2);
-        printPropositions(results2);
-
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 3");
         printEngineResults(results3);
-        printPropositions(results3);
-
         
         // revert permission propositions
         OrgPermissionProposition.setHasPermission(true);
         InstructorPermissionProposition.setHasPermission(true);
     }
-    */
     
     @Test
     public void testSimpleAgenda() {
@@ -231,7 +215,6 @@ public class ResultsReportTest {
         
     private void printEngineResults(EngineResults results) {
         
-        System.out.println("---------------------------");
         System.out.println();
     	
     	for(ResultEvent result : results.getAllResults()) {
@@ -240,6 +223,7 @@ public class ResultsReportTest {
             System.out.println("Source object is of type: " + result.getSource().getClass().toString());
             System.out.println("Result Time Stamp: " + result.getTimestamp());
             System.out.println("Result: " + result.getResult());
+            System.out.println("Description: " + result.getDescription());
             
             System.out.println("Statement: " + statementTranslator.getStatementPropositionMap().get(result.getSource()));
             System.out.println("Requirement Component: " + statementTranslator.getReqComponentPropositionMap().get(result.getSource()));
@@ -249,76 +233,5 @@ public class ResultsReportTest {
         System.out.println("---------------------------");
         System.out.println();
     }
-    
-    private void printPropositions(EngineResults results) {
-    	
-        System.out.println("---------------------------");
-        System.out.println();
-    	
-    	System.out.println("Number of Propositions: " + statementTranslator.getPropositions().size());
-    	
-    	for(Proposition proposition : statementTranslator.getPropositions()) {
-    		
-    		System.out.println("Proposition: " + proposition);
-    		System.out.println("--- Statement: " + statementTranslator.getStatementPropositionMap().get(proposition));
-    		System.out.println("--- Req Component: " + statementTranslator.getReqComponentPropositionMap().get(proposition));
-    	
-    		System.out.println("--- Terms: ");
-    		
-    		if(results.getTermPropositionMap() == null) {
-    			System.out.println("--- --- no terms associated with " + proposition);
-    		} else {
-    			
-    			Set<Term> terms = results.getTermPropositionMap().get(proposition);
-    		
-    			if(terms == null) {
-    				System.out.println("--- --- no terms associated with " + proposition);
-    			} else {
-    			
-	    			for(Term term : terms) {
-	    				System.out.println("--- --- Term: " + term);
-	    			}
-    			
-    			}
-    			
-    		}
-    		
-    	}
-    	
-    }
-    
-    /*
-    private void printPropositionTermsForEngineResults(EngineResults results, Proposition proposition) {
-    	    	
-        System.out.println("---------------------------");
-        System.out.println();
-    	
-        if(results.getTermPropositionMap() == null) {
-        	System.out.println("No proposition-term mappings exist for this test");
-        } else {
-        
-	    	System.out.println("Number Of Proposition to Term Mappings: " + results.getTermPropositionMap().size());
-	    	
-	    	for (Map.Entry<Object, Set<Term>> entry : results.getTermPropositionMap().entrySet()) {
-	    	    Proposition proposition = (Proposition)entry.getKey();
-	    	    
-	    	    System.out.println("Proposition: " + proposition);
-	    	    
-	    	    for(Term term : results.getTermPropositionMap().get(proposition)) {
-	    	    	System.out.println("Term: " + term);
-	    	    }
-	    	
-	    	}
-    	
-        }
-    	
-        System.out.println("---------------------------");
-        System.out.println();
-    	
-    }
-    */
-    
-
-  
-
+   
 }
