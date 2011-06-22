@@ -52,6 +52,8 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -94,7 +96,17 @@ public class SearchPanel extends Composite{
     private List<Callback<List<SelectedResults>>> selectedCompleteCallbacks = new ArrayList<Callback<List<SelectedResults>>>();  
     private List<Callback<Boolean>> actionCompletedCallbacks = new ArrayList<Callback<Boolean>>();    
 
-    
+	private Callback<ButtonEnumerations.ButtonEnum> actionCancelCallback = new Callback<ButtonEnumerations.ButtonEnum>(){
+
+		@Override
+        public void exec(ButtonEnum result) {
+            if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+            	table.getContentTable().removeContent();
+                getActionCompleteCallback().exec(true);                                 
+            }
+       }
+	};
+   
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
         public LookupMetadata getLookupMetadata();
@@ -125,15 +137,7 @@ public class SearchPanel extends Composite{
     public void setupButtons() {
         if (actionCancelButtons != null) {
             actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
-            actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-                @Override
-               public void exec(ButtonEnum result) {
-                    if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
-                    	table.getContentTable().removeContent();
-                        getActionCompleteCallback().exec(true);                                 
-                    }
-               }
-           });            
+            actionCancelButtons.addCallback(actionCancelCallback);            
         }    	
     }
     
@@ -457,7 +461,7 @@ public class SearchPanel extends Composite{
                         SearchField paramField = new SearchField(param);
                         searchFields.add(paramField);
                         panel.add(paramField);
-                        searchParams.add(paramField);
+                        searchParams.add(paramField); 
                     }
                 }
 
@@ -543,12 +547,22 @@ public class SearchPanel extends Composite{
         }
     }
 
-    private static class SearchField extends Composite implements HasSearchParam{
+    private class SearchField extends Composite implements HasSearchParam{
 
         private Widget widget = null;
         private LookupParamMetadata meta = null;
         private VerticalFlowPanel panel = new VerticalFlowPanel();
         private String fieldName;
+
+    	private KeyDownHandler downHandler = new KeyDownHandler(){
+
+    		@Override
+    		public void onKeyDown(KeyDownEvent event) {
+    			if(event.getNativeEvent().getKeyCode() == 13) 	// Enter button
+    				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
+    		}
+    		
+    	};
 
         public SearchParam getSearchParam(){
             return SearchPanel.getSearchParam(widget, meta.getKey());
@@ -578,7 +592,8 @@ public class SearchPanel extends Composite{
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);
             panel.addStyleName("clear");
-
+            panel.addKeyDownHandler(downHandler);
+            
             this.initWidget(panel);
         }
 
