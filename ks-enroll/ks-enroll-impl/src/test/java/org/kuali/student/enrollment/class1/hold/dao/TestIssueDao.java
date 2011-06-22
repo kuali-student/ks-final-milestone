@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -69,6 +70,7 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
     }
     
     @Test
+    @Ignore
     public void testGetByOrgId() {
         List<IssueEntity> result = dao.getByOrganizationId("1");
         assertNotNull(result);

@@ -10,7 +10,6 @@
 
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
     <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-    <bean id="mockIdentityService" class="org.kuali.student.kim.identity.mock.IdentityServiceMockImpl" />
 
     <bean id="mockLprService" parent="mockLprValidationService" />
     <bean id="mockLprValidationService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceValidationDecorator" >

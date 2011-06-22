@@ -235,6 +235,7 @@ public class DictionaryValidator {
             ValidCharactersConstraint vc) {
         List<String> errors = new ArrayList();
         String validChars = vc.getValue();
+        /*
         int typIdx = validChars.indexOf(":");
         String processorType = "regex";
         if (-1 == typIdx) {
@@ -249,6 +250,7 @@ public class DictionaryValidator {
                     + " has an invalid valid chars processor type: a simple list of characters or a regex: is supported");
             return errors;
         }
+        */
         try {
             Pattern pattern = Pattern.compile(validChars);
         } catch (PatternSyntaxException ex) {

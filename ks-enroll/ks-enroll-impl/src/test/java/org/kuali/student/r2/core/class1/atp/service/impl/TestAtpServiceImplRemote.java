@@ -704,7 +704,7 @@ public class TestAtpServiceImplRemote {
         try {
             List<TypeInfo> typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertNotNull(typeInfos);
-            assertEquals(29, typeInfos.size());
+            assertEquals(30, typeInfos.size());
             
             typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
             assertNotNull(typeInfos);
