@@ -56,7 +56,7 @@ import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
-@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/atp")
+@WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/hold")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class HoldServiceImpl implements HoldService {
 
@@ -222,8 +222,12 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public HoldInfo getHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        HoldEntity entity = holdDao.find(holdId);
+        
+        if(entity == null)
+        	throw new DoesNotExistException(holdId);
+        
+        return entity.toDto();
     }
 
     @Override
@@ -281,6 +285,7 @@ public class HoldServiceImpl implements HoldService {
     }
     
     @Override
+    @Transactional
     public HoldInfo createHold(HoldInfo holdInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         HoldEntity entity = new HoldEntity(holdInfo);
         entity.setId(UUIDHelper.genStringUUID());
@@ -307,6 +312,7 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
+    @Transactional
     public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
     	HoldEntity entity = holdDao.find(holdId);
         
@@ -342,11 +348,13 @@ public class HoldServiceImpl implements HoldService {
     }
     
     @Override
+    @Transactional
     public HoldInfo releaseHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	return updateHoldState(holdId, HoldServiceConstants.HOLD_RELEASED_STATE_KEY, context);
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);

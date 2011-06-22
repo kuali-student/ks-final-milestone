@@ -11,16 +11,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -123,5 +128,34 @@ public class TestHoldServiceImpl {
         List<IssueInfo> shouldBeEmpty = holdService.getIssuesByOrg("fakeOrg", callContext);
         
         assertTrue(shouldBeEmpty.isEmpty());
+    }
+    
+    @Test
+    @Ignore
+    public void testCreateHold()throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, 
+    MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	HoldInfo info = new HoldInfo();
+    	//info.setId("Test-Hold-1"); id should be system generated
+    	info.setName("Test hold one");
+    	info.setStateKey(HoldServiceConstants.HOLD_ACIVE_STATE_KEY);
+    	info.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
+    	info.setIssueId("Hold-Issue-1");
+    	
+    	HoldInfo created = null;
+    	try{
+    		created = holdService.createHold(info, callContext);
+    		assertNotNull(created);
+            assertEquals("Test hold one", created.getName());
+    	} catch (Exception e) {
+            fail(e.getMessage());
+        }
+    	
+    	try {
+			HoldInfo retrieved = holdService.getHold(created.getId(), callContext);
+			assertNotNull(retrieved);
+			assertEquals("Test hold one", retrieved.getName());
+		} catch (DoesNotExistException e) {
+			fail(e.getMessage());
+		}
     }
 }
