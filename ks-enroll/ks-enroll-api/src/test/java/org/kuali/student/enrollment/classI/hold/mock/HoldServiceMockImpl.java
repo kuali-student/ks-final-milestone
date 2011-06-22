@@ -344,7 +344,7 @@ public class HoldServiceMockImpl implements HoldService {
 
 	@Override
 	public HoldInfo releaseHold(String holdId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
+	                throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		HoldInfo hold = holdCache.get(holdId);
 		hold.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
