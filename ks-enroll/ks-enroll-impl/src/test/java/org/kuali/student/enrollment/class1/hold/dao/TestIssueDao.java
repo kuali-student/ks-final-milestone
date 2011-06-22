@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -16,7 +15,7 @@ import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
-@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
+@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestIssueDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.enrollment.class1.hold.dao.IssueDao", testSqlFile = "classpath:ks-hold.sql")
     private IssueDao dao;
@@ -70,11 +69,10 @@ public class TestIssueDao extends AbstractTransactionalDaoTest {
     }
     
     @Test
-    @Ignore
     public void testGetByOrgId() {
-        List<IssueEntity> result = dao.getByOrganizationId("1");
+        List<IssueEntity> result = dao.getByOrganizationId("102");
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertEquals(2, result.size());
         
         List<IssueEntity> emptyResults = dao.getByOrganizationId("3");
         assertTrue(emptyResults == null || emptyResults.isEmpty());

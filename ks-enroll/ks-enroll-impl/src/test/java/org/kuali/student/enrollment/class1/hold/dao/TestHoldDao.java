@@ -4,17 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
-import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
-//@Ignore
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestHoldDao extends AbstractTransactionalDaoTest{
 	@Dao(value = "org.kuali.student.enrollment.class1.hold.dao.HoldDao", testSqlFile = "classpath:ks-hold.sql")
