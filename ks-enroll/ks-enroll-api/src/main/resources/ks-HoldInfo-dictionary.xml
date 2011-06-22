@@ -44,10 +44,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <ref bean="holdInfo.isOverridable"/>
 <ref bean="holdInfo.isWarning"/>
 <ref bean="holdInfo.issueId"/>
-<ref bean="holdInfo.overridable"/>
 <ref bean="holdInfo.personId"/>
 <ref bean="holdInfo.releasedDate"/>
-<ref bean="holdInfo.warning"/>
 <ref bean="holdInfo.attributes"/>
 <ref bean="holdInfo.meta"/>
 </list>
@@ -100,11 +98,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 </bean>
 <bean id="holdInfo.issueId" parent="holdInfo.issueId-parent"/>
 
-<bean id="holdInfo.overridable-parent" abstract="true" parent="baseKualiBoolean">
-<property name="name" value="overridable"/>
-</bean>
-<bean id="holdInfo.overridable" parent="holdInfo.overridable-parent"/>
-
 <bean id="holdInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
 <property name="name" value="personId"/>
 </bean>
@@ -114,11 +107,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <property name="name" value="releasedDate"/>
 </bean>
 <bean id="holdInfo.releasedDate" parent="holdInfo.releasedDate-parent"/>
-
-<bean id="holdInfo.warning-parent" abstract="true" parent="baseKualiBoolean">
-<property name="name" value="warning"/>
-</bean>
-<bean id="holdInfo.warning" parent="holdInfo.warning-parent"/>
 
 <bean id="holdInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
 <property name="name" value="attributes"/>

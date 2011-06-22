@@ -65,7 +65,26 @@
             </list>
         </constructor-arg>
     </bean>
-
+   <!--Hold Service-->
+    <bean id="holdInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-HoldInfo-dictionary.xml" />
+    </bean>
+    <bean id="issueInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-IssueInfo-dictionary.xml" />
+    </bean>
+    <bean id="restrictionInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-RestrictionInfo-dictionary.xml" />
+    </bean>
+    <bean name="holdServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="holdInfoDictionaryLocation" />
+                <bean parent="issueInfoDictionaryLocation" />                
+                <bean parent="restrictionInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+     </bean>
+  
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
@@ -81,7 +100,10 @@
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
                 <bean parent="registrationDateGroupInfoDictionaryLocation" />
-                <bean parent="keyDateInfoDictionaryLocation" />                
+                <bean parent="keyDateInfoDictionaryLocation" />   
+                <bean parent="holdInfoDictionaryLocation" />
+                <bean parent="issueInfoDictionaryLocation" />                
+                <bean parent="restrictionInfoDictionaryLocation" />             
             </list>
         </constructor-arg>
     </bean>

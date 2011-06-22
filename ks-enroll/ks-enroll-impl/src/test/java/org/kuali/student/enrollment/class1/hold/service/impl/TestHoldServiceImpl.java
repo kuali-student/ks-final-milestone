@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -131,7 +132,6 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    @Ignore
     public void testCreateHold()throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, PermissionDeniedException{
     	HoldInfo info = new HoldInfo();
@@ -140,6 +140,7 @@ public class TestHoldServiceImpl {
     	info.setStateKey(HoldServiceConstants.HOLD_ACIVE_STATE_KEY);
     	info.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
     	info.setIssueId("Hold-Issue-1");
+    	info.setEffectiveDate(Calendar.getInstance().getTime());
     	
     	HoldInfo created = null;
     	try{
