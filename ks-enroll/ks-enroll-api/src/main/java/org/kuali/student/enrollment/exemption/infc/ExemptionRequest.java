@@ -37,10 +37,10 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface ExemptionRequest extends IdEntity {
 
     /**
-     * Name: Process Key
-     * The key of a Process to group the Exemptions.
+     * Name: Task Key
+     * The key of a Task to group the Exemptions.
      */
-    public String getProcessKey();
+    public String getTaskKey();
  
     /**
      * Name: Person Id

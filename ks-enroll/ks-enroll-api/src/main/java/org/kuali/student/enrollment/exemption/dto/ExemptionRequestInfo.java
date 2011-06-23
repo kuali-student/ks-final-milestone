@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "processKey", "personId", 
+                "stateKey", "name", "descr", "taskKey", "personId", 
                 "qualifierTypeKey", "qualifierId", "requestDate", 
                 "approvedByPersonId", "approvedDate", "restrictionOverride", 
                 "dateOverride", "milestoneOverride", "statementOverride",
@@ -47,7 +47,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String processKey;
+	private String taskKey;
 
 	@XmlElement
 	private String personId;
@@ -91,7 +91,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	public ExemptionRequestInfo() {
 		super();
 
-		processKey = null;
+		taskKey = null;
 		personId = null;
 		qualifierTypeKey = null;
 		qualifierId = null;
@@ -118,7 +118,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	public ExemptionRequestInfo(ExemptionRequest request) {
 		super(request);
 		if (null != request) {
-			this.processKey = request.getProcessKey();
+			this.taskKey = request.getTaskKey();
 			this.personId = request.getPersonId();
 			this.qualifierTypeKey = request.getQualifierTypeKey();
 			this.qualifierId = request.getQualifierId();
@@ -155,12 +155,12 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	}
 
 	@Override
-	public String getProcessKey() {
-	    return processKey;
+	public String getTaskKey() {
+	    return taskKey;
 	}
 
-	public void setProcessKey(String processKey) {
-	    this.processKey = processKey;
+	public void setTaskKey(String taskKey) {
+	    this.taskKey = taskKey;
 	}
 
 	@Override

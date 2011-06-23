@@ -71,9 +71,10 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  * pretendToRegisterStudentInCourse(String personId, RegstrationGroup regGrp) {
  *
  *     // check for registration restrictions
- *     if (HoldService.isPersonRestricted("course registration", personId, context) &&
- *         !ExemptionService.isPersonExemptedFromRestr(personId, "course registration", context)) {
- *         throw new YouCantDoThisException("If I were a nice person, I'd fetch the restriction and tell you what it is.");
+ *     if (HoldService.isPersonRestricted("course registration", personId, context)) {
+ *         if (!ExemptionService.isPersonExemptedFromRestr(personId, "course registration", context)) {
+ *             throw new YouCantDoThisException("If I were a nice person, I'd fetch the restriction and tell you what it is.");
+ *         }
  *     }
  *
  *     // check for registration deadlines
@@ -507,9 +508,9 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     public List<String> getExemptionRequestIdsByType(@WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Exemption Request Ids by Process Key.
+     * Retrieves a list Exemption Request Ids by Task Key.
      *
-     * @param processKey a unique key for a Process
+     * @param taskKey a unique key for a Task
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -520,7 +521,7 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getExemptionRequestIdsByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getExemptionRequestIdsByTask(@WebParam(name = "taskKey") String taskKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ExemptionRequest. Depending on the value of
