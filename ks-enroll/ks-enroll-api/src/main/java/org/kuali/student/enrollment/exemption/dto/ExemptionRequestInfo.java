@@ -37,13 +37,17 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "personId", "qualifierTypeKey", 
-                "qualifierId", "requestDate", "approvedByPersonId", "approvedDate", 
-                "restrictionOverride", "dateOverride", "milestoneOverride", "statementOverride",
+                "stateKey", "name", "descr", "processKey", "personId", 
+                "qualifierTypeKey", "qualifierId", "requestDate", 
+                "approvedByPersonId", "approvedDate", "restrictionOverride", 
+                "dateOverride", "milestoneOverride", "statementOverride",
 		"holdOverride", "meta", "attributes", "_futureElements" })
 
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@XmlElement
+	private String processKey;
 
 	@XmlElement
 	private String personId;
@@ -87,6 +91,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	public ExemptionRequestInfo() {
 		super();
 
+		processKey = null;
 		personId = null;
 		qualifierTypeKey = null;
 		qualifierId = null;
@@ -113,6 +118,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	public ExemptionRequestInfo(ExemptionRequest request) {
 		super(request);
 		if (null != request) {
+			this.processKey = request.getProcessKey();
 			this.personId = request.getPersonId();
 			this.qualifierTypeKey = request.getQualifierTypeKey();
 			this.qualifierId = request.getQualifierId();
@@ -146,6 +152,15 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 		}
 		
 		_futureElements = null;
+	}
+
+	@Override
+	public String getProcessKey() {
+	    return processKey;
+	}
+
+	public void setProcessKey(String processKey) {
+	    this.processKey = processKey;
 	}
 
 	@Override

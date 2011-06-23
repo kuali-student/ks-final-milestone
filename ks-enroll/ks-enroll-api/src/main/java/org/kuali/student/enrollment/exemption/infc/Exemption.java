@@ -49,13 +49,13 @@ public interface Exemption extends IdEntity {
 
     /**
      * Name: Qualifier Type Key
-     * The Type of a Qualifier to the Exemption.
+     * The Type of a Qualifier to scope the Exemption.
      */
     public String getQualifierTypeKey();
 
     /**
      * Name: Qualifier Id
-     * The Id of a Qualifier to the Exemption.
+     * The Id of a Qualifier to scope the Exemption.
      */
     public String getQualifierId();
 

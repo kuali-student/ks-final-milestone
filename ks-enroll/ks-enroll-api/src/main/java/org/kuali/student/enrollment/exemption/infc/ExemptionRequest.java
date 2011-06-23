@@ -37,6 +37,12 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface ExemptionRequest extends IdEntity {
 
     /**
+     * Name: Process Key
+     * The key of a Process to group the Exemptions.
+     */
+    public String getProcessKey();
+ 
+    /**
      * Name: Person Id
      * The Id of the Person making the request.
      */
@@ -44,13 +50,13 @@ public interface ExemptionRequest extends IdEntity {
 
     /**
      * Name: Qualifier Type Key
-     * The Type of a Qualifier to the Exemption.
+     * The Type of a Qualifier to scope the Exemption.
      */
     public String getQualifierTypeKey();
 
     /**
      * Name: Qualifier Id
-     * The Id of a Qualifier to the Exemption.
+     * The Id of a Qualifier to scope the Exemption.
      */
     public String getQualifierId();
 
