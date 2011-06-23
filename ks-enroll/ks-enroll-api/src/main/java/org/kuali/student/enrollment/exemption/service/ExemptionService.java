@@ -322,6 +322,22 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     public List<ExemptionInfo> getExemptionsByIdList(@WebParam(name = "exemptionIdList") List<String> exemptionIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
+     * Retrieves a list Exemption Ids by Type.
+     *
+     * @param exemptionTypeKey a unique key for an exemption Type
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Exemptions
+     * @throws DoesNotExistException an exemptionId in list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getExemptionIdsByType(@WebParam(name = "exemptionTypeKey") String exemptionTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
      * Validates an Exemption. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * object and its directly contained subobjects or expanded to
@@ -472,6 +488,39 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws PermissionDeniedException authorization failure
      */
     public List<ExemptionRequestInfo> getExemptionRequestsByIdList(@WebParam(name = "exemptionRequestIdList") List<String> exemptionRequestIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list Exemption Request Ids by Type.
+     *
+     * @param exemptionRequestTypeKey a unique key for an exemption
+     *        requestType
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Exemptions
+     * @throws DoesNotExistException an exemptionId in list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getExemptionRequestIdsByType(@WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list Exemption Request Ids by Process Key.
+     *
+     * @param processKey a unique key for a Process
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Exemptions
+     * @throws DoesNotExistException an exemptionId in list not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getExemptionRequestIdsByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ExemptionRequest. Depending on the value of
