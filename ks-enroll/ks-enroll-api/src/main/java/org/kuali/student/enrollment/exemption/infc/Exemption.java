@@ -48,18 +48,6 @@ public interface Exemption extends IdEntity {
     public String getExemptedPersonId();
 
     /**
-     * Name: Approved By Person Id
-     * The Id of the Person who approved this Exemption.
-     */
-    public String getApprovedByPersonId();
-
-    /**
-     * Name: Approved Date
-     * The date this Exemptionw as approved.
-     */
-    public Date getApprovedDate();
-
-    /**
      * Name: Qualifier Type Key
      * The Type of a Qualifier to the Exemption.
      */

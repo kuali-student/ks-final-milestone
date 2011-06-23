@@ -37,13 +37,12 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExemptionInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "exemptionRequestId", "exemptedPersonId", 
-		"approvedByPersonId", "approvedDate", "qualifierTypeKey", 
-                "qualifierId", "effectiveDate", "expirationDate", 
-                "restrictionOverride", "dateOverride", "milestoneOverride", 
-                "statementOverride", "holdOverride", "meta", "attributes", 
-                "_futureElements" })
+@XmlType(name = "ExemptionInfo", propOrder = { "id", "typeKey", "stateKey", 
+                "name", "descr", "exemptionRequestId", "exemptedPersonId", 
+		"qualifierTypeKey", "qualifierId", "effectiveDate", 
+                "expirationDate", "restrictionOverride", "dateOverride", 
+                "milestoneOverride", "statementOverride", "holdOverride", 
+                "meta", "attributes", "_futureElements" })
 
 public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -53,12 +52,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
 	@XmlElement
 	private String exemptedPersonId;
-
-	@XmlElement
-	private String approvedByPersonId;
-
-	@XmlElement
-	private Date approvedDate;
 
 	@XmlElement
 	private String qualifierTypeKey;
@@ -98,8 +91,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
 		exemptionRequestId = null;
 		exemptedPersonId = null;
-		approvedByPersonId = null;
-		approvedDate = null;
 		qualifierTypeKey = null;
 		qualifierId = null;
 		effectiveDate = null;
@@ -125,8 +116,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 		if (null != exemption) {
 			this.exemptionRequestId = exemption.getExemptionRequestId();
 			this.exemptedPersonId = exemption.getExemptedPersonId();
-			this.approvedByPersonId = exemption.getApprovedByPersonId();
-			this.approvedDate = exemption.getApprovedDate();
 			this.qualifierTypeKey = exemption.getQualifierTypeKey();
 			this.qualifierId = exemption.getQualifierId();
 			this.effectiveDate = exemption.getEffectiveDate();
@@ -176,24 +165,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
 	public void setExemptedPersonId(String exemptedPersonId) {
 	    this.exemptedPersonId = exemptedPersonId;
-	}
-
-	@Override
-	public String getApprovedByPersonId() {
-	    return approvedByPersonId;
-	}
-
-	public void setApprovedByPersonId(String approvedByPersonId) {
-	    this.approvedByPersonId = approvedByPersonId;
-	}
-
-	@Override
-	public Date getApprovedDate() {
-	    return approvedDate;
-	}
-
-	public void setApprovedDate(Date approvedDate) {
-	    this.approvedDate = approvedDate;
 	}
 
 	@Override

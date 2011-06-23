@@ -38,8 +38,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "personId", "qualifierTypeKey", 
-                "qualifierId", "date","restrictionOverride",
-		"dateOverride", "milestoneOverride", "statementOverride",
+                "qualifierId", "requestDate", "approvedByPersonId", "approvedDate", 
+                "restrictionOverride", "dateOverride", "milestoneOverride", "statementOverride",
 		"holdOverride", "meta", "attributes", "_futureElements" })
 
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
@@ -55,7 +55,13 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	private String qualifierId;
 
 	@XmlElement
-	private Date date;
+	private Date requestDate;
+
+	@XmlElement
+	private String approvedByPersonId;
+
+	@XmlElement
+	private Date approvedDate;
 
 	@XmlElement
 	private RestrictionOverrideInfo restrictionOverride;
@@ -84,7 +90,9 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 		personId = null;
 		qualifierTypeKey = null;
 		qualifierId = null;
-		date = null;
+		requestDate = null;
+		approvedByPersonId = null;
+		approvedDate = null;
 		
 		restrictionOverride = null;
 		dateOverride = null;
@@ -108,7 +116,9 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 			this.personId = request.getPersonId();
 			this.qualifierTypeKey = request.getQualifierTypeKey();
 			this.qualifierId = request.getQualifierId();
-			this.date = request.getDate();
+			this.requestDate = request.getRequestDate();
+			this.approvedByPersonId = request.getApprovedByPersonId();
+			this.approvedDate = request.getApprovedDate();
 
 			if (request.getRestrictionOverride() != null) {
 			    this.restrictionOverride = new RestrictionOverrideInfo(request.getRestrictionOverride());
@@ -166,12 +176,30 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 	}
 
 	@Override
-	public Date getDate() {
-	    return date;
+	public Date getRequestDate() {
+	    return requestDate;
 	}
 
-	public void setDate(Date date) {
-	    this.date = date;
+	public void setRequestDate(Date requestDate) {
+	    this.requestDate = requestDate;
+	}
+
+	@Override
+	public String getApprovedByPersonId() {
+	    return approvedByPersonId;
+	}
+
+	public void setApprovedByPersonId(String approvedByPersonId) {
+	    this.approvedByPersonId = approvedByPersonId;
+	}
+
+	@Override
+	public Date getApprovedDate() {
+	    return approvedDate;
+	}
+
+	public void setApprovedDate(Date approvedDate) {
+	    this.approvedDate = approvedDate;
 	}
 
 	@Override

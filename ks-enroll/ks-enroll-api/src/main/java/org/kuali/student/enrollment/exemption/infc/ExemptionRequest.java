@@ -55,10 +55,22 @@ public interface ExemptionRequest extends IdEntity {
     public String getQualifierId();
 
     /**
-     * Name: Date
+     * Name: Request Date
      * The date this exemption request.
      */
-    public Date getDate();
+    public Date getRequestDate();
+
+    /**
+     * Name: Approved By Person Id
+     * The Id of the Person who approved this request.
+     */
+    public String getApprovedByPersonId();
+
+    /**
+     * Name: Approved Date
+     * The date this request was approved.
+     */
+    public Date getApprovedDate();
 
     /**
      * Name: Restriction Override
