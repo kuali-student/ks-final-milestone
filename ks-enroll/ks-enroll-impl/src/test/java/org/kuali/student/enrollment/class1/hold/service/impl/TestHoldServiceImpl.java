@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceVa
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -159,4 +160,75 @@ public class TestHoldServiceImpl {
 			fail(e.getMessage());
 		}
     }
+   
+    @Test 
+    public void testGetHold()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	try{
+    		holdService.getHold("Hold-blah", callContext);
+    	} catch (DoesNotExistException e) {
+			//expected
+		}
+    	
+    	try{
+    		HoldInfo info = holdService.getHold("Hold-1", callContext);
+    		assertNotNull(info);
+    		assertEquals("Hold one", info.getName()); 
+ 	        assertEquals(HoldServiceConstants.HOLD_ACIVE_STATE_KEY, info.getStateKey()); 
+ 	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, info.getTypeKey()); 
+ 	        assertEquals("Hold Desc student", info.getDescr().getPlain()); 
+    	} catch (Exception e) {
+            fail(e.getMessage());
+        }
+    
+    }
+    
+    @Test
+    public void testReleaseHold() throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+    OperationFailedException, PermissionDeniedException {   
+    	HoldInfo noStatus = null;
+    	try{
+    		noStatus = holdService.releaseHold("Hold-Blah", callContext);
+    		fail("Did not get a DoesNotExistException when expected");
+	    }
+	    catch(DoesNotExistException e) {
+	        assertNull(noStatus);
+	    }
+	    
+    	try{
+    		HoldInfo released = holdService.releaseHold("Hold-1", callContext);
+    		assertNotNull(released);
+			assertEquals("Hold one", released.getName());
+			assertEquals(HoldServiceConstants.HOLD_RELEASED_STATE_KEY, released.getStateKey());
+    	} catch (Exception e) {
+            fail(e.getMessage());
+        }  	
+    }
+    
+    @Test
+    public void testDeleteHold() throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+    OperationFailedException, PermissionDeniedException { 
+    	StatusInfo noStatus = null;
+    	try{
+    		noStatus = holdService.deleteHold("Hold-Blah", callContext);
+    		fail("Did not get a DoesNotExistException when expected");
+	    }
+	    catch(DoesNotExistException e) {
+	        assertNull(noStatus);
+	    }
+	    
+    	try{
+    		StatusInfo info = holdService.deleteHold("Hold-1", callContext);
+    		assertNotNull(info);
+    		assertTrue(info.isSuccess());
+    		
+    		HoldInfo deleted = holdService.getHold("Hold-1", callContext);
+			assertEquals("Hold one", deleted.getName());
+			assertEquals(HoldServiceConstants.HOLD_CANCELED_STATE_KEY, deleted.getStateKey());
+    	} catch (Exception e) {
+            fail(e.getMessage());
+        }
+    	
+    }
+
+    	   
 }

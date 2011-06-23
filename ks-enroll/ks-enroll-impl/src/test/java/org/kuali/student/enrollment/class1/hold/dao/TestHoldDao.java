@@ -56,7 +56,7 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
 	}
 	
 	@Test
-	public void testUpdateRestriction(){
+	public void testUpdateHold(){
 		try{
 			HoldEntity existingEntity = dao.find("Hold-1");
 	       
@@ -73,7 +73,7 @@ public class TestHoldDao extends AbstractTransactionalDaoTest{
 	}
 	
     @Test
-    public void testDeleteRestriction() 
+    public void testDeleteHold() 
     {
     	try{
     		HoldEntity obj = dao.find("Hold-2");
