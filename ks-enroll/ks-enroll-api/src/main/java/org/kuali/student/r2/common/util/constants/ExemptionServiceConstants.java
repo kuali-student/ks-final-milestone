@@ -35,6 +35,7 @@ public class ExemptionServiceConstants {
      * Exemption types
      */
     public static final String DATE_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.date";
+    public static final String EXTERNAL_EXEMPTION_TYPE_KEY        = "kuali.exemption.type.external";
     public static final String HOLD_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.hold";
     public static final String LEARNING_RESULT_EXEMPTION_TYPE_KEY = "kuali.exemption.type.learning.result";
     public static final String MILESTONE_EXEMPTION_TYPE_KEY       = "kuali.exemption.type.milestone";
@@ -45,6 +46,8 @@ public class ExemptionServiceConstants {
      * Exemption Request types
      */
     public static final String DATE_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.date";
+    public static final String EXTERNAL_EXEMPTION_REQUEST_TYPE_KEY       = "kuali.exemption.request.type.external";
+    public static final String GENERIC_EXEMPTION_REQUEST_TYPE_KEY        = "kuali.exemption.request.type.generic";
     public static final String HOLD_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.hold";
     public static final String LEARNING_RESULT_EXEMPTION_REQUESTTYPE_KEY = "kuali.exemption.request.type.learning.result";
     public static final String MILESTONE_EXEMPTION_REQUEST_TYPE_KEY      = "kuali.exemption.request.type.milestone";
@@ -56,8 +59,8 @@ public class ExemptionServiceConstants {
      */
     public static final String EXEMPTION_PROCESS_KEY          = "kuali.exemption.process";
     public static final String EXEMPTION_ACTIVE_STATE_KEY     = "kuali.exemption.state.active";
-    public static final String EXEMPTION_INACTIVE_STATE_KEY    = "kuali.exemption.state.inactive";
-    public static final String[] EXEMPTION_PROCESS_KEYS      = {
+    public static final String EXEMPTION_INACTIVE_STATE_KEY   = "kuali.exemption.state.inactive";
+    public static final String[] EXEMPTION_PROCESS_KEYS       = {
 	EXEMPTION_ACTIVE_STATE_KEY, EXEMPTION_INACTIVE_STATE_KEY
     };
 
