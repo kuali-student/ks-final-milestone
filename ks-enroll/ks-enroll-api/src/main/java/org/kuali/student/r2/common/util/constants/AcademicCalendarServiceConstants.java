@@ -56,7 +56,7 @@ public class AcademicCalendarServiceConstants {
     public static final String GRADING_PERIOD_END_TYPE_KEY = AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY;
 
     /**
-     * Academic Calendard Process
+     * Academic Calendar Process
      */
     public static final String ACADEMIC_CALENDAR_PROCESS_KEY = AtpServiceConstants.ATP_PROCESS_KEY;
     public static final String ACADEMIC_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
