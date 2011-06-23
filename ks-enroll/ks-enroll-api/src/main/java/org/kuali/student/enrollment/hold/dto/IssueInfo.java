@@ -48,15 +48,15 @@ public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
 	/**
 	 * Constructs a new IssueInfo from another Issue.
 	 * 
-	 * @param issue
-	 *            the Issue to copy
+	 * @param issue the Issue to copy
 	 */
 	public IssueInfo(Issue issue) {
 		super(issue);
 		if (null != issue) {
 			this.organizationId = issue.getOrganizationId();
-			_futureElements = null;
 		}
+
+		_futureElements = null;
 	}
 
 	@Override
