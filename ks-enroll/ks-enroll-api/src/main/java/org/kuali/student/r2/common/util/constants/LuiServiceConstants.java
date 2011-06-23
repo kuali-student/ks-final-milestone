@@ -30,12 +30,14 @@ public class LuiServiceConstants {
     public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();
     public static final String LUI_KEY_PREFIX = "kuali.lui";
+
     /**
      * Types
      */
     public static final String COURSE_GROUP_OFFERING_TYPE_KEY = "kuali.lui.type.course.group.offering";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
     public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+
     /**
      * activity types
      */
