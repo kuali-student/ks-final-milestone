@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
 import org.kuali.student.enrollment.class1.hold.dao.RestrictionDao;
 import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
+import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
@@ -273,17 +274,36 @@ public class HoldServiceImpl implements HoldService {
     }
     
     private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
-    	StateEntity stEntity = null;
+    	StateEntity state = null;
 		try {
         	StateInfo stInfo = getState(processKey, stateKey, context);
-        	if(stInfo != null) stEntity = new StateEntity(stInfo);
+        	if(stInfo != null){
+        		state = new StateEntity(stInfo);
+        		return state;
+        	}
+        	else
+        		throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
-		}
-		
-		return stEntity;
+		}			
+    }
+ 
+    private IssueEntity findIssue(String issueId) throws OperationFailedException{
+    	IssueEntity issue = issueDao.find(issueId);
+    	if(null != issue)
+    		return issue;
+    	else
+    		throw new OperationFailedException("The issue does not exist. issue " + issueId);
     }
     
+    private HoldTypeEntity findType(String typeId)throws OperationFailedException{
+    	HoldTypeEntity type = holdTypeDao.find(typeId);
+    	if(null != type)
+    		return type;
+    	else
+    		throw new OperationFailedException("The type does not exist. type " + typeId);
+    }
+
     @Override
     @Transactional
     public HoldInfo createHold(HoldInfo holdInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -291,13 +311,13 @@ public class HoldServiceImpl implements HoldService {
         entity.setId(UUIDHelper.genStringUUID());
         
         if(null != holdInfo.getIssueId())
-        	entity.setIssue(issueDao.find(holdInfo.getIssueId()));
+        	entity.setIssue(findIssue(holdInfo.getIssueId()));
 
         if (null != holdInfo.getStateKey())
         	entity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
         
         if (null != holdInfo.getTypeKey())
-        	entity.setHoldType(holdTypeDao.find(holdInfo.getTypeKey()));
+        	entity.setHoldType(findType(holdInfo.getTypeKey()));
 
         if (null != holdInfo.getDescr())
         	entity.setDescr(new HoldRichTextEntity(holdInfo.getDescr()));
@@ -319,11 +339,11 @@ public class HoldServiceImpl implements HoldService {
         if( null != entity){
         	HoldEntity modifiedEntity = new HoldEntity(holdInfo);
             if(null != holdInfo.getIssueId())
-            	entity.setIssue(issueDao.find(holdInfo.getIssueId()));
+            	entity.setIssue(findIssue(holdInfo.getIssueId()));
             if(holdInfo.getStateKey() != null)
             	modifiedEntity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
             if(holdInfo.getTypeKey() != null)
-            	modifiedEntity.setHoldType(holdTypeDao.find(holdInfo.getTypeKey()));
+            	modifiedEntity.setHoldType(findType(holdInfo.getTypeKey()));
             
             holdDao.merge(modifiedEntity);
 	        return holdDao.find(modifiedEntity.getId()).toDto();
