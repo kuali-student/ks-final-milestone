@@ -55,22 +55,22 @@ public class ExemptionServiceConstants {
      * States For Exemptions
      */
     public static final String EXEMPTION_PROCESS_KEY          = "kuali.exemption.process";
-    public static final String EXEMPTION_ACTIVE_STATE_KEY     = "kuali.exemption.active";
-    public static final String EXEMPTION_REVOKED_STATE_KEY    = "kuali.exemption.revoked";
+    public static final String EXEMPTION_ACTIVE_STATE_KEY     = "kuali.exemption.state.active";
+    public static final String EXEMPTION_INACTIVE_STATE_KEY    = "kuali.exemption.state.inactive";
     public static final String[] EXEMPTION_PROCESS_KEYS      = {
-	EXEMPTION_ACTIVE_STATE_KEY, EXEMPTION_REVOKED_STATE_KEY
+	EXEMPTION_ACTIVE_STATE_KEY, EXEMPTION_INACTIVE_STATE_KEY
     };
 
     /**
      * States For Exemption Requests
      */
-    public static final String EXEMPTION_REQUEST_PROCESS_KEY        = "kuali.exemption.request.process";
-    public static final String EXEMPTION_REQUEST_PROPOSED_STATE_KEY = "kuali.exemption.request.proposed";
-    public static final String EXEMPTION_REQUEST_CANCELED_STATE_KEY = "kuali.exemption.request.canceled";
-    public static final String EXEMPTION_REQUEST_APPROVED_STATE_KEY = "kuali.exemption.request.approved";
-    public static final String EXEMPTION_REQUEST_DENIED_STATE_KEY   = "kuali.exemption.request.denied";
-    public static final String[] EXEMPTION_REQUEST_PROCESS_KEYS     = {
-	EXEMPTION_REQUEST_PROPOSED_STATE_KEY, EXEMPTION_REQUEST_CANCELED_STATE_KEY, 
-	EXEMPTION_REQUEST_APPROVED_STATE_KEY, EXEMPTION_REQUEST_APPROVED_STATE_KEY
+    public static final String EXEMPTION_REQUEST_PROCESS_KEY            = "kuali.exemption.request.process";
+    public static final String EXEMPTION_REQUEST_REQUESTED_STATE_KEY    = "kuali.exemption.request.state.requested";
+    public static final String EXEMPTION_REQUEST_CANCELED_STATE_KEY     = "kuali.exemption.request.state.canceled";
+    public static final String EXEMPTION_REQUEST_APPROVED_STATE_KEY     = "kuali.exemption.request.state.approved";
+    public static final String EXEMPTION_REQUEST_NOT_APPROVED_STATE_KEY = "kuali.exemption.request.state.not.approved";
+    public static final String[] EXEMPTION_REQUEST_PROCESS_KEYS         = {
+	EXEMPTION_REQUEST_REQUESTED_STATE_KEY, EXEMPTION_REQUEST_CANCELED_STATE_KEY, 
+	EXEMPTION_REQUEST_APPROVED_STATE_KEY, EXEMPTION_REQUEST_NOT_APPROVED_STATE_KEY
     };
 }
