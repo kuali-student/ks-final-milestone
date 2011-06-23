@@ -78,6 +78,8 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 			this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
 			this.releasedDate = new Date(hold.getReleasedDate().getTime());
 		}
+
+		_futureElements = null;
 	}
 
 	@Override
