@@ -248,6 +248,16 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 linkElement.setViewName(parent.getViewName());
                 linkElement.setFieldValue(depItem.getExportFieldValue());
                 linkElement.setSubset(depItem.getExportElementSubset(parent));
+                
+                String fieldValue = linkElement.getFieldValue();
+                if (fieldValue.indexOf("View Course Set") > 0)
+                	fieldValue = fieldValue.replaceAll("View Course Set", "");
+                else if (fieldValue.indexOf("View Course") > 0)
+                	fieldValue = fieldValue.replaceAll("View Course", "");
+                else if (fieldValue.indexOf("View Program") > 0)
+                	fieldValue = fieldValue.replaceAll("View Program", "");
+                linkElement.setFieldValue(fieldValue);
+                
                 linkElementSubItems.add(linkElement);
             }
             return linkElementSubItems;
