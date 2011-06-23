@@ -40,7 +40,8 @@ import org.w3c.dom.Element;
 @XmlType(name = "ExemptionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "name", "descr", "exemptionRequestId", "exemptedPersonId", 
 		"qualifierTypeKey", "qualifierId", "effectiveDate", 
-                "expirationDate", "restrictionOverride", "dateOverride", 
+		"expirationDate", "useLimit", "useCount", 
+                "restrictionOverride", "dateOverride", 
                 "milestoneOverride", "statementOverride", "holdOverride", 
                 "meta", "attributes", "_futureElements" })
 
@@ -64,6 +65,12 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
 	@XmlElement
 	private Date expirationDate;
+
+	@XmlElement
+	private Integer useLimit;
+
+	@XmlElement
+	private Integer useCount;
 
 	@XmlElement
 	private RestrictionOverrideInfo restrictionOverride;
@@ -95,7 +102,9 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 		qualifierId = null;
 		effectiveDate = null;
 		expirationDate = null;
-		
+		useLimit = null;
+		useCount = null;
+
 		restrictionOverride = null;
 		dateOverride = null;
 		milestoneOverride = null;
@@ -120,6 +129,8 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 			this.qualifierId = exemption.getQualifierId();
 			this.effectiveDate = exemption.getEffectiveDate();
 			this.expirationDate = exemption.getExpirationDate();
+			this.useLimit = exemption.getUseLimit();
+			this.useCount = exemption.getUseCount();
 
 			if (exemption.getRestrictionOverride() != null) {
 			    this.restrictionOverride = new RestrictionOverrideInfo(exemption.getRestrictionOverride());
@@ -201,6 +212,24 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
 	public void setExpirationDate(Date expirationDate) {
 	    this.expirationDate = expirationDate;
+	}
+
+	@Override
+	public Integer getUseLimit() {
+	    return useLimit;
+	}
+
+	public void setUseLimit(Integer useLimit) {
+	    this.useLimit = useLimit;
+	}
+
+	@Override
+	public Integer getUseCount() {
+	    return useCount;
+	}
+
+	public void setUseCount(Integer useCount) {
+	    this.useCount = useCount;
 	}
 
 	@Override

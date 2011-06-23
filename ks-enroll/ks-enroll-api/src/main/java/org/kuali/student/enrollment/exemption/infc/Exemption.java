@@ -72,6 +72,18 @@ public interface Exemption extends IdEntity {
     public Date getExpirationDate(); 
 
     /**
+     * Name: Use Limit
+     * The number of times this Exemption may be used.
+     */
+    public Integer getUseLimit();
+
+    /**
+     * Name: Use Count
+     * The number of times this Exemption was marked as used..
+     */
+    public Integer getUseCount();
+
+    /**
      * Name: Restriction Override
      * The data for a restriction override.
      */
