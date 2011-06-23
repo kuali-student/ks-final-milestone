@@ -15,7 +15,7 @@ import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
-@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestIssueDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.enrollment.class1.hold.dao.IssueDao", testSqlFile = "classpath:ks-hold.sql")
     private IssueDao dao;
