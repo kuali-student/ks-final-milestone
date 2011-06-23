@@ -60,6 +60,12 @@ public interface Exemption extends IdEntity {
     public Date getApprovedDate();
 
     /**
+     * Name: Qualifier Type Key
+     * The Type of a Qualifier to the Exemption.
+     */
+    public String getQualifierTypeKey();
+
+    /**
      * Name: Qualifier Id
      * The Id of a Qualifier to the Exemption.
      */
@@ -72,10 +78,10 @@ public interface Exemption extends IdEntity {
     public Date getEffectiveDate();
 
     /**
-     * Name: Expires Date
+     * Name: Expiration Date
      * The date this exemption expires.
      */
-    public Date getExpiresDate(); 
+    public Date getExpirationDate(); 
 
     /**
      * Name: Restriction Override

@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.exemption.infc;
 
+import java.util.List;
 
 /**
  * Information about a LearningResultOverride. A learning result
@@ -31,5 +32,5 @@ public interface LearningResultOverride {
      * The Ids of the Learning Result Records created for this result
      * override.
      */
-    public String[] getLRRIds();
+    public List<String> getLRRIds();
 }

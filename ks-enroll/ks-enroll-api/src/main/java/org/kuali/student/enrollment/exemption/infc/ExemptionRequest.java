@@ -43,10 +43,10 @@ public interface ExemptionRequest extends IdEntity {
     public String getPersonId();
 
     /**
-     * Name: Qualifier Type
+     * Name: Qualifier Type Key
      * The Type of a Qualifier to the Exemption.
      */
-    public String getQualifierType();
+    public String getQualifierTypeKey();
 
     /**
      * Name: Qualifier Id
