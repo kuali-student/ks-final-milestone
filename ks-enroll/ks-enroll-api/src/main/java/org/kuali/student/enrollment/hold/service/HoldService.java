@@ -87,7 +87,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return true if a restriction exists, false otherwise
-     * @throws DoesNotExistException holdId not found
+     * @throws DoesNotExistException restrictionKey or personId not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
@@ -105,7 +105,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return a list of Holds
-     * @throws DoesNotExistException holdId not found
+     * @throws DoesNotExistException restrictionKey not found
      * @throws InvalidParameterException invalid holdId
      * @throws MissingParameterException missing holdId
      * @throws OperationFailedException unable to complete request
@@ -124,7 +124,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return a list of Holds
-     * @throws DoesNotExistException holdId not found
+     * @throws DoesNotExistException rstrictionKey or personId not found
      * @throws InvalidParameterException invalid holdId
      * @throws MissingParameterException missing holdId
      * @throws OperationFailedException unable to complete request
@@ -145,7 +145,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return a list of Holds
-     * @throws DoesNotExistException holdId not found
+     * @throws DoesNotExistException restrictionKey not found
      * @throws InvalidParameterException invalid holdId
      * @throws MissingParameterException missing holdId
      * @throws OperationFailedException unable to complete request
@@ -179,7 +179,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return a list of Holds
-     * @throws DoesNotExistException an  holdId in list not found
+     * @throws DoesNotExistException a holdId in list not found
      * @throws InvalidParameterException invalid holdId in list
      * @throws MissingParameterException missing holdIdList
      * @throws OperationFailedException unable to complete request
