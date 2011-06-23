@@ -28,7 +28,7 @@
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
             <map>
-                <entry key="Acal">
+                <entry key="persistentUnit">
                     <value>classpath:ks-hold.sql</value>
                 </entry>
             </map>
@@ -86,17 +86,11 @@
     </bean>
     
    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+        <property name="persistenceUnitName" value="persistentUnit"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
     
-   <!--<bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
-    </bean>-->
-
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>

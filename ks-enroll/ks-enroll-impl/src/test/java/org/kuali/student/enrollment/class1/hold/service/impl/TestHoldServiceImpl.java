@@ -12,12 +12,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -230,5 +230,58 @@ public class TestHoldServiceImpl {
     	
     }
 
+    @Test
+    public void testGetRestrictionsByIssue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RestrictionInfo> restrictions = holdService.getRestrictionsByIssue("Hold-Issue-1", callContext);
+        
+        assertNotNull(restrictions);
+        assertEquals(1, restrictions.size());
+        
+        List<String> expectedIds = new ArrayList<String>();
+        expectedIds.add("Hold-Restriction-1");
+        
+        // check that all the expected ids came back
+        for(RestrictionInfo info : restrictions) {
+            expectedIds.remove(info.getKey());
+        }
+        
+        assertTrue(expectedIds.isEmpty());
+        
+        List<RestrictionInfo> fakeRestrictions = null;
+        
+        try {
+            fakeRestrictions = holdService.getRestrictionsByIssue("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeRestrictions);
+        }
+    }
+    
+    @Test
+    public void testGetRestrictionKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String expectedRestrictionType = "kuali.hold.restriction.type.registration";
+        
+        List<String> restrictionKeys = holdService.getRestrictionKeysByType(expectedRestrictionType, callContext);
+        
+        assertTrue(restrictionKeys.contains("Hold-Restriction-1"));
+        
+        String expectedEmptyRestrictionType = "kuali.hold.restriction.type.add.drop.class";
+        
+        restrictionKeys = holdService.getRestrictionKeysByType(expectedEmptyRestrictionType, callContext);
+        
+        assertTrue(restrictionKeys == null || restrictionKeys.isEmpty());
+        
+        String fakeRestrictionType = "fakeTypeKey";
+        
+        List<String> shouldBeNull = null;
+        try {
+            shouldBeNull = holdService.getRestrictionKeysByType(fakeRestrictionType, callContext);
+            fail("Did not get a InvalidParameterException when expected");
+        }
+        catch(InvalidParameterException e) {
+            assertNull(shouldBeNull);
+        }
+    }
     	   
 }

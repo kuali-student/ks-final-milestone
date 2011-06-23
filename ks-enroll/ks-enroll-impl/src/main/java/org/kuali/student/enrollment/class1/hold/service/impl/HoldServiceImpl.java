@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.hold.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
+import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
@@ -490,15 +492,45 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<String> getRestrictionKeysByType(String restrictionTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        HoldTypeEntity type = holdTypeDao.find(restrictionTypeKey);
+        
+        if(type == null) {
+            throw new InvalidParameterException(restrictionTypeKey);
+        }
+        
+        List<RestrictionEntity> entities = restrictionDao.getByRestrictionTypeId(restrictionTypeKey);
+        
+        if(entities == null) {
+            return Collections.emptyList();
+        }
+        
+        List<String> results = new ArrayList<String>(entities.size());
+        
+        for(RestrictionEntity entity : entities) {
+            results.add(entity.getId());
+        }
+        
+        return results;
     }
 
 
     @Override
     public List<RestrictionInfo> getRestrictionsByIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        IssueEntity entity = issueDao.find(issueId);
+        
+        if(entity == null) {
+            throw new DoesNotExistException(issueId);
+        }
+        
+        List<RestrictionEntity> restrictions = restrictionDao.getByIssueId(issueId);
+        
+        List<RestrictionInfo> results = new ArrayList<RestrictionInfo>(restrictions.size());
+        for(RestrictionEntity restriction : restrictions) {
+            results.add(restriction.toDto());
+        }
+        
+        return results;
     }
 
     @Override

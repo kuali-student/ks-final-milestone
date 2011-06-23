@@ -6,7 +6,7 @@
 	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
     <!-- JPA test "unit" -->
-    <persistence-unit name="Acal" transaction-type="JTA">
+    <persistence-unit name="persistentUnit" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<class>org.kuali.student.r2.common.model.StateEntity</class>
@@ -30,7 +30,6 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
-        <class>org.kuali.student.r2.common.model.StateEntity</class>
 	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
  		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>
         <class>org.kuali.student.r2.common.entity.TypeEntity</class>
@@ -40,8 +39,10 @@
         <class>org.kuali.student.r2.common.model.AttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.IssueRestrictionRelationEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

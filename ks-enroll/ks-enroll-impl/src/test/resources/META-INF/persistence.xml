@@ -30,11 +30,18 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
+	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
+ 		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>
+        <class>org.kuali.student.r2.common.entity.TypeEntity</class>
+        <class>org.kuali.student.r2.common.entity.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.common.entity.TypeTypeRelationAttributeEntity</class>
         
         <class>org.kuali.student.r2.common.model.AttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.IssueRestrictionRelationEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
