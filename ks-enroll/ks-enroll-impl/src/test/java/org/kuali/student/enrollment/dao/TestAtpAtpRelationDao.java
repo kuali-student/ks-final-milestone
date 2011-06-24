@@ -59,4 +59,11 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
         	assertTrue(atpKey.equals("testTermId1") || relatedAtpKey.equals("testTermId1"));
         }
     }
+    
+    @Test 
+    public void testGetAtpAtpRelationsByAtpAndRelationType(){
+    	 List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtpAndRelationType("testAtpId1", AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+         assertNotNull(rels);
+         assertEquals(1, rels.size());
+    }
 }

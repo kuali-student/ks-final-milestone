@@ -790,7 +790,46 @@ public class TestAtpServiceImplRemote {
         	assertTrue(vri.isEmpty());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
-        }
-    
+        }   
+	}
+	
+	@Test
+	public void testCreatAtpAtpRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException {
+    	AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
+        atpRel.setId(UUIDHelper.genStringUUID());
+        atpRel.setAtpKey("testAtpId1");
+        atpRel.setRelatedAtpKey("testAtpId2");
+        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+        atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        atpRel.setEffectiveDate(new Date());
+
+        try{
+        	atpServiceValidation.createAtpAtpRelation(atpRel, callContext);
+        } catch (AlreadyExistsException ex){}
+        
+        try{
+            AtpInfo atpInfo = new AtpInfo();
+            atpInfo.setKey("testAtpId1-newCC");
+            atpInfo.setName("testAtpId1 to new campus calendar");
+            atpInfo.setTypeKey(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY);
+            atpInfo.setStateKey("kuali.atp.state.Draft");
+            atpInfo.setStartDate(Calendar.getInstance().getTime());
+            atpInfo.setEndDate(Calendar.getInstance().getTime());
+            AtpInfo cc = null;
+            cc = atpServiceValidation.createAtp("testAtpId1-newCC", atpInfo, callContext);
+            assertNotNull(cc);
+            
+            atpRel.setRelatedAtpKey("testAtpId1-newCC");
+        	AtpAtpRelationInfo created = atpServiceValidation.createAtpAtpRelation(atpRel, callContext);
+        	assertNotNull(created);
+        	
+        	AtpAtpRelationInfo retrieved = atpServiceValidation.getAtpAtpRelation(created.getId(), callContext);
+        	assertEquals(retrieved.getAtpKey(), "testAtpId1");
+        	assertEquals(retrieved.getRelatedAtpKey(), "testAtpId1-newCC");
+        	assertEquals(retrieved.getTypeKey(), AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }   
 	}
 }

@@ -690,8 +690,11 @@ public class AtpServiceImpl implements AtpService {
     public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
+        if (null == atpRel) {
+            throw new DoesNotExistException(atpAtpRelationId);
+        }
+        return atpRel.toDto();
     }
 
     @Override
@@ -733,29 +736,49 @@ public class AtpServiceImpl implements AtpService {
         return null;
     }
 
+    private boolean checkRelationExistence(AtpAtpRelationInfo atpAtpRelationInfo){
+       	boolean exist = false;
+       	
+        List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(atpAtpRelationInfo.getAtpKey(), atpAtpRelationInfo.getTypeKey());
+        if(rels != null && !rels.isEmpty()){
+        	for(AtpAtpRelationEntity rel : rels){
+        		if(rel.getRelatedAtp().getId().equals(atpAtpRelationInfo.getRelatedAtpKey())){
+        			exist = true;
+        			break;
+        		}
+        	}
+        }
+        
+        return exist;
+    }
+    
     @Override
     @Transactional(readOnly=false)
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
-        AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
-        if (null != atpAtpRelationInfo.getStateKey()) {
-            atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+       
+        if(!checkRelationExistence(atpAtpRelationInfo)){
+	        AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
+	        if (null != atpAtpRelationInfo.getStateKey()) {
+	            atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+	        }
+	        if (null != atpAtpRelationInfo.getTypeKey()) {
+	            atpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+	        }
+	        if (null != atpAtpRelationInfo.getAtpKey()) {
+	            atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+	        }
+	        if(null != atpAtpRelationInfo.getRelatedAtpKey()) {
+	            atpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+	        }
+	               
+	        atpRelDao.persist(atpRel);
+	        
+	        return atpAtpRelationInfo;
         }
-        if (null != atpAtpRelationInfo.getTypeKey()) {
-            atpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
-        }
-        if (null != atpAtpRelationInfo.getAtpKey()) {
-            atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
-        }
-        if(null != atpAtpRelationInfo.getRelatedAtpKey()) {
-            atpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
-        }
-               
-        atpRelDao.persist(atpRel);
-        
-        return atpAtpRelationInfo;
+        else
+        	throw new AlreadyExistsException("The Atp-Atp relation already exists. atp=" + atpAtpRelationInfo.getAtpKey() + ", relatedAtp=" + atpAtpRelationInfo.getRelatedAtpKey());
 
     }
 
