@@ -27,7 +27,7 @@ import static org.junit.Assert.assertFalse;
 import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.student.StudentStandaloneTestBase;
@@ -51,7 +51,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 	protected void verifyPermissions(String principalId, String documentId, Map<String,Boolean> existingPermissions) {
 		String permissionNamespace = "KS-LUM";
-		PermissionService permService = KIMServiceLocator.getPermissionService();
+		PermissionService permService = KimApiServiceLocator.getPermissionService();
 		for (Map.Entry<String, Boolean> entry : existingPermissions.entrySet()) {
 			if ( (entry.getValue() != null) && (entry.getValue().booleanValue()) ) {
 				assertTrue("Principal Id '" + principalId + "' should have permission '" + entry.getKey() + "'", permService.isAuthorized(principalId, permissionNamespace, entry.getKey(), null, new AttributeSet(KimConstants.AttributeConstants.DOCUMENT_NUMBER, ""+documentId)));
