@@ -149,6 +149,7 @@ public class StatementServiceTranslationTest {
         Proposition rootProposition = buildPropositionFromComponents(statementTreeView);
         
         propositions.add(rootProposition);
+        
         statementPropositionMap.put(rootProposition, statementTreeView);
         
         Rule rule = new BasicRule(rootProposition, null);
@@ -166,26 +167,46 @@ public class StatementServiceTranslationTest {
         
     }
 
+    public StatementTreeViewInfo getStatementTreeView(String statementId) {
+    	try {
+    		return statementService.getStatementTreeView(statementId);
+    	} catch(Exception ex) {
+    		ex.printStackTrace();
+    		return null;
+    	}
+    }
         
     private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
         if(statementTreeView.getType().equals(COREQUISITE_STATMENT_TYPE)) {
             if(statementTreeView.getStatements().isEmpty()) {
                 // if no sub-statements, there are only one or two req components
             	
-                return translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator());                
+            	Proposition proposition = translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator()); 
+            	
+                statementPropositionMap.put(proposition, statementTreeView);
+
+                return proposition;         
             }
             
             // otherwise, make a compound proposition out of the recursive result for each sub-statement
             List<Proposition> subProps = new ArrayList<Proposition>(statementTreeView.getStatements().size());
+            
             for(StatementTreeViewInfo subStatement : statementTreeView.getStatements()) {
+            
+            	Proposition prop = buildPropositionFromComponents(subStatement);
+            	            	
+            	statementPropositionMap.put(prop, subStatement);
             	
                 subProps.add(buildPropositionFromComponents(subStatement));
                                 
                 
             }
             
+            CompoundProposition compoundProposition = new CompoundProposition(translateOperator(statementTreeView.getOperator()), subProps);
             
-            return new CompoundProposition(translateOperator(statementTreeView.getOperator()), subProps);
+            statementPropositionMap.put(compoundProposition, statementTreeView);
+
+            return compoundProposition;
         }
         
         return null;

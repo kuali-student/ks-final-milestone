@@ -78,6 +78,7 @@ public class ShortResultsReportTest {
         
         xOptions = new ExecutionOptions();
         xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+        xOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
         
         agenda1 = statementTranslator.translateStatement("1");
         agenda2 = statementTranslator.translateStatement("2");
@@ -116,43 +117,58 @@ public class ShortResultsReportTest {
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println();
+        System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 1");
-        printEngineResults(results1);
-        
+        //printEngineResults(results1);
+        printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
+
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println();
+        System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 2");
-        printEngineResults(results2);
-        
+        //printEngineResults(results2);
+        printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
+        //printPropositions(results2);
+
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
+        System.out.println();
+        System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 3");
-        printEngineResults(results3); 
-    }
+        //printEngineResults(results3); 
+        printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
+        //printPropositions(results3);
 
+    }
 
     @Test
     public void executeStatementsForStudent2() {
         HashMap<Term, Object> execFacts = buildExecFacts("2");
         
         ProviderBasedEngine engine1 = buildEngine(agenda1);
-        
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);       
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 1");
-        printEngineResults(results1);
+        //printEngineResults(results1);
+        printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
+
     
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 2");
-        printEngineResults(results2);
-
+        //printEngineResults(results2);
+        printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
+        
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 3");
-        printEngineResults(results3);
+        //printEngineResults(results3);
+        printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
+
         
     }
     
@@ -169,20 +185,25 @@ public class ShortResultsReportTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 1");
-        printEngineResults(results1);
+        //printEngineResults(results1);
+        printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
+
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 2");
-        printEngineResults(results2);
+        //printEngineResults(results2);
+        printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
+
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 3");
-        printEngineResults(results3);
-        
+        //printEngineResults(results3);
+        printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
+ 
         // revert permission propositions
         OrgPermissionProposition.setHasPermission(true);
         InstructorPermissionProposition.setHasPermission(true);
@@ -212,6 +233,139 @@ public class ShortResultsReportTest {
         
         printEngineResults(results); 
     }
+    
+    /*
+    @Test
+    public void testStatementTreeView() {
+    	
+    	StatementTreeViewInfo statementTree = statementTranslator.getStatementTreeView("2");
+    	
+    	printStatementTree(statementTree, null);
+    	
+    }
+    */
+    
+    private void printStatementTree(StatementTreeViewInfo statementTreeViewInfo, EngineResults results) {
+    	
+        System.out.println("---------------------------");
+        System.out.println();
+        
+		System.out.println("Statement: " + statementTreeViewInfo);
+		System.out.println("Operator: " + statementTreeViewInfo.getOperator());
+		System.out.println("Evaluated to " + getProposalStatementResult(results).get(statementTreeViewInfo));
+		System.out.println("Corresponds to Proposal: " + getObjectPropositionMap(results).get(statementTreeViewInfo));
+		
+    	System.out.println(statementTreeViewInfo);
+    	
+    	if(statementTreeViewInfo.getStatements().size() == 0) {
+    		
+			for(ReqComponentInfo reqComponent : statementTreeViewInfo.getReqComponents()) {
+				System.out.println("---Req Component: " + reqComponent);
+				System.out.println("---Evaluated to " + getProposalRequirementComponentResult(results).get(reqComponent));
+				System.out.println("---Corresponds to Proposal: " + getObjectPropositionMap(results).get(reqComponent));
+				
+			}
+		
+    	} else {
+    		
+			for(StatementTreeViewInfo statement : statementTreeViewInfo.getStatements()) {
+				printStatementTree(statement, results);
+
+			}
+		}
+    }
+    
+    private Map<Object, Proposition> getObjectPropositionMap(EngineResults results) {
+    	
+    	Map<Object, Proposition> objPropositionMap = new HashMap<Object, Proposition>();
+    	
+    	for(Proposition proposition : statementTranslator.getPropositions()) {
+    		
+    		if(statementTranslator.getStatementPropositionMap().get(proposition) != null) {
+        		objPropositionMap.put(statementTranslator.getStatementPropositionMap().get(proposition), proposition);
+    		}
+    		
+    		if(statementTranslator.getReqComponentPropositionMap().get(proposition) != null) {
+        		objPropositionMap.put(statementTranslator.getReqComponentPropositionMap().get(proposition), proposition);
+    		}
+    		
+    	}
+    	
+    	return objPropositionMap;
+    }
+    
+    	
+    private Map<ReqComponentInfo, Boolean> getProposalRequirementComponentResult(EngineResults results) {
+    	    
+    	Map<ReqComponentInfo, Boolean> reqComponentResults = new HashMap<ReqComponentInfo, Boolean>();
+    	
+    	for(ResultEvent result : results.getAllResults()) {
+    		
+    		if(statementTranslator.getReqComponentPropositionMap().containsKey(result.getSource())) {
+    		
+    			reqComponentResults.put(statementTranslator.getReqComponentPropositionMap().get(result.getSource()), result.getResult());
+    		
+    		}
+    		
+    	}
+    	
+    	return reqComponentResults;
+    }
+    
+    private Map<StatementTreeViewInfo, Boolean> getProposalStatementResult(EngineResults results) {
+	    
+    	Map<StatementTreeViewInfo, Boolean> statementResults = new HashMap<StatementTreeViewInfo, Boolean>();
+    	
+    	for(ResultEvent result : results.getAllResults()) {
+    		
+    		if(statementTranslator.getStatementPropositionMap().containsKey(result.getSource())) {
+    		
+    			statementResults.put(statementTranslator.getStatementPropositionMap().get(result.getSource()), result.getResult());
+    		
+    		}
+    		
+    	}
+    	
+    	return statementResults;
+    }
+    
+    private void printPropositions(EngineResults results) {
+    	
+        System.out.println("---------------------------");
+        System.out.println();
+    	
+    	System.out.println("Number of Propositions: " + statementTranslator.getPropositions().size());
+    	
+    	for(Proposition proposition : statementTranslator.getPropositions()) {
+    		
+    		System.out.println("Proposition: " + proposition);
+    		System.out.println("--- Statement: " + statementTranslator.getStatementPropositionMap().get(proposition));
+    		System.out.println("--- Req Component: " + statementTranslator.getReqComponentPropositionMap().get(proposition));
+    	
+    		System.out.println("--- Terms: ");
+    		
+    		if(results.getTermPropositionMap() == null) {
+    			System.out.println("--- --- no terms associated with " + proposition);
+    		} else {
+    			
+    			Set<Term> terms = results.getTermPropositionMap().get(proposition);
+    		
+    			if(terms == null) {
+    				System.out.println("--- --- no terms associated with " + proposition);
+    			} else {
+    			
+	    			for(Term term : terms) {
+	    				System.out.println("--- --- Term: " + term);
+	    			}
+    			
+    			}
+    			
+    		}
+    		
+    	}
+    	
+    }
+    
         
     private void printEngineResults(EngineResults results) {
         
