@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +128,7 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
         atpRel.setRelatedAtpKey(relatedAtpKey);
         atpRel.setTypeKey(relationType);
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        atpRel.setEffectiveDate(new Date());
         atpService.createAtpAtpRelation(atpRel, context);        
     }
     

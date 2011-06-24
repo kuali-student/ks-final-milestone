@@ -25,12 +25,16 @@
     <bean id="atpMilestoneRelationInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-AtpMilestoneRelationInfo-dictionary.xml" />
     </bean>
+    <bean id="atpAtpRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AtpAtpRelationInfo-dictionary.xml" />
+    </bean>
     <bean name="atpServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
+                <bean parent="atpAtpRelationInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
@@ -95,6 +99,7 @@
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpMilestoneRelationInfoDictionaryLocation" />
+                <bean parent="atpAtpRelationInfoDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
                 <bean parent="campusCalendarInfoDictionaryLocation" />                  
                 <bean parent="termInfoDictionaryLocation" />

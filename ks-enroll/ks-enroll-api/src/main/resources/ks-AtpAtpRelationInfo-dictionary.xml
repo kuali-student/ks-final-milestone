@@ -42,7 +42,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <ref bean="atpAtpRelationInfo.atpKey"/>
 <ref bean="atpAtpRelationInfo.relatedAtpKey"/>
 <ref bean="atpAtpRelationInfo.attributes"/>
-<ref bean="atpAtpRelationInfo.metaInfo"/>
+<!--<ref bean="atpAtpRelationInfo.metaInfo"/>-->
 </list>
 </property>
 </bean>

@@ -16,10 +16,13 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
+import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
     private DataDictionaryValidator validator;
@@ -134,5 +137,43 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         }
         return errors;
     }
+ 
+    private void validateAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+        try {
+            List<ValidationResultInfo> errors = this.validateAtpAtpRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpAtpRelationInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Errors", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("erorr trying to validate", ex);
+        }
+    }
+    @Override
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType,
+            AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return validate(validationType, atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+            throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+    	try {
+			validateAtpAtpRelation(atpAtpRelationInfo, context);
+		} catch (DataValidationErrorException e) {
+			throw new OperationFailedException("Operation failed due to Data Validation Error", e);
+		}
+        return this.nextDecorator.createAtpAtpRelation(atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo,
+            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    	validateAtpAtpRelation(atpAtpRelationInfo, context);
+        return this.nextDecorator.updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
+    }
+
 
 }

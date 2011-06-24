@@ -17,12 +17,14 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -32,6 +34,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -769,5 +772,25 @@ public class TestAtpServiceImplRemote {
 		StateInfo stateInfo = atpServiceValidation.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
 		assertNotNull(stateInfo);
 		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+	}
+	
+	@Test
+	public void testValidateAtpAtpRelation() throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException {
+    	AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
+        atpRel.setId(UUIDHelper.genStringUUID());
+        atpRel.setAtpKey("testAtp1");
+        atpRel.setRelatedAtpKey("testAtp2");
+        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+        atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        atpRel.setEffectiveDate(new Date());
+
+        try{
+        	List<ValidationResultInfo> vri= atpServiceValidation.validateAtpAtpRelation("FULL_VALIDATION", atpRel, callContext);
+        	assertTrue(vri.isEmpty());
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+    
 	}
 }
