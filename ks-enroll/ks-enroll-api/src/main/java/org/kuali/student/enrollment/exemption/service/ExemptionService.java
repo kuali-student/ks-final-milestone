@@ -508,9 +508,9 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     public List<String> getExemptionRequestIdsByType(@WebParam(name = "exemptionRequestTypeKey") String exemptionRequestTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Exemption Request Ids by Task Key.
+     * Retrieves a list Exemption Request Ids by Check Key.
      *
-     * @param taskKey a unique key for a Task
+     * @param checkKey a unique key for a Check
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -521,7 +521,7 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getExemptionRequestIdsByTask(@WebParam(name = "taskKey") String taskKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ExemptionRequest. Depending on the value of
