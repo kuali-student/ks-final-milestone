@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,7 +41,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     private Map<Enum<?>, List<KSButton>> topViewButtonsMap = new HashMap<Enum<?>, List<KSButton>>();
     protected Map<Enum<?>, KSMenuItemData> viewMenuItemMap = new HashMap<Enum<?>, KSMenuItemData>();
     private List<View> menuOrder = new ArrayList<View>();
-    private FlowPanel layout = new FlowPanel();
+    private HorizontalPanel layout = new HorizontalPanel();
     private KSDocumentHeader header = new KSDocumentHeader();
     protected FlowPanel rightPanel = new FlowPanel();
     private FlowPanel contentPanel = new FlowPanel();
