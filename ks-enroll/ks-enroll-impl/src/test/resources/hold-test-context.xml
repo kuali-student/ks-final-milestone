@@ -103,6 +103,7 @@
 	  	<property name="holdTypeDao" ref="holdTypeDao"/>
 	  	<property name="holdRichTextDao" ref="holdRichTextDao"/>
 	  	<property name="stateService" ref="stateService"/>
+	  	<property name="dataDictionaryService" ref="dataDictionaryServiceForHold"/>
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">

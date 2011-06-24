@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.hold.service.HoldService;
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
@@ -70,6 +71,7 @@ public class HoldServiceImpl implements HoldService {
     private HoldRichTextDao holdRichTextDao;
     private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
+    private DataDictionaryService dataDictionaryService;
     
     public IssueDao getIssueDao() {
         return issueDao;
@@ -127,16 +129,22 @@ public class HoldServiceImpl implements HoldService {
         this.stateService = stateService;
     }
 
+    public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
+
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
     }
 
     @Override

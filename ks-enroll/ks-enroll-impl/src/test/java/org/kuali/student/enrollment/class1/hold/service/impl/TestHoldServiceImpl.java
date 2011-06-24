@@ -283,5 +283,15 @@ public class TestHoldServiceImpl {
             assertNull(shouldBeNull);
         }
     }
+    
+    @Test
+    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        List<String> results = holdService.getDataDictionaryEntryKeys(callContext);
+        
+        assertNotNull(results);
+        assertTrue(!results.isEmpty());
+        
+        assertTrue(results.contains("http://student.kuali.org/wsdl/hold/HoldInfo"));
+    }
     	   
 }
