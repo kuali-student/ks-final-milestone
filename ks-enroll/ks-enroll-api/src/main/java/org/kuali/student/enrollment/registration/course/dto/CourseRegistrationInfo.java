@@ -3,9 +3,11 @@ package org.kuali.student.enrollment.registration.course.dto;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.kuali.student.enrollment.registration.course.infc.CourseRegistration;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
 
 public class CourseRegistrationInfo extends  RelationshipInfo implements CourseRegistration, Serializable {
@@ -16,6 +18,9 @@ public class CourseRegistrationInfo extends  RelationshipInfo implements CourseR
     private String courseOfferingId; 
 
     private String studentId;
+
+    private List<Element> _futureElements;
+
     
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;

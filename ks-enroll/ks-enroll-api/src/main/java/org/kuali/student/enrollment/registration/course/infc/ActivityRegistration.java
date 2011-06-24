@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.registration.course.infc;
 
-;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**

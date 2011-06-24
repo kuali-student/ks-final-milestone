@@ -39,12 +39,6 @@ public interface CourseWaitlist extends IdEntity {
     public String getCourseOfferingId();
 
     /**
-     * The type of the registration for this Waitlist. This maps to the LPR
-     * type.
-     */
-    public String getRegistrationType();
-
-    /**
      * Gets all the course waitlist entries in the wailtist.
      * 
      * @return

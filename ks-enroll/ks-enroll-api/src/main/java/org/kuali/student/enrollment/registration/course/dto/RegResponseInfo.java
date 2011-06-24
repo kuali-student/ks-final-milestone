@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.enrollment.registration.course.infc.RegResponse;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 
 public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serializable {
@@ -18,6 +19,9 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
     private List<String> regWarnings;
 
     private List<String> regErrors;
+    
+    private List<Element> _futureElements;
+
 
     @Override
     public List<String> getRegMessages() {

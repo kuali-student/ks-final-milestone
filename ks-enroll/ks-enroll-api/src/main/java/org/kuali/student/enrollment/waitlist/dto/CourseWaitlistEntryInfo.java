@@ -2,52 +2,62 @@ package org.kuali.student.enrollment.waitlist.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.enrollment.waitlist.course.infc.CourseWaitlistEntry;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
-public class CourseWaitlistEntryInfo extends IdEntityInfo implements CourseWaitlistEntry, Serializable {
+public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseWaitlistEntry, Serializable {
 
-    @Override
-    public Date getEffectiveDate() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    private static final long serialVersionUID = 1L;
+
+    private String studentId;
+
+    private String courseWaitlistOptionId;
+
+    private Integer position;
+
+    private Boolean hasCheckedIn;
+    
+    private List<Element> _futureElements;
+
+
+    public void setHasCheckedIn(Boolean hasCheckedIn) {
+        this.hasCheckedIn = hasCheckedIn;
     }
 
-    @Override
-    public Date getExpirationDate() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setCourseWaitlistOptionId(String courseWaitlistOptionId) {
+        this.courseWaitlistOptionId = courseWaitlistOptionId;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     @Override
     public String getStudentId() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return studentId;
     }
 
     @Override
     public String getCourseWaitlistOptionId() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public Date getDate() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return courseWaitlistOptionId;
     }
 
     @Override
     public Integer getPosition() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return position;
     }
 
     @Override
     public Boolean getHasCheckedIn() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return hasCheckedIn;
     }
 
 }

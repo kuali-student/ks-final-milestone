@@ -10,6 +10,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
+import org.w3c.dom.Element;
 
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
@@ -24,6 +25,9 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     private RegResponse regResponse;
 
     private List<RegRequestItem> regRequestItems;
+    
+    private List<Element> _futureElements;
+
 
     public void setRequestorId(String requestorId) {
         this.requestorId = requestorId;

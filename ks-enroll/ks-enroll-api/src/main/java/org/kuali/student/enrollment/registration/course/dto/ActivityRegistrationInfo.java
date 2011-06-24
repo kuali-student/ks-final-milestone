@@ -2,9 +2,11 @@ package org.kuali.student.enrollment.registration.course.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.enrollment.registration.course.infc.ActivityRegistration;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
 public class ActivityRegistrationInfo extends RelationshipInfo implements ActivityRegistration, Serializable {
 
@@ -15,6 +17,9 @@ public class ActivityRegistrationInfo extends RelationshipInfo implements Activi
     private String studentId;
 
     private String courseRegistrationId;
+
+    private List<Element> _futureElements;
+
 
     public void setActivityOfferingId(String activityOfferingId) {
         this.activityOfferingId = activityOfferingId;

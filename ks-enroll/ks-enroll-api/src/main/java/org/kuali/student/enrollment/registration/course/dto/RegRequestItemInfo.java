@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
+import org.w3c.dom.Element;
 
 public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, Serializable {
 
@@ -27,6 +28,9 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
     private String creditOption;
 
     private RegResponseItem regResponseItem;
+    
+    private List<Element> _futureElements;
+
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;

@@ -11,7 +11,9 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.exemption.dto.ExemptionRequestInfo;
+import org.kuali.student.enrollment.registration.course.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.registration.course.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.registration.course.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegRequestInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegResponseInfo;
@@ -238,7 +240,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public String bulkRegisterStudentsToCourse(@WebParam(name = "reqRequests") List<RegRequestInfo> reqRequests,
+    public List<RegRequestInfo> bulkRegisterStudentsToCourse(@WebParam(name = "reqRequests") List<RegRequestInfo> reqRequests,
             @WebParam(name = "context") ContextInfo context);
 
     // Managing Waitist
@@ -253,38 +255,35 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     public CourseWaitlistInfo initializeWaitlistForCourse(@WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "regGroupIds") List<String> regGroupIds, @WebParam(name = "context") ContextInfo context);
 
-  /**
-   * 
-   * This method ...
-   * 
-   * @param reqRequestInfo
-   * @param context
-   * @return
-   */
-    public CourseWaitlistEntryInfo addStudentToWaitlist(
-            @WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
-            @WebParam(name = "context") ContextInfo context);
-
-   /**
-    * 
-    * This method ...
-    * 
-    * @param regRequests
-    * @param context
-    * @return
-    */
-    public String addStudentsToWaitlistForCourse(@WebParam(name = "reqRequests") List<RegRequestInfo> regRequests,
-            @WebParam(name = "context") ContextInfo context);
-
     /**
-     * 
      * This method ...
      * 
      * @param reqRequestInfo
      * @param context
      * @return
      */
-    public String removeStudentFromWaitlist(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
+    public CourseWaitlistEntryInfo addStudentToWaitlist(
+            @WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
+            @WebParam(name = "context") ContextInfo context);
+
+    /**
+     * This method ...
+     * 
+     * @param regRequests
+     * @param context
+     * @return
+     */
+    public StatusInfo addStudentsToWaitlistForCourse(@WebParam(name = "reqRequests") List<RegRequestInfo> regRequests,
+            @WebParam(name = "context") ContextInfo context);
+
+    /**
+     * This method ...
+     * 
+     * @param reqRequestInfo
+     * @param context
+     * @return
+     */
+    public StatusInfo removeStudentFromWaitlist(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
             @WebParam(name = "context") ContextInfo context);
 
     /**
@@ -295,7 +294,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public String removeStudentsFromWaitlistForCourse(@WebParam(name = "studentIds") List<String> studentIds,
+    public StatusInfo removeStudentsFromWaitlistForCourse(@WebParam(name = "studentIds") List<String> studentIds,
             @WebParam(name = "courseWaitlistId") String courseWaitlistId,
             @WebParam(name = "context") ContextInfo context);
 
@@ -308,7 +307,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public String moveStudentsToNewWaitlist(@WebParam(name = "studentIds") List<String> studentIds,
+    public StatusInfo moveStudentsToNewWaitlist(@WebParam(name = "studentIds") List<String> studentIds,
             @WebParam(name = "sourceWaitListId") String oldWaitListId,
             @WebParam(name = "targetWaitlistId") String newWaitlistId, @WebParam(name = "context") ContextInfo context);
 
@@ -319,7 +318,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public String bulkRegisterWaitlistedStuToCourse(@WebParam(name = "studentIds") List<String> studentIds,
+    public List<RegRequestInfo> bulkRegisterWaitlistedStuToCourse(@WebParam(name = "studentIds") List<String> studentIds,
             @WebParam(name = "context") ContextInfo context);
 
     /**
@@ -420,8 +419,24 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
             @WebParam(name = "context") ContextInfo context);
 
-    public List<CourseRegistrationInfo> searchForCourseOfferings(CriteriaInfo criteria);
+    public List<CourseRegistrationInfo> searchForCourseRegistrations(CriteriaInfo criteria);
 
-    public List<String> searchForCourseOfferingIds(CriteriaInfo criteria);
+    public List<String> searchForCourseOfferingRegistrationIds(CriteriaInfo criteria);
+
+    public List<ActivityRegistrationInfo> searchForActivityRegistrations(CriteriaInfo criteria);
+
+    public List<String> searchForActivityRegistrationIds(CriteriaInfo criteria);
+
+    public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(CriteriaInfo criteria);
+
+    public List<String> searchForRegGroupRegistrationIds(CriteriaInfo criteria);
+
+    public List<CourseWaitlistInfo> searchForCourseWaitlists(CriteriaInfo criteria);
+
+    public List<String> searchForCourseWaitlistIds(CriteriaInfo criteria);
+
+    public List<CourseWaitlistInfo> searchForCourseWaitlistEntries(CriteriaInfo criteria);
+
+    public List<CourseWaitlistInfo> searchForCourseWaitlistEntryIds(CriteriaInfo criteria);
 
 }

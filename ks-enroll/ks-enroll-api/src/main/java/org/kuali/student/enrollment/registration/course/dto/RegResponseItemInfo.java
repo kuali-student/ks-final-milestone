@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.w3c.dom.Element;
 
 
 public class RegResponseItemInfo extends  HasAttributesAndMetaInfo implements RegResponseItem, Serializable {
@@ -20,6 +21,9 @@ public class RegResponseItemInfo extends  HasAttributesAndMetaInfo implements Re
     private List<String> itemRegWarnings;
     
     private List<String> itemRegErrors;
+
+    private List<Element> _futureElements;
+
     
     @Override
     public List<String> getItemRegMessages() {

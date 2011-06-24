@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
+import org.w3c.dom.Element;
 
 public class RegGroupRegistrationInfo extends RelationshipInfo implements RegGroupRegistration, Serializable {
 
@@ -18,6 +19,9 @@ public class RegGroupRegistrationInfo extends RelationshipInfo implements RegGro
     private String studentId;
     
     private String courseRegistrationId;
+    
+    private List<Element> _futureElements;
+
 
     public void setRegGroupId(String regGroupId) {
         this.regGroupId = regGroupId;

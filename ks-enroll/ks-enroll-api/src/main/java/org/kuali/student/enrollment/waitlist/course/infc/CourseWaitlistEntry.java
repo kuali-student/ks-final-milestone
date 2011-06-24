@@ -11,16 +11,14 @@
 
 package org.kuali.student.enrollment.waitlist.course.infc;
 
-import java.util.Date;
+
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Represents a single student in the waitlist. Contains information such as
- * student, the position in the waitlist. As more seats become available the
- * students in the waitlist are moved to the course. The waitlist entries are
- * LPRs which are in a state denoting that the student is in a waitlist. There
- * are three waitlist-clearing strategies - automatic, semi-automatic and
- * manual.
+ * student id, the waitlist option (reg group id and clearing strategy) and the
+ * student's position in the waitlist. As more seats become available the
+ * students in the waitlist are moved to the course.
  * 
  * @Author tom
  * @Since Tue May 10 14:22:34 EDT 2011
@@ -42,13 +40,8 @@ public interface CourseWaitlistEntry extends Relationship {
     public String getCourseWaitlistOptionId();
 
     /**
-     * Name: Date The time this entry was created.
-     */
-    public Date getDate();
-
-    /**
-     * Returns the position of this entry in the waitlist for a
-     * particular waitlist option .
+     * Returns the position of this entry in the waitlist for a particular
+     * waitlist option .
      */
     public Integer getPosition();
 
@@ -60,4 +53,5 @@ public interface CourseWaitlistEntry extends Relationship {
      */
     public Boolean getHasCheckedIn();
 
+    
 }
