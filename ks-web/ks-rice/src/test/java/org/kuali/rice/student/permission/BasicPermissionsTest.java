@@ -67,12 +67,12 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		Map<String,Boolean> hasPermissionByPermissionName = new HashMap<String,Boolean>();
 
 		String principalId = "testuser1";
-		WorkflowDocument doc = new WorkflowDocument(principalId, documentTypeName);
+		WorkflowDocument doc = WorkflowDocument.createDocument(principalId, documentTypeName);
 		doc.saveDocument("");
 
 		// verify testuser1 has correct permissions as initiator
 		principalId = "testuser1";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
@@ -83,7 +83,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		
 		// verify testuser2 has no permissions
 		principalId = "testuser2";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.FALSE);
@@ -91,13 +91,13 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify testuser3 has no permissions
 		principalId = "testuser3";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_EDIT_DOCUMENT, Boolean.TRUE);
 		verifyPermissions(principalId, ""+doc.getDocumentId(), hasPermissionByPermissionName);
 
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		doc.routeDocument("");
 		
 		// verify testuser1 has correct permissions as initiator
@@ -116,7 +116,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		
 		// verify fred has request for approval and correct permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("Approval should be requested of user '" + principalId + "'", doc.isApprovalRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
@@ -125,7 +125,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify doug has request for approval and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
@@ -134,12 +134,12 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		
 		// appprove the document as fred and re-verify his and doug's permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 
 		// verify fred has no request for approval and correct permissions
 		principalId = "fred";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertFalse("Approval should be requested of user '" + principalId + "'", doc.isApprovalRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
@@ -148,7 +148,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify doug still has request for FYI and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
@@ -157,7 +157,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 		
 		// verify edna has request for Acknoweldge and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("Acknowledge should be requested of user '" + principalId + "'", doc.isAcknowledgeRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
@@ -166,15 +166,15 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// route the document to PROCESSED
 		principalId = "fran";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 		principalId = "user1";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		doc.approve("");
 
 		// verify edna still has request for Acknoweldge and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("", doc.stateIsProcessed());
 		assertTrue("Acknowledge should be requested of user '" + principalId + "'", doc.isAcknowledgeRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
@@ -187,7 +187,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify edna has no request and correct permissions
 		principalId = "edna";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("Doc should be FINAL", doc.stateIsFinal());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.FALSE);
@@ -196,7 +196,7 @@ public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 		// verify doug still has request for FYI and correct permissions
 		principalId = "doug";
-		doc = new WorkflowDocument(principalId, doc.getDocumentId());
+		doc = WorkflowDocument.loadDocument(principalId, doc.getDocumentId());
 		assertTrue("FYI should be requested of user '" + principalId + "'", doc.isFYIRequested());
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_OPEN_DOCUMENT, Boolean.TRUE);
 		hasPermissionByPermissionName.put(PERMISSIONS_NAME_COMMENT_ON_DOCUMENT, Boolean.TRUE);
