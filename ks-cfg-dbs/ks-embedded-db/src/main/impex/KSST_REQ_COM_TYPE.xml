@@ -57,13 +57,21 @@
         NAME="Minimum grade in required courses"
         TYPE_DESC="Must successfully complete a minimum of &lt;n> courses from &lt;courses> with a minimum grade of &lt;gradeType> &lt;grade>"
         TYPE_KEY="kuali.reqComponent.type.course.courseset.nof.grade.min" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20110624100302" EXPIR_DT="20110624100302"
+        NAME="Earned minimum n credits"
+        TYPE_DESC="Must have earned a minimum of &lt;n> total credits" TYPE_KEY="kuali.reqComponent.type.course.credits.min"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
         NAME="Course repeatable for maximum credit"
         TYPE_DESC="May be repeated for a maximum of &lt;n> credits"
         TYPE_KEY="kuali.reqComponent.type.course.credits.repeat.max" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20110624100302" EXPIR_DT="20110624100302"
+        NAME="Minimum cumulative GPA"
+        TYPE_DESC="Must have earned a minimum cumulative GPA of &lt;GPA>" TYPE_KEY="kuali.reqComponent.type.course.cumulative.gpa.min"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000" NAME="Enrolled in course"
         TYPE_DESC="Must be concurrently enrolled in &lt;course> "
         TYPE_KEY="kuali.reqComponent.type.course.enrolled" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE EFF_DT="20110624100302" EXPIR_DT="20110624100302"
+        NAME="Free Text" TYPE_DESC="Free Form Text" TYPE_KEY="kuali.reqComponent.type.course.freeform.text"/>
     <KSST_REQ_COM_TYPE EFF_DT="20000101000000"
         NAME="Not completed course"
         TYPE_DESC="Must not have successfully completed &lt;course> "

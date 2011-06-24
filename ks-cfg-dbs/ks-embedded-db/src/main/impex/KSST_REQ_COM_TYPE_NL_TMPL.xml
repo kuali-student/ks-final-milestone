@@ -668,6 +668,51 @@
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.enrolled.nof"
         TEMPLATE="Must be concurrently enrolled in a minimum of $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from $courseCluSet.getCluSetAsCode()" VER_NBR="0"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4001" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.cumulative.gpa.min" TEMPLATE="Must have earned a minimum cumulative GPA of 2.5"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4002" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.credits.min" TEMPLATE="Must have earned a minimum of 120 total credits"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4003" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.EXAMPLE"
+        OWNER="kuali.reqComponent.type.course.freeform.text" TEMPLATE="Students must be proficient in Excel"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4101" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.cumulative.gpa.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.gpa;reqCompFieldLabel=GPA>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4102" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.credits.min" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minimum Number of Credits>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4103" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.COMPOSITION"
+        OWNER="kuali.reqComponent.type.course.freeform.text" TEMPLATE="&lt;reqCompFieldType=kuali.reqComponent.field.type.value.freeform.text;reqCompFieldLabel=Text>"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4201" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.CATALOG"
+        OWNER="kuali.reqComponent.type.course.cumulative.gpa.min" TEMPLATE="Must have earned a minimum cumulative GPA of $gpa"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4202" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.CATALOG"
+        OWNER="kuali.reqComponent.type.course.credits.min" TEMPLATE="Must have earned a minimum of $intValue total $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4203" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.CATALOG"
+        OWNER="kuali.reqComponent.type.course.freeform.text" TEMPLATE="$fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4301" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
+        OWNER="kuali.reqComponent.type.course.cumulative.gpa.min" TEMPLATE="Must have earned a minimum cumulative GPA of $gpa"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4302" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
+        OWNER="kuali.reqComponent.type.course.credits.min" TEMPLATE="Must have earned a minimum of $intValue total $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4303" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
+        OWNER="kuali.reqComponent.type.course.freeform.text" TEMPLATE="$fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4401" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.cumulative.gpa.min" TEMPLATE="Must have earned a minimum cumulative GPA of $gpa"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4402" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.credits.min" TEMPLATE="Must have earned a minimum of $intValue total $NLHelper.getProperGrammar($intValue, &quot;credit&quot;)"/>
+    <KSST_REQ_COM_TYPE_NL_TMPL ID="4403" LANGUAGE="en"
+        NL_USUAGE_TYPE_KEY="KUALI.RULE"
+        OWNER="kuali.reqComponent.type.course.freeform.text" TEMPLATE="$fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="5" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.course.courseset.credits.completed.nof"

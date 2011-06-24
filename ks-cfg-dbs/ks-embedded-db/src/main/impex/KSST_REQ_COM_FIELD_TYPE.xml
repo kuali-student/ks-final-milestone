@@ -67,6 +67,9 @@
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Test score"
         ID="kuali.reqComponent.field.type.test.score" NAME="Test Score"
         READ_ONLY="0" VER_NBR="0"/>
+    <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="string" DESCR="Free Text"
+        ID="kuali.reqComponent.field.type.value.freeform.text"
+        NAME="Free Text" READ_ONLY="0"/>
     <KSST_REQ_COM_FIELD_TYPE DATA_TYPE="integer" DESCR="Integer Value"
         ID="kuali.reqComponent.field.type.value.positive.integer"
         NAME="Integer Value" READ_ONLY="0" VER_NBR="0"/>
