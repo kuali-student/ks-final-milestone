@@ -173,6 +173,18 @@
                     <ref local="luContext"/>
                 </entry>
 
+				<entry key="kuali.reqComponent.type.course.cumulative.gpa.min">
+                    <ref local="gpaContext"/>
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.credits.min">
+                    <ref local="basicContext"/>                
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.freeform.text">
+                    <ref local="basicContext"/>                
+                </entry>
+                
                 <!-- Program Contexts -->
 
                 <entry key="kuali.reqComponent.type.programList.enroll.oneof">
