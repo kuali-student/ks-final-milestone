@@ -515,13 +515,12 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      *                and locale information about the caller of service
      *                operation
      * @return a list of Exemptions
-     * @throws DoesNotExistException an exemptionId in list not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ExemptionRequest. Depending on the value of
