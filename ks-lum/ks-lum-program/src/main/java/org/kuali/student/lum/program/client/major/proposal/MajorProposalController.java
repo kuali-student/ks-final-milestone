@@ -28,13 +28,13 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AddSpecializationEvent;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
@@ -52,8 +52,6 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcServiceAsync;
-import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
-import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import com.google.gwt.core.client.GWT;
@@ -70,7 +68,8 @@ public class MajorProposalController extends MajorController {
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
-
+    protected String proposalPath = "";
+    protected WorkflowUtilities workflowUtil; 
     /**
      * Proposals use their own service.
      */
@@ -86,6 +85,8 @@ public class MajorProposalController extends MajorController {
         super(programModel, viewContext, eventBus);
         programProposalRemoteService = createProgramProposalRemoteService();
         configurer = GWT.create(MajorProposalConfigurer.class);
+        proposalPath = configurer.getProposalPath();
+        workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -112,6 +113,16 @@ public class MajorProposalController extends MajorController {
         }
     }
 
+    /**
+     * Used by configurer when adding widget to the screen.  Allows
+     * us to get the workflow utilities we initialize in the 
+     * controller. 
+     * @return
+     */
+    public WorkflowUtilities getWfUtilities(){
+        return workflowUtil;
+    }
+    
     private void initHandlers() {
         saveButton.addClickHandler(new ClickHandler() {
 

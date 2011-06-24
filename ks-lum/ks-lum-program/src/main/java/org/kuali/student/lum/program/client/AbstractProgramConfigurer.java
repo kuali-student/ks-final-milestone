@@ -19,11 +19,16 @@ public abstract class AbstractProgramConfigurer extends Configurer {
 
     protected ConfigurationManager programSectionConfigManager;
 
+    public static final String PROPOSAL_PATH = "proposal";
+    
     public void configure(ProgramController viewController) {
         this.programController = viewController;
         configureProgramSections();
     }
-
+ 
+    public String getProposalPath() {
+        return PROPOSAL_PATH;
+    }
     /**
      * Configures menu for Program Sections
      */

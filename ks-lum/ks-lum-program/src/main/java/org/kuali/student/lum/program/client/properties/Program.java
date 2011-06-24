@@ -485,14 +485,25 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
+   * Translated "Modify Program".
+   * 
+   * @return translated "Modify (no version)"
+   */
+  @DefaultMessage("Modify Program")
+  @Key("programAction.modify")
+  String programAction_modify();
+
+  /**
    * Translated "Modify (no version)".
    * 
    * @return translated "Modify (no version)"
    */
-  @DefaultMessage("Modify (no version)")
-  @Key("programAction.modify")
-  String programAction_modify();
+  @DefaultMessage("Retire Program")
+  @Key("programAction.retire")
+  String programAction_retire();
 
+  
+  
   /**
    * Translated "Modify (with new version)".
    * 
@@ -526,7 +537,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
    * 
    * @return translated "Program Actions: Modify, Retire..."
    */
-  @DefaultMessage("Program Actions: Modify, Retire...")
+  @DefaultMessage("Program Actions")
   @Key("programAction.title")
   String programAction_title();
 

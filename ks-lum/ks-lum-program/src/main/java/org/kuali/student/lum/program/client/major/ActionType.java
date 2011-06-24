@@ -3,7 +3,6 @@ package org.kuali.student.lum.program.client.major;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
@@ -12,6 +11,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 public enum ActionType {
     NO_ACTION(ProgramProperties.get().programAction_title()),
     MODIFY(ProgramProperties.get().programAction_modify()),
+    RETIRE(ProgramProperties.get().programAction_retire()),
     MODIFY_VERSION(ProgramProperties.get().programAction_modifyVersion()),
     PROPOSED_PROGRAM_MODIFICATION(ProgramProperties.get().programAction_proposedProgramModification());
 
@@ -38,13 +38,19 @@ public enum ActionType {
     }
 
     public static List<String> getValues(boolean showAllActions){
-    	if (showAllActions){
+    	// There is a states page which shows valid states.  Make needs to update it.
+        // It is at: https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
+        // NOTE: Use same states as "Modify with Version" on page above (it is equivalent to modify with proposal)
+        
+        
+        // We need to show the PROPOSED_PROGRAM_MODIFICATION option when state is  
+        if (showAllActions){
     		return getValues();
     	} else {
     		List<String> values = new ArrayList<String>();
     		values.add(NO_ACTION.getValue());
     		values.add(MODIFY.getValue());
-    		
+    		values.add(RETIRE.getValue());
     		return values;
     	}
     }
