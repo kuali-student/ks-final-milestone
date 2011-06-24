@@ -25,6 +25,7 @@
     </repository>
   </repositories>
   <properties>
+    <kuali.clover.generate.info.phase>none</kuali.clover.generate.info.phase>
     <ks.impex.sql.plugin.escapeProcessing>false</ks.impex.sql.plugin.escapeProcessing>
     <ks.impex.sql.plugin.orderFile>ascending</ks.impex.sql.plugin.orderFile>
     <ks.impex.sql.plugin.keepFormat>true</ks.impex.sql.plugin.keepFormat>
