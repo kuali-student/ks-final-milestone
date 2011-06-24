@@ -16,6 +16,7 @@ package org.kuali.student.enrollment.exemption.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,16 +24,11 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import org.kuali.student.enrollment.exemption.infc.LearningResultOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningResultOverrideInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "lrrIds", "meta", "attributes", 
+@XmlType(name = "LearningResultOverrideInfo", propOrder = { "lrrIds",
                 "_futureElements" })
 
 public class LearningResultOverrideInfo implements LearningResultOverride, Serializable {

@@ -24,12 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.exemption.infc.RestrictionOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RestrictionOverrideInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "restrictionKey", "meta", "attributes", "_futureElements" })
+@XmlType(name = "RestrictionOverrideInfo", propOrder = { "restrictionKey",  "_futureElements" })
 
 public class RestrictionOverrideInfo implements RestrictionOverride, Serializable {
 	private static final long serialVersionUID = 1L;

@@ -25,13 +25,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.exemption.infc.DateOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DateOverrideInfo", propOrder = { "id", "typeKey", "stateKey",
-                 "name", "descr", "milestoneKey", "effectiveStartDate", 
-                 "effectiveEndDate", "meta", "attributes", "_futureElements" })
+@XmlType(name = "DateOverrideInfo", propOrder = { "milestoneKey", "effectiveStartDate", 
+                 "effectiveEndDate", "_futureElements" })
 
 public class DateOverrideInfo implements DateOverride, Serializable {
 	private static final long serialVersionUID = 1L;

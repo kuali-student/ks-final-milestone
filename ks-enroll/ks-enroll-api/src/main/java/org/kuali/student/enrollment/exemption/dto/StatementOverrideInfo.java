@@ -24,13 +24,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.exemption.infc.StatementOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatementOverrideInfo", propOrder = { "id", "typeKey", 
-                 "stateKey", "name", "descr", "statementId", "anchorId", 
-                 "meta", "attributes", "_futureElements" })
+@XmlType(name = "StatementOverrideInfo", propOrder = { "statementId", "anchorId", 
+                 "_futureElements" })
 
 public class StatementOverrideInfo implements StatementOverride, Serializable {
 	private static final long serialVersionUID = 1L;

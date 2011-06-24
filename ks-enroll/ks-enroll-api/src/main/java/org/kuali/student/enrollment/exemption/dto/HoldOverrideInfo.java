@@ -24,12 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.exemption.infc.HoldOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldOverrideInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "holdId", "meta", "attributes", "_futureElements" })
+@XmlType(name = "HoldOverrideInfo", propOrder = { "holdId", "_futureElements" })
 
 public class HoldOverrideInfo implements HoldOverride, Serializable {
 	private static final long serialVersionUID = 1L;

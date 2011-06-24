@@ -24,14 +24,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.exemption.infc.MilestoneOverride;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneOverrideInfo", propOrder = { "id", "typeKey", 
-                 "stateKey", "name", "descr", "milestoneKey", 
-                 "effectiveMilestoneKey", "meta", "attributes", 
-		 "_futureElements" })
+@XmlType(name = "MilestoneOverrideInfo", propOrder = { "milestoneKey", 
+                 "effectiveMilestoneKey", "_futureElements" })
 
 public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	private static final long serialVersionUID = 1L;
