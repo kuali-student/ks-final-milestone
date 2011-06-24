@@ -1,5 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.xml.namespace.QName;
+
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
@@ -18,23 +23,25 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
+    public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
 
     
     private transient AcademicCalendarService academicCalendarService;
   
     @Override
     public void saveBusinessObject() {
+    	System.out.println(">>>in AcademicCalendarInfoMaintainableImpl.saveBusinessObject() method.");
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         ContextInfo context = ContextInfo.newInstance();
         try{
-        if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
+        	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {   
-            getAcademicCalendarService().createAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
-        }
-        else {
-            getAcademicCalendarService().updateAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
-        }
+        		getAcademicCalendarService().createAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
+        	}
+        	else {
+        		getAcademicCalendarService().updateAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
+        	}
         }catch (AlreadyExistsException aee){
             
         }catch (DataValidationErrorException dvee){
@@ -55,24 +62,46 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
     }
     
     protected AcademicCalendarService getAcademicCalendarService() {
+    	System.out.println(">>>in getAcademicCalendarService() method");
         if(academicCalendarService == null) {
-            academicCalendarService = GlobalResourceLoader.getService("AcademicCalendarService");
+//            academicCalendarService = GlobalResourceLoader.getService("AcademicCalendarService");
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
+            if(academicCalendarService == null) {
+            	System.out.println(">>> fail to get academicCalendarService");
+            }
         }
-        return this.academicCalendarService;
+
+        return academicCalendarService;
     }
     /*
-     *  From Larry:
+     *  Based on Norm's suggestion at 
+     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
      *  AcademicCalendarKey should be 
-     *  kuali.academic.calendar.<credentialProgramTypeKey>.<yearOfStartDate>
+     *  kuali.academic.calendar.<last part of credentialProgramTypeKey>.<yearOfStartDate>-<yearOfEndDate>
      */
     private String getAcademicCalendarKey(AcademicCalendarInfo academicCalendarInfo){
         String academicCalendarKey = new String (ACADEMIC_CALENDAR_KEY_PREFIX);
+        String credentialProgram;
         
         String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
-        String yearOfStartDate = new Integer(academicCalendarInfo.getStartDate().getYear()).toString();
-        academicCalendarKey.concat(credentialProgramTypeKey+"."+yearOfStartDate);
+        if (credentialProgramTypeKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
+        	credentialProgram  = credentialProgramTypeKey.substring(25);
+        }
+        else {
+        	credentialProgram = credentialProgramTypeKey;
+        }        
+        String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
+        String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
+        academicCalendarKey = academicCalendarKey.concat(credentialProgram+"."+yearOfStartDate+"-"+yearOfEndDate);
         System.out.println(">>>academicCalendarKey = "+ academicCalendarKey);
         return academicCalendarKey;       
         
+    }
+    
+    private String getYearFromDate(Date date){
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(date);
+    	int year = cal.get(Calendar.YEAR);
+    	return new Integer(year).toString();
     }
 }
