@@ -23,7 +23,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.infc.Meta;
 
 /**
  * This is a description of what this class does - Kamal don't forget to fill this in. 
@@ -109,6 +108,30 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
 
     @Override
     public List<String> getGradingOptions() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Date getFinalExamStartTime() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Date getFinalExamEndTime() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getFinalExamBuilding() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getFinalExamRoom() {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

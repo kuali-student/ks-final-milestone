@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kamal
  */
 
-public interface SeatPool extends HasEffectiveDates, IdEntity {
+public interface SeatPoolDefinition extends HasEffectiveDates, IdEntity {
 
     /**
      * Course offering Id to which the seat pool is linked to. Course Offering Id should be set only if the seat 

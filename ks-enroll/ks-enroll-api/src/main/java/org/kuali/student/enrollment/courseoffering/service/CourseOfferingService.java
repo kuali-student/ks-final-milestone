@@ -16,7 +16,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -66,13 +66,13 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return CourseOffering associated with the passed in Id
-     * @throws DoesNotExistException seatPoolId not found
+     * @throws DoesNotExistException seatPoolDefinitionId not found
      * @throws InvalidParameterException invalid courseOfferingId
      * @throws MissingParameterException missing courseOfferingId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String seatPoolId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
     /**
@@ -206,7 +206,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      *                and locale information about the caller of service
      *                operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException the SeatPool does not exist
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -222,13 +222,13 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return ActivityOffering associated with the passed in Id
-     * @throws DoesNotExistException seatPoolId not found
+     * @throws DoesNotExistException seatPoolDefinitionId not found
      * @throws InvalidParameterException invalid activityOfferingId
      * @throws MissingParameterException missing activityOfferingId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ActivityOfferingInfo getActivityOffering(@WebParam(name = "activityOfferingId") String seatPoolId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingInfo getActivityOffering(@WebParam(name = "activityOfferingId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
     /**
@@ -253,7 +253,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @param registrationGroupId Unique Id of the RegistrationGroup
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return List of SeatPools
+     * @return List of SeatPoolDefinitions
      * @throws DoesNotExistException registrationGroupId not found
      * @throws InvalidParameterException invalid registrationGroupId
      * @throws MissingParameterException missing registrationGroupId
@@ -306,7 +306,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      *                and locale information about the caller of service
      *                operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException the SeatPool does not exist
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
@@ -431,102 +431,102 @@ public interface CourseOfferingService extends DataDictionaryService {
     
 
     /**
-     * Retrieve information about a SeatPool
+     * Retrieve information about a SeatPoolDefinition
      * 
-     * @param seatPoolId Unique Id of the SeatPool
+     * @param seatPoolDefinitionId Unique Id of the SeatPoolDefinition
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return SeatPool associated with the passed in Id
-     * @throws DoesNotExistException seatPoolId not found
-     * @throws InvalidParameterException invalid seatPoolId
-     * @throws MissingParameterException missing seatPoolId
+     * @return SeatPoolDefinition associated with the passed in Id
+     * @throws DoesNotExistException seatPoolDefinitionId not found
+     * @throws InvalidParameterException invalid seatPoolDefinitionId
+     * @throws MissingParameterException missing seatPoolDefinitionId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public SeatPoolInfo getSeatPool(@WebParam(name = "seatPoolId") String seatPoolId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public SeatPoolDefinitionInfo getSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
     /**
-     * Retrieves a list of SeatPools records that belongs to a CourseOffering. This should return SeatPools that apply globally across all 
+     * Retrieves a list of SeatPoolDefinitions records that belongs to a CourseOffering. This should return SeatPoolDefinitions that apply globally across all 
      * RegistrationGroup in the CourseOffering
      * 
      * @param courseOfferingId Unique Id of the CourseOffering
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return List of SeatPools
+     * @return List of SeatPoolDefinitions
      * @throws DoesNotExistException courseOfferingId not found
      * @throws InvalidParameterException invalid courseOfferingId
      * @throws MissingParameterException missing courseOfferingId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<SeatPoolInfo> getSeatPoolsForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<SeatPoolDefinitionInfo> getSeatPoolsForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
-     * Retrieves a list of SeatPools records that belongs to a RegistrationGroup. 
+     * Retrieves a list of SeatPoolDefinitions records that belongs to a RegistrationGroup. 
      * 
      * @param registrationGroupId Unique Id of the RegistrationGroup
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return List of SeatPools
+     * @return List of SeatPoolDefinitions
      * @throws DoesNotExistException registrationGroupId not found
      * @throws InvalidParameterException invalid registrationGroupId
      * @throws MissingParameterException missing registrationGroupId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<SeatPoolInfo> getSeatPoolsForRegGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<SeatPoolDefinitionInfo> getSeatPoolsForRegGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new Seat Pool
      * 
-     * @param SeatPoolInfo Details of the SeatPool to be created
+     * @param SeatPoolDefinitionInfo Details of the SeatPoolDefinition to be created
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return newly created SeatPool
-     * @throws AlreadyExistsException the SeatPool being created already exists
+     * @return newly created SeatPoolDefinition
+     * @throws AlreadyExistsException the SeatPoolDefinition being created already exists
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public SeatPoolInfo createSeatPool(@WebParam(name = "seatPoolInfo") SeatPoolInfo seatPoolInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public SeatPoolDefinitionInfo createSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     
     /**
-     * Updates an existing SeatPool.
+     * Updates an existing SeatPoolDefinition.
      * 
-     * @param seatPoolId Id of SeatPool to be updated
-     * @param seatPoolInfo Details of updates to the SeatPool
+     * @param seatPoolDefinitionId Id of SeatPoolDefinition to be updated
+     * @param seatPoolDefinitionInfo Details of updates to the SeatPoolDefinition
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
-     * @return updated SeatPool
+     * @return updated SeatPoolDefinition
      * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException the SeatPool does not exist
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an out of date version.
      */
-    public SeatPoolInfo updateSeatPool(@WebParam(name = "seatPoolId") String seatPoolId, @WebParam(name = "seatPoolInfo") SeatPoolInfo seatPoolInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public SeatPoolDefinitionInfo updateSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing SeatPool.
+     * Deletes an existing SeatPoolDefinition.
      *
-     * @param seatPoolId the Id of the SeatPool to be deleted
+     * @param seatPoolDefinitionId the Id of the SeatPoolDefinition to be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException the SeatPool does not exist
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteSeatPool(@WebParam(name = "seatPoolId") String seatPoolId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
         
 }

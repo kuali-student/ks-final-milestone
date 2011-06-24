@@ -8,6 +8,7 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
@@ -47,4 +48,32 @@ public interface ActivityOffering extends HasEffectiveDates, IdEntity {
      * @name: Grading Options
      */
     public List<String> getGradingOptions();
+    
+    
+    
+    /********** Final Exam Information *****************/
+    
+    /**
+     * Start time of final exam
+     * @name Final Exam StartTime
+     */
+    public Date getFinalExamStartTime();
+    
+    /**
+     * End time of final exam.
+     * @name Final Exam EndTime
+     */
+    public Date getFinalExamEndTime();
+    
+    /**
+     * Building code where final exam will be conducted
+     * @name Final Exam Building
+     */
+    public String getFinalExamBuilding();
+    
+    /**
+     * Room number where final exam will be conducted
+     * @name Final Exam Room
+     */
+    public String getFinalExamRoom();
 }

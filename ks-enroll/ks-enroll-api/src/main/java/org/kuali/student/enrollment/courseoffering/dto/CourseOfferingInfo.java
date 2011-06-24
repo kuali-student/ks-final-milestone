@@ -16,7 +16,9 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.Date;
+import java.util.List;
 
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
@@ -37,6 +39,72 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     @Override
     public Date getExpirationDate() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Term getTerm() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getCourseId() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getSubjectArea() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getGradingOptions() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getUnitsDeployment() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getUnitsContentOwner() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean getFinalExamStatus() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean hasWaitlist() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getWaitlistTypeKey() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Integer getWaitlistMaximum() {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }

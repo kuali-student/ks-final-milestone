@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.enrollment.courseoffering.infc.SeatPool;
+import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.infc.RichText;
  * @author Kuali Student Team (Kamal)
  *
  */
-public class SeatPoolInfo extends IdEntityInfo implements SeatPool {
+public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefinition {
 
     private static final long serialVersionUID = 1L;
 
