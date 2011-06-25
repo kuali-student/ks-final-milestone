@@ -349,7 +349,7 @@ public class HoldServiceImpl implements HoldService {
         if( null != entity){
         	HoldEntity modifiedEntity = new HoldEntity(holdInfo);
             if(null != holdInfo.getIssueId())
-            	entity.setIssue(findIssue(holdInfo.getIssueId()));
+            	modifiedEntity.setIssue(findIssue(holdInfo.getIssueId()));
             if(holdInfo.getStateKey() != null)
             	modifiedEntity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
             if(holdInfo.getTypeKey() != null)
