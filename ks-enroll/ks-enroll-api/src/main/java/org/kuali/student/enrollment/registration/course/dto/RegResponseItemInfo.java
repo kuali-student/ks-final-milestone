@@ -7,24 +7,24 @@ import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.w3c.dom.Element;
 
-
-public class RegResponseItemInfo extends  HasAttributesAndMetaInfo implements RegResponseItem, Serializable {
+public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements RegResponseItem, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String courseRegistrationId;
-    
-    private List<String>  itemRegMessages ;
-    
+
+    private String courseWaitlistEntryId;
+
+    private List<String> itemRegMessages;
+
     private String itemRegStatus;
-    
+
     private List<String> itemRegWarnings;
-    
+
     private List<String> itemRegErrors;
 
     private List<Element> _futureElements;
 
-    
     @Override
     public List<String> getItemRegMessages() {
         return itemRegMessages;
@@ -50,6 +50,11 @@ public class RegResponseItemInfo extends  HasAttributesAndMetaInfo implements Re
         return courseRegistrationId;
     }
 
+    @Override
+    public String getCourseWaitlistEntryId() {
+        return courseWaitlistEntryId;
+    }
+
     public void setCourseRegistrationId(String courseRegistrationId) {
         this.courseRegistrationId = courseRegistrationId;
     }
@@ -68,6 +73,10 @@ public class RegResponseItemInfo extends  HasAttributesAndMetaInfo implements Re
 
     public void setItemRegErrors(List<String> itemRegErrors) {
         this.itemRegErrors = itemRegErrors;
+    }
+
+    public void setCourseWaitlistEntryId(String courseWaitlistEntryId) {
+        this.courseWaitlistEntryId = courseWaitlistEntryId;
     }
 
 }

@@ -3,14 +3,16 @@ package org.kuali.student.enrollment.registration.course.infc;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
- * Represents a single reg group in the registration request. Allows students to
- * specify options such as grading options. It also has a transaction type of
- * either ADD, DROP, or UPDATE to represent adding, dropping courses or
- * persisting an item from the reg cart with changes to it. It has other options
- * like grading and credit options that a student can specify while registering.
- * There will be options like okToWaitlist, okToHoldList, okToExceptionList
- * which will help specify if the student wants to go to a waitlist/holdlist in
- * case there's no seat availability for the course.
+ * Represents a single reg group in the request to register. This request is
+ * also used to request waitlist or drop a course. It has transaction type of
+ * either ADD, DROP, or UPDATE to represent adding (waitlisting, holdlisting),
+ * dropping courses or persisting an item from the reg cart with changes to it.
+ * It has other options like grading and credit options that a student can
+ * specify while registering. There will be options like okToWaitlist,
+ * okToHoldList, okToExceptionList which will help specify if the student wants
+ * to go to a waitlist/holdlist in case there's no seat availability for the
+ * course. A request to waitlist a course should always have okToWaitlist set to
+ * true, same for hold or exception lists.
  * 
  * @author Kuali Student Team (sambit)
  */

@@ -29,4 +29,12 @@ public interface CourseRegistration extends Relationship{
     public String getStudentId();
     
     
+    /**
+     * 
+     * Returns the credit count for this registration
+     * 
+     * @return
+     */
+    public String getCreditCount();
+    
 }

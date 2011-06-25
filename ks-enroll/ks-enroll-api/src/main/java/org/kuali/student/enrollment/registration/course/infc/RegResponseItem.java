@@ -51,4 +51,11 @@ public interface RegResponseItem extends HasAttributesAndMeta {
      * @return
      */
     public String getCourseRegistrationId();
+
+    /**
+     * Returns the waitlist id if it was a waitlist request
+     * 
+     * @return
+     */
+    public String getCourseWaitlistEntryId();
 }

@@ -15,9 +15,15 @@ public class CourseRegistrationInfo extends  RelationshipInfo implements CourseR
   
     private static final long serialVersionUID = 1L;
     
-    private String courseOfferingId; 
+    private String courseOfferingId;  
 
     private String studentId;
+    
+    private String creditCount;
+
+    public void setCreditCount(String creditCount) {
+        this.creditCount = creditCount;
+    }
 
     private List<Element> _futureElements;
 
@@ -38,6 +44,11 @@ public class CourseRegistrationInfo extends  RelationshipInfo implements CourseR
     @Override
     public String getStudentId() {
         return studentId;
+    }
+
+    @Override
+    public String getCreditCount() {
+        return creditCount;
     }
 
    
