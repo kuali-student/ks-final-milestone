@@ -18,6 +18,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -832,4 +833,30 @@ public class TestAtpServiceImplRemote {
             fail("exception from service call :" + ex.getMessage());
         }   
 	}
+	
+	@Test
+    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        List<String> results = atpServiceValidation.getDataDictionaryEntryKeys(callContext);
+        
+        assertNotNull(results);
+        assertTrue(!results.isEmpty());
+        
+        assertTrue(results.contains("http://student.kuali.org/wsdl/atp/AtpInfo"));
+    }
+    
+    @Test
+    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        DictionaryEntryInfo value = atpServiceValidation.getDataDictionaryEntry("http://student.kuali.org/wsdl/atp/AtpInfo", callContext);
+        
+        assertNotNull(value);
+        
+        DictionaryEntryInfo fakeEntry = null;
+        try {
+            fakeEntry = atpServiceValidation.getDataDictionaryEntry("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeEntry);
+        }
+    }
 }

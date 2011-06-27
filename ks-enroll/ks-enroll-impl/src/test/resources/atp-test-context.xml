@@ -114,6 +114,7 @@
     	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
     	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
+    	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     </bean>
 	
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">

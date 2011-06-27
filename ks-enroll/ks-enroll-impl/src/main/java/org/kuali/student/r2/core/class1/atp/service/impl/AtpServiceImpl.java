@@ -9,6 +9,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
@@ -71,6 +72,7 @@ public class AtpServiceImpl implements AtpService {
     private AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao;
     private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
+    private DataDictionaryService dataDictionaryService;
     
     public AtpDao getAtpDao() {
         return atpDao;
@@ -168,20 +170,26 @@ public class AtpServiceImpl implements AtpService {
 	public void setStateService(StateService stateService) {
 		this.stateService = stateService;
 	}
+	
+	public DataDictionaryService getDataDictionaryService() {
+        return dataDictionaryService;
+    }
+
+    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
+        this.dataDictionaryService = dataDictionaryService;
+    }
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
     }
 
     @Override
