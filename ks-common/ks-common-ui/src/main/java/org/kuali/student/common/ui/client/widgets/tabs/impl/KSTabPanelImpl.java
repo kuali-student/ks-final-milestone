@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -163,6 +164,7 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 						for(Callback<String> callback: callbacks){
 							callback.exec(tabKey);
 						}
+						HistoryManager.logHistoryChange();
 					}
 				}
 			});
@@ -200,6 +202,8 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 			}
 			KSTabPanelImpl.this.content.clear();
 			KSTabPanelImpl.this.content.setWidget(displayContent);
+			
+			
 		}
 		
 		public void onDeselect(){
