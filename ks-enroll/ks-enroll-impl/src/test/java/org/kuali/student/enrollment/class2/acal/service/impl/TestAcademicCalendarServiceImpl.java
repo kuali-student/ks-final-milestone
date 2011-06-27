@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -753,5 +754,31 @@ public class TestAcademicCalendarServiceImpl{
             assertNull(nullStatus);
         }
         
+    }
+    
+    @Test
+    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        List<String> results = acalServiceValidation.getDataDictionaryEntryKeys(callContext);
+        
+        assertNotNull(results);
+        assertTrue(!results.isEmpty());
+        
+        assertTrue(results.contains("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo"));
+    }
+    
+    @Test
+    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        DictionaryEntryInfo value = acalServiceValidation.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
+        
+        assertNotNull(value);
+        
+        DictionaryEntryInfo fakeEntry = null;
+        try {
+            fakeEntry = acalServiceValidation.getDataDictionaryEntry("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeEntry);
+        }
     }
 }

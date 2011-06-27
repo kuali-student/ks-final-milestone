@@ -120,6 +120,7 @@
     	<property name="atpService" ref="atpService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
+    	<property name="dataDictionaryService" ref="dataDictionaryServiceForAcal"/>
     </bean>
        
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
