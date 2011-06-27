@@ -183,6 +183,7 @@ public class StatementServiceTranslationTest {
             	
             	Proposition proposition = translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator()); 
             	
+            	propositions.add(proposition);
                 statementPropositionMap.put(proposition, statementTreeView);
 
                 return proposition;         
@@ -193,9 +194,10 @@ public class StatementServiceTranslationTest {
             
             for(StatementTreeViewInfo subStatement : statementTreeView.getStatements()) {
             
-            	Proposition prop = buildPropositionFromComponents(subStatement);
+            	Proposition proposition = buildPropositionFromComponents(subStatement);
             	            	
-            	statementPropositionMap.put(prop, subStatement);
+            	propositions.add(proposition);
+            	statementPropositionMap.put(proposition, subStatement);
             	
                 subProps.add(buildPropositionFromComponents(subStatement));
                                 
@@ -204,6 +206,7 @@ public class StatementServiceTranslationTest {
             
             CompoundProposition compoundProposition = new CompoundProposition(translateOperator(statementTreeView.getOperator()), subProps);
             
+            propositions.add(compoundProposition);
             statementPropositionMap.put(compoundProposition, statementTreeView);
 
             return compoundProposition;

@@ -43,7 +43,7 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 
-public class ShortResultsReportTest {
+public class StatementProposalTest {
     
     private static final ResultLogger LOG = ResultLogger.getInstance();
 
@@ -208,43 +208,7 @@ public class ShortResultsReportTest {
         OrgPermissionProposition.setHasPermission(true);
         InstructorPermissionProposition.setHasPermission(true);
     }
-    
-    @Test
-    public void testSimpleAgenda() {
         
-        String courseSetId = "1";
-        Proposition prop = new CourseSetCompletionProposition(courseSetId);
-        
-        Rule rule = new BasicRule(prop, null);
-        
-        List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>();
-        treeEntries.add(new BasicAgendaTreeEntry(rule));
-        
-        AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
-        
-        Map<String, String> emptyStringMap = Collections.emptyMap();
-        Agenda result = new BasicAgenda(Constants.STATEMENT_EVENT_NAME, emptyStringMap, agendaTree);
-        
-        ProviderBasedEngine engine = buildEngine(result);
-        
-        HashMap<Term, Object> execFacts = buildExecFacts("1");
-        
-        EngineResults results = engine.execute(selectionCriteria, execFacts, xOptions);
-        
-        printEngineResults(results); 
-    }
-    
-    /*
-    @Test
-    public void testStatementTreeView() {
-    	
-    	StatementTreeViewInfo statementTree = statementTranslator.getStatementTreeView("2");
-    	
-    	printStatementTree(statementTree, null);
-    	
-    }
-    */
-    
     private void printStatementTree(StatementTreeViewInfo statementTreeViewInfo, EngineResults results) {
     	
         System.out.println("---------------------------");
@@ -254,9 +218,7 @@ public class ShortResultsReportTest {
 		System.out.println("Operator: " + statementTreeViewInfo.getOperator());
 		System.out.println("Evaluated to " + getProposalStatementResult(results).get(statementTreeViewInfo));
 		System.out.println("Corresponds to Proposal: " + getObjectPropositionMap(results).get(statementTreeViewInfo));
-		
-    	System.out.println(statementTreeViewInfo);
-    	
+		    	
     	if(statementTreeViewInfo.getStatements().size() == 0) {
     		
 			for(ReqComponentInfo reqComponent : statementTreeViewInfo.getReqComponents()) {
