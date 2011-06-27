@@ -219,7 +219,7 @@ public class TestHoldServiceImpl {
     	try{
     		StatusInfo info = holdService.deleteHold("Hold-1", callContext);
     		assertNotNull(info);
-    		assertTrue(info.isSuccess());
+    		assertTrue(info.getIsSuccess());
     		
     		HoldInfo deleted = holdService.getHold("Hold-1", callContext);
 			assertEquals("Hold one", deleted.getName());
