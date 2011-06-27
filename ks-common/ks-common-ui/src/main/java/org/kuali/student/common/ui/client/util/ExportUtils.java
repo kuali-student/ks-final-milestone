@@ -45,6 +45,7 @@ public class ExportUtils {
 
     public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue, String viewName, String sectionName) {
         String fieldValue = null;
+        if (!fieldWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
         if (fieldWidget instanceof HasText) {
             HasText itemHasTextValue = (HasText) fieldWidget;
             fieldValue = itemHasTextValue.getText();
@@ -91,13 +92,17 @@ public class ExportUtils {
             // subExportElements = ExportUtils.getDetailsForWidget(fieldWidget,
             // subExportElements, viewName, sectionName);
         } else if (fieldWidget instanceof ReportExportWidget) {
+        	
+        	if (fieldWidget.isVisible()){
             ReportExportWidget widget = (ReportExportWidget) fieldWidget;
-            if (widget.isExportElement()) {
+            if (widget.isExportElement() ) {
                 fieldValue = widget.getExportFieldValue();
                 exportItem.setSubset(widget.getExportElementSubset(exportItem));
             }
+            }
         } else if (fieldWidget instanceof ComplexPanel) {
-            exportItem.setSubset(ExportUtils.getDetailsForWidget(fieldWidget, viewName, sectionName));
+        	if(fieldWidget.isVisible())
+            {exportItem.setSubset(ExportUtils.getDetailsForWidget(fieldWidget, viewName, sectionName));}
 
         } else {
             // logger.warn(exportItem.getFieldLabel() +
@@ -109,7 +114,7 @@ public class ExportUtils {
         } else {
             exportItem.setFieldValue2(fieldValue);
         }
-
+        }
         // System.out.println(exportItem.getSectionName() + " : Label = " +
         // exportItem.getFieldLabel() + " fieldValue : " +
         // exportItem.getFieldValue() + " fieldValue2 : " +
@@ -228,6 +233,7 @@ public class ExportUtils {
 
     public static List<ExportElement> getDetailsForWidget(Widget currentViewWidget, String viewName, String sectionName) {
         List<ExportElement> childElements = new ArrayList<ExportElement>();
+        if (!currentViewWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
         if (currentViewWidget instanceof Section) {
             Section widgetHasFields = (Section) currentViewWidget;
             List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
@@ -265,6 +271,7 @@ public class ExportUtils {
 
         } else if (currentViewWidget instanceof ComplexPanel) {
             ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
+            if (complexPanel.isVisible()){
             for (int i = 0; i < complexPanel.getWidgetCount(); i++) {
                 Widget child = complexPanel.getWidget(i);
                 if (!(child instanceof KSButton)
@@ -285,11 +292,12 @@ public class ExportUtils {
                     // }
                 }
             }
-
+            }
         } else {
 
             System.out.println("ExportUtils does not cater for this type..." + currentViewWidget.getClass().getName());
 
+        }
         }
         return childElements;
     }
@@ -298,6 +306,7 @@ public class ExportUtils {
         if (exportElements == null) {
             exportElements = new ArrayList<ExportElement>();
         }
+        if (!currentViewWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
         if (currentViewWidget instanceof VerticalSectionView) {
             Section widgetHasFields = (Section) currentViewWidget;
             List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
@@ -326,6 +335,7 @@ public class ExportUtils {
             // System.out.println("ExportUtils.getExportElementsFromView is not implemented for your View, either implement it here or do "
             // +
             // "not call the ExportUtils.getExportElementsFromView but implement it directly on your view");
+        }
         }
         return exportElements;
     }
