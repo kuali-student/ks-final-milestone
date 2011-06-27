@@ -66,7 +66,6 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
             rootSection.addWidget(widget); 
         }
  
-        rootSection.addWidget(new SummaryActionPanel(majorInfoViewConfig.createActivateProgramSection(), MajorManager.getEventBus()));
         
         // Loop over all configurations in the configuration manager
         for (Configuration configuration : configurationManager.getConfigurations()) {

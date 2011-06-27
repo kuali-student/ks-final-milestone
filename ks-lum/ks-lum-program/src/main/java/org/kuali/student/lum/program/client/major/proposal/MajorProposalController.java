@@ -9,6 +9,7 @@ import java.util.TreeSet;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -87,6 +88,10 @@ public class MajorProposalController extends MajorController {
         configurer = GWT.create(MajorProposalConfigurer.class);
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
+        
+        if (workflowUtil != null){
+            workflowUtil.requestAndSetupModel();    
+        }
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -110,6 +115,37 @@ public class MajorProposalController extends MajorController {
             addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
+        }
+    }
+
+    /**
+     * 
+     * This overridden method is called by the framework to pass request parameters (basically).
+     * <p>
+     * See https://wiki.kuali.org/display/STUDENTDOC/6.4+History%2C+Breadcrumbs+and+ViewContext
+     * <p>
+     * 
+     * @see org.kuali.student.lum.program.client.ProgramController#setViewContext(org.kuali.student.common.ui.client.application.ViewContext)
+     */
+    @Override
+    public void setViewContext(ViewContext viewContext) {
+        super.setViewContext(viewContext);
+        if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+            if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
+                
+                viewContext.setPermissionType(PermissionType.OPEN);
+            } else{
+                // Since we are making a copy and we are in the proposal controller we know
+                // we are submitting a new proposal.  We need to reset the model so that
+                // work flow utilities reloads it.  This method is called multiple times 
+                // by the history stack. 
+                resetModel();
+                //they are trying to make a modification
+                viewContext.setPermissionType(PermissionType.INITIATE);
+            }
+        }
+        else{
+            viewContext.setPermissionType(PermissionType.INITIATE);
         }
     }
 

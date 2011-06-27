@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList; 
@@ -209,16 +210,31 @@ public class MajorViewController extends MajorController {
                     // If the curriculum review option IS checked and the modify with version radio button IS selected
                     // Navigate to the modify by proposal controller/screen
                     String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
+ 
+                    // Pass the ID and the type to the proposal controller
+                    // using the view context.  We then read it in the
+                    // setViewContext method and use it to initialize the
+                    // work flow utilities
+                    final ViewContext viewContext = new ViewContext();
                     viewContext.setId(versionIndId);
-                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                   
-                    ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
-                    HistoryManager.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
+                    viewContext.setIdType(IdAttributes.IdType.COPY_OF_OBJECT_ID); 
+                    Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
 
                  } else if (radioOptionModifyWithVersion.getValue()){
                    // If the curriculum review option NOT checked and the modify with version radio button IS selected
                    // Navigate to normal modify program screen
-                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                    
+                     
+                     // Pass the ID and the type to the proposal controller
+                     // using the view context.  We then read it in the
+                     // setViewContext method and use it to initialize the
+                     // work flow utilities
+    
+                     String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
+                     viewContext.setId(versionIndId);
+                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+          
+                     //ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                      HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                 }   
                 
