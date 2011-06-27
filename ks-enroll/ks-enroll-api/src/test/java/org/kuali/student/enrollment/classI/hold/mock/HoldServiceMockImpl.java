@@ -203,7 +203,7 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<HoldInfo> getActiveHoldsByRestrictionForPerson(
+	public List<HoldInfo> getActvHoldsByRestrForPerson(
 			String restrictionKey, String personId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
