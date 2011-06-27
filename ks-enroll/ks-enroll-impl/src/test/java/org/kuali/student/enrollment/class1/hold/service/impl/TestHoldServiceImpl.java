@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceVa
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -292,6 +293,22 @@ public class TestHoldServiceImpl {
         assertTrue(!results.isEmpty());
         
         assertTrue(results.contains("http://student.kuali.org/wsdl/hold/HoldInfo"));
+    }
+    
+    @Test
+    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        DictionaryEntryInfo value = holdService.getDataDictionaryEntry("http://student.kuali.org/wsdl/hold/HoldInfo", callContext);
+        
+        assertNotNull(value);
+        
+        DictionaryEntryInfo fakeEntry = null;
+        try {
+            fakeEntry = holdService.getDataDictionaryEntry("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeEntry);
+        }
     }
     	   
 }
