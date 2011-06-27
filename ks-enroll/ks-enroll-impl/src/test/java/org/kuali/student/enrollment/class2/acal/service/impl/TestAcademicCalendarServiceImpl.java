@@ -194,7 +194,7 @@ public class TestAcademicCalendarServiceImpl{
                 assertEquals("testDeletedAcalId", created.getKey());
 
                 StatusInfo ret = acalServiceValidation.deleteAcademicCalendar("testDeletedAcalId", callContext);
-                assertTrue(ret.isSuccess());
+                assertTrue(ret.getIsSuccess());
 
                 AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testDeletedAcalId", callContext);
                 assertNull(existed);
@@ -268,7 +268,7 @@ public class TestAcademicCalendarServiceImpl{
 	        } 
 	    	
 	    	StatusInfo status = acalServiceValidation.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
-	    	assertTrue(status.isSuccess());
+	    	assertTrue(status.getIsSuccess());
     	} catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
     	}
@@ -599,7 +599,7 @@ public class TestAcademicCalendarServiceImpl{
         StatusInfo status = acalServiceValidation.removeTermFromAcademicCalendar("termRelationTestingAcal2", "termRelationTestingTerm2", callContext);
         
         assertNotNull(status);
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the acal and make sure it does not include the removed term
         List<TermInfo> results = acalServiceValidation.getTermsForAcademicCalendar("termRelationTestingAcal2", callContext);
@@ -625,7 +625,7 @@ public class TestAcademicCalendarServiceImpl{
         StatusInfo status = acalServiceValidation.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
         
         assertNotNull(status);
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the parent term and make sure it does not include the removed term
         List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm3", callContext);
@@ -694,7 +694,7 @@ public class TestAcademicCalendarServiceImpl{
     public void testDeleteTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = acalServiceValidation.deleteTerm("termRelationTestingTermDelete", callContext);
         
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {
@@ -722,7 +722,7 @@ public class TestAcademicCalendarServiceImpl{
         StatusInfo status = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
         
         assertNotNull(status);
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the parent term and make sure it does include the added term
         List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm5", callContext);

@@ -32,12 +32,12 @@ public class Student2RiceAttributeDefinitionConverter {
         rice.setName(student.getName());
         rice.setChildEntryName(student.getChildEntryName());
         rice.setDataType(student.getDataType());
-        rice.setRequired(student.isRequired());
+        rice.setRequired(student.getIsRequired());
 //        rice.setMinOccurs(student.getMinOccurs());
 //        rice.setMaxOccurs(student.getMaxOccurs());
         rice.setMinLength(student.getMinLength());
         rice.setMaxLength(student.getMaxLength());
-        rice.setForceUppercase(student.getForceUppercase());
+        rice.setForceUppercase(student.getIsForceUppercase());
         rice.setShortLabel(student.getShortLabel());
         rice.setSummary(student.getSummary());
         rice.setLabel(student.getLabel());
@@ -45,7 +45,7 @@ public class Student2RiceAttributeDefinitionConverter {
         rice.setExclusiveMin(student.getExclusiveMin());
         rice.setInclusiveMax(student.getInclusiveMax());
         rice.setDisplayLabelAttribute(student.getDisplayLabelAttribute());
-        rice.setUnique(student.isUnique());
+        rice.setUnique(student.getIsUnique());
         rice.setCustomValidatorClass(student.getCustomValidatorClass());
         if (student.getFormatterClass() != null) {
             rice.setFormatterClass(student.getFormatterClass());

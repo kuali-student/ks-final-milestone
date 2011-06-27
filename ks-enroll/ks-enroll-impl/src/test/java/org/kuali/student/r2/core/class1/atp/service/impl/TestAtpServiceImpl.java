@@ -303,7 +303,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         StatusInfo status = atpService.deleteMilestone("testDeleteId", callContext);
         
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {
@@ -665,7 +665,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     public void testDeleteAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = atpService.deleteAtpMilestoneRelation("newRelId", callContext);
         
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {

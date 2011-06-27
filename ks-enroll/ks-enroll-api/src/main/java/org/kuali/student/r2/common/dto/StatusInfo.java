@@ -38,7 +38,7 @@ public class StatusInfo implements Status, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement
-	private Boolean success;
+	private Boolean isSuccess;
 	
 	@XmlElement
 	private String message;
@@ -48,24 +48,24 @@ public class StatusInfo implements Status, Serializable {
 
   
     public StatusInfo() {
-		success = Boolean.valueOf(true);
+		isSuccess = Boolean.valueOf(true);
 		message = "";
 		_futureElements = null;
 	}
 	
     public StatusInfo(Status builder) {
-		this.success = new Boolean(builder.isSuccess().booleanValue());
+		this.isSuccess = new Boolean(builder.getIsSuccess().booleanValue());
 		this.message = builder.getMessage();
 		this._futureElements = null;
 	}
 
     @Override
-	public Boolean isSuccess(){
-		return success;
+	public Boolean getIsSuccess(){
+		return isSuccess;
 	}
 
     public void setSuccess(Boolean success) {
-        this.success = success;
+        this.isSuccess = success;
     }
 
     @Override

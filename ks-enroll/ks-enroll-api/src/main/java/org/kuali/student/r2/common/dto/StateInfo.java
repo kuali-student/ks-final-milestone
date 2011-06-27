@@ -79,7 +79,6 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return key;
     }
 
-    @Override
     public void setKey(String key) {
         this.key = key;
     }
@@ -89,7 +88,6 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -99,7 +97,6 @@ public class StateInfo extends HasAttributesInfo implements State, Serializable 
         return descr;
     }
 
-    @Override
     public void setDescr(String descr) {
         this.descr = descr;
     }

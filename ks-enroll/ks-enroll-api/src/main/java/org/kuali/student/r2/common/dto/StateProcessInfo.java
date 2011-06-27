@@ -86,7 +86,6 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         return key;
     }
 
-	@Override
     public void setKey(String key) {
         this.key = key;
     }

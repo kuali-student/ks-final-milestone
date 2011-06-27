@@ -59,7 +59,7 @@ public interface AttributeDefinitionInfc {
      * "true" indicates that a value must be entered for this business object
      * when creating or editing a new business object.
      */
-    public Boolean isRequired();
+    public Boolean getIsRequired();
 
     /**
      * Name: Minimum Occurences
@@ -101,7 +101,7 @@ public interface AttributeDefinitionInfc {
      * forceUppercase = convert user entry to uppercase and always display
      * database value as uppercase.
      */
-    public Boolean getForceUppercase();
+    public Boolean getIsForceUppercase();
 
     /**
      * Name: Short Label
@@ -176,9 +176,8 @@ public interface AttributeDefinitionInfc {
      * Similar to a db column that is flagged as unique, the value is unique
      * across all data objects of that type
      *
-     * TODO: ask if this should be isUnique instead of getUnique?
      */
-    public Boolean isUnique();
+    public Boolean getIsUnique();
 
     /**
      * Name: Custom Validator Class

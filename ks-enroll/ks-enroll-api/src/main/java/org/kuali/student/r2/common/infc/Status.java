@@ -36,8 +36,7 @@ public interface Status {
      *
      * Indicates the success or failure of the operation
      */
-    public Boolean isSuccess();
-    public void setSuccess(Boolean success);
+    public Boolean getIsSuccess();
 
     /**
      * Name: Message
@@ -45,6 +44,5 @@ public interface Status {
      * Optional message indicating a reason
      */
     public String getMessage();
-    public void setMessage(String message);
 }
 

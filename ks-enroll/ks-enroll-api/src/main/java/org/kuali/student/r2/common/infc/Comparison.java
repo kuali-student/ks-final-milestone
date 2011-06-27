@@ -75,6 +75,6 @@ public interface Comparison  {
      * Default is false
      * If true then the case of both the specified comparison value(s) and the data value from the field should be ignored
      */
-    public Boolean getIgnoreCase ();
+    public Boolean getIsIgnoreCase ();
   
 }

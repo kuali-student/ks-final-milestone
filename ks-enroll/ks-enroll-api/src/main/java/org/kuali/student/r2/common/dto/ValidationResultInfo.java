@@ -57,12 +57,12 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
 
 
     @Override
-    public Boolean getOk() {
+    public Boolean getIsOk() {
         return getLevel() == ErrorLevel.OK.getLevel();
     }
 
     @Override
-    public Boolean getWarn() {
+    public Boolean getIsWarn() {
         return getLevel() == ErrorLevel.WARN.getLevel();
     }
 

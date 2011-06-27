@@ -36,7 +36,6 @@ public interface State extends HasKey, HasAttributes, HasEffectiveDates {
      * Friendly name of the State
      */
     public String getName();
-    public void setName(String name);
 
     /**
      * Name: Description
@@ -44,5 +43,4 @@ public interface State extends HasKey, HasAttributes, HasEffectiveDates {
      * Narrative description of the State
      */
     public String getDescr();
-    public void setDescr(String descr);
 }

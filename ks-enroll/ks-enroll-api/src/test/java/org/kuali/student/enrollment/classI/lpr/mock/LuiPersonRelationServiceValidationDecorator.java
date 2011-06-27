@@ -48,7 +48,6 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         return validator;
     }
 
-    @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
     }

@@ -27,7 +27,6 @@ public interface TypeTypeRelation extends KeyEntity, HasEffectiveDates {
   * The key for the type that is the controlling or "main" type in this type-type relationship.
   */
  public String getOwnerTypeKey ();
- public void setOwnerTypeKey(String ownerTypeKey);
 
  /**
   * Name: Related Type Key
@@ -35,7 +34,6 @@ public interface TypeTypeRelation extends KeyEntity, HasEffectiveDates {
   * The key for the type that is the controlled or "secondary" type in this type-type relationhip.
   */
  public String getRelatedTypeKey ();
- public void setRelatedTypeKey(String relatedTypeKey);
  
  /**
   * Name: Rank
@@ -43,6 +41,5 @@ public interface TypeTypeRelation extends KeyEntity, HasEffectiveDates {
   * The rank or ordering of this relationship as compared to other relationships of the same type and same owner type.
   */    
  public Integer getRank();
- public void setRank(int rank);
 }
 

@@ -82,7 +82,6 @@ public class TypeInfo extends HasAttributesInfo implements Type, Serializable {
         return key;
     }
 
-	@Override
     public void setKey(String key) {
         this.key = key;
     }

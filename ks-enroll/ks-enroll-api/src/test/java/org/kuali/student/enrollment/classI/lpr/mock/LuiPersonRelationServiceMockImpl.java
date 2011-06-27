@@ -68,7 +68,6 @@ public class LuiPersonRelationServiceMockImpl implements
 		return luiService;
 	}
 
-	@Override
 	public void setLuiService(LuiService luiService) {
 		this.luiService = luiService;
 	}
@@ -518,7 +517,6 @@ public class LuiPersonRelationServiceMockImpl implements
 		return null;
 	}
 
-	@Override
 	public void setLprService(LuiPersonRelationService lprService) {
 		// TODO Auto-generated method stub
 

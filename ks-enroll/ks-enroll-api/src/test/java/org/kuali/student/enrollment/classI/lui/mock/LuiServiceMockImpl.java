@@ -54,7 +54,6 @@ public class LuiServiceMockImpl extends LuiServiceAdapter
         return luService;
     }
 
-    @Override
     public void setLuService(LuService luService) {
         this.luService = luService;
     }

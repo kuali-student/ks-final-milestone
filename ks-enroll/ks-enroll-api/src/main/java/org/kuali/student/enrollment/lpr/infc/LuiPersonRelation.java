@@ -38,13 +38,11 @@ public interface LuiPersonRelation
   * Unique identifier for a Learning Unit Instance (LUI).
   */
  public String getLuiId();
- public void setLuiId(String luiId);
 
  /**
   * Name: Person Id
   * Unique identifier for a person record.
   */
  public String getPersonId();
- public void setPersonId(String personId);
 }
 

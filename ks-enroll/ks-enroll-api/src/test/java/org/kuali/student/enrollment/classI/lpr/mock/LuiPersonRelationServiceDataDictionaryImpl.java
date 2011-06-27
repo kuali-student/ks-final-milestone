@@ -40,7 +40,6 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
         return dataDictionaryService;
     }
 
-    @Override
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }

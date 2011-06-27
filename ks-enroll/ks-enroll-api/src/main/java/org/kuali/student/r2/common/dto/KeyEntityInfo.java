@@ -47,7 +47,6 @@ public abstract class KeyEntityInfo extends EntityInfo implements KeyEntity, Ser
         return key;
     }
     
-    @Override
     public void setKey(String key) {
         this.key = key;
     }

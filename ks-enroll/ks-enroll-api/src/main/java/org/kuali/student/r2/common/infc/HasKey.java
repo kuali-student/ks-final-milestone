@@ -37,5 +37,4 @@ public interface HasKey extends HasPrimaryKey {
      * </ul>
      */
     public String getKey();
-    public void setKey(String key);
 }

@@ -210,7 +210,7 @@ public class CriteriaValidatorParser {
                     throw new InvalidParameterException("The " + i + "th comparison's value is not null but attribute type is complex. Complex can only be checked to see if it is null or not null");
                 }
         }
-        parsedValues.add(parseValues(i, ad.getDataType(), comparison.getValues(), comparison.getIgnoreCase()));
+        parsedValues.add(parseValues(i, ad.getDataType(), comparison.getValues(), comparison.getIsIgnoreCase()));
     }
 
     private Object parseValues(int i, DataType dataType, List<String> values, boolean ignoreCase)

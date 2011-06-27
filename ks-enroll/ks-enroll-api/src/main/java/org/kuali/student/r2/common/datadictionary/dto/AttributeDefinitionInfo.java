@@ -34,7 +34,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     @XmlElement
     private DataType dataType;
     @XmlElement
-    private Boolean required;
+    private Boolean isRequired;
     @XmlElement
     private Integer minOccurs;
     @XmlElement
@@ -44,7 +44,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     @XmlElement
     private Integer maxLength;
     @XmlElement
-    private Boolean forceUppercase;
+    private Boolean isForceUppercase;
     @XmlElement
     private String shortLabel;
     @XmlElement
@@ -60,7 +60,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     @XmlElement
     private String displayLabelAttribute;
     @XmlElement
-    private Boolean unique;
+    private Boolean isUnique;
     @XmlElement
     private String customValidatorClass;
     @XmlElement
@@ -72,12 +72,12 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         this.name = null;
         this.childEntryName = null;
         this.dataType = null;
-        this.required = null;
+        this.isRequired = null;
         this.minOccurs = null;
         this.maxOccurs = null;
         this.minLength = null;
         this.maxLength = null;
-        this.forceUppercase = null;
+        this.isForceUppercase = null;
         this.shortLabel = null;
         this.summary = null;
         this.label = null;
@@ -85,7 +85,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         this.exclusiveMin = null;
         this.inclusiveMax = null;
         this.displayLabelAttribute = null;
-        this.unique = null;
+        this.isUnique = null;
         this.customValidatorClass = null;
         this.formatterClass = null;
         this.validCharactersConstraint = null;
@@ -108,8 +108,8 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public Boolean isRequired() {
-        return this.required;
+    public Boolean getIsRequired() {
+        return this.isRequired;
     }
 
     @Override
@@ -133,8 +133,8 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public Boolean getForceUppercase() {
-        return this.forceUppercase;
+    public Boolean getIsForceUppercase() {
+        return this.isForceUppercase;
     }
 
     @Override
@@ -173,8 +173,8 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
     }
 
     @Override
-    public Boolean isUnique() {
-        return this.unique;
+    public Boolean getIsUnique() {
+        return this.isUnique;
     }
 
     @Override
@@ -196,12 +196,12 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         this.name = infc.getName();
         this.childEntryName = infc.getChildEntryName();
         this.dataType = infc.getDataType();
-        this.required = infc.isRequired();
+        this.isRequired = infc.getIsRequired();
         this.minOccurs = infc.getMinOccurs();
         this.maxOccurs = infc.getMaxOccurs();
         this.minLength = infc.getMinLength();
         this.maxLength = infc.getMaxLength();
-        this.forceUppercase = infc.getForceUppercase();
+        this.isForceUppercase = infc.getIsForceUppercase();
         this.shortLabel = infc.getShortLabel();
         this.summary = infc.getSummary();
         this.label = infc.getLabel();
@@ -209,7 +209,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         this.exclusiveMin = infc.getExclusiveMin();
         this.inclusiveMax = infc.getInclusiveMax();
         this.displayLabelAttribute = infc.getDisplayLabelAttribute();
-        this.unique = infc.isUnique();
+        this.isUnique = infc.getIsUnique();
         this.customValidatorClass = infc.getCustomValidatorClass();
         this.formatterClass = infc.getFormatterClass();
         if (infc.getValidCharactersConstraint() != null) {
@@ -247,12 +247,12 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
             this.name = infc.getName();
             this.childEntryName = infc.getChildEntryName();
             this.dataType = infc.getDataType();
-            this.required = infc.isRequired();
+            this.required = infc.getIsRequired();
             this.minOccurs = infc.getMinOccurs();
             this.maxOccurs = infc.getMaxOccurs();
             this.minLength = infc.getMinLength();
             this.maxLength = infc.getMaxLength();
-            this.forceUppercase = infc.getForceUppercase();
+            this.forceUppercase = infc.getIsForceUppercase();
             this.shortLabel = infc.getShortLabel();
             this.summary = infc.getSummary();
             this.label = infc.getLabel();
@@ -260,7 +260,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
             this.exclusiveMin = infc.getExclusiveMin();
             this.inclusiveMax = infc.getInclusiveMax();
             this.displayLabelAttribute = infc.getDisplayLabelAttribute();
-            this.unique = infc.isUnique();
+            this.unique = infc.getIsUnique();
             this.customValidatorClass = infc.getCustomValidatorClass();
             this.formatterClass = infc.getFormatterClass();
             this.validCharactersConstraint = infc.getValidCharactersConstraint();
@@ -301,7 +301,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         }
 
         @Override
-        public Boolean getForceUppercase() {
+        public Boolean getIsForceUppercase() {
             return this.forceUppercase;
         }
 
@@ -356,7 +356,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         }
 
         @Override
-        public Boolean isUnique() {
+        public Boolean getIsUnique() {
             return this.unique;
         }
 
@@ -366,7 +366,7 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         }
 
         @Override
-        public Boolean isRequired() {
+        public Boolean getIsRequired() {
             return this.required;
         }
 

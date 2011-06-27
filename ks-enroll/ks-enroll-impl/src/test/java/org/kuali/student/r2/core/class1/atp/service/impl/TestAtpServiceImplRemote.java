@@ -305,7 +305,7 @@ public class TestAtpServiceImplRemote {
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         StatusInfo status = atpServiceValidation.deleteMilestone("testDeleteId", callContext);
         
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {
@@ -666,7 +666,7 @@ public class TestAtpServiceImplRemote {
     public void testDeleteAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = atpServiceValidation.deleteAtpMilestoneRelation("newRelId", callContext);
         
-        assertTrue(status.isSuccess());
+        assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {

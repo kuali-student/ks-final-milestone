@@ -52,7 +52,6 @@ public class LuiServiceAdapter implements LuiService, HoldsLuiService {
         return luiService;
     }
 
-    @Override
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
     }

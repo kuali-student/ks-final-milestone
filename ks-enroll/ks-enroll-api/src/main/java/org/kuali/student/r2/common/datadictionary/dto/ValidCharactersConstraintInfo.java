@@ -32,14 +32,14 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
     @XmlElement
     private String jsValue;
     @XmlElement
-    private Boolean applyClientSide;
+    private Boolean isApplyClientSide;
     @XmlElement
     private String labelKey;
 
     public ValidCharactersConstraintInfo() {
         this.value = null;
         this.jsValue = null;
-        this.applyClientSide = null;
+        this.isApplyClientSide = null;
         this.labelKey = null;
     }
 
@@ -54,8 +54,8 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
     }
 
     @Override
-    public Boolean isApplyClientSide() {
-        return this.applyClientSide;
+    public Boolean getIsApplyClientSide() {
+        return this.isApplyClientSide;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
         super();
         this.value = infc.getValue();
         this.jsValue = infc.getJsValue();
-        this.applyClientSide = infc.isApplyClientSide();
+        this.isApplyClientSide = infc.getIsApplyClientSide();
         this.labelKey = infc.getLabelKey();
     }
 
@@ -75,7 +75,7 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
 
         private String value;
         private String jsValue;
-        private Boolean applyClientSide;
+        private Boolean isApplyClientSide;
         private String labelKey;
 
         public Builder() {
@@ -85,7 +85,7 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
             super();
             this.value = infc.getValue();
             this.jsValue = infc.getJsValue();
-            this.applyClientSide = infc.isApplyClientSide();
+            this.isApplyClientSide = infc.getIsApplyClientSide();
             this.labelKey = infc.getLabelKey();
         }
 
@@ -114,8 +114,8 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
         }
 
         @Override
-        public Boolean isApplyClientSide() {
-            return this.applyClientSide;
+        public Boolean getIsApplyClientSide() {
+            return this.isApplyClientSide;
         }
 
         @Override
@@ -124,7 +124,7 @@ public class ValidCharactersConstraintInfo implements ValidCharactersConstraintI
         }
 
         public Builder setApplyClientSide(Boolean applyClientSide) {
-            this.applyClientSide = applyClientSide;
+            this.isApplyClientSide = applyClientSide;
             return this;
         }
 

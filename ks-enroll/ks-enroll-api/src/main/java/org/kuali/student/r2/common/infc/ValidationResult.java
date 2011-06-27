@@ -86,12 +86,12 @@ public interface ValidationResult {
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
      */
-    public Boolean getOk();
+    public Boolean getIsOk();
 
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
      */
-    public Boolean getWarn();
+    public Boolean getIsWarn();
 
 
     /**

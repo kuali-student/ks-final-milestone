@@ -38,7 +38,7 @@ public interface BaseConstraintInfc extends Constraint {
 	 * If this is true, the constraint should be applied on the client side when the user interacts with
 	 * a field - if this constraint can be interpreted for client side use. Default is true.
 	 */
-	public Boolean isApplyClientSide();
+	public Boolean getIsApplyClientSide();
 
    
 }

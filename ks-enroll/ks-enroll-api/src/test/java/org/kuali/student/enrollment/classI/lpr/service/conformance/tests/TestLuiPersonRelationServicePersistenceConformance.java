@@ -286,7 +286,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 
 		StatusInfo status = getService()
 				.deleteLuiPersonRelation(lprId, context);
-		assertEquals(Boolean.TRUE, status.isSuccess());
+		assertEquals(Boolean.TRUE, status.getIsSuccess());
 
 		// fetch
 		try {

@@ -115,7 +115,6 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
         }
     }
 
-    @Override
     public void setKey(String key) {
         // TODO jimt - THIS METHOD NEEDS JAVADOCS
         

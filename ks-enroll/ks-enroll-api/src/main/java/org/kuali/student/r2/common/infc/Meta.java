@@ -38,7 +38,6 @@ public interface Meta {
      *
      */
     public String getVersionInd();
-    public void setVersionInd(String versionInd);
 
     /**
      * Name: Create Time
@@ -47,7 +46,6 @@ public interface Meta {
      * updated
      */
     public Date getCreateTime();
-    public void setCreateTime(Date createTime);
 
     /**
      * Name: Create Id
@@ -55,7 +53,6 @@ public interface Meta {
      * The principal who created the thing being described with this meta information
      */
     public String getCreateId();
-    public void setCreateId(String id);
 
     /**
      * Name: Update Time
@@ -64,7 +61,6 @@ public interface Meta {
      * updated
      */
     public Date getUpdateTime();
-    public void setUpdateTime(Date updateTime);
 
     /**
      * Name: Update Id
@@ -73,6 +69,5 @@ public interface Meta {
      * information
      */
     public String getUpdateId();
-    public void setUpdateId(String updateId);
 }
 
