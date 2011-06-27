@@ -63,6 +63,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.widgetideas.client.event.KeyboardHandler;
 
 public class SearchPanel extends Composite{
 
@@ -82,7 +83,6 @@ public class SearchPanel extends Composite{
 
     private String actionLabel = getMessage("search");  //set default action label
     private boolean resultsSelected = false;
-    private static int KEY_CODE_ENTER = 13;
     
     //Search data
     private List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
@@ -559,7 +559,7 @@ public class SearchPanel extends Composite{
 
     		@Override
     		public void onKeyDown(KeyDownEvent event) {
-    			if(event.getNativeEvent().getKeyCode() == KEY_CODE_ENTER) 	// Enter button
+    			if(event.getNativeEvent().getKeyCode() == KeyboardHandler.KEY_ENTER) 	// Enter button
     				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
     		}
     		
