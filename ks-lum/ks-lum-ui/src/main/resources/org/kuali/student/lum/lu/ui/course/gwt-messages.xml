@@ -44,7 +44,7 @@
 	 <bean parent="enCourse" p:messageId="createDesc" p:value="Curriculum Management" />
 	 <bean parent="enCourse" p:messageId="howTo" p:value="How do I...?" />
 	 <bean parent="enCourse" p:messageId="create" p:value="Proposals" />
-	 <bean parent="enCourse" p:messageId="createDesc" p:value="Propose a new course, start a new program, or find and review submitted proposals." />
+	 <bean parent="enCourse" p:messageId="createDesc" p:value="Propose a new course or start a new program." /> <!--  KSLAB-2062 -->
 	 <bean parent="enCourse" p:messageId="viewModify" p:value="Find Courses and Programs" />
 	 <bean parent="enCourse" p:messageId="viewModifyDesc" p:value="Search for proposals, courses and programs to view, modify or retire." />
 	 <bean parent="enCourse" p:messageId="tools" p:value="Management Tools" />
