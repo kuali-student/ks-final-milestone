@@ -332,8 +332,9 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         }
         //
         for (DependencySection section : this.dependencySections.values()) {
+        	if (!section.getElement().getStyle().getDisplay().equals("none")){
             returnItems.addAll(ExportUtils.getDetailsForWidget(section, parent.getViewName(), parent.getSectionName()));
-        }
+        	}}
         return returnItems;
     }
 
