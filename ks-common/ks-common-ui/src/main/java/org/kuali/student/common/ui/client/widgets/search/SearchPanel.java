@@ -59,11 +59,11 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.widgetideas.client.event.KeyboardHandler;
 
 public class SearchPanel extends Composite{
 
@@ -559,7 +559,7 @@ public class SearchPanel extends Composite{
 
     		@Override
     		public void onKeyDown(KeyDownEvent event) {
-    			if(event.getNativeEvent().getKeyCode() == KeyboardHandler.KEY_ENTER) 	// Enter button
+    			if(event.getNativeEvent().getKeyCode() == KeyboardListener.KEY_ENTER) 	// Enter button
     				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
     		}
     		
