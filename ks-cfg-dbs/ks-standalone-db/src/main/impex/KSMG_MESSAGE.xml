@@ -1408,15 +1408,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A676A358736038ECE040C60AF05B0D7B" LOCALE="en"
+        ID="A6ACEFE85406E85BE040C60AF05B0B51" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A676A358736138ECE040C60AF05B0D7B" VER_NBR="1"/>
+        OBJ_ID="A6ACEFE85407E85BE040C60AF05B0B51" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A676A358736238ECE040C60AF05B0D7B" LOCALE="en"
+        ID="A6ACEFE85408E85BE040C60AF05B0B51" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A676A358736338ECE040C60AF05B0D7B" VER_NBR="1"/>
+        OBJ_ID="A6ACEFE85409E85BE040C60AF05B0B51" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
@@ -1880,7 +1880,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d059d4fb-c10e-4bcd-8bae-78808136f1e9" LOCALE="en"
         MSG_ID="createDesc"
-        MSG_VALUE="Propose a new course, start a new program, or find and review submitted proposals."
+        MSG_VALUE="Propose a new course or start a new program."
         OBJ_ID="2331768b-00ad-4e1f-b305-9fa0897f70ff" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d06584e8-e2f7-4c44-893c-37fe13427c31" LOCALE="en"
