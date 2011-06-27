@@ -2494,7 +2494,7 @@
      <property name="name" value="State"/>
      <property name="desc" value="State of the course."/>
      <property name="dataType" value="STRING"/>
-     <property name="hidden" value="false"/>
+     <property name="hidden" value="true"/>
     </bean>
     <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalLevel"/>
@@ -2906,7 +2906,7 @@
      <property name="name" value="State"/>
      <property name="desc" value="State of the course."/>
      <property name="dataType" value="STRING"/>
-     <property name="hidden" value="false"/>
+     <property name="hidden" value="true"/>
     </bean>
     <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalLevel"/>
@@ -3397,7 +3397,7 @@
      <property name="name" value="State"/>
      <property name="desc" value="State of the course."/>
      <property name="dataType" value="STRING"/>
-     <property name="hidden" value="false"/>
+     <property name="hidden" value="true"/>
     </bean>
     <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.resultColumn.luOptionalLevel"/>
