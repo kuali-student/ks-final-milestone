@@ -151,7 +151,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> getActiveHoldsByRestrictionForPerson(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HoldInfo> getActvHoldsByRestrForPerson(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the details of a single Hold by a hold Id.

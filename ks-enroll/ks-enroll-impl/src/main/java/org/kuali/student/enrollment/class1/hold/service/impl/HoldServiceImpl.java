@@ -226,7 +226,7 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<HoldInfo> getActvHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }

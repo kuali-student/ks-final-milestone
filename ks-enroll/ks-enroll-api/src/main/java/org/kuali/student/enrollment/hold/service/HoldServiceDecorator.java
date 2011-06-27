@@ -68,8 +68,8 @@ public class HoldServiceDecorator implements HoldService {
     }
 		
     @Override					 
-    public List<HoldInfo> getActiveHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return getHoldService().getActiveHoldsByRestrictionForPerson(restrictionKey, personId, context);
+    public List<HoldInfo> getActvHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getHoldService().getActvHoldsByRestrForPerson(restrictionKey, personId, context);
     }	       
 
     @Override
