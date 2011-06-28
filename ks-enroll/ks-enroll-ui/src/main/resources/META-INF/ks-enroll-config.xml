@@ -26,7 +26,7 @@
 	<param name="ks.enroll.datasource.driver.name">${ks.enroll.datasource.driver.name.${db.vendor}}</param>
 	
 	<param name="ks.enroll.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.enroll.datasource.url.derby">jdbc:derby://localhost:1527/derby/lum;create=true</param>
+	<param name="ks.enroll.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
 	<param name="ks.enroll.datasource.url">${ks.enroll.datasource.url.${db.vendor}}</param>
 	
 	<param name="ks.enroll.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
@@ -53,12 +53,12 @@
     <param name="ks.enroll.bus.security">false</param>
     
     <param name="ks.enroll.doDataLoad">false</param>
-    
+<!--     
     <param name="ks.enroll.dictionary.old.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
     <param name="ks.enroll.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml, classpath:ks-programInfo-dictionary-context.xml, classpath:ks-statement-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml</param>
     <param name="ks.enroll.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
     <param name="ks.enroll.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
-    
+-->    
     
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>
