@@ -65,7 +65,11 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  * performed by the caller of this service. The Exemption service
  * provides the information to override a specific check that occurs
  * somewhere in the system based on one of the above Exemption
- * types. An example:
+ * types. 
+ *
+ * A code example that demonstrates a way to check for Exemptions
+ * while performing a task with restrictions, deadlines, and statement
+ * evaluations:
  *
  * <pre>
  * pretendToRegisterStudentInCourse(String personId, RegstrationGroup regGrp) {
