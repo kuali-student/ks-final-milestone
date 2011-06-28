@@ -44,7 +44,8 @@
 				-->
 				<value>classpath:AcademicCalendarView.xml</value>
 				<value>classpath:AcademicCalendarLookupView.xml</value>
- 				<value>classpath:AcademicCalendarMaintenance.xml</value> 
+ 				<value>classpath:AcademicCalendarMaintenance.xml</value>
+ 				<value>classpath:TermInfo.xml</value> 
  				<value>classpath:HoldInfo.xml</value>
  				<value>classpath:IssueInfo.xml</value>
  				<value>classpath:HoldInfoMaintenanceView.xml</value>
