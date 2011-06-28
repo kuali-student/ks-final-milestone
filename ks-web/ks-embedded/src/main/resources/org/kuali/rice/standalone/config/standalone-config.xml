@@ -30,6 +30,7 @@
     <!-- BEGIN KUALI STUDENT SETTINGS -->
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
 
     <param name="db.vendor">oracle</param>
@@ -71,6 +72,10 @@
     <param name="ks.lum.datasource.url">${datasource.url}</param>
     <param name="ks.lum.datasource.username">${datasource.username}</param>
     <param name="ks.lum.datasource.password">${datasource.password}</param>
+    
+    <param name="ks.enroll.datasource.url">${datasource.url}</param>
+    <param name="ks.enroll.datasource.username">${datasource.username}</param>
+    <param name="ks.enroll.datasource.password">${datasource.password}</param>
 
     <param name="ks.core.datasource.url">${datasource.url}</param>
     <param name="ks.core.datasource.username">${datasource.username}</param>
