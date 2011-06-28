@@ -96,9 +96,8 @@ public class SearchResultsTable extends Composite{
 	//FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
     	
-    	if(table == null){
-    		table = new Table();
-    	}
+    	//creating a new table because stale data was corrupting new searches
+    	table = new Table();
     	table.removeAllRows();
         this.resultIdColumnKey = resultIdKey;
         
