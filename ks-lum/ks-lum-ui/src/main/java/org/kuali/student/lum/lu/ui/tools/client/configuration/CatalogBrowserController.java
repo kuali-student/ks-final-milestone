@@ -44,6 +44,7 @@ public class CatalogBrowserController extends TabMenuController
 	private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
 	private BlockingTask initializingTask = new BlockingTask("Loading");
 	
+	//enum is necessary for the page to be added to breadcrumbs
 	public enum CatalogBrowserViews {
 		COURSE_CATALOG
     };
@@ -51,7 +52,9 @@ public class CatalogBrowserController extends TabMenuController
 	public CatalogBrowserController (Controller controller)	{
 		super(CatalogBrowserController.class.getName());
 		this.controller = controller;
+		//sets the name of the page to be used in breadcrumbs
 		super.setName("Course Catalog");
+		//sets enum
 		setViewEnum(CatalogBrowserViews.COURSE_CATALOG);
 		initialize();
 	}

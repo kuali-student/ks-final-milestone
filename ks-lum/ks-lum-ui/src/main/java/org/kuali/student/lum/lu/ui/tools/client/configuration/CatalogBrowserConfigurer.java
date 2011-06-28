@@ -64,6 +64,7 @@ public class CatalogBrowserConfigurer {
 	}
 
 	private SectionView createBrowseBySubjectAreaSection() {
+		//constructor sets the attributes of the browse subject area tab
 		VerticalSectionView nestedSectionView = 
 			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "Browse by Subject Area", CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SUBJECT_AREA;
@@ -72,6 +73,7 @@ public class CatalogBrowserConfigurer {
 	}
 
 	private SectionView createBrowseBySchoolSection() {
+		//constructor sets the attributes of the browse school tab
 		VerticalSectionView nestedSectionView = 
 			new VerticalSectionView(Sections.BROWSE_BY_SCHOOL, "Browse by School", CATALOG_BROWSER_MODEL);
 		String fieldKey = CatalogBrowserConstants.FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE;

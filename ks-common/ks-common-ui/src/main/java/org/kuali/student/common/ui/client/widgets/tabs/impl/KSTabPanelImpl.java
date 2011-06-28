@@ -164,6 +164,10 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 						for(Callback<String> callback: callbacks){
 							callback.exec(tabKey);
 						}
+						//adds the url of the current page onto the 
+						//history stack so it can be navigated back to
+						//However, hitting the back button will only 
+						//navigate the history stack in url and not change tabs
 						HistoryManager.logHistoryChange();
 					}
 				}
