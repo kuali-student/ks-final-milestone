@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.Comparison;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ComparisonInfo", propOrder = {"fieldKey", "operator", "values", "ignoreCase", "_futureElements"})    
+@XmlType(name = "ComparisonInfo", propOrder = {"fieldKey", "operator", "values", "isIgnoreCase", "_futureElements"})    
 public class ComparisonInfo implements Comparison, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusInfo", propOrder = {"success", "message", "_futureElements"})
+@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message", "_futureElements"})
 public class StatusInfo implements Status, Serializable {
 	private static final long serialVersionUID = 1L;
 	
