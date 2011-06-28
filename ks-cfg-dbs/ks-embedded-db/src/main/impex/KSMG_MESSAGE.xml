@@ -1347,6 +1347,10 @@
         MSG_ID="cluStartTerm-help"
         MSG_VALUE="New Courses: This course will not necessarily be activated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications. "
         OBJ_ID="60bec45e-c7c9-4e20-b3a0-2655ef31612a" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="9856cfca-9a7a-4af5-b544-280a74ffff21" LOCALE="en"
+        MSG_ID="modifyProgramNoVersion" MSG_VALUE="Modify this Version"
+        OBJ_ID="SYSGUID()" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="98c71ea6-0ff8-4e61-beca-3c698a3919f5" LOCALE="en"
         MSG_ID="cluAdminOrg-instruct"
@@ -1360,6 +1364,10 @@
         ID="99e33d0c-7586-4649-8a36-3842332a9926" LOCALE="en"
         MSG_ID="cluEffectiveDate" MSG_VALUE="Course active on"
         OBJ_ID="5a3b0e19-829a-4f6c-8088-34ab85fab867" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="9ae7d731-51ce-49f6-a0bc-0ee33d151241" LOCALE="en"
+        MSG_ID="modifyProgramWithVersion"
+        MSG_VALUE="Modify with a new version" OBJ_ID="SYSGUID()" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="9b6b8cf8-cc0b-4176-8294-d41b3342a01e" LOCALE="en"
         MSG_ID="cluDurationLiteral" MSG_VALUE="Duration Count"
@@ -1408,15 +1416,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A6ACEFE85406E85BE040C60AF05B0B51" LOCALE="en"
+        ID="A6CA7326EDAB72A1E040C60AF05B59A1" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="A6ACEFE85407E85BE040C60AF05B0B51" VER_NBR="1"/>
+        OBJ_ID="A6CA7326EDAC72A1E040C60AF05B59A1" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A6ACEFE85408E85BE040C60AF05B0B51" LOCALE="en"
+        ID="A6CA7326EDAD72A1E040C60AF05B59A1" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="A6ACEFE85409E85BE040C60AF05B0B51" VER_NBR="1"/>
+        OBJ_ID="A6CA7326EDAE72A1E040C60AF05B59A1" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
@@ -1739,6 +1747,10 @@
         ID="c177a856-8628-4cea-8555-e1e0c915df46" LOCALE="en"
         MSG_ID="orgOrgRelationId" MSG_VALUE="Organization Id"
         OBJ_ID="985ec5d0-1fc0-453d-9cf8-d32a2b7717cd" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="program"
+        ID="c1866017-0225-4093-a141-f363fc2e9886" LOCALE="en"
+        MSG_ID="modifyProgramSubTitle"
+        MSG_VALUE="What kind of modification?" OBJ_ID="SYSGUID()" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="c1e2657f-8fc6-4af0-a671-5f4ecc75a58e" LOCALE="en"
         MSG_ID="cluSetProposedCourse" MSG_VALUE="Proposed Courses"
