@@ -145,11 +145,16 @@ public class CourseWorkflowActionList extends StylishDropDown {
 						// TODO: Inactivate
 				}
 			});
-	    	retireCourseActionItem = new KSMenuItemData(this.getMessage("cluRetireItem") + " (Not Yet Implemented)", new ClickHandler(){
+	    	retireCourseActionItem = new KSMenuItemData(this.getMessage("cluRetireItem"), new ClickHandler(){
 	
 				@Override
 				public void onClick(ClickEvent event) {
-						// TODO: Retire
+			    	if(hasCourseId(viewContext)){
+						viewContext.setId(courseId);
+						viewContext.setIdType(IdType.OBJECT_ID);
+			        }
+					
+			    	Application.navigate(AppLocations.Locations.COURSE_RETIRE.getLocation(), viewContext);			    	
 				}
 			});
 		}

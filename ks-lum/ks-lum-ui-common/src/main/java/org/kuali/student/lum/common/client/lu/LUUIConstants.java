@@ -306,6 +306,13 @@ public class LUUIConstants {
     public static final String DEP_SECTION_COURSE = "course";
     public static final String DEP_SECTION_PROGRAM = "program";
     public static final String DEP_SECTION_COURSE_SET = "courseSet";
+
+    //Retirement section constants
+    public static final String RETIREMENT_LABEL_KEY = "retirement";
+	public static final String RETIREMENT_RATIONALE_LABEL_KEY = "courseRetireRationale";
+	public static final String LAST_TERM_OFFERED_LABEL_KEY = "courseLastTermOffered";
+	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
+	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
     
 
 }

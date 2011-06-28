@@ -57,6 +57,12 @@
     <ref bean="courseInfo.finalExamStatus" />
     <ref bean="courseInfo.finalExamRationale"/>
     <ref bean="courseInfo.outOfClassHours" />
+    
+    <!--  Dynamic Attributes: Retirement Fields -->
+    <ref bean="courseInfo.retirementRationale" />
+	<ref bean="courseInfo.lastTermOffered" />    
+	<ref bean="courseInfo.lastPublicationYear" />
+	<ref bean="courseInfo.specialCircumstances" />	
 
     <!-- Searches -->
     <!--TODO: remove these searches making them their own thing by reconfiguring
@@ -1360,7 +1366,79 @@
   </property>
  </bean>
 
+ <bean id="courseInfo.retirementRationale" parent="baseString">
+  <property name="name" value="retirementRationale" />
+  <property name="dynamic" value="true"/>
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="0" />
+  <property name="maxLength" value="250" />
+  <property name="validChars" ref="multiLineText"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="baseComplexRequired"/>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
+  
+ </bean>
 
+ <bean id="courseInfo.lastTermOffered-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="lastTermOffered" />
+  <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="baseKualiTypeRequired"/>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>  
+ </bean>
+ <bean id="courseInfo.lastTermOffered" parent="courseInfo.lastTermOffered-parent" />
+
+ <bean id="courseInfo.lastPublicationYear-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="lastPublicationYear" />
+  <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
+ </bean>
+ <bean id="courseInfo.lastPublicationYear" parent="courseInfo.lastPublicationYear-parent" />
+
+ <bean id="courseInfo.specialCircumstances" parent="baseString">
+  <property name="name" value="specialCircumstances" />
+  <property name="dynamic" value="true"/>
+  <property name="minOccurs" value="0" />
+  <property name="maxOccurs" value="0" />
+  <property name="maxLength" value="250" />
+  <property name="validChars" ref="multiLineText"/>
+ </bean>
+	
  <!-- Searches -->
 
  <bean id="courseInfo.searchCourseVersions" parent="freestanding.search.courseVersions" />

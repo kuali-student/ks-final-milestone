@@ -15,6 +15,7 @@ import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.browseprogram.client.controllers.BrowseProgramController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminRetireController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutVersionController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseParentController;
@@ -66,6 +67,7 @@ public class CurriculumHomeController extends LayoutController {
     private CourseProposalController courseProposalController;
     private CourseAdminController courseAdminController;
     private CourseAdminWithoutVersionController courseAdminWithoutVersionController;
+    private CourseAdminRetireController courseAdminRetireController;
     private LayoutController viewCourseController;
     private LayoutController manageCluSetsController;
     private LayoutController browseCatalogController;
@@ -127,6 +129,15 @@ public class CurriculumHomeController extends LayoutController {
 //                    }
 //                });
                 break;
+            case COURSE_ADMIN_RETIRE:
+//              GWT.runAsync(new RunAsyncGetView() {
+//                  @Override
+//                  public void onSuccess() {
+                      callback.exec(getCourseAdminRetireController());
+//                  }
+//              });
+              break;
+
             case VIEW_COURSE:
 //                GWT.runAsync(new RunAsyncGetView() {
 //                    @Override
@@ -357,8 +368,13 @@ public class CurriculumHomeController extends LayoutController {
         return courseAdminController;
     }
     
+    private CourseAdminWithoutVersionController getCourseAdminRetireController(){
+        courseAdminRetireController = new CourseAdminRetireController();
+        return courseAdminRetireController;
+    }
+
     private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
-        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
+        courseAdminWithoutVersionController = new CourseAdminRetireController();
         return courseAdminWithoutVersionController;
     }
 

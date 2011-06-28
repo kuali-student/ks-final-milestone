@@ -188,6 +188,10 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
  </bean>
+ <bean id="baseStringRequired" parent="baseString"
+       abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
  <bean id="baseStringLong" parent="baseFieldDefinition"
        abstract="true">
   <property name="dataType" value="STRING" />
