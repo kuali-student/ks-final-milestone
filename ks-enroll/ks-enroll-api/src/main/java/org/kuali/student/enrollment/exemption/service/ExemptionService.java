@@ -138,7 +138,7 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  *     // add the usage to all the exemptions used.
  *     persistRegistration();
  *     for (Exemption e : usedExemptions) {
- *         e.addUse(e);
+ *         ExemptionService.addUseToExemption(e.getId());
  *     }
  * }
  * </pre>   
@@ -179,8 +179,8 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Retrieves an active effective exemption for a person to
      * override a Restriction. An effective exemption is one with an
-     * active state and the current date falls within the effective
-     * date range.
+     * active state, the current date falls within the effective
+     * date range, and the use count is less than the use limit.
      *
      * Exemptions may have a qualifier which serves to scope the
      * Exemption. An Exemption that is unqualified is global such that
@@ -213,8 +213,8 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Retrieves an active effective exemption for a person to
      * override a Milestone. An effective exemption is one with an
-     * active state and the current date falls within the effective
-     * date range.
+     * active state, the current date falls within the effective
+     * date range, and the use count is less than the use limit.
      *
      * The MilestoneOverride returns a new milstone.
      *     
@@ -248,8 +248,8 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Retrieves an active effective exemption for a person to
      * override a Milestone. An effective exemption is one with an
-     * active state and the current date falls within the effective
-     * date range.
+     * active state, the current date falls within the effective
+     * date range, and the use count is less than the use limit.
      *
      * The DateOverride returns a new date.
      *
@@ -283,8 +283,8 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Retrieves an active effective exemption for a person to
      * override a Milestone. An effective exemption is one with an
-     * active state and the current date falls within the effective
-     * date range.
+     * active state, the current date falls within the effective
+     * date range, and the use count is less than the use limit.
      *
      * The Statement Override instructs the caller to evaluate the
      * given statement as true.
@@ -316,6 +316,23 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws PermissionDeniedException authorization failure
      */
      ExemptionInfo retrieveStatementExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "statementId") String statementId, @WebParam(name = "statementAnchorId") String statementAnchorId, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Indicate that the given Exemption has been used successfully in
+     * a transaction. This method increments the Exemption use count.
+     *
+     * @param exemptionId the Id for the Exemption
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the status
+     * @throws DoesNotExistException no valid exemption exists
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     StatusInfo addUseToExemption(@WebParam(name = "exeptionId") String exemptionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /*
@@ -356,8 +373,9 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
 
     /** 
      * Gets a list of all active effective exemptions for a Person. An
-     * effective exemption is one with an active state and the current
-     * date falls within the effective date range.
+     * effective exemption is one with an active state, the current
+     * date falls within the effective date range, and the use count
+     * is less than the use limit.
      *
      * @param personId a unique Id of the Person
      * @param context Context information containing the principalId
@@ -389,8 +407,9 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
 
     /** 
      * Gets a list of all effective exemptions by Type for a
-     * Person. An effective exemption is one with an active state and
-     * the current date falls within the effective date range.
+     * Person. An effective exemption is one with an active state, the
+     * current date falls within the effective date range, and the use
+     * count is less than the use limit.
      *
      * @param typeKey an exemption Type
      * @param personId a unique Id of the Person
