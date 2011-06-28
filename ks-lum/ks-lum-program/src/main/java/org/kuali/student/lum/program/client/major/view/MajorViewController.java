@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
@@ -44,7 +43,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class MajorViewController extends MajorController {
 
     // TODO: Change to program and copy msgs
-    private static final String MSG_GROUP = "course";
+    private static final String MSG_GROUP = "program";
     
     /**
      * Initialize the action drop-down with a list of values.  Note that these values
@@ -149,7 +148,7 @@ public class MajorViewController extends MajorController {
         final KSLightBox modifyDialog = new KSLightBox();
         
         //Create a dialog for course selection
-        modifyDialog.setTitle((getMessage("modifyCourse")));
+        modifyDialog.setTitle((getMessage("modifyProgramSubTitle")));
 
         final VerticalPanel layout = new VerticalPanel();
         layout.addStyleName("ks-form-module-fields");
@@ -168,14 +167,14 @@ public class MajorViewController extends MajorController {
         modifyDialog.addButton(cancelLink);
         
         HorizontalPanel titlePanel = new HorizontalPanel();
-        KSLabel titleLabel = new KSLabel(getMessage("modifyCourseSubTitle"));
+        KSLabel titleLabel = new KSLabel(getMessage("modifyProgramSubTitle"));
         titleLabel.addStyleName("bold");
         titlePanel.add(titleLabel);
         
         layout.add(titlePanel);
         
-        final KSRadioButton radioOptionModifyNoVersion = new KSRadioButton("modifyCreditCourseButtonGroup", getMessage("modifyCourseNoVersion"));
-        final KSRadioButton radioOptionModifyWithVersion = new KSRadioButton("modifyCreditCourseButtonGroup", getMessage("modifyCourseWithVersion"));
+        final KSRadioButton radioOptionModifyNoVersion = new KSRadioButton("modifyCreditProgramButtonGroup", getMessage("modifyProgramNoVersion"));
+        final KSRadioButton radioOptionModifyWithVersion = new KSRadioButton("modifyCreditProgramButtonGroup", getMessage("modifyProgramWithVersion"));
         final KSCheckBox curriculumReviewOption = new KSCheckBox(getMessage("useCurriculumReview"));
         
         
@@ -277,10 +276,10 @@ public class MajorViewController extends MajorController {
      * @param courseMessageKey
      * @return
      */
-    public String getMessage(String courseMessageKey) {
-        String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);
+    public String getMessage(String programMessageKey) {
+        String msg = Application.getApplicationContext().getMessage(MSG_GROUP, programMessageKey);
         if (msg == null) {
-            msg = courseMessageKey;
+            msg = programMessageKey;
         }
         return msg;
     }   
