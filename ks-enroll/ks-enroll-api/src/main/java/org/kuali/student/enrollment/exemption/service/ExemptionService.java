@@ -69,34 +69,46 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  *
  * <pre>
  * pretendToRegisterStudentInCourse(String personId, RegstrationGroup regGrp) {
+ *     Collection<Exemption> usedExemptions = new HashSet<Exemption>();
+ *
+ *     String courseId = regGrp.getCourseOffering().getCourse().getId();
  *
  *     // check for registration restrictions
+ *     String restrictionKey = "course registration";
  *     if (HoldService.isPersonRestricted("course registration", personId, context)) {
- *         if (!ExemptionService.isPersonExemptedFromRestr(personId, "course registration", context)) {
+ *         try {
+ *             Exemption e = ExemptionService.retrieveRestrictionExemption(personId, restrictionKey, courseObjectType, courseId, context);
+ *             usedExemptions.add(e);
+ *         } catch (NotFoundException nfe) {
  *             throw new YouCantDoThisException("If I were a nice person, I'd fetch the restriction and tell you what it is.");
  *         }
  *     }
  *
  *     // check for registration deadlines
+ *     String regDeadlineCheckKey = "kualu.courseregistration.check.deadline";
  *     String milestoneKey = "this term's drop/add date milestone key";
  *     Milestone deadline = AtpService.getMilestone(milestoneKey, context);
  *     if (now > deadline.getStartDate().getTime()) {
  *         boolean hasDeadline = true;
- *         for (Exemption e : ExemptionService.getActiveDateExmptsForPerson(personId, context)) {
- *             if (milestoneKey.equals(e.getMilestoneKey()) && 
- *                 (now < e.getDateOverride().getEffectiveStartDate().getTime())) {
- *                 hasDeadlIne = false;
+ *         try {
+ *             // there are two kinds of milestone exsmptions. first check
+ *             // for an overriding milestone
+ *             Exemption e = ExemptionService.retrieveMilestoneExemption(regDeadlineCheckKey, personId, milestoneKey, courseObjectType, courseId, context);
+ *             Milestone m = AtpService.getMilestone(e.getMilestoneOverride().getEffectiveMilestoneKey()), context);
+ *             if (now < m.getStartDate().getTime()) {
+ *                 hasDeadline = false;
+ *                 usedExemptions.add(e);
  *             }
- *
- *         if (hasDeadline) {
- *             for (Exemption e : ExemptionService.getActiveMlstnExmptsForPerson(personId, context)) {
- *                 if (milestoneKey.equals(e.getMilestoneKey())) {
- *                     Milestone m = AtpService.getMilestone(e.getMilestoneOverride().getEffectiveMilestoneKey()), context);
- *                     if (now < m.getStartDate().getTime()) {
- *                         hasDeadline = false;
- *                         break;
- *                     }
+ *         } catch (NotFoundException nfe) {
+ *             try {
+ *                 // check for a date override to the milestone
+ *                 Exemption e = ExemptionService.retrieveDateExemption(personId, milestoneKey, courseObjectType, courseId, context);
+ *                 if (now < e.getDateOverride().getEndDate().getTime()) {
+ *                     hasDeadline = false;
+ *                     usedExemptions.add(e);
  *                 }
+ *             } catch (NotFoundException nfe2) {
+ *                 // hasDeadline still true
  *             }
  *         }
  *
@@ -106,19 +118,24 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  *     }
  *
  *     // check for course prereqs
- *     String courseId = regGrp.getCourseOffering().getCourse().getId();
+ *     String coursePrereqCheckKey = "kualu.courseregistration.check.course.prereq";
  *     for (RefStatementRelationInfo relation : StatementService.getRefStatementRelationsByRef(COURSE_TYPE, courseId)) {
  *         if (relation.getType().equals("kuali.student.statement.relation.clu.prerequisites")) {
- *
- *             if (!ExemptionService.isStatementTrueForPerson(personId, relation.getStatementId(), courseId)) {
- *                 if (!evaluateStatement(relation.getStatementId(), personId, courseId)) {
- *                     throw new YouDontMeetARequirementException("read the requirements");
- *                 }
- *              }
+ *             try {
+ *                 Exemption e = ExemptionService.retrieveStatementExemption(coursePrereqCheckKey, personId, relation.getStatementId(), courseId, courseObjectType, courseId, context))
+ *                 usedExemptions.add(e);
+ *             } catch (NotFoundException nfe2) {
+ *                 throw new YouDontMeetARequirementException("read the requirements");
+ *             }
  *         }
  *     }
  *
- *     // proceed with registration
+ *     // proceed with registration. If registration is successful, 
+ *     // add the usage to all the exemptions used.
+ *     persistRegistration();
+ *     for (Exemption e : usedExemptions) {
+ *         e.addUse(e);
+ *     }
  * }
  * </pre>   
  *
@@ -148,6 +165,175 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface ExemptionService extends DataDictionaryService, StateService, TypeService {
+
+    /*
+     * This section defines methods used to retrieve an exemption to
+     * perform overrides on various checks. A separate set of methods
+     * are defined to examine all exemptions that exist.
+     */
+
+    /** 
+     * Retrieves an active effective exemption for a person to
+     * override a Restriction. An effective exemption is one with an
+     * active state and the current date falls within the effective
+     * date range.
+     *
+     * Exemptions may have a qualifier which serves to scope the
+     * Exemption. An Exemption that is unqualified is global such that
+     * any Exemption that is related to the person and restriction may
+     * be returned. Otherwise, the qualifier and qualifier type in the
+     * Exemption must match the given qualifier and qualifier type.
+     *
+     * In the case multiple Exemptions meet the criteria, the
+     * implementation chooses the one that expires the soonest.
+     *
+     * The Check to which the Exemption applies is implied by the
+     * Restriction.
+     *
+     * @param personId a unique Id of the Person
+     * @param restrictionKey a unique key for the restriction to exempt
+     * @param qualifierTypeKey the key for a qualifier type
+     * @param qualifierId the Id for a qualifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return an Exemption if one exists
+     * @throws DoesNotExistException no valid exemption exists
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     ExemptionInfo retrieveRestrictionExemption(@WebParam(name="personId") String personId, @WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves an active effective exemption for a person to
+     * override a Milestone. An effective exemption is one with an
+     * active state and the current date falls within the effective
+     * date range.
+     *
+     * The MilestoneOverride returns a new milstone.
+     *     
+     * Exemptions may have a qualifier which serves to scope the
+     * Exemption. An Exemption that is unqualified is global such that
+     * any Exemption that is related to the person and restriction may
+     * be returned. Otherwise, the qualifier and qualifier type in the
+     * Exemption must match the given qualifier and qualifier type.
+     *
+     * In the case multiple Exemptions meet the criteria, the
+     * implementation chooses the one that expires the soonest.
+     *
+     * @param checkKey a key indicating the check to which the
+     *        exemption applies
+     * @param personId a unique Id of the Person
+     * @param milestoneKey a unique key for milestone to exempt
+     * @param qualifierTypeKey the key for a qualifier type
+     * @param qualifierId the Id for a qualifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return an Exemption if one exists
+     * @throws DoesNotExistException no valid exemption exists
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     ExemptionInfo retrieveMilestoneExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves an active effective exemption for a person to
+     * override a Milestone. An effective exemption is one with an
+     * active state and the current date falls within the effective
+     * date range.
+     *
+     * The DateOverride returns a new date.
+     *
+     * Exemptions may have a qualifier which serves to scope the
+     * Exemption. An Exemption that is unqualified is global such that
+     * any Exemption that is related to the person and restriction may
+     * be returned. Otherwise, the qualifier and qualifier type in the
+     * Exemption must match the given qualifier and qualifier type.
+     *
+     * In the case multiple Exemptions meet the criteria, the
+     * implementation chooses the one that expires the soonest.
+     *
+     * @param checkKey a key indicating the check to which the
+     *        exemption applies
+     * @param personId a unique Id of the Person
+     * @param milestoneKey a unique key for milestone to exempt
+     * @param qualifierTypeKey the key for a qualifier type
+     * @param qualifierId the Id for a qualifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return an Exemption if one exists
+     * @throws DoesNotExistException no valid exemption exists
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     ExemptionInfo retrieveDateExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves an active effective exemption for a person to
+     * override a Milestone. An effective exemption is one with an
+     * active state and the current date falls within the effective
+     * date range.
+     *
+     * The Statement Override instructs the caller to evaluate the
+     * given statement as true.
+     *
+     * Exemptions may have a qualifier which serves to scope the
+     * Exemption. An Exemption that is unqualified is global such that
+     * any Exemption that is related to the person and restriction may
+     * be returned. Otherwise, the qualifier and qualifier type in the
+     * Exemption must match the given qualifier and qualifier type.
+     *
+     * In the case multiple Exemptions meet the criteria, the
+     * implementation chooses the one that expires the soonest.
+     *
+     * @param checkKey a key indicating the check to which the
+     *        exemption applies
+     * @param personId a unique Id of the Person
+     * @param statementId a unique Id for a Statement
+     * @param statementAnchorId the Statement anchor
+     * @param qualifierTypeKey the key for a qualifier type
+     * @param qualifierId the Id for a qualifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return an Exemption if one exists
+     * @throws DoesNotExistException no valid exemption exists
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     ExemptionInfo retrieveStatementExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "statementId") String statementId, @WebParam(name = "statementAnchorId") String statementAnchorId, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /*
+     * This set of methods examines all Exemptions as it
+     * related to a person.
+     */
+
+    /** 
+     * Gets a list of all exemptions by qualfiier. 
+     *
+     * @param qualifierTypeKey the qualifier type
+     * @param qualifierId the qualifier
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Exemptions
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExemptionInfo> getExemptionsByQualifier(@WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Gets a list of all exemptions for a Person.
@@ -213,80 +399,13 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ExemptionInfo> getActiveExmptsByTypeForPerson(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ExemptionInfo> getActiveExemptionsByTypeForPerson(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Test if the person is exempted from the given restriction. A
-     * person is exempted from a restriction if a Restriction exists
-     * for the specified restriction key, the state is Active, and the
-     * current date falls between the restriction effective dates.
-     *
-     * @param personId a unique Id of the Person
-     * @param restrictionKey the key of the restriction
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionInfo> isPersonExemptedFromRestr(@WebParam(name = "personId") String personId, @WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Gets a list of all effective Date exemptions for a
-     * person. An effective exemption is one with an active state
-     * and the current date falls within the effective date range.
-     *
-     * @param personId a unique Id of the Person
-     * @param milestoneKey a unique key for the milestone to check
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+    /*
+     * This section defines the standard crud pattern for
+     * managing Exemptions and requests.
      */
-    public List<ExemptionInfo> getActiveDateExmptsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Gets a list of all effective Milestone exemptions for a
-     * person. An effective exemption is one with an active state
-     * and the current date falls within the effective date range.
-     *
-     * @param personId a unique Id of the Person
-     * @param milestoneKey a unique key for the milestone to check
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionInfo> getActiveMlstnExmptsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Tests if a statement should evaluate to true for the given
-     * person and anchor.
-     *
-     * @param personId a unique Id of the Person
-     * @param statementId a statement to check
-     * @param anchorId a statement anchor
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionInfo> isStatementTrueForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "statementId") String statementId, @WebParam(name = "anchorId") String anchorId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the details of a single Exemption by a exemption Id.

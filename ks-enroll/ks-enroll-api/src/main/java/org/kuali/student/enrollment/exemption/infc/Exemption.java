@@ -79,7 +79,7 @@ public interface Exemption extends IdEntity {
 
     /**
      * Name: Use Count
-     * The number of times this Exemption was marked as used..
+     * The number of times this Exemption was marked as used.
      */
     public Integer getUseCount();
 
