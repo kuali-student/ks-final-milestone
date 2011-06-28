@@ -87,4 +87,16 @@
     <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
     	<property name="em" ref="entityManager"/>
     </bean>
+    
+     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>   
+    
+    <bean id="luiRichTextDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>   
+    
+    <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>   
 </beans>
