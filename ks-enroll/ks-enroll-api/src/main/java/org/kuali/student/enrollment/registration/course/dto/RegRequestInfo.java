@@ -3,15 +3,18 @@ package org.kuali.student.enrollment.registration.course.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.enrollment.registration.course.infc.RegRequest;
 import org.kuali.student.enrollment.registration.course.infc.RegRequestItem;
-import org.kuali.student.enrollment.registration.course.infc.RegResponse;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RegRequestInfo", propOrder = {"id", "typeKey", "stateKey", "requestorId", "studentId", "termKey",
+        "regRequestItems", "meta", "attributes", "_futureElements"})
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,12 +25,31 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
 
     private String termKey;
 
-    private RegResponse regResponse;
-
     private List<RegRequestItem> regRequestItems;
-    
+
     private List<Element> _futureElements;
 
+    public RegRequestInfo() {
+        super();
+        this.requestorId = null;
+        this.studentId = null;
+        this.termKey = null;
+        this.regRequestItems = null;
+        this._futureElements = null;
+
+    }
+
+    public RegRequestInfo(RegRequest regRequest) {
+        super(regRequest);
+        if (null != regRequest) {
+            this.requestorId = regRequest.getRequestorId();
+            this.studentId = regRequest.getStudentId();
+            this.termKey = regRequest.getTermKey();
+            this.regRequestItems = regRequest.getRegRequestItems();
+            this._futureElements = null;
+        }
+
+    }
 
     public void setRequestorId(String requestorId) {
         this.requestorId = requestorId;
@@ -39,10 +61,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
 
     public void setTermKey(String termKey) {
         this.termKey = termKey;
-    }
-
-    public void setRegResponse(RegResponse regResponse) {
-        this.regResponse = regResponse;
     }
 
     public void setRegRequestItems(List<RegRequestItem> regRequestItems) {
@@ -68,11 +86,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     @Override
     public List<RegRequestItem> getRegRequestItems() {
         return regRequestItems;
-    }
-
-    @Override
-    public RegResponse getRegResponse() {
-        return regResponse;
     }
 
 }

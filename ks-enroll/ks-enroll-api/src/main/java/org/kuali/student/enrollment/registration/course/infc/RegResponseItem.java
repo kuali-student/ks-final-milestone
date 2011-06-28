@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.course.infc;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 
 /**
@@ -15,45 +16,25 @@ import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
  * @author Kuali Student Team (sambit)
  */
 public interface RegResponseItem extends HasAttributesAndMeta {
+    
     /**
-     * This method gets the item reg message displaying it to the user
+     * 
+     * Get the operation status info for the registration item.
      * 
      * @return
      */
-    public List<String> getItemRegMessages();
-
+    public OperationStatusInfo getOperationStatusInfo();
+    
     /**
-     * The status of registration for the individual reg group.
      * 
-     * @return
-     */
-    public String getItemRegStatus();
-
-    /**
-     * Any warnings that need to be shown for the reg group registration
-     * attempt.
-     * 
-     * @return
-     */
-    public List<String> getItemRegWarnings();
-
-    /**
-     * Returns any error specific to the reg group registration process.
-     * 
-     * @return
-     */
-    public List<String> getItemRegErrors();
-
-    /**
-     * Returns the course registration id that results from a successful
-     * registration transaction
+     * Gets the course registration (if any) that resulted from this   registration transaction
      * 
      * @return
      */
     public String getCourseRegistrationId();
 
     /**
-     * Returns the waitlist id if it was a waitlist request
+     * Gets the waitlist entry (if any) that resulted from this registration transaction
      * 
      * @return
      */

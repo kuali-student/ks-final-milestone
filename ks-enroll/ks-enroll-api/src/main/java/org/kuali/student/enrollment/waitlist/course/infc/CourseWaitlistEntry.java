@@ -31,14 +31,7 @@ public interface CourseWaitlistEntry extends Relationship {
      */
     public String getStudentId();
 
-    /**
-     * Course waitlist option for this waitlist entry. Represents the reg group
-     * the student is registering for.
-     * 
-     * @return
-     */
-    public String getCourseWaitlistOptionId();
-
+    
     /**
      * Returns the position of this entry in the waitlist for a particular
      * waitlist option .
@@ -52,6 +45,14 @@ public interface CourseWaitlistEntry extends Relationship {
      * @return
      */
     public Boolean getHasCheckedIn();
+    
+    /**
+     * 
+     * Returns the 
+     * 
+     * @return
+     */
+    public String getRegGroupId();
 
     
 }

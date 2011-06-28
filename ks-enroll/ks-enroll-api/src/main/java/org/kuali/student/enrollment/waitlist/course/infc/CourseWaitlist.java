@@ -45,13 +45,5 @@ public interface CourseWaitlist extends IdEntity {
      */
     public List<String> getCourseWailtistEntryIds();
 
-    /**
-     * Returns the course waitlist options, i.e the waitlist for all reg group
-     * in the course. If there's a single reg group in the course offering, this
-     * list will have only one entry.
-     * 
-     * @return List
-     */
-    public List<CourseWaitlistOption> getWaitlistOptions();
 
 }

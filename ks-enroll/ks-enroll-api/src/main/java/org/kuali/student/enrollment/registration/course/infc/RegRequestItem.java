@@ -5,24 +5,48 @@ import org.kuali.student.r2.common.infc.IdEntity;
 /**
  * Represents a single reg group in the request to register. This request is
  * also used to request waitlist or drop a course. It has transaction type of
- * either ADD, DROP, or UPDATE to represent adding (waitlisting, holdlisting),
- * dropping courses or persisting an item from the reg cart with changes to it.
- * It has other options like grading and credit options that a student can
- * specify while registering. There will be options like okToWaitlist,
- * okToHoldList, okToExceptionList which will help specify if the student wants
- * to go to a waitlist/holdlist in case there's no seat availability for the
- * course. A request to waitlist a course should always have okToWaitlist set to
- * true, same for hold or exception lists.
+ * either ADD, DROP, SWAP or UPDATE to represent adding (waitlisting,
+ * holdlisting), dropping courses or persisting an item from the reg cart with
+ * changes to it. It has other options like grading and credit options that a
+ * student can specify while registering. There will be options like
+ * okToWaitlist, okToHoldList, okToExceptionList which will help specify if the
+ * student wants to go to a waitlist/holdlist in case there's no seat
+ * availability for the course. A request to waitlist a course should always
+ * have okToWaitlist set to true, same for hold or exception lists. 
+ * 
+ * ************POSSIBLE SCENARIOS*******************************
+ * 
+ * 1. Register for course - {@link RegRequestItem} Type is ADD ,
+ *  newRegGroupId is the reg group to be registered for 
+ *  
+ * 2. Register for course but waitlist if seat not available OR
+ * waitlist for course - same as above and okToWaitlist is true
+ * 
+ * 3. Swap between reg group within same course offering - Type is swap,
+ * both new and existing reg group ids populated. new is to be the one 
+ * replaced with the old one. Reg groups are in the same course offering.
+ * 
+ * 4.Save reg request - Type is UPDATE and newRegGroupId is populated 
+ * 
  * 
  * @author Kuali Student Team (sambit)
  */
 public interface RegRequestItem extends IdEntity {
     /**
-     * Returns the id of the RegGroup for this item.
+     * Returns the id of the RegGroup for this item. This is populated for ADD,
+     * DROP, UPDATE and SWAP types of RegRequestItem
      * 
      * @return
      */
-    public String getRegGroupId();
+    public String getNewRegGroupId();
+
+    /**
+     * Returns the existing reg group id. The existing reg group field is
+     * populated if we have DROP or SWAP types of Request item.
+     * 
+     * @return
+     */
+    public String getExistingRegGroupId();
 
     /**
      * If the course is full and there is a waitlist, is it okay to be placed in

@@ -4,36 +4,31 @@ package org.kuali.student.enrollment.registration.course.infc;
 import java.util.List;
 
 
+import org.kuali.student.enrollment.registration.course.dto.RegResponseItemInfo;
+import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 public interface RegResponse extends IdEntity {
     /**
-     * This method gets the item reg message displaying it to the user
+     * This method gets the item operation status info for the registration response
      * 
      * @return
      */
-    public List<String> getRegMessages();
+    public OperationStatusInfo getOperationStatusInfo();
 
     /**
-     * The status of registration for the overall registration.
+     * The status of registration request id associated with this registration request.
      * 
      * @return
      */
-    public String getOverallRegStatus();
-
+    public String getRegRequestId();
+    
     /**
-     * Any warnings that need to be shown for the registration
-     * attempt.
+     * 
+     * The individual registration response items for the registration response
      * 
      * @return
      */
-    public List<String> getRegWarnings();
-
-    /**
-     * Returns any errors for the overall registration process.
-     * 
-     * @return
-     */
-    public List<String> getRegErrors();
-
+    public List<RegResponseItem> getRegResponseItemInfos();
+   
 }

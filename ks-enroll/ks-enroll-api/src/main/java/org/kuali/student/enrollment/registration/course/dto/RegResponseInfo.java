@@ -3,61 +3,59 @@ package org.kuali.student.enrollment.registration.course.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.enrollment.registration.course.infc.RegResponse;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.enrollment.registration.course.infc.RegResponse;
+import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.OperationStatusInfo;
+import org.w3c.dom.Element;
 
 public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serializable {
 
+    @XmlElement
     private static final long serialVersionUID = 1L;
-
-    private String overallRegStatus;
-
-    private List<String> regMessages;
-
-    private List<String> regWarnings;
-
-    private List<String> regErrors;
     
+    @XmlElement
+    private String regRequestId;
+
+    @XmlElement
+    private List<RegResponseItem> regResponseItemInfos;
+
+    @XmlElement
+    private OperationStatusInfo operationStatusInfo;
+
+    @XmlAnyElement
     private List<Element> _futureElements;
-
-
+    
     @Override
-    public List<String> getRegMessages() {
-        return regMessages;
+    public List<RegResponseItem> getRegResponseItemInfos() {
+        return regResponseItemInfos;
     }
 
-    @Override
-    public String getOverallRegStatus() {
-        return overallRegStatus;
+    public void setRegResponseItemInfos(List<RegResponseItem> regResponseItemInfos) {
+        this.regResponseItemInfos = regResponseItemInfos;
     }
 
     @Override
-    public List<String> getRegWarnings() {
-        return regWarnings;
+    public OperationStatusInfo getOperationStatusInfo() {
+        return operationStatusInfo;
     }
 
- 
-    public void setOverallRegStatus(String overallregStatus) {
-        this.overallRegStatus = overallregStatus;
+    public void setOperationStatusInfo(OperationStatusInfo operationStatusInfo) {
+        this.operationStatusInfo = operationStatusInfo;
     }
 
-    public void setRegMessages(List<String> regMessages) {
-        this.regMessages = regMessages;
-    }
-
-    public void setRegWarnings(List<String> regWarnings) {
-        this.regWarnings = regWarnings;
-    }
-
-    public void setRegErrors(List<String> regErrors) {
-        this.regErrors = regErrors;
-    }
+    
 
     @Override
-    public List<String> getRegErrors() {
-        return regErrors;
+    public String getRegRequestId() {
+        return regRequestId;
+    }
+
+    public void setRegRequestId(String regRequestId) {
+        this.regRequestId = regRequestId;
     }
 
 }

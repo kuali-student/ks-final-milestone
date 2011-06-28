@@ -49,11 +49,5 @@ public interface RegRequest extends IdEntity {
      */
     public List<RegRequestItem> getRegRequestItems();
 
-    /**
-     * Returns the {@link RegResponse} if the request is already submitted.
-     * Returns null if the request is not processed yet.
-     * 
-     * @return
-     */
-    public RegResponse getRegResponse();
+
 }

@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.lpr.service;
 
 import java.util.List;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -48,7 +49,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @author nwright
  */
 public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRelationService{
-
+ 
 
 	protected LuiPersonRelationService nextDecorator;
     		
@@ -81,7 +82,7 @@ public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRela
     }
 
     @Override
-    public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiPersonRelationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	if(null!= nextDecorator) {
     		return nextDecorator.searchForLuiPersonRelationIds(criteria, context);
         } else {
@@ -90,6 +91,17 @@ public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRela
     
     }
 
+    @Override
+    public List<LuiPersonRelationInfo> searchForLuiPersonRelations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if(null!= nextDecorator) {
+            return nextDecorator.searchForLuiPersonRelations(criteria, context);
+        } else {
+            throw new OperationFailedException("Decorators not properly configured");
+        }
+    
+    }
+
+    
     @Override
     public List<String> findPersonIdsRelatedToLui(String luiId, String luiPersonRelationTypeKey, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	if(null!= nextDecorator) {

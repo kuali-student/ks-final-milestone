@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.waitlist.dto;
+package org.kuali.student.enrollment.waitlist.course.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitlistInfo", propOrder = { "id", "typeKey",
 		"stateKey", "courseOfferingId", "courseWailtistEntryIds",
-		"waitlistOptions", "meta", "attributes", "_futureElements" })
+		 "meta", "attributes", "_futureElements" })
 public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 		Serializable {
 
@@ -26,8 +26,6 @@ public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 	private String courseOfferingId;
 	@XmlElement
 	private List<String> courseWailtistEntryIds;
-	@XmlElement
-	private List<CourseWaitlistOption> waitlistOptions;
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
@@ -35,7 +33,6 @@ public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 		super();
 		this.courseOfferingId = null;
 		this.courseWailtistEntryIds = null;
-		this.waitlistOptions = null;
 		this._futureElements = null;
 	}
 
@@ -45,7 +42,6 @@ public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 			this.courseOfferingId = courseWaitlist.getCourseOfferingId();
 			this.courseWailtistEntryIds = courseWaitlist
 					.getCourseWailtistEntryIds();
-			this.waitlistOptions = courseWaitlist.getWaitlistOptions();
 			this._futureElements = null;
 		}
 	}
@@ -58,9 +54,6 @@ public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 		this.courseWailtistEntryIds = courseWailtistEntryIds;
 	}
 
-	public void setWaitlistOptions(List<CourseWaitlistOption> waitlistOptions) {
-		this.waitlistOptions = waitlistOptions;
-	}
 
 	@Override
 	public String getCourseOfferingId() {
@@ -72,10 +65,5 @@ public class CourseWaitlistInfo extends IdEntityInfo implements CourseWaitlist,
 		return courseWailtistEntryIds;
 	}
 
-	@Override
-	public List<CourseWaitlistOption> getWaitlistOptions() {
-
-		return waitlistOptions;
-	}
 
 }

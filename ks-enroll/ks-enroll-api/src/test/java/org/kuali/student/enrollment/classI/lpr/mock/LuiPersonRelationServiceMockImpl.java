@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -439,7 +440,10 @@ public class LuiPersonRelationServiceMockImpl implements
 	}
 
 	@Override
-	public List<String> searchForLuiPersonRelationIds(CriteriaInfo criteria,
+	/**
+	 * this is just mock
+	 */
+	public List<String> searchForLuiPersonRelationIds(QueryByCriteria criteria,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -457,14 +461,10 @@ public class LuiPersonRelationServiceMockImpl implements
 
 		// validate the criteria
 		CriteriaValidatorParser validator = new CriteriaValidatorParser();
-		validator.setCriteria(criteria);
-		validator.setDictionaryEntry(dictionaryEntry);
-		validator.validate();
 
 		// now do the in memory matching
 		CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
 		matcher.setDictionaryEntry(dictionaryEntry);
-		matcher.setCriteria(criteria);
 		matcher.setParsedOperators(validator.getParsedOperators());
 		matcher.setParsedValues(validator.getParsedValues());
 		Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
@@ -717,6 +717,14 @@ public class LuiPersonRelationServiceMockImpl implements
     public StatusInfo removeAllLPRsFromLPRRoster(String luiPersonRelationRosterId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> searchForLuiPersonRelations(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
