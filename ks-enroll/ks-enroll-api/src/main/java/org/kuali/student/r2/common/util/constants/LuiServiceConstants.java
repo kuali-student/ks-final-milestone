@@ -19,8 +19,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 
 /**
- * This is a description of what this class does - Kamal don't forget
- * to fill this in.
+ * Lui Service Constants
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
@@ -34,9 +33,14 @@ public class LuiServiceConstants {
     /**
      * Types
      */
-    public static final String COURSE_GROUP_OFFERING_TYPE_KEY = "kuali.lui.type.course.group.offering";
+//    public static final String COURSE_BUNDLE_TYPE_KEY = "kuali.lui.type.course.bundle";
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
-    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+    public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
+//    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+    
+    /**
+     * TODO: LuiSeatCounts to hold seatpool information
+     */
 
     /**
      * activity types
@@ -90,18 +94,21 @@ public class LuiServiceConstants {
  * States
  */
 public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
-    public static final String LUI_PROPOSED_STATE_KEY = "kuali.lui.state.proposed";
+    public static final String LUI_DRAFT_STATE_KEY = "kuali.lui.state.draft";
     public static final String LUI_SUBMITTED_STATE_KEY = "kuali.lui.state.submitted";
     public static final String LUI_APROVED_STATE_KEY = "kuali.lui.state.approved";
     public static final String LUI_SCHEDULED_STATE_KEY = "kuali.lui.state.scheduled";
-    public static final String LUI_WITHDRAWN_STATE_KEY = "kuali.lui.state.withdrawn";
+    public static final String LUI_DELETED_STATE_KEY = "kuali.lui.state.deleted";    
     public static final String LUI_OFFERED_STATE_KEY = "kuali.lui.state.offered";
-    public static final String LUI_CHANGED_STATE_KEY = "kuali.lui.state.changed";
-    public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {LUI_PROPOSED_STATE_KEY,
+    public static final String LUI_CANCELED_STATE_KEY = "kuali.lui.state.canceled";
+    public static final String LUI_SUSPENDED_STATE_KEY = "kuali.lui.state.suspended";    
+    public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {LUI_DRAFT_STATE_KEY,
         LUI_SUBMITTED_STATE_KEY,
         LUI_APROVED_STATE_KEY,
         LUI_SCHEDULED_STATE_KEY,
-        LUI_WITHDRAWN_STATE_KEY,
+        LUI_DELETED_STATE_KEY,        
         LUI_OFFERED_STATE_KEY,
-        LUI_CHANGED_STATE_KEY};
+        LUI_CANCELED_STATE_KEY,        
+        LUI_SUSPENDED_STATE_KEY
+        };
 }
