@@ -248,6 +248,25 @@
         <!--TODO: Add some sort of referential integrity constriant to make sure the id is a valid lui id-->
     </bean>
 
+    <bean id="baseKualiAtpKey" parent="baseKualiCode" abstract="true">
+        <property name="name" value="atpKey"/>
+        <property name="childEntryName" value="atpKey"/>
+        <property name="shortLabel" value="ATP"/>
+        <property name="summary" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="label" value="ATO"/>
+        <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
+    </bean>
+
+    <bean id="baseKualiCluId" abstract="true" parent="baseKualiId">
+        <property name="name" value="luiId"/>
+        <property name="childEntryName" value="cluId"/>
+        <property name="shortLabel" value="Clu ID"/>
+        <property name="summary" value="Unique ID for a CLU"/>
+        <property name="label" value="Cannonical Learning Unit ID"/>
+        <property name="description" value="ID assigned to an existing Canonical Learning Unit"/>
+        <!--TODO: Add some sort of referential integrity constriant to make sure the id is a valid lui id-->
+    </bean>
+
     <bean id="baseKualiPersonId" abstract="true" parent="baseKualiId">
         <property name="name" value="personId"/>
         <property name="childEntryName" value="personId"/>

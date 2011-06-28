@@ -30,6 +30,8 @@ import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
@@ -60,9 +62,10 @@ public class TestServiceDictionaries {
         inputFiles.add(getXmlFile(AtpInfo.class));
         inputFiles.add(getXmlFile(MilestoneInfo.class));
         inputFiles.add(getXmlFile(AtpAtpRelationInfo.class));
-        inputFiles.add(getXmlFile(AtpMilestoneRelationInfo.class));
-//        // LUI
-//        inputFiles.add(getXmlFile(LuiInfo.class));
+        inputFiles.add(getXmlFile(AtpMilestoneRelationInfo.class)); 
+        // LUI
+        inputFiles.add(getXmlFile(LuiInfo.class));
+        inputFiles.add(getXmlFile(LuiLuiRelationInfo.class));   
         return inputFiles;
     }
 

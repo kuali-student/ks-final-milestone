@@ -85,8 +85,9 @@ public class TestDictionaryCreator {
     public void testExecute() {
         System.out.println("execute");
         try {
-            // lui
+            // lpr
             new DictionaryCreator().execute(LuiPersonRelationInfo.class);
+            // lui
             new DictionaryCreator().execute(LuiInfo.class);
             new DictionaryCreator().execute(LuiLuiRelationInfo.class);
             // atp

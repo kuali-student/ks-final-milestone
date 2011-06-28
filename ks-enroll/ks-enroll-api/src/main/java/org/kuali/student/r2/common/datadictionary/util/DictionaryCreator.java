@@ -356,7 +356,7 @@ public class DictionaryCreator {
             return "baseKualiCluId";
         }
         if (lowerName.endsWith("luiid")) {
-            return "baseKualiCluId";
+            return "baseKualiLuiId";
         }
         if (lowerName.endsWith("code")) {
             return "baseKualiCode";
