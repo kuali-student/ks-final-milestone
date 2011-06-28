@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import java.util.List;
 
+import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -15,14 +16,66 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuiServiceImpl implements LuiService {
+private LuiDao luiDao;
+private LuiRichTextDao luiRichTextDao;
+private LuiTypeDao luiTypeDao;
+private StateService stateService;
+private TypeTypeRelationDao typeTypeRelationDao;
+
+
+public LuiDao getLuiDao() {
+	return luiDao;
+}
+
+public void setLuiDao(LuiDao luiDao) {
+	this.luiDao = luiDao;
+}
+
+public LuiRichTextDao getLuiRichTextDao() {
+	return luiRichTextDao;
+}
+
+public void setLuiRichTextDao(LuiRichTextDao luiRichTextDao) {
+	this.luiRichTextDao = luiRichTextDao;
+}
+
+public LuiTypeDao getLuiTypeDao() {
+	return luiTypeDao;
+}
+
+public void setLuiTypeDao(LuiTypeDao luiTypeDao) {
+	this.luiTypeDao = luiTypeDao;
+}
+
+public StateService getStateService() {
+	return stateService;
+}
+
+public void setStateService(StateService stateService) {
+	this.stateService = stateService;
+}
+
+public TypeTypeRelationDao getTypeTypeRelationDao() {
+	return typeTypeRelationDao;
+}
+
+public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
+	this.typeTypeRelationDao = typeTypeRelationDao;
+}
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)

@@ -56,7 +56,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
  * @Since Wed Mar 2 15:18:59 EST 2011
  */
 
-@WebService(name = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)
+@WebService(name = "LuiService", serviceName ="LuiService", portName = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LuiService extends DataDictionaryService, TypeService {
 
