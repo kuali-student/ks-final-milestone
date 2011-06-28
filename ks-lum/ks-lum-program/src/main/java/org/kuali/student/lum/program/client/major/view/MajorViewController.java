@@ -46,8 +46,12 @@ public class MajorViewController extends MajorController {
     // TODO: Change to program and copy msgs
     private static final String MSG_GROUP = "course";
     
-    // The drop-down with the action items
-    private final DropdownList actionBox = new DropdownList(ActionType.getValues());
+    /**
+     * Initialize the action drop-down with a list of values.  Note that these values
+     * will be changed further down in the code depending on if we are working with the latest 
+     * version of the program.
+     */
+    private final DropdownList actionBox = new DropdownList(ActionType.getValuesForMajorDiscipline(false));
  
     // Used to pass flag if this is the latest version of the program from
     // an async call to the light box so we can conditionally decided
@@ -203,12 +207,16 @@ public class MajorViewController extends MajorController {
             @Override
             public void onClick(ClickEvent event) {
                  if (radioOptionModifyNoVersion.getValue()){
-                  // If modify w/out version radio button is chosen 
-                  // Navigate to program admin screens (does not exist yet)   
-                    
-                } else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
+                    // If modify w/out version radio button is chosen 
+                    // we just edit the program.  We do not create a copy.
+                    // We navigate to the edit program controller
+                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
+                 } else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
                     // If the curriculum review option IS checked and the modify with version radio button IS selected
-                    // Navigate to the modify by proposal controller/screen
+                    // We need to create a copy of the program (by passing in COPY_OF_OBJECT_ID)
+                    // and then transfer control to the proposal controller (the proposal controller has
+                    // extra section for entering proposal related data
                     String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
  
                     // Pass the ID and the type to the proposal controller
@@ -221,9 +229,10 @@ public class MajorViewController extends MajorController {
                     Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
 
                  } else if (radioOptionModifyWithVersion.getValue()){
-                   // If the curriculum review option NOT checked and the modify with version radio button IS selected
-                   // Navigate to normal modify program screen
-                    
+                    // If we are just choosing to modify a program but want to create a new version
+                    // AND we are not using the proposal process
+                    // We make a copy of the data model and transfer control
+                    // to the edit program screen
                      
                      // Pass the ID and the type to the proposal controller
                      // using the view context.  We then read it in the
@@ -304,24 +313,11 @@ public class MajorViewController extends MajorController {
 			    // using instance variables like this? (we are doing this in course as well)
 			    isCurrentVersion = isLatest;
 			    
-			   if (isLatest){
-    			    List<String> values = new ArrayList<String>();
-    	            values.add(ActionType.NO_ACTION.getValue());
-    	            values.add(ActionType.MODIFY.getValue());
-    	            values.add(ActionType.RETIRE.getValue());
-    		        actionBox.setList(values);	
-			   }
-			   else {
-			       // If this is NOT the latest version it can
-		            // TODO where is this in the spec?
-		            List<String> values = new ArrayList<String>();
-		            values.add(ActionType.NO_ACTION.getValue());
-		            values.add(ActionType.MODIFY.getValue());
-		            values.add(ActionType.RETIRE.getValue());
-		            actionBox.setList(values);   
-			   }
-			   
-			}        	
+			    // Populate the action box drop-down with different values depending 
+			    // on if we are working with the latest version of the program 
+			    // or a historical version
+    		    actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));	
+ 			}        	
         });
     } 
   

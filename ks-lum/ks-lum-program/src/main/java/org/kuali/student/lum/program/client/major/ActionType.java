@@ -27,33 +27,101 @@ public enum ActionType {
         return value;
     }
 
-    public static List<String> getValues() {
-        if (values == null) {
-            values = new ArrayList<String>();
-            for (ActionType actionType : ActionType.values()) {
-                values.add(actionType.getValue());
-            }
-        }
-        return values;
-    }
-
-    public static List<String> getValues(boolean showAllActions){
-    	// There is a states page which shows valid states.  Make needs to update it.
+   
+    /**
+     * This method will send back a list of values to populate the action box
+     * drop-down with.  
+     * <p>
+     * The list may differ between core, credential, and major discipline type programs.
+     * <p>
+     * The list may differ if you are working on the latest (most recent) version or a
+     * historical version.
+     * 
+     * @param latestVersion we are working with the most recent version of the program
+     * @return
+     */
+    public static List<String> getValuesForMajorDiscipline(boolean islatestVersion){
+        // There is a states page which shows valid states.  Mike needs to update it.
         // It is at: https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
         // NOTE: Use same states as "Modify with Version" on page above (it is equivalent to modify with proposal)
-        
-        
-        // We need to show the PROPOSED_PROGRAM_MODIFICATION option when state is  
-        if (showAllActions){
-    		return getValues();
-    	} else {
-    		List<String> values = new ArrayList<String>();
-    		values.add(NO_ACTION.getValue());
-    		values.add(MODIFY.getValue());
-    		values.add(RETIRE.getValue());
-    		return values;
-    	}
+ 
+        if (islatestVersion){
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            values.add(RETIRE.getValue());
+            return values;
+        } else {
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            values.add(RETIRE.getValue());
+            return values;
+        }
     }
+    /**
+     * This method will send back a list of values to populate the action box
+     * drop-down with.  
+     * <p>
+     * The list may differ between core, credential, and major discipline type programs.
+     * <p>
+     * The list may differ if you are working on the latest (most recent) version or a
+     * historical version.
+     * 
+     * @param latestVersion we are working with the most recent version of the program
+     * @return
+     */
+    public static List<String> getValuesForCredentialProgram(boolean islatestVersion){
+        // There is a states page which shows valid states.  Mike needs to update it.
+        // It is at: https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
+        // NOTE: Use same states as "Modify with Version" on page above (it is equivalent to modify with proposal)
+ 
+        if (islatestVersion){
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            values.add(MODIFY_VERSION.getValue());
+            return values;
+        } else {
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            return values;
+        }
+    }
+    
+    /**
+     * This method will send back a list of values to populate the action box
+     * drop-down with.  
+     * <p>
+     * The list may differ between core, credential, and major discipline type programs.
+     * <p>
+     * The list may differ if you are working on the latest (most recent) version or a
+     * historical version.
+     * 
+     * @param latestVersion we are working with the most recent version of the program
+     * @return
+     */
+    public static List<String> getValuesForCoreProgram(boolean islatestVersion){
+        // There is a states page which shows valid states.  Mike needs to update it.
+        // It is at: https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
+        // NOTE: Use same states as "Modify with Version" on page above (it is equivalent to modify with proposal)
+ 
+        if (islatestVersion){
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            values.add(MODIFY_VERSION.getValue());
+            return values;
+        } else {
+            List<String> values = new ArrayList<String>();
+            values.add(NO_ACTION.getValue());
+            values.add(MODIFY.getValue());
+            return values;
+        }
+    }
+    
+ 
     
     public static ActionType of(String value) {
         for (ActionType actionType : values()) {
