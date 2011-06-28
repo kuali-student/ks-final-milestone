@@ -15,6 +15,7 @@
   -->
 <config>
 	<param name="module.name">ks-enroll</param>
+	<param name="application.id">ks-enroll</param>
 
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	<!-- <param name="config.location">classpath:META-INF/common-config-locations.xml</param> -->
