@@ -1,3 +1,43 @@
+/*
+ * 
+
+Build and Execute Rules for the following scenarios:
+
+Agenda 1:  Must have successfully completed all courses from Course Set 1 (courses 1 and 2)  **OR**
+			Must have earned a minimum GPA of 3.0 in all courses from Course Set 2 (courses 2 and 3)
+
+Agenda 2:  Permission of Org 1 required **OR**
+			(Must have completed Course 1 **AND** Permission of instructor required)
+
+Agenda 3:  Completed 5 credits from Course Set 2 **AND** minimum score of 80 on Test Set 1
+
+NOTES: 
+Course Set 1 has courses 1 and 2
+Course Set 2 has courses 2 and 3
+Courses 1 and 2 are worth 4 credits, course 3 is worth 3 credits
+All Students have a minimum score of 80 on Test Set 1 by default
+
+Student 1:
+	GPA Data: 3.0 in course 1
+	Course Completion Data: course 1
+	Course Set credit data: 4 credits in course set 1, 0 credits in course set 2
+	Permission from Org or Instructor: true
+	
+Student 2: 
+	GPA Data: 3.0 in course 2, 0.4 in course 3
+	Course Completion Data: courses 2 & 3
+	Course Set credit data: 4 credits in course set 1, 7 credits in course set 2
+	Permission from Org or Instructor: true
+
+Student 3:
+	GPA Data: 3.5 in courses 1, 2, 3
+	Course Completion Data: courses 1, 2, and 3
+	Course Set Credit Data: 8 credits in course set 1, 7 credits in course set 2
+	Permission from Org or Instructor: false
+
+ *
+ */
+
 package org.kuali.student.krms.test;
 
 import java.util.ArrayList;
@@ -120,7 +160,8 @@ public class StatementProposalTest {
         System.out.println();
         System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 1");
-        //printEngineResults(results1);
+        printAgenda(1);
+        printStudent(1);
         printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
 
         ProviderBasedEngine engine2 = buildEngine(agenda2);
@@ -128,18 +169,18 @@ public class StatementProposalTest {
         System.out.println();
         System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 2");
-        //printEngineResults(results2);
+        printAgenda(2);
+        printStudent(1);
         printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
-        //printPropositions(results2);
 
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println();
         System.out.println("---------------------------");
         System.out.println("Results for Student 1, agenda 3");
-        //printEngineResults(results3); 
+        printAgenda(3);
+        printStudent(1);
         printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
-        //printPropositions(results3);
 
     }
 
@@ -151,22 +192,24 @@ public class StatementProposalTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);       
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 1");
-        //printEngineResults(results1);
+        printAgenda(2);
+        printStudent(1);
         printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
-
     
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 2");
-        //printEngineResults(results2);
+        printAgenda(2);
+        printStudent(2);
         printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 2, agenda 3");
-        //printEngineResults(results3);
+        printAgenda(3);
+        printStudent(2);
         printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
 
         
@@ -185,23 +228,24 @@ public class StatementProposalTest {
         EngineResults results1 = engine1.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 1");
-        //printEngineResults(results1);
+        printAgenda(1);
+        printStudent(3);
         printStatementTree(statementTranslator.getStatementTreeView("1"), results1);
-
         
         ProviderBasedEngine engine2 = buildEngine(agenda2);
         EngineResults results2 = engine2.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 2");
-        //printEngineResults(results2);
+        printAgenda(2);
+        printStudent(3);
         printStatementTree(statementTranslator.getStatementTreeView("2"), results2);
-
         
         ProviderBasedEngine engine3 = buildEngine(agenda3);
         EngineResults results3 = engine3.execute(selectionCriteria, execFacts, xOptions);
         System.out.println("---------------------------");
         System.out.println("Results for Student 3, agenda 3");
-        //printEngineResults(results3);
+        printAgenda(3);
+        printStudent(3);
         printStatementTree(statementTranslator.getStatementTreeView("3"), results3);
  
         // revert permission propositions
@@ -328,26 +372,46 @@ public class StatementProposalTest {
     	
     }
     
-        
-    private void printEngineResults(EngineResults results) {
-        
-        System.out.println();
+    
+    private void printAgenda(int id) {
     	
-    	for(ResultEvent result : results.getAllResults()) {
-            System.out.println("Result Type: " + result.getType());
-            System.out.println("Souce object is: " + result.getSource());
-            System.out.println("Source object is of type: " + result.getSource().getClass().toString());
-            System.out.println("Result Time Stamp: " + result.getTimestamp());
-            System.out.println("Result: " + result.getResult());
-            System.out.println("Description: " + result.getDescription());
-            
-            System.out.println("Statement: " + statementTranslator.getStatementPropositionMap().get(result.getSource()));
-            System.out.println("Requirement Component: " + statementTranslator.getReqComponentPropositionMap().get(result.getSource()));
-            
-            System.out.println();
-        }
-        System.out.println("---------------------------");
-        System.out.println();
+    	switch(id) {
+    		case 1: System.out.println("Agenda 1:  Must have successfully completed all courses from Course Set 1 (courses 1 and 2)  **OR** Must have earned a minimum GPA of 3.0 in all courses from Course Set 2 (courses 2 and 3)"); break;
+    		case 2: System.out.println("Agenda 2:  Permission of Org 1 required **OR** (Must have completed Course 1 **AND** Permission of instructor required)"); break;
+    		case 3: System.out.println("Agenda 3:  Completed 5 credits from Course Id 2 **AND** minimum score of 80 on Test Set 1"); break;
+    	}
     }
-   
+    
+    private void printStudent(int id) {
+    	if(id == 1) {
+    		System.out.println("Student 1");
+    		System.out.println("GPA Data: 3.0 in course 1");
+    		System.out.println("Course Completion Data: course 1");
+    		System.out.println("Course Set credit data: 4 credits in course set 1, 0 credits in course set 2");
+    		System.out.println("Permission from Org or Instructor: true");
+    		System.out.println("Minimum Score of 80 on Test Set 1: true");
+    	}
+
+    	if(id == 2) {
+    		System.out.println("Student 2");
+    		System.out.println("GPA Data: 3.0 in course 2, 0.4 in course 3");
+    		System.out.println("Course Completion Data: courses 2 & 3");
+    		System.out.println("Course Set credit data: 4 credits in course set 1, 7 credits in course set 2");
+    		System.out.println("Permission from Org or Instructor: true");
+    		System.out.println("Minimum Score of 80 on Test Set 1: true");
+    	}
+    	
+    	if(id == 3) {
+    		System.out.println("Student 3");
+    		System.out.println("GPA Data: 3.5 in courses 1, 2, 3");
+    		System.out.println("Course Completion Data: courses 1, 2, and 3");
+    		System.out.println("Course Set credit data: 8 credits in course set 1, 7 credits in course set 2");
+    		System.out.println("Permission from Org or Instructor: false");
+    		System.out.println("Minimum Score of 80 on Test Set 1: true");
+    	}
+    
+    }
+    	
+    
+    
 }
