@@ -15,14 +15,11 @@
  */
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * 
@@ -33,39 +30,51 @@ public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefi
 
     private static final long serialVersionUID = 1L;
 
-    @Override
-    public Date getEffectiveDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public Date getExpirationDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+    private String courseOfferingId;
+    
+    private List<String> registrationGroupIdList;
+    
+    private Integer maximumSeatCount;
+    
+    private Integer processingPriority;
+    
+    
     @Override
     public String getCourseOfferingId() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.courseOfferingId;
     }
 
     @Override
     public List<String> getRegistrationGroupIdList() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        if(null == this.registrationGroupIdList) {
+            this.registrationGroupIdList = new ArrayList<String>();
+        }
+        return this.registrationGroupIdList;
     }
 
     @Override
     public Integer getMaximumSeatCount() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.maximumSeatCount;
     }
 
     @Override
-    public Integer getRank() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public Integer getProcessingPriority() {
+        return this.processingPriority;
     }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
+
+    public void setRegistrationGroupIdList(List<String> registrationGroupIdList) {
+        this.registrationGroupIdList = registrationGroupIdList;
+    }
+
+    public void setMaximumSeatCount(Integer maximumSeatCount) {
+        this.maximumSeatCount = maximumSeatCount;
+    }
+
+    public void setProcessingPriority(Integer processingPriority) {
+        this.processingPriority = processingPriority;
+    }        
 }

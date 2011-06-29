@@ -19,13 +19,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
 /**
- * This is a description of what this class does - Kamal don't forget to fill this in. 
+ * This is a description of what this class does - Kamal don't for to fill this in. 
  * 
  * @author Kuali Student Team (Kamal)
  *
@@ -34,106 +32,180 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
 
     private static final long serialVersionUID = 1L;
 
+    private List<String> courseOfferingIds;
+    
+    private List<String> registrationGroupIds;
+    
+    private String activityId;
+        
+    private String activityCode;   
+    
+    private String termKey;
+
+    private Boolean isHonorsOffering;
+    
+    private ResultComponent gradingOptions;
+       
+    private Date finalExamStartTime;
+    
+    private Date finalExamEndTime;
+    
+    private String finalExamBuilding;
+    
+    private String finalExamRoom;
+
+    private Float weeklyInclassContactHours;
+    
+    private Float weeklyOutofclassContactHours;
+
+    private Float weeklyTotalContactHours;
+
+    private Integer maximumEnrollment;
+
+    private Integer minimumEnrollment;
+        
     @Override
-    public Date getEffectiveDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<String> getCourseOfferingIds() {
+        return courseOfferingIds;
     }
 
     @Override
-    public Date getExpirationDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public String getId() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public RichTextInfo getDescr() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public String getTypeKey() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public String getStateKey() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<AttributeInfo> getAttributes() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public MetaInfo getMeta() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<String> getRegistrationGroupIds() {
+        return registrationGroupIds;
     }
 
     @Override
     public String getActivityId() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return activityId;
+    }
+
+    @Override
+    public String getActivityCode() {
+        return activityCode;
     }
 
     @Override
     public String getTermKey() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return termKey;
     }
 
     @Override
     public Boolean getIsHonorsOffering() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return isHonorsOffering;
     }
 
     @Override
-    public List<String> getGradingOptions() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public ResultComponent getGradingOptions() {
+        return gradingOptions;
     }
 
     @Override
     public Date getFinalExamStartTime() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return finalExamStartTime;
     }
 
     @Override
     public Date getFinalExamEndTime() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return finalExamEndTime;
     }
 
     @Override
     public String getFinalExamBuilding() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return finalExamBuilding;
     }
 
     @Override
     public String getFinalExamRoom() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return finalExamRoom;
     }
 
+    @Override
+    public Float getWeeklyInclassContactHours() {
+        return weeklyInclassContactHours;
+    }
+
+    @Override
+    public Float getWeeklyOutofclassContactHours() {
+        return weeklyOutofclassContactHours;
+    }
+
+    @Override
+    public Float getWeeklyTotalContactHours() {
+        return weeklyTotalContactHours;
+    }
+
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
+    @Override
+    public Integer getMinimumEnrollment() {
+        return minimumEnrollment;
+    }
+
+    public void setCourseOfferingIds(List<String> courseOfferingIds) {
+        this.courseOfferingIds = courseOfferingIds;
+    }
+
+    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
+        this.registrationGroupIds = registrationGroupIds;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
+    }
+
+    public void setTermKey(String termKey) {
+        this.termKey = termKey;
+    }
+
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
+    public void setGradingOptions(ResultComponent gradingOptions) {
+        this.gradingOptions = gradingOptions;
+    }
+
+    public void setFinalExamStartTime(Date finalExamStartTime) {
+        this.finalExamStartTime = finalExamStartTime;
+    }
+
+    public void setFinalExamEndTime(Date finalExamEndTime) {
+        this.finalExamEndTime = finalExamEndTime;
+    }
+
+    public void setFinalExamBuilding(String finalExamBuilding) {
+        this.finalExamBuilding = finalExamBuilding;
+    }
+
+    public void setFinalExamRoom(String finalExamRoom) {
+        this.finalExamRoom = finalExamRoom;
+    }
+
+    public void setWeeklyInclassContactHours(Float weeklyInclassContactHours) {
+        this.weeklyInclassContactHours = weeklyInclassContactHours;
+    }
+
+    public void setWeeklyOutofclassContactHours(Float weeklyOutofclassContactHours) {
+        this.weeklyOutofclassContactHours = weeklyOutofclassContactHours;
+    }
+
+    public void setWeeklyTotalContactHours(Float weeklyTotalContactHours) {
+        this.weeklyTotalContactHours = weeklyTotalContactHours;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
+    }
+        
 }

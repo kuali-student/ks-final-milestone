@@ -15,12 +15,16 @@
  */
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
 /**
  *
@@ -31,82 +35,359 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 
+    private List<String> activityOfferingIds;
+    
+    private List<String> registrationGroupIds;
+    
+    private String courseId;
+
+    private List<String> formatIds;
+
+    private String subjectArea;
+    
+    private Boolean isHonorsOffering;
+    
+    private List<String> unitsDeployment;
+    
+    private List<String> unitsContentOwner;
+    
+    private Boolean finalExamStatus;
+    
+    private String waitlistTypeKey;
+    
+    private Integer waitlistMaximum;
+    
+    private String termKey;
+    
+    private String courseCode;
+    
+    private String courseNumberSuffix;
+    
+    private String courseTitle;
+    
+    private Integer maximumEnrollment;
+    
+    private Integer minimumEnrollment;
+    
+    private List<String> jointOfferingIds;
+    
+    private ResultComponent creditOptions;
+    
+    private ResultComponent gradingOptions;
+    
+    private String gradeRosterLevel;
+    
+    private Boolean hasWaitlist;
+    
+    private Boolean isWaitlistCheckinRequired;
+    
+    private TimeAmount waitlistCheckinFrequency;
+    
+    private String fundingSource;
+    
+    private List<CourseFeeInfo> fees;
+    
+    private List<CourseRevenueInfo> revenues;
+    
+    private CourseExpenditureInfo expenditure;
+    
+    private Boolean isFinancialAidEligible;
+    
+    private String registrationOrderTypeKey;
+    
+            
     @Override
-    public Date getEffectiveDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<String> getActivityOfferingIds() {
+        if(null == this.activityOfferingIds) {
+            this.activityOfferingIds = new ArrayList<String>();
+        }
+        return activityOfferingIds;
     }
 
     @Override
-    public Date getExpirationDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public Term getTerm() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<String> getRegistrationGroupIds() {
+        if(null == this.registrationGroupIds) {
+            this.registrationGroupIds = new ArrayList<String>();
+        }
+        return registrationGroupIds;
     }
 
     @Override
     public String getCourseId() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.courseId;
+    }
+
+    @Override
+    public List<String> getFormatIds() {
+        return formatIds;
     }
 
     @Override
     public String getSubjectArea() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.subjectArea;
     }
 
     @Override
     public Boolean getIsHonorsOffering() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> getGradingOptions() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.isHonorsOffering;
     }
 
     @Override
     public List<String> getUnitsDeployment() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        if(null == this.unitsDeployment) {
+            this.unitsDeployment = new ArrayList<String>();
+        }
+        
+        return this.unitsDeployment;
     }
 
     @Override
     public List<String> getUnitsContentOwner() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+        if(null == this.unitsContentOwner) {
+            this.unitsContentOwner = new ArrayList<String>();
+        }
+        
+        return this.unitsContentOwner;    }
 
     @Override
     public Boolean getFinalExamStatus() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public Boolean hasWaitlist() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.finalExamStatus;
     }
 
     @Override
     public String getWaitlistTypeKey() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.waitlistTypeKey;
     }
 
     @Override
     public Integer getWaitlistMaximum() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.waitlistMaximum;
     }
 
+    @Override
+    public String getTermKey() {
+        return this.termKey;
+    }
+
+    @Override
+    public String getCourseCode() {
+        return this.courseCode;
+    }
+
+    @Override
+    public String getCourseNumberSuffix() {
+        return this.courseNumberSuffix;
+    }
+
+    @Override
+    public String getCourseTitle() {
+        return this.courseTitle;
+    }
+
+    @Override
+    public Integer getMaximumEnrollment() {
+        return this.maximumEnrollment;
+    }
+
+    @Override
+    public Integer getMinimumEnrollment() {
+        return this.minimumEnrollment;
+    }
+
+    @Override
+    public List<String> getJointOfferingIds() {
+        if(null == this.jointOfferingIds) {
+            this.jointOfferingIds = new ArrayList<String>();
+        }
+        
+        return this.jointOfferingIds;
+    }
+
+    @Override
+    public ResultComponent getCreditOptions() {
+        return this.creditOptions;
+    }
+
+    @Override
+    public String getGradeRosterLevel() {
+        return this.gradeRosterLevel;
+    }
+
+    @Override
+    public Boolean getHasWaitlist() {
+        return this.hasWaitlist;
+    }
+
+    @Override
+    public Boolean getIsWaitlistCheckinRequired() {
+        return this.isWaitlistCheckinRequired;
+    }
+    
+
+    @Override
+    public TimeAmount getWaitlistCheckinFrequency() {
+        return this.waitlistCheckinFrequency;
+    }
+    
+    @Override
+    public String getFundingSource() {
+        return this.fundingSource;
+    }
+
+    @Override
+    public List<CourseFeeInfo> getFees() {
+        if(null == this.fees) {
+            this.fees = new ArrayList<CourseFeeInfo>();
+        }
+        return this.fees;
+    }
+
+    @Override
+    public List<CourseRevenueInfo> getRevenues() {
+        if(null == this.revenues) {
+            this.revenues = new ArrayList<CourseRevenueInfo>();
+        }
+        return this.revenues;
+    }
+
+    @Override
+    public CourseExpenditureInfo getExpenditure() {
+        return this.expenditure;        
+    }
+
+    @Override
+    public Boolean getIsFinancialAidEligible() {
+        return this.isFinancialAidEligible;
+    }
+
+    @Override
+    public String getRegistrationOrderTypeKey() {
+        return this.registrationOrderTypeKey;
+    }
+
+    @Override
+    public ResultComponent getGradingOptions() {
+        return this.gradingOptions;
+    }
+
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
+    }
+
+    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
+        this.registrationGroupIds = registrationGroupIds;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setFormatIds(List<String> formatIds) {
+        this.formatIds = formatIds;
+    }
+    
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
+    }
+
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
+    }
+
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
+    }
+
+    public void setFinalExamStatus(Boolean finalExamStatus) {
+        this.finalExamStatus = finalExamStatus;
+    }
+
+    public void setWaitlistTypeKey(String waitlistTypeKey) {
+        this.waitlistTypeKey = waitlistTypeKey;
+    }
+
+    public void setWaitlistMaximum(Integer waitlistMaximum) {
+        this.waitlistMaximum = waitlistMaximum;
+    }
+
+    public void setTermKey(String termKey) {
+        this.termKey = termKey;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public void setCourseNumberSuffix(String courseNumberSuffix) {
+        this.courseNumberSuffix = courseNumberSuffix;
+    }
+
+    public void setCourseTitle(String courseTitle) {
+        this.courseTitle = courseTitle;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
+    }
+
+    public void setJointOfferingIds(List<String> jointOfferingIds) {
+        this.jointOfferingIds = jointOfferingIds;
+    }
+
+    public void setCreditOptions(ResultComponent creditOptions) {
+        this.creditOptions = creditOptions;
+    }
+
+    public void setGradingOptions(ResultComponent gradingOptions) {
+        this.gradingOptions = gradingOptions;
+    }
+
+    public void setGradeRosterLevel(String gradeRosterLevel) {
+        this.gradeRosterLevel = gradeRosterLevel;
+    }
+
+    public void setHasWaitlist(Boolean hasWaitlist) {
+        this.hasWaitlist = hasWaitlist;
+    }
+
+    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
+        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+    }
+
+    public void setWaitlistCheckinFrequency(TimeAmount waitlistCheckinFrequency) {
+        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
+    }
+
+    public void setFundingSource(String fundingSource) {
+        this.fundingSource = fundingSource;
+    }
+
+    public void setFees(List<CourseFeeInfo> fees) {
+        this.fees = fees;
+    }
+
+    public void setRevenues(List<CourseRevenueInfo> revenues) {
+        this.revenues = revenues;
+    }
+
+    public void setExpenditure(CourseExpenditureInfo expenditure) {
+        this.expenditure = expenditure;
+    }
+
+    public void setIsFinancialAidEligible(Boolean isFinancialAidEligible) {
+        this.isFinancialAidEligible = isFinancialAidEligible;
+    }
+
+    public void setRegistrationOrderTypeKey(String registrationOrderTypeKey) {
+        this.registrationOrderTypeKey = registrationOrderTypeKey;
+    }
+        
 }

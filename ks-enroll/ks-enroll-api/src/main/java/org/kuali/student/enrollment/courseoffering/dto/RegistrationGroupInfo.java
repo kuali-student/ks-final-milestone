@@ -15,11 +15,11 @@
  */
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.TimeAmount;
 
 /**
  * @author Kuali Student Team (Kamal)
@@ -27,20 +27,6 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
-
-    
-    
-    @Override
-    public Date getEffectiveDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public Date getExpirationDate() {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
 
     @Override
     public Integer getMaximumEnrollment() {
@@ -54,6 +40,24 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         return null;
     }
 
+    @Override
+    public String getFormatId() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getRegistrationCode() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean getIsHonorsOffering() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    
     @Override
     public Boolean hasWaitlist() {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -73,7 +77,25 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
     @Override
-    public String getFormatId() {
+    public Boolean getIsWaitlistCheckinRequired() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TimeAmount getWaitlistCheckFrequency() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getActivityOfferingIds() {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getCourseOfferingId() {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
