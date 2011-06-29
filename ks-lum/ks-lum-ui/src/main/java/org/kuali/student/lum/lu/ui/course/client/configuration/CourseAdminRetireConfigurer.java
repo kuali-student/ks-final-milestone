@@ -52,7 +52,7 @@ public class CourseAdminRetireConfigurer extends CourseProposalConfigurer{
 	 */
     protected View generateCourseAdminView(final CourseAdminRetireController layout) {
         VerticalSectionView view = 
-        	new VerticalSectionView(CourseSections.COURSE_INFO, getLabel(LUUIConstants.INFORMATION_LABEL_KEY), COURSE_PROPOSAL_MODEL, false);
+        	new VerticalSectionView(CourseSections.COURSE_INFO, getLabel(LUUIConstants.RETIREMENT_LABEL_KEY), COURSE_PROPOSAL_MODEL, false);
         view.addStyleName(LUUIConstants.STYLE_SECTION);
 
         // Create course admin sections
