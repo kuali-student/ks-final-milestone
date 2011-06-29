@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
@@ -141,4 +142,18 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
     	return requisitesSection;
 	}
 
+    /**
+     * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
+     */
+    @Override
+    protected Section generateActiveDatesSection(Section section) {
+        
+    	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
+    	
+        FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
+        FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        
+        return section;
+    }
+    
 }

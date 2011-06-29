@@ -383,4 +383,20 @@ public class FieldDescriptor {
 		}
 	}
 
+	/**
+	 * Reset the requiredness of the field descriptor. Note doing this will also dynamically change
+	 * the underlying metadata so ui validation for requiredness works as well.
+	 * 
+	 */
+	public void setRequired(Boolean isRequired){ 
+		fieldElement.setRequiredString("requiredMarker", "ks-form-module-elements-required");
+		fieldElement.setRequired(isRequired);
+		
+		//FIXME: This could be problematic if minOccurs should be something other than 1
+		if (isRequired){
+			getMetadata().getConstraints().get(0).setMinOccurs(1);
+		} else {
+			getMetadata().getConstraints().get(0).setMinOccurs(0);
+		}
+	}
 }

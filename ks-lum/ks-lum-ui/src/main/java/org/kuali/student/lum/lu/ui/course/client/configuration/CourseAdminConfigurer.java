@@ -1,6 +1,7 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -8,6 +9,7 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
@@ -129,6 +131,21 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         return view;
 	}
     
+
+    /**
+     * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
+     */
+    @Override
+    protected Section generateActiveDatesSection(Section section) {
+        
+    	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
+    	
+        FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
+        FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        
+        return section;
+    }
+
     /**
      * Gets the requisite view associated with the CourseAdminConfigurer
      * 
