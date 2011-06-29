@@ -37,9 +37,6 @@ public class LuiServiceConstants {
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
     /**
-     * TODO: LuiSeatCounts to hold seatpool information
-     */
-    /**
      * activity types
      */
     public static final String LECTURE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lecture";
@@ -134,4 +131,17 @@ public class LuiServiceConstants {
     public static final String LUI_CAPACITY_INACTIVE_STATE_KEY = "kuali.lui.capacity.inactive";
     public static final String[] LUI_CAPACITY_PROCESS_KEYS = {LUI_CAPACITY_ACTIVE_STATE_KEY,
         LUI_CAPACITY_INACTIVE_STATE_KEY};
+    
+    /**
+     *  waitlist types
+     */
+    public static final String AUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.automatic";
+    public static final String SEMIAUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.semiautomatic";  
+    public static final String MANUAL_WAITLIST_TYPE_KEY = "kuali.waitlist.type.manual";
+    
+    /**
+     *  registration ordering types
+     */
+    public static final String ALL_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.all";
+//    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";    
 }
