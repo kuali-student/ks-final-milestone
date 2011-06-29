@@ -29,7 +29,6 @@ public class LuiServiceConstants {
     public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();
     public static final String LUI_KEY_PREFIX = "kuali.lui";
-
     /**
      * Types
      */
@@ -37,11 +36,9 @@ public class LuiServiceConstants {
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
-    
     /**
      * TODO: LuiSeatCounts to hold seatpool information
      */
-
     /**
      * activity types
      */
@@ -90,25 +87,51 @@ public class LuiServiceConstants {
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
-/**
- * States
- */
-public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
+    /**
+     * States
+     */
+    public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
     public static final String LUI_DRAFT_STATE_KEY = "kuali.lui.state.draft";
     public static final String LUI_SUBMITTED_STATE_KEY = "kuali.lui.state.submitted";
     public static final String LUI_APROVED_STATE_KEY = "kuali.lui.state.approved";
     public static final String LUI_SCHEDULED_STATE_KEY = "kuali.lui.state.scheduled";
-    public static final String LUI_DELETED_STATE_KEY = "kuali.lui.state.deleted";    
+    public static final String LUI_DELETED_STATE_KEY = "kuali.lui.state.deleted";
     public static final String LUI_OFFERED_STATE_KEY = "kuali.lui.state.offered";
     public static final String LUI_CANCELED_STATE_KEY = "kuali.lui.state.canceled";
-    public static final String LUI_SUSPENDED_STATE_KEY = "kuali.lui.state.suspended";    
+    public static final String LUI_SUSPENDED_STATE_KEY = "kuali.lui.state.suspended";
     public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {LUI_DRAFT_STATE_KEY,
         LUI_SUBMITTED_STATE_KEY,
         LUI_APROVED_STATE_KEY,
         LUI_SCHEDULED_STATE_KEY,
-        LUI_DELETED_STATE_KEY,        
+        LUI_DELETED_STATE_KEY,
         LUI_OFFERED_STATE_KEY,
-        LUI_CANCELED_STATE_KEY,        
+        LUI_CANCELED_STATE_KEY,
         LUI_SUSPENDED_STATE_KEY
-        };
+    };
+    /**
+     *  LUI LUI relation types
+     */
+    public static final String ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY = "kuali.lui.lui.relation.associated";
+    /**
+     * LUI LUI relation States
+     */
+    public static final String LUI_LUI_RELATION_PROCESS_KEY = "kuali.lui.lui.relationship.process";
+    public static final String LUI_LUI_RELATION_ACTIVE_STATE_KEY = "kuali.lui.lui.relation.state.active";
+    public static final String LUI_LUI_RELATION_INACTIVE_STATE_KEY = "kuali.lui.lui.relation.state.inactive";
+    public static final String[] LUI_LUI_RELATION_PROCESS_KEYS = {LUI_LUI_RELATION_ACTIVE_STATE_KEY,
+        LUI_LUI_RELATION_INACTIVE_STATE_KEY};
+    
+    /**
+     *  LUI CAPACITY types
+     */
+    public static final String SEATPOOL_LUI_CAPACITY_TYPE_KEY = "kuali.lui.capacity.seatpool";
+    
+    /**
+     * LUI capacity States
+     */
+    public static final String LUI_CAPACITY_PROCESS_KEY = "kuali.lui.capacity.process";
+    public static final String LUI_CAPACITY_ACTIVE_STATE_KEY = "kuali.lui.capacity.active";
+    public static final String LUI_CAPACITY_INACTIVE_STATE_KEY = "kuali.lui.capacity.inactive";
+    public static final String[] LUI_CAPACITY_PROCESS_KEYS = {LUI_CAPACITY_ACTIVE_STATE_KEY,
+        LUI_CAPACITY_INACTIVE_STATE_KEY};
 }
