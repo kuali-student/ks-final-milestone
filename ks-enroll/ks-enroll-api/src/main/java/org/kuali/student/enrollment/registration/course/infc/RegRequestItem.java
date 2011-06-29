@@ -55,28 +55,15 @@ public interface RegRequestItem extends IdEntity {
     public Boolean getOkToWaitlist();
 
     /**
-     * If the course is full and there is a hold list, is it okay to be placed
-     * in the hold list for the course
-     * 
-     * @return
-     */
-    public Boolean getOkToHoldList();
-
-    /**
      * If the student does not meet one of the requirements for the course but
      * there is a list for such students because the requirement ends at a
      * future date, is it okay to be placed in such a list.
      * 
      * @return
      */
-    public Boolean getOkToExceptionList();
+    public Boolean getOkToHoldList();
 
-    /**
-     * This method returns the RegResponseItem {@link RegResponseItem} for this
-     * request in case the request has already been submitted
-     */
-    public RegResponseItem getRegResponseItem();
-
+   
     /**
      * Specify the preferred grading option for the course e.g. pass/fail since
      * the course allows to specify such options

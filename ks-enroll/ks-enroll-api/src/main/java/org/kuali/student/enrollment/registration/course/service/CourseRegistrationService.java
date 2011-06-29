@@ -8,6 +8,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
@@ -834,25 +835,95 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria);
 
-    public List<CourseRegistrationInfo> searchForCourseRegistrations(CriteriaInfo criteria);
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<String> searchForCourseOfferingRegistrationIds(QueryByCriteria criteria);
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<ActivityRegistrationInfo> searchForActivityRegistrations(QueryByCriteria criteria);
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria);
 
-    public List<String> searchForCourseOfferingRegistrationIds(CriteriaInfo criteria);
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(QueryByCriteria criteria);
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<String> searchForRegGroupRegistrationIds(QueryByCriteria criteria);
 
-    public List<ActivityRegistrationInfo> searchForActivityRegistrations(CriteriaInfo criteria);
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<CourseWaitlistInfo> searchForCourseWaitlists(QueryByCriteria criteria);
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<String> searchForCourseWaitlistIds(QueryByCriteria criteria);
 
-    public List<String> searchForActivityRegistrationIds(CriteriaInfo criteria);
-
-    public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(CriteriaInfo criteria);
-
-    public List<String> searchForRegGroupRegistrationIds(CriteriaInfo criteria);
-
-    public List<CourseWaitlistInfo> searchForCourseWaitlists(CriteriaInfo criteria);
-
-    public List<String> searchForCourseWaitlistIds(CriteriaInfo criteria);
-
-    public List<CourseWaitlistInfo> searchForCourseWaitlistEntries(CriteriaInfo criteria);
-
-    public List<CourseWaitlistInfo> searchForCourseWaitlistEntryIds(CriteriaInfo criteria);
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<CourseWaitlistInfo> searchForCourseWaitlistEntries(QueryByCriteria criteria);
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @return
+     */
+    public List<CourseWaitlistInfo> searchForCourseWaitlistEntryIds(QueryByCriteria criteria);
 
 }

@@ -34,16 +34,10 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
     private Boolean okToHoldList;
 
     @XmlElement
-    private Boolean okToExceptionList;
-
-    @XmlElement
     private String gradingOption;
 
     @XmlElement
     private String creditOption;
-
-    @XmlElement
-    private RegResponseItem regResponseItem;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -54,10 +48,8 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
         this.existingRegGroupId = null;
         this.okToWaitlist = null;
         this.okToHoldList = null;
-        this.okToExceptionList = null;
         this.gradingOption = null;
         this.creditOption = null;
-        this.regResponseItem = null;
         this._futureElements = null;
 
     }
@@ -70,10 +62,8 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
             this.existingRegGroupId = regRequestItem.getExistingRegGroupId();
             this.okToWaitlist = regRequestItem.getOkToWaitlist();
             this.okToHoldList = regRequestItem.getOkToHoldList();
-            this.okToExceptionList = regRequestItem.getOkToExceptionList();
             this.gradingOption = regRequestItem.getGradingOption();
             this.creditOption = regRequestItem.getCreditOption();
-            this.regResponseItem = regRequestItem.getRegResponseItem();
             this._futureElements = null;
         }
     }
@@ -94,20 +84,12 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
         this.okToHoldList = okToHoldList;
     }
 
-    public void setOkToExceptionList(Boolean okToExceptionList) {
-        this.okToExceptionList = okToExceptionList;
-    }
-
     public void setGradingOption(String gradingOption) {
         this.gradingOption = gradingOption;
     }
 
     public void setCreditOption(String creditOption) {
         this.creditOption = creditOption;
-    }
-
-    public void setRegResponseItem(RegResponseItem regResponseItem) {
-        this.regResponseItem = regResponseItem;
     }
 
     @Override
@@ -132,18 +114,6 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
     public Boolean getOkToHoldList() {
 
         return okToHoldList;
-    }
-
-    @Override
-    public Boolean getOkToExceptionList() {
-
-        return okToExceptionList;
-    }
-
-    @Override
-    public RegResponseItem getRegResponseItem() {
-
-        return regResponseItem;
     }
 
     @Override
