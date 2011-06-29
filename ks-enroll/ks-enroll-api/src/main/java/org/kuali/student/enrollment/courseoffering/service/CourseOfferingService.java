@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -29,6 +30,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE. 
@@ -55,10 +57,11 @@ import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstan
  * 
  * @author Kuali Student Team (Kamal)
  */
-@WebService(name = "CourseOfferingService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
+@WebService(name = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseOfferingService extends DataDictionaryService {
 
+        
     /**
      * Retrieve information about a CourseOffering
      * 
@@ -216,6 +219,50 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /**
+     * This method returns the TypeInfo for a given activity offering
+     * type key.
+     *
+     * @param activityOfferingTypeKey Key of the type
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return Information about the Type
+     * @throws DoesNotExistException activityOfferingTypeKey not found
+     * @throws InvalidParameterException invalid activityOfferingTypeKey
+     * @throws MissingParameterException missing activityOfferingTypeKey
+     * @throws OperationFailedException unable to complete request
+     */    
+    public TypeInfo getActivityOfferingType(@WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the valid activity offering types.
+     *
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid activity offering Types
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getAllActivityOfferingTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    
+    /**
+     * This method returns the valid activity offerring types for a given canonical activity type
+     *
+     * @param activityTypeKey Key of the canonical activity type
+     * @param context Context information containing the principalId and 
+     *        locale information about the caller of service operation
+     * @return a list of valid activity offering Types
+     * @throws DoesNotExistException activityOfferingTypeKey not found
+     * @throws InvalidParameterException invalid context
+     * @throws MissingParameterException missing context
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getActivityOfferingTypesForActivityType(@WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
     
     /**
      * Retrieve information about an ActivityOffering
