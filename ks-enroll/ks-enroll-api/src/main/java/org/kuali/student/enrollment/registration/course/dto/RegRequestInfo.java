@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.registration.course.infc.RegRequest;
@@ -18,15 +20,15 @@ import org.w3c.dom.Element;
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlElement
     private String requestorId;
-
+    @XmlElement
     private String studentId;
-
+    @XmlElement
     private String termKey;
-
+    @XmlElement
     private List<RegRequestItem> regRequestItems;
-
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public RegRequestInfo() {

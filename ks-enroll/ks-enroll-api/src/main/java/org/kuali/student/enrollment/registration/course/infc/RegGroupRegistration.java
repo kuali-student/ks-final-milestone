@@ -27,10 +27,4 @@ public interface RegGroupRegistration  extends Relationship{
      */
     public String getStudentId();
 
-    /**
-     * The course registration which this reg-group registration is a part of.
-     * 
-     * @return
-     */
-    public String getCourseRegistrationId();
 }

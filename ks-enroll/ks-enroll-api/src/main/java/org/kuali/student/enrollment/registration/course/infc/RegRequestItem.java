@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * student wants to go to a waitlist/holdlist in case there's no seat
  * availability for the course. A request to waitlist a course should always
  * have okToWaitlist set to true, same for hold or exception lists. 
- * 
+ * <P>
  * ************POSSIBLE SCENARIOS*******************************
  * 
  * 1. Register for course - {@link RegRequestItem} Type is ADD ,

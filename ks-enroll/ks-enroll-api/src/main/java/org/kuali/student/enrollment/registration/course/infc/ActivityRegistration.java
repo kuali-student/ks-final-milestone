@@ -26,13 +26,5 @@ public interface ActivityRegistration extends Relationship {
      */
     public String getStudentId();
 
-    /**
-     * The course registration which this activity registration is a part of.
-     * There is always one and only one course registration for an activity
-     * registration. 
-     * 
-     * @return
-     */
-    public String getCourseRegistrationId();
 
 }

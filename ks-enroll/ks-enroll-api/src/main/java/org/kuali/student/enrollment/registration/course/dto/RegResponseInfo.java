@@ -16,7 +16,7 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
 
     @XmlElement
     private static final long serialVersionUID = 1L;
-    
+
     @XmlElement
     private String regRequestId;
 
@@ -28,7 +28,26 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
 
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+    public RegResponseInfo() {
+        super();
+        this.regRequestId = null;
+        this.regResponseItemInfos = null;
+        this.operationStatusInfo = null;
+        this._futureElements = null;
+
+    }
+
+    public RegResponseInfo(RegResponse regResponse) {
+        super(regResponse);
+        if (null != regResponse) {
+            this.regRequestId = regResponse.getRegRequestId();
+            this.regResponseItemInfos = regResponse.getRegResponseItemInfos();
+            this.operationStatusInfo = regResponse.getOperationStatusInfo();
+            this._futureElements = null;
+        }
+    }
+
     @Override
     public List<RegResponseItem> getRegResponseItemInfos() {
         return regResponseItemInfos;
@@ -46,8 +65,6 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
     public void setOperationStatusInfo(OperationStatusInfo operationStatusInfo) {
         this.operationStatusInfo = operationStatusInfo;
     }
-
-    
 
     @Override
     public String getRegRequestId() {

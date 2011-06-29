@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.waitlist.course.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,7 +16,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitlistEntryInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "studentId",  "position", "hasCheckedIn", "meta", "attributes", "_futureElements"})
+        "studentId",  "position", "lastCheckedIn", "meta", "attributes", "_futureElements"})
 public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseWaitlistEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,7 +32,7 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
     private Integer position;
     
     @XmlElement
-    private Boolean hasCheckedIn;
+    private Date lastCheckedIn;
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -40,7 +41,7 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
         super();
         this.studentId = null;
         this.position = null;
-        this.hasCheckedIn = null;
+        this.lastCheckedIn = null;
         this._futureElements = null;
     }
 
@@ -50,13 +51,13 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
             this.studentId = courseWaitlistEntry.getStudentId();
             this.regGroupId = courseWaitlistEntry.getRegGroupId();
             this.position = courseWaitlistEntry.getPosition();
-            this.hasCheckedIn = courseWaitlistEntry.getHasCheckedIn();
+            this.lastCheckedIn = courseWaitlistEntry.getLastCheckedIn();
             this._futureElements = null;
         }
     }
 
-    public void setHasCheckedIn(Boolean hasCheckedIn) {
-        this.hasCheckedIn = hasCheckedIn;
+    public void setLastCheckedIn(Date hasCheckedIn) {
+        this.lastCheckedIn = hasCheckedIn;
     }
 
     public void setStudentId(String studentId) {
@@ -91,8 +92,8 @@ public class CourseWaitlistEntryInfo extends RelationshipInfo implements CourseW
     }
 
     @Override
-    public Boolean getHasCheckedIn() {
-        return hasCheckedIn;
+    public Date getLastCheckedIn() {
+        return lastCheckedIn;
     }
 
 }

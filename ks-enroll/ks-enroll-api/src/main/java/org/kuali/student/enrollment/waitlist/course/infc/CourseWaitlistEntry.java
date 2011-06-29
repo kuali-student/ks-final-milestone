@@ -11,6 +11,7 @@
 
 package org.kuali.student.enrollment.waitlist.course.infc;
 
+import java.util.Date;
 
 import org.kuali.student.r2.common.infc.Relationship;
 
@@ -19,6 +20,9 @@ import org.kuali.student.r2.common.infc.Relationship;
  * student id, the waitlist option (reg group id and clearing strategy) and the
  * student's position in the waitlist. As more seats become available the
  * students in the waitlist are moved to the course.
+ * <P>
+ * It is represented by an LPR at Class I level, when a student actually
+ * registers for the course the LPR is a RegGroupRegistration
  * 
  * @Author tom
  * @Since Tue May 10 14:22:34 EDT 2011
@@ -31,7 +35,6 @@ public interface CourseWaitlistEntry extends Relationship {
      */
     public String getStudentId();
 
-    
     /**
      * Returns the position of this entry in the waitlist for a particular
      * waitlist option .
@@ -44,15 +47,13 @@ public interface CourseWaitlistEntry extends Relationship {
      * 
      * @return
      */
-    public Boolean getHasCheckedIn();
-    
+    public Date getLastCheckedIn();
+
     /**
-     * 
-     * Returns the 
+     * Returns the
      * 
      * @return
      */
     public String getRegGroupId();
 
-    
 }
