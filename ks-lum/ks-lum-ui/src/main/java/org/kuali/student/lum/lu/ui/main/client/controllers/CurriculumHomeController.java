@@ -374,7 +374,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
-        courseAdminWithoutVersionController = new CourseAdminRetireController();
+        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
         return courseAdminWithoutVersionController;
     }
 
