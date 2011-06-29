@@ -16,27 +16,20 @@
 package org.kuali.student.enrollment.lui.infc;
 
 import java.util.List;
-
+import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
-import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Detailed information about a single LUI.
  */
-public interface LuiCapacity extends Relationship {
+public interface LuiCapacity extends IdEntity, HasEffectiveDates {
 
     /**
-     * Name: Lui Id
-     * A unique identifier of the primary LUI.
-     */
-    public String getPrimaryLuiId();
-
-    /**
-     * Name: Lui Id
+     * Name: Lui Ids
      * A list of LUI identifiers to which this capacity definition
      * applies.
      */
-    public List<String> getLuiId();
+    public List<String> getLuiIds();
    
     /**
      * Name: Maximum Seat Count
