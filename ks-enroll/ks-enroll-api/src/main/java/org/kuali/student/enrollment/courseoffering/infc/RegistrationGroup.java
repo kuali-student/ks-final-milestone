@@ -10,8 +10,8 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.TimeAmount;
 
 /**
  * Registration group are the physical entities that students will try to register into. A RegistrationGroup is used to group
@@ -20,13 +20,38 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kamal
  */
 
-public interface RegistrationGroup extends HasEffectiveDates, IdEntity {
+public interface RegistrationGroup extends IdEntity {
 
+    /**
+     * Activity Offerings for the registration group. This list should be constrained by the canonical 
+     * format and the activity offerings listed in the course offering
+     * @name ActivityOffering Ids
+     */
+    public List<String> getActivityOfferingIds();
+    
+    /**
+     * Course offering for this registration group
+     * @name CourseOffering Id
+     */    
+    public String getCourseOfferingId();
+    
     /**
      * Canonical format to which this registration group belong to.  
      * @name Format Id
      */
     public String getFormatId();
+    
+    /**
+     * Uniquely identifies an instance of the course for the purposes of registration
+     * @name Registration Code
+     */
+    public String getRegistrationCode();
+    
+    /**
+     * Indicates that the entire course offering is an Honors Course
+     * @name Is Honors Offering
+     */
+    public Boolean getIsHonorsOffering();
     
     /**
      * Total maximum number of "seats" or enrollment slots that can be filled for the offering. Constrained by smallest activity enrollment
@@ -57,4 +82,17 @@ public interface RegistrationGroup extends HasEffectiveDates, IdEntity {
      * @name Waitlist Maximum
      */
     public Integer getWaitlistMaximum();    
+
+    /**
+     * Indicates if the waitlist requires checkin
+     * @name Is Waitlist Checkin Required
+     */
+    public Boolean getIsWaitlistCheckinRequired();
+    
+    /**
+     * Frequency for the waitlist checkin
+     * @name Waitlist Checkin Frequency 
+     */
+    public TimeAmount getWaitlistCheckFrequency();
+
 }

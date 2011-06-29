@@ -10,7 +10,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -21,32 +20,32 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kamal
  */
 
-public interface SeatPoolDefinition extends HasEffectiveDates, IdEntity {
+public interface SeatPoolDefinition extends  IdEntity {
 
     /**
      * Course offering Id to which the seat pool is linked to. Course Offering Id should be set only if the seat 
      * pool applies across all the registration group in the course offering. 
-     * @name 
+     * @name Course Offering Id
      */
     public String getCourseOfferingId();
     
     /**
      * List of registration groups that seat pool applies to 
-     * @return
+     * @name Registration Group Ids
      */
     public List<String> getRegistrationGroupIdList();
     
-    /**
-     * Name: Maximum Seat 
+    /** 
      * Count Maximum seats available through this seat pool.
+     * @name Maximum Seat
      */
     public Integer getMaximumSeatCount();
 
     /**
-     * Name: Rank 
      * Indicates the order in which this seat pool will be processed during registration. During registration
      * students should be assigned to a seat pool with the lowest possible rank to which he or she meets the restriction
      * requirements.
+     * @name Processing Priority
      */
-    public Integer getRank();
+    public Integer getProcessingPriority();
 }

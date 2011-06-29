@@ -72,7 +72,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
     /**
@@ -127,10 +127,10 @@ public interface CourseOfferingService extends DataDictionaryService {
     
 
     /**
-     * Retrieve CourseOffering ids for a given term and unit owner
+     * Retrieve CourseOffering ids for a given term and unit content owner
      * 
      * @param termKey  Unique key of the term in which the course is being offered
-     * @param unitOnwerId Unit owner Id 
+     * @param unitOnwerId Unit content owner Id 
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return List of CourseOffering Ids
@@ -140,7 +140,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsByUnitOwner(@WebParam(name = "termKey") String termKey, @WebParam(name = "unitOwnerId") String unitOwnerId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCourseOfferingIdsByUnitContentOwner(@WebParam(name = "termKey") String termKey, @WebParam(name = "unitOwnerId") String unitOwnerId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new CourseOffering from a canonical course. 
@@ -152,13 +152,14 @@ public interface CourseOfferingService extends DataDictionaryService {
      *            operation
      * @return newly created CourseOfferingInfo
      * @throws AlreadyExistsException the CourseOffering being created already exists
+     * @throws DoesNotExistException courseId not found
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CourseOfferingInfo createCourseOfferingFromCanonical(@WebParam(name = "courseId") String courseid, @WebParam(name = "termKey") String termKey, @WebParam(name = "formatIdList") List<String> formatIdList, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo createCourseOfferingFromCanonical(@WebParam(name = "courseId") String courseid, @WebParam(name = "termKey") String termKey, @WebParam(name = "formatIdList") List<String> formatIdList, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     
     /**
@@ -199,7 +200,8 @@ public interface CourseOfferingService extends DataDictionaryService {
     public CourseOfferingInfo updateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
     
     /** 
-     * Deletes an existing CourseOffering. Deleting a course offering should also delete all the activity offerings and registrations groups within it
+     * Deletes an existing CourseOffering. Deleting a course offering should also delete all the activity offerings and registrations groups within it.
+     * Cross listed course offerings should also be deleted along with passed in courseOfferingId.
      *
      * @param courseOfferingId the Id of the ActivityOffering to be deleted
      * @param context Context information containing the principalId
@@ -228,7 +230,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ActivityOfferingInfo getActivityOffering(@WebParam(name = "activityOfferingId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingInfo getActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
     /**
@@ -313,8 +315,59 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-        
-
+       
+    /**
+     * When/for how long does the offering meet in class during the term. 
+     * Calculated by system based on meeting times and term length; may be validated against CLU. 
+     * 
+     * @param activityOfferingId the Id of the ActivityOffering to be used for contact hour calculation
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return in class contact hours for the term
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Float calculateInClassContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * When/for how long does the offering meet out of class during the term. 
+     * Calculated by system based on meeting times and term length; may be validated against CLU. 
+     * 
+     * @param activityOfferingId the Id of the ActivityOffering to be used for contact hour calculation
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return out of  class contact hours for the term
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Float calculateOutofClassContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
+    /**
+     * When/for how long does the offering meet in total during the term. 
+     * Calculated by system based on meeting times and term length; may be validated against CLU. 
+     * 
+     * @param activityOfferingId the Id of the ActivityOffering to be used for contact hour calculation
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return total class contact hours for the term
+     * @throws DoesNotExistException the SeatPoolDefinition does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Float calculateTotalContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /**
      * Creates specified number of copies from a given activity offering. The amount of data copied over is specified using the copyContextType.
      * 
@@ -387,13 +440,14 @@ public interface CourseOfferingService extends DataDictionaryService {
      *            operation
      * @return newly created registrationGroup
      * @throws AlreadyExistsException the RegistrationGroup being created already exists
+     * @throws DoesNotExistException courseOfferingId not found    
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing RegistrationGroup.
