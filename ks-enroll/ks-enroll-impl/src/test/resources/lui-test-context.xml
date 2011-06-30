@@ -100,6 +100,7 @@
 	  	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
 	  	<property name="luiTypeDao" ref="luiTypeDao"/>
 	  	<property name="luiRichTextDao" ref="luiRichTextDao"/>
+	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	</bean>
 	
@@ -121,7 +122,11 @@
     <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
     	<property name="em" ref="entityManager"/>
     </bean>  
-    
+ 
+    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
+    	<property name="em" ref="entityManager"/>
+    </bean>   
+       
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>

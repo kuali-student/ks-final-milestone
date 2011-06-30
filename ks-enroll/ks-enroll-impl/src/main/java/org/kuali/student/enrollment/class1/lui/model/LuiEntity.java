@@ -22,7 +22,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LUI")
-public class LuiEntity extends MetaEntity implements AttributeOwner<AttributeEntity>{
+public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity>{
     @Column(name = "NAME")
     private String name;
     
@@ -65,7 +65,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<AttributeEnt
 	private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<AttributeEntity> attributes;
+    private List<LuiAttributeEntity> attributes;
     
     public String getLuiCode() {
         return luiCode;
@@ -148,12 +148,12 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<AttributeEnt
 	}
 
 	@Override
-	public void setAttributes(List<AttributeEntity> attributes) {
+	public void setAttributes(List<LuiAttributeEntity> attributes) {
 		this.attributes = attributes;			
 	}
 
 	@Override
-	public List<AttributeEntity> getAttributes() {
+	public List<LuiAttributeEntity> getAttributes() {
 		return attributes;
 	}
     

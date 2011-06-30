@@ -43,10 +43,11 @@
         <class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldEntity</class>
         
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity</class>
-        
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 		<properties>

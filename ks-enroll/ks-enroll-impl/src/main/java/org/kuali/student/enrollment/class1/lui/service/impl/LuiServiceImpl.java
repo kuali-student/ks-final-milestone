@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
+import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -33,6 +34,7 @@ public class LuiServiceImpl implements LuiService {
 private LuiDao luiDao;
 private LuiRichTextDao luiRichTextDao;
 private LuiTypeDao luiTypeDao;
+private LuiLuiRelationDao luiLuiRelationDao;
 private StateService stateService;
 private TypeTypeRelationDao typeTypeRelationDao;
 
@@ -59,6 +61,14 @@ public LuiTypeDao getLuiTypeDao() {
 
 public void setLuiTypeDao(LuiTypeDao luiTypeDao) {
 	this.luiTypeDao = luiTypeDao;
+}
+
+public LuiLuiRelationDao getLuiLuiRelationDao() {
+	return luiLuiRelationDao;
+}
+
+public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
+	this.luiLuiRelationDao = luiLuiRelationDao;
 }
 
 public StateService getStateService() {

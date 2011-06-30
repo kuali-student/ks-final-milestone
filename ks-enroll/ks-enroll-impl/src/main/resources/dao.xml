@@ -98,5 +98,9 @@
     
     <bean id="luiTypeDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao">
     	<property name="em" ref="entityManager"/>
+    </bean> 
+    
+   <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
+    	<property name="em" ref="entityManager"/>
     </bean>   
 </beans>
