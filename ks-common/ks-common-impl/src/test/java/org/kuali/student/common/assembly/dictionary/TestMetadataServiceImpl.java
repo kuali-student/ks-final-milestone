@@ -59,7 +59,7 @@ public class TestMetadataServiceImpl {
 		// Check requiredness for default state of draft
 		ConstraintMetadata gpaConstraints = properties.get("gpa").getConstraints().get(0);
 		assertTrue(gpaConstraints.isRequiredForNextState());
-		assertEquals("SUBMITTED", gpaConstraints.getNextState());
+		assertEquals("ACTIVE", gpaConstraints.getNextState());
 
 		// Check requiredness for state of RETIRED (there should be no next state)
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT, "RETIRED");
@@ -74,7 +74,7 @@ public class TestMetadataServiceImpl {
 		assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
 		assertEquals(30, addrLineConstraint.getMaxLength().intValue());
 
-		metadata = metadataService.getMetadata(ADDRESS_INFO, US_ADDRESS_TYPE, "SUBMITTED");
+		metadata = metadataService.getMetadata(ADDRESS_INFO, US_ADDRESS_TYPE, "ACTIVE");
 		addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
 		assertEquals(2, addrLineConstraint.getMinLength().intValue());
 		assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
