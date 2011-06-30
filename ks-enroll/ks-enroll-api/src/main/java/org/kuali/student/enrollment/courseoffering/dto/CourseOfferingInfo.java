@@ -18,6 +18,12 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -25,76 +31,117 @@ import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
+import org.w3c.dom.Element;
 
 /**
  *
  * @author Kuali Student Team (Kamal)
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "GradeRosterEntryInfo", propOrder = {"termKey", "activityOfferingIds", "registrationGroupIds",
+        "courseCode", "courseNumberSuffix", "courseTitle", "courseId", "formatIds", "isHonorsOffering", "subjectArea", 
+        "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
+        "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
+        "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
+        "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
+        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private List<String> activityOfferingIds;
     
+    @XmlElement
     private List<String> registrationGroupIds;
     
+    @XmlElement
     private String courseId;
 
+    @XmlElement
     private List<String> formatIds;
 
+    @XmlElement
     private String subjectArea;
     
+    @XmlElement
     private Boolean isHonorsOffering;
     
+    @XmlElement
     private List<String> unitsDeployment;
     
+    @XmlElement
     private List<String> unitsContentOwner;
     
+    @XmlElement
     private Boolean finalExamStatus;
     
+    @XmlElement
     private String waitlistTypeKey;
     
+    @XmlElement
     private Integer waitlistMaximum;
     
+    @XmlElement
     private String termKey;
     
+    @XmlElement
     private String courseCode;
     
+    @XmlElement
     private String courseNumberSuffix;
     
+    @XmlElement
     private String courseTitle;
     
+    @XmlElement
     private Integer maximumEnrollment;
     
+    @XmlElement
     private Integer minimumEnrollment;
     
+    @XmlElement
     private List<String> jointOfferingIds;
     
+    @XmlElement
     private ResultComponent creditOptions;
     
+    @XmlElement
     private ResultComponent gradingOptions;
     
+    @XmlElement
     private String gradeRosterLevel;
     
+    @XmlElement
     private Boolean hasWaitlist;
     
+    @XmlElement
     private Boolean isWaitlistCheckinRequired;
     
+    @XmlElement
     private TimeAmount waitlistCheckinFrequency;
     
+    @XmlElement
     private String fundingSource;
     
+    @XmlElement
     private List<CourseFeeInfo> fees;
     
+    @XmlElement
     private List<CourseRevenueInfo> revenues;
     
+    @XmlElement
     private CourseExpenditureInfo expenditure;
     
+    @XmlElement
     private Boolean isFinancialAidEligible;
     
+    @XmlElement
     private String registrationOrderTypeKey;
     
+    @XmlAnyElement
+    private List<Element> _futureElements;
             
     @Override
     public List<String> getActivityOfferingIds() {
