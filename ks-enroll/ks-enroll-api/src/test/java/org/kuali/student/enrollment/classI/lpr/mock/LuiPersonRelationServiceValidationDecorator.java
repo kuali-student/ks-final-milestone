@@ -18,10 +18,12 @@ package org.kuali.student.enrollment.classI.lpr.mock;
 import java.util.List;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRequestInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -104,6 +106,50 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
             throw new DataValidationErrorException("Failed validation", vris);
         }
         return this.nextDecorator.updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+    }
+
+    @Override
+    public String createLuiPersonRelationRequest(LuiPersonRelationRequestInfo luiPersonRelationRequestInfo,
+            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public LuiPersonRelationRequestInfo updateLuiPersonRelationRequest(String lprRequestId,
+            LuiPersonRelationRequestInfo luiPersonRelationRequestInfo, ContextInfo context)
+            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public LuiPersonRelationRequestInfo getLuiPersonRelationRequest(String lprRequestId, ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public StatusInfo deleteLuiPersonRelationRequest(String lprRequestId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String submitLuiPersonRelationRequest(String lprRequestId, ContextInfo context)
+            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
+            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 }
 

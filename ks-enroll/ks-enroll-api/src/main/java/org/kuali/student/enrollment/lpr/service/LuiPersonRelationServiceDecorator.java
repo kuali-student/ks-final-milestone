@@ -54,7 +54,7 @@ public abstract class LuiPersonRelationServiceDecorator implements LuiPersonRela
 	protected LuiPersonRelationService nextDecorator;
     		
     public LuiPersonRelationService getNextDecorator() {
-        return nextDecorator;
+        return nextDecorator; 
     }
    
     public void setNextDecorator(LuiPersonRelationService nextDecorator) {

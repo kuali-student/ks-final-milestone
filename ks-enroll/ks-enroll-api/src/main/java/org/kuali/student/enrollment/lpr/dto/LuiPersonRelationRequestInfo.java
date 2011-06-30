@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiPersonRelationRequestInfo", propOrder = {"id", "typeKey", "stateKey", "requestingPersonId",
-        "personId", "newLuiId", "existingLuiId", "requestOptions", "effectiveDate", "expirationDate", "meta",
+        "personId", "newLuiId", "existingLuiId", "requestOptions", "meta",
         "attributes", "_futureElements"})
         
         

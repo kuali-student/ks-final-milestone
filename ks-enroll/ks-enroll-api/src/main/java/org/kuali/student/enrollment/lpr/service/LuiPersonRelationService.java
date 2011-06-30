@@ -18,6 +18,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRequestInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -76,7 +77,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      *             invalid luiPersonRelationId
      * @throws MissingParameterException
      *             missing luiPersonRelationId
-     * @throws OperationFailedException 
+     * @throws OperationFailedException
      *             unable to complete request
      * @throws PermissionDeniedException
      *             authorization failure
@@ -873,6 +874,110 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     public StatusInfo removeAllLPRsFromLPRRoster(
             @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method ...
+     * 
+     * @param luiPersonRelationRequestInfo
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws AlreadyExistsException
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws ReadOnlyException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public String createLuiPersonRelationRequest(
+            @WebParam(name = "luiPersonRelationRequestInfo") LuiPersonRelationRequestInfo luiPersonRelationRequestInfo,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method ...
+     * 
+     * @param lprRequestId
+     * @param luiPersonRelationRequestInfo
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws AlreadyExistsException
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws ReadOnlyException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public LuiPersonRelationRequestInfo updateLuiPersonRelationRequest(
+            @WebParam(name = "lprRequestId") String lprRequestId,
+            @WebParam(name = "luiPersonRelationRequestInfo") LuiPersonRelationRequestInfo luiPersonRelationRequestInfo,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method ...
+     * 
+     * @param lprRequestId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public LuiPersonRelationRequestInfo getLuiPersonRelationRequest(
+            @WebParam(name = "lprRequestId") String lprRequestId, @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param lprRequestId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+   
+    public StatusInfo deleteLuiPersonRelationRequest(@WebParam(name = "lprRequestId") String lprRequestId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * 
+     * This method ...
+     * 
+     * @param lprRequestId
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws AlreadyExistsException
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws ReadOnlyException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public String submitLuiPersonRelationRequest(
+            @WebParam(name = "lprRequestId") String lprRequestId,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }
