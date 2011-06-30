@@ -65,7 +65,7 @@ public interface ActivityOffering extends IdEntity {
      * 
      * @name: Grading Options
      */
-    public ResultComponent getGradingOptions();
+    public List<String> getGradingOptions();
     
        
     /********** Final Exam Information *****************/

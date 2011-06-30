@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeRosterEntryInfo", propOrder = {"termKey", "activityOfferingIds", "registrationGroupIds",
+@XmlType(name = "CourseOfferingInfo", propOrder = {"termKey", "activityOfferingIds", "registrationGroupIds",
         "courseCode", "courseNumberSuffix", "courseTitle", "courseId", "formatIds", "isHonorsOffering", "subjectArea", 
         "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
         "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
@@ -108,7 +108,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private ResultComponent creditOptions;
     
     @XmlElement
-    private ResultComponent gradingOptions;
+    private List<String> gradingOptions;
     
     @XmlElement
     private String gradeRosterLevel;
@@ -311,9 +311,9 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     public String getRegistrationOrderTypeKey() {
         return this.registrationOrderTypeKey;
     }
-
+   
     @Override
-    public ResultComponent getGradingOptions() {
+    public List<String> getGradingOptions() {
         return this.gradingOptions;
     }
 
@@ -393,7 +393,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.creditOptions = creditOptions;
     }
 
-    public void setGradingOptions(ResultComponent gradingOptions) {
+    public void setGradingOptions(List<String> gradingOptions) {
         this.gradingOptions = gradingOptions;
     }
 

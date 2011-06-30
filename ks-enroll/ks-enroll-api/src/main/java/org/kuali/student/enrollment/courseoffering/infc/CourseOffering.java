@@ -117,7 +117,7 @@ public interface CourseOffering extends IdEntity {
      * 
      * @name: Grading Options
      */
-    public ResultComponent getGradingOptions();
+    public List<String> getGradingOptions();
     
     /**
      * Type of credit of course offering. If fixed then single value is stored in the result component.

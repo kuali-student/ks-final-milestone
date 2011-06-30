@@ -18,9 +18,16 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - Kamal don't for to fill this in. 
@@ -28,42 +35,67 @@ import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
  * @author Kuali Student Team (Kamal)
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ActivityOfferingInfo", propOrder = {"courseOfferingIds", "registrationGroupIds", "activityId",
+        "activityCode", "termKey", "isHonorsOffering", "gradingOptions",
+        "finalExamStartTime", "finalExamEndTime", "finalExamBuilding", "finalExamRoom", "weeklyInclassContactHours",
+        "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
+        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private List<String> courseOfferingIds;
     
+    @XmlElement
     private List<String> registrationGroupIds;
     
+    @XmlElement
     private String activityId;
         
+    @XmlElement
     private String activityCode;   
     
+    @XmlElement
     private String termKey;
 
+    @XmlElement
     private Boolean isHonorsOffering;
     
-    private ResultComponent gradingOptions;
+    @XmlElement
+    private List<String> gradingOptions;
        
+    @XmlElement
     private Date finalExamStartTime;
     
+    @XmlElement
     private Date finalExamEndTime;
     
+    @XmlElement
     private String finalExamBuilding;
     
+    @XmlElement
     private String finalExamRoom;
 
+    @XmlElement
     private Float weeklyInclassContactHours;
     
+    @XmlElement
     private Float weeklyOutofclassContactHours;
 
+    @XmlElement
     private Float weeklyTotalContactHours;
 
+    @XmlElement
     private Integer maximumEnrollment;
 
+    @XmlElement
     private Integer minimumEnrollment;
         
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
     @Override
     public List<String> getCourseOfferingIds() {
         return courseOfferingIds;
@@ -95,7 +127,7 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     }
 
     @Override
-    public ResultComponent getGradingOptions() {
+    public List<String> getGradingOptions() {
         return gradingOptions;
     }
 
@@ -168,7 +200,7 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         this.isHonorsOffering = isHonorsOffering;
     }
 
-    public void setGradingOptions(ResultComponent gradingOptions) {
+    public void setGradingOptions(List<String> gradingOptions) {
         this.gradingOptions = gradingOptions;
     }
 
