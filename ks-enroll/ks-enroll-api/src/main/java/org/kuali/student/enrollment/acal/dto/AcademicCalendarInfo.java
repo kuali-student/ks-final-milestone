@@ -55,12 +55,16 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements
 
 	@XmlElement
 	private Date endDate;
+	
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
 	public AcademicCalendarInfo() {
 		campusCalendarKeys = null;
 		credentialProgramTypeKey = null;
 		setStartDate(null);
 		setEndDate(null);
+		this._futureElements = null;
 	}
 
 	/**
@@ -79,6 +83,7 @@ public class AcademicCalendarInfo extends KeyEntityInfo implements
 			this.credentialProgramTypeKey = acal.getCredentialProgramTypeKey();
 			this.setStartDate(new Date( acal.getStartDate().getTime()));
 			this.setEndDate(new Date( acal.getEndDate().getTime()));
+			this._futureElements = null;
 		}
 	}
 

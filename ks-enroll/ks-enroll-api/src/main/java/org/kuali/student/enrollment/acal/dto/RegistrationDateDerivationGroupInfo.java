@@ -61,6 +61,19 @@ public class RegistrationDateDerivationGroupInfo implements
 	private List<Element> _futureElements;
 
 	
+	public RegistrationDateDerivationGroupInfo() {
+		registrationStartDateTermKey = null;
+		registrationEndDateTermKey = null;
+		classStartDateTermKey = null;
+		classEndDateTermKey = null;
+		addDateTermKey = null;
+		dropDateTermKey = null;
+		finalExamStartDateTermKey = null;
+		finalExamEndDateTermKey = null;
+		gradingStartDateTermKey = null;
+		gradingEndDateTermKey = null;
+		_futureElements = null;
+	}
 
 		/**
 	 * Constructs a new RegistrationDateDerivationGroupInfo from another
