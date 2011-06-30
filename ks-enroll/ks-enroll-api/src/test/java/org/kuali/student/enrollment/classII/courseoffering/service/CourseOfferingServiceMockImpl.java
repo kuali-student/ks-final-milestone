@@ -167,7 +167,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         CourseOfferingInfo courseOfferingInfo = courseOfferingCache.get(courseOfferingId);
         CourseInfo courseInfo = courseCache.get(courseOfferingInfo.getCourseId());
-
+        courseOfferingInfo.setCourseCode(courseInfo.getCode());
+        courseOfferingInfo.setCourseId(courseInfo.getId());
+        courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+        courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
+        //courseOfferingInfo.setCreditOptions(courseInfo.getCreditOptions());
+        //courseOfferingInfo.setDescr(courseInfo.getDescr());
+        courseOfferingInfo.setExpenditure(courseInfo.getExpenditure());
+        courseOfferingInfo.setFees(courseInfo.getFees());
+        //courseOfferingInfo.setFormats(courseInfo.getFormats());
         return courseOfferingInfo;
     }
 
