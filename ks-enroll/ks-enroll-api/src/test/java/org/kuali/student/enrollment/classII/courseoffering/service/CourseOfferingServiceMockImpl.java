@@ -143,10 +143,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setTermKey(termKey);
         courseOfferingInfo.setId(String.valueOf(Math.random()));
         CourseInfo canicalCourse = courseCache.get(courseid);
+        courseOfferingInfo.setCourseId(canicalCourse.getId());
         courseOfferingInfo.setCourseNumberSuffix(canicalCourse.getCourseNumberSuffix());
         courseOfferingInfo.setCourseTitle(canicalCourse.getCourseTitle());
-        // courseOfferingInfo.setCreditOptions(
-        // canicalCourse.getCreditOptions().get(0) );
+        //courseOfferingInfo.setCreditOptions(canicalCourse.getCreditOptions());
+        //courseOfferingInfo.setDescr(canicalCourse.getDescr());
+        courseOfferingInfo.setExpenditure(canicalCourse.getExpenditure());
+        courseOfferingInfo.setFees(canicalCourse.getFees());
+        //courseOfferingInfo.setFormats(canicalCourseo.getFormats());
 
         courseOfferingCache.put(courseOfferingInfo.getId(), courseOfferingInfo);
 
