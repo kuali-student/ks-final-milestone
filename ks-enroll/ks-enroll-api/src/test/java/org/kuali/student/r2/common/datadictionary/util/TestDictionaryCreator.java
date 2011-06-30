@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -90,6 +91,7 @@ public class TestDictionaryCreator {
             // lui
             new DictionaryCreator().execute(LuiInfo.class);
             new DictionaryCreator().execute(LuiLuiRelationInfo.class);
+            new DictionaryCreator().execute(LuiCapacityInfo.class);            
             // atp
             new DictionaryCreator().execute(AtpInfo.class);
             new DictionaryCreator().execute(MilestoneInfo.class);

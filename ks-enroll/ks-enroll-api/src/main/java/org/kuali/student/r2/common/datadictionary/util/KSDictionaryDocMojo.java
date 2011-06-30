@@ -30,8 +30,7 @@ import java.util.List;
  * @goal ksdictionarydoc
  * @requiresDependencyResolution
  */
-public class KSDictionaryDocMojo 
-//  extends AbstractMojo
+public class KSDictionaryDocMojo //  extends AbstractMojo
 {
 
     /**
@@ -60,8 +59,7 @@ public class KSDictionaryDocMojo
     }
 
 //    @Override
-    public void execute()
-//      throws MojoExecutionException
+    public void execute() //      throws MojoExecutionException
     {
         //System.out.println ("Writing java class: " + fileName + " to " + dir.getAbsolutePath ());
         if (!htmlDirectory.exists()) {
@@ -72,22 +70,22 @@ public class KSDictionaryDocMojo
             }
         }
 
-        List<String> outputFiles = new ArrayList<String>(this.inputFiles.size());
         for (String dictFileName : this.inputFiles) {
-            String outputFileName = replaceXmlWithHtml(dictFileName);
-            String fullOutputFileName = this.htmlDirectory.getAbsolutePath() + "/" + outputFileName;
-            outputFiles.add(outputFileName);
-            DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName);
-            List errors = tester.doTest();
-            if (errors == null) {
-                continue;
-            }
-            if (errors.isEmpty()) {
-                continue;
-            }
+            if (dictFileName.endsWith(".xml")) {
+                String outputFileName = replaceXmlWithHtml(dictFileName);
+                String fullOutputFileName = this.htmlDirectory.getAbsolutePath() + "/" + outputFileName;
+                DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName);
+                List errors = tester.doTest();
+                if (errors == null) {
+                    continue;
+                }
+                if (errors.isEmpty()) {
+                    continue;
+                }
 //            throw new MojoExecutionException("Errors validating dictionary file "
-            throw new IllegalArgumentException ("Errors validating dictionary file "
-                    + dictFileName + "\n" + this.formatAsString(errors));
+                throw new IllegalArgumentException("Errors validating dictionary file "
+                        + dictFileName + "\n" + this.formatAsString(errors));
+            }
         }
 
         // write out the index file
@@ -98,19 +96,28 @@ public class KSDictionaryDocMojo
             outputStream = new FileOutputStream(indexFile, false);
         } catch (FileNotFoundException ex) {
 //            throw new MojoExecutionException(indexFileName, ex);
-             throw new IllegalArgumentException (indexFileName, ex);
+            throw new IllegalArgumentException(indexFileName, ex);
         }
         PrintStream out = new PrintStream(outputStream);
         DictionaryFormatter.writeHeader(out, "Data Dictionary Index");
         out.println("<h1>Data Dictionary Index</h1>");
-        out.println("HTML Formatted views of:");
-        out.println("<ul>");
-        for (String outputFileName : outputFiles) {
-            String text = outputFileName.substring(0, outputFileName.length() - ".html".length()) + ".xml";
-            out.println("<li><a href=\"" + outputFileName + "\">" + text + "</a>");
+        String endUL = "";
+        for (String dictFileName : this.inputFiles) {
+            if (dictFileName.endsWith(".xml")) {
+                String outputFileName = replaceXmlWithHtml(dictFileName);
+                String text = outputFileName.substring(0, outputFileName.length() - ".html".length()) + ".xml";
+                out.println("<li><a href=\"" + outputFileName + "\">" + text + "</a>");
+            } else {
+                out.println(endUL);
+                endUL = "</ul>";
+                out.println("<h3>" + dictFileName + "</h3>");
+                out.println("<ul>");
+            }
+
         }
         out.println("</ul>");
         DictionaryFormatter.writeFooter(out);
+
     }
 
     private String replaceXmlWithHtml(String dictFileName) {

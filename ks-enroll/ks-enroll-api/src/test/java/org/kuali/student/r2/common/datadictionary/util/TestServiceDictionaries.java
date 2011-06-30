@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -39,33 +40,34 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
 public class TestServiceDictionaries {
 
-    private String getXmlFile(Class<?> clazz) {
+    private String calculateXmlFileName(Class<?> clazz) {
         return "ks-" + clazz.getSimpleName() + "-dictionary.xml";
     }
 
     public List<String> getInputFiles() {
         List<String> inputFiles = new ArrayList<String>();
-        // Academic Calendar
-        inputFiles.add(getXmlFile(AcademicCalendarInfo.class));
-        inputFiles.add(getXmlFile(CampusCalendarInfo.class));        
-        inputFiles.add(getXmlFile(TermInfo.class));
-        inputFiles.add(getXmlFile(RegistrationDateGroupInfo.class));
-        inputFiles.add(getXmlFile(HolidayInfo.class));
-        inputFiles.add(getXmlFile(KeyDateInfo.class));
-        // LPR
-        inputFiles.add(getXmlFile(LuiPersonRelationInfo.class));
-        // Hold
-        inputFiles.add(getXmlFile(HoldInfo.class));
-        inputFiles.add(getXmlFile(IssueInfo.class)); 
-        inputFiles.add(getXmlFile(RestrictionInfo.class));
-        // ATP
-        inputFiles.add(getXmlFile(AtpInfo.class));
-        inputFiles.add(getXmlFile(MilestoneInfo.class));
-        inputFiles.add(getXmlFile(AtpAtpRelationInfo.class));
-        inputFiles.add(getXmlFile(AtpMilestoneRelationInfo.class)); 
-        // LUI
-        inputFiles.add(getXmlFile(LuiInfo.class));
-        inputFiles.add(getXmlFile(LuiLuiRelationInfo.class));   
+        inputFiles.add ("Academic Calendar (ACAL) Service");
+        inputFiles.add(calculateXmlFileName(AcademicCalendarInfo.class));
+        inputFiles.add(calculateXmlFileName(CampusCalendarInfo.class));        
+        inputFiles.add(calculateXmlFileName(TermInfo.class));
+        inputFiles.add(calculateXmlFileName(RegistrationDateGroupInfo.class));
+        inputFiles.add(calculateXmlFileName(HolidayInfo.class));
+        inputFiles.add(calculateXmlFileName(KeyDateInfo.class));
+        inputFiles.add ("Lui Person Relation (LPR) Service");
+        inputFiles.add(calculateXmlFileName(LuiPersonRelationInfo.class));
+        inputFiles.add ("Hold Service");
+        inputFiles.add(calculateXmlFileName(HoldInfo.class));
+        inputFiles.add(calculateXmlFileName(IssueInfo.class)); 
+        inputFiles.add(calculateXmlFileName(RestrictionInfo.class));
+        inputFiles.add ("Academic Time Period (ATP) Service");
+        inputFiles.add(calculateXmlFileName(AtpInfo.class));
+        inputFiles.add(calculateXmlFileName(MilestoneInfo.class));
+        inputFiles.add(calculateXmlFileName(AtpAtpRelationInfo.class));
+        inputFiles.add(calculateXmlFileName(AtpMilestoneRelationInfo.class)); 
+        inputFiles.add ("Learning Unit Instance (LUI) Service");
+        inputFiles.add(calculateXmlFileName(LuiInfo.class));
+        inputFiles.add(calculateXmlFileName(LuiLuiRelationInfo.class));   
+        inputFiles.add(calculateXmlFileName(LuiCapacityInfo.class));         
         return inputFiles;
     }
 
