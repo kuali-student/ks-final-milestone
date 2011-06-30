@@ -108,8 +108,8 @@
         <property name="entityManagerFactory" ref="acalEntityManagerFactory"/>
     </bean>
 
-<bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
-	  	<property name="atpDao" ref="atpDao"/>
+<bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+	  	<property name="atpDao" ref="atpEnrDao"/>
 	  	<property name="atpTypeDao" ref="atpTypeDao"/>
 	  	<property name="atpStateDao" ref="atpStateDao"/>
 	  	<property name="atpRichTextDao" ref="atpRichTextDao"/>
@@ -124,7 +124,7 @@
     </bean>
  
      <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
-    	<property name="atpService" ref="atpService"/>
+    	<property name="atpService" ref="atpEnrService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
     </bean>
@@ -144,36 +144,20 @@
    </bean>
        
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
-    	<property name="atpService" ref="atpService"/>
+    	<property name="atpService" ref="atpEnrService"/>
     	<property name="relAssembler" ref="relAssembler" />
     </bean>
       
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler">
-    	<property name="atpService" ref="atpService"/>
+    	<property name="atpService" ref="atpEnrService"/>
 	</bean>
 	
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 	
-    <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
-      <property name="nextDecorator" ref="atpServiceValidation"/>
-      <property name="permissionService" ref="permissionService" />
-    </bean>
     
-	
-    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-      <property name="nextDecorator" ref="atpService"/>
-      <property name="validator" ref="validator"/>
-    </bean>
-    
-    <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
-      <property name="nextDecorator" ref="acalService"/>
-      <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
-      <property name="validator" ref="validator"/>
-    </bean>
-    
-   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
+    <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="acalEntityManager"/>
     </bean>
     

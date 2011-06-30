@@ -180,6 +180,14 @@
 		<artifactId>ks-enroll-api</artifactId>
 		<version>${project.version}</version>
 	</dependency>
+	
+	<!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
+	<dependency>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll-api</artifactId>
+		<version>${project.version}</version>
+		<type>test-jar</type>
+	</dependency>
 	<dependency>
 		<groupId>org.kuali.student.enroll</groupId>
 		<artifactId>ks-enroll-impl</artifactId>
