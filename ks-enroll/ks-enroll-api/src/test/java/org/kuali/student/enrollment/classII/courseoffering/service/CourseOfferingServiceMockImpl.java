@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.dto.FormatInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -29,7 +32,25 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
     private static Map<String, CourseOfferingInfo> courseOfferingCache = new HashMap<String, CourseOfferingInfo>();
 
+    private static Map<String, ActivityOfferingInfo> activityOfferingCache = new HashMap<String, ActivityOfferingInfo>();
+
+    private static Map<String, RegistrationGroupInfo> registrationGroupCache = new HashMap<String, RegistrationGroupInfo>();
+
     private static Map<String, CourseInfo> courseCache = new HashMap<String, CourseInfo>();
+
+    private static Map<String, TypeInfo> typesCache = new HashMap<String, TypeInfo>();
+
+    private static Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionCache = new HashMap<String, SeatPoolDefinitionInfo>();
+
+    private CourseService courseService;
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -144,29 +165,33 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CourseOfferingInfo courseOfferingInfo = courseOfferingCache.get(courseOfferingId);
+        CourseInfo courseInfo = courseCache.get(courseOfferingInfo.getCourseId());
+
+        return courseOfferingInfo;
     }
 
     @Override
     public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(courseOfferingCache.remove(courseOfferingId) != null);
+        return status;
     }
 
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        TypeInfo typeInfo = typesCache.get(activityOfferingTypeKey);
+        return typeInfo;
     }
 
     @Override
     public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+
         return null;
     }
 
@@ -182,24 +207,35 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public ActivityOfferingInfo getActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        return activityOfferingCache.get(activityOfferingId);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivitiesForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
+        List<String> activityOfferingIds = courseOffering.getActivityOfferingIds();
+        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+        for (String activityOfferingId : activityOfferingIds) {
+            activityOfferingInfos.add(activityOfferingCache.get(activityOfferingId));
+        }
+        return activityOfferingInfos;
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivitiesForRegGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
+        RegistrationGroupInfo regGroup = registrationGroupCache.get(registrationGroupId);
+        List<String> activityOfferingIds = regGroup.getActivityOfferingIds();
+        for (String activityOfferingId : activityOfferingIds) {
+            activityOfferings.add(activityOfferingCache.get(activityOfferingId));
+        }
+
+        return activityOfferings;
     }
 
     @Override
@@ -207,8 +243,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        activityOfferingInfo.setId(String.valueOf(Math.random()));
+        activityOfferingCache.put(activityOfferingInfo.getId(), activityOfferingInfo);
+
+        for (String courseOfferingId : courseOfferingIdList) {
+            CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
+            List<String> activitiesForCourse = courseOffering.getActivityOfferingIds();
+            activitiesForCourse.add(activityOfferingInfo.getId());
+
+        }
+
+        return activityOfferingInfo;
     }
 
     @Override
@@ -216,32 +262,40 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        activityOfferingCache.put(activityOfferingId, activityOfferingInfo);
+        return activityOfferingInfo;
     }
 
     @Override
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(activityOfferingCache.remove(activityOfferingId) != null);
+        return status;
     }
 
     @Override
     public Float calculateInClassContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        ActivityOfferingInfo activity = activityOfferingCache.get(activityOfferingId);
+        // approximate number of weeks, in real impl calculate class weeks from
+        // TermInfo
+        return activity.getWeeklyInclassContactHours() * 16;
+
     }
 
     @Override
     public Float calculateOutofClassContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        ActivityOfferingInfo activity = activityOfferingCache.get(activityOfferingId);
+
+        // approximate number of weeks, in real impl calculate class weeks from
+        // TermInfo
+        return activity.getWeeklyOutofclassContactHours() * 16;
     }
 
     @Override
@@ -249,39 +303,79 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return calculateInClassContactHoursForTerm(activityOfferingId, context)
+                + calculateOutofClassContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> copyActivityOffering(String activityOfferingId, Integer numberOfCopies,
             String copyContextTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>(numberOfCopies);
+        ActivityOfferingInfo activityOfferingInf = activityOfferingCache.get(activityOfferingId);
+
+        for (ActivityOfferingInfo activityOffering : activityOfferings) {
+            // activityOffering = new ActivityOfferingInfo(activityOfferingInf);
+        }
+
+        return activityOfferings;
     }
 
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return registrationGroupCache.get(registrationGroupId);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
+        List<String> regGroupIds = courseOffering.getRegistrationGroupIds();
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+
+        for (String regGroupId : regGroupIds) {
+            regGroups.add(registrationGroupCache.get(regGroupId));
+        }
+        return regGroups;
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegGroupsByFormatForCourse(String courseOfferingId, String formatTypeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
+        List<FormatInfo> formatsInfo = new ArrayList<FormatInfo>();
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        List<String> regGroupIds = courseOffering.getRegistrationGroupIds();
+
+        try {
+            formatsInfo = courseService.getCourseFormats(courseOffering.getCourseId());
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            e.printStackTrace();
+        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+            e.printStackTrace();
+        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
+            e.printStackTrace();
+        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+            e.printStackTrace();
+        } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
+            e.printStackTrace();
+        }
+
+        for (FormatInfo format : formatsInfo) {
+
+            for (String regGroupId : regGroupIds) {
+                RegistrationGroupInfo regGroup = registrationGroupCache.get(regGroupId);
+
+                if (format.getId().equals(regGroup.getFormatId()) && format.getType().equals(formatTypeKey)) {
+                    regGroups.add(regGroup);
+                }
+            }
+        }
+        return regGroups;
     }
 
     @Override
@@ -289,8 +383,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        registrationGroupInfo.setId(String.valueOf(Math.random()));
+        registrationGroupCache.put(registrationGroupInfo.getId(), registrationGroupInfo);
+
+        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
+        List<String> regGroupsForCourse = courseOffering.getRegistrationGroupIds();
+        regGroupsForCourse.add(registrationGroupInfo.getId());
+
+        return registrationGroupInfo;
     }
 
     @Override
@@ -298,48 +399,63 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        registrationGroupCache.put(registrationGroupId, registrationGroupInfo);
+        return registrationGroupInfo;
     }
 
     @Override
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(registrationGroupCache.remove(registrationGroupId) != null);
+
+        return status;
     }
 
     @Override
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        return seatPoolDefinitionCache.get(seatPoolDefinitionId);
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<SeatPoolDefinitionInfo> seatPoolsForCourseOff = new ArrayList<SeatPoolDefinitionInfo>();
+        for (SeatPoolDefinitionInfo seatPoolInfo : seatPoolDefinitionCache.values()) {
+            if (seatPoolInfo.getCourseOfferingId().equals(courseOfferingId)) {
+                seatPoolsForCourseOff.add(seatPoolInfo);
+            }
+        }
+        return seatPoolsForCourseOff;
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolsForRegGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<SeatPoolDefinitionInfo> seatPoolsForRegGroup = new ArrayList<SeatPoolDefinitionInfo>();
+        for (SeatPoolDefinitionInfo seatPoolInfo : seatPoolDefinitionCache.values()) {
+            if (seatPoolInfo.getRegistrationGroupIdList().contains(registrationGroupId)) {
+                seatPoolsForRegGroup.add(seatPoolInfo);
+            }
+        }
+        return seatPoolsForRegGroup;
     }
 
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo,
             ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        seatPoolDefinitionInfo.setId(String.valueOf(Math.random()));
+        seatPoolDefinitionCache.put(seatPoolDefinitionInfo.getId(), seatPoolDefinitionInfo);
+        return seatPoolDefinitionInfo;
     }
 
     @Override
@@ -347,16 +463,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        seatPoolDefinitionCache.put(seatPoolDefinitionId, seatPoolDefinitionInfo);
+        return seatPoolDefinitionInfo;
     }
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(seatPoolDefinitionCache.remove(seatPoolDefinitionId) != null);
+        return status;
     }
 
 }
