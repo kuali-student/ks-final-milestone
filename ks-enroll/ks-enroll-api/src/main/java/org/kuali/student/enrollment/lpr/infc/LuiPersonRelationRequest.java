@@ -5,6 +5,22 @@ import java.util.List;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 public interface LuiPersonRelationRequest extends IdEntity {
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     */
+    public String getRequestingPersonId();
+
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     */
+    public String getPersonId();
 
     /**
      * Returns the id of the RegGroup for this item. This is populated for ADD,
@@ -22,9 +38,9 @@ public interface LuiPersonRelationRequest extends IdEntity {
      */
     public String getExistingLuiId();
 
-
     /**
-     * Specify the various request (or registration options) 
+     * Specify the various request (or registration options)
+     * 
      * @return
      */
     public List<RequestOption> requestOptions();
