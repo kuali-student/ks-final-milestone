@@ -26,7 +26,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
@@ -454,7 +453,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         List<SeatPoolDefinitionInfo> seatPoolsForRegGroup = new ArrayList<SeatPoolDefinitionInfo>();
         for (SeatPoolDefinitionInfo seatPoolInfo : seatPoolDefinitionCache.values()) {
-            if (seatPoolInfo.getRegistrationGroupIdList().contains(registrationGroupId)) {
+            if (seatPoolInfo.getRegistrationGroupIds().contains(registrationGroupId)) {
                 seatPoolsForRegGroup.add(seatPoolInfo);
             }
         }
