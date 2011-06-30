@@ -98,7 +98,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         List<ValidationResultInfo> validationResults = validate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpMilestoneRelationInfo, context);
         if (validationResults != null && !validationResults.isEmpty()) {
             throw new OperationFailedException("Create atp milestone relation failed due to validation error: ", new DataValidationErrorException("Validation errors during atp milestone relation creation", validationResults));
@@ -158,7 +158,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     @Override
     public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	try {
 			validateAtpAtpRelation(atpAtpRelationInfo, context);
 		} catch (DataValidationErrorException e) {

@@ -591,7 +591,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testCreateAtpMilestoneRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testCreateAtpMilestoneRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException {
         AtpMilestoneRelationInfo rel = new AtpMilestoneRelationInfo();
         
         rel.setAtpKey("testAtpId1");

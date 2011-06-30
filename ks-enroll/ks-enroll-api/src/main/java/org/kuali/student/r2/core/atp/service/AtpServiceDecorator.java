@@ -383,7 +383,7 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	return this.nextDecorator.createAtpAtpRelation(atpAtpRelationInfo, context);
     }
 
@@ -468,6 +468,7 @@ public class AtpServiceDecorator implements AtpService {
 			AtpMilestoneRelationInfo atpMilestoneRelationInfo,
 			ContextInfo context)
 	throws AlreadyExistsException,
+	DataValidationErrorException,
 	InvalidParameterException,
 	MissingParameterException,
 	OperationFailedException,

@@ -545,7 +545,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates an ATP Mielstone Relationship.
@@ -710,7 +710,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public AtpMilestoneRelationInfo createAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpMilestoneRelationInfo createAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates an ATP Mielstone Relationship.

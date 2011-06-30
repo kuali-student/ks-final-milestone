@@ -593,7 +593,7 @@ public class TestAtpServiceImplRemote {
     }
     
     @Test
-    public void testCreateAtpMilestoneRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testCreateAtpMilestoneRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException {
         AtpMilestoneRelationInfo rel = new AtpMilestoneRelationInfo();
         
         rel.setAtpKey("testAtpId1");
@@ -796,7 +796,7 @@ public class TestAtpServiceImplRemote {
 	
 	@Test
 	public void testCreatAtpAtpRelation() throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
+    OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpKey("testAtpId1");
