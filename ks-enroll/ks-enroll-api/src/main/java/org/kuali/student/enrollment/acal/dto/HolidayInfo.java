@@ -35,15 +35,30 @@ import org.w3c.dom.Element;
 @XmlType(name = "HolidayInfo", propOrder = { "key", "typeKey", "stateKey",
 		"name", "descr", "isInstructionalDay", "isAllDay", "isDateRange",
 		"startDate", "endDate", "meta", "attributes", "_futureElements" })
-public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
+public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@XmlElement
 	private Boolean isInstructionalDay;
+	@XmlElement
+    private Boolean isAllDay;
+    @XmlElement
+    private Boolean isDateRange;
+    @XmlElement
+    private Date startDate;
+    @XmlElement
+    private Date endDate;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 	public HolidayInfo() {
 		super();
 		isInstructionalDay = Boolean.valueOf(false);
+		isAllDay = Boolean.valueOf(false);
+        isDateRange = Boolean.valueOf(false);
+        startDate = null;
+        endDate = null;
+        _futureElements = null;
 	}
 
 	/**
@@ -57,6 +72,13 @@ public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
 		if (null != holiday) {
 			this.isInstructionalDay = new Boolean(
 					holiday.getIsInstructionalDay());
+            this.isAllDay = holiday.getIsAllDay();
+            this.isDateRange = holiday.getIsDateRange();
+            this.startDate = null != holiday.getStartDate() ? new Date(holiday
+                    .getStartDate().getTime()) : null;
+            this.endDate = null != holiday.getEndDate() ? new Date(holiday
+                    .getEndDate().getTime()) : null;
+            _futureElements = null;
 		}
 	}
 
@@ -68,4 +90,40 @@ public class HolidayInfo extends KeyDateInfo implements Holiday, Serializable {
 	public void setInstructionalDay(Boolean instructionalDay) {
 		this.isInstructionalDay = instructionalDay;
 	}
+	
+   @Override
+    public Boolean getIsAllDay() {
+        return isAllDay;
+    }
+
+    public void setIsAllDay(Boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean getIsDateRange() {
+        return isDateRange;
+    }
+
+    public void setIsDateRange(Boolean isDateRange) {
+        this.isDateRange = isDateRange;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = new Date(startDate.getTime());
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = new Date(endDate.getTime());
+    }
 }
