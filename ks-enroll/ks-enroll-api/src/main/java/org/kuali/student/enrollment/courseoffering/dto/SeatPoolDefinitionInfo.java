@@ -18,38 +18,53 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.infc.SeatPoolDefinition;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 /**
  * 
  * @author Kuali Student Team (Kamal)
  *
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "SeatPoolDefinitionInfo", propOrder = {"registrationGroupIds", "courseOfferingId", 
+        "maximumSeatCount", "processingPriority", "capacityRestrictionRule",
+        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefinition {
 
     private static final long serialVersionUID = 1L;
 
     private String courseOfferingId;
     
-    private List<String> registrationGroupIdList;
+    private List<String> registrationGroupIds;
     
     private Integer maximumSeatCount;
     
     private Integer processingPriority;
     
+    private StatementTreeViewInfo capacityRestrictionRule;
     
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
     @Override
     public String getCourseOfferingId() {
         return this.courseOfferingId;
     }
 
     @Override
-    public List<String> getRegistrationGroupIdList() {
-        if(null == this.registrationGroupIdList) {
-            this.registrationGroupIdList = new ArrayList<String>();
+    public List<String> getRegistrationGroupIds() {
+        if(null == this.registrationGroupIds) {
+            this.registrationGroupIds = new ArrayList<String>();
         }
-        return this.registrationGroupIdList;
+        return this.registrationGroupIds;
     }
 
     @Override
@@ -62,12 +77,17 @@ public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefi
         return this.processingPriority;
     }
 
+    @Override
+    public StatementTreeViewInfo getCapacityRestrictionRule() {
+        return this.capacityRestrictionRule;        
+    }
+    
     public void setCourseOfferingId(String courseOfferingId) {
         this.courseOfferingId = courseOfferingId;
     }
 
-    public void setRegistrationGroupIdList(List<String> registrationGroupIdList) {
-        this.registrationGroupIdList = registrationGroupIdList;
+    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
+        this.registrationGroupIds = registrationGroupIds;
     }
 
     public void setMaximumSeatCount(Integer maximumSeatCount) {
@@ -76,5 +96,11 @@ public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefi
 
     public void setProcessingPriority(Integer processingPriority) {
         this.processingPriority = processingPriority;
+    }
+
+    public void setCapacityRestrictionRule(StatementTreeViewInfo capacityRestrictionRule) {
+        this.capacityRestrictionRule = capacityRestrictionRule;
     }        
+
+
 }

@@ -10,6 +10,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.List;
 
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -33,7 +34,7 @@ public interface SeatPoolDefinition extends  IdEntity {
      * List of registration groups that seat pool applies to 
      * @name Registration Group Ids
      */
-    public List<String> getRegistrationGroupIdList();
+    public List<String> getRegistrationGroupIds();
     
     /** 
      * Count Maximum seats available through this seat pool.
@@ -48,4 +49,11 @@ public interface SeatPoolDefinition extends  IdEntity {
      * @name Processing Priority
      */
     public Integer getProcessingPriority();
+
+
+    /**
+     * Statement that defines the capacity restriction that apply to this seat pool 
+     * @name Capacity Restriction Rule
+     */
+    public StatementTreeViewInfo getCapacityRestrictionRule();
 }

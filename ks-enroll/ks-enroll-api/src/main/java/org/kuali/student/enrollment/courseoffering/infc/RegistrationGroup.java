@@ -69,7 +69,7 @@ public interface RegistrationGroup extends IdEntity {
      * Indicates whether a RegistrationGroup has a waitlist
      * @name Has Waitlist
      */
-    public Boolean hasWaitlist();
+    public Boolean getHasWaitlist();
 
     /**
      * Indicates the type of waitlist as it relates to processing students on and off
@@ -93,6 +93,6 @@ public interface RegistrationGroup extends IdEntity {
      * Frequency for the waitlist checkin
      * @name Waitlist Checkin Frequency 
      */
-    public TimeAmount getWaitlistCheckFrequency();
+    public TimeAmount getWaitlistCheckinFrequency();
 
 }
