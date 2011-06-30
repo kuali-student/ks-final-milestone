@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.courseoffering.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 import org.w3c.dom.Element;
 
 /**
@@ -95,6 +95,52 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         
     @XmlAnyElement
     private List<Element> _futureElements;
+    
+    public ActivityOfferingInfo() {
+        this.registrationGroupIds = new ArrayList<String>();
+        this.courseOfferingIds = new ArrayList<String>();
+        this.activityCode = null;
+        this.activityId = null;
+        this.finalExamBuilding = null;
+        this.finalExamEndTime = null;
+        this.finalExamRoom = null;
+        this.finalExamStartTime = null;
+        this.gradingOptions = new ArrayList<String>();
+        this.isHonorsOffering = new Boolean(false);
+        this.maximumEnrollment = null;
+        this.minimumEnrollment = null;
+        this.registrationGroupIds = new ArrayList<String>();
+        this.termKey = null;
+        this.weeklyInclassContactHours = null;
+        this.weeklyOutofclassContactHours = null;
+        this.weeklyTotalContactHours = null;
+        this._futureElements = null;
+    }
+
+    public ActivityOfferingInfo(ActivityOffering activity) {
+        super(activity); 
+        
+        if(null == activity) return;      
+        
+        this.registrationGroupIds = (null != activity.getRegistrationGroupIds()) ? new ArrayList<String>(activity.getRegistrationGroupIds()) : null;
+        this.courseOfferingIds = (null != activity.getCourseOfferingIds()) ? new ArrayList<String>(activity.getCourseOfferingIds()) : null;
+        this.activityCode = activity.getActivityCode();
+        this.activityId = activity.getActivityId();
+        this.finalExamBuilding = activity.getFinalExamBuilding();
+        this.finalExamEndTime = (null != activity.getFinalExamEndTime()) ? new Date(activity.getFinalExamEndTime().getTime()) : null;
+        this.finalExamRoom = activity.getFinalExamRoom();
+        this.finalExamStartTime = (null != activity.getFinalExamStartTime()) ? new Date(activity.getFinalExamStartTime().getTime()) : null;
+        this.gradingOptions = (null != activity.getGradingOptions()) ? new ArrayList<String>(activity.getGradingOptions()) : null;
+        this.isHonorsOffering = (null != activity.getIsHonorsOffering()) ? new Boolean(activity.getIsHonorsOffering()) : null;
+        this.maximumEnrollment = activity.getMaximumEnrollment();
+        this.minimumEnrollment = activity.getMinimumEnrollment();
+        this.registrationGroupIds = (null != activity.getRegistrationGroupIds()) ? new ArrayList<String>(activity.getRegistrationGroupIds()) : null;
+        this.termKey = activity.getTermKey();
+        this.weeklyInclassContactHours = (null != activity.getWeeklyInclassContactHours()) ? new Float(activity.getWeeklyInclassContactHours()) : null;
+        this.weeklyOutofclassContactHours = (null != activity.getWeeklyOutofclassContactHours()) ? new Float(activity.getWeeklyOutofclassContactHours()) : null;
+        this.weeklyTotalContactHours = (null != activity.getWeeklyTotalContactHours()) ? new Float(activity.getWeeklyTotalContactHours()) : null;
+        this._futureElements = null;        
+    }
     
     @Override
     public List<String> getCourseOfferingIds() {

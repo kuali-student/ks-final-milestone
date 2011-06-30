@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -486,6 +486,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         StatusInfo status = new StatusInfo();
         status.setSuccess(seatPoolDefinitionCache.remove(seatPoolDefinitionId) != null);
         return status;
+    }
+
+    @Override
+    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
 }

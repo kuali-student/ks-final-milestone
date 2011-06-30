@@ -33,16 +33,22 @@ import org.kuali.student.r2.common.infc.Relationship;
 public interface LuiPersonRelation
         extends Relationship {
 
- /**
-  * Name: LUI Id
-  * Unique identifier for a Learning Unit Instance (LUI).
-  */
- public String getLuiId();
+    /**
+     * Name: LUI Id
+     * Unique identifier for a Learning Unit Instance (LUI).
+     */
+    public String getLuiId();
 
- /**
-  * Name: Person Id
-  * Unique identifier for a person record.
-  */
- public String getPersonId();
+    /**
+     * Name: Person Id
+     * Unique identifier for a person record.
+     */
+    public String getPersonId();
+
+     /**
+      * Commitment percentage for the person in the LUI
+      * @name Commitment Percent
+      */
+    public Float getCommitmentPercent();
 }
 

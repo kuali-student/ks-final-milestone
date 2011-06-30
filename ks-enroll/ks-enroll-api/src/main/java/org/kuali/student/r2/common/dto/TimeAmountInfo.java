@@ -37,7 +37,10 @@ public class TimeAmountInfo implements TimeAmount, Serializable {
 	
 	@XmlElement
 	private Integer timeQuantity; 
-
+	
+    @XmlAnyElement
+    private final List<Element> _futureElements;    
+		
     public void setAtpDurationTypeKey(String atpDurationTypeKey) {
 		this.atpDurationTypeKey = atpDurationTypeKey;
 	}
@@ -45,9 +48,6 @@ public class TimeAmountInfo implements TimeAmount, Serializable {
 	public void setTimeQuantity(Integer timeQuantity) {
 		this.timeQuantity = timeQuantity;
 	}
-
-	@XmlAnyElement
-    private final List<Element> _futureElements;    
 	
     public TimeAmountInfo() {
 		atpDurationTypeKey = null; 
@@ -55,10 +55,16 @@ public class TimeAmountInfo implements TimeAmount, Serializable {
 		_futureElements = null;
 	}
 	
-    public TimeAmountInfo(TimeAmount builder) {
-		this.atpDurationTypeKey = builder.getAtpDurationTypeKey();
+    public TimeAmountInfo(TimeAmount builder) {           
+        
+        this._futureElements = null;
+        
+        if(null == builder) {
+            return;
+        }
+        
+        this.atpDurationTypeKey = builder.getAtpDurationTypeKey();
 		this.timeQuantity = builder.getTimeQuantity();
-		this._futureElements = null;
 	}
 	
     @Override

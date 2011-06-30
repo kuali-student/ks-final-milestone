@@ -21,6 +21,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -41,19 +42,48 @@ public class SeatPoolDefinitionInfo extends IdEntityInfo implements SeatPoolDefi
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private String courseOfferingId;
-    
+
+    @XmlElement    
     private List<String> registrationGroupIds;
     
+    @XmlElement
     private Integer maximumSeatCount;
     
+    @XmlElement
     private Integer processingPriority;
     
+    @XmlElement
     private StatementTreeViewInfo capacityRestrictionRule;
     
     @XmlAnyElement
     private List<Element> _futureElements;
-
+    
+    
+    public SeatPoolDefinitionInfo() {
+        this.courseOfferingId = null;
+        this.registrationGroupIds = new ArrayList<String>();
+        this.maximumSeatCount = null;
+        this.processingPriority = null;
+        this.capacityRestrictionRule = null;
+        this._futureElements = null;
+    }
+    
+    public SeatPoolDefinitionInfo(SeatPoolDefinition seatpool) {
+        super(seatpool);
+        
+        if(null == seatpool) return;
+        
+        this.courseOfferingId = seatpool.getCourseOfferingId();
+        this.maximumSeatCount = (null != seatpool.getMaximumSeatCount()) ? new Integer(seatpool.getMaximumSeatCount()) : null;
+        this.registrationGroupIds = (null != seatpool.getRegistrationGroupIds()) ? new ArrayList<String>(seatpool.getRegistrationGroupIds()) : null;
+        this.processingPriority = (null != seatpool.getProcessingPriority()) ? new Integer(seatpool.getProcessingPriority()) : null;
+        //TODO: Add copy constructor to statement tree view info
+        this.capacityRestrictionRule = seatpool.getCapacityRestrictionRule();
+    }
+   
+        
     @Override
     public String getCourseOfferingId() {
         return this.courseOfferingId;

@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.courseoffering.service;
 
 import java.util.List;
 
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -306,6 +307,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

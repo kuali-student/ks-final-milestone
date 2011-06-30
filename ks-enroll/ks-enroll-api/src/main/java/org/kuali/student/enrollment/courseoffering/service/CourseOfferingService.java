@@ -13,6 +13,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -29,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 /**
@@ -219,6 +219,23 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * Retrieves the course offering restrictions.
+     *
+     * @param courseOfferingId
+     *            Unique Id of the Course Offering
+     * @param nlUsageTypeKey Natural language usage type key (context)
+     * @param language Translation language e.g en, es, gr
+     * @return a list of StatemenTree structures defining the restrictions
+     * @throws DoesNotExistException  CourseOffering does not exist
+     * @throws InvalidParameterException invalid courseOfferingId
+     * @throws MissingParameterException invalid courseOfferingId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
 
     /**
      * This method returns the TypeInfo for a given activity offering

@@ -29,15 +29,21 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class LuiPersonRelationInfo extends RelationshipInfo
         implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @XmlElement
     private String luiId;
+    
     @XmlElement
     private String personId;
+    
+    @XmlElement
+    private Float commitmentPercent; 
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -73,4 +79,13 @@ public class LuiPersonRelationInfo extends RelationshipInfo
     public void setPersonId(String personId) {
         this.personId = personId;
     }
+
+    @Override
+    public Float getCommitmentPercent() {
+        return commitmentPercent;
+    }
+
+    public void setCommitmentPercent(Float commitmentPercent) {
+        this.commitmentPercent = commitmentPercent;
+    }    
 }

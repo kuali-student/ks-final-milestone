@@ -7,6 +7,7 @@
  */
 package org.kuali.student.enrollment.courseoffering.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,17 +18,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", "courseOfferingId", 
-        "registrationCode", "formatId", "isHonorsOffering", "maximumEnrollment", "minimumEnrollment", 
-        "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
-        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", "courseOfferingId", "registrationCode", "formatId", "isHonorsOffering", "maximumEnrollment", "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
@@ -66,17 +64,52 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     private Boolean isWaitlistCheckinRequired;
 
     @XmlElement
-    private TimeAmount waitlistCheckinFrequency;
+    private TimeAmountInfo waitlistCheckinFrequency;
 
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+    public RegistrationGroupInfo() {
+        this.activityOfferingIds = new ArrayList<String>();
+        this.courseOfferingId = null;
+        this.formatId = null;
+        this.hasWaitlist = null;
+        this.isHonorsOffering = new Boolean(false);
+        this.isWaitlistCheckinRequired = new Boolean(false);
+        this.maximumEnrollment = null;
+        this.minimumEnrollment = null;
+        this.registrationCode = null;
+        this.waitlistCheckinFrequency = null;
+        this.waitlistMaximum = null;
+        this.waitlistTypeKey = null;
+        this._futureElements = null;
+    }
+
+    public RegistrationGroupInfo(RegistrationGroup registrationGroup) {
+        super(registrationGroup); 
+        
+        if(null == registrationGroup) return;      
+        
+        this.activityOfferingIds = (null != registrationGroup.getActivityOfferingIds()) ? new ArrayList<String>(registrationGroup.getActivityOfferingIds()) : null;
+        this.courseOfferingId = registrationGroup.getCourseOfferingId();
+        this.formatId = registrationGroup.getFormatId();
+        this.hasWaitlist = registrationGroup.getHasWaitlist();
+        this.isHonorsOffering = (null != registrationGroup.getIsHonorsOffering()) ? new Boolean(registrationGroup.getIsHonorsOffering()) : null;
+        this.isWaitlistCheckinRequired = (null != registrationGroup.getIsWaitlistCheckinRequired()) ? new Boolean(registrationGroup.getIsWaitlistCheckinRequired()) : null;
+        this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
+        this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
+        this.registrationCode = registrationGroup.getRegistrationCode();
+        this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
+        this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
+        this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
+    }
+
     @Override
     public List<String> getActivityOfferingIds() {
         return activityOfferingIds;
     }
 
-    @Override    
+    @Override
     public String getCourseOfferingId() {
         return courseOfferingId;
     }
@@ -127,11 +160,10 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
     @Override
-    public TimeAmount getWaitlistCheckinFrequency() {
+    public TimeAmountInfo getWaitlistCheckinFrequency() {
         return waitlistCheckinFrequency;
     }
 
-    
     public void setActivityOfferingIds(List<String> activityOfferingIds) {
         this.activityOfferingIds = activityOfferingIds;
     }
@@ -176,7 +208,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
     }
 
-    public void setWaitlistCheckinFrequency(TimeAmount waitlistCheckinFrequency) {
+    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
         this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
 }
