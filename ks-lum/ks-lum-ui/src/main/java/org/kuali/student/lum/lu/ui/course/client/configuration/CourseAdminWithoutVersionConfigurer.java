@@ -90,10 +90,8 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
-        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getActivateButton());
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());        
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getActivateButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());    
 
         return view;

@@ -569,8 +569,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			}
     	}
         	
-    	// inactivate old LoCategory
-    	loCategory.setState("inactive");
+    	// suspend old LoCategory
+    	loCategory.setState("Suspended");
     	loDao.update(loCategory);
         	
     	return newLoCategory;

@@ -226,7 +226,7 @@ public class CluAssemblerUtils {
                 relation.setLoId(loNode.getNodeData().getId());
                 relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
                 
-                // Relations can be either Active or Inactive
+                // Relations can be either Active or Suspended
                 // For now, we set them all to Active
                 // DO NOT use states like draft, superseded, etc for relations
                 relation.setState(DtoConstants.STATE_ACTIVE);

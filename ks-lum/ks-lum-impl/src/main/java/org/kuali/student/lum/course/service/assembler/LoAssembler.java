@@ -218,7 +218,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 relation.setRelatedLoId(loNode.getNodeData().getId());
                 relation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
                 
-                // Relations can only have states of Active or Inactive
+                // Relations can only have states of Active or SUSPENDED
                 // DO NOT use states like Approve, Draft, etc on relations
                 // Will default to Active
                 relation.setState(DtoConstants.STATE_ACTIVE);

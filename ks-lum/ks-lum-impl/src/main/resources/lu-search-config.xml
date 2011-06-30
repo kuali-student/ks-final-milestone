@@ -568,10 +568,24 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
-	<search:resultColumn id="lu.resultColumn.luOptionalLastAdmitAtp" parent="lu.resultColumn.luOptionalLastAdmitAtp-parent"/>
-	<search:resultColumn id="lu.resultColumn.luOptionalLastAdmitAtp-parent"  abstract="true">
-		<search:name>Last Admit Atp</search:name>
-		<search:desc>Last Admit Atp</search:desc>
+	<search:resultColumn id="lu.resultColumn.luOptionalLastAtp" parent="lu.resultColumn.luOptionalLastAtp-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalLastAtp-parent"  abstract="true">
+		<search:name>Last Atp</search:name>
+		<search:desc>Last Atp</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalExpFirstAtpDisplay" parent="lu.resultColumn.luOptionalExpFirstAtpDisplay-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalExpFirstAtpDisplay-parent"  abstract="true">
+		<search:name>Expected First Atp</search:name>
+		<search:desc>Expected First Atp Display Value</search:desc>
+		<search:dataType>string</search:dataType>
+	</search:resultColumn>
+
+	<search:resultColumn id="lu.resultColumn.luOptionalLastAtpDisplay" parent="lu.resultColumn.luOptionalLastAtpDisplay-parent"/>
+	<search:resultColumn id="lu.resultColumn.luOptionalLastAtpDisplay-parent"  abstract="true">
+		<search:name>Last Atp</search:name>
+		<search:desc>Last Atp Display Value</search:desc>
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
@@ -1165,11 +1179,13 @@
 			<ref bean="lu.resultColumn.luOptionalStudySubjectArea"/>
 			<ref bean="lu.resultColumn.luOptionalState"/>
 			<ref bean="lu.resultColumn.luOptionalExpFirstAtp"/>
-			<ref bean="lu.resultColumn.luOptionalLastAdmitAtp"/>
+			<ref bean="lu.resultColumn.luOptionalLastAtp"/>
 			<ref bean="lu.resultColumn.luOptionalVersionedFromId"/>
 			<ref bean="lu.resultColumn.luOptionalVersionStartDate"/>
 			<ref bean="lu.resultColumn.luOptionalVersionEndDate"/>
 			<ref bean="lu.resultColumn.luOptionalVersionSeqNum"/>
+			<ref bean="lu.resultColumn.luOptionalExpFirstAtpDisplay"/>
+			<ref bean="lu.resultColumn.luOptionalLastAtpDisplay"/>
      	</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -1606,8 +1622,8 @@
 				<entry key="lu.search.clu.versions">
 					<value>SELECT clu.id, officialIdentifier.shortName, officialIdentifier.longName,
                     officialIdentifier.code, officialIdentifier.level,
-                    cludesc.plain, clu.studySubjectArea, clu.state, clu.expectedFirstAtp, clu.lastAdmitAtp,
-                    clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd, clu.version.sequenceNumber
+                    cludesc.plain, clu.studySubjectArea, clu.state, clu.expectedFirstAtp, clu.lastAtp,
+                    clu.version.versionedFromId, clu.version.currentVersionStart, clu.version.currentVersionEnd, clu.version.sequenceNumber, clu.expectedFirstAtp, clu.lastAtp
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
@@ -1911,7 +1927,7 @@
                     AND result.clu.id = clu.id 
                     AND result.cluResultType.id = 'kuali.resultType.degree'
                     AND org.type = 'kuali.adminOrg.type.CurriculumOversightDivision'
-                    AND clu.state IN ('Active','Inactive','Retired')
+                    AND clu.state IN ('Active','Suspended','Retired')
                     AND rel.relatedClu.id = clu.id
                     AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasMajorProgram'
                     AND rel.clu.officialIdentifier.id = credentialIdent.id 

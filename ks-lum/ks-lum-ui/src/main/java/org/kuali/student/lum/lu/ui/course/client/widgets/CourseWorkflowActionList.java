@@ -179,7 +179,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     		// TODO: use message e.g. activateCurrentInstr, activateModificationInstr    		
     		activateSection.setInstructions(getInstructions(newState));    				
         	activateDialog.show();
-    	} else if (newState.equals(DtoConstants.STATE_INACTIVE)) {
+    	} else if (newState.equals(DtoConstants.STATE_SUSPENDED)) {
     		// TODO: create Inactivate dialog
     	}
     	
@@ -388,7 +388,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     		items.add(modifyCourseActionItem);
     		items.add(inactivateCourseActionItem);
     		items.add(retireCourseActionItem);
-    	} else if (cluState.equals(DtoConstants.STATE_INACTIVE)) {
+    	} else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
     		items.add(activateCourseActionItem);
     	}
     	

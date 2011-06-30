@@ -8,7 +8,6 @@ public class DtoConstants {
     public final static String STATE_APPROVED = "Approved";
     public final static String STATE_NOT_APPROVED = "Not Approved";
     public final static String STATE_ACTIVE = "Active";
-    public final static String STATE_INACTIVE = "Inactive";
     public final static String STATE_SUPERSEDED  = "Superseded";
     public final static String STATE_SUSPENDED  = "Suspended";
     public final static String STATE_RETIRED = "Retired";
@@ -19,7 +18,7 @@ public class DtoConstants {
 
 	//FIXME: Need to split out proposal states (ie. workflow states) versus dto states
 	public enum DtoState {
-		DRAFT, SUBMITTED, APPROVED, ACTIVE, INACTIVE, RETIRED, SUPERSEDED, SAVED, ENROUTE;
+		DRAFT, SUBMITTED, APPROVED, ACTIVE, SUSPENDED, RETIRED, SUPERSEDED, SAVED, ENROUTE;
 
 		public boolean equalsString(String state){
 			if (state != null){
@@ -41,15 +40,13 @@ public class DtoConstants {
 		public static DtoState getNextState(String state){
 			// Element States
 			if (DRAFT.equalsString(state)) {
-	            return SUBMITTED;
-	        } else if (SUBMITTED.equalsString(state)) {
-	            return APPROVED;
+	            return ACTIVE;
 	        } else if (APPROVED.equalsString(state)) {
 	        	return ACTIVE;
 	        } else if (ACTIVE.equalsString(state)) {
-	        	return INACTIVE;
-	        } else if (INACTIVE.equalsString(state)) {
-	        	return RETIRED;
+	        	return SUSPENDED;
+	        } else if (SUSPENDED.equalsString(state)) {
+	        	return ACTIVE;
 	        
 	        // Proposal States
 	        } else if (SAVED.equalsString(state)) {

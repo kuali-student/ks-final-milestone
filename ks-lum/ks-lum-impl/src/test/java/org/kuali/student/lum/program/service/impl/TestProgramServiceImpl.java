@@ -1365,7 +1365,7 @@ public class TestProgramServiceImpl {
             assertNotNull(retrievedPVs);
             for(ProgramVariationInfo pvi : retrievedPVs){
             	if(pvi.getId().equals(var1)){
-            		assertEquals("Inactive", pvi.getState());
+            		assertEquals("Suspended", pvi.getState());
             	}
             }
     }

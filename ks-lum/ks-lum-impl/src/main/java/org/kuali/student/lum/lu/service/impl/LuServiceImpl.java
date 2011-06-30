@@ -155,6 +155,7 @@ public class LuServiceImpl implements LuService {
 	private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
 	private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
 	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
+	private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -3048,8 +3049,61 @@ public class LuServiceImpl implements LuService {
     			}
     		}
         	return doSearchProposalsByCourseCode(courseCode);
+        }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
+        	return doBrowseVersionsSearch(searchRequest);
         }
         return searchManager.search(searchRequest, luDao);
+	}
+
+	
+	/**
+	 * Looks up Atp descriptions and adds to search results
+	 * @param searchRequest
+	 * @return
+	 * @throws MissingParameterException 
+	 */
+	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest) throws MissingParameterException {
+		SearchResult searchResult = searchManager.search(searchRequest, luDao);
+		
+		Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
+		
+		for(SearchResultRow row:searchResult.getRows()){
+			for(SearchResultCell cell:row.getCells()){
+				if(cell.getValue()!=null &&
+						("lu.resultColumn.luOptionalExpFirstAtpDisplay".equals(cell.getKey()) ||
+						 "lu.resultColumn.luOptionalLastAtpDisplay".equals(cell.getKey()))) {
+					List<SearchResultCell> cells = atpIdToCellMapping.get(cell.getValue());
+					if(cells==null){
+						cells = new ArrayList<SearchResultCell>();
+						atpIdToCellMapping.put(cell.getValue(), cells);
+					}
+					cells.add(cell);
+				}
+			}
+		}
+		//Now do an atp search to translate ids to names
+		
+		SearchRequest atpSearchRequest = new SearchRequest("atp.search.advancedAtpSearch");
+		atpSearchRequest.addParam("atp.advancedAtpSearchParam.optionalAtpIds", new ArrayList<String>(atpIdToCellMapping.keySet()));
+		SearchResult atpSearchResults = searchDispatcher.dispatchSearch(atpSearchRequest);
+		for(SearchResultRow row:atpSearchResults.getRows()){
+			String atpId = null;
+			String atpName = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("atp.resultColumn.atpId".equals(cell.getKey())){
+					atpId = cell.getValue();
+				}else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+					atpName = cell.getValue();
+				}
+			}
+			if(atpId!=null && atpIdToCellMapping.get(atpId)!=null){
+				for(SearchResultCell cell : atpIdToCellMapping.get(atpId)){
+					cell.setValue(atpName);
+				}
+			}
+		}
+						
+		return searchResult;
 	}
 
 	private SearchResult doBrowseProgramSearch() throws MissingParameterException {

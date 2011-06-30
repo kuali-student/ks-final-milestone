@@ -359,6 +359,7 @@
         <property name="luService" ref="luClient"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean id="formatAssembler"

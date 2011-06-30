@@ -741,7 +741,7 @@ public class ProgramAssemblerUtils {
             relation.setCluId(program.getCredentialProgramId());
             relation.setRelatedCluId(program.getId());
             relation.setType(relationType);
-            // We are hard coding this to active since relations can only be active/inactive
+            // We are hard coding this to active since relations can only be active/suspended
             // DO NOT propagate states such as DRAFT etc to the relations.
             relation.setState(DtoConstants.STATE_ACTIVE);
 
@@ -909,7 +909,7 @@ public class ProgramAssemblerUtils {
         relation.setRelatedCluId(relatedCluId);
         relation.setType(relationType);
         
-        // Relations can only be in state Active or Inactive
+        // Relations can only be in state Active or Suspended
         // DO NOT set state on relations to Draft, Approved, etc
         // We will default to Active
         relation.setState(DtoConstants.STATE_ACTIVE);
@@ -937,16 +937,16 @@ public class ProgramAssemblerUtils {
         }
     }
     
-    public void addInactiveRelationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> results){
+    public void addSuspendedRelationNodes(Map<String, CluCluRelationInfo> currentRelations, List<BaseDTOAssemblyNode<?, ?>> results){
         for (Map.Entry<String, CluCluRelationInfo> entry : currentRelations.entrySet()) {
-            CluCluRelationInfo inactiveRelation = new CluCluRelationInfo();
-            inactiveRelation = entry.getValue();
-            inactiveRelation.setState(DtoConstants.STATE_INACTIVE);
-            BaseDTOAssemblyNode<Object, CluCluRelationInfo> inactiveRelationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
+            CluCluRelationInfo suspendedRelation = new CluCluRelationInfo();
+            suspendedRelation = entry.getValue();
+            suspendedRelation.setState(DtoConstants.STATE_SUSPENDED);
+            BaseDTOAssemblyNode<Object, CluCluRelationInfo> suspendedRelationNode = new BaseDTOAssemblyNode<Object, CluCluRelationInfo>(
                     null);
-            inactiveRelationNode.setNodeData(inactiveRelation);
-            inactiveRelationNode.setOperation(NodeOperation.UPDATE);
-            results.add(inactiveRelationNode);
+            suspendedRelationNode.setNodeData(suspendedRelation);
+            suspendedRelationNode.setOperation(NodeOperation.UPDATE);
+            results.add(suspendedRelationNode);
         }
     }
 

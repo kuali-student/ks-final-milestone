@@ -230,6 +230,12 @@ public class CourseDataGenerator {
         if ("variationCode".equals(name)) {
             return "A";
         }
+        if("startTerm".equals(name)){
+        	return "atp.2009FallSemester";
+        }
+        if("endTerm".equals(name)){
+        	return "atp.2009FallSemester";
+        }
         // Default
         return name + "-" + propertyIndex;
     }

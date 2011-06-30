@@ -14,7 +14,6 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
@@ -41,7 +40,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
     public void configure(final CourseProposalController layout) {
     	type = "course";
         state = DtoConstants.STATE_DRAFT;
-        nextState = DtoConstants.STATE_APPROVED;
+        nextState = DtoConstants.STATE_ACTIVE;
         
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
@@ -120,11 +119,9 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
-        layout.addButtonForView(CourseSections.COURSE_INFO, layout.getApproveButton());
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getApproveButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());        
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());    
         

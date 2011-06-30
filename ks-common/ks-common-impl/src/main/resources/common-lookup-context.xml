@@ -1940,7 +1940,7 @@
 							<value>Submitted</value>
 							<value>Active</value>
 							<value>Approved</value>
-							<value>Inactive</value>
+							<value>Suspended</value>
 							<!-- do not show retired or superseded-->
 						</list>
 					</property>

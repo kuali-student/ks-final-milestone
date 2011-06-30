@@ -60,22 +60,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 		return saveButton;
 	}
 		
-	public KSButton getActivateButton(){
-		KSButton activateButton = new KSButton("Activate", new ClickHandler(){
-            public void onClick(ClickEvent event) {       
-            	handleButtonClick(DtoConstants.STATE_ACTIVE);
-            }
-        });
-		
-		activateButton.addStyleName("ks-button-spacing");		
-		
-		//Enable the activateButton only when state is not active 
-		boolean isApproved = DtoConstants.STATE_APPROVED.equalsIgnoreCase((String)cluProposalModel.get("state"));
-		activateButton.setEnabled(isApproved);
-
-		return activateButton;
-    }
-		
+	
 	public KSButton getCancelButton(){
 		KSButton button = new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {       
@@ -102,20 +87,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
 	                final ViewContext viewContext = new ViewContext();
 	                viewContext.setId((String)cluProposalModel.get(CreditCourseConstants.ID));
 	                viewContext.setIdType(IdType.OBJECT_ID);											
-					if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
-						//Call change state method to change the state of the course active when user clicks Save & Activate button
-						CourseWorkflowActionList.setCourseState(viewContext.getId(), DtoConstants.STATE_ACTIVE, new Callback<String>(){
-							@Override
-							public void exec(String result) {
-								if (result == null){
-									KSNotifier.show("Course saved, but activation failed.");
-								} else {
-									KSNotifier.show("Course saved and activated.");									
-									Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
-								}							
-							}
-						});							
-					} else if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state)){
+					if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state) || DtoConstants.STATE_APPROVED.equalsIgnoreCase(state)){
 						KSNotifier.show("Course saved.");
 						Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);						
 					}

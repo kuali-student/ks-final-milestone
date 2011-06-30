@@ -129,6 +129,13 @@
 		optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
+	
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds"
+		parent="atp.advancedAtpSearchParam.optionalAtpIds-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
 
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate"
 		parent="atp.advancedAtpSearchParam.atpStartDate-parent" />
@@ -542,6 +549,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpType" />	
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -643,6 +651,9 @@
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpId">
 					<value>atp.id = :atp_advancedAtpSearchParam_atpId</value>
+				</entry>
+				<entry key="atp.advancedAtpSearchParam.optionalAtpIds">
+					<value>atp.id IN (:atp_advancedAtpSearchParam_optionalAtpIds)</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpStartDate">
 					<value>atp.startDate = :atp_advancedAtpSearchParam_atpStartDate</value>

@@ -78,17 +78,6 @@ public class CourseAdminController extends CourseProposalController{
 		return saveButton;
 	}
 		
-	public KSButton getApproveButton(){
-		KSButton approveButton = new KSButton("Approve", new ClickHandler(){
-            public void onClick(ClickEvent event) {       
-            	handleButtonClick(DtoConstants.STATE_APPROVED);
-            }
-        });
-		
-		approveButton.addStyleName("ks-button-spacing");
-		return approveButton;
-    }
-		
 	public KSButton getApproveAndActivateButton(){
 		return new KSButton("Approve and Activate", new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -187,22 +176,9 @@ public class CourseAdminController extends CourseProposalController{
 								final ViewContext viewContext = new ViewContext();
 				                viewContext.setId((String)cluProposalModel.get(CreditCourseConstants.ID));
 				                viewContext.setIdType(IdType.OBJECT_ID);															
-								if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state)){
-									KSNotifier.show("Course approved. It may take a minute or two for course status to be updated. Refresh to see latest status.");
+								if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
+									KSNotifier.show("Course approved and activated. It may take a minute or two for course status to be updated. Refresh to see latest status.");
 									Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
-								} else if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
-									//For "Approve and Activate", call change state rpc method to properly activate the course
-									CourseWorkflowActionList.setCourseState(viewContext.getId(), DtoConstants.STATE_ACTIVE, new Callback<String>(){
-										@Override
-										public void exec(String result) {
-											if (result == null){
-												KSNotifier.show("Course approved, but activation failed.");
-											} else {
-												KSNotifier.show("Course approved and activated. It may take a minute or two for course status to be updated. Refresh to see latest status.");									
-											}
-											Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);
-										}
-									});							
 								}
 								
 							}

@@ -190,7 +190,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        // Relations can be either Active or Inactive
+        // Relations can be either Active or Suspended
         // For now, we always use Active (never use draft, etc for relations)
         relation.setState(DtoConstants.STATE_ACTIVE);
 

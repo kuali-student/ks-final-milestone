@@ -366,7 +366,7 @@
 					<list>
 						<value>Active</value>
 						<value>Retired</value>
-						<value>Inactive</value>
+						<value>Suspended</value>
 					</list>
 				</property>
 			</bean>
@@ -2111,17 +2111,17 @@
      <property name="hidden" value="false" />
     </bean>
     <bean parent="result">
-     <property name="key" value="lu.resultColumn.luOptionalVersionStartDate" />
-     <property name="name" value="Activation Date" />
-     <property name="desc" value="Version activation date" />
-     <property name="dataType" value="DATE" />
+     <property name="key" value="lu.resultColumn.luOptionalExpFirstAtpDisplay" />
+     <property name="name" value="Start Term" />
+     <property name="desc" value="Start Term" />
+     <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
     <bean parent="result">
-     <property name="key" value="lu.resultColumn.luOptionalVersionEndDate" />
-     <property name="name" value="Version End Date" />
-     <property name="desc" value="Version End Date" />
-     <property name="dataType" value="DATE" />
+     <property name="key" value="lu.resultColumn.luOptionalLastAtpDisplay" />
+     <property name="name" value="End Term" />
+     <property name="desc" value="End Term" />
+     <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
    </list>

@@ -38,6 +38,8 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -82,6 +84,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private LearningObjectiveService loService;
     private CluAssemblerUtils cluAssemblerUtils;
     private LrcService lrcService;
+    private AtpService atpService;
 	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
@@ -384,6 +387,25 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setCampusLocations(course.getCampusLocations());
 		clu.setDescr(course.getDescr());
 		clu.setStdDuration(course.getDuration());
+		
+		//Default course effective dates to the atps if entered
+		if(course.getStartTerm() != null){
+			try {
+				AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
+				course.setEffectiveDate(startAtp.getStartDate());
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting start term Atp.",e);
+			}
+		}
+		if(course.getEndTerm() != null){
+			try {
+				AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
+				course.setExpirationDate(endAtp.getEndDate());
+			} catch (Exception e) {
+				throw new AssemblyException("Error getting end term Atp.",e);
+			}
+		}
+		
 		clu.setEffectiveDate(course.getEffectiveDate());
 		clu.setExpirationDate(course.getExpirationDate());
 
@@ -1204,5 +1226,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	public void setLrcService(LrcService lrcService) {
 		this.lrcService = lrcService;
+	}
+
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
 	}
 }

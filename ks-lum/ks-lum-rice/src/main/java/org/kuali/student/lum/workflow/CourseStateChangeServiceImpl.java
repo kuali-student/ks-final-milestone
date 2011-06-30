@@ -1,4 +1,4 @@
-package org.kuali.student.lum.lu.ui.course.server.gwt;
+package org.kuali.student.lum.workflow;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -16,7 +16,6 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
@@ -152,7 +151,9 @@ public class CourseStateChangeServiceImpl {
 		// if already current, will throw error if you try to make the current
 		// version the current version.
 		boolean isCurrent = thisVerCourse.getId().equals(currVerCourse.getId());
-		makeCurrent &= !isCurrent;
+		if(!makeCurrent || !isCurrent || !thisVerCourse.getVersionInfo().getSequenceNumber().equals(1)){
+			makeCurrent &= !isCurrent;
+		}
 
 		if (thisVerNewState == null) {
 			throw new InvalidParameterException("new state cannot be null");
