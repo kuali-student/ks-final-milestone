@@ -99,7 +99,7 @@
 
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">src/main/resources/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
     

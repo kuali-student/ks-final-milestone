@@ -23,6 +23,8 @@
         syntax: ${varname} ${institution}
     -->
 <config>
+	<param name="module.name">ks-embedded</param>
+	<param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
@@ -82,10 +84,11 @@
     <param name="ks.core.datasource.password">${datasource.password}</param>
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
+	<param name="transaction.timeout">3600</param>  
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
     <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->

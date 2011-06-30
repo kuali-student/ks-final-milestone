@@ -86,8 +86,9 @@
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/> 
 
 	<import resource="classpath:ksb/ks-core-context.xml"/>
-    <import resource="classpath:ksb/ks-lu-context.xml"/>    
-    <import resource="classpath:ks-embedded-admin-context.xml"/>    
+    <import resource="classpath:ksb/ks-lu-context.xml"/>  
+    <!--import resource="classpath:ksb/ks-enroll-context.xml"/-->  
+    <import resource="classpath:ks-embedded-admin-context.xml"/>
     
     <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
 

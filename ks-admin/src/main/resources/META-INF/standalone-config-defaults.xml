@@ -9,7 +9,6 @@
 <config>
 
     <!-- Following is set in common-config-defaults.xml as 30000 -->
-    <param name="transaction.timeout">3600</param>
     <!-- Following is set in common-config-defaults.xml as false -->
     <param name="rice.logging.configure">true</param>
 
@@ -33,7 +32,7 @@
     <param name="xml.pipeline.lifecycle.enabled">true</param>
     <param name="email.reminder.lifecycle.enabled">true</param>
 
-    <param name="data.xml.root.location">${rice.base}xml/${environment}/</param>
+    <param name="data.xml.root.location">${user.home}xml/${environment}/</param>
 
     <!-- KEN -->
 

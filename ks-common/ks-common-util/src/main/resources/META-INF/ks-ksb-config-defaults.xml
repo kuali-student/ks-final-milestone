@@ -76,7 +76,7 @@
 	<param name="rice.ksb.jpa.enabled">${rice.ksb.jpa.enabled.${db.vendor}}</param> 
 	
 	<!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 	 
