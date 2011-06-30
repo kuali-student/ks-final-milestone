@@ -83,7 +83,7 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 
-public class StatementProposalTest {
+public class StatementPropositionTest {
     
     private static final ResultLogger LOG = ResultLogger.getInstance();
 
@@ -260,15 +260,15 @@ public class StatementProposalTest {
         
 		System.out.println("Statement: " + statementTreeViewInfo);
 		System.out.println("Operator: " + statementTreeViewInfo.getOperator());
-		System.out.println("Evaluated to " + getProposalStatementResult(results).get(statementTreeViewInfo));
-		System.out.println("Corresponds to Proposal: " + getObjectPropositionMap(results).get(statementTreeViewInfo));
+		System.out.println("Evaluated to " + getPropositionStatementResult(results).get(statementTreeViewInfo));
+		System.out.println("Corresponds to Proposition: " + getObjectPropositionMap(results).get(statementTreeViewInfo));
 		    	
     	if(statementTreeViewInfo.getStatements().size() == 0) {
     		
 			for(ReqComponentInfo reqComponent : statementTreeViewInfo.getReqComponents()) {
 				System.out.println("---Req Component: " + reqComponent);
-				System.out.println("---Evaluated to " + getProposalRequirementComponentResult(results).get(reqComponent));
-				System.out.println("---Corresponds to Proposal: " + getObjectPropositionMap(results).get(reqComponent));
+				System.out.println("---Evaluated to " + getPropositionRequirementComponentResult(results).get(reqComponent));
+				System.out.println("---Corresponds to Proposition: " + getObjectPropositionMap(results).get(reqComponent));
 				
 			}
 		
@@ -301,7 +301,7 @@ public class StatementProposalTest {
     }
     
     	
-    private Map<ReqComponentInfo, Boolean> getProposalRequirementComponentResult(EngineResults results) {
+    private Map<ReqComponentInfo, Boolean> getPropositionRequirementComponentResult(EngineResults results) {
     	    
     	Map<ReqComponentInfo, Boolean> reqComponentResults = new HashMap<ReqComponentInfo, Boolean>();
     	
@@ -318,7 +318,7 @@ public class StatementProposalTest {
     	return reqComponentResults;
     }
     
-    private Map<StatementTreeViewInfo, Boolean> getProposalStatementResult(EngineResults results) {
+    private Map<StatementTreeViewInfo, Boolean> getPropositionStatementResult(EngineResults results) {
 	    
     	Map<StatementTreeViewInfo, Boolean> statementResults = new HashMap<StatementTreeViewInfo, Boolean>();
     	
