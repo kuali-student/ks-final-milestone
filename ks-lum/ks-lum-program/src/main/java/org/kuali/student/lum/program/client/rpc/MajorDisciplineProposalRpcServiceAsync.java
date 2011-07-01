@@ -21,7 +21,7 @@ import java.util.Map;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public interface MajorDisciplineProposalRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync {
+public interface MajorDisciplineProposalRpcServiceAsync extends MajorDisciplineRpcServiceAsync {
     // Note: This is a copy of MajorDisciplineRpcServiceAsync with slight modifications
     
     public void getProgramRequirements(List<String> programRequirementIds, AsyncCallback<List<ProgramRequirementInfo>> callback);

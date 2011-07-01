@@ -13,7 +13,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/majorDisciplineProposalRpcService")
-public interface MajorDisciplineProposalRpcService extends BaseDataOrchestrationRpcService {
+public interface MajorDisciplineProposalRpcService extends MajorDisciplineRpcService {
     public List<ProgramRequirementInfo> getProgramRequirements(List<String> programRequirementIds) throws Exception;
     public Map<Integer, ProgramRequirementInfo> storeProgramRequirements(Map<Integer, ProgramRequirementsDataModel.requirementState> states, Map<Integer, ProgramRequirementInfo> progReqs) throws Exception;    
     public ProgramRequirementInfo createProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception;

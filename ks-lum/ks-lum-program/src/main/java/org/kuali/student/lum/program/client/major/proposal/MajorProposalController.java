@@ -53,6 +53,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
 import com.google.gwt.core.client.GWT;
@@ -71,10 +72,6 @@ public class MajorProposalController extends MajorController {
     private final Set<String> existingVariationIds = new TreeSet<String>();
     protected String proposalPath = "";
     protected WorkflowUtilities workflowUtil; 
-    /**
-     * Proposals use their own service.
-     */
-    protected MajorDisciplineProposalRpcServiceAsync programProposalRemoteService;
 
  
     /**
@@ -83,8 +80,7 @@ public class MajorProposalController extends MajorController {
      * @param programModel
      */
     public MajorProposalController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(programModel, viewContext, eventBus);
-        programProposalRemoteService = createProgramProposalRemoteService();
+        super(programModel, viewContext, eventBus); 
         configurer = GWT.create(MajorProposalConfigurer.class);
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
@@ -97,9 +93,12 @@ public class MajorProposalController extends MajorController {
     }
     
     /**
-     * Create a ProgramProposalRpcServiceAsync appropriate for this Controller
+     * We need to override the method in MajorDisciplineController
+     * to ensure our custom proposal service is called, which has
+     * the filter needed to pull proposal info out of the model.
      */
-    protected MajorDisciplineProposalRpcServiceAsync createProgramProposalRemoteService() {
+    @Override
+    protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
         return GWT.create(MajorDisciplineProposalRpcService.class);
     }
 
@@ -191,7 +190,7 @@ public class MajorProposalController extends MajorController {
             	//FIXME: The proper way of doing this would be a single server side call to validate next state
             	//which would retrieve warnings & required for next state, instead of re-validating warnings for
             	//current state server side and validating required for next state client side.
-            	programProposalRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
 					@Override
 					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
 		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
@@ -341,7 +340,7 @@ public class MajorProposalController extends MajorController {
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programProposalRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -398,7 +397,7 @@ public class MajorProposalController extends MajorController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programProposalRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
