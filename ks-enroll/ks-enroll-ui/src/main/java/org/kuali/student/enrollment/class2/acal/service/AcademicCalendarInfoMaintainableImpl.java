@@ -33,6 +33,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
     	System.out.println(">>>in AcademicCalendarInfoMaintainableImpl.saveBusinessObject() method.");
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
+        academicCalendarInfo.setKey(academicCalendarKey);
         ContextInfo context = ContextInfo.newInstance();
         try{
         	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
@@ -69,6 +70,10 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
             if(academicCalendarService == null) {
             	System.out.println(">>> fail to get academicCalendarService");
             }
+            else {
+            	System.out.println(">>> get academicCalendarService!!!");
+            }
+            
         }
 
         return academicCalendarService;
