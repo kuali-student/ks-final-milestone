@@ -59,7 +59,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
-	private LuiInfo() {
+	public LuiInfo() {
 		super();
 		luiCode = null;
 		cluId = null;
@@ -121,19 +121,21 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	@Override
 	public Date getEffectiveDate() {
-		return effectiveDate;
+		return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
 	}
 
 	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = new Date(effectiveDate.getTime());
+		if (effectiveDate != null)
+			this.effectiveDate = new Date(effectiveDate.getTime());
 	}
 
 	@Override
 	public Date getExpirationDate() {
-		return expirationDate;
+		return expirationDate != null ? new Date(expirationDate.getTime()) : null;
 	}
 
 	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = new Date(expirationDate.getTime());
+		if (expirationDate != null)
+			this.expirationDate = new Date(expirationDate.getTime());
 	}
 }

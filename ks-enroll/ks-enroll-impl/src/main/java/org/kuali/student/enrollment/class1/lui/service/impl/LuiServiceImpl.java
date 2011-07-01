@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -143,8 +144,11 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	public LuiInfo getLui(String luiId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		LuiEntity lui = luiDao.find(luiId);
+        if (null == lui) {
+            throw new DoesNotExistException(luiId);
+        }
+        return lui.toDto();
 	}
 
 	@Override
