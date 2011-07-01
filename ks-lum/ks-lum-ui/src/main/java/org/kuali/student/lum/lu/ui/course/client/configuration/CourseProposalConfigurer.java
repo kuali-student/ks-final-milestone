@@ -54,6 +54,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
@@ -252,46 +253,10 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         
     	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
     	
-        FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
-        FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-        
-        customizePilotAndEndTermFields(pilotCourseField, endTermField);
+        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
+        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+
         return section;
-    }
-    
-    
-    /**
-     * This is custom code to link the pilot course and end term fields. 
-     * End Term should only be editable and required when user checks pilot course field.
-     * 
-     *  WARNING: If widget config for endTerm field changes from drop down, this will break.
-     * 
-     * @param pilotCourse
-     * @param endTerm
-     */
-    protected void customizePilotAndEndTermFields(FieldDescriptor pilotCourse, final FieldDescriptor endTerm){
-    	final KSCheckBox pilotCheckBox = (KSCheckBox)pilotCourse.getFieldWidget();
-    	final KSDropDown endTermWidget = (KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget();
-    	
-    	endTerm.getFieldElement().setVisible(pilotCheckBox.getValue());
-    	
-    	pilotCheckBox.addClickHandler(new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {				
-				if (!pilotCheckBox.getValue()){
-					//hide and unrequire endTerm
-					endTerm.setRequired(false);
-					endTerm.getFieldElement().setVisible(false);
-					endTerm.getFieldElement().clearValidationErrors();
-					endTerm.getFieldElement().clearValidationWarnings();
-					endTermWidget.clear();					
-				} else {
-					//show and require emdTerm
-					endTerm.getFieldElement().setVisible(true);
-					endTerm.setRequired(true);
-				}
-			}    		
-    	});    	
     }
     
     protected VerticalSection generateActiveDateEndSection() {

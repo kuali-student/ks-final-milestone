@@ -31,7 +31,9 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
@@ -45,6 +47,8 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
+import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
+import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -61,6 +65,8 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
@@ -71,6 +77,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -94,6 +101,8 @@ import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpc
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -241,9 +250,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 GWT.log("CluProposalController received save action request.", null);
                 doSaveAction(saveAction);
             }
-        });    	
-    }
-
+        }); 
+            }
+    
     /**
      * Used to populate the proposal model based on the view context.  
      * 
@@ -385,12 +394,41 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setStatementTypes(stmtTypesOut);
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
-                
 
+                progressiveEnableEndTermField();
+                
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
         });
+    }
+    
+    /**
+     * Progressively enables end term fields based on value of pilot course checkbox.
+     * NOTE: This metod must be caled after cfg.configure() is called, otherwise path to field mappings won't exist in ApplicationContext
+     */
+    protected void progressiveEnableEndTermField(){
+		final FieldDescriptor endTerm = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.END_TERM);
+		final FieldDescriptor pilotCourse = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.PILOT_COURSE);
+		
+    	//Enable and require end term field based on pilot course value in model loaded
+        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE));
+		BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
+    	
+        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
+		KSCheckBox pilotCheckbox = ((KSCheckBox)pilotCourse.getFieldWidget());
+        pilotCheckbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				//Disable/enable end term field based on new value of pilot checkbox
+		        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
+		        
+		        //Clear out endTerm value if pilot course unchecked (as this field is not required when not pilot course)
+		        if (!event.getValue()){
+					((KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget()).clear();				
+				}					        
+			}
+		});		
     }
 
     @Override

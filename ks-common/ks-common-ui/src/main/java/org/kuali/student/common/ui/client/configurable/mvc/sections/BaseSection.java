@@ -20,8 +20,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Key;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -42,10 +42,12 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -684,4 +686,54 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		((Widget)layout).getElement().setId(id);		
 	}
 
+
+	/* METHODS TO ENABLE/DISABLE FIELD */
+	
+	/**
+     * This will progressively enable/disable a set of fields
+     * 
+     * @param isEnabled if the fields should be enabled or disabled
+     * @param fieldDescriptor List of field descriptors to enable/disable
+     */
+	public static void progressiveEnableFields(Boolean isEnabled, FieldDescriptor ... fieldDescriptors){
+		
+		for (FieldDescriptor fd : fieldDescriptors){
+			enableField(isEnabled, fd);
+		} 
+	}
+	
+	/** 
+	 * This will progressively enable/disable and require/unrequire a set of fields
+	 * @param isEnabled
+	 * @param fieldDescriptors
+	 */
+	public static void progressiveEnableAndRequireFields(Boolean isRequiredAndEnabled, FieldDescriptor ... fieldDescriptors){
+
+		for (FieldDescriptor fd : fieldDescriptors){
+			fd.setRequired(isRequiredAndEnabled);
+			enableField(isRequiredAndEnabled, fd);
+		} 
+	}
+	
+	
+	/**
+	 * Used to enable,disable widget defined in field descriptor 
+	 * 
+	 * @param isEnabled
+	 * @param fd
+	 */
+	protected static void enableField(Boolean isEnabled, FieldDescriptor fd){
+		//TODO: May want to use different styles for field label if not enabled
+		Widget widget = fd.getFieldWidget();
+		
+		if (!isEnabled){
+			fd.getFieldElement().clearValidationErrors();
+			fd.getFieldElement().clearValidationWarnings();
+		}
+
+		//TODO: Make sure this works with all (most?) types of widgets
+		if (widget instanceof KSPicker && ((KSPicker)widget).getInputWidget() instanceof KSDropDown){
+			((KSDropDown)((KSPicker)widget).getInputWidget()).setEnabled(isEnabled);				
+		}			
+	}
 }
