@@ -3,8 +3,11 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -20,6 +23,7 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Composite;
 
 /**
  * This is the screen configuration and layout for the create/modify admin screens
@@ -29,7 +33,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
  */
 public class CourseAdminConfigurer extends CourseProposalConfigurer{
 
-	protected CourseRequirementsViewController requisitesSection;
+    protected CourseRequirementsViewController requisitesSection;
+
+    private RequiredContainer requiredContainer = new RequiredContainer();
 
     /**
      * Sets up all the views, sections, and views of the CourseAdminController.  This should be called
@@ -45,13 +51,14 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
-    	if (modelDefinition.getMetadata().isCanEdit()) {
-            layout.addView(generateCourseAdminView((CourseAdminController)layout));
-    	} else {
-			CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
-			layout.removeMenuNavigation();
-			layout.addView(summaryConfigurer.generateProposalSummarySection(false));    		
-    	}
+        if (modelDefinition.getMetadata().isCanEdit()) {
+            layout.addInfoWidget(requiredContainer);
+            layout.addView(generateCourseAdminView((CourseAdminController) layout));
+        } else {
+            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
+            layout.removeMenuNavigation();
+            layout.addView(summaryConfigurer.generateProposalSummarySection(false));
+        }
     }
 
 	/**
@@ -101,6 +108,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         view.addSection(logisticsSection);
         view.addSection(loSection);
         view.addView(requisitesSection);
+        view.addSection(this.createHiddenRequisitesSection());
         view.addSection(activeDatesSection);
         view.addSection(financialSection);
         view.addView(documentTool);
@@ -122,12 +130,15 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());        
-        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());    
-        
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
+        layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());
+
+        // Setup show/hide non-required fields configuration.
+        this.addDocToolLink();
+        requiredContainer.setMainSection(view);
+
         return view;
-	}
-    
+    }
 
     /**
      * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
@@ -159,11 +170,66 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
      * @param layout
      * @return The DocumentTool used by this configurer
      */
-    public DocumentTool getDocumentTool(){
-    	return documentTool;
+    public DocumentTool getDocumentTool() {
+        return documentTool;
     }
 
-	protected Section initSection(String labelKey){
-    	return initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);	    
+    protected VerticalSection initSection(String labelKey) {
+        final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);
+        // Add Show All Link on the sections.
+        section.addShowAllLink(requiredContainer.createShowAllLink(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                requiredContainer.processInnerSection(section, true);
+                section.getShowAllLink().setVisible(false);
+            }
+        }));
+
+        return section;
+    }
+    
+    private VerticalSection createHiddenRequisitesSection() {
+        final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(LUUIConstants.REQUISITES_LABEL_KEY)), NO_DIVIDER);
+        // Add Show All Link on the sections.
+        section.addShowAllLink(requiredContainer.createShowAllLink(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                requisitesSection.asWidget().setVisible(true);
+                section.getLayout().setVisible(false);
+            }
+        }));
+        
+        // Setup show/hide non-required fields configuration.
+        requiredContainer.addCallback(new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                requisitesSection.asWidget().setVisible(result);
+                section.getLayout().setVisible(!result);
+            }
+        });
+        return section;
+    }
+    
+    private void addDocToolLink(){
+        Composite container = requiredContainer.createShowAllLink(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                documentTool.showShowAllLink(false);
+            }
+        });
+        
+        // Setup show/hide non-required fields configuration.
+        requiredContainer.addCallback(new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                documentTool.showShowAllLink(!result);
+            }
+        });
+        documentTool.setShowAllLink(container);
     }
 }
