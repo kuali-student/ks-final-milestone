@@ -3,9 +3,12 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -16,6 +19,10 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminWithoutV
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
+
 /**
  * This is the screen configuration and layout for the modify without version admin screens
  * 
@@ -24,6 +31,9 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
  */
 public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigurer{
 	protected CourseRequirementsViewController requisitesSection;
+	
+	private RequiredContainer requiredContainer = new RequiredContainer();
+	
     /**
      * Sets up all the views, sections, and views of the CourseAdminController.  This should be called
      * once for initialization and setup per CourseAdminController instance.
@@ -45,6 +55,7 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         	courseStatusLabel.setText("Status: Unknown");
         layout.addContentWidget(courseStatusLabel); 
         		
+        layout.addInfoWidget(requiredContainer);
     	layout.addView(generateCourseAdminView((CourseAdminWithoutVersionController)layout));
     }
 
@@ -67,13 +78,16 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
         Section financialSection = generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY));
         
+        //Create requisite sections.
+        requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
+        
         //Add course admin sections to view
         view.addSection(courseSection);
         view.addSection(governanceSection);
         view.addSection(logisticsSection);
         view.addSection(loSection);   
-        requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
         view.addView(requisitesSection);
+        view.addSection(this.createHiddenRequisitesSection());
         view.addSection(activeDatesSection);
         view.addSection(financialSection);
         
@@ -94,13 +108,11 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());        
         layout.addTopButtonForView(CourseSections.COURSE_INFO, layout.getCancelButton());    
 
+        requiredContainer.setMainSection(view);
+        
         return view;
 	}
     
-    protected Section initSection(String labelKey){
-    	return initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);	    
-    }
-
     /**
      * Override {@link CourseProposalConfigurer#generateCourseInfoSection(Section)} to remove configuration
      * of proposal fields.
@@ -151,6 +163,45 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
         FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
         
+        return section;
+    }
+    
+    protected VerticalSection initSection(String labelKey) {
+        final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);
+        // Add Show All Link on the sections.
+        section.addShowAllLink(requiredContainer.createShowAllLink(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                requiredContainer.processInnerSection(section, true);
+                section.getShowAllLink().setVisible(false);
+            }
+        }));
+
+        return section;
+    }
+    
+    private VerticalSection createHiddenRequisitesSection() {
+        final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(LUUIConstants.REQUISITES_LABEL_KEY)), NO_DIVIDER);
+        // Add Show All Link on the sections.
+        section.addShowAllLink(requiredContainer.createShowAllLink(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                requisitesSection.asWidget().setVisible(true);
+                section.getLayout().setVisible(false);
+            }
+        }));
+        
+        // Setup show/hide non-required fields configuration.
+        requiredContainer.addCallback(new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                requisitesSection.asWidget().setVisible(result);
+                section.getLayout().setVisible(!result);
+            }
+        });
         return section;
     }
     
