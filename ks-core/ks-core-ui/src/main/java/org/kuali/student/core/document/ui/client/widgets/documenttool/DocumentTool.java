@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapComp
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -103,6 +104,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private ProgressBar progressBar = new ProgressBar();
     private FlexTable fileProgressTable = new FlexTable();
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Document files can be uploaded.", true);
+    private Composite showAllLink;
+
     private DataModelDefinition modelDefinition;
 
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
@@ -400,84 +403,80 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return verticalSection;
 	}
 
-	@Override
-	protected Widget createWidget() {
-		SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
-		viewTitle.addStyleName("ks-layout-header");
-		
-		layout.add(viewTitle);
-		layout.add(saveWarning);
-		saveWarning.setVisible(false);
-		buttonPanel.setButtonText(OkEnum.Ok, "Upload");
-		buttonPanel.getButton(OkEnum.Ok).setStyleName(ButtonStyle.SECONDARY.getStyle());
-		
-		uploadList.add(createUploadForm());
-		form.setWidget(uploadList);
-		form.setMethod(FormPanel.METHOD_POST);
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
+    @Override
+    protected Widget createWidget() {
+        SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+        viewTitle.addStyleName("ks-layout-header");
 
-		buttonPanel.setContent(form);
-		isAuthorizedUploadDocuments();
-		layout.add(buttonPanel);
+        layout.add(viewTitle);
+        layout.add(saveWarning);
+        saveWarning.setVisible(false);
+        buttonPanel.setButtonText(OkEnum.Ok, "Upload");
+        buttonPanel.getButton(OkEnum.Ok).setStyleName(ButtonStyle.SECONDARY.getStyle());
+
+        uploadList.add(createUploadForm());
+        form.setWidget(uploadList);
+        form.setMethod(FormPanel.METHOD_POST);
+        form.setEncoding(FormPanel.ENCODING_MULTIPART);
+
+        buttonPanel.setContent(form);
+        if (showAllLink != null) {
+            layout.add(showAllLink);
+        }
+        layout.add(buttonPanel);
         layout.add(documentList);
-		documentList.setVisible(false);
-		buttonPanel.setVisible(false);
+        documentList.setVisible(false);
+        buttonPanel.setVisible(false);
 
-		SectionTitle sectionTitle = SectionTitle.generateH2Title("Upload Status");
-		progressPanel.add(sectionTitle);
-		progressPanel.add(progressLabel);
-		progressPanel.add(progressBar);
-		progressPanel.add(fileProgressTable);
-		progressBar.setWidth("400px");
-		progressBar.setTextFormatter(new TextFormatter(){
+        SectionTitle sectionTitle = SectionTitle.generateH2Title("Upload Status");
+        progressPanel.add(sectionTitle);
+        progressPanel.add(progressLabel);
+        progressPanel.add(progressBar);
+        progressPanel.add(fileProgressTable);
+        progressBar.setWidth("400px");
+        progressBar.setTextFormatter(new TextFormatter() {
 
-			@Override
-			protected String getText(ProgressBar bar, double curProgress) {
-				String result;
-				NumberFormat nf = NumberFormat.getFormat("#.##");
-				if(curProgress == bar.getMaxProgress()){
-					result = "Total Uploaded: " + nf.format(curProgress) + "kb";
-				}
-				else if(curProgress == 0 || bar.getMaxProgress() == 0){
-					result = "";
-				}
-				else{
-					String curProgressString;
-					String maxProgressString;
+            @Override
+            protected String getText(ProgressBar bar, double curProgress) {
+                String result;
+                NumberFormat nf = NumberFormat.getFormat("#.##");
+                if (curProgress == bar.getMaxProgress()) {
+                    result = "Total Uploaded: " + nf.format(curProgress) + "kb";
+                } else if (curProgress == 0 || bar.getMaxProgress() == 0) {
+                    result = "";
+                } else {
+                    String curProgressString;
+                    String maxProgressString;
 
-					if(curProgress < 1024){
-						curProgressString = nf.format(curProgress) + "kb";
-					}
-					else{
-						curProgressString = nf.format(curProgress/1024) + "mb";
-					}
+                    if (curProgress < 1024) {
+                        curProgressString = nf.format(curProgress) + "kb";
+                    } else {
+                        curProgressString = nf.format(curProgress / 1024) + "mb";
+                    }
 
-					if(bar.getMaxProgress() < 1024){
-						maxProgressString = nf.format(bar.getMaxProgress()) + "kb";
-					}
-					else{
-						maxProgressString = nf.format((bar.getMaxProgress())/1024) + "mb";
-					}
-					result = curProgressString + " out of " + maxProgressString;
-				}
-				return result;
-			}
-		});
-		progressBar.setHeight("30px");
-		progressPanel.add(progressButtons);
-		progressPanel.setWidth("500px");
-		progressWindow.setWidget(progressPanel);
-        progressWindow.setSize(520,270);
+                    if (bar.getMaxProgress() < 1024) {
+                        maxProgressString = nf.format(bar.getMaxProgress()) + "kb";
+                    } else {
+                        maxProgressString = nf.format((bar.getMaxProgress()) / 1024) + "mb";
+                    }
+                    result = curProgressString + " out of " + maxProgressString;
+                }
+                return result;
+            }
+        });
+        progressBar.setHeight("30px");
+        progressPanel.add(progressButtons);
+        progressPanel.setWidth("500px");
+        progressWindow.setWidget(progressPanel);
+        progressWindow.setSize(520, 270);
 
-		return layout;
-	}
+        return layout;
+    }
 
-	private void resetUploadFormPanel() {
-		uploadList.clear();
-		uploadList.add(createUploadForm());
-	}
-
-
+    private void resetUploadFormPanel() {
+        uploadList.clear();
+        uploadList.add(createUploadForm());
+    }
 
 	private static class DocumentForm extends Composite{
 		private KSLabel file = new KSLabel("File Name");
@@ -532,8 +531,9 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-		isAuthorizedUploadDocuments();
-
+        if (showAllLink == null){
+            isAuthorizedUploadDocuments();
+        }
     }
 
 	private void refreshDocuments(){
@@ -577,13 +577,26 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     public void setModelDefinition(DataModelDefinition modelDefinition) {
         this.modelDefinition = modelDefinition;
     }
-    
-	   
-	@Override
-	public void showExport(boolean show) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+
+    public void setShowAllLink(Composite showAllLink) {
+        this.showAllLink = showAllLink;
+    }
+
+    public void showShowAllLink(boolean show) {
+        this.showAllLink.setVisible(show);
+        if (show) {
+            saveWarning.setVisible(false);
+            buttonPanel.setVisible(false);
+            documentList.setVisible(false);
+        } else {
+            isAuthorizedUploadDocuments();
+        }
+    }
+
+    @Override
+    public void showExport(boolean show) {
+    // TODO Auto-generated method stub
+
+    }
+
 }
