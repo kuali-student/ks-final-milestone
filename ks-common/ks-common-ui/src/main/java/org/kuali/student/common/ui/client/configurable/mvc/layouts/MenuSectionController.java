@@ -45,6 +45,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     private KSDocumentHeader header = new KSDocumentHeader();
     protected FlowPanel rightPanel = new FlowPanel();
     private FlowPanel contentPanel = new FlowPanel();
+    private FlowPanel infoPanel = new FlowPanel();
     private FlowPanel bottomButtonPanel = new FlowPanel();
     private FlowPanel topButtonPanel = new FlowPanel();
     protected VerticalPanel leftPanel = new VerticalPanel();
@@ -78,6 +79,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
         leftPanel.add(menu);
         leftPanel.add(sideBar);
         rightPanel.add(header);
+        rightPanel.add(infoPanel);
         rightPanel.add(topButtonPanel);
         rightPanel.add(contentPanel);
         rightPanel.add(bottomButtonPanel);
@@ -100,6 +102,10 @@ public class MenuSectionController extends LayoutController implements ContentNa
     public void addContentWidget(Widget w) {
         header.addWidget(w);
         header.setVisible(true);
+    }
+    
+    public void addInfoWidget(Widget w) {
+        infoPanel.add(w);
     }
 
     public void setSideBarWidget(Widget w) {
