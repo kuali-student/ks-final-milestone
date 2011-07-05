@@ -3811,7 +3811,8 @@
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="caseSensitive" value="false" />
 					<property name="usage" value="ADVANCED" />
-					<property name="widget" value="TEXT_BOX" />
+					<property name="widget" value="SUGGEST_BOX" />
+					<property name="childLookup" ref="kuali.lu.lookup.findCourse.suggest"/>					
 				</bean>
 				<bean parent="param">
 					<property name="key" value="lu.queryParam.luOptionalLongName" />
