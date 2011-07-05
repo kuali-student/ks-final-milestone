@@ -83,7 +83,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setLuiCode(lui.getLuiCode());
         	this.setAtpKey(lui.getAtpKey());
         	this.setCluId(lui.getCluId());
-        	this.setMaxSeats(lui.getMaxSeats());
+        	this.setMaxSeats(lui.getMaximumEnrollment());
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
         	if(lui.getExpirationDate() != null)
@@ -113,7 +113,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setAtpKey(atpKey);
     	obj.setCluId(cluId);
     	if(maxSeats != null)
-    		obj.setMaxSeats(maxSeats);
+    		obj.setMaximumEnrollment(maxSeats);
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
         if(luiType != null)
