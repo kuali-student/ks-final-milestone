@@ -98,31 +98,33 @@
 		<property name="name" value="rationale" />
 		<property name="maxOccurs" value="1" />
 		<property name="minOccurs" value="0" />
-  <property name="caseConstraint">
-	  <bean parent="caseConstraint">
-	   <property name="operator" value="EQUALS"/>
-	   <property name="fieldPath" value="state"/>
-	   <property name="caseSensitive" value="false"/>
-	   <property name="whenConstraint">
-	    <list>
-	     <bean parent="whenConstraint">
-	      <property name="values">
-	       <list>
-	        <value>ENROUTE</value>
-	        <value>APPROVED</value>
-	       </list>
-	      </property>
-	      <property name="constraint">
-	       <bean parent="baseKualiDescription">
-		       <property name="maxOccurs" value="1" />
-		       <property name="minOccurs" value="1" />
-        </bean>
-	      </property>
-	     </bean>
-	    </list>
+		<property name="maxLength" value="250"/>
+  		<property name="caseConstraint">
+	  	  <bean parent="caseConstraint">
+	   		<property name="operator" value="EQUALS"/>
+	   		<property name="fieldPath" value="state"/>
+	   		<property name="caseSensitive" value="false"/>
+	   		<property name="whenConstraint">
+	    	  <list>
+	     		<bean parent="whenConstraint">
+	      		  <property name="values">
+	       	        <list>
+	                  <value>ENROUTE</value>
+	                  <value>APPROVED</value>
+	       		    </list>
+	              </property>
+	      		  <property name="constraint">
+	                <bean parent="baseKualiDescription">
+		              <property name="maxOccurs" value="1" />
+		              <property name="minOccurs" value="1" />
+		              <property name="maxLength" value="250"/>
+        			</bean>
+	      		  </property>
+	     		</bean>
+	    	  </list>
+	   		</property>
+	  	  </bean>
 	   </property>
-	  </bean>
-	 </property>
 	</bean>
 	<bean id="proposalInfo.rationale" parent="proposalInfo.rationale-parent" />
 
