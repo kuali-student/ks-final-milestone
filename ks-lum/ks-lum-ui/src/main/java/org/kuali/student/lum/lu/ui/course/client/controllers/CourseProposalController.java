@@ -395,7 +395,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
 
-                progressiveEnableEndTermField();
+                progressiveEnableFields();
                 
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
@@ -404,10 +404,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
     
     /**
-     * Progressively enables end term fields based on value of pilot course checkbox.
+     * This progressively enables/disables screen fields based on other fields present in the screens.
+     *  
      * NOTE: This metod must be caled after cfg.configure() is called, otherwise path to field mappings won't exist in ApplicationContext
      */
-    protected void progressiveEnableEndTermField(){
+    protected void progressiveEnableFields(){
 		final FieldDescriptor endTerm = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.END_TERM);
 		final FieldDescriptor pilotCourse = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.PILOT_COURSE);
 		

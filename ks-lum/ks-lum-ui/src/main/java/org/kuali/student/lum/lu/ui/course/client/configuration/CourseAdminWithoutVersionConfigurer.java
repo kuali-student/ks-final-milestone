@@ -77,6 +77,7 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         loSection.addSection(generateLearningObjectivesNestedSection());
         Section activeDatesSection = generateActiveDatesSection(initSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY));
         Section financialSection = generateFinancialsSection(initSection(LUUIConstants.FINANCIALS_LABEL_KEY));
+        Section retireSection = generateRetirementSection(initSection(LUUIConstants.RETIREMENT_LABEL_KEY));
         
         //Create requisite sections.
         requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
@@ -90,6 +91,7 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         view.addSection(this.createHiddenRequisitesSection());
         view.addSection(activeDatesSection);
         view.addSection(financialSection);
+        view.addSection(retireSection);
         
         //Add menu items for sections
         String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
@@ -101,6 +103,7 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), LUUIConstants.REQUISITES_LABEL_KEY, requisitesSection);
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY), LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection.getLayout());
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection.getLayout());
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.RETIREMENT_LABEL_KEY), LUUIConstants.RETIREMENT_LABEL_KEY, retireSection.getLayout());        
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getSaveButton());
@@ -152,20 +155,14 @@ public class CourseAdminWithoutVersionConfigurer extends CourseProposalConfigure
     	return requisitesSection;
 	}
 
-    /**
-     * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
-     */
-    @Override
-    protected Section generateActiveDatesSection(Section section) {
-        
-    	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
-    	
-        FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
-        FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+    protected Section generateRetirementSection(Section section) {
+        addField(section, COURSE + "/" + RETIREMENT_RATIONALE, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY));
+        addField(section, COURSE + "/" + LAST_TERM_OFFERED, generateMessageInfo(LUUIConstants.LAST_TERM_OFFERED_LABEL_KEY));
+        addField(section, COURSE + "/" + LAST_PUBLICATION_YEAR, generateMessageInfo(LUUIConstants.LAST_PUBLICATION_YEAR_LABEL_KEY));
+        addField(section, COURSE + "/" + SPECIAL_CIRCUMSTANCES, generateMessageInfo(LUUIConstants.SPECIAL_CIRCUMSTANCES_LABEL_KEY));
         
         return section;
-    }
-    
+    }    
     protected VerticalSection initSection(String labelKey) {
         final VerticalSection section = initSection(SectionTitle.generateH2Title(getLabel(labelKey)), NO_DIVIDER);
         // Add Show All Link on the sections.

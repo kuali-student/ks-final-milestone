@@ -52,6 +52,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -734,6 +735,8 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		//TODO: Make sure this works with all (most?) types of widgets
 		if (widget instanceof KSPicker && ((KSPicker)widget).getInputWidget() instanceof KSDropDown){
 			((KSDropDown)((KSPicker)widget).getInputWidget()).setEnabled(isEnabled);				
-		}			
+		} else if (widget instanceof TextBoxBase){
+			((TextBoxBase)widget).setReadOnly(!isEnabled);
+		}
 	}
 }

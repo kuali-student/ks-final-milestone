@@ -23,7 +23,6 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,7 +61,7 @@ public class CourseAdminController extends CourseProposalController{
    		super.addStyleName("ks-course-admin");
    		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;  	   		   		
     }
-    
+
 	/**
 	 * Override the getSaveButton to provide a new set of buttons for the admin screens
 	 */

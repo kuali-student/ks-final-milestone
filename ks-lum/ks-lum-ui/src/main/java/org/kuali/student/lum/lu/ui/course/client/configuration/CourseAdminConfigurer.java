@@ -12,8 +12,8 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
@@ -24,6 +24,7 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+
 
 /**
  * This is the screen configuration and layout for the create/modify admin screens
@@ -36,6 +37,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
     protected CourseRequirementsViewController requisitesSection;
 
     private RequiredContainer requiredContainer = new RequiredContainer();
+ 
 
     /**
      * Sets up all the views, sections, and views of the CourseAdminController.  This should be called
@@ -123,7 +125,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), LUUIConstants.REQUISITES_LABEL_KEY, requisitesSection);
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY), LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection.getLayout());
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection.getLayout());
-        layout.addMenuItemSection(sections, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY), LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY, financialSection.getLayout());        
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY), LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY, financialSection.getLayout());
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
@@ -139,7 +141,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
 
         return view;
     }
-
+    
     /**
      * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
      */
@@ -148,12 +150,12 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         
     	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
     	
-        FieldDescriptor pilotCourseField = addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
-        FieldDescriptor endTermField = addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-        
+        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
+        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+    
         return section;
     }
-
+        
     /**
      * Gets the requisite view associated with the CourseAdminConfigurer
      * 

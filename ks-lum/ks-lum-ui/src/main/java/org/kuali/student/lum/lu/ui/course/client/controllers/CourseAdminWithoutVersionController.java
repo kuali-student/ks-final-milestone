@@ -1,8 +1,11 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
@@ -46,6 +49,25 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
    		super.addStyleName("ks-course-admin");  	   		   		
     }
 	
+	/**
+	 * Override the progressive enable fields to only allow edit of end term and retire fields when pilot box checked and course is not active
+	 */
+	@Override
+	protected void progressiveEnableFields() {
+		super.progressiveEnableFields();
+        final FieldDescriptor retireRationale = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.RETIREMENT_RATIONALE); 
+        final FieldDescriptor lastTermOffered = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.LAST_TERM_OFFERED);
+        final FieldDescriptor lastPublicationYear = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.LAST_PUBLICATION_YEAR);
+        final FieldDescriptor specialCircumstances = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.SPECIAL_CIRCUMSTANCES);
+        	
+		String courseState = cluProposalModel.get(CreditCourseConstants.STATE);
+		Boolean pilotValue = cluProposalModel.get(CreditCourseConstants.PILOT_COURSE);
+		
+		Boolean enableRetireFields = !DtoState.ACTIVE.equalsString(courseState) && (pilotValue == null || !pilotValue);
+		
+		BaseSection.progressiveEnableFields(enableRetireFields, retireRationale, lastTermOffered, lastPublicationYear, specialCircumstances);
+	}
+
 	/**
 	 * Override the getSaveButton to provide a new set of buttons for the admin screens
 	 */
