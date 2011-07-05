@@ -12,11 +12,10 @@ import java.util.List;
 
 import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.course.infc.CourseFee;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
 /**
@@ -218,7 +217,7 @@ public interface CourseOffering extends IdEntity {
      * Fees associated with the course offering. 
      * @name Fees
      */    
-    public List<CourseFeeInfo> getFees();
+    public List<? extends CourseFee> getFees();
     
     /**
      * Organization that receives the revenue associated with the course

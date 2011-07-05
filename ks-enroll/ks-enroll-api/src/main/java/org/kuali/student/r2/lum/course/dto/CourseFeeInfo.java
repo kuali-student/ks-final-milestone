@@ -26,9 +26,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
 import org.w3c.dom.Element;
 
@@ -66,6 +66,27 @@ public class CourseFeeInfo extends HasAttributesAndMetaInfo implements CourseFee
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    public CourseFeeInfo() {
+        this.feeType = null;
+        this.rateType = null;
+        this.feeAmounts = new ArrayList<CurrencyAmountInfo>();
+        this.descr = null;
+        this.id = null;
+        this._futureElements = null;
+    }
+    
+    public CourseFeeInfo(CourseFee fee) {
+        super(fee);
+        
+        if(null == fee) return;
+        
+        this.feeType = fee.getFeeType();
+        this.rateType = fee.getRateType();
+        this.feeAmounts = (null != fee.getFeeAmounts()) ? new ArrayList<CurrencyAmountInfo>((List<CurrencyAmountInfo>)fee.getFeeAmounts()) : null;
+        this.id = fee.getId();
+        this.descr = (null != fee.getDescr()) ? new RichTextInfo(fee.getDescr() ) : null;
+    }
+    
     @Override
     public String getFeeType() {
         return feeType;

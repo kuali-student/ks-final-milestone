@@ -48,6 +48,8 @@ public class CurrencyAmountInfo implements Serializable {
     @XmlElement
     private MetaInfo metaInfo;
 
+
+    
     /**
      * The kind of units associated with the quantity, such as US Dollars
      */

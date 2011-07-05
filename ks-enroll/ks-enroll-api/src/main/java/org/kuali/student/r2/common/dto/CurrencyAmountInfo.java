@@ -54,6 +54,24 @@ public class CurrencyAmountInfo extends HasAttributesAndMetaInfo implements Curr
     @XmlAnyElement
     private List<Element> _futureElements;
         
+    public CurrencyAmountInfo() {
+        this.id = null;
+        this.currencyTypeKey = null;
+        this.currencyQuantity = null;
+        this._futureElements = null;
+    }
+    
+    public CurrencyAmountInfo(CurrencyAmount currency) {
+        super(currency);
+        
+        if(null == currency) return;
+        
+        this.id = currency.getId();
+        this.currencyQuantity = (null != currency.getCurrencyQuantity()) ? currency.getCurrencyQuantity() : null;
+        this.currencyTypeKey = currency.getCurrencyTypeKey();
+        this._futureElements = null;
+    }
+    
     /**
      * The kind of units associated with the quantity, such as US Dollars
      */

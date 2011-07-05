@@ -17,11 +17,10 @@ package org.kuali.student.r2.lum.course.infc;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Information about a fee related to a course.
@@ -53,6 +52,6 @@ public interface CourseFee extends  HasId, HasAttributesAndMeta{
      * Narrative description of the Course Fee.
      * @name Descr
      */
-    public RichTextInfo getDescr();
+    public RichText getDescr();
 
 }

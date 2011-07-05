@@ -27,10 +27,12 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 import org.w3c.dom.Element;
 
@@ -181,6 +183,49 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.registrationOrderTypeKey = null;
         this._futureElements = null;                
     }
+    
+
+    
+    public CourseOfferingInfo(CourseOffering course) {
+
+        super(course);
+        
+        if(null == course) return;
+        
+        this.activityOfferingIds = (null != course.getActivityOfferingIds()) ? new ArrayList<String>(course.getActivityOfferingIds()) : null ;
+        this.registrationGroupIds = (null != course.getRegistrationGroupIds()) ?  new ArrayList<String>(course.getRegistrationGroupIds()) : null;
+        this.courseId = course.getCourseId();
+        this.formatIds = (null != course.getFormatIds()) ? new ArrayList<String>(course.getFormatIds()) : null;
+        this.subjectArea = course.getSubjectArea();
+        this.isHonorsOffering = (null != course.getIsHonorsOffering()) ? new Boolean(course.getIsHonorsOffering()) : null; 
+        this.instructors = (null != course.getInstructors()) ? new ArrayList<LuiInstructorInfo>(((List<LuiInstructorInfo>)course.getInstructors())) : null;
+        this.unitsContentOwner = course.getUnitsContentOwner();
+        this.finalExamStatus = (null != course.getFinalExamStatus()) ? new Boolean(course.getFinalExamStatus()) : null;
+        this.waitlistTypeKey = course.getWaitlistTypeKey();
+        this.waitlistMaximum = (null != course.getWaitlistMaximum()) ? new Integer(course.getWaitlistMaximum()) : null;
+        this.termKey = course.getTermKey();
+        this.courseCode = course.getCourseCode();
+        this.courseNumberSuffix = course.getCourseNumberSuffix();
+        this.courseTitle = course.getCourseTitle();
+        this.maximumEnrollment = (null != course.getMaximumEnrollment()) ? new Integer(course.getMaximumEnrollment()) : null;
+        this.minimumEnrollment = (null != course.getMinimumEnrollment()) ? new Integer(course.getMinimumEnrollment()) : null;
+        this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(course.getJointOfferingIds()) : null;
+        this.creditOptions = (null != course.getCreditOptions()) ? new ResultComponentInfo(course.getCreditOptions()) : null;
+        this.gradingOptions = (null != course.getGradingOptions()) ? new ArrayList<String>(course.getGradingOptions()) : null;
+        this.gradeRosterLevel = course.getGradeRosterLevel();
+        this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
+        this.isWaitlistCheckinRequired = (null != course.getIsWaitlistCheckinRequired()) ? new Boolean(course.getIsWaitlistCheckinRequired()) : null;
+        this.waitlistCheckinFrequency = (null != course.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(course.getWaitlistCheckinFrequency()) : null;
+        this.fundingSource = course.getFundingSource();
+        this.fees = (null != course.getFees()) ? new ArrayList<CourseFeeInfo>((List<CourseFeeInfo>)course.getFees()) : null;
+        // TODO: Change this to r2 revenue with null check
+        this.revenues = course.getRevenues();
+        // TODO: Change this to r2 expenditure with null;
+        this.expenditure = course.getExpenditure();
+        this.isFinancialAidEligible = (null != course.getIsFinancialAidEligible()) ? new Boolean(course.getIsFinancialAidEligible()) : null;
+        this.registrationOrderTypeKey = course.getRegistrationOrderTypeKey();
+    }
+
     
     
     @Override
