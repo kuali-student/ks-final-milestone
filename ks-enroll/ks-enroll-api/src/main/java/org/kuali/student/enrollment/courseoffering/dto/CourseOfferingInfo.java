@@ -26,14 +26,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
-import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
+
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 import org.w3c.dom.Element;
 
 /**
@@ -111,7 +111,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<String> jointOfferingIds;
     
     @XmlElement
-    private ResultComponent creditOptions;
+    private ResultComponentInfo creditOptions;
     
     @XmlElement
     private List<String> gradingOptions;
@@ -336,7 +336,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public ResultComponent getCreditOptions() {
+    public ResultComponentInfo getCreditOptions() {
         return this.creditOptions;
     }
 
@@ -483,7 +483,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(ResultComponent creditOptions) {
+    public void setCreditOptions(ResultComponentInfo creditOptions) {
         this.creditOptions = creditOptions;
     }
 

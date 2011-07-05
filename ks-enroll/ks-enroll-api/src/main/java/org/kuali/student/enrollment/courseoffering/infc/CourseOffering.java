@@ -11,12 +11,12 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.enrollment.lui.infc.LuiInstructor;
-import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
 /**
  * 
@@ -128,7 +128,7 @@ public interface CourseOffering extends IdEntity {
      * If multiple then individual values are stored in the result component in case of a range, the component
      * will store the legal range with the increment factor.
      */    
-    public ResultComponent getCreditOptions();
+    public ResultComponentInfo getCreditOptions();
     
     /**
      * Level at which grade rosters should be generated - activity, format or course.
@@ -143,7 +143,6 @@ public interface CourseOffering extends IdEntity {
      * Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
      * @name Instructors
      */
-    //TODO: Add percentage contribution to CluInstructorInfo when it gets moved over to 1.3 
     public List<? extends LuiInstructor> getInstructors();
     
     

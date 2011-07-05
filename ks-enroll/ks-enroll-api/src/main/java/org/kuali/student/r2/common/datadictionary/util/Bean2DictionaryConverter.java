@@ -29,11 +29,13 @@ import org.kuali.rice.kns.datadictionary.validation.DataType;
 public class Bean2DictionaryConverter {
 
     private Class<?> clazz;
-    private Stack<AttributeDefinition> parents;
+    private Stack<AttributeDefinition> parentFields;
+    private Stack<Class<?>> parentClasses;
 
-    public Bean2DictionaryConverter(Class<?> clazz, Stack<AttributeDefinition> parents) {
+    public Bean2DictionaryConverter(Class<?> clazz, Stack<AttributeDefinition> parentFields, Stack<Class<?>> parentClasses) {
         this.clazz = clazz;
-        this.parents = parents;
+        this.parentFields = parentFields;
+        this.parentClasses = parentClasses;
     }
 
     public DataObjectEntry convert() {
@@ -54,14 +56,24 @@ public class Bean2DictionaryConverter {
             if (Class.class.equals(pd.getPropertyType())) {
                 continue;
             }
+            if ("_futureElements".equals(pd.getName())) {
+                continue;
+            }
+            if ("attributes".equals(pd.getName())) {
+                continue;
+            }
             Class<?> actualClass = calcActualClass(clazz, pd);
             AttributeDefinition ad = calcAttributeDefinition(clazz, pd, actualClass);
             ode.getAttributes().add(ad);
             if (ad.getDataType().equals(DataType.COMPLEX)) {
-                parents.push(ad);
-                Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parents);
-                subConverter.addAttributeDefinitions(ode);
-                parents.pop();
+                if (!parentClasses.contains(clazz)) {
+                    parentFields.push(ad);
+                    parentClasses.push(clazz);
+                    Bean2DictionaryConverter subConverter = new Bean2DictionaryConverter(actualClass, parentFields, parentClasses);
+                    subConverter.addAttributeDefinitions(ode);
+                    parentFields.pop();
+                    parentClasses.pop();
+                }
             }
         }
     }
@@ -73,17 +85,18 @@ public class Bean2DictionaryConverter {
         if (List.class.equals(pt)) {
 //            TODO: fix this to use a CollectionDefinition
 //            ad.setMaxOccurs(DictionaryConstants.UNBOUNDED);
-            ad.setDataType(calcDataType(actualClass));
+            ad.setDataType(calcDataType(clazz.getName(), actualClass));
         } else {
 //            ad.setMaxOccurs(DictionaryConstants.SINGLE);
-            ad.setDataType(calcDataType(actualClass));
+            ad.setDataType(calcDataType(clazz.getName(), actualClass));
         }
         return ad;
     }
 
     private String calcName(String leafName) {
         StringBuilder bldr = new StringBuilder();
-        for (AttributeDefinition parent : parents) {
+        if (!parentFields.isEmpty()) {
+            AttributeDefinition parent = parentFields.peek();
             bldr.append(parent.getName());
             bldr.append(".");
         }
@@ -103,7 +116,7 @@ public class Bean2DictionaryConverter {
         return pt;
     }
 
-    public static DataType calcDataType(Class<?> pt) {
+    public static DataType calcDataType(String context, Class<?> pt) {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;
         } else if (long.class.equals(pt) || Long.class.equals(pt)) {
@@ -119,7 +132,7 @@ public class Bean2DictionaryConverter {
         } else if (String.class.equals(pt)) {
             return DataType.STRING;
         } else if (List.class.equals(pt)) {
-            throw new RuntimeException("Can't have a list of lists, List<List<?>>");
+            throw new RuntimeException("Found bit can't have a list of lists, List<List<?>> in " + context);
         } else if (Enum.class.isAssignableFrom(pt)) {
             return DataType.STRING;
         } else if (Object.class.equals(pt)) {
@@ -127,8 +140,7 @@ public class Bean2DictionaryConverter {
         } else if (pt.getName().startsWith("org.kuali.student.")) {
             return DataType.COMPLEX;
         } else {
-            throw new RuntimeException("unknown/unhandled type of object in bean " + pt.getName());
+            throw new RuntimeException("Found unknown/unhandled type of object in bean " + pt.getName() + " in " + context);
         }
     }
 }
-

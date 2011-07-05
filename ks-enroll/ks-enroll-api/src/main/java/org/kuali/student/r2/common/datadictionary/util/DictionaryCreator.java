@@ -286,7 +286,7 @@ public class DictionaryCreator {
 
     private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
         Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
-        DataType dataType = Bean2DictionaryConverter.calcDataType(actualClass);
+        DataType dataType = Bean2DictionaryConverter.calcDataType(clazz.getName(), actualClass);
         return dataType;
     }
 

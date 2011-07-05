@@ -42,8 +42,9 @@ public class Dictionary2BeanComparer {
         } catch (ClassNotFoundException ex) {
             return Arrays.asList(className + " does not have a corresponding java class");
         }
-        Stack<AttributeDefinition> parents = new Stack<AttributeDefinition>();
-        DataObjectEntry osBean = new Bean2DictionaryConverter(clazz, parents).convert();
+        Stack<AttributeDefinition> parentFields = new Stack<AttributeDefinition>();
+        Stack<Class<?>> parentClasses = new Stack<Class<?>> ();
+        DataObjectEntry osBean = new Bean2DictionaryConverter(clazz, parentFields, parentClasses).convert();
         return compare(osDict, osBean);
 
     }

@@ -53,17 +53,25 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         super(relationship);
         this.id = relationship.getId();
         this.typeKey = relationship.getTypeKey();
-        this.stateKey = relationship.getStateKey();        
-        this.effectiveDate = relationship.getEffectiveDate();
-        this.expirationDate = relationship.getExpirationDate();
+        this.stateKey = relationship.getStateKey();
+        if (relationship.getEffectiveDate() != null) {
+            this.effectiveDate = new Date(relationship.getEffectiveDate().getTime());
+        }
+        else {
+            this.effectiveDate = null;
+        }
+        if (relationship.getExpirationDate() != null) {
+            this.expirationDate = new Date(relationship.getExpirationDate().getTime());
+        }
+        else {
+            this.expirationDate = null;
+        }
     }
 
-    
     @Override
     public String getId() {
         return id;
     }
-
 
     public void setId(String id) {
         this.id = id;
@@ -82,7 +90,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     public String getStateKey() {
         return stateKey;
     }
-    
+
     public void setStateKey(String stateKey) {
         this.stateKey = stateKey;
     }
@@ -92,7 +100,6 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return effectiveDate;
     }
 
-    
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
@@ -102,7 +109,6 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return expirationDate;
     }
 
-    
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
