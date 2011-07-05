@@ -15,20 +15,11 @@
 
 package org.kuali.student.common.ui.client.widgets.layout;
 
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-
-
 public class VerticalFlowPanel extends CustomFlowPanel{
 
     @Override
     protected String getFlowStyle() {
         return "KS-Vertical-Flow";
-    }
-
-    public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-	    return addDomHandler(handler, KeyDownEvent.getType());
-	}
+    }  
 
 }

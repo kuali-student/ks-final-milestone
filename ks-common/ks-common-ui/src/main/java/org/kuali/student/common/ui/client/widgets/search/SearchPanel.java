@@ -52,8 +52,10 @@ import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -475,13 +477,27 @@ public class SearchPanel extends Composite{
             if ((searchFields.size() > 1) || (allFieldsRequired == false)) {
                 instrLabel.setText(criteriaInstructions);
             }    
-            
+            this.addKeyDownHandler(downHandler);
             this.initWidget(panel);
         }
+        
+        public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+    	    return addDomHandler(handler, KeyDownEvent.getType());
+    	}
         
         public LookupMetadata getLookupMetadata() {
             return meta;
         }        
+        
+        private KeyDownHandler downHandler = new KeyDownHandler(){
+
+    		@Override
+    		public void onKeyDown(KeyDownEvent event) {
+    			if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) 	// Enter button
+    				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
+    		}
+    		
+    	};
 
         @Override
         public SearchRequest getSearchRequest() {
@@ -553,17 +569,7 @@ public class SearchPanel extends Composite{
         private Widget widget = null;
         private LookupParamMetadata meta = null;
         private VerticalFlowPanel panel = new VerticalFlowPanel();
-        private String fieldName;
-
-    	private KeyDownHandler downHandler = new KeyDownHandler(){
-
-    		@Override
-    		public void onKeyDown(KeyDownEvent event) {
-    			if(event.getNativeEvent().getKeyCode() == KeyboardListener.KEY_ENTER) 	// Enter button
-    				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
-    		}
-    		
-    	};
+        private String fieldName;    	
 
         public SearchParam getSearchParam(){
             return SearchPanel.getSearchParam(widget, meta.getKey());
@@ -587,14 +593,13 @@ public class SearchPanel extends Composite{
             //FIXME: remove because required field '*' indication will be part of FieldElement class
             if (param.getWriteAccess() == Metadata.WriteAccess.REQUIRED) {
                 fieldName += " *";
-            }
+            }            
 
             FieldElement fieldElement = new FieldElement(fieldName, widget);
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);
             panel.addStyleName("clear");
-            panel.addKeyDownHandler(downHandler);
-            
+                                    
             this.initWidget(panel);
         }
 
