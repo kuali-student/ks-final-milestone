@@ -146,7 +146,43 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     
     @XmlAnyElement
     private List<Element> _futureElements;
-            
+    
+    public CourseOfferingInfo() {
+
+        this.activityOfferingIds = new ArrayList<String>();
+        this.registrationGroupIds = new ArrayList<String>();
+        this.courseId = null;
+        this.formatIds = new ArrayList<String>();
+        this.subjectArea = null;
+        this.isHonorsOffering = new Boolean(false); 
+        this.instructors = new ArrayList<LuiInstructorInfo>();
+        this.unitsContentOwner = null;
+        this.finalExamStatus = new Boolean(false);
+        this.waitlistTypeKey = null;
+        this.waitlistMaximum = null;
+        this.termKey = null;
+        this.courseCode = null;
+        this.courseNumberSuffix = null;
+        this.courseTitle = null;
+        this.maximumEnrollment = null;
+        this.minimumEnrollment = null;
+        this.jointOfferingIds = new ArrayList<String>();
+        this.creditOptions = null;
+        this.gradingOptions = new ArrayList<String>();
+        this.gradeRosterLevel = null;
+        this.hasWaitlist = new Boolean(false);
+        this.isWaitlistCheckinRequired = new Boolean(false);
+        this.waitlistCheckinFrequency = null;
+        this.fundingSource = null;
+        this.fees = new ArrayList<CourseFeeInfo>();
+        this.revenues = new ArrayList<CourseRevenueInfo>();
+        this.expenditure = null;
+        this.isFinancialAidEligible = new Boolean(false);
+        this.registrationOrderTypeKey = null;
+        this._futureElements = null;                
+    }
+    
+    
     @Override
     public List<String> getActivityOfferingIds() {
         if(null == this.activityOfferingIds) {
