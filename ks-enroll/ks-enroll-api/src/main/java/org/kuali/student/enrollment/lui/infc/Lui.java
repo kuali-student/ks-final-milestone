@@ -16,6 +16,9 @@
 package org.kuali.student.enrollment.lui.infc;
 
 
+import java.util.List;
+
+import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
@@ -50,6 +53,11 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      */
     public Integer getMaxSeats();
  
-
+    /**
+     * Instructors for the Lui
+     * @name Instructors
+     */
+    public List<LuiInstructorInfo> getInstructors();
+    
 }
 

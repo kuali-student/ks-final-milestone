@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -223,10 +224,12 @@ public interface CourseOfferingService extends DataDictionaryService {
     /**
      * Retrieves the course offering restrictions.
      *
-     * @param courseOfferingId
-     *            Unique Id of the Course Offering
+     * @param courseOfferingId Unique Id of the Course Offering
      * @param nlUsageTypeKey Natural language usage type key (context)
      * @param language Translation language e.g en, es, gr
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
      * @return a list of StatemenTree structures defining the restrictions
      * @throws DoesNotExistException  CourseOffering does not exist
      * @throws InvalidParameterException invalid courseOfferingId
@@ -234,7 +237,64 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
+    /**
+     * Creates the Course offering restriction (Statement)
+     *
+     * @param courseOfferingId Unique Id of the Course Offering
+     * @param restrictionInfo Offering restriction as a statementree structure
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return created restriction as a statementree Structures
+     * @throws DoesNotExistException  Course Offering does not exist
+     * @throws InvalidParameterException invalid courseOfferingId, statementTreeViewInfoList
+     * @throws MissingParameterException invalid courseOfferingId, statementTreeViewInfoList
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     */
+    public StatementTreeViewInfo createCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
+
+    /**
+     * Updates the course offering restriction
+     *
+     * @param courseOfferingId  Unique Id of the Course Offering
+     * @param restrictionInfo  Offering restriction as a statementree structure
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return updated restriction
+     * @throws DoesNotExistException Course Offering does not exist
+     * @throws InvalidParameterException  invalid courseOfferingId
+     * @throws MissingParameterException invalid courseOfferingId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws CircularReferenceException circular reference in statements
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     */
+    public StatementTreeViewInfo updateCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
+
+    /**
+     * Delete the course offering restriction
+     *
+     * @param courseOfferingId     Unique Id of the Course Offering
+     * @param restrictionId restriction Id to be deleted
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Course does not exist
+     * @throws InvalidParameterException   invalid courseOfferingId
+     * @throws MissingParameterException  invalid courseOfferingId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionId") String restrictionId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     
 
     /**
@@ -379,7 +439,82 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-       
+     
+    /**
+     * Retrieves the activity offering restrictions.
+     *
+     * @param activityOfferingId Unique Id of the Activity Offering
+     * @param nlUsageTypeKey Natural language usage type key (context)
+     * @param language Translation language e.g en, es, gr
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of StatemenTree structures defining the restrictions
+     * @throws DoesNotExistException  ActivityOffering does not exist
+     * @throws InvalidParameterException invalid activityOfferingId
+     * @throws MissingParameterException invalid activityOfferingId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<StatementTreeViewInfo> getActivityOfferingRestrictions(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
+    /**
+     * Creates the Activity offering restriction (Statement)
+     *
+     * @param activityOfferingId Unique Id of the Activity Offering
+     * @param restrictionInfo Offering restriction as a statementree structure
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return created restriction as a statementree Structures
+     * @throws DoesNotExistException  Activity Offering does not exist
+     * @throws InvalidParameterException invalid activityOfferingId, statementTreeViewInfoList
+     * @throws MissingParameterException invalid activityOfferingId, statementTreeViewInfoList
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     */
+    public StatementTreeViewInfo createActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
+
+    /**
+     * Updates the activity offering restriction
+     *
+     * @param activityOfferingId  Unique Id of the Activity Offering
+     * @param restrictionInfo  Offering restriction as a statementree structure
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return updated restriction
+     * @throws DoesNotExistException Activity Offering does not exist
+     * @throws InvalidParameterException  invalid activityOfferingId
+     * @throws MissingParameterException invalid activityOfferingId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException The action was attempted on an out of date version.
+     * @throws CircularReferenceException circular reference in statements
+     * @throws DataValidationErrorException One or more values invalid for this operation
+     */
+    public StatementTreeViewInfo updateActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
+
+    /**
+     * Delete the activity offering restriction
+     *
+     * @param activityOfferingId     Unique Id of the Activity Offering
+     * @param restrictionId restriction Id to be deleted
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Course does not exist
+     * @throws InvalidParameterException   invalid activityOfferingId
+     * @throws MissingParameterException  invalid activityOfferingId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionId") String restrictionId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    
     /**
      * When/for how long does the offering meet in class during the term. 
      * Calculated by system based on meeting times and term length; may be validated against CLU. 

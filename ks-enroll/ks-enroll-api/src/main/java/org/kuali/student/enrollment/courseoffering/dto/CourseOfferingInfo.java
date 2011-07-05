@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
@@ -40,8 +41,8 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"termKey", "activityOfferingIds", "registrationGroupIds",
-        "courseCode", "courseNumberSuffix", "courseTitle", "courseId", "formatIds", "isHonorsOffering", "subjectArea", 
-        "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
+        "courseCode", "courseNumberSuffix", "courseTitle", "courseId", "formatIds", "isHonorsOffering", "instructors", 
+        "subjectArea", "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
         "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
@@ -67,6 +68,9 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     
     @XmlElement
     private Boolean isHonorsOffering;
+
+    @XmlElement
+    private List<LuiInstructorInfo> instructors;
     
     @XmlElement
     private List<String> unitsDeployment;
@@ -315,6 +319,15 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     @Override
     public List<String> getGradingOptions() {
         return this.gradingOptions;
+    }
+    
+    @Override
+    public List<LuiInstructorInfo> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<LuiInstructorInfo> instructors) {
+        this.instructors = instructors;
     }
 
     public void setActivityOfferingIds(List<String> activityOfferingIds) {

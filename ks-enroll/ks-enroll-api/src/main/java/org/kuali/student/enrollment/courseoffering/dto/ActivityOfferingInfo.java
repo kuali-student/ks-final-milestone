@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
@@ -62,6 +63,9 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
 
     @XmlElement
     private Boolean isHonorsOffering;
+    
+    @XmlElement
+    private List<CluInstructorInfo> instructors;
     
     @XmlElement
     private List<String> gradingOptions;
@@ -220,6 +224,15 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     @Override
     public Integer getMinimumEnrollment() {
         return minimumEnrollment;
+    }
+
+    @Override
+    public List<CluInstructorInfo> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<CluInstructorInfo> instructors) {
+        this.instructors = instructors;
     }
 
     public void setCourseOfferingIds(List<String> courseOfferingIds) {

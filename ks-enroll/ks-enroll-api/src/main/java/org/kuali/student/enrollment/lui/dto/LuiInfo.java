@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,8 +33,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate",
-		"expirationDate", "meta", "attributes", "_futureElements" })
+		"descr", "luiCode", "cluId", "atpKey", "maxSeats", "instructors", 
+		"effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
@@ -56,6 +57,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	@XmlElement
 	private Date expirationDate;
 
+	@XmlElement
+	private List<LuiInstructorInfo> instructors;
+	
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
@@ -65,6 +69,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		cluId = null;
 		atpKey = null;
 		maxSeats = null;
+		instructors = new ArrayList<LuiInstructorInfo>();
 		effectiveDate = null;
 		expirationDate = null;
 		_futureElements = null;
@@ -72,10 +77,15 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	public LuiInfo(Lui lui) {
 		super(lui);
+		
+		if(null == lui) return;
+		
 		this.luiCode = lui.getLuiCode();
 		this.cluId = lui.getCluId();
 		this.atpKey = lui.getAtpKey();
-		this.maxSeats = lui.getMaxSeats();
+		this.maxSeats = (null != lui.getMaxSeats()) ? new Integer(lui.getMaxSeats()) : null;
+		this.instructors = (null != lui.getInstructors()) ? 
+		        new ArrayList<LuiInstructorInfo>(lui.getInstructors()) : null; 
 		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui
 				.getEffectiveDate().getTime()) : null;
 		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui
@@ -114,12 +124,21 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	public Integer getMaxSeats() {
 		return maxSeats;
 	}
+	
+    public void setMaxSeats(Integer maxSeats) {
+        this.maxSeats = maxSeats;
+    }
 
-	public void setMaxSeats(int maxSeats) {
-		this.maxSeats = maxSeats;
-	}
+    @Override
+	public List<LuiInstructorInfo> getInstructors() {
+        return instructors;
+    }
 
-	@Override
+    public void setInstructors(List<LuiInstructorInfo> instructors) {
+        this.instructors = instructors;
+    }
+
+    @Override
 	public Date getEffectiveDate() {
 		return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
 	}

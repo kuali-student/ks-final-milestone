@@ -11,6 +11,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
@@ -67,6 +68,12 @@ public interface ActivityOffering extends IdEntity {
      */
     public List<String> getGradingOptions();
     
+
+    /**
+     * Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
+     * @name Instructors
+     */
+    public List<CluInstructorInfo> getInstructors();
        
     /********** Final Exam Information *****************/
     
