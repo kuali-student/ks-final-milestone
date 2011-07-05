@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "luiCode", "cluId", "atpKey", "maxSeats", "instructors", 
+		"descr", "luiCode", "cluId", "atpKey", "instructors", 
+		"studySubjectArea", "maximumEnrollment", "minimumEnrollment",
 		"effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
@@ -48,8 +49,14 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	@XmlElement
 	private String atpKey;
 
-	@XmlElement
-	private Integer maxSeats;
+    @XmlElement
+    private String studySubjectArea;
+	
+    @XmlElement
+    private Integer maximumEnrollment;
+    
+    @XmlElement
+    private Integer minimumEnrollment;
 
 	@XmlElement
 	private Date effectiveDate;
@@ -68,7 +75,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		luiCode = null;
 		cluId = null;
 		atpKey = null;
-		maxSeats = null;
+		studySubjectArea = null;
+		maximumEnrollment = null;
+		minimumEnrollment = null;
 		instructors = new ArrayList<LuiInstructorInfo>();
 		effectiveDate = null;
 		expirationDate = null;
@@ -83,7 +92,9 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.luiCode = lui.getLuiCode();
 		this.cluId = lui.getCluId();
 		this.atpKey = lui.getAtpKey();
-		this.maxSeats = (null != lui.getMaxSeats()) ? new Integer(lui.getMaxSeats()) : null;
+		this.studySubjectArea = lui.getStudySubjectArea();
+		this.maximumEnrollment = (null != lui.getMaximumEnrollment()) ? new Integer(lui.getMaximumEnrollment()) : null;
+		this.maximumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
 		this.instructors = (null != lui.getInstructors()) ? 
 		        new ArrayList<LuiInstructorInfo>(lui.getInstructors()) : null; 
 		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui
@@ -121,12 +132,30 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	}
 
 	@Override
-	public Integer getMaxSeats() {
-		return maxSeats;
-	}
-	
-    public void setMaxSeats(Integer maxSeats) {
-        this.maxSeats = maxSeats;
+    public String getStudySubjectArea() {
+        return studySubjectArea;
+    }
+
+	@Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
+    @Override
+    public Integer getMinimumEnrollment() {
+        return minimumEnrollment;
+    }
+
+    public void setStudySubjectArea(String studySubjectArea) {
+        this.studySubjectArea = studySubjectArea;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
     }
 
     @Override

@@ -73,6 +73,7 @@ public interface CourseOffering extends IdEntity {
      * Identifies the department and/subject code of the course as reflected in the course catalog.
      * This should correspond to the value in the canonical course and should not be updatable.
      * @name Subject Area
+     * @impl mpas to Lui.studySubjectArea
      */
     public String getSubjectArea();
     
@@ -92,6 +93,7 @@ public interface CourseOffering extends IdEntity {
      * Total maximum number of "seats" or enrollment slots that can be filled for the offering. 
      * Calculated based on sum of all the maximum seats of primary activity type offerings
      * @name Maximum Enrollment
+     * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
 
@@ -99,6 +101,7 @@ public interface CourseOffering extends IdEntity {
      * Total minimum number of seats that must be filled for the offering not to be canceled. 
      * Calculated based on sum of all the minimum seats of primary activity type offerings
      * @name Minimum  Enrollment
+     * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();
 

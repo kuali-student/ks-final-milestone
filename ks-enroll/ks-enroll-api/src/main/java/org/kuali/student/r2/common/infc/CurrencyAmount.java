@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.infc.HasId;
  * @Since Mon Jan 11 15:20:51 PST 2010
  *
  */
-public interface CurrencyAmount extends HasId, HasAttributesAndMeta {
+public interface CurrencyAmount extends HasId, HasMeta {
         
     /**
      * The kind of units associated with the quantity, such as US Dollars

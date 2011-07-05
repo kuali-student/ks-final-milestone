@@ -48,11 +48,24 @@ public interface Lui extends IdEntity, HasEffectiveDates {
     public String getAtpKey();
  
     /**
-     * Name: Maximum Seats
-     * Maximum number of "seats" that the LUI will hold for registration.
+     * Identifies the department and/subject code of the course as reflected in the clu catalog.
+     * This should correspond to the value in the canonical clu.
+     * @name Study Subject Area
      */
-    public Integer getMaxSeats();
- 
+    public String getStudySubjectArea();
+
+    /**
+     * Total maximum number of "seats" or enrollment slots that can be filled for the lui. 
+     * @name Maximum Enrollment
+     */    
+    public Integer getMaximumEnrollment();
+    
+    /**
+     * Total minimum number of seats that must be filled for the lui 
+     * @name Minimum  Enrollment
+     */
+    public Integer getMinimumEnrollment();
+
     /**
      * Instructors for the Lui
      * @name Instructors

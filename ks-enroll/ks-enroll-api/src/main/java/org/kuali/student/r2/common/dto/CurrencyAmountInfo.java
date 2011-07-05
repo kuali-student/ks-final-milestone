@@ -37,8 +37,8 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {"id", "currencyTypeKey", "currencyQuantity",
-        "meta", "attributes", "_futureElements"})
-public class CurrencyAmountInfo extends HasAttributesAndMetaInfo implements CurrencyAmount, Serializable {
+        "meta", "_futureElements"})
+public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,22 +53,27 @@ public class CurrencyAmountInfo extends HasAttributesAndMetaInfo implements Curr
     
     @XmlAnyElement
     private List<Element> _futureElements;
-        
+
+    @XmlElement
+    private MetaInfo meta;
+    
     public CurrencyAmountInfo() {
         this.id = null;
         this.currencyTypeKey = null;
         this.currencyQuantity = null;
+        this.meta = null;
         this._futureElements = null;
     }
     
     public CurrencyAmountInfo(CurrencyAmount currency) {
-        super(currency);
-        
+
         if(null == currency) return;
         
         this.id = currency.getId();
         this.currencyQuantity = (null != currency.getCurrencyQuantity()) ? currency.getCurrencyQuantity() : null;
         this.currencyTypeKey = currency.getCurrencyTypeKey();
+        this.meta = null != currency.getMeta() ? MetaInfo
+                    .getInstance(currency.getMeta()) : null;
         this._futureElements = null;
     }
     
@@ -104,4 +109,13 @@ public class CurrencyAmountInfo extends HasAttributesAndMetaInfo implements Curr
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+    @Override
+    public MetaInfo getMeta() {
+        return this.meta;
+    }
+
+    public void setMeta(MetaInfo metaInfo) {
+        this.meta = metaInfo;
+    }	
 }
