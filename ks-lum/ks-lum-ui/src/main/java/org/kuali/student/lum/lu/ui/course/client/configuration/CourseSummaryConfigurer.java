@@ -939,3 +939,4 @@ public class CourseSummaryConfigurer extends Configurer implements
         return tableSection;
     }
 }
+//KSLAB-1940
