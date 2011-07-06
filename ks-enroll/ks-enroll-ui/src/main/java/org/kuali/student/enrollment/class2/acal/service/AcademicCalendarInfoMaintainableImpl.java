@@ -31,7 +31,6 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
   
     @Override
     public void saveBusinessObject() {
-    	System.out.println(">>>in AcademicCalendarInfoMaintainableImpl.saveBusinessObject() method.");
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         academicCalendarInfo.setKey(academicCalendarKey);
@@ -65,17 +64,8 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
     }
     
     protected AcademicCalendarService getAcademicCalendarService() {
-    	System.out.println(">>>in getAcademicCalendarService() method");
-        if(academicCalendarService == null) {
-//            academicCalendarService = GlobalResourceLoader.getService("AcademicCalendarService");
-            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
-            if(academicCalendarService == null) {
-            	System.out.println(">>> fail to get academicCalendarService");
-            }
-            else {
-            	System.out.println(">>> got academicCalendarService!!!");
-            }
-            
+         if(academicCalendarService == null) {
+        	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
         }
 
         return academicCalendarService;
@@ -100,7 +90,6 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
         String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
         academicCalendarKey = academicCalendarKey.concat(credentialProgram+"."+yearOfStartDate+"-"+yearOfEndDate);
-        System.out.println(">>>academicCalendarKey = "+ academicCalendarKey);
         return academicCalendarKey;       
         
     }
