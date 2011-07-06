@@ -22,10 +22,11 @@ limitations under the License.
     <property name="title" value="Academic Calendar Info Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
   <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
-  <!--   <property name="viewHelperServiceClassName" value="edu.sampleu.travel.service.CourseInfoDtoLookupViewHelperServiceImpl" /> -->
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" />
     
     <property name="criteriaFields">
       <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="startDate" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="endDate" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="credentialProgramTypeKey" />
@@ -34,6 +35,7 @@ limitations under the License.
     <property name="resultFields">
       <list>
 <!--    <bean parent="AttributeField" p:propertyName="name" /> -->
+		<bean parent="AttributeField" p:propertyName="key" />
         <bean parent="AttributeField" p:propertyName="startDate" />
         <bean parent="AttributeField" p:propertyName="endDate" />
         <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey" />        
