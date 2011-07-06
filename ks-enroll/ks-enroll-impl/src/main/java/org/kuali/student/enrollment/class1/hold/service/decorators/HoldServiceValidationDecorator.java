@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 public class HoldServiceValidationDecorator extends HoldServiceDecorator implements HoldsDataDictionaryService, HoldsValidator {
 
     private DataDictionaryValidator validator;
+    private DataDictionaryService dataDictionaryService;
     
     @Override
     public DataDictionaryValidator getValidator() {
@@ -47,9 +48,6 @@ public class HoldServiceValidationDecorator extends HoldServiceDecorator impleme
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;        
     }
-
-    
-    private DataDictionaryService dataDictionaryService;
 
     @Override
     public DataDictionaryService getDataDictionaryService() {

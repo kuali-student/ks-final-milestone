@@ -26,6 +26,12 @@
         <property name="serviceNamespaceSuffix" value="hold" />
         <property name="dictionaryLocations" ref="holdServiceDictionaryLocations" />
    </bean>  
+   <!-- Lui Service -->
+   <bean id="dataDictionaryServiceForLui" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="lui" />
+        <property name="dictionaryLocations" ref="luiServiceDictionaryLocations" />
+   </bean> 
+   
     <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="shouldNotMatter" />

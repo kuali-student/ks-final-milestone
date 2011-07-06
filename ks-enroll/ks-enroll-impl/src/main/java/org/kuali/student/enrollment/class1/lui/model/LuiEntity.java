@@ -61,6 +61,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     
 	@Column(name = "MAX_SEATS")
 	private Integer maxSeats;
+	
+	@Column(name = "MIN_SEATS")
+	private Integer minSeats;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -84,6 +87,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setAtpKey(lui.getAtpKey());
         	this.setCluId(lui.getCluId());
         	this.setMaxSeats(lui.getMaximumEnrollment());
+        	this.setMinSeats(lui.getMinimumEnrollment());
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
         	if(lui.getExpirationDate() != null)
@@ -114,6 +118,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setCluId(cluId);
     	if(maxSeats != null)
     		obj.setMaximumEnrollment(maxSeats);
+    	if(minSeats != null)
+    		obj.setMinimumEnrollment(minSeats);
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
         if(luiType != null)
@@ -150,7 +156,15 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.maxSeats = maxSeats;
     }
 
-    public Date getEffectiveDate() {
+    public Integer getMinSeats() {
+		return minSeats;
+	}
+
+	public void setMinSeats(Integer minSeats) {
+		this.minSeats = minSeats;
+	}
+
+	public Date getEffectiveDate() {
         return effectiveDate;
     }
 

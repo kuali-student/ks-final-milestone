@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import java.util.List;
 
+import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -16,18 +17,27 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -38,7 +48,8 @@ private LuiTypeDao luiTypeDao;
 private LuiLuiRelationDao luiLuiRelationDao;
 private StateService stateService;
 private TypeTypeRelationDao typeTypeRelationDao;
-
+private AtpService atpService;
+private LuService luService;
 
 public LuiDao getLuiDao() {
 	return luiDao;
@@ -86,6 +97,22 @@ public TypeTypeRelationDao getTypeTypeRelationDao() {
 
 public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	this.typeTypeRelationDao = typeTypeRelationDao;
+}
+
+public AtpService getAtpService() {
+	return atpService;
+}
+
+public void setAtpService(AtpService atpService) {
+	this.atpService = atpService;
+}
+
+public LuService getLuService() {
+	return luService;
+}
+
+public void setLuService(LuService luService) {
+	this.luService = luService;
 }
 
 	@Override
@@ -249,17 +276,95 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 		return null;
 	}
 
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+    	StateEntity state = null;
+		try {
+			StateInfo stInfo = stateService.getState(processKey, stateKey, context);
+        	if(stInfo != null){
+        		state = new StateEntity(stInfo);
+        		return state;
+        	}
+        	else
+        		throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}			
+    }
+
+    private LuiTypeEntity findType(String typeId)throws OperationFailedException{
+    	LuiTypeEntity type = luiTypeDao.find(typeId);
+    	if(null != type)
+    		return type;
+    	else
+    		throw new OperationFailedException("The type does not exist. type " + typeId);
+    }
+    
+    //TODO:call LuService 
+    private boolean checkExistenceForClu(String cluId, ContextInfo context){
+    	//clu = luService.getClu(cluId, context);
+    	return true;
+    }
+    
+    private boolean checkExistenceForAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
+	InvalidParameterException, MissingParameterException,
+	OperationFailedException, PermissionDeniedException {
+ /*   	boolean existing = false;
+    	try {
+			AtpInfo atp = atpService.getAtp(atpKey, context);
+			
+			if(atp != null)
+				existing = true;
+			else
+				throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
+		} catch (DoesNotExistException e) {
+			throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
+		} catch (InvalidParameterException e) {
+		} catch (MissingParameterException e) {
+		} catch (OperationFailedException e) {
+		} catch (PermissionDeniedException e) {
+		}
+		
+		return existing; */
+    	
+    	return true;
+    }
+    
 	@Override
+	@Transactional
 	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        LuiEntity entity = new LuiEntity(luiInfo);
+        entity.setId(UUIDHelper.genStringUUID());
+        
+        if( null != cluId && checkExistenceForClu(cluId, context))
+        	entity.setCluId(cluId);
+        
+        if(null != atpKey && checkExistenceForAtp(atpKey, context))
+        	entity.setAtpKey(atpKey);
+
+        if (null != luiInfo.getStateKey())
+        	entity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
+        
+        if (null != luiInfo.getTypeKey())
+        	entity.setLuiType(findType(luiInfo.getTypeKey()));
+
+        if (null != luiInfo.getDescr())
+        	entity.setDescr(new LuiRichTextEntity(luiInfo.getDescr()));
+        
+        LuiEntity existing = luiDao.find(entity.getId());
+        if( existing != null) {
+            throw new AlreadyExistsException();
+	    }
+        luiDao.persist(entity);
+        
+        return luiDao.find(entity.getId()).toDto();
 	}
 
 	@Override
+	@Transactional
 	public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -270,6 +375,7 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	}
 
 	@Override
+	@Transactional
 	public StatusInfo deleteLui(String luiId, ContextInfo context)
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -299,6 +405,7 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	}
 
 	@Override
+	@Transactional
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
 			String relatedLuiId, String luLuRelationTypeKey,
 			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
@@ -311,6 +418,7 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	}
 
 	@Override
+	@Transactional
 	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
 			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -322,6 +430,7 @@ public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
 	}
 
 	@Override
+	@Transactional
 	public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

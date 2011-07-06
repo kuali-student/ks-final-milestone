@@ -88,7 +88,21 @@
             </list>
         </constructor-arg>
      </bean>
-  
+	<!-- LUI Service -->
+    <bean id="luiInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiInfo-dictionary.xml" />
+    </bean>
+    <bean id="luiLuiRelationInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LuiLuiRelationInfo-dictionary.xml" />
+    </bean>
+    <bean name="luiServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />                
+            </list>
+        </constructor-arg>
+     </bean>
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
@@ -108,7 +122,9 @@
                 <bean parent="keyDateInfoDictionaryLocation" />   
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                
-                <bean parent="restrictionInfoDictionaryLocation" />             
+                <bean parent="restrictionInfoDictionaryLocation" />    
+                <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />                  
             </list>
         </constructor-arg>
     </bean>

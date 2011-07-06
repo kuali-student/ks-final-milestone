@@ -44,7 +44,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 <ref bean="luiInfo.atpKey"/>
                 <ref bean="luiInfo.cluId"/>
                 <ref bean="luiInfo.luiCode"/>
-                <ref bean="luiInfo.maxSeats"/>
+                <ref bean="luiInfo.maximumEnrollment" />
+                <ref bean="luiInfo.minimumEnrollment" />
 <!--                <ref bean="luiInfo.attributes"/>-->
 <!--                <ref bean="luiInfo.meta"/>-->
             </list>
@@ -102,11 +103,16 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="luiInfo.luiCode" parent="luiInfo.luiCode-parent"/>
 
-    <bean id="luiInfo.maxSeats-parent" abstract="true" parent="baseKualiInteger">
-        <property name="name" value="maxSeats"/>
+    <bean id="luiInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="maximumEnrollment"/>
     </bean>
-    <bean id="luiInfo.maxSeats" parent="luiInfo.maxSeats-parent"/>
+    <bean id="luiInfo.maximumEnrollment" parent="luiInfo.maximumEnrollment-parent"/>
 
+    <bean id="luiInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="minimumEnrollment"/>
+    </bean>
+    <bean id="luiInfo.minimumEnrollment" parent="luiInfo.minimumEnrollment-parent"/>
+    
     <bean id="luiInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->

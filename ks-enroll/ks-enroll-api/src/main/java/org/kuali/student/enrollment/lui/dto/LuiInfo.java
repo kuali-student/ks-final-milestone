@@ -94,7 +94,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.atpKey = lui.getAtpKey();
 		this.studySubjectArea = lui.getStudySubjectArea();
 		this.maximumEnrollment = (null != lui.getMaximumEnrollment()) ? new Integer(lui.getMaximumEnrollment()) : null;
-		this.maximumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
+		this.minimumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
 		this.instructors = (null != lui.getInstructors()) ? 
 		        new ArrayList<LuiInstructorInfo>(lui.getInstructors()) : null; 
 		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui
