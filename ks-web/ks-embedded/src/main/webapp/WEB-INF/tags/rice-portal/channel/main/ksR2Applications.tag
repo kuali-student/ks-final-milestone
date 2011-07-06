@@ -22,11 +22,14 @@
     <li><portal:portalLink displayTitle="true" title="Academic Calendar Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
     <li><portal:portalLink displayTitle="true" title="Term Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.TermInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
     <br>
+    <li><portal:portalLink displayTitle="true" title="Academic Calendar Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <br>
+    <li><portal:portalLink displayTitle="true" title="Academic Calendar with Terms (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfoWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
+    <br>
     <li><portal:portalLink displayTitle="true" title="Manage Hold Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.hold.dto.HoldInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
     
-	<li><portal:portalLink displayTitle="true" title="Academic Calendar" url="${ConfigProperties.application.url}/spring/acal?viewId=AcademicCalendarView&methodToCall=start" /></li>
-    <li><portal:portalLink displayTitle="true" title="Academic Calendar Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-<!-- 
+<!-- 	<li><portal:portalLink displayTitle="true" title="Academic Calendar" url="${ConfigProperties.application.url}/spring/acal?viewId=AcademicCalendarView&methodToCall=start" /></li> -->
+ <!-- 
     <li><portal:portalLink displayTitle="true" title="Course Info Dto Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.CourseInfoDto&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 -->    
   </ul>      
