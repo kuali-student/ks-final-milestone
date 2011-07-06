@@ -475,8 +475,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     }
 
-    @SuppressWarnings("unchecked")
-    private void getCluProposalFromWorkflowId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    private void getCluProposalFromWorkflowId(@SuppressWarnings("rawtypes") final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         KSBlockingProgressIndicator.addTask(loadDataTask);
         workflowUtil.getDataIdFromWorkflowId(getViewContext().getId(), new KSAsyncCallback<String>(){
 			@Override
@@ -494,8 +493,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         });
     }
 
-    @SuppressWarnings("unchecked")
-    protected void getCluProposalFromProposalId(String id, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
+    protected void getCluProposalFromProposalId(String id, @SuppressWarnings("rawtypes") final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
     	getCourseProposalRpcService().getData(id, new KSAsyncCallback<Data>(){
 
@@ -574,10 +572,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Data data = new Data();
     	cluProposalModel.setRoot(data);
         
-        //TODO - get rid of this code if The changes to proposal WF filter create the proposal object for you
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), currentDocType);
-        data.set(new Data.StringKey("proposal"), proposalData);
+        data.set(new Data.StringKey("proposal"), proposalData);                
+        if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
+        	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+        }
         
         isNew = true;
         setHeaderTitle();
@@ -586,21 +586,23 @@ public class CourseProposalController extends MenuEditableSectionController impl
         workCompleteCallback.exec(true);
     }
 
-    @SuppressWarnings("unchecked")
     private void createModifyCluProposalModel(String versionComment, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
         Data data = new Data();
+        cluProposalModel.setRoot(data);        
         
-        Data proposalData = new Data();
         this.currentDocType = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+        Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), currentDocType);
         data.set(new Data.StringKey("proposal"), proposalData);
-        
+        if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
+        	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+        }
+                
         Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), versionComment);
         data.set(new Data.StringKey("versionInfo"), versionData);
         
-        cluProposalModel.setRoot(data);
         cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
