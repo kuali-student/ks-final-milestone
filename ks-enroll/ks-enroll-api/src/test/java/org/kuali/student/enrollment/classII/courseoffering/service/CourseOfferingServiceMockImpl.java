@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -27,9 +28,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.springframework.beans.BeanUtils;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
@@ -151,8 +149,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseTitle(canicalCourse.getCourseTitle());
         //courseOfferingInfo.setCreditOptions(canicalCourse.getCreditOptions());
         //courseOfferingInfo.setDescr(canicalCourse.getDescr());
-        courseOfferingInfo.setExpenditure(new R12R2Helper ().copyCourseExpenditure(canicalCourse.getExpenditure())); 
-        courseOfferingInfo.setFees(new R12R2Helper ().copyCourseFeeList(canicalCourse.getFees()));        
+        courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper ().copyCourseExpenditure(canicalCourse.getExpenditure())); 
+        courseOfferingInfo.setFees(new R1ToR2CopyHelper ().copyCourseFeeList(canicalCourse.getFees()));        
         //courseOfferingInfo.setFormats(canicalCourseo.getFormats());
 
         courseOfferingCache.put(courseOfferingInfo.getId(), courseOfferingInfo);
@@ -182,8 +180,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
         //courseOfferingInfo.setCreditOptions(courseInfo.getCreditOptions());
         //courseOfferingInfo.setDescr(courseInfo.getDescr());
-        courseOfferingInfo.setExpenditure(new R12R2Helper ().copyCourseExpenditure(courseInfo.getExpenditure()));
-        courseOfferingInfo.setFees(new R12R2Helper ().copyCourseFeeList(courseInfo.getFees()));
+        courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper ().copyCourseExpenditure(courseInfo.getExpenditure()));
+        courseOfferingInfo.setFees(new R1ToR2CopyHelper ().copyCourseFeeList(courseInfo.getFees()));
         //courseOfferingInfo.setFormats(courseInfo.getFormats());
         return courseOfferingInfo;
     }

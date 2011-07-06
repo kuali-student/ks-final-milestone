@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.classII.courseoffering.service;
+package org.kuali.student.enrollment.courseoffering.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,12 @@ import org.kuali.student.r2.lum.course.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
 
-public class R12R2Helper {
+/**
+ * Utility to copy R1 to R2 structures
+ * 
+ * @author nwright
+ */
+public class R1ToR2CopyHelper {
 
     public CourseExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
         if (r1 == null) {
