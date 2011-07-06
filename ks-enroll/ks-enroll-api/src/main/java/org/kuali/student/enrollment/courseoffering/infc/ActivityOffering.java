@@ -10,10 +10,9 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
 
 /**
  * Individual activity offerings correspond to events in a scheduling system, each with a meeting pattern.
@@ -73,7 +72,7 @@ public interface ActivityOffering extends IdEntity {
      * Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
      * @name Instructors
      */
-    public List<CluInstructorInfo> getInstructors();
+    public List<? extends LuiInstructor> getInstructors();
        
     /********** Final Exam Information *****************/
     

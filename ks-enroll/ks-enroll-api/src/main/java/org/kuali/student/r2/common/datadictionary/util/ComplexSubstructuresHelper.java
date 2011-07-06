@@ -77,8 +77,9 @@ public class ComplexSubstructuresHelper {
         }
     }
 
-    public static Class<?> getActualClassFromList(Class<?> classToCheck, String fieldName) {
+    public static Class<?> getActualClassFromList(Class<?> originalClass, String fieldName) {
         // recursively check super classes for field if not declared on this class
+        Class<?> classToCheck = originalClass;
         while (true) {
             try {
                 Field field = classToCheck.getDeclaredField(fieldName);
@@ -89,7 +90,7 @@ public class ComplexSubstructuresHelper {
             } catch (NoSuchFieldException ex) {
                 classToCheck = classToCheck.getSuperclass();
                 if (classToCheck == null) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(originalClass.getName(), ex);
                 }
                 if (classToCheck.equals(Object.class)) {
                     throw new RuntimeException(ex);

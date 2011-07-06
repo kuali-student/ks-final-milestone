@@ -71,7 +71,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
             	System.out.println(">>> fail to get academicCalendarService");
             }
             else {
-            	System.out.println(">>> get academicCalendarService!!!");
+            	System.out.println(">>> got academicCalendarService!!!");
             }
             
         }

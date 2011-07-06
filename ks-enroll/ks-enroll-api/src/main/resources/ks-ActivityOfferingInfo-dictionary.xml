@@ -1,0 +1,190 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- ActivityOfferingInfo-->
+    <bean id="activityOfferingInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="activityOfferingInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"/>
+        <property name="objectLabel" value="Activity Offering"/>
+        <property name="objectDescription" value="Activty Offering"/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="activityOfferingInfo.id"/>
+                <ref bean="activityOfferingInfo.typeKey"/>
+                <ref bean="activityOfferingInfo.stateKey"/>
+                <ref bean="activityOfferingInfo.name"/>
+                <ref bean="activityOfferingInfo.descr"/>
+                <ref bean="activityOfferingInfo.activityCode"/>
+                <ref bean="activityOfferingInfo.activityId"/>
+                <ref bean="activityOfferingInfo.courseOfferingIds"/>
+                <ref bean="activityOfferingInfo.finalExamBuilding"/>
+                <ref bean="activityOfferingInfo.finalExamEndTime"/>
+                <ref bean="activityOfferingInfo.finalExamRoom"/>
+                <ref bean="activityOfferingInfo.finalExamStartTime"/>
+                <ref bean="activityOfferingInfo.gradingOptions"/>
+                <ref bean="activityOfferingInfo.instructors"/>
+                <ref bean="activityOfferingInfo.isHonorsOffering"/>
+                <ref bean="activityOfferingInfo.maximumEnrollment"/>
+                <ref bean="activityOfferingInfo.minimumEnrollment"/>
+                <ref bean="activityOfferingInfo.registrationGroupIds"/>
+                <ref bean="activityOfferingInfo.termKey"/>
+                <ref bean="activityOfferingInfo.weeklyInclassContactHours"/>
+                <ref bean="activityOfferingInfo.weeklyOutofclassContactHours"/>
+                <ref bean="activityOfferingInfo.weeklyTotalContactHours"/>
+<!--                <ref bean="activityOfferingInfo.attributes"/>-->
+<!--                <ref bean="activityOfferingInfo.meta"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="activityOfferingInfo" parent="activityOfferingInfo-parent"/>
+
+    <bean id="activityOfferingInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="activityOfferingInfo.id" parent="activityOfferingInfo.id-parent"/>
+
+    <bean id="activityOfferingInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="activityOfferingInfo.typeKey" parent="activityOfferingInfo.typeKey-parent"/>
+
+    <bean id="activityOfferingInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="activityOfferingInfo.stateKey" parent="activityOfferingInfo.stateKey-parent"/>
+
+    <bean id="activityOfferingInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="activityOfferingInfo.name" parent="activityOfferingInfo.name-parent"/>
+
+    <bean id="activityOfferingInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="activityOfferingInfo.descr" parent="activityOfferingInfo.descr-parent"/>
+
+    <bean id="activityOfferingInfo.activityCode-parent" abstract="true" parent="baseKualiCode">
+        <property name="name" value="activityCode"/>
+    </bean>
+    <bean id="activityOfferingInfo.activityCode" parent="activityOfferingInfo.activityCode-parent"/>
+
+    <bean id="activityOfferingInfo.activityId-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="activityId"/>
+    </bean>
+    <bean id="activityOfferingInfo.activityId" parent="activityOfferingInfo.activityId-parent"/>
+
+    <bean id="activityOfferingInfo.courseOfferingIds-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="courseOfferingIds"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="activityOfferingInfo.courseOfferingIds" parent="activityOfferingInfo.courseOfferingIds-parent"/>
+
+    <bean id="activityOfferingInfo.finalExamBuilding-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="finalExamBuilding"/>
+    </bean>
+    <bean id="activityOfferingInfo.finalExamBuilding" parent="activityOfferingInfo.finalExamBuilding-parent"/>
+
+    <bean id="activityOfferingInfo.finalExamEndTime-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="finalExamEndTime"/>
+    </bean>
+    <bean id="activityOfferingInfo.finalExamEndTime" parent="activityOfferingInfo.finalExamEndTime-parent"/>
+
+    <bean id="activityOfferingInfo.finalExamRoom-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="finalExamRoom"/>
+    </bean>
+    <bean id="activityOfferingInfo.finalExamRoom" parent="activityOfferingInfo.finalExamRoom-parent"/>
+
+    <bean id="activityOfferingInfo.finalExamStartTime-parent" abstract="true" parent="baseKualiDateTime">
+        <property name="name" value="finalExamStartTime"/>
+    </bean>
+    <bean id="activityOfferingInfo.finalExamStartTime" parent="activityOfferingInfo.finalExamStartTime-parent"/>
+
+    <bean id="activityOfferingInfo.gradingOptions-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="gradingOptions"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="activityOfferingInfo.gradingOptions" parent="activityOfferingInfo.gradingOptions-parent"/>
+
+    <bean id="activityOfferingInfo.instructors-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="instructors"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="activityOfferingInfo.instructors" parent="activityOfferingInfo.instructors-parent"/>
+
+    <bean id="activityOfferingInfo.isHonorsOffering-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isHonorsOffering"/>
+    </bean>
+    <bean id="activityOfferingInfo.isHonorsOffering" parent="activityOfferingInfo.isHonorsOffering-parent"/>
+
+    <bean id="activityOfferingInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="maximumEnrollment"/>
+    </bean>
+    <bean id="activityOfferingInfo.maximumEnrollment" parent="activityOfferingInfo.maximumEnrollment-parent"/>
+
+    <bean id="activityOfferingInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="minimumEnrollment"/>
+    </bean>
+    <bean id="activityOfferingInfo.minimumEnrollment" parent="activityOfferingInfo.minimumEnrollment-parent"/>
+
+    <bean id="activityOfferingInfo.registrationGroupIds-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="registrationGroupIds"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="activityOfferingInfo.registrationGroupIds" parent="activityOfferingInfo.registrationGroupIds-parent"/>
+
+    <bean id="activityOfferingInfo.termKey-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="termKey"/>
+    </bean>
+    <bean id="activityOfferingInfo.termKey" parent="activityOfferingInfo.termKey-parent"/>
+
+    <bean id="activityOfferingInfo.weeklyInclassContactHours-parent" abstract="true" parent="baseKualiCurrency">
+        <property name="name" value="weeklyInclassContactHours"/>
+    </bean>
+    <bean id="activityOfferingInfo.weeklyInclassContactHours" parent="activityOfferingInfo.weeklyInclassContactHours-parent"/>
+
+    <bean id="activityOfferingInfo.weeklyOutofclassContactHours-parent" abstract="true" parent="baseKualiCurrency">
+        <property name="name" value="weeklyOutofclassContactHours"/>
+    </bean>
+    <bean id="activityOfferingInfo.weeklyOutofclassContactHours" parent="activityOfferingInfo.weeklyOutofclassContactHours-parent"/>
+
+    <bean id="activityOfferingInfo.weeklyTotalContactHours-parent" abstract="true" parent="baseKualiCurrency">
+        <property name="name" value="weeklyTotalContactHours"/>
+    </bean>
+    <bean id="activityOfferingInfo.weeklyTotalContactHours" parent="activityOfferingInfo.weeklyTotalContactHours-parent"/>
+
+    <bean id="activityOfferingInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="activityOfferingInfo.attributes" parent="activityOfferingInfo.attributes-parent"/>
+
+    <bean id="activityOfferingInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="activityOfferingInfo.meta" parent="activityOfferingInfo.meta-parent"/>
+</beans>

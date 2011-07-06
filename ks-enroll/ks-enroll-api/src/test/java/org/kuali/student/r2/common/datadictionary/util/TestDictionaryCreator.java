@@ -29,6 +29,10 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
@@ -108,7 +112,12 @@ public class TestDictionaryCreator {
             new DictionaryCreator().execute(HoldInfo.class);
             new DictionaryCreator().execute(IssueInfo.class);
             new DictionaryCreator().execute(RestrictionInfo.class);
-
+            // Course Offering
+            new DictionaryCreator().execute(CourseOfferingInfo.class);
+            new DictionaryCreator().execute(ActivityOfferingInfo.class);
+            new DictionaryCreator().execute(RegistrationGroupInfo.class);
+            new DictionaryCreator().execute(SeatPoolDefinitionInfo.class);
+            
             // r2 common
             new DictionaryCreator().execute(AttributeInfo.class);
             new DictionaryCreator().execute(ComparisonInfo.class);

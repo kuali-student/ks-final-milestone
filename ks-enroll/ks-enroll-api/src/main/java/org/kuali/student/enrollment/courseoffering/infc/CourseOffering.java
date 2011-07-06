@@ -11,13 +11,12 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.enrollment.lui.infc.LuiInstructor;
-import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 
 /**
  * 
@@ -74,6 +73,7 @@ public interface CourseOffering extends IdEntity {
      * Identifies the department and/subject code of the course as reflected in the course catalog.
      * This should correspond to the value in the canonical course and should not be updatable.
      * @name Subject Area
+     * @impl mpas to Lui.studySubjectArea
      */
     public String getSubjectArea();
     
@@ -93,6 +93,7 @@ public interface CourseOffering extends IdEntity {
      * Total maximum number of "seats" or enrollment slots that can be filled for the offering. 
      * Calculated based on sum of all the maximum seats of primary activity type offerings
      * @name Maximum Enrollment
+     * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
 
@@ -100,6 +101,7 @@ public interface CourseOffering extends IdEntity {
      * Total minimum number of seats that must be filled for the offering not to be canceled. 
      * Calculated based on sum of all the minimum seats of primary activity type offerings
      * @name Minimum  Enrollment
+     * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();
 
@@ -126,7 +128,7 @@ public interface CourseOffering extends IdEntity {
      * If multiple then individual values are stored in the result component in case of a range, the component
      * will store the legal range with the increment factor.
      */    
-    public ResultComponent getCreditOptions();
+    public ResultComponentInfo getCreditOptions();
     
     /**
      * Level at which grade rosters should be generated - activity, format or course.
@@ -141,7 +143,6 @@ public interface CourseOffering extends IdEntity {
      * Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
      * @name Instructors
      */
-    //TODO: Add percentage contribution to CluInstructorInfo when it gets moved over to 1.3 
     public List<? extends LuiInstructor> getInstructors();
     
     
@@ -218,7 +219,7 @@ public interface CourseOffering extends IdEntity {
      * Fees associated with the course offering. 
      * @name Fees
      */    
-    public List<CourseFeeInfo> getFees();
+    public List<? extends CourseFee> getFees();
     
     /**
      * Organization that receives the revenue associated with the course

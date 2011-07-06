@@ -210,7 +210,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId");
         milestone.setName("testCreate");
-        milestone.setStartDate(new Date());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        
+        milestone.setStartDate(cal.getTime());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -250,7 +254,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId2");
         milestone.setName("testCreate");
-        milestone.setStartDate(new Date());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        
+        milestone.setStartDate(cal.getTime());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -393,6 +401,16 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         Date endDate = cal.getTime();
         
         List<MilestoneInfo> milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
+        
+        for(MilestoneInfo info : milestones) {
+            System.out.println("start: " + info.getStartDate());
+            if(info.getEndDate() != null) {
+                System.out.println("end: " + info.getEndDate());
+            }
+            else {
+                System.out.println("end: null");
+            }
+        }
         
         assertNotNull(milestones);
         assertEquals(2, milestones.size());

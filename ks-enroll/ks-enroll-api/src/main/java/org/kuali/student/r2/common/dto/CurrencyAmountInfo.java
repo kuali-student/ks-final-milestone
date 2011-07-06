@@ -13,26 +13,32 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.dto;
+package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about an amount of currency including both the type of units and the quantity.
  *
- * @Author KSContractMojo
  * @Author Kamal
  * @Since Mon Jan 11 15:20:51 PST 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/currencyAmountInfo+Structure+v1.0-rc1">CurrencyAmountInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CurrencyAmountInfo implements Serializable {
+@XmlType(name = "CurrencyAmountInfo", propOrder = {"id", "currencyTypeKey", "currencyQuantity",
+        "meta", "_futureElements"})
+public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,10 +51,31 @@ public class CurrencyAmountInfo implements Serializable {
     @XmlElement
     private Integer currencyQuantity;
     
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
     @XmlElement
-    private MetaInfo metaInfo;
+    private MetaInfo meta;
+    
+    public CurrencyAmountInfo() {
+        this.id = null;
+        this.currencyTypeKey = null;
+        this.currencyQuantity = null;
+        this.meta = null;
+        this._futureElements = null;
+    }
+    
+    public CurrencyAmountInfo(CurrencyAmount currency) {
 
-
+        if(null == currency) return;
+        
+        this.id = currency.getId();
+        this.currencyQuantity = (null != currency.getCurrencyQuantity()) ? currency.getCurrencyQuantity() : null;
+        this.currencyTypeKey = currency.getCurrencyTypeKey();
+        this.meta = null != currency.getMeta() ? MetaInfo
+                    .getInstance(currency.getMeta()) : null;
+        this._futureElements = null;
+    }
     
     /**
      * The kind of units associated with the quantity, such as US Dollars
@@ -82,17 +109,13 @@ public class CurrencyAmountInfo implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+    @Override
+    public MetaInfo getMeta() {
+        return this.meta;
+    }
 
-	/**
-	 * Create and last update info for the structure. This is optional and 
-	 * treated as read only since the data is set by the internals of the
-	 * service during maintenance operations.
-	 */
-	public MetaInfo getMetaInfo() {
-		return metaInfo;
-	}
-
-	public void setMetaInfo(MetaInfo metaInfo) {
-		this.metaInfo = metaInfo;
-	}
+    public void setMeta(MetaInfo metaInfo) {
+        this.meta = metaInfo;
+    }	
 }

@@ -55,6 +55,9 @@
         <property name="localServiceName" value="KSLumContext"/>
     </bean>
 -->    
+	<import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
+	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:enrollDao.xml"/>
 
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -96,17 +99,6 @@
         </property>
     </bean>
 
-    <!-- Learning Service Config -->
-    <bean id="acalEntityManagerFactory" parent="enrollDefaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Lu"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/lu-persistence.xml"/>
-        <property name="dataSource" ref="enrollDataSource"/>
-    </bean>
-
-    <bean id="acalEntityManager"
-          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
-        <property name="entityManagerFactory" ref="acalEntityManagerFactory"/>
-    </bean>
 
 <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	  	<property name="atpDao" ref="atpEnrDao"/>
@@ -158,47 +150,47 @@
 	
     
     <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
     
     <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
 
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
         
 	<bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
@@ -208,15 +200,15 @@
     </bean>
     
     <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
  
      <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
 
     <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
-        <property name="em" ref="acalEntityManager"/>
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
               	   
 	<tx:annotation-driven transaction-manager="JtaTxManager"

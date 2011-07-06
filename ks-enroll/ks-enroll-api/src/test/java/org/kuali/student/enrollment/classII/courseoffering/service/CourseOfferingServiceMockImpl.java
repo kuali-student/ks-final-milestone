@@ -27,6 +27,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
+import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.springframework.beans.BeanUtils;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
@@ -148,14 +151,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseTitle(canicalCourse.getCourseTitle());
         //courseOfferingInfo.setCreditOptions(canicalCourse.getCreditOptions());
         //courseOfferingInfo.setDescr(canicalCourse.getDescr());
-        courseOfferingInfo.setExpenditure(canicalCourse.getExpenditure());
-        courseOfferingInfo.setFees(canicalCourse.getFees());
+        courseOfferingInfo.setExpenditure(new R12R2Helper ().copyCourseExpenditure(canicalCourse.getExpenditure())); 
+        courseOfferingInfo.setFees(new R12R2Helper ().copyCourseFeeList(canicalCourse.getFees()));        
         //courseOfferingInfo.setFormats(canicalCourseo.getFormats());
 
         courseOfferingCache.put(courseOfferingInfo.getId(), courseOfferingInfo);
 
         return courseOfferingInfo;
     }
+    
+
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId, CourseOfferingInfo courseOfferingInfo,
@@ -177,8 +182,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
         //courseOfferingInfo.setCreditOptions(courseInfo.getCreditOptions());
         //courseOfferingInfo.setDescr(courseInfo.getDescr());
-        courseOfferingInfo.setExpenditure(courseInfo.getExpenditure());
-        courseOfferingInfo.setFees(courseInfo.getFees());
+        courseOfferingInfo.setExpenditure(new R12R2Helper ().copyCourseExpenditure(courseInfo.getExpenditure()));
+        courseOfferingInfo.setFees(new R12R2Helper ().copyCourseFeeList(courseInfo.getFees()));
         //courseOfferingInfo.setFormats(courseInfo.getFormats());
         return courseOfferingInfo;
     }

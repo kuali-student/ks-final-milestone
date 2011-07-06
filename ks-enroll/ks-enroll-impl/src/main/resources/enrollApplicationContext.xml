@@ -8,7 +8,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
-    <import resource="classpath:dao.xml"/>
+    <import resource="classpath:enrollDao.xml"/>
    <!-- Infrastructure code which handles invocation for all service impls -->
   <bean id = "layeringAspects" class="org.kuali.student.enrollment.class1.lpr.service.aspect.ServiceAspects">
     <property name="includeThrowableClassList">

@@ -1,0 +1,157 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- RegistrationGroupInfo-->
+    <bean id="registrationGroupInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="registrationGroupInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo"/>
+        <property name="objectLabel" value="Registration Group"/>
+        <property name="objectDescription" value="Registration Group"/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="registrationGroupInfo.id"/>
+                <ref bean="registrationGroupInfo.typeKey"/>
+                <ref bean="registrationGroupInfo.stateKey"/>
+                <ref bean="registrationGroupInfo.name"/>
+                <ref bean="registrationGroupInfo.descr"/>
+                <ref bean="registrationGroupInfo.activityOfferingIds"/>
+                <ref bean="registrationGroupInfo.courseOfferingId"/>
+                <ref bean="registrationGroupInfo.formatId"/>
+                <ref bean="registrationGroupInfo.hasWaitlist"/>
+                <ref bean="registrationGroupInfo.isHonorsOffering"/>
+                <ref bean="registrationGroupInfo.isWaitlistCheckinRequired"/>
+                <ref bean="registrationGroupInfo.maximumEnrollment"/>
+                <ref bean="registrationGroupInfo.minimumEnrollment"/>
+                <ref bean="registrationGroupInfo.registrationCode"/>
+                <ref bean="registrationGroupInfo.waitlistCheckinFrequency"/>
+                <ref bean="registrationGroupInfo.waitlistMaximum"/>
+                <ref bean="registrationGroupInfo.waitlistTypeKey"/>
+                <ref bean="registrationGroupInfo.attributes"/>
+                <ref bean="registrationGroupInfo.meta"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="registrationGroupInfo" parent="registrationGroupInfo-parent"/>
+
+    <bean id="registrationGroupInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="registrationGroupInfo.id" parent="registrationGroupInfo.id-parent"/>
+
+    <bean id="registrationGroupInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="registrationGroupInfo.typeKey" parent="registrationGroupInfo.typeKey-parent"/>
+
+    <bean id="registrationGroupInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="registrationGroupInfo.stateKey" parent="registrationGroupInfo.stateKey-parent"/>
+
+    <bean id="registrationGroupInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="registrationGroupInfo.name" parent="registrationGroupInfo.name-parent"/>
+
+    <bean id="registrationGroupInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="registrationGroupInfo.descr" parent="registrationGroupInfo.descr-parent"/>
+
+    <bean id="registrationGroupInfo.activityOfferingIds-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="activityOfferingIds"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="registrationGroupInfo.activityOfferingIds" parent="registrationGroupInfo.activityOfferingIds-parent"/>
+
+    <bean id="registrationGroupInfo.courseOfferingId-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="courseOfferingId"/>
+    </bean>
+    <bean id="registrationGroupInfo.courseOfferingId" parent="registrationGroupInfo.courseOfferingId-parent"/>
+
+    <bean id="registrationGroupInfo.formatId-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="formatId"/>
+    </bean>
+    <bean id="registrationGroupInfo.formatId" parent="registrationGroupInfo.formatId-parent"/>
+
+    <bean id="registrationGroupInfo.hasWaitlist-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="hasWaitlist"/>
+    </bean>
+    <bean id="registrationGroupInfo.hasWaitlist" parent="registrationGroupInfo.hasWaitlist-parent"/>
+
+    <bean id="registrationGroupInfo.isHonorsOffering-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isHonorsOffering"/>
+    </bean>
+    <bean id="registrationGroupInfo.isHonorsOffering" parent="registrationGroupInfo.isHonorsOffering-parent"/>
+
+    <bean id="registrationGroupInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="baseKualiBoolean">
+        <property name="name" value="isWaitlistCheckinRequired"/>
+    </bean>
+    <bean id="registrationGroupInfo.isWaitlistCheckinRequired" parent="registrationGroupInfo.isWaitlistCheckinRequired-parent"/>
+
+    <bean id="registrationGroupInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="maximumEnrollment"/>
+    </bean>
+    <bean id="registrationGroupInfo.maximumEnrollment" parent="registrationGroupInfo.maximumEnrollment-parent"/>
+
+    <bean id="registrationGroupInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="minimumEnrollment"/>
+    </bean>
+    <bean id="registrationGroupInfo.minimumEnrollment" parent="registrationGroupInfo.minimumEnrollment-parent"/>
+
+    <bean id="registrationGroupInfo.registrationCode-parent" abstract="true" parent="baseKualiCode">
+        <property name="name" value="registrationCode"/>
+    </bean>
+    <bean id="registrationGroupInfo.registrationCode" parent="registrationGroupInfo.registrationCode-parent"/>
+
+    <bean id="registrationGroupInfo.waitlistCheckinFrequency-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="waitlistCheckinFrequency"/>
+    </bean>
+    <bean id="registrationGroupInfo.waitlistCheckinFrequency" parent="registrationGroupInfo.waitlistCheckinFrequency-parent"/>
+
+    <bean id="registrationGroupInfo.waitlistMaximum-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="waitlistMaximum"/>
+    </bean>
+    <bean id="registrationGroupInfo.waitlistMaximum" parent="registrationGroupInfo.waitlistMaximum-parent"/>
+
+    <bean id="registrationGroupInfo.waitlistTypeKey-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="waitlistTypeKey"/>
+    </bean>
+    <bean id="registrationGroupInfo.waitlistTypeKey" parent="registrationGroupInfo.waitlistTypeKey-parent"/>
+
+    <bean id="registrationGroupInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="registrationGroupInfo.attributes" parent="registrationGroupInfo.attributes-parent"/>
+
+    <bean id="registrationGroupInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="registrationGroupInfo.meta" parent="registrationGroupInfo.meta-parent"/>
+</beans>
