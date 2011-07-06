@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
@@ -178,6 +179,7 @@ public class CourseSummaryConfigurer extends Configurer implements
 	public VerticalSectionView generateProposalSummarySection(boolean canEditSections){
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
+        tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposalCrossListed());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
@@ -327,6 +329,7 @@ public class CourseSummaryConfigurer extends Configurer implements
 	public VerticalSectionView generateCourseSummarySection(){
         tableSection.setEditable(false);
         tableSection.addSummaryTableFieldBlock(generateCourseInformation());
+        tableSection.addSummaryTableFieldBlock(generateCourseInformationCrossListing());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
         tableSection.addSummaryTableFieldBlock(generateCourseLogisticsSection());
         tableSection.addSummaryTableFieldBlock(generateLearningObjectivesSection());
@@ -351,16 +354,33 @@ public class CourseSummaryConfigurer extends Configurer implements
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUUIConstants.SUBJECT_CODE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY), null, null, null, new KeyListModelWigetBinding("personId"), false));
+        
 
+
+        //block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY)));
+        //block.addSummaryTableFieldRow(getFieldRow("proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
+
+
+        return block;
+    }
+
+	@SuppressWarnings("unchecked")
+	public SummaryTableFieldBlock generateCourseInformationForProposalCrossListed(){
+        SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+        block.addEditingHandler(new EditHandler(CourseSections.COURSE_INFO));
+        block.setTitle("Cross Listed Courses");
+  
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
 		        LUUIConstants.CROSS_LISTED_ITEM_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(SUBJECT_AREA, LUUIConstants.SUBJECT_CODE_LABEL_KEY),
 		                Arrays.asList(COURSE_NUMBER_SUFFIX, LUUIConstants.COURSE_NUMBER_LABEL_KEY))));
+        
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + JOINTS,
 		        LUUIConstants.JOINT_OFFER_ITEM_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(CreditCourseJointsConstants.COURSE_ID, LUUIConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY))));
+        
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + VERSIONS,
 		        LUUIConstants.VERSION_CODE_LABEL_KEY,
 		        Arrays.asList(
@@ -373,7 +393,6 @@ public class CourseSummaryConfigurer extends Configurer implements
 
         return block;
     }
-
     public SummaryTableFieldBlock generateCourseInformation(){
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.COURSE_INFO));
@@ -384,12 +403,47 @@ public class CourseSummaryConfigurer extends Configurer implements
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + SUBJECT_AREA, generateMessageInfo(LUUIConstants.SUBJECT_CODE_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + COURSE_NUMBER_SUFFIX, generateMessageInfo(LUUIConstants.COURSE_NUMBER_LABEL_KEY)));
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY), null, null, null, new KeyListModelWigetBinding("personId"), false));
+        SummaryTableFieldBlock  aRow = new SummaryTableFieldBlock();
+        aRow.setTitle("Fixing it");
+        
+        
+        
+        aRow.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
+		        LUUIConstants.CROSS_LISTED_ITEM_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(SUBJECT_AREA, LUUIConstants.SUBJECT_CODE_LABEL_KEY),
+		                Arrays.asList(COURSE_NUMBER_SUFFIX, LUUIConstants.COURSE_NUMBER_LABEL_KEY))));
+        
+        block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + JOINTS,
+		        LUUIConstants.JOINT_OFFER_ITEM_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList(CreditCourseJointsConstants.COURSE_ID, LUUIConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY))));
+        block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + VERSIONS,
+		        LUUIConstants.VERSION_CODE_LABEL_KEY,
+		        Arrays.asList(
+		                Arrays.asList("variationCode", LUUIConstants.VERSION_CODE_LABEL_KEY),
+		                Arrays.asList("variationTitle", LUUIConstants.TITLE_LABEL_KEY))));
 
+        //block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY)));
+
+        return block;
+    }
+    
+    
+    public SummaryTableFieldBlock generateCourseInformationCrossListing(){
+        SummaryTableFieldBlock block = new SummaryTableFieldBlock();
+        block.addEditingHandler(new EditHandler(CourseSections.COURSE_INFO));
+        block.setTitle("Cross Listings");
+
+        
+        
+        
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + CROSS_LISTINGS,
 		        LUUIConstants.CROSS_LISTED_ITEM_LABEL_KEY,
 		        Arrays.asList(
 		                Arrays.asList(SUBJECT_AREA, LUUIConstants.SUBJECT_CODE_LABEL_KEY),
 		                Arrays.asList(COURSE_NUMBER_SUFFIX, LUUIConstants.COURSE_NUMBER_LABEL_KEY))));
+        
         block.addSummaryMultiplicity(getMultiplicityConfig(COURSE + QueryPath.getPathSeparator() + JOINTS,
 		        LUUIConstants.JOINT_OFFER_ITEM_LABEL_KEY,
 		        Arrays.asList(
