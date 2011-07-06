@@ -134,7 +134,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * Retrieve CourseOffering ids for a given term and unit content owner
      * 
      * @param termKey  Unique key of the term in which the course is being offered
-     * @param unitOnwerId Unit content owner Id 
+     * @param unitOwnerId Unit content owner Id 
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return List of CourseOffering Ids
@@ -163,7 +163,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CourseOfferingInfo createCourseOfferingFromCanonical(@WebParam(name = "courseId") String courseid, @WebParam(name = "termKey") String termKey, @WebParam(name = "formatIdList") List<String> formatIdList, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo createCourseOfferingFromCanonical(@WebParam(name = "courseId") String courseId, @WebParam(name = "termKey") String termKey, @WebParam(name = "formatIdList") List<String> formatIdList, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     
     /**
@@ -256,7 +256,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      * @throws DataValidationErrorException One or more values invalid for this operation
      */
-    public StatementTreeViewInfo createCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
+    public StatementTreeViewInfo createCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Updates the course offering restriction
@@ -276,7 +276,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws CircularReferenceException circular reference in statements
      * @throws DataValidationErrorException One or more values invalid for this operation
      */
-    public StatementTreeViewInfo updateCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
+    public StatementTreeViewInfo updateCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
 
     /**
      * Delete the course offering restriction
@@ -392,7 +392,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * Creates a new Activity Offering
      * 
      * @param courseOfferingIdList List of courseOffering Ids that the ActivityOffering will belong to
-     * @param ActivityOfferingInfo Details of the ActivityOffering to be created
+     * @param activityOfferingInfo Details of the ActivityOffering to be created
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return newly created ActivityOffering
@@ -475,7 +475,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      * @throws DataValidationErrorException One or more values invalid for this operation
      */
-    public StatementTreeViewInfo createActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
+    public StatementTreeViewInfo createActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Updates the activity offering restriction
@@ -495,7 +495,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws CircularReferenceException circular reference in statements
      * @throws DataValidationErrorException One or more values invalid for this operation
      */
-    public StatementTreeViewInfo updateActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
+    public StatementTreeViewInfo updateActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
 
     /**
      * Delete the activity offering restriction
@@ -734,7 +734,7 @@ public interface CourseOfferingService extends DataDictionaryService {
     /**
      * Creates a new Seat Pool
      * 
-     * @param SeatPoolDefinitionInfo Details of the SeatPoolDefinition to be created
+     * @param seatPoolDefinitionInfo Details of the SeatPoolDefinition to be created
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return newly created SeatPoolDefinition
