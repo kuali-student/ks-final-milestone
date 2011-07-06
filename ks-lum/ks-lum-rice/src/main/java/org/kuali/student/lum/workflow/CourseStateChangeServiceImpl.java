@@ -1,6 +1,5 @@
 package org.kuali.student.lum.workflow;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,18 +29,18 @@ public class CourseStateChangeServiceImpl {
 	 * 
 	 * @param courseId id of course
 	 * @param newState the new state for the course
-	 * @param currentVersionStart the current version start date of course
+	 * @param prevEndTermAtpId the current version end date of course
 	 * @return
 	 * @throws Exception
 	 */
-	public StatusInfo changeState(String courseId, String newState,	Date currentVersionStart) throws Exception {
+	public StatusInfo changeState(String courseId, String newState,	String prevEndTermAtpId) throws Exception {
 
 		CourseInfo courseInfo = courseService.getCourse(courseId);
 
 		StatusInfo ret = new StatusInfo();
 		try {
 			if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-				activateCourse(courseInfo, currentVersionStart);
+				activateCourse(courseInfo, prevEndTermAtpId);
 			} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
 				retireCourse(courseInfo);
 			}
@@ -59,9 +58,9 @@ public class CourseStateChangeServiceImpl {
 	 * Activate a course version. Only course with a state of "Approved" can be activated.
 	 * 
 	 * @param courseToActivate
-	 * @param currentVersionStart the course to activate
+	 * @param prevEndTermAtpId the end term we set on the current version
 	 */
-	protected void activateCourse(CourseInfo courseToActivate, Date currentVersionStart) throws Exception{
+	protected void activateCourse(CourseInfo courseToActivate, String prevEndTermAtpId) throws Exception{
     	CourseInfo currVerCourse = getCurrentVersionOfCourse(courseToActivate);
     	String existingState = courseToActivate.getState();
 		String currVerState = currVerCourse.getState();
@@ -71,10 +70,10 @@ public class CourseStateChangeServiceImpl {
 			// since this is approved if isCurrVer we can assume there are no previously active versions to deal with
 			if (isCurrVer) {
 				// setstate for thisVerCourse and setCurrentVersion(courseId)
-				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, currentVersionStart);
+				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, null, true, prevEndTermAtpId);
 			} else if (currVerState.equals(DtoConstants.STATE_ACTIVE) ||
 					currVerState.equals(DtoConstants.STATE_SUSPENDED)) {
-				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, currentVersionStart);
+				updateCourseVersionStates(courseToActivate, DtoConstants.STATE_ACTIVE, currVerCourse, DtoConstants.STATE_SUPERSEDED, true, prevEndTermAtpId);
 			}
 		}
 	}
@@ -134,19 +133,16 @@ public class CourseStateChangeServiceImpl {
 	 *            Set to null to not update the currVerCourse state.
 	 * @param makeCurrent
 	 *            if true we'll set thisVerCourse as the current version.
-	 * @param currentVersionStart
-	 *            the start date for the new current version to start on and the
-	 *            old current version to end on. Set to null to use now as the
-	 *            start date.
+	 * @param prevEndTermAtpId
+	 *            the end term for the previous version to end on
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false)
 	private void updateCourseVersionStates(CourseInfo thisVerCourse,
 			String thisVerNewState, CourseInfo currVerCourse,
 			String currVerNewState, boolean makeCurrent,
-			Date currentVersionStart) throws Exception {
+			String prevEndTermAtpId) throws Exception {
 		String thisVerPrevState = thisVerCourse.getState();
-		String currVerPrevState = currVerCourse.getState();
 
 		// if already current, will throw error if you try to make the current
 		// version the current version.
@@ -166,13 +162,16 @@ public class CourseStateChangeServiceImpl {
 		// won't get called if previous exception was thrown
 		if (currVerNewState != null) {
 			currVerCourse.setState(currVerNewState);
+			if(currVerCourse.getEndTerm()==null){
+				currVerCourse.setEndTerm(prevEndTermAtpId);
+			}
 			courseService.updateCourse(currVerCourse);
 			updateStatementTreeViewInfoState(currVerCourse);
 		}
 
 		if (makeCurrent == true) {
 			courseService.setCurrentCourseVersion(thisVerCourse.getId(),
-					currentVersionStart);
+					null);
 		}
 
 		// for all draft and approved courses set the state to superseded.

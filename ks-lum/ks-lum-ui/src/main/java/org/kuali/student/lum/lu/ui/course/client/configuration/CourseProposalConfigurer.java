@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -54,7 +54,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
@@ -69,10 +68,10 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
@@ -130,7 +129,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     public enum CourseSections {
         CLU_BEGIN, PEOPLE_PERMISSONS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
         COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS,DECISIONS, DOCUMENTS,
-        PROGRAM_INFO, ASSEMBLER_TEST
+        PROGRAM_INFO, ASSEMBLER_TEST, WF_APPROVE_DIALOG
     }
 
     public void setStatementTypes(List<StatementTypeInfo> stmtTypes) {
@@ -858,10 +857,11 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     }
 
     @Override
-    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+    public MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
 
+    
     protected Section generateFinancialsSection(Section section) {
 
         VerticalSection justiFee = initSection(getH3Title(LUUIConstants.COURSE_FEE_TITLE), WITH_DIVIDER);

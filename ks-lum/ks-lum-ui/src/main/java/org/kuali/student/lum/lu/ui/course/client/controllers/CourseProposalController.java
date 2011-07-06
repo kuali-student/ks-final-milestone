@@ -47,8 +47,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
-import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
-import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -65,9 +63,9 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
@@ -86,6 +84,7 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
@@ -176,7 +175,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     protected void initializeController() {
     	cfg = GWT.create(CourseProposalConfigurer.class);
    		proposalPath = cfg.getProposalPath();
-   		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
+   		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions",
+   				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"Required Fields", cfg.getModelId());//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);
    		
    		//Add an extra menu item to copy the proposal to a new proposal.
@@ -394,6 +394,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setStatementTypes(stmtTypesOut);
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
+                
+                //Add fields to workflow utils screens
+                if(workflowUtil!=null){
+                	workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition);
+                	
+                }
 
                 progressiveEnableFields();
                 

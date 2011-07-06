@@ -124,6 +124,10 @@ public class LUUIConstants {
     public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
     public static final String PILOT_COURSE_TEXT_LABEL_KEY = "cluPilotCourseText";
     
+    public static final String PROPOSAL_PREV_START_TERM = "previousStartTerm";
+    public static final String PROPOSAL_PREV_END_TERM = "previousEndTerm";
+    
+    
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
     public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";
@@ -313,7 +317,7 @@ public class LUUIConstants {
 	public static final String LAST_TERM_OFFERED_LABEL_KEY = "courseLastTermOffered";
 	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
 	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
-    
+	    
 
 }
 

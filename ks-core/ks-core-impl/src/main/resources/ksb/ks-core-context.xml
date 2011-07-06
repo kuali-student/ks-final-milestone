@@ -505,8 +505,7 @@
 
 
     <bean id="coreServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--  TODO: Currently core services are not wired for lookup validation -->
-        <!--  <property name="searchDispatcher" ref="coreSearchDispatcher"/> -->
+        <property name="searchDispatcher" ref="coreSearchDispatcher"/>
     </bean>
 
     <bean id="coreValidatorFactory-parent"
@@ -519,7 +518,24 @@
 
     <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
 
-
+    <bean id="coreSearchDispatcher"
+          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="atpServiceClient"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="atpServiceClient"
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.core.atp.service.AtpService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/atp}AtpService"/>
+    </bean>
+    
+    
 	<bean id="mapExceptionAdvisor"
 		class="org.kuali.student.common.util.ExceptionMappingAdvice">
 		<property name="defaultException"

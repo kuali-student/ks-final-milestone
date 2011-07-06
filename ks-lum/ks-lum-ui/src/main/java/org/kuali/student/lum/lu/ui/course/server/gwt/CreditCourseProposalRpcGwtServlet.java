@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -88,7 +87,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
     
-    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 	

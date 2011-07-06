@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.course.client.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public interface CourseRpcService extends BaseDataOrchestrationRpcService{
     public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
     public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception;
     public StatusInfo changeState(String courseId, String newState) throws Exception;
-    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception;
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception;
  
 	public DataSaveResult createCopyCourse(String originalCluId) throws Exception;
 	public DataSaveResult createCopyCourseProposal(String originalProposalId) throws Exception;

@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,13 +120,14 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
 	}
 
-    
+	@Override  
     public StatusInfo changeState(String courseId, String newState) throws Exception {
     	return changeState(courseId, newState, null);
     }
-
-    public StatusInfo changeState(String courseId, String newState, Date currentVersionStart) throws Exception {
-    	return stateChangeService.changeState(courseId, newState, currentVersionStart);
+	
+	@Override
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
+    	return stateChangeService.changeState(courseId, newState, prevEndTerm);
     }
 
     private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {

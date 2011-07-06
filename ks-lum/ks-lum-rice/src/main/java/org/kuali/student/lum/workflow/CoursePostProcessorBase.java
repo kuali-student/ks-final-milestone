@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.postprocessor.DocumentRouteLevelChange;
 import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
@@ -22,7 +23,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -56,12 +56,13 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
         // update the course state if the cluState value is not null (allows for clearing of the state)
         String courseId = getCourseId(proposalInfo);
+        String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
         CourseInfo courseInfo = getCourseService().getCourse(courseId);
         String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus());
         //Use the state change service to update to active and update preceding versions  
         if(DtoConstants.STATE_ACTIVE.equals(courseState)){
         	//Change the state using the effective date as the version start date
-        	getCourseStateChangeService().changeState(courseId, courseState, null);
+        	getCourseStateChangeService().changeState(courseId, courseState, prevEndTermAtpId);
         }else{
         	updateCourse(statusChangeEvent, courseState, courseInfo);
         }
@@ -184,7 +185,19 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
         	statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
         }
-    }  
+    }
+
+	@Override
+	protected boolean processCustomRouteLevelChange(
+			DocumentRouteLevelChange documentRouteLevelChange,
+			ProposalInfo proposalInfo) throws Exception {
+		//Update the proposal with the new node name
+		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
+		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+		return true;
+	}
+
+  
     
 
 }

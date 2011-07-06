@@ -15,35 +15,44 @@
 package org.kuali.student.core.workflow.ui.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.ModelDefinition;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmApprovalCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.AcknowledgeCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmApprovalCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.RejectCancelEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmApprovalCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -146,6 +155,8 @@ public class WorkflowUtilities{
 	private AbbrPanel required; 
 	private KSLightBox submitSuccessDialog;
 	private VerticalPanel dialogPanel;
+	private VerticalSectionView approveDialogView;
+	private HashSet<String> approveFields = new HashSet<String>();
     
     private final KSLabel workflowStatusLabel = new KSLabel("");
     
@@ -166,6 +177,32 @@ public class WorkflowUtilities{
 		this.proposalPath = proposalPath;
 		setupWFButtons();
 		setupDialog();
+	}
+	
+	public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum, String name, String modelId) {
+		this.dropDownLabel = dropDownLabel;
+		this.parentController = parentController;
+		this.proposalPath = proposalPath;
+
+		approveDialogView = new VerticalSectionView(viewEnum, name, modelId);
+		approveDialogView.setController(parentController);
+		
+		setupWFButtons();
+		setupDialog();
+	}
+
+	public void addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition){
+        //Add a new field to the workflow widget
+		if(approveDialogView == null){
+        	throw new RuntimeException("Can not add a field when no view has be defined.");
+        }
+		QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+        if(meta.isCanEdit() && MetadataInterrogator.isRequiredForNextState(meta)){
+        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+            approveDialogView.addField(fd);
+            approveFields.add(fd.getFieldKey());
+        }
 	}
 	
 	public void requestAndSetupModel() {
@@ -544,34 +581,51 @@ public class WorkflowUtilities{
 								required.setText("Please enter the decision rationale");
 							}
 							else{
-								addRationale(rationaleEditor,DecisionRationaleDetail.APPROVE.getType());
-								
-								workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-								@Override
-                                public void handleFailure(Throwable caught) {
-									submitSuccessDialog.hide();
-									Window.alert("Error approving Proposal");
+								if(approveDialogView!=null){
+									//Save first and then do the workflow actions later
+									SaveActionEvent saveActionEvent = new SaveActionEvent();
+					                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+					                    public void onActionComplete(ActionEvent action) {
+					                    	doWorkflowApprove();
+					                    }
+					                });
+					                parentController.fireApplicationEvent(saveActionEvent);
+								}else{
+									doWorkflowApprove();
 								}
-								public void onSuccess(Boolean result) {
-									submitSuccessDialog.hide();
-									if (result){
-										updateWorkflow(dataModel);
-										if(submitCallback != null){
-											submitCallback.exec(result);
-										}
-										//Notify the user that the document was approved
-										KSNotifier.add(new KSNotification("Proposal was approved", false));
-									} else {
-										Window.alert("Error approving Proposal");
-									}
-								}
-							});
+
 							}
 
+						}
+						else{
+							submitSuccessDialog.hide();
+						}
 					}
-					else{
-						submitSuccessDialog.hide();
-					}
+
+					private void doWorkflowApprove() {
+						addRationale(rationaleEditor,DecisionRationaleDetail.APPROVE.getType());
+						
+						workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+							@Override
+                            public void handleFailure(Throwable caught) {
+								submitSuccessDialog.hide();
+								Window.alert("Error approving Proposal");
+							}
+							public void onSuccess(Boolean result) {
+								submitSuccessDialog.hide();
+								if (result){
+									updateWorkflow(dataModel);
+									if(submitCallback != null){
+										submitCallback.exec(result);
+									}
+									//Notify the user that the document was approved
+									KSNotifier.add(new KSNotification("Proposal was approved", false));
+								} else {
+									Window.alert("Error approving Proposal");
+								}
+							}
+						});
+						
 					}
 				});
 				
@@ -587,8 +641,11 @@ public class WorkflowUtilities{
 				dialogPanel.add(fieldLabel);
 				dialogPanel.add(required);
 				dialogPanel.add(rationaleEditor);
+                if(approveDialogView!=null){
+                	dialogPanel.add(approveDialogView.asWidget());
+                }
 				dialogPanel.add(approvalButton);
-				dialogPanel.setSize("580px", "400px");
+				dialogPanel.setSize("680px", "400px");
 //				submitSuccessDialog.setWidget(dialogPanel);
 				submitSuccessDialog.show();
 			}        

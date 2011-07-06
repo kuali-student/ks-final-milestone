@@ -57,6 +57,11 @@
   <property name="initialLookup" ref="kuali.lu.lookup.academicYear" />
  </bean>
 
+ <bean id="proposalInfo.prevEndTerm" parent="uilookupconfig-parent">
+  <property name="path" value="proposalInfo.prevEndTerm" />
+  <property name="initialLookup" ref="kuali.lu.lookup.course.endTerm.suggest" />
+ </bean>
+
  <bean id="courseInfo.instructors" parent="uilookupconfig-parent">
   <property name="path" value="courseInfo.instructors" />
   <property name="initialLookup" ref="ks.lookup.person.suggest" />
