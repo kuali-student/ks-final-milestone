@@ -215,7 +215,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             this.addClickHandler(handler);
             this.addMouseOverHandler(handler);
             this.addMouseOutHandler(handler);
-
+  
             a.addFocusHandler(new FocusHandler() {
                 @Override
                 public void onFocus(FocusEvent event) {
@@ -236,7 +236,8 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 }
             });
 
-
+            a.setTabIndex(itemNum + 1);
+            	
             contentPanel.add(itemLabel);
             if(item.getShownIcon() != null){
             	if(imgLoc == MenuImageLocation.RIGHT){
