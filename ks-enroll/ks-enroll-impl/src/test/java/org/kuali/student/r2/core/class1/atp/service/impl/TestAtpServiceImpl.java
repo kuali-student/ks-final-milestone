@@ -46,11 +46,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpStateDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao"),
-    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao"), 
-    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.MilestoneDao"),
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
-    @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao"),
     @Dao(value = "org.kuali.student.r2.common.dao.TypeTypeRelationDao")} )
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestAtpServiceImpl extends AbstractServiceTest {
@@ -555,7 +552,7 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     
     @Test
     public void testGetAtpMilestoneRelationIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> results = atpService.getAtpMilestoneRelationIdsByType("kuali.atp.milestone.relation.owns", callContext);
+        List<String> results = atpService.getAtpMilestoneRelationIdsByType(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, callContext);
         
         assertNotNull(results);
         assertEquals(3, results.size());
@@ -706,56 +703,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        try {
-	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, callContext);
-	        assertNotNull(typeInfo);
-	        try {
-		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
-		        fail("Did not receive DoesNotExistException when getting nonexistent TypeInfo");
-	        } catch (DoesNotExistException dnee) { /* expected */ }
-	    } catch (Exception e) {
-	        fail(e.getMessage());
-	    }
-    }
-    
-    @Test
-    public void testGetTypeRelationsByOwnerType() {
-        try {
-            List<TypeTypeRelationInfo> typeInfos = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_AY_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, callContext);
-            assertNotNull(typeInfos);
-            assertEquals(3, typeInfos.size());
-	    } catch (Exception e) {
-	        fail(e.getMessage());
-	    }
-    }
-    
-    @Test
-    public void testGetTypesByRefObjectURI() {
-        try {
-            List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
-            assertNotNull(typeInfos);
-            assertEquals(30, typeInfos.size());
-            
-            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
-            assertNotNull(typeInfos);
-            assertEquals(4, typeInfos.size());
-            
-            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION, callContext);
-            assertNotNull(typeInfos);
-            assertEquals(2, typeInfos.size());
-            assertTrue(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY.equals(typeInfos.get(0).getKey()) || AtpServiceConstants.ATP_MILESTONE_RELATION_REUSES_TYPE_KEY.equals(typeInfos.get(1).getKey()));
-            
-            try {
-	            typeInfos = atpService.getTypesByRefObjectURI("totally.bogus.object.uri", callContext);
-		        fail("Did not receive DoesNotExistException when getting TypeInfos for nonexistent refObjectURI");
-	        } catch (DoesNotExistException dnee) { /* expected */ }
-	    } catch (Exception e) {
-	        fail(e.getMessage());
-	    }
-    }
-    
-    @Test
     public void testGetAtpAtpRelationsByAtpAndRelationType() {
         try {
             List<AtpAtpRelationInfo> aaRelInfos = atpService.getAtpAtpRelationsByAtpAndRelationType("testTermId1", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
@@ -770,16 +717,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
             // sigh. service is returning an empty list, but client seems to get a null. have asked KSDevs chat about how to fix; not finding a solution via my google-fu
             assertTrue(null == aaRelInfos || aaRelInfos.size() == 0);
             // assertEquals(0, aaRelInfos.size());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
-    
-    @Test
-    public void testGetAllowedTypesForType() {
-        try {
-            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
-            assertEquals(6, typeInfos.size());
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -842,4 +779,66 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
             assertNull(shouldBeNull);
         }
     }
+    
+    // Tests of TypeService methods
+    @Test
+    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        try {
+	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, callContext);
+	        assertNotNull(typeInfo);
+	        try {
+		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
+		        fail("Did not receive DoesNotExistException when getting nonexistent TypeInfo");
+	        } catch (DoesNotExistException dnee) { /* expected */ }
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
+    
+    @Test
+    public void testGetTypesByRefObjectURI() {
+        try {
+            List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(26, typeInfos.size());
+            
+            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(4, typeInfos.size());
+            
+            typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(2, typeInfos.size());
+            assertTrue(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY.equals(typeInfos.get(0).getKey()) || AtpServiceConstants.ATP_MILESTONE_RELATION_REUSES_TYPE_KEY.equals(typeInfos.get(1).getKey()));
+            
+            try {
+	            typeInfos = atpService.getTypesByRefObjectURI("totally.bogus.object.uri", callContext);
+		        fail("Did not receive DoesNotExistException when getting TypeInfos for nonexistent refObjectURI");
+	        } catch (DoesNotExistException dnee) { /* expected */ }
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
+    
+    @Test
+    public void testGetAllowedTypesForType() {
+        try {
+            List<TypeInfo> typeInfos = atpService.getAllowedTypesForType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
+            assertEquals(6, typeInfos.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    @Test
+    public void testGetTypeRelationsByOwnerType() {
+        try {
+            List<TypeTypeRelationInfo> typeInfos = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_AY_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, callContext);
+            assertNotNull(typeInfos);
+            assertEquals(3, typeInfos.size());
+	    } catch (Exception e) {
+	        fail(e.getMessage());
+	    }
+    }
+    // End tests of TypeService methods
 }

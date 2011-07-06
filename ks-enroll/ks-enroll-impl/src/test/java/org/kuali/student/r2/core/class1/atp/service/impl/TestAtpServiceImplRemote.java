@@ -213,7 +213,11 @@ public class TestAtpServiceImplRemote {
         MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId");
         milestone.setName("testCreate");
-        milestone.setStartDate(new Date());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        
+        milestone.setStartDate(cal.getTime());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -253,7 +257,11 @@ public class TestAtpServiceImplRemote {
         MilestoneInfo milestone = new MilestoneInfo();
         milestone.setKey("newId2");
         milestone.setName("testCreate");
-        milestone.setStartDate(new Date());
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        
+        milestone.setStartDate(cal.getTime());
         milestone.setDateRange(false);
         milestone.setAllDay(true);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -708,7 +716,7 @@ public class TestAtpServiceImplRemote {
         try {
             List<TypeInfo> typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);
             assertNotNull(typeInfos);
-            assertEquals(30, typeInfos.size());
+            assertEquals(26, typeInfos.size());
             
             typeInfos = atpServiceValidation.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_MILESTONE, callContext);
             assertNotNull(typeInfos);

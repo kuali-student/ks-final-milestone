@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -35,7 +34,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     
     @ManyToOne
     @JoinColumn(name="ATP_RELTN_TYPE_ID")
-    private AtpAtpRelationTypeEntity atpAtpRelationType;
+    private AtpTypeEntity atpType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -83,12 +82,12 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         this.relatedAtp = relatedAtp;
     }
 
-    public AtpAtpRelationTypeEntity getAtpAtpRelationType() {
-        return atpAtpRelationType;
+    public AtpTypeEntity getAtpType() {
+        return atpType;
     }
 
-    public void setAtpAtpRelationType(AtpAtpRelationTypeEntity atpAtpRelationType) {
-        this.atpAtpRelationType = atpAtpRelationType;
+    public void setAtpType(AtpTypeEntity atpType) {
+        this.atpType = atpType;
     }
 
     public Date getEffectiveDate() {
@@ -136,7 +135,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
         aarInfo.setEffectiveDate(effectiveDate);
         aarInfo.setExpirationDate(expirationDate);
         aarInfo.setStateKey(atpState.getId());
-        aarInfo.setTypeKey(atpAtpRelationType.getId());
+        aarInfo.setTypeKey(atpType.getId());
         aarInfo.setMeta(super.toDTO());
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

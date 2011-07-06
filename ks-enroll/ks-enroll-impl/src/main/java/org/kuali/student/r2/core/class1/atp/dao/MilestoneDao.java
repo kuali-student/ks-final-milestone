@@ -12,7 +12,7 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByMilestoneTypeId(String milestoneTypeId) {
-        return em.createQuery("from MilestoneEntity m where m.milestoneType.id=:mstoneTypeId").setParameter("mstoneTypeId", milestoneTypeId).getResultList();
+        return em.createQuery("from MilestoneEntity m where m.atpType.id=:mstoneTypeId").setParameter("mstoneTypeId", milestoneTypeId).getResultList();
     }
     
     @SuppressWarnings("unchecked")

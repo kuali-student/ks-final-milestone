@@ -9,7 +9,7 @@ public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelati
 
     @SuppressWarnings("unchecked")
     public List<AtpMilestoneRelationEntity> getByTypeId(String atpMilestoneRelationTypeId) {
-        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpMilestoneRelationType.id=:typeId").setParameter("typeId", atpMilestoneRelationTypeId).getResultList();
+        return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atpType.id=:typeId").setParameter("typeId", atpMilestoneRelationTypeId).getResultList();
     }
     
     @SuppressWarnings("unchecked")

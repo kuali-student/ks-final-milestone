@@ -25,7 +25,6 @@ import javax.persistence.OneToMany;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.infc.Attribute;
 
 
 @MappedSuperclass

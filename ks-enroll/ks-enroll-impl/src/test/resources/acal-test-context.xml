@@ -107,11 +107,8 @@
 	  	<property name="atpStateDao" ref="atpStateDao"/>
 	  	<property name="atpRichTextDao" ref="atpRichTextDao"/>
 	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
-	  	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/>
 	  	<property name="milestoneDao" ref="milestoneDao"/>
-	  	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
     	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
     </bean>
@@ -173,15 +170,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
     <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    
-    <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
@@ -189,10 +178,6 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>

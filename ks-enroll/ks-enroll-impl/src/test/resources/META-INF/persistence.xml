@@ -24,11 +24,8 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
-        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
 	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
  		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>

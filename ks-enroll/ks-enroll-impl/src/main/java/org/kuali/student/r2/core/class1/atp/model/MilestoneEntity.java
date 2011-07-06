@@ -42,7 +42,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     
     @ManyToOne
     @JoinColumn(name = "MILESTONE_TYPE_ID")
-    private MilestoneTypeEntity milestoneType;
+    private AtpTypeEntity atpType;
 
     @ManyToOne
     @JoinColumn(name = "MILESTONE_STATE_ID")
@@ -69,9 +69,9 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         AtpStateEntity state = new AtpStateEntity();
         state.setId(milestone.getStateKey());
         this.setAtpState(state);
-        MilestoneTypeEntity type = new MilestoneTypeEntity();
+        AtpTypeEntity type = new AtpTypeEntity();
         type.setId(milestone.getTypeKey());
-        this.setMilestoneType(type);
+        this.setAtpType(type);
         this.name = milestone.getName();
         this.descr = null != milestone.getDescr() ? new AtpRichTextEntity(milestone.getDescr()) : null;
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
@@ -117,12 +117,12 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         this.endDate = endDate;
     }
 
-    public MilestoneTypeEntity getMilestoneType() {
-        return milestoneType;
+    public AtpTypeEntity getAtpType() {
+        return atpType;
     }
 
-    public void setMilestoneType(MilestoneTypeEntity atpType) {
-        this.milestoneType = atpType;
+    public void setAtpType(AtpTypeEntity atpType) {
+        this.atpType = atpType;
     }
 
     public AtpStateEntity getAtpState() {
@@ -165,7 +165,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         
         info.setKey(getId());
         info.setName(getName());
-        info.setTypeKey(null != milestoneType ? milestoneType.getId() : null);
+        info.setTypeKey(null != atpType ? atpType.getId() : null);
         info.setStateKey(null != atpState ? atpState.getId() : null);
         info.setStartDate(getStartDate());
         info.setEndDate(getEndDate());

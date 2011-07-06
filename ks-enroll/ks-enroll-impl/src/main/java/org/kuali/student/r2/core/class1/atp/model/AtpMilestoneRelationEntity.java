@@ -50,7 +50,7 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     
     @ManyToOne
     @JoinColumn(name="AM_RELTN_TYPE_ID")
-    private AtpMilestoneRelationTypeEntity atpMilestoneRelationType;
+    private AtpTypeEntity atpType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -100,12 +100,12 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
         this.milestone = milestone;
     }
 
-    public AtpMilestoneRelationTypeEntity getAtpMilestoneRelationType() {
-        return atpMilestoneRelationType;
+    public AtpTypeEntity getAtpMilestoneRelationType() {
+        return atpType;
     }
 
-    public void setAtpMilestoneRelationType(AtpMilestoneRelationTypeEntity atpMilestoneRelationType) {
-        this.atpMilestoneRelationType = atpMilestoneRelationType;
+    public void setAtpType(AtpTypeEntity atpType) {
+        this.atpType = atpType;
     }
 
     public Date getEffectiveDate() {

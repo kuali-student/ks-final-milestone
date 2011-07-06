@@ -37,23 +37,18 @@ import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
-import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao;
-import org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpStateDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.MilestoneDao;
-import org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationTypeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
-import org.kuali.student.r2.core.class1.atp.model.MilestoneTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
@@ -65,11 +60,8 @@ public class AtpServiceImpl implements AtpService {
     private AtpStateDao atpStateDao;
     private AtpRichTextDao atpRichTextDao;
     private AtpAtpRelationDao atpRelDao;
-    private AtpAtpRelationTypeDao atpRelTypeDao;
     private MilestoneDao milestoneDao;
-    private MilestoneTypeDao milestoneTypeDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
-    private AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao;
     private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
     private DataDictionaryService dataDictionaryService;
@@ -114,14 +106,6 @@ public class AtpServiceImpl implements AtpService {
         this.atpRelDao = atpRelDao;
     }
 
-    public AtpAtpRelationTypeDao getAtpRelTypeDao() {
-        return atpRelTypeDao;
-    }
-
-    public void setAtpRelTypeDao(AtpAtpRelationTypeDao atpRelTypeDao) {
-        this.atpRelTypeDao = atpRelTypeDao;
-    }
-
     public MilestoneDao getMilestoneDao() {
         return milestoneDao;
     }
@@ -130,28 +114,12 @@ public class AtpServiceImpl implements AtpService {
         this.milestoneDao = milestoneDao;
     }
 
-    public MilestoneTypeDao getMilestoneTypeDao() {
-        return milestoneTypeDao;
-    }
-
-    public void setMilestoneTypeDao(MilestoneTypeDao milestoneTypeDao) {
-        this.milestoneTypeDao = milestoneTypeDao;
-    }
-
     public AtpMilestoneRelationDao getAtpMilestoneRelationDao() {
         return atpMilestoneRelationDao;
     }
 
     public void setAtpMilestoneRelationDao(AtpMilestoneRelationDao atpMilestoneRelationDao) {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
-    }
-
-    public AtpMilestoneRelationTypeDao getAtpMilestoneRelationTypeDao() {
-        return atpMilestoneRelationTypeDao;
-    }
-
-    public void setAtpMilestoneRelationTypeDao(AtpMilestoneRelationTypeDao atpMilestoneRelationTypeDao) {
-        this.atpMilestoneRelationTypeDao = atpMilestoneRelationTypeDao;
     }
 
     public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
@@ -189,99 +157,6 @@ public class AtpServiceImpl implements AtpService {
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
         return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
-
-        if (null == atpType) {
-            throw new DoesNotExistException();
-        }
-        return atpType.toDto();
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
-
-        if (null == refObjectURI) {
-            throw new MissingParameterException("refObjectUri parameter cannot be null");
-        }
-        // TODO - this is where having a DAO per entity-type becomes a pain;
-        // perhaps at least coalesce these Type entities into one type&table,
-        // rather than having a Type entity per domain entity?
-        if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP)) {
-            typeEntities.addAll(atpTypeDao.findAll());
-        } else if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
-            typeEntities.addAll(milestoneTypeDao.findAll());
-        } else if (refObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION)) {
-            typeEntities.addAll(atpMilestoneRelationTypeDao.findAll());
-        } else {
-            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
-        }
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity> typeEntity : typeEntities) {
-            typeInfos.add(typeEntity.toDto());
-        }
-        return typeInfos;
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
-
-        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        List<String> ids = new ArrayList<String>();
-        for (TypeTypeRelationEntity entity : typeTypeRelations) {
-            ids.add(entity.getRelatedTypeId());
-        }
-
-        if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP)) {
-            typeEntities.addAll(atpTypeDao.findByIds(ids));
-        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_MILESTONE)) {
-            typeEntities.addAll(milestoneTypeDao.findByIds(ids));
-        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_ATP_RELATION)) {
-            typeEntities.addAll(atpRelTypeDao.findByIds(ids));
-        } else if (relatedRefObjectURI.equals(AtpServiceConstants.REF_OBJECT_URI_ATP_MILESTONE_RELATION)) {
-            typeEntities.addAll(atpMilestoneRelationTypeDao.findByIds(ids));
-        } else {
-            throw new DoesNotExistException("This method does not know how to handle object type:"
-                    + relatedRefObjectURI);
-        }
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity> entity : typeEntities) {
-            typeInfos.add(entity.toDto());
-        }
-        return typeInfos;
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
-
-        if (null == relationTypeKey || null == ownerTypeKey) {
-            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
-        } else {
-            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                    relationTypeKey));
-        }
-        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
-        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
-            ttrInfos.add(ttrEntity.toDto());
-        }
-        return ttrInfos;
     }
 
     @Override
@@ -440,7 +315,7 @@ public class AtpServiceImpl implements AtpService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        MilestoneTypeEntity type = milestoneTypeDao.find(milestoneTypeKey);
+        AtpTypeEntity type = atpTypeDao.find(milestoneTypeKey);
 
         if (type == null) {
             throw new InvalidParameterException(milestoneTypeKey);
@@ -511,7 +386,7 @@ public class AtpServiceImpl implements AtpService {
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        MilestoneTypeEntity type = milestoneTypeDao.find(milestoneTypeKey);
+        AtpTypeEntity type = atpTypeDao.find(milestoneTypeKey);
 
         if (type == null) {
             throw new InvalidParameterException(milestoneTypeKey);
@@ -639,7 +514,7 @@ public class AtpServiceImpl implements AtpService {
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
 
         if (milestoneInfo.getTypeKey() != null) {
-            entity.setMilestoneType(milestoneTypeDao.find(milestoneInfo.getTypeKey()));
+            entity.setAtpType(atpTypeDao.find(milestoneInfo.getTypeKey()));
         }
 
         if (milestoneInfo.getStateKey() != null) {
@@ -671,7 +546,7 @@ public class AtpServiceImpl implements AtpService {
 
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
         updatedEntity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
-        updatedEntity.setMilestoneType(milestoneTypeDao.find(milestoneInfo.getTypeKey()));
+        updatedEntity.setAtpType(atpTypeDao.find(milestoneInfo.getTypeKey()));
 
         milestoneDao.merge(updatedEntity);
 
@@ -776,7 +651,7 @@ public class AtpServiceImpl implements AtpService {
                 atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
             }
             if (null != atpAtpRelationInfo.getTypeKey()) {
-                atpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+                atpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             }
             if (null != atpAtpRelationInfo.getAtpKey()) {
                 atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
@@ -803,16 +678,16 @@ public class AtpServiceImpl implements AtpService {
         AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);
 
         if (null != atpRel) {
-            AtpAtpRelationEntity modifiedatpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
+            AtpAtpRelationEntity modifiedAtpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
             if (atpAtpRelationInfo.getAtpKey() != null)
-                modifiedatpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+                modifiedAtpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
             if (atpAtpRelationInfo.getRelatedAtpKey() != null)
-                modifiedatpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+                modifiedAtpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
             if (atpAtpRelationInfo.getTypeKey() != null)
-                modifiedatpRel.setAtpAtpRelationType(atpRelTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+                modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             if (atpAtpRelationInfo.getStateKey() != null)
-                modifiedatpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
-            atpRelDao.merge(modifiedatpRel);
+                modifiedAtpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+            atpRelDao.merge(modifiedAtpRel);
         } else
             throw new DoesNotExistException(atpAtpRelationId);
         return atpAtpRelationInfo;
@@ -871,7 +746,7 @@ public class AtpServiceImpl implements AtpService {
     public List<String> getAtpMilestoneRelationIdsByType(String atpMilestoneRelationTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        AtpMilestoneRelationTypeEntity type = atpMilestoneRelationTypeDao.find(atpMilestoneRelationTypeKey);
+        AtpTypeEntity type = atpTypeDao.find(atpMilestoneRelationTypeKey);
 
         if (type == null) {
             throw new InvalidParameterException(atpMilestoneRelationTypeKey);
@@ -957,7 +832,7 @@ public class AtpServiceImpl implements AtpService {
             createdRel.setMilestone(milestoneDao.find(atpMilestoneRelationInfo.getMilestoneKey()));
         }
         if (atpMilestoneRelationInfo.getTypeKey() != null) {
-            createdRel.setAtpMilestoneRelationType(atpMilestoneRelationTypeDao.find(atpMilestoneRelationInfo
+            createdRel.setAtpType(atpTypeDao.find(atpMilestoneRelationInfo
                     .getTypeKey()));
         }
         if (atpMilestoneRelationInfo.getStateKey() != null) {
@@ -990,7 +865,7 @@ public class AtpServiceImpl implements AtpService {
             modifiedRel.setMilestone(milestoneDao.find(atpMilestoneRelationInfo.getMilestoneKey()));
         }
         if (atpMilestoneRelationInfo.getTypeKey() != null) {
-            modifiedRel.setAtpMilestoneRelationType(atpMilestoneRelationTypeDao.find(atpMilestoneRelationInfo
+            modifiedRel.setAtpType(atpTypeDao.find(atpMilestoneRelationInfo
                     .getTypeKey()));
         }
         if (atpMilestoneRelationInfo.getStateKey() != null) {
@@ -1045,4 +920,93 @@ public class AtpServiceImpl implements AtpService {
         }
         return aaRelInfos;
     }
+    
+    // TypeService methods
+    @Override
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException {
+        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
+
+        if (null == atpType) {
+            throw new DoesNotExistException();
+        }
+        return atpType.toDto();
+    }
+
+    @Override
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+
+        if (null == refObjectURI) {
+            throw new MissingParameterException("refObjectUri parameter cannot be null");
+        }
+        if (refObjectURI.startsWith(AtpServiceConstants.NAMESPACE)) {
+            typeEntities.addAll(atpTypeDao.findAll(refObjectURI));
+        } else {
+            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
+        }
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeEntity<? extends BaseAttributeEntity> typeEntity : typeEntities) {
+            typeInfos.add(typeEntity.toDto());
+        }
+        return typeInfos;
+    }
+
+    @Override
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        
+        if ( ! relatedRefObjectURI.startsWith(AtpServiceConstants.NAMESPACE) ) {
+            throw new DoesNotExistException("This method does not know how to handle object type:"
+                    + relatedRefObjectURI);
+        }
+
+        // get the TypeTypeRelations
+        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
+                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+        
+        // create a List of the related Types' IDs
+        List<String> ids = new ArrayList<String>();
+        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+            ids.add(entity.getRelatedTypeId());
+        }
+
+        // now get the List of the related Types based on those IDs
+        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+        typeEntities.addAll(atpTypeDao.findByIds(ids));
+        
+        // convert them to DTOs and return them
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeEntity<? extends BaseAttributeEntity> entity : typeEntities) {
+            typeInfos.add(entity.toDto());
+        }
+        
+        return typeInfos;
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
+
+        if (null == relationTypeKey || null == ownerTypeKey) {
+            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
+        } else {
+            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+                    relationTypeKey));
+        }
+        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
+        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
+            ttrInfos.add(ttrEntity.toDto());
+        }
+        return ttrInfos;
+    }
+    // end TypeService methods
 }
