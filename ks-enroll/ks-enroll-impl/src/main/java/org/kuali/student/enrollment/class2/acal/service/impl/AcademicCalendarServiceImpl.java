@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -93,7 +95,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
     @Override
     public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
+            MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -261,7 +263,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
     @Override
     public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
+            MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -398,9 +400,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 
     @Override
     public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
+            MissingParameterException, OperationFailedException {
         
-        List<StateInfo> results = atpService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, context);
+        List<StateInfo> results;
+        try {
+            results = atpService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, context);
+        } catch (DoesNotExistException ex) {
+           throw new OperationFailedException (AtpServiceConstants.ATP_PROCESS_KEY, ex);
+        }
         
         return results;
     }
