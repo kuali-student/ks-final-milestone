@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -26,6 +27,7 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -35,7 +37,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
@@ -254,8 +255,11 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
+        if (null == obj) {
+            throw new DoesNotExistException(luiLuiRelationId);
+        }
+        return obj.toDto();
 	}
 
 	@Override
@@ -263,8 +267,20 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
+        List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
+        if(relEntities != null && !relEntities.isEmpty()){
+	        for (LuiLuiRelationEntity relEntity : relEntities) {
+	        	LuiLuiRelationInfo relInfo = relEntity.toDto();
+	            relInfos.add(relInfo);
+	        }
+        }
+
+        if(relInfos.isEmpty())
+        	throw new DoesNotExistException(luiId);
+        else
+        	return relInfos;
 	}
 
 	@Override
@@ -370,8 +386,29 @@ public void setLuService(LuService luService) {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+    	LuiEntity entity = luiDao.find(luiId);
+        
+        if( null != entity){
+        	LuiEntity modifiedEntity = new LuiEntity(luiInfo);
+        	String cluId = luiInfo.getCluId();
+            if( null != cluId && checkExistenceForClu(cluId, context))
+            	modifiedEntity.setCluId(cluId);
+            
+            String atpKey = luiInfo.getAtpKey();
+            if(null != atpKey && checkExistenceForAtp(atpKey, context))
+            	modifiedEntity.setAtpKey(atpKey);
+
+            if (null != luiInfo.getStateKey())
+            	modifiedEntity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
+            
+            if (null != luiInfo.getTypeKey())
+            	modifiedEntity.setLuiType(findType(luiInfo.getTypeKey()));
+            
+            luiDao.merge(modifiedEntity);
+	        return luiDao.find(modifiedEntity.getId()).toDto();
+        }
+        else
+            throw new DoesNotExistException(luiId);
 	}
 
 	@Override
@@ -380,7 +417,10 @@ public void setLuService(LuService luService) {
 			throws DependentObjectsExistException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        
+        
 		return null;
 	}
 
@@ -404,6 +444,23 @@ public void setLuService(LuService luService) {
 		return null;
 	}
 
+    private boolean checkExistenceForRelation(LuiLuiRelationInfo relationInfo) {
+        boolean existing = false;
+
+        List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(relationInfo.getLuiId());
+
+        if (rels != null && !rels.isEmpty()) {
+            for (LuiLuiRelationEntity rel : rels) {
+            	if(rel.getLui().getId().equals(relationInfo.getLuiId()) && rel.getRelatedLui().getId().equals(relationInfo.getRelatedLuiId())){
+                    existing = true;
+                    break;
+
+            	}
+            }
+        }
+
+        return existing;
+    }
 	@Override
 	@Transactional
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
@@ -413,8 +470,31 @@ public void setLuService(LuService luService) {
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		
+        if (!checkExistenceForRelation(luiLuiRelationInfo)) {
+            LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
+            entity.setId(UUIDHelper.genStringUUID());
+
+            if (null != luiLuiRelationInfo.getStateKey()) {
+                entity.setLuiluiRelationState(findState(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, luiLuiRelationInfo.getStateKey(), context));
+            }
+            if (null != luiLuiRelationInfo.getTypeKey()) {
+            	entity.setLuiLuiRelationType(findType(luiLuiRelationInfo.getTypeKey()));
+            }
+            if (null != luiLuiRelationInfo.getLuiId()) {
+            	entity.setLui(luiDao.find(luiLuiRelationInfo.getLuiId()));
+            }
+            if (null != luiLuiRelationInfo.getRelatedLuiId()) {
+            	entity.setRelatedLui(luiDao.find(luiLuiRelationInfo.getRelatedLuiId()));
+            }
+
+            luiLuiRelationDao.persist(entity);
+
+            return luiLuiRelationDao.find(entity.getId()).toDto();
+        } else
+            throw new AlreadyExistsException("The Lui-Lui relation already exists. lui="
+                    + luiLuiRelationInfo.getLuiId() + ", relatedLui=" + luiLuiRelationInfo.getRelatedLuiId());
+
 	}
 
 	@Override

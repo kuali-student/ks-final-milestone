@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +14,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.infc.LuiLuiRelation;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
@@ -54,6 +61,42 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     @OneToMany(cascade = CascadeType.ALL)
     private List<LuiAttributeEntity> attributes;
     
+    
+    public LuiLuiRelationEntity(){}
+    
+    public LuiLuiRelationEntity(LuiLuiRelation luiLuiRelation){
+        this.setId(luiLuiRelation.getId());
+        this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
+        this.setExpirationDate(luiLuiRelation.getExpirationDate());
+        
+        this.setAttributes(new ArrayList<LuiAttributeEntity>());
+        if (null != luiLuiRelation.getAttributes()) {
+            for (Attribute att : luiLuiRelation.getAttributes()) {
+                this.getAttributes().add(new LuiAttributeEntity(att));
+            }
+        }    	
+    }
+    
+    public LuiLuiRelationInfo toDto() {
+    	LuiLuiRelationInfo obj = new LuiLuiRelationInfo();
+    	obj.setId(getId());
+    	obj.setLuiId(lui.getId());
+    	obj.setRelatedLuiId(relatedLui.getId());
+        obj.setEffectiveDate(effectiveDate);
+        obj.setExpirationDate(expirationDate);
+        obj.setStateKey(luiluiRelationState.getId());
+        obj.setTypeKey(luiLuiRelationType.getId());
+        obj.setMeta(super.toDTO());
+        
+        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        for (LuiAttributeEntity att : getAttributes()) {
+        	AttributeInfo attInfo = att.toDto();
+            atts.add(attInfo);
+        }
+        obj.setAttributes(atts);
+        
+        return obj;
+    }
     
 	public String getName() {
 		return name;
