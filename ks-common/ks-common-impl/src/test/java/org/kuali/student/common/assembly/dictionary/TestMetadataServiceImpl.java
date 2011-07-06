@@ -67,6 +67,27 @@ public class TestMetadataServiceImpl {
 		assertFalse(gpaConstraints.isRequiredForNextState());
 		assertNull(gpaConstraints.getNextState());
 
+
+		//Check requiredness by workflow Node
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE A");
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
+		assertEquals(0, gpaConstraints.getMinOccurs().intValue());
+		
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE B");
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertTrue(gpaConstraints.isRequiredForNextState());
+		assertEquals("APPROVED", gpaConstraints.getNextState());
+		assertTrue(gpaConstraints.getMinOccurs()==0);
+
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE C");
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
+		assertTrue(gpaConstraints.getMinOccurs()==1);
+		
+		
 		// Check type and nested state
 		metadata = metadataService.getMetadata(ADDRESS_INFO);
 		ConstraintMetadata addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);

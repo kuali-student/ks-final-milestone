@@ -29,12 +29,12 @@ public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
     }
 
     @Override
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState) {
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState, String workflowNode) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
 
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
 
-        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), getNextState(state));
+        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), getNextState(state), workflowNode);
         constraints.add(constraintMetadata);
 
         return constraints;

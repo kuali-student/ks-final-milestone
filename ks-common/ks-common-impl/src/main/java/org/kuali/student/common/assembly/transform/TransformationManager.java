@@ -133,8 +133,14 @@ public class TransformationManager {
 	public Metadata getMetadata(String dtoName, Map<String,Object> filterProperties){
 		String state = (String)filterProperties.get(DtoConstants.DTO_STATE);
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
+		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
 
-		Metadata metadata = metadataService.getMetadata(dtoName, null, state, nextState);
+		Metadata metadata;
+		if (workflowNode != null && workflowNode.length() > 0){
+			metadata = metadataService.getMetadata(dtoName, null, state, nextState);
+		} else {
+			metadata = metadataService.getMetadataByWorkflowNode(dtoName, workflowNode);
+		}		 
 
 		applyMetadataFilters(dtoName, metadata, filterProperties);
 		return metadata;

@@ -107,7 +107,16 @@ public class MetadataServiceImpl {
      * @return
      */
     public Metadata getMetadata(String objectKey, String type, String state, String nextState) {
-    	return getMetadataFromDictionaryService(objectKey, type, state, nextState);
+    	return getMetadataFromDictionaryService(objectKey, type, state, nextState, null);
+    }
+
+    /**
+     * This method gets the metadata for the given object id key and workflowNode
+     * 
+     * @return
+     */
+    public Metadata getMetadataByWorkflowNode(String objectKey, String workflowNode) {
+    	return getMetadataFromDictionaryService(objectKey, null, DtoState.DRAFT.toString(), null, workflowNode);
     }
 
     /**
@@ -119,7 +128,10 @@ public class MetadataServiceImpl {
      * @return
      */
     public Metadata getMetadata(String objectKey, String type, String state) {
-        return getMetadata(objectKey, type, state, null);
+    	state = (state == null ? DtoState.DRAFT.toString():state);
+    	String nextState = DtoState.getNextStateAsString(state);
+    	
+    	return getMetadata(objectKey, type, state.toUpperCase(), nextState);
     }
 
 
@@ -130,7 +142,7 @@ public class MetadataServiceImpl {
      * @param type The type of the object (value can be null)
      */
     public Metadata getMetadata(String objectKey, String state) {
-        return getMetadata(objectKey, null, state);
+    	return getMetadata(objectKey, null, state);
     }
 
     /**
@@ -153,12 +165,12 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState) {
+    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState, String workflowNode) {
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
 
-        metadata.setProperties(getProperties(objectStructure, type, state, nextState, new RecursionCounter()));
+        metadata.setProperties(getProperties(objectStructure, type, state, nextState, workflowNode, new RecursionCounter()));
 
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
@@ -174,9 +186,9 @@ public class MetadataServiceImpl {
      * @param state
      * @return
      */
-    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, RecursionCounter counter) {
-        String objectId = objectStructure.getName();
-        int hits = counter.increment(objectId);
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, String workflowNode, RecursionCounter counter) {
+        String objectName = objectStructure.getName();
+        int hits = counter.increment(objectName);
 
         Map<String, Metadata> properties = null;
 
@@ -191,7 +203,7 @@ public class MetadataServiceImpl {
                 // Set constraints, authz flags, default value
                 metadata.setWriteAccess(WriteAccess.ALWAYS);
                 metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-                metadata.setConstraints(getConstraints(fd, type, state, nextState));
+                metadata.setConstraints(getConstraints(fd, type, state, nextState, workflowNode));
                 metadata.setCanEdit(!fd.isReadOnly());
                 metadata.setCanUnmask(!fd.isMask());
                 metadata.setCanView(!fd.isHide());
@@ -211,7 +223,7 @@ public class MetadataServiceImpl {
                 // Get properties for nested object structure
                 Map<String, Metadata> nestedProperties = null;
                 if (fd.getDataType() == org.kuali.student.common.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null) {
-                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, counter);
+                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, workflowNode, counter);
                 }
 
                 // For repeating field, create a LIST with wildcard in metadata structure
@@ -239,7 +251,7 @@ public class MetadataServiceImpl {
             }
         }
 
-        counter.decrement(objectId);
+        counter.decrement(objectName);
         return properties;
     }
 
@@ -277,12 +289,12 @@ public class MetadataServiceImpl {
         return dictionaryService.getObjectStructure(objectKey);
     }
 
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState) {
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState, String workflowNode) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
 
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
 
-        updateConstraintMetadata(constraintMetadata, (Constraint) fd, type, state, nextState);
+        updateConstraintMetadata(constraintMetadata, (Constraint) fd, type, state, nextState, workflowNode);
         constraints.add(constraintMetadata);
 
         return constraints;
@@ -294,7 +306,7 @@ public class MetadataServiceImpl {
      * @param constraintMetadata
      * @param constraint
      */
-    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state, String nextState) {
+    protected void updateConstraintMetadata(ConstraintMetadata constraintMetadata, Constraint constraint, String type, String state, String nextState, String workflowNode) {
         // For now ignoring the serverSide flag and making determination of which constraints
         // should be passed up to the UI via metadata.
 
@@ -354,61 +366,110 @@ public class MetadataServiceImpl {
 
         // Case constraints
         if (constraint.getCaseConstraint() != null) {
-            processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state, nextState);
+            processCaseConstraint(constraintMetadata, constraint.getCaseConstraint(), type, state, nextState, workflowNode);
         }
     }
 
-    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state, String nextState) {
+    /**
+     * Currently this only handles requiredness indicators for case constraints with the following field paths:
+     * 
+     *  type, state, and proposal/workflowNode
+     */
+    protected void processCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state, String nextState, String workflowNode) {
         String fieldPath = caseConstraint.getFieldPath();
-        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
-
         fieldPath = (fieldPath != null ? fieldPath.toUpperCase() : fieldPath);
-        if ("STATE".equals(fieldPath)) {
-            // Process a state constraint
+        
+        if (workflowNode != null && fieldPath != null && fieldPath.startsWith("PROPOSAL/WORKFLOWNODE")){
+        	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);        	
+        } else if ("STATE".equals(fieldPath)) {
+        	processStateCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
+        } else if ("TYPE".equals(fieldPath)) {
+        	processTypeCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
+        }
+    }
+        
+	/**
+	 * Adds required constraints based on the workflow route node the proposal is currently in.  
+	 *  
+	 */
+    private void processRequiredByNodeCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state, String nextState, String workflowNode) {
+        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+        
+    	if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
+            for (WhenConstraint whenConstraint : whenConstraints) {
+                List<Object> values = whenConstraint.getValues();
+                Constraint constraint = whenConstraint.getConstraint();
 
-        	// Defaults for state and nextState
-        	state = (state == null ? DtoState.DRAFT.toString():state);
-        	nextState = (nextState == null || nextState.length() <=0 ? DtoState.getNextStateAsString(state):nextState);
+                if (constraint.getErrorLevel() == ErrorLevel.ERROR && constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0){
+                    //If the current workflowNode is the first one defined in dictionary, 
+                	//then it is required to approve (i.e. required for the next state), otherwise it is required to save (ie required for current state)
+               		if (values.get(0).equals(workflowNode)) {                        
+               			constraintMetadata.setRequiredForNextState(true);
+               			constraintMetadata.setNextState(DtoState.APPROVED.toString());
+               			constraintMetadata.setMinOccurs(0);
+                    } else if (values.contains(workflowNode)){
+               			constraintMetadata.setRequiredForNextState(false);
+               			constraintMetadata.setNextState(null);
+               			constraintMetadata.setMinOccurs(1);
+                    }
+                }
+            }
+        }
+    }
 
-            if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
-                for (WhenConstraint whenConstraint : whenConstraints) {
-                    List<Object> values = whenConstraint.getValues();
-                    if (values != null) {
-                        Constraint constraint = whenConstraint.getConstraint();
+	/**
+     * Processes a case constraint with field path of state. 
+     */
+    private void processStateCaseConstraint(ConstraintMetadata constraintMetadata,	CaseConstraint caseConstraint, String type, String state, String nextState, String workflowNode) {
+        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+        
+        if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
+            for (WhenConstraint whenConstraint : whenConstraints) {
+                List<Object> values = whenConstraint.getValues();
+                if (values != null) {
+                    Constraint constraint = whenConstraint.getConstraint();
 
-                        if (constraint.getErrorLevel() == ErrorLevel.ERROR){
-	                        // Set the required for next state flag
-	                        if (values.contains(nextState)) {
-	                            if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
-	                                constraintMetadata.setRequiredForNextState(true);
-	                                constraintMetadata.setNextState(nextState);
-	                            }
-	                        }
-	
-	                        // Update constraints based on state constraints
-	                        if (values.contains(state.toUpperCase())) {
-	                            updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
-	                        }
+                    if (constraint.getErrorLevel() == ErrorLevel.ERROR){
+                    	//NOTE: if the constraint has a nested constraint with fieldPath="lookup:proposal...", 
+                    	//the required, requiredForNextState, and nextState values will be reset based on workflow node	           
+                    	
+                    	// Set the required for next state flag. 
+                        if (values.contains(nextState)) {
+                            if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
+                                constraintMetadata.setRequiredForNextState(true);
+                                constraintMetadata.setNextState(nextState);
+                            }
+                        }
+
+                        // Update constraints based on state constraints
+                        if (values.contains(state)) {
+                            updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState, workflowNode);
                         }
                     }
                 }
             }
-        } else if ("TYPE".equals(fieldPath)) {
-            // Process a type constraint
-
-            if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
-                for (WhenConstraint whenConstraint : whenConstraints) {
-                    List<Object> values = whenConstraint.getValues();
-                    if (values != null && values.contains(type)) {
-                        Constraint constraint = whenConstraint.getConstraint();
-                        updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState);
-                    }
-                }
-            }
-        }
-    }
+        }		
+	}
     
     /**
+     * Process a case constraint with fieldPath of type 
+     */
+    private void processTypeCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state,	String nextState, String workflowNode) {
+        List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
+    	
+        if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
+            for (WhenConstraint whenConstraint : whenConstraints) {
+                List<Object> values = whenConstraint.getValues();
+                if (values != null && values.contains(type)) {
+                    Constraint constraint = whenConstraint.getConstraint();
+                    updateConstraintMetadata(constraintMetadata, constraint, type, state, nextState, workflowNode);
+                }
+            }
+        }		
+	}
+    
+
+	/**
      * Convert Object value to respective DataType. Method return null for object Value.
      * 
      * @param dataType

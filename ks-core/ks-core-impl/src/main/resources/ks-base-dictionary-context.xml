@@ -211,6 +211,10 @@
  <bean id="baseComplexRepeating" parent="baseComplex" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
+ <bean id="baseComplexRepeatingRequired" parent="baseComplexRepeating">
+  <property name="minOccurs" value="1" />
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
  <bean id="baseKualiId" parent="baseString" abstract="true">
   <property name="minLength" value="1" />
   <property name="maxLength" value="36" />

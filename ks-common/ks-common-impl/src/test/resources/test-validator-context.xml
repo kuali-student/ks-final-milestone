@@ -56,6 +56,7 @@
   <property name="dataType" value="DOUBLE" />
   <property name="exclusiveMin" value="1.0" />
   <property name="inclusiveMax" value="4.0" />
+  <property name="minOccurs" value="0"/>  
   <property name="caseConstraint">
    <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -63,6 +64,41 @@
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
+      <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
+       <property name="values">
+        <list>
+         <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+         <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
+         	<property name="caseConstraint">
+		         <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
+		           <property name="operator" value="EQUALS"/>
+		           <property name="fieldPath" value="proposal/workflowNode"/>
+		           <property name="caseSensitive" value="false"/>
+		           <property name="whenConstraint">
+		             <list>
+		                <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
+		                  <property name="values">
+		                     <list>
+		                       <value>NODE B</value>
+		                       <value>NODE C</value>
+		                     </list>
+		                  </property>
+					       <property name="constraint">
+					        <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
+					         <property name="minOccurs" value="1"/>
+					        </bean>
+					       </property>
+		                </bean>
+		             </list>
+		           </property>
+		         </bean> 
+	         </property>
+		  </bean>
+       </property>
+      </bean>
       <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
        <property name="values">
         <list>

@@ -327,8 +327,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN;
 		    		}
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
-		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());
+		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());		    		
 		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
+		    		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, cfg.getProposalPath()+"/workflowNode");
 		    		
 		    		//Get metadata and complete initializing the screen
 		    		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){

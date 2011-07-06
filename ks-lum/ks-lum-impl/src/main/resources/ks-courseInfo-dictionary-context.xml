@@ -667,18 +667,44 @@
       <bean parent="whenConstraint">
        <property name="values">
         <list>
+         <value>DRAFT</value>
+        </list>
+       </property>
+       <property name="constraint">
+         <bean parent="constraint">
+         	<property name="caseConstraint">
+		         <bean parent="caseConstraint">
+		           <property name="operator" value="EQUALS"/>
+		           <property name="fieldPath" value="proposal/workflowNode"/>
+		           <property name="caseSensitive" value="false"/>
+		           <property name="whenConstraint">
+		             <list>
+		                <bean parent="whenConstraint">
+		                  <property name="values">
+		                     <list>
+		                       <value>Document Organization Review</value>
+		                       <value>Publication Review</value>
+		                     </list>
+		                  </property>
+		                  <property name="constraint" ref="baseComplexRepeatingRequired"/>
+		                </bean>
+		             </list>
+		           </property>
+		         </bean> 
+	         </property>
+		  </bean>
+       </property>
+      </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
          <value>SUBMITTED</value>
          <value>APPROVED</value>
          <value>ACTIVE</value>
          <value>RETIRED</value>
         </list>
        </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="baseComplexRepeating">
-         <property name="minOccurs" value="1" />
-        </bean>
-       </property>
+       <property name="constraint" ref="baseComplexRepeatingRequired"/>
       </bean>
      </list>
     </property>
