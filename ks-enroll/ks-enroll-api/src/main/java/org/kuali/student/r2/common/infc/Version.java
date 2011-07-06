@@ -20,45 +20,39 @@ import java.util.Date;
 public interface Version {
 
     /**
-     * Name: Version Idependent Id
-     *
      * Version independent Id that remains the same across all versions
+     * @name Version Independent Id
      */
     public String getVersionIndId();
     /**
-     * Name: Sequence Number
-     *
      * The sequence number of the version
+     * @name Sequence Number
      */
     public Long getSequenceNumber();
 
     /**
-     * Name: Current Version Start Date
-     *
      * The date and time this version became current.
+     * @name Current Version Start Date
      */
     public Date getCurrentVersionStart();
 
     /**
-     * Name: Current Version End Date
-     *
      * The date and time when this version stopped being current.
+     * @name Current Version End Date
      */
     public Date getCurrentVersionEnd();
 
     /**
-     * Name: Version Comment
-     *
-     * Comments associated with the verison
+     * Comments associated with the version
+     * @name Version Comment
      */
     public String getVersionComment();
 
     /**
-     * Name: Versioned From Id
-     *
      * Versioned From Id
      *
      * TODO: Understand and document what is really is
+     * @name Versioned From Id
      */
     public String getVersionedFromId();
 }

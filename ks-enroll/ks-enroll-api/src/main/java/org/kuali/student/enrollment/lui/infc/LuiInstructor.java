@@ -16,11 +16,12 @@
 package org.kuali.student.enrollment.lui.infc;
  
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.HasId;
 
 /**
- *Information about a potential instructor for a clu.
+ *Information about a potential instructor for a LUI (learning unit instance).
  */ 
-public interface LuiInstructor extends HasAttributesAndMeta {
+public interface LuiInstructor extends HasAttributesAndMeta, HasId {
     
     /**
      * Unique identifier for an organization. This indicates which organization this individual is 

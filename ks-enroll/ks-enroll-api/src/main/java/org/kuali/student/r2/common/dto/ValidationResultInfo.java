@@ -73,7 +73,7 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
     }
     
     @Override
-    public Boolean getError() {
+    public Boolean getIsError() {
         return getLevel() == ErrorLevel.ERROR.getLevel();
     }
 

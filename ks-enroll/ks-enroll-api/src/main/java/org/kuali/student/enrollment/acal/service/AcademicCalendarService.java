@@ -132,7 +132,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
      */
-    public List<StateInfo> getAcademicCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException;
+    public List<StateInfo> getAcademicCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Academic Calendar by an
@@ -188,7 +188,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * Retrieves a list of Academic Calendars that pertain to the
      * given year.
      *
-     * @param year 
+     * @param year calendar year during which the academic calendar overlaps 
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -421,9 +421,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
-     * @throws DoesNotExistException 
      */
-    public List<StateInfo> getCampusCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException;
+    public List<StateInfo> getCampusCalendarStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Campus Calendar by an
@@ -479,7 +478,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * Retrieves a list of Campus Calendars that pertain to the
      * given year.
      *
-     * @param year 
+     * @param year calendar year during which the campus calendar overlaps
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -661,9 +660,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
-     * @throws DoesNotExistException 
      */
-    public List<StateInfo> getTermStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException;
+    public List<StateInfo> getTermStates(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /** 
      * Retrieves the details of a single Term by a term key.
@@ -931,7 +929,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /**
      * This method returns the TypeInfo for a given KeyDate type key.
      *
-     * @param typeKey Key of the type
+     * @param keyDateTypeKey Key of the type of particular key date
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
@@ -946,11 +944,11 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /**
      * This method returns the valid key date types for the given
      * term type.
-     *
+     * 
+     * @param termTypeKey identifies the type of term that you want the key date types
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
-     * @param campusCalendarTypeKey
      * @return a list of valid key date Types
      * @throws DoesNotExistException termTypeKey not found
      * @throws InvalidParameterException invalid key or context
@@ -1032,7 +1030,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * all key dates mapped to any terms and sub terms and are sorted
      * by date.
      *
-     * @param academicCalendarKey
+     * @param academicCalendarKey the key to the academic calendar
      * @param startDate the start of the date range
      * @param endDate the end of the date range
      * @param context Context information containing the principalId

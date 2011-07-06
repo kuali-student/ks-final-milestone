@@ -23,27 +23,24 @@ package org.kuali.student.r2.common.infc;
  *
  * @author nwright
  */
-public interface Attribute {
+public interface Attribute extends HasId {
 
     /**
-     * Name: Id
-     * 
      * The internally assigned id to this key/value pair
+     * @name Id
      */
     public String getId();
   
 
     /**
-     * Name: Attribute Type Key
-     *
      * The key that identifies the name of the dynamic attribute
+     * @name Attribute Type Key
      */
     public String getKey();
   
     /**
-     * Name: Attribute Value
-     * 
      * The value of the dynamic attribute
+     * @name Attribute Value
      */
     public String getValue();
   

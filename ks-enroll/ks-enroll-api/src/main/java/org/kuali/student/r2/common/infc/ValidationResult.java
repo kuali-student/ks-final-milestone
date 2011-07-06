@@ -40,45 +40,43 @@ public interface ValidationResult {
     }
 
     /**
-     * Name: Message explaining this validation result
+     * Message explaining this validation result
      *
      * If an error it is an an error message.
      *
      * TODO: decide if this is a key that then gets resolved into a real localized message using the message service or the final localized message itself
+     * @name Message
      */
     public String getMessage();
   
 
     /**
-     * Name: Element
-     *
      * Identifies the element (field) that is the focus of the validation.
      * Uses xpath (dot) notation to navigate to the field, for example:
      * officialIdentifier.code
      *
      * TODO: find out how repeating substructures are handled in this notation, with [n] occurrence brackets?
+     * @name Element
      */
     public String getElement();
    
 
     /**
-     * Name: Level
-     *
-     * Indicates the serverity of the validation error
+     * Indicates the severity of the validation error
      *
      * 0=OK
      * 1=WARN
      * 2=ERROR
+     * @name Level
      */
     public Integer getLevel();
  
 
     /**
-     * Name: Invalid Data
-     *
      * The actual data that caused the error or warning.  Used to help debug problems.
      *
-     * Note: Since this is an "Object" it should be flagged as transient and os not remoted through the web servce
+     * Note: Since this is an "Object" it should be flagged as transient and is not remoted through the web service
+     * @name Invalid Data
      */
     public Object getInvalidData();
 
@@ -97,7 +95,7 @@ public interface ValidationResult {
     /**
      * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
      */
-    public Boolean getError();
+    public Boolean getIsError();
 
 }
 

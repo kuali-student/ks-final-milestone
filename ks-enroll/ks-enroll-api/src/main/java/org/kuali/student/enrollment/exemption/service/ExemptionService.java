@@ -737,7 +737,7 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Deletes an existing Exemption Request record.
      *
-     * @param exemptionRequest Id the Id of the Exemption Request to be deleted
+     * @param exemptionRequestId the Id of the Exemption Request to be deleted
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation

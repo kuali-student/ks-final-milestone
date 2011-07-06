@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.util.constants.StateServiceConstants;
  * 
  * This service needs to be implemented by any KS service that is going to handle states
  *
- * Version: 1.0 (Dev)
+ * @version 1.0 (Dev)
  *
  * @author kamal
  */
@@ -35,12 +35,21 @@ import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StateService {
 
-               
+      
+    /**
+     * Get Process Information by Key
+     * @param processKey the process key
+     * @param context Context information containing the principalId and locale information about the caller of service operation
+     * @return Information about State Process
+     * @throws DoesNotExistException processKey not found
+     * @throws InvalidParameterException invalid processKey
+     * @throws MissingParameterException no process defined for that process Key
+     * @throws OperationFailedException unable to complete request
+     */
     public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
    
     /**
-     * 
      * This method retrieves the list of process keys associated with a type of object.
      * TODO: consider changing the name of this method to getProcessByRefObjectUri
      * 

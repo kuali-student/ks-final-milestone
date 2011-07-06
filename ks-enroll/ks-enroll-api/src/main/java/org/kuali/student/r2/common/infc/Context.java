@@ -36,48 +36,42 @@ package org.kuali.student.r2.common.infc;
 public interface Context extends HasAttributes {
 
     /**
-     * Name: Principal Id
-     *
      * Principal Id of the currently authenticated user or the user on
      * whom's behalf this method is being invoked.
      *
      * Used for authorization checking.
+     * @name Principal Id
      */
     public String getPrincipalId();
    
 
     /**
-     * Name: Locale Language
-     *
-     * Laguage portion of the locale information used in this context
+     * Language portion of the locale information used in this context
+     * @name Locale Language
      */
     public String getLocaleLanguage();
    
     /**
-     * Name: Locale Language Variant
-     *
-     * Laguage variant portion of the locale information to be used in this context
+     * Language variant portion of the locale information to be used in this context
+     * @name Locale Language Variant
      */
     public String getLocaleVariant();
    
     /**
-     * Name: Locale Region
-     *
-     * Laguage Region portion of the locale information to be used in this context
+     * Language Region portion of the locale information to be used in this context
+     * @name Locale Region
      */
     public String getLocaleRegion();
    
     /**
-     * Name: Locale Script
-     *
-     * Laguage Script to be used in this context
+     * Language Script to be used in this context
+     * @name Locale Script
      */
     public String getLocaleScript();
    
     /**
-     * Name: Time Zone
-     *
      * The time zone to be used in this context
+     * @name Time Zone
      */
     public String getTimeZone();
 

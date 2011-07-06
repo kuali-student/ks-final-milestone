@@ -21,6 +21,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -32,12 +33,15 @@ import org.w3c.dom.Element;
  *Information about a potential instructor for a clu.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"orgId", "personId", "personInfoOverride", 
+@XmlType(name = "CourseOfferingInfo", propOrder = {"Id", "orgId", "personId", "personInfoOverride", 
         "percentageEffort", "meta", "attributes", "_futureElements"})
 public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String id;
+    
     @XmlElement
     private String orgId;
 
@@ -54,6 +58,7 @@ public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiIn
     private List<Element> _futureElements;
 
     public LuiInstructorInfo() {
+        this.id = null;
         this.orgId = null;
         this.personId = null;
         this.personInfoOverride = null;
@@ -66,14 +71,24 @@ public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiIn
         super(instructor);
         
         if(null == instructor) return;
-        
+        this.id = instructor.getId();
         this.orgId = instructor.getOrgId();
         this.personId = instructor.getPersonId();
         this.personInfoOverride = instructor.getPersonInfoOverride();
-        this.percentageEffort = (null != instructor.getPercentageEffort()) ? new Float(instructor.getPercentageEffort()) : null;
+        this.percentageEffort = instructor.getPercentageEffort();
         this._futureElements = null;
     }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
         
+    
     @Override
     public String getOrgId() {
         return orgId;

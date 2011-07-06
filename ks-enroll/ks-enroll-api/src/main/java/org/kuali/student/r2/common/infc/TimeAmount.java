@@ -18,20 +18,14 @@ package org.kuali.student.r2.common.infc;
 public interface TimeAmount {
 
     /**
-     * Get ????
-     * <p/>
-     * Type: String
-     * <p/>
-     * ???
+     * The kind of units associated with the quantity, such as Semesters
+     * @name Academic Time Period Duration Type Key
      */
     public String getAtpDurationTypeKey();
 
     /**
-     * Get ????
-     * <p/>
-     * Type: Integer
-     * <p/>
-     * ???
+     * The amount of time
+     * @name Time Quantity
      */
     public Integer getTimeQuantity();
 }

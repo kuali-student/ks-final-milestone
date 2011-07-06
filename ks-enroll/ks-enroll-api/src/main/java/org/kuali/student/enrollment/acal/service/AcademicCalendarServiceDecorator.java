@@ -47,7 +47,7 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		return this.nextDecorator.getAcademicCalendarStates(context);
     }
 
@@ -207,7 +207,7 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		return this.nextDecorator.getCampusCalendarStates(context);
     }
 
@@ -307,7 +307,7 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		return this.nextDecorator.getTermStates(context);
     }
 

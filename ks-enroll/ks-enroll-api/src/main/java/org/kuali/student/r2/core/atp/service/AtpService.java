@@ -452,7 +452,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /** 
      * Retrieves a list of AtpAtpRelation Ids of the specified type.
      *
-     * @param atpRelationTypeKey Atp type to be retrieved
+     * @param atpAtpRelationTypeKey Atp atp relation type to be retrieved
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -489,6 +489,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * is being returned.
      * 
      * @param atpKey a unique key for an ATP
+     * @param relationTypeKey a unique key for an ATP ATP relation
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -499,7 +500,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "relationType") String relationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
     
     /** 
      * Validates an ATP/ATP relationship. Depending on the value
@@ -534,16 +535,17 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /** 
      * Creates an ATP relationship.
      *
-     * @param atpAtpRleationInfo the relationship
+     * @param atpAtpRelationInfo the relationship to be created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return status
+     * @return the atp atp relation that was created
      * @throws AlreadyExistsException atp relation added already exists
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException if the relation fails validation checks
      */
     public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -622,7 +624,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /** 
      * Retrieves a list of AtpMilestoneRelations of the specified type.
      *
-     * @param atpMilestoneTypeKey Milestone type to be retrieved
+     * @param atpMilestoneRelationTypeKey Atp to Milestone relation type to use to search
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -699,7 +701,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /** 
      * Adds a Milestone to an ATP by creating a relationship.
      *
-     * @param atpMilestoneRleationship the relationship
+     * @param atpMilestoneRelationInfo the relationship
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -709,6 +711,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException if the atp milestone relation has validation errors
      */
     public AtpMilestoneRelationInfo createAtpMilestoneRelation(@WebParam(name = "atpMilestoneRelationInfo") AtpMilestoneRelationInfo atpMilestoneRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 

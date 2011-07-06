@@ -27,38 +27,33 @@ import java.util.Date;
 public interface Meta {
 
     /**
-     * Name: Version Indicator
-     *
      * This is the field used for optimistic locking.
      *
      * An indicator of the version of the thing being described with this meta
      * information. This is set by the service implementation and will be used to
      * determine conflicts in updates.
      *
-     *
+     * @name Version Indicator
      */
     public String getVersionInd();
 
     /**
-     * Name: Create Time
-     *
      * The date and time the thing being described with this meta information was last
      * updated
+     * @name Create Time
      */
     public Date getCreateTime();
 
     /**
-     * Name: Create Id
-     *
      * The principal who created the thing being described with this meta information
+     * @name Create Id
      */
     public String getCreateId();
 
     /**
-     * Name: Update Time
-     *
      * The date and time the thing being described with this meta information was last
      * updated
+     * @name Update Time
      */
     public Date getUpdateTime();
 

@@ -9,9 +9,9 @@ package org.kuali.student.r2.common.infc;
 
 
 /**
- * Detailed Information about a StateProcess
+ * Detailed Information about a State Process
  *
- * StateProcess are used in Kuali Student to define various process keys that might be associated with objectTypes
+ * State Process are used in Kuali Student to define various process keys that might be associated with objectTypes
  * For example: A course might have a lifecycle process or workflow process with different states in each process
  * 
  *
@@ -21,17 +21,15 @@ package org.kuali.student.r2.common.infc;
 public interface StateProcess extends HasKey, HasAttributes, HasEffectiveDates {
 
     /**
-     * Name: Name
-     *
-     * Friendly name of the StateProcess
+     * Friendly name of the State Process
+     * @name Name
      */
     public String getName();
     
 
     /**
-     * Name: Description
-     *
-     * Narrative description of the Stateprocess
+     * Narrative description of the State Process
+     * @name Description
      */
     public String getDescr();        
             

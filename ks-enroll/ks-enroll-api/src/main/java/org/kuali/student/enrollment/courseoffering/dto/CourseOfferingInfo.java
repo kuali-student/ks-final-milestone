@@ -42,13 +42,15 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"termKey", "activityOfferingIds", "registrationGroupIds",
-        "courseCode", "courseNumberSuffix", "courseTitle", "courseId", "formatIds", "isHonorsOffering", "instructors", 
+@XmlType(name = "CourseOfferingInfo", propOrder = { "id", "typeKey", "stateKey", "name", "descr", 
+        "courseId", "formatIds", "termKey", 
+        "activityOfferingIds", "registrationGroupIds",
+        "courseCode", "courseNumberSuffix", "courseTitle",  "isHonorsOffering", "instructors", 
         "subjectArea", "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
         "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
-        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+        "meta", "attributes", "_futureElements"})
 public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;

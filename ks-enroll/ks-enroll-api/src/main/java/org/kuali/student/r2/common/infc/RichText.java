@@ -25,23 +25,20 @@ package org.kuali.student.r2.common.infc;
 public interface RichText {
 
     /**
-     * Name: Plain Text
-     *
      * Plain text version of the rich text with all the special formatting 
      * stripped out.
      *
-     * @author nwright
+     * @name Plan Text
      */
     public String getPlain();
     
 
     /**
-     * Name: Formatted Text
-     *
      * Formatted version of the rich text with all the formatting included.
      *
      * TODO: Define what format is to be used? Is it assumed to be HTML?  or WORD?
      * or Wiki?
+     * @name Formatted Text
      */
     public String getFormatted();
     

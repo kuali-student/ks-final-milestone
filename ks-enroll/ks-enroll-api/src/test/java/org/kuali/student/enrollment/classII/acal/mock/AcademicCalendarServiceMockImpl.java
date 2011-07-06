@@ -7,6 +7,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -18,7 +20,6 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -103,9 +104,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
     @Override
     public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
-
-        return this.atpService.getStatesByProcess(null, context);
+            MissingParameterException, OperationFailedException {
+        String processKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
+        try {
+            return this.atpService.getStatesByProcess(processKey, context);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException (processKey, ex);
+        }
     }
 
     @Override
@@ -372,9 +377,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
     @Override
     public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
-        String processKey = null;
-        return this.atpService.getStatesByProcess(processKey, context);
+            MissingParameterException, OperationFailedException {
+        String processKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
+        try {
+            return this.atpService.getStatesByProcess(processKey, context);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException (processKey, ex);
+        }
     }
 
     @Override
@@ -533,9 +542,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	 */
     @Override
     public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, DoesNotExistException {
-        String termProcessKey = null;
-        return this.atpService.getStatesByProcess(termProcessKey, context);
+            MissingParameterException, OperationFailedException {
+        String termProcessKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
+        try {
+            return this.atpService.getStatesByProcess(termProcessKey, context);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException (termProcessKey, ex);
+        }
     }
 
     /**

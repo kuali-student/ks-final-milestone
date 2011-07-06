@@ -24,8 +24,7 @@ package org.kuali.student.r2.common.infc;
 public interface HasMeta {
 
     /**
-     * Name: Create/Update meta info
-     *
+
      * Create and last update info for the structure. This is optional
      * and treated as read only since the data is set by the internals
      * of the service during maintenance operations.
@@ -36,9 +35,7 @@ public interface HasMeta {
      *
      * Attempts to set or update should result in a ReadOnlyException
      * being thrown.
-     *
-     * @return the meta information
-     *
+     * @name Create/Update meta info
      */
 
     public Meta getMeta();

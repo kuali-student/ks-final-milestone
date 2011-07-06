@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Criteria for a generic query
  */
+@Deprecated
 public interface Comparison  {
 
   

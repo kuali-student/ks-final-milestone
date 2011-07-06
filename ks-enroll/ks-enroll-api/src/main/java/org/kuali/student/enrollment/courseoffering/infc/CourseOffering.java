@@ -26,6 +26,14 @@ import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 public interface CourseOffering extends IdEntity {
 
     /**
+     * The name for this course offering.
+     * 
+     * @name Name
+     */
+    @Override
+    public String getName ();
+    
+    /**
      * Activity Offerings for the course offering
      * @name ActivityOffering Ids
      */

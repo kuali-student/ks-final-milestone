@@ -15,9 +15,6 @@
 
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
-import org.kuali.student.r2.common.infc.HasId;
-
 /**
  * Detailed information about an amount of currency including both the type of units and the quantity.
  *

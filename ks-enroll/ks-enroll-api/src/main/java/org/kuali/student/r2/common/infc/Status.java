@@ -32,16 +32,14 @@ package org.kuali.student.r2.common.infc;
 public interface Status {
 
     /**
-     * Name: Success Indicator
-     *
      * Indicates the success or failure of the operation
+     * @name Success Indicator
      */
     public Boolean getIsSuccess();
 
     /**
-     * Name: Message
-     *
      * Optional message indicating a reason
+     * @name Message
      */
     public String getMessage();
 }

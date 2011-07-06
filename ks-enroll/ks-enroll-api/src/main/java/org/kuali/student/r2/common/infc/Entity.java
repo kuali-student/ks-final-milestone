@@ -29,20 +29,16 @@ public interface Entity
 	    HasAttributesAndMeta {
 
     /**
-     * Name: Name
      * A display name for this entity.
-     *  
-     * @return the entity name
+     * @name Name
      */
 
     public String getName();
 
 
     /**
-     * Name: Description
      * A description of the entity.
-     *
-     * @return the entity description
+     * @name Description
      */
 
     public RichText getDescr();

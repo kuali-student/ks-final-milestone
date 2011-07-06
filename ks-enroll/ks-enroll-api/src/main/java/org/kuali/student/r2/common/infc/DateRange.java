@@ -23,14 +23,14 @@ import java.util.Date;
 public interface DateRange {
 
     /**
-     * Name: Start
      * Get sthe start date of the range.
+     * @name Start
      */
     public Date getStart();
 
     /**
-     * Name: End
      * Gets the end date of the range.
+     * @name End
      */
     public Date getEnd();
 }
