@@ -29,6 +29,8 @@ import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -38,6 +40,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.KeyboardListener;
 
 public class StylishDropDown extends Composite{
 	
@@ -82,16 +85,26 @@ public class StylishDropDown extends Composite{
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
 			if(enabled){
-				if(!menuPanel.isShowing()){								
+				if (event.getNativeKeyCode() == KeyboardListener.KEY_DOWN || event.getNativeKeyCode() == KeyboardListener.KEY_ENTER) 
 					StylishDropDown.this.showMenu();
-				}
-				else{
+				else if (event.getNativeKeyCode() == KeyboardListener.KEY_UP)
 					StylishDropDown.this.hideMenu();
-				}
-			}
+				else if (event.getNativeKeyCode() == KeyboardListener.KEY_TAB)
+					titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+			}	
+		} 
+	}; 
+
+	private FocusHandler focusHandler = new FocusHandler(){
+
+		@Override
+		public void onFocus(FocusEvent event) {
+			if(enabled) {
+				titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Hover");
+				StylishDropDown.this.showMenu();	
+			}	
 		}
-		
-	};
+	}; 
 
 	private MenuEventHandler menuHandler = new MenuEventHandler(){
 
@@ -191,6 +204,8 @@ public class StylishDropDown extends Composite{
 		menuPanel.setWidget(menu);
 		namePanel.addClickHandler(panelHandler);
 		namePanel.addKeyDownHandler(downHandler);
+		namePanel.addFocusHandler(focusHandler);
+		namePanel.setTabIndex(1);
 		menuPanel.setAutoHideEnabled(true);
 		menuPanel.addAutoHidePartner(namePanel.getElement());
 		namePanel.getElement().setAttribute("id", HTMLPanel.createUniqueId());
