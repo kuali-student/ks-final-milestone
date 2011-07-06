@@ -24,7 +24,7 @@
 
     <bean id="lprStateDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprStateDao"/>
 
-    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
+    <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

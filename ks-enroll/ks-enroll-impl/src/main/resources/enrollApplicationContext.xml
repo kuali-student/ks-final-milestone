@@ -35,7 +35,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="lprUtility" class="org.kuali.student.enrollment.class1.lpr.service.util.ConcreteLPRUtility"/>
     
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
-    	<property name="atpDao" ref="atpDao"/>
+    	<property name="atpDao" ref="atpEnrDao"/>
     	<property name="atpTypeDao" ref="atpTypeDao"/>
     	<property name="atpStateDao" ref="atpStateDao"/>
     	<property name="atpRichTextDao" ref="atpRichTextDao"/>
