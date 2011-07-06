@@ -193,16 +193,15 @@ public class WorkflowUtilities{
 
 	public void addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition){
         //Add a new field to the workflow widget
-		if(approveDialogView == null){
-        	throw new RuntimeException("Can not add a field when no view has be defined.");
-        }
-		QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata meta = modelDefinition.getMetadata(path);
-        if(meta.isCanEdit() && MetadataInterrogator.isRequiredForNextState(meta)){
-        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-            approveDialogView.addField(fd);
-            approveFields.add(fd.getFieldKey());
-        }
+		if(approveDialogView != null){
+			QueryPath path = QueryPath.concat(parentPath, fieldKey);
+	        Metadata meta = modelDefinition.getMetadata(path);
+	        if(meta.isCanEdit() && MetadataInterrogator.isRequiredForNextState(meta)){
+	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
+	            approveDialogView.addField(fd);
+	            approveFields.add(fd.getFieldKey());
+	        }
+		}
 	}
 	
 	public void requestAndSetupModel() {
