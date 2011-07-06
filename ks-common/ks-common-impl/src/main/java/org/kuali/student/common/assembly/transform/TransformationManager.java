@@ -136,7 +136,7 @@ public class TransformationManager {
 		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
 
 		Metadata metadata;
-		if (workflowNode != null && workflowNode.length() > 0){
+		if (workflowNode == null || workflowNode.isEmpty()){
 			metadata = metadataService.getMetadata(dtoName, null, state, nextState);
 		} else {
 			metadata = metadataService.getMetadataByWorkflowNode(dtoName, workflowNode);
