@@ -200,6 +200,7 @@
     </bean>
 
     <bean id="baseKualiStateKey" parent="baseKualiCode" abstract="true">
+        <property name="required" value="true"/>        
         <property name="name" value="stateKey"/>
         <property name="childEntryName" value="stateKey"/>
         <property name="shortLabel" value="State"/>
