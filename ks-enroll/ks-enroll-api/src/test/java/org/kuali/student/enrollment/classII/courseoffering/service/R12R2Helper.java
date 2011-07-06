@@ -84,7 +84,7 @@ public class R12R2Helper {
         r2.setId(r1.getId());
         r2.setAttributes(copyAttribiutes(r1.getAttributes()));
         r2.setDescr(copyRichText(r1.getDescr()));
-        r2.setFeeAmounts(null);
+        r2.setFeeAmounts(copyCurrencyAmountList (r1.getFeeAmounts()));
         return r2;
     }
 
@@ -94,10 +94,19 @@ public class R12R2Helper {
         }
         RichTextInfo r2 = new RichTextInfo();
         r2.setFormatted(r1.getFormatted());
-        r2.setPlain(r2.getPlain());
+        r2.setPlain(r1.getPlain());
         return r2;
     }
-
+ public List<CurrencyAmountInfo> copyCurrencyAmountList (List<org.kuali.student.common.dto.CurrencyAmountInfo> r1List) {
+        if (r1List == null) {
+            return null;
+        }
+        List<CurrencyAmountInfo> r2List = new ArrayList<CurrencyAmountInfo>(r1List.size());
+        for (org.kuali.student.common.dto.CurrencyAmountInfo r1 : r1List) {
+            r2List.add(copyCurrencyAmountInfo(r1));
+        }
+        return r2List;
+    }
     public CurrencyAmountInfo copyCurrencyAmountInfo(org.kuali.student.common.dto.CurrencyAmountInfo r1) {
         if (r1 == null) {
             return null;
@@ -116,9 +125,9 @@ public class R12R2Helper {
         }
         MetaInfo r2 = new MetaInfo();
         r2.setCreateId(r1.getCreateId());
-        r2.setCreateTime(r2.getCreateTime());
+        r2.setCreateTime(r1.getCreateTime());
         r2.setUpdateId(r1.getUpdateId());
-        r2.setUpdateTime(r2.getUpdateTime());
+        r2.setUpdateTime(r1.getUpdateTime());
         r2.setVersionInd(r1.getVersionInd());
         return r2;
     }
