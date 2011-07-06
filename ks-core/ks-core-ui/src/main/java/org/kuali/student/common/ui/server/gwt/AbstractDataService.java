@@ -83,6 +83,7 @@ public abstract class AbstractDataService implements DataService{
 		String docType = (attributes != null ? attributes.get(StudentIdentityConstants.DOCUMENT_TYPE_NAME):null);
 		String dtoState = (attributes != null ? attributes.get(DtoConstants.DTO_STATE):null);
 		String dtoNextState = (attributes != null ? attributes.get(DtoConstants.DTO_NEXT_STATE):null);
+		String workflowNode = (attributes != null ? attributes.get(DtoConstants.DTO_WORKFLOW_NODE):null);
 				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
@@ -102,6 +103,10 @@ public abstract class AbstractDataService implements DataService{
 		
 		if (dtoNextState != null){
 			filterProperties.put(DtoConstants.DTO_NEXT_STATE, dtoNextState);			
+		}
+
+		if (workflowNode != null){
+			filterProperties.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);			
 		}
 
 		if (checkDocumentLevelPermissions()){
