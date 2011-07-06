@@ -18,105 +18,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-    <!-- AcademicCalendarInfo-->
-    <bean id="AcademicCalendarInfo" parent="AcademicCalendarInfo-parent"/>
-    <bean id="AcademicCalendarInfo-parent" abstract="true" parent="DataObjectEntry">
-    	<property name="objectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
-        <property name="objectLabel" value="Academic Calendar Info"/>
-        <property name="titleAttribute" value="key"/>
-        <!-- 
-        <property name="name" value="academicCalendarInfo"/>        
-        <property name="objectDescription" value=""/>
-        -->
-        
-        <property name="primaryKeys">
-            <list>
-                <value>key</value>
-            </list>
-        </property>
-        <property name="attributes">
-            <list>
-                <ref bean="AcademicCalendarInfo-key"/>
-                <!-- 
-                <ref bean="academicCalendarInfo.typeKey"/>
-                <ref bean="academicCalendarInfo.stateKey"/>
-                <ref bean="academicCalendarInfo.name"/>
-                <ref bean="academicCalendarInfo.descr"/>
-                <ref bean="academicCalendarInfo.attributes"/>
-                -->
-                <ref bean="AcademicCalendarInfo-startDate"/>
-                <ref bean="AcademicCalendarInfo-endDate"/>
-                <ref bean="AcademicCalendarInfo-credentialProgramTypeKey"/>
-            </list>
-        </property>
-    </bean>
-    
-	<bean id="AcademicCalendarInfo-key" parent="AcademicCalendarInfo-key-parent"/>
-    <bean id="AcademicCalendarInfo-key-parent" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="key"/>        
-        <property name="label" value="Key" />
-        <property name="required" value="false"/>
-        <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
-    	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
-    	</property> 
-    </bean>
-
-    <bean id="AcademicCalendarInfo-startDate" parent="academicCalendarInfo-startDate-parent"/>
-    <bean id="academicCalendarInfo-startDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
-        <property name="name" value="startDate"/>
-        <property name="label" value="Start Date" />
-        <property name="required" value="true"/>
-        <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-    	</property>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
-    </bean>
-
-    <bean id="AcademicCalendarInfo-endDate" parent="academicCalendarInfo-endDate-parent"/>
-    <bean id="academicCalendarInfo-endDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
-        <property name="name" value="endDate"/>
-        <property name="label" value="End Date" />
-        <property name="required" value="true"/>
-        <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-    	</property>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
-    </bean>
- 
-   	<bean id="AcademicCalendarInfo-credentialProgramTypeKey" parent="AcademicCalendarInfo-credentialProgramTypeKey-parent"/>
-    <bean id="AcademicCalendarInfo-credentialProgramTypeKey-parent" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="credentialProgramTypeKey"/>
-        <property name="label" value="Credential Program"/>
-        <property name="required" value="true"/>
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>    	
-    	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
-    	</property> 
-    	<!-- krad way to specify control. make server to throw an exception and the server startup failed, 
-    	     a bug in m4, need to check in m5  -->  
-    	<!-- 
-    	<property name="control">
-            <bean parent="SelectControl"/>
-        </property>
-        <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
-        </property>
-    	--> 
-    	
-    	<!-- kns way to specify control, no error but also does not work anymore in rice 2.0.0-m4, need to check in m5 --> 	
-        <property name="control" >
-      		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues" />
-    	</property>
-    </bean>    
     
   <bean id="AcademicCalendarInfo-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="Academic Calendar Maintenance"/>
@@ -131,7 +32,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                <list>
                 <bean parent="AttributeField" p:propertyName="startDate"/>
                 <bean parent="AttributeField" p:propertyName="endDate"/>
-                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey"/>
+                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey">
                 <!-- 
                     <property name="control">
               			<bean parent="SelectControl"/>
@@ -139,8 +40,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             		<property name="optionsFinder">
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
             		</property>
+            	-->
                 </bean>
-                -->
                </list>
              </property>             
           </bean> 
