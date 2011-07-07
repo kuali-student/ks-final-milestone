@@ -107,6 +107,9 @@ public class MetadataServiceImpl {
      * @return
      */
     public Metadata getMetadata(String objectKey, String type, String state, String nextState) {
+    	nextState = (nextState == null || nextState.length() <=0 ? DtoState.getNextStateAsString(state):nextState);
+    	state = state==null?null:state.toUpperCase();
+    	nextState = nextState==null?null:nextState.toUpperCase();
     	return getMetadataFromDictionaryService(objectKey, type, state, nextState, null);
     }
 

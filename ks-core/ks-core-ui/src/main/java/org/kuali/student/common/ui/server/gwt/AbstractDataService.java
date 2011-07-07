@@ -68,6 +68,7 @@ public abstract class AbstractDataService implements DataService{
 		} catch(DoesNotExistException e){
 			return null;
 		} catch (Exception e) {
+			LOG.error("Error getting data",e);
 			throw new OperationFailedException("Error getting data",e);
 		}
 		return null;
@@ -147,6 +148,7 @@ public abstract class AbstractDataService implements DataService{
 		}catch (OperationFailedException ofe){
 		    throw ofe;
 		}catch (Exception e) {
+			LOG.error("Failed to save data",e);
 			throw new OperationFailedException("Failed to save data",e);
 		}
 		

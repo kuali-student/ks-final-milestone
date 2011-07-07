@@ -167,10 +167,15 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {	
-		//String dtoState = (String)filterProperties.get(DtoConstants.DTO_STATE);
+		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
-		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), null, "SAVED", nextState);
-				
+		Metadata proposalMetadata;
+		if (workflowNode == null || workflowNode.isEmpty()){
+			proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), null, "SAVED", nextState);
+		} else {
+			proposalMetadata = metadataService.getMetadataByWorkflowNode(ProposalInfo.class.getName(), workflowNode);
+		}
+		
 		Map<String, Metadata> properties = metadata.getProperties();
 		properties.put("proposal", proposalMetadata);		
 	}
@@ -218,6 +223,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
             workflowId = docResponse.getDocId();
             proposalInfo.setWorkflowId(workflowId);
+            
+            //Set the node attribute on the proposal to preroute as an initial value
+            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
             
             //Lookup the workflow document detail to see if create was successful
 			try {
