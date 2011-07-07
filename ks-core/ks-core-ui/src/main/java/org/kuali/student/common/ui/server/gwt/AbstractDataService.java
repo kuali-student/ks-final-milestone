@@ -144,8 +144,10 @@ public abstract class AbstractDataService implements DataService{
 		}catch (DataValidationErrorException dvee){
 			//Throw the error, we need the the transaction to be rolled back when service throws an error.
 			throw dvee;
+		}catch (OperationFailedException ofe){
+		    throw ofe;
 		}catch (Exception e) {
-			throw new OperationFailedException("Unable to save",e);
+			throw new OperationFailedException("Failed to save data",e);
 		}
 		
 		return saveResult;
