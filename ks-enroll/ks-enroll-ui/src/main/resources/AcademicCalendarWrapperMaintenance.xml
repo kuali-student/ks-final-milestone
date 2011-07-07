@@ -19,9 +19,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
     
-  <bean id="AcademicCalendarInfoWrapper-MaintenanceView" parent="MaintenanceView">
-     <property name="title" value="Academic Calendar Wrapper Maintenance"/>
-     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfoWrapper"/>
+  <bean id="AcademicCalendarWrapper-MaintenanceView" parent="MaintenanceView">
+     <property name="title" value="Academic Calendar Maintenance"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
      
      <property name="items">
@@ -48,7 +48,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           </bean> 
          
           <bean parent="MaintenanceCollectionGroupSection">
-              <property name="title" value="Academic Calendar Terms"/>  
+              <property name="title" value="Terms"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
               <property name="propertyName" value="termInfoList"/>
               <property name="items">
@@ -69,10 +69,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>  
 
 
-  <bean id="AcademicCalendarInfoMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfoWrapper"/>
+  <bean id="AcademicCalendarWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
+    <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
-    <property name="documentTypeName" value="AcademicCalendarInfoMaintenanceDocument"/>
+    <property name="documentTypeName" value="AcademicCalendarWrapperMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
