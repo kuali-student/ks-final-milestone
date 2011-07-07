@@ -307,6 +307,7 @@
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
+        <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseTransformationManager"/>
     </bean>
 
@@ -322,6 +323,7 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
+        <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
     </bean>
     

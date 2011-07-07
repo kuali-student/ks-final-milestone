@@ -284,18 +284,40 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					viewContext.setId(courseId);
 					viewContext.setIdType(IdType.OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_ADMIN_NO_VERSION.getLocation(), viewContext);
-				} else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
-					doModifyActionItem(viewContext, modifyPath, model);
 				} else if (radioOptionModifyWithVersion.getValue()){
-			    	if(hasCourseId(viewContext)){
-						viewContext.setId(getCourseVersionIndId(model));
-						viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-			            //FIXME: This needs to use a new workflow document type for admin modify with version
-						viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
-			        }
+				    
+				    String courseVerIndId = getCourseVersionIndId(model);
+			        Long courseVersionSequence = getCourseVersionSequenceNumber(model);
+				    
+				    courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+				        
+		                public void onFailure(Throwable caught) {
+		                    KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
+		                }
+		                
+		                public void onSuccess(Boolean result) {
+		                    if (result){
+		                        if (curriculumReviewOption.getValue()){
+		                            doModifyActionItem(viewContext, modifyPath, model);
+		                        } else {
+		                            if(hasCourseId(viewContext)){
+		                                viewContext.setId(getCourseVersionIndId(model));
+		                                viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+		                                // FIXME: This needs to use a new workflow document type for admin modify with version
+		                                viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
+		                            }
 
-			    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-				}	
+		                            Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+		                        }
+		                    } else {
+		                        isCurrentVersion = result;
+		                        doUpdateCourseActionItems(model);
+		                        KSNotifier.add(new KSNotification("Error creating new version for course, this is not the latest version.", false, 5000));
+		                    }
+		                }
+		            });				    
+				    
+				}
 		    	modifyDialog.hide();
 			}        	
         });
@@ -310,7 +332,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
         modifyDialog.setWidget(layout);
         modifyDialog.show();
     }
-        
+    
     // TODO: add Retire and Inactivate Dialogs
     
 	/**

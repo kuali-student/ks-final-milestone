@@ -15,19 +15,26 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -38,6 +45,7 @@ public class CourseDataService extends AbstractDataService {
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
+	private LuService luService;
 
 	@Override
 	protected Object get(String id) throws Exception {
@@ -63,7 +71,12 @@ public class CourseDataService extends AbstractDataService {
 				LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))){
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
-				courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			    
+			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId())){
+			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			    } else {
+			        throw new OperationFailedException("Create new version failed, current version is not the latest for this course.");
+			    }
 			}else{
 				courseInfo = courseService.updateCourse(courseInfo);
 			}
@@ -107,8 +120,11 @@ public class CourseDataService extends AbstractDataService {
 		this.courseService = courseService;
 	}
 
+	public void setLuService(LuService luService) {
+        this.luService = luService;
+    }
 
-	/**
+    /**
 	 * This calculates and sets fields on course object that are derived from other course object fields.
 	 */
 	protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo){
@@ -139,4 +155,22 @@ public class CourseDataService extends AbstractDataService {
 	    return subjectArea + suffixNumber;
 	}
 	
+	public Boolean isLatestVersion(String versionIndId) throws Exception {
+	    VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndId);
+        //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+        //We don't want to version if there are
+        SearchRequest request = new SearchRequest("lu.search.isVersionable");
+        request.addParam("lu.queryParam.versionIndId", versionIndId);
+        request.addParam("lu.queryParam.sequenceNumber", currentVersion.getSequenceNumber().toString());
+        List<String> states = new ArrayList<String>();
+        states.add("Approved");
+        states.add("Active");
+        states.add("Draft");
+        states.add("Superseded");
+        request.addParam("lu.queryParam.luOptionalState", states);
+        SearchResult result = luService.search(request);
+        
+        String resultString = result.getRows().get(0).getCells().get(0).getValue();
+        return "0".equals(resultString);
+    }
 }
