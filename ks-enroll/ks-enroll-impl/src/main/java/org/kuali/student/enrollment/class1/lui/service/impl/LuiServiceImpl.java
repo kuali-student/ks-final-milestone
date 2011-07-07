@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -188,6 +189,14 @@ public void setLuService(LuService luService) {
 		return null;
 	}
 
+        @Override
+        public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
+	    throws DoesNotExistException, InvalidParameterException, 
+		   MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey,
 			ContextInfo context) throws DoesNotExistException,
@@ -260,6 +269,22 @@ public void setLuService(LuService luService) {
             throw new DoesNotExistException(luiLuiRelationId);
         }
         return obj.toDto();
+	}
+
+        @Override
+        public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
+	    throws DoesNotExistException, InvalidParameterException, 
+		   MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+        @Override
+        public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
+	    throws DoesNotExistException, InvalidParameterException, 
+		   MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -539,4 +564,71 @@ public void setLuService(LuService luService) {
         return status;
 	}
 
+    @Override
+    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) 
+	throws DoesNotExistException, InvalidParameterException, 
+	       MissingParameterException, OperationFailedException {
+	
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
+	throws DoesNotExistException, InvalidParameterException, 
+	       MissingParameterException, OperationFailedException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
+	throws DoesNotExistException, InvalidParameterException, 
+	       MissingParameterException, OperationFailedException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
+	throws DoesNotExistException, InvalidParameterException, 
+	       MissingParameterException, OperationFailedException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
+	throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, 
+	       InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
+	throws DataValidationErrorException, DoesNotExistException, 
+	       InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException, 
+	       VersionMismatchException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context) 
+	throws DependentObjectsExistException, DoesNotExistException, 
+	       InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	// TODO Auto-generated method stub
+	return null;
+    }
 }
+
