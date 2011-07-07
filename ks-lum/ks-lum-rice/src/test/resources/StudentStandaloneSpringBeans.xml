@@ -119,6 +119,18 @@
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
+	<!-- Affiliation Derived role (anyone that's either a Staff or Faculty affiliation) -->
+	<bean id="ksAffiliationService"
+		class="org.kuali.student.lum.kim.role.type.AffiliationDerivedRoleTypeServiceImpl">
+		<property name="includedAffiliationTypes">
+			<!-- See KimConstants.PersonAffiliationTypes -->
+			<list>
+				<value>STAFF</value>
+				<value>FACULTY</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
 	<!-- Hierarchy Derived role -->
 <!--
 	<bean id="ksHierarchyDerivedRoleType" class="org.kuali.student.lum.kim.role.type.HierarchyNodeTestRoleTypeServiceBase" />
