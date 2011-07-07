@@ -21,24 +21,18 @@ import org.kuali.student.r2.common.infc.IdEntity;
 /**
  * Detailed information about a LUI to LUI relationship.
  */
-public interface LuiLuiRelation
-		extends IdEntity,
-        HasEffectiveDates {
+public interface LuiLuiRelation extends IdEntity, HasEffectiveDates {
 
     /**
      * Name: Lui Id
-     *
-     * Unique identifier for a Learning Unit Instance (LUI).
+     * A unique identifier for a Learning Unit Instance (LUI).
      */
     public String getLuiId();
-    
 
     /**
      * Name: Related Lui Id
-     * 
-     * Unique identifier for a Learning Unit Instance (LUI).
+     * A unique identifier for a Learning Unit Instance (LUI).
      */
     public String getRelatedLuiId();
-    
 }
 
