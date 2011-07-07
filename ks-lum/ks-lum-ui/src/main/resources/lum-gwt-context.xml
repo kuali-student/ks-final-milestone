@@ -369,6 +369,7 @@
     <bean id="majorDisciplineProposalRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineProposalRpcServlet">
 		<property name="dataService" ref="majorDisciplineProposalDataService"/>
 		<property name="programService" ref="programClient"/>
+        <property name="proposalService" ref="proposalClient"/>
         <property name="statementService" ref="statementServiceClient"/>      
         <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
      </bean>
@@ -376,6 +377,7 @@
     <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
 		<property name="dataService" ref="majorDisciplineDataService"/>
 		<property name="programService" ref="programClient"/>
+		<property name="proposalService" ref="proposalClient"/>
         <property name="statementService" ref="statementServiceClient"/>      
         <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
      </bean>

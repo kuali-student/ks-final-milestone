@@ -24,9 +24,9 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
 
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + DtoConstants.STATE_SUBMITTED + "'");
+        LOG.info("Will set CLU state to '" + DtoConstants.STATE_DRAFT + "'");
         String programId = getProgramId(proposalInfo);
-        stateChangeService.changeState(programId, DtoConstants.STATE_SUBMITTED);
+        getStateChangeService().changeState(programId, DtoConstants.STATE_DRAFT);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         // update the program state based on the route status
     	// Mainly used to approve a proposal
         String programId = getProgramId(proposalInfo);
-       	stateChangeService.changeState(programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()));
+        getStateChangeService().changeState(programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()));
         return true;
     }
 
@@ -63,16 +63,16 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_SUBMITTED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else {
             // no status to set
             return null;

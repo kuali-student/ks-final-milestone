@@ -20,4 +20,7 @@ public interface MajorDisciplineRpcServiceAsync extends BaseDataOrchestrationRpc
     public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
     public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
 	public void updateState(Data data, String state, AsyncCallback<DataSaveResult> callback);
+	
+	// Determine if this is a proposal
+	public void isProposal(String referenceTypeKey, String referenceId, AsyncCallback<Boolean> callback);
 }

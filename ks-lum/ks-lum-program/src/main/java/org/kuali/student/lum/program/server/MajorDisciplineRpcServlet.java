@@ -13,6 +13,8 @@ import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -35,6 +37,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
     private static final long serialVersionUID = 1L;
 
+    private ProposalService proposalService;
     private ProgramService programService;
     private StatementService statementService;
     protected StateChangeService stateChangeService;
@@ -213,5 +216,53 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     public void setStateChangeService(StateChangeService stateChangeService) {
         this.stateChangeService = stateChangeService;
     }
+   
+    /**
+     * 
+     * This method will check to see if an object with the given reference ID is a proposal.
+     * <p>
+     * At the moment, it is used by the UI to decide if we should hide the action box when
+     * opening a draft proposal.
+     * 
+     * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#isProposal(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Boolean isProposal(String referenceTypeKey, String referenceId){
+        try {
+        // Wire in proposal service from spring
+        // Call method getProposalByReference().  
+        // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
+       
+        // Ask the proposal service to return a list of proposals with this reference id    
+        List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
+        
+        // If at least one proposal is returned, this is a proposal, so return true
+        if (proposals != null && proposals.size() >= 1){
+            return new Boolean(true);
+        }
+        
+        // This was not a proposal, so return false
+        return  new Boolean(false);
+        }
+        catch(Exception ex){
+            // Log exception 
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+      
+    }
+    /**
+     * 
+     * Proposal service is injected by spring in the lum-gwt-context.xml file
+     * 
+     * @return
+     */
+    public ProposalService getProposalService() {
+        return proposalService;
+    }
     
+    public void setProposalService(ProposalService proposalService) {
+        this.proposalService = proposalService;
+    }
+ 
 }

@@ -318,6 +318,28 @@ public class MajorViewController extends MajorController {
     		    actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));	
  			}        	
         });
+    	
+    	// Make a call to the server to determine if we are working with a proposal
+    	// If so, we need to hide the action box when viewing it.  This will
+    	// prevent users from trying to submit a proposal into work flow a second time
+    	
+    	// Get the reference ID of the proposal from the XML model
+    	// Note: the filter puts in in the model, see ProposalWorkflowFilter.applyOutboundDataFilter
+    	String referenceId = programModel.getRoot().get("id");
+    	
+    	// Call server to check if this is a proposal we are editing (as opposed to a program) 
+    	// TODO PLEASE REVIEW.  If this async call runs slow, will the box remain visible? Is this an issue?
+        programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
+            public void onSuccess(Boolean isProposal) {
+             
+                // If this is a proposal then we cannot take any actions on it
+                // So hide the action box
+                if (isProposal){
+                    actionBox.setVisible(false);
+                }
+              
+            }           
+        });  
     } 
   
     private void showVariationView() {

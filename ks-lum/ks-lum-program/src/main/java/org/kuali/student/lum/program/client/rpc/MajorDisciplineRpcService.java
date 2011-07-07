@@ -50,4 +50,7 @@ public interface MajorDisciplineRpcService extends BaseDataOrchestrationRpcServi
      * @return the result of the save
      */
 	public DataSaveResult updateState(Data data, String state) throws Exception ;
+	
+	// Determine if this is a proposal
+    public Boolean isProposal(String referenceTypeKey, String referenceId);
 }
