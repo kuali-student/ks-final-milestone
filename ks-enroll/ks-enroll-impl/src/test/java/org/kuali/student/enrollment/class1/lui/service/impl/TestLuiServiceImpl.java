@@ -1,9 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.List;
@@ -11,22 +8,21 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -223,5 +219,35 @@ public void testCreateLuiLuiRelation()throws AlreadyExistsException, CircularRel
 	} catch (Exception ex) {
 		fail("exception from service call :" + ex.getMessage());
 	}	
+}
+
+@Test
+public void testDeleteLui()throws DependentObjectsExistException, DoesNotExistException,InvalidParameterException, 
+	MissingParameterException, OperationFailedException, PermissionDeniedException {
+    LuiInfo info = luiServiceValidation.getLui("Lui-3", callContext);
+    assertNotNull(info);
+    
+    List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-3", callContext);
+	assertNotNull(objs);
+	assertEquals(1, objs.size());
+	
+    try{
+    	try{
+    	luiServiceValidation.deleteLui("Lui-3-blah", callContext);
+    	} catch (DoesNotExistException ee) {}	
+       
+    	StatusInfo status = luiServiceValidation.deleteLui("Lui-3", callContext);
+    	assertTrue(status.getIsSuccess());
+    	
+    	try{
+    		luiServiceValidation.getLuiLuiRelationsByLui("Lui-3", callContext);
+    	} catch (DoesNotExistException ee) {}
+    	
+    	try{
+    		luiServiceValidation.getLui("Lui-3", callContext);
+    	}catch (DoesNotExistException ee) {}
+    } catch (Exception e) {
+        fail(e.getMessage());
+    }	
 }
 }

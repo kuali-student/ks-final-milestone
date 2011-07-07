@@ -420,8 +420,20 @@ public void setLuService(LuService luService) {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         
+        LuiEntity entity = luiDao.find(luiId);
+        if( null != entity){
+        	List<LuiLuiRelationEntity> rels = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
+            if (null != rels && !rels.isEmpty()) {
+                for (LuiLuiRelationEntity rel : rels)
+                	luiLuiRelationDao.remove(rel);
+            }
+            
+            luiDao.remove(entity);
+        }
+        else
+            throw new DoesNotExistException(luiId);
         
-		return null;
+        return status;
 	}
 
 	@Override
@@ -515,8 +527,16 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
+        if (obj != null)
+        	luiLuiRelationDao.remove(obj);
+        else
+            throw new DoesNotExistException(luiLuiRelationId);
+
+        return status;
 	}
 
 }

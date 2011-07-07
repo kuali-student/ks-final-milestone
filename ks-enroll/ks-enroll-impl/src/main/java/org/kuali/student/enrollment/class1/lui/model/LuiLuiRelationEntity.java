@@ -21,8 +21,6 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
