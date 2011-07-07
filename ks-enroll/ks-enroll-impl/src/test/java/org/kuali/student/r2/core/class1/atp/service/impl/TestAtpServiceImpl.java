@@ -399,16 +399,6 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         
         List<MilestoneInfo> milestones = atpService.getMilestonesByDates(startDate, endDate, callContext);
         
-        for(MilestoneInfo info : milestones) {
-            System.out.println("start: " + info.getStartDate());
-            if(info.getEndDate() != null) {
-                System.out.println("end: " + info.getEndDate());
-            }
-            else {
-                System.out.println("end: null");
-            }
-        }
-        
         assertNotNull(milestones);
         assertEquals(2, milestones.size());
         
