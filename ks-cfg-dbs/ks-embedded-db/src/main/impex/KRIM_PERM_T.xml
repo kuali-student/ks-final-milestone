@@ -288,6 +288,11 @@
         OBJ_ID="5B4F0974494BCF33E0R04EX189E8ABAA" PERM_ID="3113"
         PERM_TMPL_ID="67" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
+        DESC_TXT="Open Document, with status FINAL"
+        NM="Open Document FINAL" NMSPC_CD="KS-SYS"
+        OBJ_ID="2357893b-31e3-43d6-9aa2-d615dab32751" PERM_ID="3200"
+        PERM_TMPL_ID="4000" VER_NBR="1"/>
+    <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send Ad Hoc Request" NMSPC_CD="KR-SYS"
         OBJ_ID="662384B381B967A1E0404F8189D868A6" PERM_ID="332"

@@ -111,6 +111,14 @@
         NM="Document Type (Permission)" NMSPC_CD="KR-SYS"
         OBJ_ID="5ADF18B6D4AC7954E0404F8189D85002"
         SRVC_NM="documentTypePermissionTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="3000"
+        NM="Document Type Routing Node or State" NMSPC_CD="KS-SYS"
+        OBJ_ID="c4025cc8-ddd6-4a38-b6d2-c75637677810"
+        SRVC_NM="documentTypeAndNodeOrStatePermissionTypeService" VER_NBR="1"/>
+    <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="3001"
+        NM="Derived Role:Affiliation" NMSPC_CD="KS-SYS"
+        OBJ_ID="4d19e0c0-34fb-48a9-942e-8a1771c9d4c0"
+        SRVC_NM="ksAffiliationService" VER_NBR="1"/>
     <KRIM_TYP_T ACTV_IND="Y" KIM_TYP_ID="4" NM="Action Request Type"
         NMSPC_CD="KR-WKFLW" OBJ_ID="5ADF18B6D4B57954E0404F8189D85002"
         SRVC_NM="actionRequestTypePermissionTypeService" VER_NBR="1"/>

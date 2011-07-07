@@ -52,6 +52,10 @@
         KIM_TYP_ID="43" LAST_UPDT_DT="20081114141017"
         NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F65A8EEE0404F8189D8770F"
         ROLE_ID="67" ROLE_NM="Router" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y" DESC_TXT="Derived Role : Affiliation"
+        KIM_TYP_ID="3001" NMSPC_CD="KS-SYS"
+        OBJ_ID="c6699d07-33a3-4cf4-b1b6-030a3ca6a05d" ROLE_ID="7000"
+        ROLE_NM="Derived Role : Affiliation New" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Open Document permission for a given document type.,"
         KIM_TYP_ID="60" LAST_UPDT_DT="20090113192616" NMSPC_CD="KR-NS"
