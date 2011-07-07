@@ -97,10 +97,8 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.minimumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
 		this.instructors = (null != lui.getInstructors()) ? 
 		        new ArrayList<LuiInstructorInfo>(lui.getInstructors()) : null; 
-		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui
-				.getEffectiveDate().getTime()) : null;
-		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui
-				.getExpirationDate().getTime()) : null;
+		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
+		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
 	}
 

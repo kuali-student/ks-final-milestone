@@ -67,10 +67,8 @@ public class LuiLuiRelationInfo extends IdEntityInfo implements Serializable,
 		super(llr);
 		this.luiId = llr.getLuiId();
 		this.relatedLuiId = llr.getRelatedLuiId();
-		this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr
-				.getEffectiveDate().getTime()) : null;
-		this.expirationDate = null != llr.getExpirationDate() ? new Date(llr
-				.getExpirationDate().getTime()) : null;
+		this.effectiveDate = null != llr.getEffectiveDate() ? new Date(llr.getEffectiveDate().getTime()) : null;
+		this.expirationDate = null != llr.getExpirationDate() ? new Date(llr.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
 	}
 
