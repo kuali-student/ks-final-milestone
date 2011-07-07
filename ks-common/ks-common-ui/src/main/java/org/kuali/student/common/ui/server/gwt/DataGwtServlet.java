@@ -75,7 +75,7 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 			return saveResult;
 		} catch (Exception e) {
 			LOG.error("Could not save data ", e);
-			throw new OperationFailedException("Failed to save data");
+			throw new OperationFailedException(e.getMessage());
 		} 
 	}
 
