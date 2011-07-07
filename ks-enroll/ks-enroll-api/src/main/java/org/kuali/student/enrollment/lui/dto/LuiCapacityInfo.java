@@ -34,7 +34,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiLuiRelationInfo", propOrder = { "id", "typeKey",
+@XmlType(name = "LuiCapacityInfo", propOrder = { "id", "typeKey",
                 "stateKey", "name", "descr", "luiIds", "maximumSeatCount", 
                 "processingOrder", "effectiveDate", "expirationDate", 
                 "meta", "attributes", "_futureElements" })

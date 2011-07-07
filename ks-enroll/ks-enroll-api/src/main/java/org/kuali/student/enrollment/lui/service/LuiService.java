@@ -353,7 +353,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * Retrieves information about LuiLuiRelationss from a list of
      * Ids.
      *
-     * @param luiLuirelationIdList  alist of LuiLuiRelation identifiers
+     * @param luiLuiRelationIdList a list of LuiLuiRelation identifiers
      * @param context Context information containing the principalId
      *                and locale information about the caller of
      *                service operation
@@ -363,7 +363,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(@WebParam(name = "luiLuirelationIdList") List<String> luiLuiRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(@WebParam(name = "luiLuiRelationIdList") List<String> luiLuiRelationIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves a list of LUI LUI Relation Ids by LUI LUI Relation
@@ -586,6 +586,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DoesNotExistException if any associated luiIds do not exist
      */
     public LuiCapacityInfo createLuiCapacity(@WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -623,6 +624,8 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DependentObjectsExistException delete would leave
+     *                                        orphaned objects or violate integrity constraints
      */
     public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "context") ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
