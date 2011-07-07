@@ -5,6 +5,8 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.constants.CollectionManagerServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.core.collection.dto.AbstractEntitiesCollectionInfo;
 import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
 
@@ -15,10 +17,12 @@ import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
  * @author Kuali Student Team (Sambit)
  *
  */
+
+@WebService(name = "CollectionManagerService", targetNamespace =  CollectionManagerServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 
-public interface EntityCollectionManagerService {
+public interface CollectionManagerService {
 
 	public StatusInfo addEntryToCollection(String collectionEntryId, String collectionId);
 	public StatusInfo removeFromCollection(String collectionEntryId);

@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.collection.infc.CollectionEntry;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CollectionEntryInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "entryRefObjectId",  "checkInDate", "position", "meta", "attributes", "_futureElements"})
+        "entryRefObjectId", "entryRefObjectTypeKey", "checkInDate", "position", "meta", "attributes", "_futureElements"})
 
 public class CollectionEntryInfo extends IdEntityInfo implements
 		CollectionEntry, Serializable {
@@ -31,9 +31,15 @@ public class CollectionEntryInfo extends IdEntityInfo implements
 
 	private String entryRefObjectId;
 	
+	private String entryRefObjectTypeKey;
+
 	private Date checkInDate;
 	
 	private Integer position;
+
+	public void setEntryRefObjectTypeKey(String entryRefObjectTypeKey) {
+		this.entryRefObjectTypeKey = entryRefObjectTypeKey;
+	}
 
 	public void setEntryRefObjectId(String entryRefObject) {
 		this.entryRefObjectId = entryRefObjectId;
@@ -60,6 +66,11 @@ public class CollectionEntryInfo extends IdEntityInfo implements
 	@Override
 	public Integer getPosition() {
 		return position;
+	}
+
+	@Override
+	public String getEntryRefObjectTypeKey() {
+		return entryRefObjectTypeKey;
 	}
 
 }

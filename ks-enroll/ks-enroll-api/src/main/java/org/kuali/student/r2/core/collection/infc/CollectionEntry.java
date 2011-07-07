@@ -8,10 +8,10 @@ public interface CollectionEntry {
 	
 	public String getEntryRefObjectId(); 
 
+	public String getEntryRefObjectTypeKey();
 	
 	public Date getCheckInDate(); 
 
-	
 	public Integer getPosition();
 
 }
