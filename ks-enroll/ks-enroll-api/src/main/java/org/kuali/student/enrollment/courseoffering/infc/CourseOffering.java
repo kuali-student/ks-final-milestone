@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
-import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 /**
  * 
@@ -125,7 +125,7 @@ public interface CourseOffering extends IdEntity {
      * If the value is set here then the Clu must have a grading option set on the
      * canonical activity. 
      * 
-     * ResultComponent will contain grade values valid for this course offering
+     * ResultValuesGroup will contain grade values valid for this course offering
      * 
      * @name: Grading Options
      */
@@ -136,7 +136,7 @@ public interface CourseOffering extends IdEntity {
      * If multiple then individual values are stored in the result component in case of a range, the component
      * will store the legal range with the increment factor.
      */    
-    public ResultComponentInfo getCreditOptions();
+    public ResultValuesGroup getCreditOptions();
     
     /**
      * Level at which grade rosters should be generated - activity, format or course.

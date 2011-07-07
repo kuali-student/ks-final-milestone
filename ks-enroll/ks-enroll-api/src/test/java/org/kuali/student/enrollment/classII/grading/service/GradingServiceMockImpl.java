@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 public class GradingServiceMockImpl implements GradingService {
 
@@ -238,15 +238,15 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<ResultComponentInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
+    public List<ResultValuesGroup> getValidGradesForStudentByRoster(String studentId, String rosterId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
        
-            List<ResultComponentInfo> rvgInfo =  new ArrayList<ResultComponentInfo>();
+            List<ResultValuesGroup> rvgInfo =  new ArrayList<ResultValuesGroup>();
             List<GradeRosterEntryInfo>  gradeRosterEntries = getGradeRosterEntriesByRosterId(rosterId, context);
             for(GradeRosterEntryInfo geInfo:gradeRosterEntries){
                if( geInfo.getStudentId().equals(studentId))
-                   rvgInfo.add(new ResultComponentInfo());
+                   rvgInfo.add(new ResultValuesGroup());
                
                    
             }

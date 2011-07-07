@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultComponent;
+import org.kuali.student.r2.lum.lrc.infc.ResutValuesGroup;
 import org.w3c.dom.Element;
 
 /**
@@ -34,11 +34,11 @@ import org.w3c.dom.Element;
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 
-@XmlType(name = "ResultComponentInfo", propOrder = { "id", "typeKey",
+@XmlType(name = "ResultValuesGroupInfo", propOrder = { "id", "typeKey",
 		"stateKey", "name", "descr", "resultValueIds", "resultValueRange", "effectiveDate",
 		"expirationDate", "meta", "attributes", "_futureElements" })
-public class ResultComponentInfo extends IdEntityInfo implements
-		ResultComponent {
+public class ResultValuesGroup extends IdEntityInfo implements
+		ResutValuesGroup {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,11 +57,11 @@ public class ResultComponentInfo extends IdEntityInfo implements
     @XmlAnyElement
     private List<Element> _futureElements;
 
-	public ResultComponentInfo() {
+	public ResultValuesGroup() {
 
 	}
 
-	public ResultComponentInfo(ResultComponent resultValueGroupInfo) {
+	public ResultValuesGroup(ResutValuesGroup resultValueGroupInfo) {
 		super(resultValueGroupInfo);
 		if (null != resultValueGroupInfo) {
 			this.resultValueIds = new ArrayList<String>(

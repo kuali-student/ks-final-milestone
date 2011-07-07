@@ -33,7 +33,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
 import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.w3c.dom.Element;
 
 /**
@@ -113,7 +113,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<String> jointOfferingIds;
     
     @XmlElement
-    private ResultComponentInfo creditOptions;
+    private ResultValuesGroup creditOptions;
     
     @XmlElement
     private List<String> gradingOptions;
@@ -212,7 +212,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.maximumEnrollment = (null != course.getMaximumEnrollment()) ? new Integer(course.getMaximumEnrollment()) : null;
         this.minimumEnrollment = (null != course.getMinimumEnrollment()) ? new Integer(course.getMinimumEnrollment()) : null;
         this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(course.getJointOfferingIds()) : null;
-        this.creditOptions = (null != course.getCreditOptions()) ? new ResultComponentInfo(course.getCreditOptions()) : null;
+        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroup(course.getCreditOptions()) : null;
         this.gradingOptions = (null != course.getGradingOptions()) ? new ArrayList<String>(course.getGradingOptions()) : null;
         this.gradeRosterLevel = course.getGradeRosterLevel();
         this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
@@ -338,7 +338,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public ResultComponentInfo getCreditOptions() {
+    public ResultValuesGroup getCreditOptions() {
         return this.creditOptions;
     }
 
@@ -485,7 +485,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(ResultComponentInfo creditOptions) {
+    public void setCreditOptions(ResultValuesGroup creditOptions) {
         this.creditOptions = creditOptions;
     }
 

@@ -159,7 +159,7 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  *                               determination based on the existence
  *                               of a Learning Result Exception.
  *                               
- * Exemptions are ebbraviated Exmpts in very long method names.
+ * Exemptions are abbreviated Exmpts in very long method names.
  *
  * @author tom
  * @since Tue Jun 21 14:22:34 EDT 2011

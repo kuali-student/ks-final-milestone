@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
@@ -110,57 +110,57 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo context)
+    public ResultValuesGroup getResultValuesGroup(String resultValuesGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultComponent(resultComponentId, context);
+        return getNextDecorator().getResultValuesGroup(resultValuesGroupId, context);
     }
 
     @Override
-    public List<ResultComponentInfo> getResultComponentsByIdList(List<String> resultComponentIdList, ContextInfo context)
+    public List<ResultValuesGroup> getResultValuesGroupsByIdList(List<String> resultValuesGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultComponentsByIdList(resultComponentIdList, context);
+        return getNextDecorator().getResultValuesGroupsByIdList(resultValuesGroupIdList, context);
     }
 
     @Override
-    public List<ResultComponentInfo> getResultComponentsByResultValue(String resultValueId, ContextInfo context)
+    public List<ResultValuesGroup> getResultValuesGroupsByResultValue(String resultValueId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultComponentsByResultValue(resultValueId, context);
+        return getNextDecorator().getResultValuesGroupsByResultValue(resultValueId, context);
     }
 
     @Override
-    public List<String> getResultComponentIdsByType(String resultComponentTypeKey, ContextInfo context)
+    public List<String> getResultValuesGroupIdsByType(String resultValuesGroupTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultComponentIdsByType(resultComponentTypeKey, context);
+        return getNextDecorator().getResultValuesGroupIdsByType(resultValuesGroupTypeKey, context);
     }
 
     @Override
-    public ResultComponentInfo createResultComponent(ResultComponentInfo resultComponentInfo, ContextInfo context)
+    public ResultValuesGroup createResultValuesGroup(ResultValuesGroup resultValuesGroupInfo, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().createResultComponent(resultComponentInfo, context);
+        return getNextDecorator().createResultValuesGroup(resultValuesGroupInfo, context);
     }
 
     @Override
-    public ResultComponentInfo updateResultComponent(String resultComponentKey,
-            ResultComponentInfo resultComponentInfo, ContextInfo context)
+    public ResultValuesGroup updateResultValuesGroup(String resultValuesGroupKey,
+            ResultValuesGroup resultValuesGroupInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException,
             VersionMismatchException {
-        return getNextDecorator().updateResultComponent(resultComponentKey, resultComponentInfo, context);
+        return getNextDecorator().updateResultValuesGroup(resultValuesGroupKey, resultValuesGroupInfo, context);
     }
 
     @Override
-    public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo context)
+    public StatusInfo deleteResultValuesGroup(String resultValuesGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteResultComponent(resultComponentId, context);
+        return getNextDecorator().deleteResultValuesGroup(resultValuesGroupId, context);
     }
 
     @Override
@@ -178,10 +178,10 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesForResultComponent(String resultComponentId, ContextInfo context)
+    public List<ResultValueInfo> getResultValuesForResultValuesGroup(String resultValuesGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getResultValuesForResultComponent(resultComponentId, context);
+        return getNextDecorator().getResultValuesForResultValuesGroup(resultValuesGroupId, context);
     }
 
     @Override
@@ -217,10 +217,10 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateResultComponent(String validationType,
-            ResultComponentInfo resultComponentInfo, ContextInfo context) throws DoesNotExistException,
+    public List<ValidationResultInfo> validateResultValuesGroup(String validationType,
+            ResultValuesGroup resultValuesGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateResultComponent(validationType, resultComponentInfo, context);
+        return getNextDecorator().validateResultValuesGroup(validationType, resultValuesGroupInfo, context);
     }
 
     @Override
