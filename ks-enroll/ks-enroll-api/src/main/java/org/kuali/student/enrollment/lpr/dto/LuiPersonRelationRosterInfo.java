@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "lprIds", "associatedLuiIds",
+@XmlType(name = "LuiPersonRelationRosterInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "lprIds", "associatedLuiIds",
         "meta", "attributes", "_futureElements"})
 public class LuiPersonRelationRosterInfo extends IdEntityInfo implements LuiPersonRelationRoster {
 

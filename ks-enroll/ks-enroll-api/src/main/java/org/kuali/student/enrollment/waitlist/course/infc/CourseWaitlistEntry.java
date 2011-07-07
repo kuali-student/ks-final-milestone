@@ -16,7 +16,7 @@ import java.util.Date;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * Represents a single student in the waitlist. Contains information such as
+ * Represents a single student in the course waitlist. Contains information such as
  * student id, the waitlist option (reg group id and clearing strategy) and the
  * student's position in the waitlist. As more seats become available the
  * students in the waitlist are moved to the course.
@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.Relationship;
  * It is represented by an LPR at Class I level, when a student actually
  * registers for the course the LPR is a RegGroupRegistration
  * 
- * @Author tom
+ * @Author sambit
  * @Since Tue May 10 14:22:34 EDT 2011
  */
 

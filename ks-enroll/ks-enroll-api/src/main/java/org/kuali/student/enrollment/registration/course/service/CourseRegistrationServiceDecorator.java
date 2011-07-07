@@ -523,4 +523,23 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
+	@Override
+	public Integer getPositionInWaitlist(String courseWaitlistId,
+			String courseWaitlistEntryId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	@Override
+	public CourseWaitlistEntryInfo getWaitlistEntryRank(
+			String courseWaitlistId, String courseWaitlistEntryId,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
 }

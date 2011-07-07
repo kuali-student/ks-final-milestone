@@ -22,7 +22,6 @@ import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -552,6 +551,47 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
     
+    
+
+/**
+ * 
+ * This method ...
+ * 
+ * @param courseWaitlistId
+ * @param courseWaitlistEntryId
+ * @param context
+ * @return
+ * @throws InvalidParameterException
+ * @throws MissingParameterException
+ * @throws OperationFailedException
+ * @throws PermissionDeniedException
+ */
+    public Integer getPositionInWaitlist(
+            @WebParam(name = "courseWaitlistId") String courseWaitlistId,
+            @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * 
+     * This method ...
+     * 
+     * @param courseWaitlistId
+     * @param courseWaitlistEntryId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+        public CourseWaitlistEntryInfo getWaitlistEntryRank(
+                @WebParam(name = "courseWaitlistId") String courseWaitlistId,
+                @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
+                @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+                MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Removes a student from a waitlist for a course.
      * 
@@ -607,6 +647,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
 
     /**
      * Gets the waitlist for a course offering.
+     * TODO review the need for this
      * 
      * @param courseOfferingId
      * @param context
