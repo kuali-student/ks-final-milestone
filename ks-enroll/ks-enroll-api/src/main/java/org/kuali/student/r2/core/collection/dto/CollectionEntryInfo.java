@@ -21,7 +21,7 @@ import org.kuali.student.r2.core.collection.infc.CollectionEntry;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CollectionEntryInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
+@XmlType(name = "CollectionEntryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "entryRefObjectId", "entryRefObjectTypeKey", "checkInDate", "position", "meta", "attributes", "_futureElements"})
 
 public class CollectionEntryInfo extends IdEntityInfo implements
@@ -41,7 +41,7 @@ public class CollectionEntryInfo extends IdEntityInfo implements
 		this.entryRefObjectTypeKey = entryRefObjectTypeKey;
 	}
 
-	public void setEntryRefObjectId(String entryRefObject) {
+	public void setEntryRefObjectId(String entryRefObjectId) {
 		this.entryRefObjectId = entryRefObjectId;
 	}
 

@@ -877,7 +877,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * This method creates a LPR request - validates the request,  generates an unique id for the request and persists it in the backend.
      * 
      * @param luiPersonRelationRequestInfo
      * @param context
@@ -899,7 +899,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * This method persists an updated LPR request to the back-end; it validates the object before persisting.
      * 
      * @param lprRequestId
      * @param luiPersonRelationRequestInfo
@@ -923,7 +923,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * Retrieves a LPR Request based on Id.
      * 
      * @param lprRequestId
      * @param context
@@ -942,7 +942,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     
     /**
      * 
-     * This method ...
+     * Deletes an LPR request based on Id.
      * 
      * @param lprRequestId
      * @param context
@@ -959,7 +959,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * 
-     * This method ...
+     * Submits a LPR request - validate, and based on the type of transaction creates, updates or removes LPRs.
      * 
      * @param lprRequestId
      * @param context

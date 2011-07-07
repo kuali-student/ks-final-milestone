@@ -13,7 +13,7 @@ import org.kuali.student.r2.core.collection.infc.CollectionEntry;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AbstractEntitiesCollectionInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
+@XmlType(name = "AbstractEntitiesCollectionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "collectionEntries",  "refObjectId", "meta", "attributes", "_futureElements"})
 
 public class AbstractEntitiesCollectionInfo extends IdEntityInfo implements
