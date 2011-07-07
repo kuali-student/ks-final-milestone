@@ -2,10 +2,12 @@ package org.kuali.student.enrollment.class2.acal.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 
@@ -24,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
-    public final static String DEFAULT_VALUE_OF_ATP_STATE =" kuali.atp.state.Officia";
+    public final static String DEFAULT_VALUE_OF_ATP_STATE =" kuali.atp.state.Official";
 
     
     private transient AcademicCalendarService academicCalendarService;
@@ -61,6 +63,27 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         }catch (VersionMismatchException vme){
             
         }
+    }
+    
+    @Override
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+    	ContextInfo context = ContextInfo.newInstance();
+    	try{
+    		return getAcademicCalendarService().getAcademicCalendar(dataObjectKeys.get("key"), context);
+            
+        }catch (InvalidParameterException ipe){
+            
+        }catch (MissingParameterException mpe){
+            
+        }catch (OperationFailedException ofe){
+           
+        }catch (PermissionDeniedException pde){
+            
+        }catch (DoesNotExistException dee){
+            
+        }
+        return null;
+  
     }
     
     protected AcademicCalendarService getAcademicCalendarService() {
