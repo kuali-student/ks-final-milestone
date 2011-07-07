@@ -125,12 +125,19 @@ public class CourseAdminRetireController extends CourseAdminWithoutVersionContro
     }
     	
     public boolean startSectionRequired(){
+    	//There is no start section for retire screen
     	return false;
     }
-	@Override
+
+    @Override
 	public boolean isAuthorizationRequired() {
 		//FIXME: Need to add proper authorization checks for admin modify.
 		return false;
 	}
 
+	@Override
+	protected void progressiveEnableFields() {
+		//Does nothing, there are no progressive enabled fields on retire screens.
+	}
+    
 }

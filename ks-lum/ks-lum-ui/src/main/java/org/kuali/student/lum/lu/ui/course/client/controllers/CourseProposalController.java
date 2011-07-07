@@ -419,24 +419,26 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		final FieldDescriptor endTerm = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.END_TERM);
 		final FieldDescriptor pilotCourse = Application.getApplicationContext().getPathToFieldMapping(null,CreditCourseConstants.PILOT_COURSE);
 		
-    	//Enable and require end term field based on pilot course value in model loaded
-        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE));
-		BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
-    	
-        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
-		KSCheckBox pilotCheckbox = ((KSCheckBox)pilotCourse.getFieldWidget());
-        pilotCheckbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				//Disable/enable end term field based on new value of pilot checkbox
-		        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
-		        
-		        //Clear out endTerm value if pilot course unchecked (as this field is not required when not pilot course)
-		        if (!event.getValue()){
-					((KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget()).clear();				
-				}					        
-			}
-		});		
+		if (pilotCourse != null && endTerm != null){
+	    	//Enable and require end term field based on pilot course value in model loaded		
+	        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE));
+			BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
+	    	
+	        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
+			KSCheckBox pilotCheckbox = ((KSCheckBox)pilotCourse.getFieldWidget());
+	        pilotCheckbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					//Disable/enable end term field based on new value of pilot checkbox
+			        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
+			        
+			        //Clear out endTerm value if pilot course unchecked (as this field is not required when not pilot course)
+			        if (!event.getValue()){
+						((KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget()).clear();				
+					}					        
+				}
+			});
+		}
     }
 
     @Override
