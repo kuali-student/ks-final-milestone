@@ -43,27 +43,27 @@
    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+<!--     
     <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+-->    
     <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+<!--     
     <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+-->    
     <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+<!--     
     <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
-    
+-->    
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>

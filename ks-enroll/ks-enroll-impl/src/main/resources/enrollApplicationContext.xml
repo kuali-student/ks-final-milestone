@@ -40,11 +40,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     	<property name="atpStateDao" ref="atpStateDao"/>
     	<property name="atpRichTextDao" ref="atpRichTextDao"/>
     	<property name="atpRelDao" ref="atpAtpRelationDao"/>
-    	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/>
+<!--   	<property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
     	<property name="milestoneDao" ref="milestoneDao"/>
-    	<property name="milestoneTypeDao" ref="milestoneTypeDao"/>
+<!--     	<property name="milestoneTypeDao" ref="milestoneTypeDao"/> -->
     	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/>
+<!--     	<property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     	<property name="stateService" ref="stateService"/>
     </bean>
     
