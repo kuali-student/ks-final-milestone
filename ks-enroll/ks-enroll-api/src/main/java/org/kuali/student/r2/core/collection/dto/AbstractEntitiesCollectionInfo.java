@@ -14,7 +14,7 @@ import org.kuali.student.r2.core.collection.infc.CollectionEntry;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AbstractEntitiesCollectionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "collectionEntries",  "refObjectId", "meta", "attributes", "_futureElements"})
+        "collectionEntries",  "refObjectId", "refObjectTypeKey", "meta", "attributes", "_futureElements"})
 
 public class AbstractEntitiesCollectionInfo extends IdEntityInfo implements
 		AbstractEntitiesCollection, Serializable {
@@ -25,6 +25,17 @@ public class AbstractEntitiesCollectionInfo extends IdEntityInfo implements
 	
 	private   String refObjectId;
 	
+	private String refObjectTypeKey;
+	
+	public void setRefObjectTypeKey(String refObjectTypeKey) {
+		this.refObjectTypeKey = refObjectTypeKey;
+	}
+
+	@Override
+	public String getRefObjectTypeKey() {
+		return refObjectTypeKey;
+	}
+
 	@Override
 	public List<CollectionEntry> getCollectionEntries() {
 		return collectionEntries;
@@ -43,4 +54,5 @@ public class AbstractEntitiesCollectionInfo extends IdEntityInfo implements
 		this.refObjectId = refObjectId;
 	}
 
+	
 }

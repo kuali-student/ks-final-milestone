@@ -8,5 +8,8 @@ public interface AbstractEntitiesCollection {
 	public List<CollectionEntry> getCollectionEntries();
 		
 	public String getRefObjectId();
+	
+	public String getRefObjectTypeKey();
+
 		
 }
