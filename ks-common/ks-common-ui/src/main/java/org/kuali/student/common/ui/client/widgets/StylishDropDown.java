@@ -33,6 +33,10 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -105,6 +109,24 @@ public class StylishDropDown extends Composite{
 			}	
 		}
 	}; 
+
+	private MouseOverHandler mouseOverHandler = new MouseOverHandler() {
+
+		@Override
+		public void onMouseOver(MouseOverEvent event) {
+			titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Hover");
+		}
+		
+	};
+
+	private MouseOutHandler mouseOutHandler = new MouseOutHandler() {
+
+		@Override
+		public void onMouseOut(MouseOutEvent event) {
+			titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+		}
+		
+	};
 
 	private MenuEventHandler menuHandler = new MenuEventHandler(){
 
@@ -205,6 +227,8 @@ public class StylishDropDown extends Composite{
 		namePanel.addClickHandler(panelHandler);
 		namePanel.addKeyDownHandler(downHandler);
 		namePanel.addFocusHandler(focusHandler);
+		namePanel.addMouseOverHandler(mouseOverHandler);
+		namePanel.addMouseOutHandler(mouseOutHandler);
 		namePanel.setTabIndex(1);
 		menuPanel.setAutoHideEnabled(true);
 		menuPanel.addAutoHidePartner(namePanel.getElement());
