@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -67,6 +69,13 @@ public void testGetLui()throws DoesNotExistException, InvalidParameterException,
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, obj.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getTypeKey()); 
         assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
+        
+        List<LuiInstructorInfo> instructors = obj.getInstructors();
+        assertTrue(instructors.size() == 1);
+        assertEquals("Pers-1", instructors.get(0).getPersonId());
+        assertEquals("Org-1", instructors.get(0).getOrgId());
+        assertEquals("Instr-1", instructors.get(0).getPersonInfoOverride());
+        assertEquals(Float.valueOf("30.5"), instructors.get(0).getPercentageEffort());
 	} catch (Exception ex) {
 		fail("exception from service call :" + ex.getMessage());
 	}
@@ -83,8 +92,18 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
 	info.setEffectiveDate(Calendar.getInstance().getTime());
 	info.setMaximumEnrollment(25);
 	info.setMinimumEnrollment(10);
+	info.setStudySubjectArea("Math");
 	info.setCluId("testCluId");
 	info.setAtpKey("testAtpId1");
+	
+	List<LuiInstructorInfo> instructors = new ArrayList<LuiInstructorInfo>();
+	LuiInstructorInfo instructor = new LuiInstructorInfo();
+	instructor.setId("LUI-INSTR-Test-1");
+	instructor.setOrgId("Org-1");
+	instructor.setPersonId("Pers-2");
+	instructor.setPercentageEffort((float) 100);
+	instructors.add(instructor);
+	info.setInstructors(instructors);
 	
 	LuiInfo created = null;
 	try{
@@ -97,6 +116,8 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
         assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
 		assertEquals("testCluId", created.getCluId());
 		assertEquals("testAtpId1", created.getAtpKey());
+		assertEquals("Math", created.getStudySubjectArea());
+		assertTrue(created.getInstructors().size() == 1);
         				
 	} catch (Exception e) {
         fail(e.getMessage());
@@ -106,12 +127,16 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
 		LuiInfo retrieved = luiServiceValidation.getLui(created.getId(), callContext);
 		assertNotNull(retrieved);
 		assertEquals("Test lui one", retrieved.getName());
-        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
-        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
-        assertEquals(Integer.valueOf(25), created.getMaximumEnrollment());
-        assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
-		assertEquals("testCluId", created.getCluId());
-		assertEquals("testAtpId1", created.getAtpKey());
+        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey());
+        assertEquals(Integer.valueOf(25), retrieved.getMaximumEnrollment());
+        assertEquals(Integer.valueOf(10), retrieved.getMinimumEnrollment());
+		assertEquals("testCluId", retrieved.getCluId());
+		assertEquals("testAtpId1", retrieved.getAtpKey());
+		assertEquals("Math", retrieved.getStudySubjectArea());
+		assertTrue(retrieved.getInstructors().size() == 1);
+		assertEquals("Org-1", retrieved.getInstructors().get(0).getOrgId());
+		assertEquals("Pers-2", retrieved.getInstructors().get(0).getPersonId());
 	} catch (DoesNotExistException e) {
 		fail(e.getMessage());
 	}	

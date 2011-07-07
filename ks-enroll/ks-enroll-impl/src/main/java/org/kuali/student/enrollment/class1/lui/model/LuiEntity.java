@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -12,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -73,6 +76,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	@Column(name = "EXP_DT")
 	private Date expirationDate;
 
+	@Column(name = "STDY_SUBJ_AREA")
+    private String studySubjectArea;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
+    private List<LuiInstructorEntity> instructors;
+    
     @OneToMany(cascade = CascadeType.ALL)
     private List<LuiAttributeEntity> attributes;
     
@@ -88,6 +98,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setCluId(lui.getCluId());
         	this.setMaxSeats(lui.getMaximumEnrollment());
         	this.setMinSeats(lui.getMinimumEnrollment());
+        	this.setStudySubjectArea(lui.getStudySubjectArea());
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
         	if(lui.getExpirationDate() != null)
@@ -96,6 +107,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	        if(lui.getDescr() != null)
 	            this.setDescr(new LuiRichTextEntity(lui.getDescr()));
 	        
+	        this.setInstructors(new ArrayList<LuiInstructorEntity>());
+	        if (null != lui.getInstructors()){
+	        	for(LuiInstructor instructor : lui.getInstructors()){
+	        		LuiInstructorEntity instrEntity = new LuiInstructorEntity(instructor);
+	        		this.getInstructors().add(instrEntity);
+	        	}
+	        }
 	        
 	        this.setAttributes(new ArrayList<LuiAttributeEntity>());
 	        if (null != lui.getAttributes()) {
@@ -116,6 +134,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setLuiCode(luiCode);
     	obj.setAtpKey(atpKey);
     	obj.setCluId(cluId);
+    	obj.setStudySubjectArea(studySubjectArea);
     	if(maxSeats != null)
     		obj.setMaximumEnrollment(maxSeats);
     	if(minSeats != null)
@@ -130,6 +149,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         if(descr != null)
             obj.setDescr(descr.toDto());
 
+        List<LuiInstructorInfo> instructors = new ArrayList<LuiInstructorInfo>();
+        for (LuiInstructorEntity instructor : getInstructors()) {
+        	LuiInstructorInfo instructorInfo = instructor.toDto();
+        	instructors.add(instructorInfo);
+        }
+        obj.setInstructors(instructors);
+        
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
@@ -226,6 +252,22 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
 	public void setLuiState(StateEntity luiState) {
 		this.luiState = luiState;
+	}
+
+	public String getStudySubjectArea() {
+		return studySubjectArea;
+	}
+
+	public void setStudySubjectArea(String studySubjectArea) {
+		this.studySubjectArea = studySubjectArea;
+	}
+
+	public List<LuiInstructorEntity> getInstructors() {
+		return instructors;
+	}
+
+	public void setInstructors(List<LuiInstructorEntity> instructors) {
+		this.instructors = instructors;
 	}
 
 	@Override
