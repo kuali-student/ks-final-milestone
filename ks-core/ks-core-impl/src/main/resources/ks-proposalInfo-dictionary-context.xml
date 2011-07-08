@@ -43,6 +43,7 @@
 		<property name="attributes">
 			<list merge="true">
 				<ref bean="programProposalInfo.abstract" />
+				<ref bean="programProposalInfo.typeOfModification" />
 			</list>
 		</property>	
 	</bean>
@@ -191,5 +192,11 @@
 		<property name="dynamic" value="true"/>
 	</bean>
 	<bean id="programProposalInfo.abstract" parent="programProposalInfo.abstract-parent" />
+
+	<bean id="programProposalInfo.typeOfModification-parent" abstract="true" parent="baseStringReallyLong">
+		<property name="name" value="typeOfModification" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="programProposalInfo.typeOfModification" parent="programProposalInfo.typeOfModification-parent" />
 
 </beans>
