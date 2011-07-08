@@ -28,7 +28,16 @@ import org.kuali.student.r2.lum.lrc.infc.ResutValuesGroup;
 import org.w3c.dom.Element;
 
 /**
- * Detailed information about a result component.
+ * Detailed information about a group of result values.
+ * 
+ * This grouping can be expressed two ways:
+ * (1) as an explicit list of values, i.e. A, B, C, etc
+ * (2) as a range of numeric values 1-100 with .01 increments
+ * 
+ * It may also combine the two approaches.
+ * (3) A numeric range for a grade 1-100 but also allow for grades like I for incomplete.
+ * 
+ * Note: This object has been renamed from R1, previously it was called ResultComponent.
  * 
  * @Author sambit
  * @Since Tue Apr 21 13:47:47 PDT 2009
