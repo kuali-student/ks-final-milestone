@@ -23,8 +23,10 @@ public class MajorProposalInformationEditConfiguration extends AbstractSectionCo
     @Override
     protected void buildLayout() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title("Proposal Information"));  //TODO: get title from ProgramProperties
-        configurer.addField(section, "proposal/name", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle()));
-        configurer.addField(section, "proposal/rationale", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale()));
+        configurer.addField(section, ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle()));
+        configurer.addField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle()));
+        configurer.addField(section, ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluAbstractType()));
+        configurer.addField(section, ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale()));
         rootSection.addSection(section);     
      }
  

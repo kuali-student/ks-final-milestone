@@ -41,6 +41,9 @@ public class ProgramConstants {
 
     // Proposal Information
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
+    public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
+    public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale";
     
     
     //Program Title
