@@ -86,15 +86,7 @@ public class AcademicCalendarAssembler implements AtpAssembler<AcademicCalendarI
             attributes.add(cpt);
         }
         
-        atp.setAttributes(attributes);
-        
-        if(acal.getCampusCalendarKeys() != null && !acal.getCampusCalendarKeys().isEmpty()){
-            try{
-            	relAssembler.disassemble(acal.getKey(), acal.getCampusCalendarKeys(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context);
-            }catch (Exception e){
-                return null;
-            }
-        }        
+        atp.setAttributes(attributes);  
         
         return atp;   
     }

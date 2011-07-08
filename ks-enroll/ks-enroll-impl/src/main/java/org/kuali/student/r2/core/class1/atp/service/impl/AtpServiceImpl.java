@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -647,6 +648,8 @@ public class AtpServiceImpl implements AtpService {
 
         if (!checkRelationExistence(atpAtpRelationInfo)) {
             AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
+            atpRel.setId(UUIDHelper.genStringUUID());
+            
             if (null != atpAtpRelationInfo.getStateKey()) {
                 atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
             }
@@ -662,7 +665,7 @@ public class AtpServiceImpl implements AtpService {
 
             atpRelDao.persist(atpRel);
 
-            return atpAtpRelationInfo;
+            return atpRelDao.find(atpRel.getId()).toDto();
         } else
             throw new AlreadyExistsException("The Atp-Atp relation already exists. atp="
                     + atpAtpRelationInfo.getAtpKey() + ", relatedAtp=" + atpAtpRelationInfo.getRelatedAtpKey());
@@ -687,10 +690,11 @@ public class AtpServiceImpl implements AtpService {
                 modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             if (atpAtpRelationInfo.getStateKey() != null)
                 modifiedAtpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+            
             atpRelDao.merge(modifiedAtpRel);
+            return atpRelDao.find(modifiedAtpRel.getId()).toDto();
         } else
             throw new DoesNotExistException(atpAtpRelationId);
-        return atpAtpRelationInfo;
     }
 
     @Override

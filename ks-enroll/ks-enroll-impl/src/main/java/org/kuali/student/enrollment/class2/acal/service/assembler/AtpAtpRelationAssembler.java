@@ -58,28 +58,14 @@ public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
         return ccKeys;
     }
 	
-    public StatusInfo disassemble(String atpKey, List<String> relatedAtpKeys, String relatedAtpType, ContextInfo context){
+    public StatusInfo disassemble(String atpKey, List<String> relatedAtpKeys, String relatedAtpType, ContextInfo context) 
+    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, 
+    		OperationFailedException, PermissionDeniedException, VersionMismatchException{
     	StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);        
         
-        try {
-            disassembleAtpAtpRelations(atpKey, relatedAtpKeys, relatedAtpType, context);
-        } catch (AlreadyExistsException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (DataValidationErrorException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (InvalidParameterException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (MissingParameterException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (OperationFailedException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (PermissionDeniedException e) {
-            status.setSuccess(Boolean.FALSE);        
-        } catch (VersionMismatchException e) {
-            status.setSuccess(Boolean.FALSE);        
-        }
-        
+        disassembleAtpAtpRelations(atpKey, relatedAtpKeys, relatedAtpType, context);
+              
         return status;
     }
     

@@ -42,7 +42,6 @@ public class TermAssembler implements AtpAssembler<TermInfo, AtpInfo>{
         atp.setMeta(term.getMeta());
         atp.setAttributes(term.getAttributes());
 
-        //TODO: acal to term relation (AtpAtpRelation)
         return atp;
     }
 
