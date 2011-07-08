@@ -6,7 +6,7 @@ public class DtoConstants {
     public final static String STATE_SUBMITTED = "Submitted";
     public final static String STATE_WITHDRAWN = "Withdrawn";
     public final static String STATE_APPROVED = "Approved";
-    public final static String STATE_NOT_APPROVED = "Not Approved";
+    public final static String STATE_NOT_APPROVED = "NotApproved";
     public final static String STATE_ACTIVE = "Active";
     public final static String STATE_SUPERSEDED  = "Superseded";
     public final static String STATE_SUSPENDED  = "Suspended";

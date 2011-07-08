@@ -54,6 +54,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	public static final String WORKFLOW_DOC_ID		= "ProposalWorkflowFilter.DocumentId";
     public static final String WORKFLOW_DOC_TYPE	= "ProposalWorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "ProposalWorkflowFilter.WorkflowUser";
+    public static final String PROPOSAL_ATTRIBUTES  = "ProposalWorkflowFilter.ProposalAttributes";
         
 	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
@@ -139,6 +140,11 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
                 // TODO: this needs to be defined as a constant where all references will resolve
                 if ("kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
+                }
+                
+                Map<String,String> proposalAttributes = (Map<String, String>) properties.get(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES);
+                if(proposalAttributes!=null){
+                	proposalInfo.getAttributes().putAll(proposalAttributes);
                 }
                 
 				proposalInfo.setState("Saved");

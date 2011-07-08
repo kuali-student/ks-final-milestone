@@ -196,7 +196,7 @@ public class WorkflowUtilities{
 		if(approveDialogView != null){
 			QueryPath path = QueryPath.concat(parentPath, fieldKey);
 	        Metadata meta = modelDefinition.getMetadata(path);
-	        if(meta.isCanEdit() && MetadataInterrogator.isRequiredForNextState(meta)){
+	        if(meta.isCanEdit() && (MetadataInterrogator.isRequiredForNextState(meta) || meta.getConstraints().get(0).getMinOccurs()>0)){
 	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
 	            approveDialogView.addField(fd);
 	            approveFields.add(fd.getFieldKey());

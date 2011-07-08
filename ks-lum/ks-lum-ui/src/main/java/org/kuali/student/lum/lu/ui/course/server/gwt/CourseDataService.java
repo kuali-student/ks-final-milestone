@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,16 @@ public class CourseDataService extends AbstractDataService {
 			    
 			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId())){
 			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
+			    	//Save the start and end terms from the old version and put into filter properties
+			    	String startTerm = courseInfo.getStartTerm();
+			    	String endTerm = courseInfo.getEndTerm();
+			    	Map<String,String> proposalAttributes = new HashMap<String,String>();
+			    	if(startTerm!=null)
+			    		proposalAttributes.put("prevStartTerm",startTerm);
+			    	if(endTerm!=null)
+			    		proposalAttributes.put("prevEndTerm",endTerm);
+			    	
+			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
 			    } else {
 			        throw new OperationFailedException("Create new version failed, current version is not the latest for this course.");
 			    }
