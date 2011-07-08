@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 
-public interface CollectionManagerService {
+public interface EntitiesCollectionService {
 
 	public StatusInfo addEntryToCollection(String collectionEntryId, String collectionId);
 	public StatusInfo removeFromCollection(String collectionEntryId);
