@@ -540,7 +540,16 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("cluProposalRationale")
   String proposalInformation_cluProposalRationale();
   
-   /**
+  /**
+   * Translated "Program Abstract".
+   * 
+   * @return translated "Program Abstract"
+   */
+  @DefaultMessage("Program Abstract")
+  @Key("programProposalRationale")
+  String proposalInformation_ProposalAbstract();
+
+  /**
    * Translated "Program Actions: Modify, Retire...".
    * 
    * @return translated "Program Actions: Modify, Retire..."

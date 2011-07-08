@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
-	<!-- ProposalInfo-->
+	<!-- Generic ProposalInfo-->
 	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo-parent"
 		abstract="true" parent="objectStructureDefinition">
 		<property name="name"
@@ -34,6 +34,18 @@
 	</bean>
 	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo"
 		parent="org.kuali.student.core.proposal.dto.ProposalInfo-parent" />
+
+	<!-- Proposal definition for Program Proposal. NOTE: There is no java class called ProgramProposalInfo -->
+	<bean id="org.kuali.student.core.proposal.definition.ProgramProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.ProgramProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="programProposalInfo.abstract" />
+			</list>
+		</property>	
+	</bean>
 
 	<bean id="proposalInfo.detailDesc-parent" abstract="true"
 		parent="baseKualiDescription">
@@ -172,4 +184,12 @@
 		<property name="name" value="type" />
 	</bean>
 	<bean id="proposalInfo.type" parent="proposalInfo.type-parent" />
+
+
+	<bean id="programProposalInfo.abstract-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="abstract" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="programProposalInfo.abstract" parent="programProposalInfo.abstract-parent" />
+
 </beans>

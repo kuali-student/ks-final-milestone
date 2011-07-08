@@ -70,6 +70,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
 	private String defaultDocType;
+	private String proposalDefinition;
 	
 	List<DocumentTypeConfiguration> docTypeConfigs;
 
@@ -171,9 +172,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
 		Metadata proposalMetadata;
 		if (workflowNode == null || workflowNode.isEmpty()){
-			proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), null, "SAVED", nextState);
+			proposalMetadata = metadataService.getMetadata(getProposalDefinition(), null, "SAVED", nextState);
 		} else {
-			proposalMetadata = metadataService.getMetadataByWorkflowNode(ProposalInfo.class.getName(), workflowNode);
+			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalDefinition(), workflowNode);
 		}
 		
 		Map<String, Metadata> properties = metadata.getProperties();
@@ -388,6 +389,22 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		this.docTypeConfigs = docTypeConfigs;
 	}
 	
+
+	/** 
+	 * @return the dictionary definition to use when getting metadata.
+	 */
+	public String getProposalDefinition() {
+		if (proposalDefinition == null){
+			return ProposalInfo.class.getName();
+		}
+		return proposalDefinition;
+	}
+
+
+	public void setProposalDefinition(String proposalDefinition) {
+		this.proposalDefinition = proposalDefinition;
+	}
+
 
 	/**
 	 * Used to set the workflow utility service required by this filter

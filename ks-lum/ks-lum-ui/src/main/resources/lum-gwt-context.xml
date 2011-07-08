@@ -600,6 +600,7 @@
     <bean id="majorDisciplineProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
         <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
         <property name="defaultDocType" value="kuali.proposal.type.majorDiscipline.modify"/>
+        <property name="proposalDefinition" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
         <property name="docTypeConfigs">
 	        <list>
 	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
