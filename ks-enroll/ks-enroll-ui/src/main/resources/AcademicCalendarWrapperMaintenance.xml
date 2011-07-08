@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
   <bean id="AcademicCalendarWrapper-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="Academic Calendar Maintenance"/>
-     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarWrapper"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
      
      <property name="items">
@@ -70,7 +70,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 
   <bean id="AcademicCalendarWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarWrapper"/>
+    <property name="businessObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
     <property name="documentTypeName" value="AcademicCalendarWrapperMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
