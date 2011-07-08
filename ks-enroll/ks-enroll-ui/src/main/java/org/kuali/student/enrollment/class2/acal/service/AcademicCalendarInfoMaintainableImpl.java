@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
-    public final static String DEFAULT_VALUE_OF_ATP_STATE =" kuali.atp.state.Official";
+    public final static String DEFAULT_VALUE_OF_ATP_STATE ="kuali.atp.state.Official";
 
     
     private transient AcademicCalendarService academicCalendarService;
