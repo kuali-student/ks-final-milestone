@@ -5427,6 +5427,12 @@
 		</property>
 	</bean>
 
+ <bean id="programProposalInfo.typeOfModification" parent="uilookupconfig-parent">
+  <property name="path" value="programProposalInfo.typeOfModification" />
+	<!-- FIXME: Replace this with the correct lookup for type of modification, this is only for quick test. -->
+  <property name="initialLookup" ref="kuali.lu.lookup.campusLocations" />
+ </bean>
+
  <bean id="majorDisciplineInfo.universityClassification" parent="uilookupconfig-parent">
   <property name="path" value="majorDisciplineInfo.universityClassification" />
   <property name="initialLookup"
