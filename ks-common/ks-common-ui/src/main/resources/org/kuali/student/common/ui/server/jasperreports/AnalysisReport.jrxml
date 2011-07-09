@@ -28,7 +28,7 @@
 	<detail>
 		<band height="62">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="198" y="11" width="317" height="15">
+				<reportElement positionType="Float" x="10" y="11" width="317" height="15">
 					<printWhenExpression><![CDATA[$F{value} != null]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -40,7 +40,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement positionType="Float" x="0" y="37" width="515" height="24"/>
+				<reportElement positionType="Float" x="10" y="38" width="515" height="24"/>
 				<subreportParameter name="DataFile"/>
 				<subreportParameter name="SubReport">
 					<subreportParameterExpression><![CDATA[$P{SubReport}]]></subreportParameterExpression>
@@ -50,7 +50,7 @@
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
 			</subreport>
 			<line>
-				<reportElement x="198" y="26" width="317" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF">
+				<reportElement x="10" y="26" width="317" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF">
 					<printWhenExpression><![CDATA[!$F{empty}]]></printWhenExpression>
 				</reportElement>
 				<graphicElement>
