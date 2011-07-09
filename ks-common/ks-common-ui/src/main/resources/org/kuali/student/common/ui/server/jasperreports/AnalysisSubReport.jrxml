@@ -29,15 +29,15 @@
 					<rightPen lineWidth="0.0" lineColor="#3333FF"/>
 				</box>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="30">
+		<band height="37">
 			<printWhenExpression><![CDATA[$F{sub}==true && !$F{value}.equals( "" )]]></printWhenExpression>
 			<subreport>
-				<reportElement positionType="Float" x="5" y="15" width="505" height="15">
+				<reportElement positionType="Float" x="5" y="19" width="505" height="15">
 					<printWhenExpression><![CDATA[$F{sub}==true]]></printWhenExpression>
 				</reportElement>
 				<subreportParameter name="DataFile"/>
@@ -48,8 +48,8 @@
 				<dataSourceExpression><![CDATA[$F{subset}]]></dataSourceExpression>
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
 			</subreport>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="0" y="0" width="510" height="15">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="0" width="492" height="18">
 					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -63,6 +63,16 @@
 					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<ellipse>
+				<reportElement x="13" y="7" width="3" height="3" backcolor="#000000">
+					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+			</ellipse>
+			<textField>
+				<reportElement x="5" y="34" width="99" height="3"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" "]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="15">
