@@ -342,7 +342,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 */
 	private Metadata getProposalMetadata(){
 		if (proposalMetadata == null){
-			proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName());
+			proposalMetadata = metadataService.getMetadata(getProposalDefinition());
 		}
 		
 		return proposalMetadata;
