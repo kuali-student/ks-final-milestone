@@ -317,6 +317,78 @@
 		<property name="id" value="kuali.common.lookup.atp.seasons" />
 	</bean>
 
+	<!-- This block defines a common look-up for the type of modification checkbox list on
+	the proposal information section in the program side of the application.  It only
+	defines how to lookup the values from the database.  A separate file (lum-ui-lookup-context.xml)
+	maps the results to the actual widget, and will extend this type.  This allows different
+	UIs to reuse this definition.
+	
+	The first thing you will want to do is enter the key/value pairs via the rice UI.  Then,
+	export the rows using DB Vizualizer and add them to an impex file to update the database.  
+	 
+	You can copy/paste this block and use it for any enumeration.  Just change the defaultValueString
+	to match the ENUM_KEY column in the KSEMBEDDED.KSEM_ENUM_T table.
+	
+ 	-->
+	<bean id="kuali.common.lookup.programModificationType" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.lu.programModificationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.campusLocations" />
+	</bean>
+
 	<bean id="kuali.common.lookup.campusLocations" parent="commonLookup-parent">
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
