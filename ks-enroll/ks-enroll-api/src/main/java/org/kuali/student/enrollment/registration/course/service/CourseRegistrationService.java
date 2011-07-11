@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
@@ -66,15 +67,19 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public Boolean canRegister(@WebParam(name = "studentId") String studentId,
+    public Boolean checkStudentEligibility(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+   
+
     /**
-     * Checks students eligibility for term and if the courses are available to
-     * be put in the registration cart. If some of the courses of a future or
-     * current term are published the student can put them in the registration
-     * cart.
+     * TODO - follow up if we need this at all
+     */
+    // public String canAccessRegRequest(String studentId, String termId);
+
+    /**
+     * Checks the eligibility of a student to register given the term.
      * 
      * @param studentId
      * @param termId
@@ -85,10 +90,11 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegResponseInfo canBuildRegRequestForTerm(@WebParam(name = "studentId") String studentId,
+    public List<ValidationResultInfo> checkStudentEligibilityForTerm(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
+
 
     /**
      * Gets the appointment window for a term that a student can register in.
@@ -108,28 +114,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             PermissionDeniedException;
 
     /**
-     * TODO - follow up if we need this at all
-     */
-    // public String canAccessRegRequest(String studentId, String termId);
-
-    /**
-     * Checks the eligibility of a student to register given the term.
-     * 
-     * @param studentId
-     * @param termId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public OperationStatusInfo checkEligibilityOfStudent(@WebParam(name = "studentId") String studentId,
-            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
-
-    /**
      * Checks if the student is eligible to register for a particular
      * registration group. Used when student or admin tries to do one-click
      * registration or register for a single course.
@@ -139,7 +123,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public OperationStatusInfo checkStudentEligibiltyForRegGroup(@WebParam(name = "studentId") String studentId,
+    public List<ValidationResultInfo> checkStudentEligibiltyForRegGroup(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "regGroupId") String regGroupId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
@@ -510,7 +494,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
 
-    public List<RegResponseInfo> bulkRegisterStudentsToCourse(
+    public List<RegResponseInfo> registerStudentsToCourse(
             @WebParam(name = "reqRequests") List<RegRequestInfo> reqRequests,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -553,47 +537,8 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     
     
 
-/**
- * 
- * This method ...
- * 
- * @param courseWaitlistId
- * @param courseWaitlistEntryId
- * @param context
- * @return
- * @throws InvalidParameterException
- * @throws MissingParameterException
- * @throws OperationFailedException
- * @throws PermissionDeniedException
- */
-    public Integer getPositionInWaitlist(
-            @WebParam(name = "courseWaitlistId") String courseWaitlistId,
-            @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
-            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-
     /**
-     * 
-     * This method ...
-     * 
-     * @param courseWaitlistId
-     * @param courseWaitlistEntryId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-        public CourseWaitlistEntryInfo getWaitlistEntryRank(
-                @WebParam(name = "courseWaitlistId") String courseWaitlistId,
-                @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
-                @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-                MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Removes a student from a waitlist for a course.
+     * updates a waitlist entry - used to update rank or other info in a waitlist entry.
      * 
      * @param reqRequestInfo
      * @param context
@@ -642,23 +587,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      */
     public CourseWaitlistInfo getWaitlistForCourseOffering(
             @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the waitlist for a course offering.
-     * TODO review the need for this
-     * 
-     * @param courseOfferingId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public CourseWaitlistInfo getWaitlistForCourseOfferings(
-            @WebParam(name = "courseOfferingIds") List<String> courseOfferingIds,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 

@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.registration.course.service;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
@@ -120,21 +121,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
-    @Override
-    public Boolean canRegister(String studentId, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public RegResponseInfo canBuildRegRequestForTerm(String studentId, String termId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+  
+  
     @Override
     public KeyDateInfo getAppointmentWindow(String studentId, String termId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -143,22 +131,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
-    @Override
-    public OperationStatusInfo checkEligibilityOfStudent(String studentId, String termId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public OperationStatusInfo checkStudentEligibiltyForRegGroup(String studentId, String regGroupId,
-            ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+  
+  
     @Override
     public List<RegistrationGroupInfo> getEligibleRegGroupsForCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -303,14 +277,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
-    @Override
-    public List<RegResponseInfo> bulkRegisterStudentsToCourse(List<RegRequestInfo> reqRequests, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+   
     @Override
     public RegResponseInfo removeStudentFromWaitlist(RegRequestInfo reqRequestInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
@@ -351,14 +318,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
-    @Override
-    public CourseWaitlistInfo getWaitlistForCourseOfferings(List<String> courseOfferingIds, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+    
     @Override
     public List<CourseWaitlistEntryInfo> getWaitlistsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -524,8 +484,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
 	@Override
-	public Integer getPositionInWaitlist(String courseWaitlistId,
-			String courseWaitlistEntryId, ContextInfo context)
+	public Boolean checkStudentEligibility(String studentId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
@@ -533,13 +492,32 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 	}
 
 	@Override
-	public CourseWaitlistEntryInfo getWaitlistEntryRank(
-			String courseWaitlistId, String courseWaitlistEntryId,
-			ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+	public List<ValidationResultInfo> checkStudentEligibilityForTerm(
+			String studentId, String termId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
+	@Override
+	public List<ValidationResultInfo> checkStudentEligibiltyForRegGroup(
+			String studentId, String regGroupId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	@Override
+	public List<RegResponseInfo> registerStudentsToCourse(
+			List<RegRequestInfo> reqRequests, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	
 }

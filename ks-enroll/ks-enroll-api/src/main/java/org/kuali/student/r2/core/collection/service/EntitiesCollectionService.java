@@ -7,7 +7,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CollectionManagerServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
-import org.kuali.student.r2.core.collection.dto.AbstractEntitiesCollectionInfo;
+import org.kuali.student.r2.core.collection.dto.EntitiesCollectionInfo;
 import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
 
 /**
@@ -29,7 +29,7 @@ public interface EntitiesCollectionService {
 	public  CollectionEntryInfo getHighestRankedEntry();
 	public CollectionEntryInfo createEntry();
 	public StatusInfo deleteEntry(String collectionEntryId);
-	public AbstractEntitiesCollectionInfo createCollection(AbstractEntitiesCollectionInfo abstractEntitiesCollection);
+	public EntitiesCollectionInfo createCollection(EntitiesCollectionInfo abstractEntitiesCollection);
 	public StatusInfo deleteCollection(String collectionId);
 	
 	
