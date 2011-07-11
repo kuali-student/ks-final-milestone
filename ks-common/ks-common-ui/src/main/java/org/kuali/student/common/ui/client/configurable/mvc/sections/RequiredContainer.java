@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -21,28 +23,25 @@ import com.google.gwt.user.client.ui.Widget;
  * @author SW Genis
  */
 public class RequiredContainer extends WarnContainer {
+    
+    final static ApplicationContext context = Application.getApplicationContext();
 
     private boolean showAll = false;
     private Section mainSection;
 
-    // Labels
-    private String showingRequiredFields = "Showing only required fields.     ";
-    private String showingAllFields = "Showing required and optional fields.     ";
-    private KSLabel label = new KSLabel(showingRequiredFields);
-
-    // Link
-    private String showAllFields = "Show all fields";
-    private String showRequiredFields = "Show only required fields";
-    private Anchor link = new Anchor(showAllFields);
+    private KSLabel label;
+    private Anchor link;
 
     private List<Callback<Boolean>> callbacks = new ArrayList<Callback<Boolean>>();
 
     public RequiredContainer() {
         super();
-
+        label = new KSLabel(context.getMessage("showingRequiredFields"));
+        link = new Anchor(context.getMessage("showAllFields"));
+        
         this.showWarningLayout(true);
         this.addHandler();
-
+        
         this.addWarnWidget(label);
         this.addWarnWidget(link);
     }
@@ -54,12 +53,12 @@ public class RequiredContainer extends WarnContainer {
             @Override
             public void onClick(ClickEvent event) {
                 if (showAll) {
-                    label.setText(showingRequiredFields);
-                    link.setText(showAllFields);
+                    label.setText(context.getMessage("showingRequiredFields"));
+                    link.setText(context.getMessage("showAllFields"));
                     showAll = false;
                 } else {
-                    label.setText(showingAllFields);
-                    link.setText(showRequiredFields);
+                    label.setText(context.getMessage("showingAllFields"));
+                    link.setText(context.getMessage("showRequiredFields"));
                     showAll = true;
                 }
                 processMainSection();
@@ -185,18 +184,16 @@ public class RequiredContainer extends WarnContainer {
 
     public class ShowAllLink extends Composite {
         private FlowPanel layout = new FlowPanel();
-        private KSLabel label = new KSLabel("No required fields.     ");
-        private Anchor link = new Anchor("Show all fields");
 
         public ShowAllLink(ClickHandler handler) {
-            initialize();
-            link.addClickHandler(handler);            
-        }
-        
-        public void initialize(){
             layout.addStyleName("ks-message-static-margin");
-            add(label);
+            add(new KSLabel(context.getMessage("requiredFields")));
+            
+            // Link
+            Anchor link = new Anchor(context.getMessage("allFields"));
+            link.addClickHandler(handler);   
             add(link);
+            
             this.initWidget(layout);
         }
 
