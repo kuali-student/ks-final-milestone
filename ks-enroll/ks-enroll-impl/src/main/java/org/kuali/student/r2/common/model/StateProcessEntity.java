@@ -14,13 +14,14 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.StateProcess;
 
 @Entity
 @Table(name = "KSEN_STATE_PROCESS")
-public class StateProcessEntity extends MetaEntity{
+public class StateProcessEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
 	@Column(name="NAME")
     private String name;
 
@@ -35,8 +36,9 @@ public class StateProcessEntity extends MetaEntity{
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<StateAttributeEntity> attributes;
+    
 	public String getName() {
 		return name;
 	}
@@ -69,11 +71,11 @@ public class StateProcessEntity extends MetaEntity{
 		this.expirationDate = expirationDate;
 	}
 
-	public List<AttributeEntity> getAttributes() {
+	public List<StateAttributeEntity> getAttributes() {
 		return attributes;
 	}
 
-	public void setAttributes(List<AttributeEntity> attributes) {
+	public void setAttributes(List<StateAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
 	
@@ -88,10 +90,10 @@ public class StateProcessEntity extends MetaEntity{
 			this.setVersionNumber((long) 0);
 			this.setEffectiveDate(process.getEffectiveDate());
 	        this.setExpirationDate(process.getExpirationDate());
-			this.setAttributes(new ArrayList<AttributeEntity>());
+			this.setAttributes(new ArrayList<StateAttributeEntity>());
 			if(null != process.getAttributes()){
 				for (Attribute att : process.getAttributes()) {
-					AttributeEntity attEntity = new AttributeEntity(att);
+					StateAttributeEntity attEntity = new StateAttributeEntity(att);
 		            this.getAttributes().add(attEntity);
 		        }				
 			}
@@ -109,7 +111,7 @@ public class StateProcessEntity extends MetaEntity{
 		process.setExpirationDate(expirationDate);
 		
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeEntity att : getAttributes()) {
+        for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }

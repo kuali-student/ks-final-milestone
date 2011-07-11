@@ -28,7 +28,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LUI")
-public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity>{
+public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
     @Column(name = "NAME")
     private String name;
     
@@ -83,7 +83,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
     private List<LuiInstructorEntity> instructors;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
     
     public LuiEntity (){}

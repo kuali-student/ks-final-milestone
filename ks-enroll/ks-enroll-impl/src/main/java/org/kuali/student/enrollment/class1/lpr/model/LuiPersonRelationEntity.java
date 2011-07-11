@@ -46,7 +46,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 	@JoinColumn(name = "RELATION_STATE_ID")
     private LuiPersonRelationStateEntity personRelationState;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
 //    @JoinColumn(name = "LPR_ATTR_ID")
 //    @JoinTable(name="LPR_ATTR_JOIN",
 //    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),

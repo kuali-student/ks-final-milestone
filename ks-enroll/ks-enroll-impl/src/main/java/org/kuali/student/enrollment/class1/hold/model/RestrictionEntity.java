@@ -17,12 +17,11 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.AttributeEntity;
 import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_RESTRICTION")
-public class RestrictionEntity extends MetaEntity implements AttributeOwner<AttributeEntity>{
+public class RestrictionEntity extends MetaEntity implements AttributeOwner<RestrictionAttributeEntity>{
     @Column(name = "NAME")
     private String name;
 
@@ -38,8 +37,8 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
     @JoinColumn(name = "STATE_ID")
     private StateEntity restrictionState;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<RestrictionAttributeEntity> attributes;
 
     public RestrictionEntity(){}
     
@@ -52,10 +51,10 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 	        if(restriction.getDescr() != null) {
 	            this.setDescr(new HoldRichTextEntity(restriction.getDescr()));
 	        }
-	        this.setAttributes(new ArrayList<AttributeEntity>());
+	        this.setAttributes(new ArrayList<RestrictionAttributeEntity>());
 	        if (null != restriction.getAttributes()) {
 	            for (Attribute att : restriction.getAttributes()) {
-	            	AttributeEntity attEntity = new AttributeEntity(att);
+	            	RestrictionAttributeEntity attEntity = new RestrictionAttributeEntity(att);
 	                this.getAttributes().add(attEntity);
 	            }
 	        }
@@ -77,7 +76,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
             obj.setDescr(descr.toDto());
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeEntity att : getAttributes()) {
+        for (RestrictionAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
@@ -119,12 +118,12 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Attr
 	}
 
 	@Override
-	public void setAttributes(List<AttributeEntity> attributes) {
+	public void setAttributes(List<RestrictionAttributeEntity> attributes) {
 		this.attributes = attributes;		
 	}
 
 	@Override
-	public List<AttributeEntity> getAttributes() {
+	public List<RestrictionAttributeEntity> getAttributes() {
 		 return attributes;
 	}
 

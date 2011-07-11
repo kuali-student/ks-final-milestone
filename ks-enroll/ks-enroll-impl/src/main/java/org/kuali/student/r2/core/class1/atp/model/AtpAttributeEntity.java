@@ -8,7 +8,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_ATP_ATTR")
-public class AtpAttributeEntity extends BaseAttributeEntity {
+public class AtpAttributeEntity extends BaseAttributeEntity<AtpEntity> {
     public AtpAttributeEntity () {
     }
     

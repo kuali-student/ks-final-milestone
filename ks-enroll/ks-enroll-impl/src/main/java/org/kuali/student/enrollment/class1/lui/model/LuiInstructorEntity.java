@@ -31,7 +31,7 @@ public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<Lu
     @Column(name = "PERCT_EFFT")
     private Float percentageEffort;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
 
     public LuiInstructorEntity(){}

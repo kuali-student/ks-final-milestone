@@ -23,7 +23,7 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 
 @Entity
 @Table(name = "KSEN_ATP")
-public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity>{
+public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
     @Column(name = "NAME")
     private String name;
 
@@ -47,7 +47,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes;
   
     

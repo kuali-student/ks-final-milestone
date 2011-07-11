@@ -32,7 +32,7 @@ public class LuiPersonRelationStateEntity extends MetaEntity implements Attribut
 	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     // @JoinColumn(name = "person_relation_state_id")
 //    @JoinTable(name="LPR_ATTR_JOIN",
 //    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),

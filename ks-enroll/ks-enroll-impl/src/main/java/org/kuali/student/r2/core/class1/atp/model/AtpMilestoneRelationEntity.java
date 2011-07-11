@@ -64,7 +64,7 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpMilestoneRelationAttributeEntity> attributes;
     
     public AtpMilestoneRelationEntity() {

@@ -20,12 +20,11 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.AttributeEntity;
 import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_HOLD")
-public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEntity>{
+public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttributeEntity>{
     @Column(name = "NAME")
     private String name;
 
@@ -62,11 +61,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
     @Column(name = "PERS_ID")
     private String personId;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<HoldAttributeEntity> attributes;
     
 	@Override
-	public void setAttributes(List<AttributeEntity> attributes) {
+	public void setAttributes(List<HoldAttributeEntity> attributes) {
 		this.attributes = attributes;		
 	}
 
@@ -87,10 +86,10 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
 	        if(hold.getDescr() != null)
 	            this.setDescr(new HoldRichTextEntity(hold.getDescr()));
 
-	        this.setAttributes(new ArrayList<AttributeEntity>());
+	        this.setAttributes(new ArrayList<HoldAttributeEntity>());
 	        if (null != hold.getAttributes()) {
 	            for (Attribute att : hold.getAttributes()) {
-	            	AttributeEntity attEntity = new AttributeEntity(att);
+	            	HoldAttributeEntity attEntity = new HoldAttributeEntity(att);
 	                this.getAttributes().add(attEntity);
 	            }
 	        }
@@ -119,7 +118,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
             obj.setDescr(descr.toDto());
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeEntity att : getAttributes()) {
+        for (HoldAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
@@ -210,7 +209,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<AttributeEn
 	}
 
 	@Override
-	public List<AttributeEntity> getAttributes() {
+	public List<HoldAttributeEntity> getAttributes() {
 		 return attributes;
 	}
 }

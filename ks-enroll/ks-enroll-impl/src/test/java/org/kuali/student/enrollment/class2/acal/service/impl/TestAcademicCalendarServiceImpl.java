@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -172,6 +173,8 @@ public class TestAcademicCalendarServiceImpl{
                 assertNotNull(existed);
                 
                 existed.setName("testUpdatedAcal");
+                // TODO - need actual ProgramTypeKey attribute in test database sql
+                existed.setCredentialProgramTypeKey(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
                 AcademicCalendarInfo updated = acalServiceValidation.updateAcademicCalendar("testNewAcalId", existed, callContext);
                 assertEquals("testUpdatedAcal", updated.getName());
             } catch (Exception ex) {

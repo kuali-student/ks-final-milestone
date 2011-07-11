@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
@@ -28,10 +27,9 @@ import org.kuali.student.r2.common.dto.TypeInfo;
 
 
 @MappedSuperclass
-public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseTypeEntity implements AttributeOwner<T>  {
+public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseTypeEntity implements AttributeOwner<T>  {
 
-	@OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "LPR_ATTR_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<T> attributes;
 
 

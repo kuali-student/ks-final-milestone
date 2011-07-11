@@ -7,16 +7,16 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
-@Table(name = "KSEN_COMM_ATTR")
-public class AttributeEntity extends BaseAttributeEntity{
-    public AttributeEntity () {
+@Table(name = "KSEN_STATE_ATTR")
+public class StateAttributeEntity extends BaseAttributeEntity<StateEntity> {
+    public StateAttributeEntity () {
     }
     
-    public AttributeEntity(String key, String value) {
+    public StateAttributeEntity(String key, String value) {
         super(key, value);
     }
 
-    public AttributeEntity(Attribute att) {
+    public StateAttributeEntity(Attribute att) {
         super(att);
     }
 }

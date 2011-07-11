@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSLP_LPR_ATTR")
-public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity {
+public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity<LuiPersonRelationEntity> {
 
 	public LuiPersonRelationAttributeEntity () {
 	}

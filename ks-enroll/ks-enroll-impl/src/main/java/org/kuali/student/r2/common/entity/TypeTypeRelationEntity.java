@@ -23,7 +23,7 @@ import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 
 @Entity
 @Table(name = "KSEN_TYPETYPE_RELTN")
-public class TypeTypeRelationEntity extends MetaEntity {
+public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner<TypeTypeRelationAttributeEntity> {
     
 //    @ManyToOne
 //    @JoinColumn(name="OWNER_TYPE_ID")
@@ -58,7 +58,7 @@ public class TypeTypeRelationEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<TypeTypeRelationAttributeEntity> attributes;
 
 	public TypeTypeRelationEntity() {}

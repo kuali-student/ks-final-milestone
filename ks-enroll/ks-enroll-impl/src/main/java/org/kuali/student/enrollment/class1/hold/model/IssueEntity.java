@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.hold.infc.Issue;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.model.AttributeEntity;
 import org.kuali.student.r2.common.model.StateEntity;
 
 /**
@@ -43,7 +42,7 @@ import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_ISSUE")
-public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeEntity> {
+public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -59,8 +58,8 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
     @JoinColumn(name = "RT_DESCR_ID")
     private HoldRichTextEntity descr;
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AttributeEntity> attributes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<IssueAttributeEntity> attributes;
     
     @ManyToOne
     @JoinColumn(name = "STATE_ID")
@@ -82,12 +81,12 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
     }
     
     @Override
-    public void setAttributes(List<AttributeEntity> attributes) {
+    public void setAttributes(List<IssueAttributeEntity> attributes) {
         this.attributes = attributes;
     }
 
     @Override
-    public List<AttributeEntity> getAttributes() {
+    public List<IssueAttributeEntity> getAttributes() {
         return attributes;
     }
 
@@ -142,7 +141,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<AttributeE
         info.setMeta(super.toDTO());
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (AttributeEntity att : getAttributes()) {
+        for (IssueAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }

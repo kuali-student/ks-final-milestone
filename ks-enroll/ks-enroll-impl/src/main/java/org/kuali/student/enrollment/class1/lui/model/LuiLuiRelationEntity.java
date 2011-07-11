@@ -56,9 +56,8 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	@Column(name = "EXP_DT")
 	private Date expirationDate;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
-    
     
     public LuiLuiRelationEntity(){}
     

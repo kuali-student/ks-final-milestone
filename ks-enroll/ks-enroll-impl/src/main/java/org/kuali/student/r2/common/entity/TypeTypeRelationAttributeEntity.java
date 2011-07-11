@@ -8,7 +8,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @Entity
 @Table(name = "KSEN_ATPATP_RELTN_ATTR")
-public class TypeTypeRelationAttributeEntity extends BaseAttributeEntity{
+public class TypeTypeRelationAttributeEntity extends BaseAttributeEntity<TypeTypeRelationEntity> {
     public TypeTypeRelationAttributeEntity(){}
     
     public TypeTypeRelationAttributeEntity(Attribute att) {

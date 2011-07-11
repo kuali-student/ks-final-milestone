@@ -54,7 +54,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     @Column(name="IS_DATE_RANGE")
     private boolean isDateRange;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes;
 
     public MilestoneEntity() {
