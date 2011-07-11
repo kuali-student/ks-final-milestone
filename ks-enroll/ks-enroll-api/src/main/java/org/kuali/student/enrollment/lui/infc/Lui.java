@@ -72,5 +72,53 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      */
     public List<LuiInstructorInfo> getInstructors();
     
-}
+    /**
+     * Name of the course used in the college catalog.
+     * @name Course Title
+     */
+    public String getStudyTitle();
 
+    /**
+     * Organization(s) that is responsible for the delivery - and all associated logistics - of the Lui
+     * @name Units Deployment
+     */
+    public List<String> getUnitsDeployment();
+    
+    /**
+     * Organization(s) that is responsible for the academic content of the Lui as approved in its canonical form
+     * @name Units Content Owner
+     */
+    public List<String> getUnitsContentOwner();
+
+    /******** Assessment Information ***************/
+    /**
+     * The options/scales that indicate the allowable grades that can be awarded.
+     * If the value is set here then the Clu must have a grading option set on the
+     * canonical activity. 
+     * 
+     * ResultValuesGroup will contain grade values valid for this course offering
+     * 
+     * @name: Grading Options
+     */
+    public List<String> getGradingOptions();
+    
+    /**
+     * Fees associated with the course offering. 
+     * @name Fees
+     */    
+    public List<? extends Fee> getFees();
+    
+    /**
+     * Organization that receives the revenue associated with the course
+     * @name Revenues
+     */
+    public List<Revenue> getRevenues();
+    
+    
+    /**
+     * Organization that incurs the cost associated with the course
+     * @name expenditure
+     */
+    public Expenditure getExpenditure();
+ 
+}

@@ -27,7 +27,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.lui.infc.Expenditure;
+import org.kuali.student.enrollment.lui.infc.Fee;
 import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.enrollment.lui.infc.Revenue;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
@@ -35,7 +38,9 @@ import org.w3c.dom.Element;
 @XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
 		"descr", "luiCode", "cluId", "atpKey", "instructors", 
 		"studySubjectArea", "maximumEnrollment", "minimumEnrollment",
-		"effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
+		"effectiveDate", "expirationDate", "fees", "gradingOptions",
+		"studyTitle", "unitsContentOwner", "unitsDeployment", "expenditure",
+		"revenues", "meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
@@ -66,6 +71,29 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	@XmlElement
 	private List<LuiInstructorInfo> instructors;
+	
+	// nina begin refactored from CourseOffering
+	@XmlElement
+	private List<Fee> fees;
+	
+	@XmlElement
+	private List<String> gradingOptions;
+	
+	@XmlElement
+	private String studyTitle;
+	
+	@XmlElement
+	private List<String> unitsContentOwner;
+	
+	@XmlElement
+	private List<String> unitsDeployment;
+
+	@XmlElement
+	private Expenditure expenditure;
+
+	@XmlElement
+	private List<Revenue> revenues;
+	// nina end refactored from CourseOffering
 	
 	@XmlAnyElement
 	private List<Element> _futureElements;
@@ -183,5 +211,68 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	public void setExpirationDate(Date expirationDate) {
 		if (expirationDate != null)
 			this.expirationDate = new Date(expirationDate.getTime());
+	}
+
+	@Override
+	public List<? extends Fee> getFees() {
+		return fees;
+	}
+
+	@Override
+	public List<String> getGradingOptions() {
+		return gradingOptions;
+	}
+
+	@Override
+	public String getStudyTitle() {
+		return studyTitle;
+	}
+
+	@Override
+	public List<String> getUnitsContentOwner() {
+		return unitsContentOwner;
+	}
+
+	@Override
+	public List<String> getUnitsDeployment() {
+		return unitsDeployment;
+	}
+
+	@Override
+	public Expenditure getExpenditure() {
+		return expenditure;
+	}
+
+	@Override
+	public List<Revenue> getRevenues() {
+		return revenues;
+	}
+
+	public void setFees(List<Fee> fees) {
+		this.fees = fees;
+	}
+
+	public void setGradingOptions(List<String> gradingOptions) {
+		this.gradingOptions = gradingOptions;
+	}
+
+	public void setStudyTitle(String studyTitle) {
+		this.studyTitle = studyTitle;
+	}
+
+	public void setUnitsContentOwner(List<String> unitsContentOwner) {
+		this.unitsContentOwner = unitsContentOwner;
+	}
+
+	public void setUnitsDeployment(List<String> unitsDeployment) {
+		this.unitsDeployment = unitsDeployment;
+	}
+
+	public void setExpenditure(Expenditure expenditure) {
+		this.expenditure = expenditure;
+	}
+
+	public void setRevenues(List<Revenue> revenues) {
+		this.revenues = revenues;
 	}
 }
