@@ -401,8 +401,17 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 
                 //Add fields to workflow utils screens
                 if(workflowUtil!=null){
-                	workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition);
-                	
+                	requestModel(new ModelRequestCallback<DataModel>(){
+						public void onModelReady(DataModel model) {
+							//Only display if this is a modification
+							String versionedFromId = model.get("versionInfo/versionedFromId");
+							if(versionedFromId!=null && !versionedFromId.isEmpty()){
+								workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition);
+							}
+						}
+						public void onRequestFail(Throwable cause) {
+						}
+                	});
                 }
 
                 progressiveEnableFields();

@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
@@ -58,6 +59,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
@@ -200,6 +202,7 @@ public class WorkflowUtilities{
 	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
 	            approveDialogView.addField(fd);
 	            approveFields.add(fd.getFieldKey());
+	            fd.setHasHadFocus(true);
 	        }
 		}
 	}
@@ -581,14 +584,40 @@ public class WorkflowUtilities{
 							}
 							else{
 								if(approveDialogView!=null){
-									//Save first and then do the workflow actions later
-									SaveActionEvent saveActionEvent = new SaveActionEvent();
-					                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-					                    public void onActionComplete(ActionEvent action) {
-					                    	doWorkflowApprove();
-					                    }
-					                });
-					                parentController.fireApplicationEvent(saveActionEvent);
+									//Validate all the fields on the current section (the additional required fields)
+									parentController.requestModel(new ModelRequestCallback<DataModel>(){
+
+										@Override
+										public void onModelReady(DataModel model) {
+											approveDialogView.updateModel();
+											model.validateNextState(new Callback<List<ValidationResultInfo>>() {
+							                    @Override
+							                    public void exec(List<ValidationResultInfo> results) {
+							                    	//Process the results on the additional fields view
+							                    	if(ErrorLevel.OK.equals(approveDialogView.processValidationResults(results))){
+														//Save first and then do the workflow actions later
+														SaveActionEvent saveActionEvent = new SaveActionEvent();
+										                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+										                    public void onActionComplete(ActionEvent action) {
+										                    	doWorkflowApprove();
+										                    }
+										                });
+										                parentController.fireApplicationEvent(saveActionEvent);
+							                    	}else{
+							                    		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+							                    	}
+							                    }
+											});
+										}
+
+										@Override
+										public void onRequestFail(
+												Throwable cause) {
+											KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
+										}
+										
+									});
+
 								}else{
 									doWorkflowApprove();
 								}

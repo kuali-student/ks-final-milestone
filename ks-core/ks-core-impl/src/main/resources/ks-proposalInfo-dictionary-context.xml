@@ -77,7 +77,7 @@
 	<bean id="proposalInfo.prevEndTerm-parent" abstract="true"
 		parent="baseKualiType">
 		<property name="name" value="prevEndTerm" />
-		<property name="lookupDefinition" ref="constraint.lookup.atp"/>
+		<property name="lookupDefinition" ref="constraint.lookup.proposal.prevEndTerm"/>
 		<property name="dynamic" value="true"/>
 		<property name="caseConstraint">
 		   <bean parent="caseConstraint">
@@ -135,6 +135,30 @@
 	  </property>
 	</bean>
 	<bean id="proposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+    
+    <bean id="constraint.lookup.proposal.prevEndTerm-parent" parent="constraint.lookup.atp">
+	 <property name="params">
+	  <list merge="true">
+	   <bean parent="param">
+		<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+		<property name="caseSensitive" value="false" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="fieldPath" value="prevStartTerm"/>
+	   </bean>
+	   <bean parent="param">
+		<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+		<property name="caseSensitive" value="false" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="fieldPath" value="/startTerm"/>
+	   </bean>
+	  </list>
+	 </property>
+	</bean>
+	<bean id="constraint.lookup.proposal.prevEndTerm" parent="constraint.lookup.proposal.prevEndTerm-parent"/>
     
     <bean id="constraint.lookup.atp"
           class="org.kuali.student.common.dictionary.dto.LookupConstraint"
