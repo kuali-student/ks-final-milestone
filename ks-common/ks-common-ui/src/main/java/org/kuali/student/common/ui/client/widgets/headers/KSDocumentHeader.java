@@ -95,13 +95,13 @@ public class KSDocumentHeader extends Composite {
     	if(this.printContent == null){
     		this.setPrintContent(ApplicationPanel.get().getWidget(0));
     	}
-    	hoverPopup.add(new HTMLPanel("Print"));
+    	hoverPopup.add(new HTMLPanel("Print Page"));
 		hoverPopup.setStyleName("ks-help-popup");
 		
 		printImage.addMouseOverHandler(new MouseOverHandler(){
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				hoverPopup.setPopupPosition(printImage.getAbsoluteLeft() , 
+				hoverPopup.setPopupPosition(printImage.getAbsoluteLeft()-10 , 
 						printImage.getAbsoluteTop()-exportImage.getOffsetWidth()-15);
 				hoverPopup.show();
 			}
@@ -126,12 +126,12 @@ public class KSDocumentHeader extends Composite {
     private void setupExportPrint() {
         exportDialog = new ReportExportDialog();
         exportImage.setVisible(false);
-        hoverPopup1.add(new HTMLPanel("Export"));
+        hoverPopup1.add(new HTMLPanel("Export Summary to File"));
 		hoverPopup1.setStyleName("ks-help-popup");
 		exportImage.addMouseOverHandler(new MouseOverHandler(){
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				hoverPopup1.setPopupPosition(exportImage.getAbsoluteLeft(), 
+				hoverPopup1.setPopupPosition(exportImage.getAbsoluteLeft()-55, 
 						exportImage.getAbsoluteTop()-exportImage.getOffsetWidth()-15);
 				hoverPopup1.show();
 			}
