@@ -476,6 +476,7 @@
                 <ref bean="versionProgramFilter"/>                
                 <ref bean="idTranslatorFilter"/>
                 <ref bean="majorDisciplineProposalWorkflowFilter"/>
+                <ref bean="collaboratorFilter"/>                
             </list>
         </property>
     </bean>

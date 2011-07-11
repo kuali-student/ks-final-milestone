@@ -467,6 +467,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_summary();
 
   /**
+   * Translated "Authors and Collaborators".
+   * 
+   * @return translated "Collaborators"
+   */
+  @DefaultMessage("Authors and Collaborators")
+  @Key("program.menu.sections.collaborators")
+  String program_menu_sections_collaborators();
+
+  /**
    * Translated "Supporting Documents".
    * 
    * @return translated "Supporting Documents"
