@@ -12,11 +12,17 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSDocumentHeader extends Composite {
@@ -24,6 +30,10 @@ public class KSDocumentHeader extends Composite {
     private static KSDocumentHeaderUiBinder uiBinder = GWT.create(KSDocumentHeaderUiBinder.class);
 
     private ReportExportDialog exportDialog = null;
+    
+    private PopupPanel hoverPopup = new PopupPanel();
+    
+    private PopupPanel hoverPopup1 = new PopupPanel();
 
     interface KSDocumentHeaderUiBinder extends UiBinder<Widget, KSDocumentHeader> {}
 
@@ -85,7 +95,24 @@ public class KSDocumentHeader extends Composite {
     	if(this.printContent == null){
     		this.setPrintContent(ApplicationPanel.get().getWidget(0));
     	}
-    	
+    	hoverPopup.add(new HTMLPanel("Print"));
+		hoverPopup.setStyleName("ks-help-popup");
+		
+		printImage.addMouseOverHandler(new MouseOverHandler(){
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				hoverPopup.setPopupPosition(printImage.getAbsoluteLeft() , 
+						printImage.getAbsoluteTop()-exportImage.getOffsetWidth()-15);
+				hoverPopup.show();
+			}
+		});
+		printImage.addMouseOutHandler(new MouseOutHandler(){
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				hoverPopup.hide();
+			}
+		});
         printImage.setVisible(false);
         printImage.addClickHandler(new ClickHandler() {
 
@@ -99,6 +126,24 @@ public class KSDocumentHeader extends Composite {
     private void setupExportPrint() {
         exportDialog = new ReportExportDialog();
         exportImage.setVisible(false);
+        hoverPopup1.add(new HTMLPanel("Export"));
+		hoverPopup1.setStyleName("ks-help-popup");
+		exportImage.addMouseOverHandler(new MouseOverHandler(){
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				hoverPopup1.setPopupPosition(exportImage.getAbsoluteLeft(), 
+						exportImage.getAbsoluteTop()-exportImage.getOffsetWidth()-15);
+				hoverPopup1.show();
+			}
+		});
+		exportImage.addMouseOutHandler(new MouseOutHandler(){
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				hoverPopup1.hide();
+			}
+		});
+        
         exportImage.addClickHandler(new ClickHandler() {
 
             @Override
@@ -145,7 +190,7 @@ public class KSDocumentHeader extends Composite {
 
     public void showPrint(boolean show) {
         printImage.setVisible(true);
-    }
+}
 
     /**
      * This method set the visibility of the export button to the value of the parameter
@@ -154,7 +199,8 @@ public class KSDocumentHeader extends Composite {
      */
     public void showExport(boolean show) {
     	exportImage.setVisible(show);
-    }
+		
+	}
 
     public Image getExportImage() {
         return exportImage;
