@@ -22,22 +22,8 @@ package org.kuali.student.r2.common.infc;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-public interface Entity
-    extends HasPrimaryKey,
-	   TypeStateEntity {
-
-    /**
-     * A display name for this entity.
-     * @name Name
-     */
-
-    public String getName();
-
-
-    /**
-     * A description of the entity.
-     * @name Description
-     */
-
-    public RichText getDescr();
+public interface TypeStateEntity
+    extends HasType,
+	    HasState,
+	    HasAttributesAndMeta {
 }

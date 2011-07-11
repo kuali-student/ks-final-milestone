@@ -10,9 +10,11 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.enrollment.lui.infc.LuiInstructor;
+import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.infc.TypeStateEntity;
 
 /**
  * Individual activity offerings correspond to events in a scheduling system, each with a meeting pattern.
@@ -20,8 +22,15 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kamal
  */
 
-public interface ActivityOffering extends IdEntity {
+public interface ActivityOffering extends HasId, TypeStateEntity {
 
+    /**
+     * A description of the Activity Offering.
+     * @name Description
+     */
+
+    public RichText getDescr();
+            
     /**
      * Course Oferrings to which this activity offering belongs to.
      * @name CourseOffering Ids

@@ -10,50 +10,50 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.TypeStateEntity;
 
 @SuppressWarnings("serial")
 @XmlTransient
-public abstract class EntityInfo extends TypeStateEntityInfo implements Entity, Serializable {
+public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo implements TypeStateEntity, Serializable {
 
-    @XmlElement
-    private String name;
+    @XmlAttribute
+    private String typeKey;
 
-    @XmlElement
-    private RichTextInfo descr;
+    @XmlAttribute
+    private String stateKey;
 
-    public EntityInfo() {
+    public TypeStateEntityInfo() {
         super();
-        name = null;
-        descr = null;
+        typeKey = null;
+        stateKey = null;
     }
 
-    public EntityInfo(Entity entity) {
+    public TypeStateEntityInfo(TypeStateEntity entity) {
         super(entity);
         if (null != entity) {
-            this.name = entity.getName();
-            this.descr = (null != entity.getDescr()) ? new RichTextInfo(entity.getDescr()) : null;
+            this.typeKey = entity.getTypeKey();
+            this.stateKey = entity.getStateKey();
         }
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getTypeKey() {
+        return typeKey;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 
     @Override
-    public RichTextInfo getDescr() {
-        return descr;
+    public String getStateKey() {
+        return stateKey;
     }
 
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
     }
 }

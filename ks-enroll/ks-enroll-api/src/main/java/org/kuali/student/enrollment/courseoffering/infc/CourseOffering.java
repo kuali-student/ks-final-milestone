@@ -11,27 +11,29 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.enrollment.lui.infc.LuiInstructor;
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.infc.TypeStateEntity;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 /**
  * 
  * @author Kamal
  */
 
-public interface CourseOffering extends IdEntity {
+public interface CourseOffering extends HasId, TypeStateEntity {
 
     /**
-     * The name for this course offering.
-     * 
-     * @name Name
+     * A description of the Course Offering.
+     * @name Description
      */
-    @Override
-    public String getName ();
+
+    public RichText getDescr();
+    
     
     /**
      * Activity Offerings for the course offering

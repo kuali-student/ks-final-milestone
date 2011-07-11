@@ -22,12 +22,14 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -38,14 +40,20 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {"courseOfferingIds", "registrationGroupIds", "activityId",
-        "activityCode", "termKey", "isHonorsOffering", "gradingOptions",
+        "activityCode", "termKey", "isHonorsOffering", "gradingOptions", "instructors",
         "finalExamStartTime", "finalExamEndTime", "finalExamBuilding", "finalExamRoom", "weeklyInclassContactHours",
         "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
-        "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
-public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOffering {
+        "id", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
+public class ActivityOfferingInfo extends TypeStateEntityInfo implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String id;
+
+    @XmlElement
+    private RichTextInfo descr;
+        
     @XmlElement
     private List<String> courseOfferingIds;
     
@@ -101,6 +109,8 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     private List<Element> _futureElements;
     
     public ActivityOfferingInfo() {
+        this.id = null;
+        this.descr = null;
         this.registrationGroupIds = new ArrayList<String>();
         this.courseOfferingIds = new ArrayList<String>();
         this.activityCode = null;
@@ -125,7 +135,9 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         super(activity); 
         
         if(null == activity) return;      
-        
+
+        this.id = activity.getId();
+        this.descr = (null != activity.getDescr()) ? new RichTextInfo(activity.getDescr()) : null;        
         this.registrationGroupIds = (null != activity.getRegistrationGroupIds()) ? new ArrayList<String>(activity.getRegistrationGroupIds()) : null;
         this.courseOfferingIds = (null != activity.getCourseOfferingIds()) ? new ArrayList<String>(activity.getCourseOfferingIds()) : null;
         this.activityCode = activity.getActivityCode();
@@ -144,6 +156,16 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         this.weeklyOutofclassContactHours = (null != activity.getWeeklyOutofclassContactHours()) ? new Float(activity.getWeeklyOutofclassContactHours()) : null;
         this.weeklyTotalContactHours = (null != activity.getWeeklyTotalContactHours()) ? new Float(activity.getWeeklyTotalContactHours()) : null;
         this._futureElements = null;        
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
     }
     
     @Override
@@ -229,6 +251,15 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     @Override
     public List<LuiInstructorInfo> getInstructors() {
         return instructors;
+    }
+
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
     }
 
     public void setInstructors(List<LuiInstructorInfo> instructors) {

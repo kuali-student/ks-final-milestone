@@ -21,19 +21,20 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.w3c.dom.Element;
 
 /**
@@ -42,7 +43,7 @@ import org.w3c.dom.Element;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = { "id", "typeKey", "stateKey", "name", "descr", 
+@XmlType(name = "CourseOfferingInfo", propOrder = { "id", "typeKey", "stateKey", "descr", 
         "courseId", "formatIds", "termKey", 
         "activityOfferingIds", "registrationGroupIds",
         "courseCode", "courseNumberSuffix", "courseTitle",  "isHonorsOffering", "instructors", 
@@ -51,10 +52,17 @@ import org.w3c.dom.Element;
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
         "meta", "attributes", "_futureElements"})
-public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
+        
+public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String id;
+
+    @XmlElement
+    private RichTextInfo descr;
+    
     @XmlElement
     private List<String> activityOfferingIds;
     
@@ -152,7 +160,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<Element> _futureElements;
     
     public CourseOfferingInfo() {
-
+        this.id = null;
+        this.descr = null;
         this.activityOfferingIds = new ArrayList<String>();
         this.registrationGroupIds = new ArrayList<String>();
         this.courseId = null;
@@ -193,7 +202,9 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         super(course);
         
         if(null == course) return;
-        
+
+        this.id = course.getId();
+        this.descr = (null != course.getDescr()) ? new RichTextInfo(course.getDescr()) : null;
         this.activityOfferingIds = (null != course.getActivityOfferingIds()) ? new ArrayList<String>(course.getActivityOfferingIds()) : null ;
         this.registrationGroupIds = (null != course.getRegistrationGroupIds()) ?  new ArrayList<String>(course.getRegistrationGroupIds()) : null;
         this.courseId = course.getCourseId();
@@ -228,7 +239,24 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.registrationOrderTypeKey = course.getRegistrationOrderTypeKey();
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
     
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
     
     @Override
     public List<String> getActivityOfferingIds() {
