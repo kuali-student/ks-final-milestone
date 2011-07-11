@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.r2.lum.lu.dto;
 
 import com.google.gwt.dom.client.Element;
 import java.io.Serializable;
@@ -28,17 +28,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
-import org.kuali.student.r2.lum.course.infc.AffiliatedOrg;
+import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
 
-/**
- * Information about a fee related to a course.
- *
- * @Author KSContractMojo
- * @Author Daniel Epstein
- * @Since Mon Jul 26 14:12:33 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseFeeInfo+Structure">CourseFeeInfo</>
- *
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "orgId", "percentage",
     "effectiveDate", "expirationDate", "_futureElements"})

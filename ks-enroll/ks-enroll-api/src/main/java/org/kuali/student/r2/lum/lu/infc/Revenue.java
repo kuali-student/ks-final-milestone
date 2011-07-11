@@ -13,22 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lui.infc;
+package org.kuali.student.r2.lum.lu.infc;
 
 import java.util.List;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.lum.course.infc.AffiliatedOrg;
 
 /**
- * Detailed information about revenue collected from the course.
+ * Detailed information about the distribution of revenue collected from a learning unit.
  *
- * @author nina
+ * @author nwright
  */
 public interface Revenue extends HasId, HasAttributesAndMeta {
 
     /**
+     * The fee type that identifies the revenue to be distributed.
+     * 
      * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
+     * From a program perspective it may be an application fee.
+     * 
      * @name: Fee Type
      */
     public String getFeeType();

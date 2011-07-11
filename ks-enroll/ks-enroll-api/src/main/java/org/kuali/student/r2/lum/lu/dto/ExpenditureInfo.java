@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.lui.dto;
+package org.kuali.student.r2.lum.lu.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,31 +27,19 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.lum.course.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.course.infc.CourseRevenue;
+import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.w3c.dom.Element;
 
-/**
- * Information about a fee related to a course.
- *
- * @Author KSContractMojo
- * @Author Daniel Epstein
- * @Since Mon Jul 26 14:12:33 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseFeeInfo+Structure">CourseFeeInfo</>
- *
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RevenueInfo", propOrder = {"id", "feeType", "affiliatedOrgs",
+@XmlType(name = "ExpenditureInfo", propOrder = {"id", "affiliatedOrgs",
        "attributes", "meta", "_futureElements"})
-public class RevenueInfo extends HasAttributesAndMetaInfo implements CourseRevenue, Serializable {
+public class ExpenditureInfo extends HasAttributesAndMetaInfo implements Expenditure, Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @XmlAttribute
     private String id;
-    
-    @XmlElement
-    private String feeType;
 
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
@@ -59,32 +47,20 @@ public class RevenueInfo extends HasAttributesAndMetaInfo implements CourseReven
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public RevenueInfo() {
+    public ExpenditureInfo() {
         this.id = null;
-        this.feeType = null;
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
         this._futureElements = null;
     }
     
-    public RevenueInfo(CourseRevenue rev) {
-        super(rev);
+    public ExpenditureInfo(Expenditure exp) {
+        super(exp);
         
-        if(null == rev) return;
+        if(null == exp) return;
         
-        this.feeType = rev.getFeeType();
-        this.affiliatedOrgs = (null != rev.getAffiliatedOrgs()) ? new ArrayList<AffiliatedOrgInfo>((List<AffiliatedOrgInfo>)rev.getAffiliatedOrgs()) : null;
-        this.id = rev.getId();
+        this.affiliatedOrgs = (null != exp.getAffiliatedOrgs()) ? new ArrayList<AffiliatedOrgInfo>((List<AffiliatedOrgInfo>)exp.getAffiliatedOrgs()) : null;
+        this.id = exp.getId();
     }
-    
-    @Override
-    public String getFeeType() {
-        return feeType;
-    }
-
-    public void setFeeType(String feeType) {
-        this.feeType = feeType;
-    }
-
  
     @Override
     public List<AffiliatedOrgInfo> getAffiliatedOrgs() {

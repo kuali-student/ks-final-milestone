@@ -30,9 +30,9 @@ import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.lu.dto.FeeInfo;
+import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 import org.w3c.dom.Element;
 
@@ -134,13 +134,13 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private String fundingSource;
     
     @XmlElement
-    private List<CourseFeeInfo> fees;
+    private List<FeeInfo> fees;
     
     @XmlElement
-    private List<CourseRevenueInfo> revenues;
+    private List<RevenueInfo> revenues;
     
     @XmlElement
-    private CourseExpenditureInfo expenditure;
+    private ExpenditureInfo expenditure;
     
     @XmlElement
     private Boolean isFinancialAidEligible;
@@ -178,8 +178,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.isWaitlistCheckinRequired = new Boolean(false);
         this.waitlistCheckinFrequency = null;
         this.fundingSource = null;
-        this.fees = new ArrayList<CourseFeeInfo>();
-        this.revenues = new ArrayList<CourseRevenueInfo>();
+        this.fees = new ArrayList<FeeInfo>();
+        this.revenues = new ArrayList<RevenueInfo>();
         this.expenditure = null;
         this.isFinancialAidEligible = new Boolean(false);
         this.registrationOrderTypeKey = null;
@@ -219,7 +219,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.isWaitlistCheckinRequired = (null != course.getIsWaitlistCheckinRequired()) ? new Boolean(course.getIsWaitlistCheckinRequired()) : null;
         this.waitlistCheckinFrequency = (null != course.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(course.getWaitlistCheckinFrequency()) : null;
         this.fundingSource = course.getFundingSource();
-        this.fees = (null != course.getFees()) ? new ArrayList<CourseFeeInfo>((List<CourseFeeInfo>)course.getFees()) : null;
+        this.fees = (null != course.getFees()) ? new ArrayList<FeeInfo>((List<FeeInfo>)course.getFees()) : null;
         // TODO: Change this to r2 revenue with null check
         this.revenues = course.getRevenues();
         // TODO: Change this to r2 expenditure with null;
@@ -369,23 +369,23 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public List<CourseFeeInfo> getFees() {
+    public List<FeeInfo> getFees() {
         if(null == this.fees) {
-            this.fees = new ArrayList<CourseFeeInfo>();
+            this.fees = new ArrayList<FeeInfo>();
         }
         return this.fees;
     }
 
     @Override
-    public List<CourseRevenueInfo> getRevenues() {
+    public List<RevenueInfo> getRevenues() {
         if(null == this.revenues) {
-            this.revenues = new ArrayList<CourseRevenueInfo>();
+            this.revenues = new ArrayList<RevenueInfo>();
         }
         return this.revenues;
     }
 
     @Override
-    public CourseExpenditureInfo getExpenditure() {
+    public ExpenditureInfo getExpenditure() {
         return this.expenditure;        
     }
 
@@ -513,15 +513,15 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.fundingSource = fundingSource;
     }
 
-    public void setFees(List<CourseFeeInfo> fees) {
+    public void setFees(List<FeeInfo> fees) {
         this.fees = fees;
     }
 
-    public void setRevenues(List<CourseRevenueInfo> revenues) {
+    public void setRevenues(List<RevenueInfo> revenues) {
         this.revenues = revenues;
     }
 
-    public void setExpenditure(CourseExpenditureInfo expenditure) {
+    public void setExpenditure(ExpenditureInfo expenditure) {
         this.expenditure = expenditure;
     }
 

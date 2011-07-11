@@ -7,9 +7,9 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.course.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
+import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 /**
@@ -19,11 +19,11 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
  */
 public class R1ToR2CopyHelper {
 
-    public CourseExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
+    public ExpenditureInfo copyCourseExpenditure(org.kuali.student.lum.course.dto.CourseExpenditureInfo r1) {
         if (r1 == null) {
             return null;
         }
-        CourseExpenditureInfo r2 = new CourseExpenditureInfo();
+        ExpenditureInfo r2 = new ExpenditureInfo();
         // TODO: worry about using the toString method for the id 
         r2.setId(r1.toString());
         r2.setAffiliatedOrgs(copyAffiliatedOrgList(r1.getAffiliatedOrgs()));
@@ -71,22 +71,22 @@ public class R1ToR2CopyHelper {
         return r2List;
     }
 
-    public List<CourseFeeInfo> copyCourseFeeList(List<org.kuali.student.lum.course.dto.CourseFeeInfo> r1List) {
+    public List<FeeInfo> copyCourseFeeList(List<org.kuali.student.lum.course.dto.CourseFeeInfo> r1List) {
         if (r1List == null) {
             return null;
         }
-        List<CourseFeeInfo> r2List = new ArrayList<CourseFeeInfo>(r1List.size());
+        List<FeeInfo> r2List = new ArrayList<FeeInfo>(r1List.size());
         for (org.kuali.student.lum.course.dto.CourseFeeInfo r1 : r1List) {
             r2List.add(copyCourseFee(r1));
         }
         return r2List;
     }
 
-    public CourseFeeInfo copyCourseFee(org.kuali.student.lum.course.dto.CourseFeeInfo r1) {
+    public FeeInfo copyCourseFee(org.kuali.student.lum.course.dto.CourseFeeInfo r1) {
         if (r1 == null) {
             return null;
         }
-        CourseFeeInfo r2 = new CourseFeeInfo();
+        FeeInfo r2 = new FeeInfo();
         r2.setId(r1.getId());
         r2.setAttributes(copyAttributes(r1.getAttributes()));
         r2.setDescr(copyRichText(r1.getDescr()));

@@ -27,11 +27,12 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lui.infc.Expenditure;
-import org.kuali.student.enrollment.lui.infc.Fee;
 import org.kuali.student.enrollment.lui.infc.Lui;
-import org.kuali.student.enrollment.lui.infc.Revenue;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.lu.dto.FeeInfo;
+import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -74,7 +75,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	
 	// nina begin refactored from CourseOffering
 	@XmlElement
-	private List<Fee> fees;
+	private List<FeeInfo> fees;
 	
 	@XmlElement
 	private List<String> gradingOptions;
@@ -89,10 +90,10 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	private List<String> unitsDeployment;
 
 	@XmlElement
-	private Expenditure expenditure;
+	private ExpenditureInfo expenditure;
 
 	@XmlElement
-	private List<Revenue> revenues;
+	private List<RevenueInfo> revenues;
 	// nina end refactored from CourseOffering
 	
 	@XmlAnyElement
@@ -239,16 +240,16 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	}
 
 	@Override
-	public Expenditure getExpenditure() {
+	public ExpenditureInfo getExpenditure() {
 		return expenditure;
 	}
 
 	@Override
-	public List<Revenue> getRevenues() {
+	public List<RevenueInfo> getRevenues() {
 		return revenues;
 	}
 
-	public void setFees(List<Fee> fees) {
+	public void setFees(List<FeeInfo> fees) {
 		this.fees = fees;
 	}
 
@@ -268,11 +269,11 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.unitsDeployment = unitsDeployment;
 	}
 
-	public void setExpenditure(Expenditure expenditure) {
+	public void setExpenditure(ExpenditureInfo expenditure) {
 		this.expenditure = expenditure;
 	}
 
-	public void setRevenues(List<Revenue> revenues) {
+	public void setRevenues(List<RevenueInfo> revenues) {
 		this.revenues = revenues;
 	}
 }

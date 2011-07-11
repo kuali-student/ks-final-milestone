@@ -13,9 +13,9 @@ import java.util.List;
 import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo;
-import org.kuali.student.r2.lum.course.dto.CourseRevenueInfo;
-import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 /**
@@ -227,20 +227,20 @@ public interface CourseOffering extends IdEntity {
      * Fees associated with the course offering. 
      * @name Fees
      */    
-    public List<? extends CourseFee> getFees();
+    public List<? extends Fee> getFees();
     
     /**
      * Organization that receives the revenue associated with the course
      * @name Revenues
      */
-    public List<CourseRevenueInfo> getRevenues();
+    public List<RevenueInfo> getRevenues();
     
     
     /**
      * Organization that incurs the cost associated with the course
      * @name expenditure
      */
-    public CourseExpenditureInfo getExpenditure();
+    public ExpenditureInfo getExpenditure();
         
     /**
      * Flag indicating whether a course is eligible for Financial Aid. Derived from course catalog (canonical)

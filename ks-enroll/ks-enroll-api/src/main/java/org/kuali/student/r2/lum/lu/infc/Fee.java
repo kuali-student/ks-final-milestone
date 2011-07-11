@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.r2.lum.lu.infc;
 
 import java.util.List;
 
@@ -23,15 +23,13 @@ import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 
 /**
- * Information about a fee related to a course.
- *
- * @author Kuali Student Team (Kamal)
- * @Since Mon Jul 05 08:00:00 PDT 2011
+ * Information about a fee related to an learning unit
  */
-public interface CourseFee extends  HasId, HasAttributesAndMeta{
+public interface Fee extends  HasId, HasAttributesAndMeta{
 
     /**
      * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
+     * From a program perspective it may be an application fee.
      * @name: Fee Type
      */
     public String getFeeType(); 
@@ -49,7 +47,7 @@ public interface CourseFee extends  HasId, HasAttributesAndMeta{
     public List<? extends CurrencyAmount> getFeeAmounts();
 
     /**
-     * Narrative description of the Course Fee.
+     * Narrative description of the Fee.
      * @name Description
      */
     public RichText getDescr();

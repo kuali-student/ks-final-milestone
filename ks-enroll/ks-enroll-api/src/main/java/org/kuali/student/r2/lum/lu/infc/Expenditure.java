@@ -13,29 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.r2.lum.lu.infc;
 
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import java.util.List;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 
 /**
- * Detailed information about revenue collected from the course.
+ * Detailed information about organizations responsible for expenditures
  *
  * @author nwright
  */
-public interface AffiliatedOrg extends HasId, HasEffectiveDates {
+public interface Expenditure extends HasId, HasAttributesAndMeta {
 
     /**
-     * Unique identifier for an organization.
-     * 
-     * @name Organization Id
+     * List of affiliated organizations.
+     * @name Affiliated Organizations
      */
-    public String getOrgId();
-
-    /**
-     * A long numeric value without a fractional component.
-     * 
-     * @name Percentage
-     */
-    public Long getPercentage();
+    public List<? extends AffiliatedOrg> getAffiliatedOrgs();
 }

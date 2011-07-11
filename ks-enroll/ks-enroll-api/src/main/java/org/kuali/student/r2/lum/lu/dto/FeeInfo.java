@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.r2.lum.lu.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,22 +29,14 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.w3c.dom.Element;
 
-/**
- * Information about a fee related to a course.
- *
- * @Author KSContractMojo
- * @Author Daniel Epstein
- * @Since Mon Jul 26 14:12:33 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseFeeInfo+Structure">CourseFeeInfo</>
- *
- */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseFeeInfo", propOrder = {"feeType", "rateType", "feeAmounts",
+@XmlType(name = "FeeInfo", propOrder = {"feeType", "rateType", "feeAmounts",
         "descr", "id", "meta", "attributes", "_futureElements"})
-public class CourseFeeInfo extends HasAttributesAndMetaInfo implements CourseFee, Serializable {
+public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,7 +58,7 @@ public class CourseFeeInfo extends HasAttributesAndMetaInfo implements CourseFee
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public CourseFeeInfo() {
+    public FeeInfo() {
         this.feeType = null;
         this.rateType = null;
         this.feeAmounts = new ArrayList<CurrencyAmountInfo>();
@@ -75,7 +67,7 @@ public class CourseFeeInfo extends HasAttributesAndMetaInfo implements CourseFee
         this._futureElements = null;
     }
     
-    public CourseFeeInfo(CourseFee fee) {
+    public FeeInfo(Fee fee) {
         super(fee);
         
         if(null == fee) return;
