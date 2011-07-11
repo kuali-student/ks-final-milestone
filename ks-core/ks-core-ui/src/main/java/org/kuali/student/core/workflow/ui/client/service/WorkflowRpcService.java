@@ -17,8 +17,8 @@ package org.kuali.student.core.workflow.ui.client.service;
 
 import java.util.List;
 
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.core.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

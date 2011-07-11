@@ -21,9 +21,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.CachedTableModel;
@@ -139,7 +139,7 @@ public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
 
                     final int sortColumn = request.getColumnSortList().getPrimaryColumn();
                     final int sortDirection = (request.getColumnSortList().isPrimaryAscending() ? 1 : -1);
-                    if (sortColumn != lastSortedColumn || sortDirection != lastSortDirection) {
+                    if (sortColumn>=0 && (sortColumn != lastSortedColumn || sortDirection != lastSortDirection)) {
                         SearchColumnDefinition rowDef = (SearchColumnDefinition) columnDefs.get(sortColumn);
                         final String sortColumKey = rowDef.getColumnKey();
                         Collections.sort((List<ResultRow>)rowDTOs, new Comparator<ResultRow>() {

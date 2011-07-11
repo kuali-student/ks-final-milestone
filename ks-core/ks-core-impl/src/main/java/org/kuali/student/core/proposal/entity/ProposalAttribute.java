@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.common.entity.Attribute;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -38,7 +38,7 @@ public class ProposalAttribute extends Attribute<Proposal> {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.entity.Attribute#getOwner()
+     * @see org.kuali.student.common.entity.Attribute#getOwner()
      */
     @Override
     public Proposal getOwner() {
@@ -48,7 +48,7 @@ public class ProposalAttribute extends Attribute<Proposal> {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.entity.Attribute#setOwner(org.kuali.student.core.entity.AttributeOwner)
+     * @see org.kuali.student.common.entity.Attribute#setOwner(org.kuali.student.common.entity.AttributeOwner)
      */
     @Override
     public void setOwner(Proposal owner) {

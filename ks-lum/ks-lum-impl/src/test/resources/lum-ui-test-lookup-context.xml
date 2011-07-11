@@ -7,17 +7,17 @@
 			  -->
 	<import resource="classpath:common-lookup-context.xml" />
 	<bean id="uilookup" abstract="true"
-		class="org.kuali.student.core.assembly.data.UILookupConfig" />
+		class="org.kuali.student.common.assembly.data.UILookupConfig" />
 	<!--	<bean id="lookup" abstract="true"-->
-	<!--		class="org.kuali.student.core.assembly.data.LookupMetadata" />-->
+	<!--		class="org.kuali.student.common.assembly.data.LookupMetadata" />-->
 	<!--	<bean id="param" abstract="true"-->
 	<!--
-		class="org.kuali.student.core.assembly.data.LookupParamMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupParamMetadata" />
 	-->
 	<bean id="result" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupResultMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupResultMetadata" />
 	<bean id="lookupQos" abstract="true"
-		class="org.kuali.student.core.assembly.data.LookupQosMetadata" />
+		class="org.kuali.student.common.assembly.data.LookupQosMetadata" />
 
 	<!-- Field to Lookup Definition Bindings -->
 
@@ -133,7 +133,7 @@
 	</bean>
 	<!-- Initial Lookup Definitions (For suggestbox & dropdown widgets) -->
 
-	<bean id="ks.lookup.person.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="ks.lookup.person.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="ks.common.lookup.person.suggest">
 		<property name="name" value="All org hierarchies" />
 		<property name="desc" value="Returns all org hierarchies, name and id" />
@@ -201,7 +201,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lookup.lutypes" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lookup.lutypes" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.lutypes">
 		<property name="id" value="kuali.lookup.lutypes" />
 		<property name="name" value="All Lu Types" />
@@ -250,7 +250,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lookup.durations" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lookup.durations" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.durations">
 		<property name="id" value="kuali.lookup.durations" />
 		<property name="name" value="All ATP Duration Types" />
@@ -278,7 +278,7 @@
 		<property name="resultSortKey" value="atp.resultColumn.atpDurTypeName" />
 	</bean>
 
-	<bean id="kuali.lu.lookup.admin.departments.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.admin.departments.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.admin.departments.suggest">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
 		<property name="name" value="Organization search" />
@@ -308,7 +308,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.enumeration.management.search.subjectAreas" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.enumeration.management.search.subjectAreas" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.enumeration.management.search.subjectAreas">
 		<property name="id"
 			value="kuali.enumeration.management.search.subjectAreas" />
@@ -367,7 +367,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.amountInfo.unitType" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.amountInfo.unitType" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.amountInfo.unitType">
 		<property name="id" value="kuali.lu.lookup.amountInfo.unitType" />
 		<property name="name" value="Get enumerations" />
@@ -412,7 +412,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.campusLocations" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.campusLocations" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.campusLocations">
 		<property name="name" value="Get enumerations" />
 		<property name="desc" value="Get enumerated lists of values given context" />
@@ -471,7 +471,7 @@
 		<property name="id" value="kuali.lu.lookup.campusLocations" />
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.findCourse.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.findCourse.suggest">
 		<property name="id" value="kuali.lu.lookup.findCourse.suggest" />
 		<property name="searchTypeId" value="lu.search.generic" />
@@ -520,7 +520,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.firstexpectedoffering.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.firstexpectedoffering.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.firstexpectedoffering.suggest">
 		<property name="id"
 			value="kuali.lu.lookup.firstexpectedoffering.suggest" />
@@ -550,7 +550,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCluSet.suggest" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.findCluSet.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.basic.reusableCluSets">
 		<property name="id"	value="kuali.lu.lookup.findCluSet.suggest" />
 		<property name="name" value="Find CluSet" />
@@ -593,7 +593,7 @@
 	</bean>
 
 	<!-- Advanced Searches -->
-	<bean id="kuali.lu.lookup.admin.departments.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.admin.departments.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.admin.departments.advanced"
 		autowire-candidate="default" dependency-check="default" autowire="default"
 		lazy-init="default">
@@ -638,7 +638,7 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.findCourse.advanced.courseproposal"
-		class="org.kuali.student.core.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced.courseproposal">
+		class="org.kuali.student.common.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced.courseproposal">
 		<property name="id"
 			value="kuali.lu.lookup.findCourse.advanced.courseproposal" />
 		<property name="name" value="Courses and Proposals" />
@@ -693,7 +693,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCourse.advanced.coursesonly" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.findCourse.advanced.coursesonly" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.findCourse.advanced.coursesonly">
 		<property name="id"
 			value="kuali.lu.lookup.findCourse.advanced.coursesonly" />
@@ -750,7 +750,7 @@
 	</bean>
 
 	<bean id="kuali.lu.lookup.findCourse.advanced.proposalsonly"
-		class="org.kuali.student.core.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced.proposalsonly">
+		class="org.kuali.student.common.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced.proposalsonly">
 		<property name="id"
 			value="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
 		<property name="name" value="Proposals Only" />
@@ -806,7 +806,7 @@
 	</bean>
 	
 	<bean id="kuali.lu.lookup.findCourse.advanced"
-		class="org.kuali.student.core.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced">
+		class="org.kuali.student.common.assembly.data.UILookupData" parent="kuali.common.lookup.findCourse.advanced">
 		<property name="id"
 			value="kuali.lu.lookup.findCourse.advanced.proposalsonly" />
 		<property name="name" value="Proposals Only" />
@@ -853,7 +853,7 @@
 	</bean>
 
 
-	<bean id="kuali.proposal.lookup.Proposals.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.proposal.lookup.Proposals.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.proposal.advanced">
 		<property name="id" value="kuali.proposal.lookup.Proposals" />
 		<property name="name" value="Find Proposal" />
@@ -885,7 +885,7 @@
 		</property>
 	</bean>
 
-	<bean id="kuali.lu.lookup.findCluSet.advanced" class="org.kuali.student.core.assembly.data.UILookupData"
+	<bean id="kuali.lu.lookup.findCluSet.advanced" class="org.kuali.student.common.assembly.data.UILookupData"
 		parent="kuali.common.lookup.advanced.reusableCluSets">
 		<property name="id" value="kuali.lu.lookup.findCluSet.advanced" />
 		<property name="name" value="Find Clu Set" />

@@ -5,6 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -16,12 +21,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -86,6 +87,7 @@ public class SummaryTableSection extends VerticalSection {
     @Override
     public ErrorLevel processValidationResults(
     		List<ValidationResultInfo> results) {
+    	
     	ErrorLevel status = ErrorLevel.OK;
     	for(int i = 0; i < results.size(); i++){
     		if(summaryTable.containsKey(results.get(i).getElement())){
@@ -98,13 +100,37 @@ public class SummaryTableSection extends VerticalSection {
         		}
     		}
     	}
+    	
+    	List<ValidationResultInfo> warnings = Application.getApplicationContext().getValidationWarnings();
+    	ValidationResultInfo tempVr = new ValidationResultInfo();
+    	tempVr.setElement("");
+    	for(int i = 0; i < warnings.size(); i++){
+    		//Reformat the validation element path based on how it can be referenced in sumaryTable rowMap
+    		String element = warnings.get(i).getElement();    		
+    		if (element.startsWith("/")){    			
+    			//Remove leading '/' since paths aren't stored this way in rowMap
+    			element = element.substring(1);
+    		} else if (element.matches(".*/[0-9]+")){
+    			//Validation warnings returns path to individual items of simple multiplicity, 
+    			//stripping of the item index to highlight the entire field. 
+    			element = element.substring(0, element.lastIndexOf("/")); 
+    		}
+    		
+    		if(summaryTable.containsKey(element)){
+    			if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
+    				status = warnings.get(i).getLevel();
+    			}
+    			
+       			summaryTable.highlightRow(element, "warning");
+    		}
+    	}
+    	
     	return status;
     }
     
     @Override
-    public ErrorLevel processValidationResults(
-    		List<ValidationResultInfo> results, boolean clearAllValidation) {
-    	if(clearAllValidation){
+    public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors) {
+    	if(clearErrors){
     		this.removeValidationHighlighting();
     	}
     	return this.processValidationResults(results);
@@ -137,15 +163,12 @@ public class SummaryTableSection extends VerticalSection {
     		if(data != null && compData != null){
     			if(data.size() >= compData.size()){
     				itr = data.iterator();
-    			}
-    			else{
+    			} else{
     				itr = compData.iterator();
     			}
-    		}
-    		else if(data != null){
+    		} else if(data != null){
     			itr = data.iterator();
-    		}
-    		else{
+    		} else{
     			itr = compData.iterator();
     		}
     		SummaryTableMultiplicityFieldRow currentMultiplicityRow = parentRow;
@@ -190,7 +213,6 @@ public class SummaryTableSection extends VerticalSection {
 	    				fieldRowsCreated++;
 	    			}
 				}
-				
 	    		if(config.getNestedConfig() != null){
 	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
 	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
@@ -201,9 +223,7 @@ public class SummaryTableSection extends VerticalSection {
 	    			fieldRowsCreated++;
 	    			int result = buildMultiplicityRows(model, compModel, mRow, rowList, styleLevel + 1, number);
 	    			index = index + result;
-	    			
 	    		}
-	    		
 	    		if(itr.hasNext()){
 	    			SummaryTableMultiplicityFieldRow mRow = new SummaryTableMultiplicityFieldRow(config);
 	    			mRow.setTemporaryRowFlag(true);
@@ -250,8 +270,6 @@ public class SummaryTableSection extends VerticalSection {
 	    				fieldRowsCreated++;
 	    			}
 				}
-				
-    			
 	    		if(config.getNestedConfig() != null){
 	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
 	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
@@ -459,6 +477,10 @@ public class SummaryTableSection extends VerticalSection {
     public String addSection(String key, Section section) {
         GWT.log("addSection(String key, Section section) method not supported");
         throw new UnsupportedOperationException("SummaryTableSection.addSection(String key, Section section) method not supported");
+    }
+
+    public SummaryTable getSummaryTable() {
+        return summaryTable;
     }
 
 }

@@ -209,6 +209,8 @@ public class KSTextArea extends TextArea implements HasWatermark{
 			}
 			else{
 				super.setValue(value);
+				removeStyleName("watermark-text");
+				watermarkShowing = false;
 			}
 		}
 		else{
@@ -226,6 +228,8 @@ public class KSTextArea extends TextArea implements HasWatermark{
 			}
 			else{
 				super.setText(text);
+				removeStyleName("watermark-text");
+                watermarkShowing = false;
 			}
 		}
 		else{

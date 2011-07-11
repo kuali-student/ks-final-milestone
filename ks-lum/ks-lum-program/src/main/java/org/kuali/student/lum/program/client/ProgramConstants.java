@@ -17,6 +17,7 @@ public class ProgramConstants {
     public static final String MAJOR_LU_TYPE_ID = "kuali.lu.type.MajorDiscipline";
     public static final String CORE_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
     public static final String CRED_LU_TYPE_ID = "kuali.lu.type.CoreProgram";
+    public static final String CRED_LU_TYPE_PREFIX = "kuali.lu.type.credential";
     public static final String VARIATION_TYPE_KEY = "kuali.lu.type.Variation";
     public static final String MAJOR_REFERENCE_TYPE_ID = "referenceType.clu";
     public static final String RUNTIME_DATA = "_runtimeData";
@@ -38,6 +39,13 @@ public class ProgramConstants {
     public static final String END_PROGRAM_ENROLL_TERM = "endTerm";
     public static final String PROGRAM_APPROVAL_DATE = "approvalDate";
 
+    // Proposal Information
+    public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
+    public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
+    public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale";
+    
+    
     //Program Title
     public static final String LONG_TITLE = "longTitle";
     public static final String SHORT_TITLE = "shortTitle";

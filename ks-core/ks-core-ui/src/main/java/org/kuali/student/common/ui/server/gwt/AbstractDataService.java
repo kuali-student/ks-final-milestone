@@ -1,31 +1,34 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.TransformFilter;
+import org.kuali.student.common.assembly.transform.TransformationManager;
+import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.transform.AuthorizationFilter;
-import org.kuali.student.core.assembly.transform.MetadataFilter;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.assembly.transform.TransformFilter;
-import org.kuali.student.core.assembly.transform.TransformFilter.TransformFilterAction;
-import org.kuali.student.core.assembly.transform.TransformationManager;
-import org.kuali.student.core.dto.DtoConstants;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -65,6 +68,7 @@ public abstract class AbstractDataService implements DataService{
 		} catch(DoesNotExistException e){
 			return null;
 		} catch (Exception e) {
+			LOG.error("Error getting data",e);
 			throw new OperationFailedException("Error getting data",e);
 		}
 		return null;
@@ -80,6 +84,7 @@ public abstract class AbstractDataService implements DataService{
 		String docType = (attributes != null ? attributes.get(StudentIdentityConstants.DOCUMENT_TYPE_NAME):null);
 		String dtoState = (attributes != null ? attributes.get(DtoConstants.DTO_STATE):null);
 		String dtoNextState = (attributes != null ? attributes.get(DtoConstants.DTO_NEXT_STATE):null);
+		String workflowNode = (attributes != null ? attributes.get(DtoConstants.DTO_WORKFLOW_NODE):null);
 				
 		if (idType == null){
 			filterProperties.remove(MetadataFilter.METADATA_ID_TYPE);
@@ -101,6 +106,10 @@ public abstract class AbstractDataService implements DataService{
 			filterProperties.put(DtoConstants.DTO_NEXT_STATE, dtoNextState);			
 		}
 
+		if (workflowNode != null){
+			filterProperties.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);			
+		}
+
 		if (checkDocumentLevelPermissions()){
 			filterProperties.put(AuthorizationFilter.DOC_LEVEL_PERM_CHECK, Boolean.TRUE.toString());
 		}
@@ -111,20 +120,56 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException{
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
+		
+		DataSaveResult saveResult = new DataSaveResult();
 		try {
+			//Convert data object to dto object
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
+			
+			//This calls save method for DataService impl, which makes the needed service calls to persist dto
+			//The service call should do it's own validation, any errors will cause DataValidationErrorException
+			//and is handled in the catch below.
 			dto = save(dto, filterProperties);
-				
-			Data persistedData = transformationManager.transform(dto, filterProperties);
-			return new DataSaveResult(null, persistedData);
-		}catch (DataValidationErrorException e){
-			throw e;
+			
+			//Validate saved data again to get validation warnings that may exist on the data
+			List<ValidationResultInfo> validationResults = validate(dto);
+			
+			//Convert saved data object back to data object to send to UI
+			Data persistedData = transformationManager.transform(dto, filterProperties);			
+			
+			saveResult.setValue(persistedData);
+			saveResult.setValidationResults(validationResults);			
+		}catch (DataValidationErrorException dvee){
+			//Throw the error, we need the the transaction to be rolled back when service throws an error.
+			throw dvee;
+		}catch (OperationFailedException ofe){
+		    throw ofe;
 		}catch (Exception e) {
-			throw new OperationFailedException("Unable to save",e);
+			LOG.error("Failed to save data",e);
+			throw new OperationFailedException("Failed to save data",e);
 		}
+		
+		return saveResult;
+	}
+	
+	
+
+	@Override
+	public List<ValidationResultInfo> validateData(Data data) throws OperationFailedException {
+		List<ValidationResultInfo> validationResults;
+		
+		try {
+			Metadata metadata = transformationManager.getUnfilteredMetadata(getDtoClass().getName());
+			Object dto = transformationManager.getMapper().convertFromData(data, getDtoClass(), metadata);
+			validationResults = validate(dto);
+		} catch (Exception e) {
+			throw new OperationFailedException("Unable to validate data", e);
+		}
+
+		return validationResults;
 	}
 
 	@Override
@@ -246,15 +291,26 @@ public abstract class AbstractDataService implements DataService{
 	protected abstract Object get(String id) throws Exception;
 	
 	/**
-	 * Implement this method to make to make service call to get DTO object. The method is called	 
-	 * by the get(Data) method before it invokes transformationManager to convert DTO to a Data map
+	 * Implement this method to make a service call to get DTO object. The method is called	 
+	 * by the save(Data) method after it invokes transformationManager to convert Data map to DTO 
 	 * 
-	 * @param id DTO id
-	 * @return the dto retrieved by calling the appropriate service method
+	 * @param dto
+	 * @param properties
+	 * @return the persisted dto object
 	 * @throws Exception
-	 */ 
+	 */
 	protected abstract Object save(Object dto, Map<String, Object> properties) throws Exception;
 	
+	/**
+	 * Implement this method to make a service call to get DTO object. The method is called	 
+	 * in the save(data) method before calling the save(dto,properties) method to validate the data
+ 
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
+	protected abstract List<ValidationResultInfo> validate(Object dto) throws Exception;
+
 	/**
 	 * Implement this method to return the type of the dto object.
 	 * 

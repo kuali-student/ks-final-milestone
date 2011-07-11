@@ -75,7 +75,8 @@ public class SummaryTableRow {
     	this.shown = show;
     }
     
-    protected boolean isShown(){
+    // TODO Nina - Code Review - is it ok that i change to public...
+    public boolean isShown(){
     	return shown;
     }
 }

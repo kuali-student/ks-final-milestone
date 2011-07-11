@@ -13,11 +13,11 @@
  * permissions and limitations under the License.
  */
 
-//package org.kuali.rice.student.core.database;
+package org.kuali.rice.student.core.database;
 
-//import java.sql.SQLException;
+import java.sql.SQLException;
 
-//import org.kuali.rice.core.database.XAPoolDataSource;
+import org.kuali.rice.core.database.XAPoolDataSource;
 
 /**
  * This extends the rice XAPoolDataSource and checks to see if a connection is being
@@ -29,22 +29,22 @@
  * @author Kuali Student Team
  *
  */
-//@SuppressWarnings("deprecation")
-//public class DerbyXAPoolDataSource extends XAPoolDataSource{
+@SuppressWarnings("deprecation")
+public class DerbyXAPoolDataSource extends XAPoolDataSource{
 
-//    private static final long serialVersionUID = 1L;  
-    
-//    public void afterPropertiesSet() throws Exception {
-//        super.afterPropertiesSet();
+    private static final long serialVersionUID = 1L;  
+   
+    public void afterPropertiesSet() throws Exception {
+        super.afterPropertiesSet();
         //If client connection fails, use embedded driver
-//        if ("org.apache.derby.jdbc.ClientDriver".equals(getDriverClassName())){
-//            try{
-//                getConnection();
-//            } catch (SQLException e) {
-//                super.shutdown(true);
-//                setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");                
-//            }
-//        }
-//    }
+        if ("org.apache.derby.jdbc.ClientDriver".equals(getDriverClassName())){
+            try{
+                getConnection();
+            } catch (SQLException e) {
+                super.shutdown(true);
+                setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");                
+            }
+        }
+    }
 
-//}
+}

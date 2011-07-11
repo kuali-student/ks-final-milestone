@@ -69,4 +69,8 @@ public class KSHeader extends Composite {
     public Panel getBottomContainer(){
     	return bottomContainer;
     }
+    
+    public void setApplicationTitle(String title) {
+    	applicationTitleLabel.setText(title);
+    }
 }

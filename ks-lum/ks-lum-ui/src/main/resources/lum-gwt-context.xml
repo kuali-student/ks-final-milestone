@@ -30,7 +30,7 @@
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
     <bean id="propertyPlaceholder"
-          class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer"/>
+          class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -82,10 +82,16 @@
                        value-ref="metadataGwtController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineRpcService"
                        value-ref="majorDisciplineRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/majorDisciplineProposalRpcService"
+                       value-ref="majorDisciplineProposalRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/credentialProgramRpcService"
                        value-ref="credentialProgramRpcServletController"/>
                 <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/coreProgramRpcService"
                        value-ref="coreProgramRpcServletController"/>
+                <entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/DependencyAnalysisRpcService"
+                       value-ref="dependencyAnalysisRpcServletController"/>
+				<entry key="/org.kuali.student.lum.lu.ui.main.LUMMain/rpcservices/GwtExportRpcService"
+					   value-ref="GwtExportServletController" />
             </map>
         </property>
     </bean>
@@ -112,6 +118,12 @@
           class="org.kuali.student.common.ws.ServletWrappingController">
         <property name="servletName" value="majorDisciplineRpcServlet"/>
         <property name="servletInstance" ref="majorDisciplineRpcServlet"/>
+    </bean>
+    
+    <bean id="majorDisciplineProposalRpcServletController"
+          class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="majorDisciplineProposalRpcServlet"/>
+        <property name="servletInstance" ref="majorDisciplineProposalRpcServlet"/>
     </bean>
 
     <bean id="credentialProgramRpcServletController"
@@ -221,6 +233,12 @@
         <property name="servletName" value="MetadataRpcGwtServlet"/>
         <property name="servletInstance" ref="MetadataRpcGwtServlet"/>
     </bean>
+    
+    <bean id="dependencyAnalysisRpcServletController" class="org.kuali.student.common.ws.ServletWrappingController">
+        <property name="servletName" value="DependencyAnalysisRpcGwtServlet"/>
+        <property name="servletInstance" ref="DependencyAnalysisRpcGwtServlet"/>
+    </bean>
+    
 
     <!-- GWT Servlets -->
 
@@ -242,22 +260,54 @@
         <property name="courseService" ref="courseClient"/>
         <property name="dataService" ref="CourseDataService"/>
         <property name="statementService" ref="statementServiceClient"/> 
-        <property name="stateChangeService" ref="stateChangeService"/>         
+        <property name="stateChangeService" ref="stateChangeService"/>  
+        <property name="luService" ref="luClient"/>       
     </bean>
 	
 	<bean id="stateChangeService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseStateChangeServiceImpl">
 		<property name="courseService" ref="courseClient"/>
 	</bean>
 	
+	<bean id="majorDisciplineStateChangeService" class="org.kuali.student.lum.program.server.MajorDisciplineStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	<bean id="coreProgramStateChangeService" class="org.kuali.student.lum.program.server.CoreProgramStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	<bean id="credentialProgramStateChangeService" class="org.kuali.student.lum.program.server.CredentialProgramStateChangeServiceImpl">
+		<property name="programService" ref="programClient"/>
+	</bean>
+	
     <bean id="CourseProposalRpcGwtServlet"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CreditCourseProposalRpcGwtServlet">
         <property name="dataService" ref="CourseProposalDataService"/>
+        <property name="copyCourseService" ref="CopyCourseService"/>
+    </bean>
+    
+    <bean id="CopyCourseService" class="org.kuali.student.lum.lu.ui.course.server.gwt.CopyCourseServiceImpl">
+    	<property name="courseService" ref="courseClient"/>
+	    <property name="statementService" ref="statementServiceClient"/>
+	    <!-- Use the proposal data service so we can make new proposals -->
+	    <property name="courseProposalDataService" ref="CourseProposalDataService"/>
+	    <property name="courseDataService" ref="CourseDataService"/>
+	    <property name="luService" ref="luClient"/>
+	    <property name="proposalService" ref="proposalClient"/>
+	    <property name="ignoreProperties">
+		    <list>
+		    	<value>transcriptTitle</value>
+		    	<value>unitsContentOwner</value>
+		    	<value>unitsDeployment</value>
+		    	<value>revenues</value>
+		    	<value>expenditure</value>
+			</list>
+	    </property>
     </bean>
     
     <bean id="CourseDataService"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
+        <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseTransformationManager"/>
     </bean>
 
@@ -273,6 +323,7 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="courseService" ref="courseClient"/>
         <property name="proposalService" ref="proposalClient"/>
+        <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
     </bean>
     
@@ -289,7 +340,7 @@
         <property name="assembler" ref="CluSetManagementFilterManager"/>
     </bean>
     
-    <bean id="CluSetManagementFilterManager" class="org.kuali.student.core.assembly.old.AssemblerFilterManager">
+    <bean id="CluSetManagementFilterManager" class="org.kuali.student.common.assembly.old.AssemblerFilterManager">
         <constructor-arg ref="cluSetManagementAssembler"/>
         <property name="filters">
             <list>
@@ -315,26 +366,45 @@
     </bean>
     
 
+    <bean id="majorDisciplineProposalRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineProposalRpcServlet">
+		<property name="dataService" ref="majorDisciplineProposalDataService"/>
+		<property name="programService" ref="programClient"/>
+        <property name="proposalService" ref="proposalClient"/>
+        <property name="statementService" ref="statementServiceClient"/>      
+        <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
+     </bean>
+
     <bean id="majorDisciplineRpcServlet" class="org.kuali.student.lum.program.server.MajorDisciplineRpcServlet">
 		<property name="dataService" ref="majorDisciplineDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
-    </bean>
+		<property name="proposalService" ref="proposalClient"/>
+        <property name="statementService" ref="statementServiceClient"/>      
+        <property name="stateChangeService" ref="majorDisciplineStateChangeService"/>  
+     </bean>
 
     <bean id="credentialProgramRpcServlet" class="org.kuali.student.lum.program.server.CredentialProgramRpcServlet">
 		<property name="dataService" ref="credentialProgramDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
+        <property name="statementService" ref="statementServiceClient"/>  
+		<property name="stateChangeService" ref="credentialProgramStateChangeService"/>     
     </bean>
 
     <bean id="coreProgramRpcServlet" class="org.kuali.student.lum.program.server.CoreProgramRpcServlet">
 		<property name="dataService" ref="coreProgramDataService"/>
 		<property name="programService" ref="programClient"/>
-        <property name="statementService" ref="statementServiceClient"/>        
+        <property name="statementService" ref="statementServiceClient"/>       
+        <property name="stateChangeService" ref="coreProgramStateChangeService"/> 
     </bean>
 
     <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">
         <property name="transformationManager" ref="majorDisciplineTransformationManager"/>
+        <property name="permissionService" ref="permissionServiceClient"/>
+        <property name="programService" ref="programClient"/>
+        <property name="luService" ref="luClient"/>
+    </bean>
+
+    <bean id="majorDisciplineProposalDataService" class="org.kuali.student.lum.program.server.MajorDisciplineProposalDataService">
+        <property name="transformationManager" ref="majorDisciplineProposalTransformationManager"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
@@ -354,19 +424,23 @@
         <property name="luService" ref="luClient"/>
     </bean>
 
+    <bean id="DependencyAnalysisRpcGwtServlet" class="org.kuali.student.lum.lu.ui.dependency.server.DependencyAnalysisRpcServlet">
+        <property name="statementService" ref="statementServiceClient"/> 
+        <property name="programService" ref="programClient"/>       
+    </bean>
+
 	<!--  Transformation Managers -->
-    <bean id="courseTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="courseTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
-                <!-- Order of filters is important -->
-                <ref bean="authzFilter"/>
+                <!-- <ref bean="authzFilter"/> -->
                 <ref bean="idTranslatorFilter"/>
             </list>
         </property>
     </bean>
 
-    <bean id="courseProposalTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="courseProposalTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
@@ -379,7 +453,7 @@
         </property>
     </bean>
 
-    <bean id="majorDisciplineTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="majorDisciplineTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
@@ -392,7 +466,22 @@
         </property>
     </bean>
 
-    <bean id="loCategoryTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="majorDisciplineProposalTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
+        <property name="metadataService" ref="programMetadataServiceImpl"/>
+        <property name="filters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="authzFilter"/>
+                <ref bean="majorCredentialProgramFilter"/>
+                <ref bean="versionProgramFilter"/>                
+                <ref bean="idTranslatorFilter"/>
+                <ref bean="majorDisciplineProposalWorkflowFilter"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="loCategoryTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="filters">
             <list>
@@ -403,7 +492,7 @@
         </property>
     </bean>
     
-    <bean id="credentialProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="credentialProgramTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
@@ -415,7 +504,7 @@
         </property>
     </bean>
     
-    <bean id="coreProgramTransformationManager" class="org.kuali.student.core.assembly.transform.TransformationManager">
+    <bean id="coreProgramTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="programMetadataServiceImpl"/>
         <property name="filters">
             <list>
@@ -430,11 +519,11 @@
     
     
 	<!-- Transformation Manager Filters -->
-    <bean id="authzFilter" class="org.kuali.student.core.assembly.transform.AuthorizationFilter">
+    <bean id="authzFilter" class="org.kuali.student.common.assembly.transform.AuthorizationFilter">
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
 
-    <bean id="idTranslatorFilter" class="org.kuali.student.core.assembly.transform.IdTranslatorFilter">
+    <bean id="idTranslatorFilter" class="org.kuali.student.common.assembly.transform.IdTranslatorFilter">
         <constructor-arg ref="idTranslator"/>
     </bean>
 
@@ -464,7 +553,7 @@
         <property name="defaultDocType" value="kuali.proposal.type.course.create"/>
         <property name="docTypeConfigs">
 	        <list>
-	        	<bean class="org.kuali.student.core.assembly.transform.DocumentTypeConfiguration">
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.create"/>
 	        		<property name="defaultDocumentTitle" value="{courseTitle}"/>
 	        		<property name="docContentFieldMap">
@@ -474,9 +563,69 @@
 	           			</map>
 					</property>
 	            </bean>
-	        	<bean class="org.kuali.student.core.assembly.transform.DocumentTypeConfiguration">
+	            <bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.create.admin"/>
+	        		<property name="defaultDocumentTitle" value="{courseTitle} (Admin Proposal)"/>
+	        		<property name="docContentFieldMap">
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+					</property>
+	            </bean>
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.modify"/>
 					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>
+				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify.admin"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle} (Admin Proposal)"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>            
+ 			</list>
+		</property>			
+    </bean>
+
+    <bean id="majorDisciplineProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
+        <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
+        <property name="defaultDocType" value="kuali.proposal.type.majorDiscipline.modify"/>
+        <property name="proposalDefinition" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
+        <property name="docTypeConfigs">
+	        <list>
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.majorDiscipline.modify"/>
+	        		<property name="defaultDocumentTitle" value="{shortTitle}"/>
+	        		<property name="docContentFieldMap">
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+					</property>
+	            </bean>
+	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
+					<property name="docContentFieldMap">					
+	           			<map>
+		                	<entry key="cluId" value="id"/>
+		                	<entry key="orgId" value="unitsContentOwner/0"/>
+	           			</map>
+	           		</property>
+				</bean>
+				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
+	        		<property name="documentType" value="kuali.proposal.type.course.modify.admin"/>
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle} (Admin Proposal)"/>	            	
 					<property name="docContentFieldMap">					
 	           			<map>
 		                	<entry key="cluId" value="id"/>
@@ -510,7 +659,7 @@
         <property name="programService" ref="programClient"/>
     </bean>
 
-    <bean id="metadataServiceImpl" class="org.kuali.student.core.assembly.dictionary.MetadataServiceImpl">
+    <bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.MetadataServiceImpl">
         <constructor-arg>
             <list>
                 <ref bean="courseClient"/>
@@ -523,14 +672,13 @@
     <bean id="programMetadataServiceImpl" class="org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl">
         <constructor-arg>
             <list>
-                <ref bean="courseClient"/>
-                <ref bean="proposalClient"/>
+                <ref bean="programClient"/>
             </list>
         </constructor-arg>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
-    <bean id="idTranslator" class="org.kuali.student.core.assembly.util.IdTranslator">
+    <bean id="idTranslator" class="org.kuali.student.common.assembly.util.IdTranslator">
         <constructor-arg ref="searchDispatcher"/>
     </bean>
 
@@ -539,7 +687,7 @@
         <property name="metadataService" ref="metadataServiceImpl"/>
     </bean>
 
-    <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.core.assembly.old.IdTranslatorAssemblerFilter">
+    <bean id="idTranslatorAssemblerFilter" class="org.kuali.student.common.assembly.old.IdTranslatorAssemblerFilter">
         <constructor-arg ref="idTranslator"/>
     </bean>
 
@@ -553,7 +701,7 @@
     </bean>
 
     <bean id="CommentRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.CommentRpcGwtServlet">
+          class="org.kuali.student.core.comments.ui.server.CommentRpcGwtServlet">
         <property name="service" ref="commentClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
@@ -565,7 +713,7 @@
     </bean>
 
     <bean id="DocumentRpcGwtServlet"
-          class="org.kuali.student.common.ui.server.gwt.DocumentRpcGwtServlet">
+          class="org.kuali.student.core.document.ui.server.DocumentRpcGwtServlet">
         <property name="service" ref="documentService"/>
         <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
@@ -592,17 +740,19 @@
           class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
     </bean>
 
-    <bean id="documentUpload" class="org.kuali.student.common.ui.server.upload.UploadServlet">
+    <bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">
         <property name="documentService" ref="documentService"/>
     </bean>
 
-    <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.UploadStatusRpcGwtServlet">
+    <bean id="uploadStatusRpcGwtServlet" class="org.kuali.student.core.document.ui.server.UploadStatusRpcGwtServlet">
     </bean>
 
     <bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
         <property name="searchDispatcher" ref="searchDispatcher"/>
+        <property name="idTranslatorFilter" ref="idTranslatorFilter"/>
+        <property name="cachingEnabled" value="true"/>
     </bean>
-    <bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl"
+    <bean id="searchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl"
           init-method="init">
         <property name="services">
             <list>
@@ -614,6 +764,7 @@
                 <ref bean="proposalClient"/>
                 <ref bean="enumServiceClient"/>
                 <ref bean="lrcClient"/>
+                <ref bean="subjectCodeClient"/>
             </list>
         </property>
     </bean>
@@ -662,13 +813,18 @@
     </bean>
 
     <bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService"/>
     </bean>
 
     <bean id="messageClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.messages.service.MessageService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/message}MessageService"/>
+    </bean>
+
+    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
     </bean>
 
     <bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -703,7 +859,7 @@
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
     </bean>
 
@@ -734,4 +890,20 @@
         <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimRoleUpdateServiceSOAP"/>
     </bean>
 
+	<!-- Export services and service to present exported file to user in browser -->
+	<bean id="GwtExportServletController"
+		class="org.kuali.student.common.ws.ServletWrappingController">
+		<property name="servletName" value="GwtExportRpcService" />
+		<property name="servletInstance" ref="GwtExportRpcService" />
+	</bean>
+
+	<bean id="GwtExportRpcService"
+		class="org.kuali.student.common.ui.server.gwt.ExportGwtRpcServlet">
+		<property name="reportProcessor" ref="ReportProcessor"/>
+	</bean>
+	
+	<!-- Screen Report Processor -->
+	<bean id="ReportProcessor"
+          class="org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl">
+    </bean>
 </beans>

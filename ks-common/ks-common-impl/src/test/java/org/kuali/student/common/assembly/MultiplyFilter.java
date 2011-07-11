@@ -16,18 +16,18 @@
 package org.kuali.student.common.assembly;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.old.PassThroughAssemblerFilter;
-import org.kuali.student.core.assembly.old.data.SaveResult;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.old.PassThroughAssemblerFilter;
+import org.kuali.student.common.assembly.old.data.SaveResult;
 
 public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> {
 	final Logger LOG = Logger.getLogger(MultiplyFilter.class);
 	
 	@Override
 	public void doSaveFilter(
-			org.kuali.student.core.assembly.old.AssemblerFilter.FilterParamWrapper<Integer> request,
-			org.kuali.student.core.assembly.old.AssemblerFilter.FilterParamWrapper<SaveResult<Integer>> response,
-			org.kuali.student.core.assembly.old.AssemblerFilter.SaveFilterChain<Integer, Integer> chain)
+			org.kuali.student.common.assembly.old.AssemblerFilter.FilterParamWrapper<Integer> request,
+			org.kuali.student.common.assembly.old.AssemblerFilter.FilterParamWrapper<SaveResult<Integer>> response,
+			org.kuali.student.common.assembly.old.AssemblerFilter.SaveFilterChain<Integer, Integer> chain)
 			throws AssemblyException {
 		request.setValue(request.getValue()+1);
 		LOG.info("In TestMultiplyFilter before chain was called and adding 1. Request:"+request.getValue());
@@ -41,9 +41,9 @@ public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> 
 
 	@Override
 	public void doGetFilter(
-			org.kuali.student.core.assembly.old.AssemblerFilter.FilterParamWrapper<String> id,
-			org.kuali.student.core.assembly.old.AssemblerFilter.FilterParamWrapper<Integer> response,
-			org.kuali.student.core.assembly.old.AssemblerFilter.GetFilterChain<Integer, Integer> chain)
+			org.kuali.student.common.assembly.old.AssemblerFilter.FilterParamWrapper<String> id,
+			org.kuali.student.common.assembly.old.AssemblerFilter.FilterParamWrapper<Integer> response,
+			org.kuali.student.common.assembly.old.AssemblerFilter.GetFilterChain<Integer, Integer> chain)
 			throws AssemblyException {
 		response.setValue(new Integer(2));
 	}

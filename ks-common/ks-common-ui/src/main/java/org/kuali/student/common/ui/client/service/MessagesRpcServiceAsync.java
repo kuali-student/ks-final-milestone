@@ -15,10 +15,10 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.core.messages.dto.LocaleKeyList;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.dto.MessageGroupKeyList;
-import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.common.messages.dto.LocaleKeyList;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

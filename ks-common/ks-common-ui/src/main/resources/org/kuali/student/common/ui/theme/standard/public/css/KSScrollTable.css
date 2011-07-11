@@ -42,10 +42,12 @@
 .gwt-ScrollTable .footerTable td {
   border-color: #aaa;
   border-style: solid;
+  border-bottom: 1px solid #D5D5D5;
+  empty-cells: show;
   border-width: 0px 1px 1px 0px;
   white-space: nowrap;
   overflow: hidden;
-}
+}	
 
 .gwt-ScrollTable .headerTable td,
 .gwt-ScrollTable .footerTable td {

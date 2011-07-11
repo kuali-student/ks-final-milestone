@@ -18,6 +18,10 @@ package org.kuali.student.core.document.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.document.dao.DocumentDao;
 import org.kuali.student.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
@@ -32,10 +36,6 @@ import org.kuali.student.core.document.entity.RefDocRelationAttribute;
 import org.kuali.student.core.document.entity.RefDocRelationType;
 import org.kuali.student.core.document.entity.RefObjectSubType;
 import org.kuali.student.core.document.entity.RefObjectType;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
 /**

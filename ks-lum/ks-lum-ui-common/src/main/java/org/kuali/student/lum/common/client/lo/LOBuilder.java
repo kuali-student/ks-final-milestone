@@ -18,14 +18,20 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -35,10 +41,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This class manages the users interactions when building/updating Learning
@@ -52,17 +56,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  * 
  */
-public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LOPicker>>> {
+public class LOBuilder extends VerticalSection implements HasValue<List<OutlineNode<LOPicker>>>, CanProcessValidationResults {
 
 	private static String type;
 	private static String state;
 	private static String repoKey;
 	private static String messageGroup;
-
-	VerticalPanel main = new VerticalPanel();
+    private static String startOfPath;
+    private static String endOfPath = "loInfo/desc/plain";
+    private static String middleOfPath = "loDisplayInfoList";
 	HorizontalPanel searchMainPanel = new HorizontalPanel();
 	KSPicker searchWindow;
-	VerticalPanel loPanel = new VerticalPanel();
 
 	LearningObjectiveList loList;
 	KSLabel instructions;
@@ -70,51 +74,42 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 	protected LOBuilder() {
 	}
 
-	public LOBuilder(String luType, String luState, String luGroup,	String loRepoKey, final Metadata metadata) {
+    public LOBuilder(String luType, String luState, String luGroup, String loRepoKey, String queryPathStart, final Metadata metadata) {
 		super();
-		initWidget(main);
 
 		type = luType;
 		state = luState;
 		repoKey = loRepoKey;
 		messageGroup = luGroup;
+        startOfPath = queryPathStart;
 
-		// searchLink = new KSLabel(getLabel(LUConstants.LO_SEARCH_LINK_KEY));
-		// picker needs to handle labels like this
-		/*
-		 * TODO - KSLUM-527: temporally comment out link to LO Search for M9.
-		 * Need to be fixed later.
-		 */
-		/*
-		 * if(metadata.getInitialLookup() != null){ searchWindow = new
-		 * KSPicker(metadata.getInitialLookup(),
-		 * metadata.getAdditionalLookups());
-		 * searchWindow.addValuesChangeHandler(new
-		 * ValueChangeHandler<List<String>>(){ public void
-		 * onValueChange(ValueChangeEvent<List<String>> event) { List<String>
-		 * selection = (List<String>)event.getValue();
-		 * loList.addSelectedLOs(selection); } });
-		 * searchMainPanel.add(searchWindow); }
-		 */
+		 if(metadata.getInitialLookup() != null) {
+		 	searchWindow = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+		  	searchWindow.addValuesChangeHandler(new ValueChangeHandler<List<String>>() {
+		  		public void onValueChange(ValueChangeEvent<List<String>> event) {
+		  		        List<String> selection = event.getValue();
+		  				loList.addSelectedLOs(selection);
+		  			}
+		  	    }
+		  	);
+		  	searchMainPanel.add(searchWindow);
+		  }
+		 		 
 
-		// adding search icon - should this be part of search link? coordinate
-		// with UX
-		// searchImage.addClickHandler(searchClickHandler);
-		// Image searchImage = Theme.INSTANCE.getCommonImages().getSearchIcon();
-		// searchLinkPanel.add(searchImage);
 		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY));
 
-		loList = new LearningObjectiveList();
-		loPanel.add(loList);
+        loList = new LearningObjectiveList();
 
-		// searchImage.addStyleName("KS-LOBuilder-Search-Image");
 		searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
-		loPanel.addStyleName("KS-LOBuilder-LO-Panel");
+
+        loList.addStyleName(LUUIConstants.STYLE_SECTION);
+        loList.addStyleName(LUUIConstants.STYLE_SECTION_DIVIDER);
+
 		instructions.addStyleName("KS-LOBuilder-Instructions");
 
-		main.add(searchMainPanel);
-		main.add(instructions);
-		main.add(loPanel);
+        this.addWidget(searchMainPanel);
+        this.addWidget(instructions);
+        this.addSection(loList);
 	}
 
 	/**
@@ -180,10 +175,10 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		return messageGroup;
 	}
 
-	public static class LearningObjectiveList extends Composite implements HasValue<List<OutlineNode<LOPicker>>> {
+    public static class LearningObjectiveList extends VerticalSection implements HasValue<List<OutlineNode<LOPicker>>> {
 		OutlineNodeModel<LOPicker> outlineModel = new OutlineNodeModel<LOPicker>();
-		OutlineManager outlineComposite = new OutlineManager();
-		VerticalPanel mainPanel = new VerticalPanel();
+        KSButton addNew;
+        OutlineManager outlineComposite;
 		
 		SelectionChangeHandler loPickerChangeHandler = new SelectionChangeHandler(){
 			public void onSelectionChange(SelectionChangeEvent event) {
@@ -191,9 +186,8 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 			}			
 		};
 		
-		public LearningObjectiveList() {
-			mainPanel.add(outlineComposite);
-			KSButton addnew = new KSButton("Add item",ButtonStyle.SECONDARY, new ClickHandler() {
+        public LearningObjectiveList() {
+            addNew = new KSButton("Add item", ButtonStyle.SECONDARY, new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					setValue(getValue());
 					appendLO("");
@@ -201,19 +195,16 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 				}
 			});
 			
-			addnew.addStyleName("KS-LOBuilder-New");
-			mainPanel.add(addnew);
-			super.initWidget(mainPanel);
+            addNew.addStyleName("KS-LOBuilder-New");
 
-			outlineComposite.setValue(outlineModel);
 			outlineModel.addChangeHandler(new ChangeHandler() {
 				public void onChange(ChangeEvent event) {
-					outlineComposite.render();
+                    reDraw();
 					fireChangeEvent();
 				}
 			});
 
-			initEmptyLoList();
+            initEmptyLoList();
 		}
 
 		protected void initEmptyLoList(){
@@ -253,7 +244,7 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 			}
 		}
 
-		private void appendLO(String loValue) {
+        private void appendLO(String loValue) {
 			OutlineNode<LOPicker> aNode = new OutlineNode<LOPicker>();
 			LOPicker newPicker = new LOPicker(messageGroup, type, state,
 					repoKey);
@@ -271,8 +262,7 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		// if not enough empty LO boxes then add new ones
 		public void addSelectedLOs(List<String> loDescription) {
 
-			List<OutlineNode<LOPicker>> existingLOs = outlineModel
-					.getOutlineNodes();
+			List<OutlineNode<LOPicker>> existingLOs = outlineModel.getOutlineNodes();
 
 			int ix = existingLOs.size();
 			for (String strValue : loDescription) {
@@ -297,6 +287,14 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 		}
 
 		private void reDraw() {
+            if (null != outlineComposite) {
+                this.removeSection(outlineComposite);
+            }
+            this.removeWidget(addNew); // no error if it's not currently there
+            outlineComposite = new OutlineManager(startOfPath, middleOfPath, endOfPath);
+            outlineComposite.setValue(outlineModel);
+            this.addSection(outlineComposite);
+            this.addWidget(addNew);
 			outlineComposite.render();
 		}
 
@@ -314,4 +312,24 @@ public class LOBuilder extends Composite implements	HasValue<List<OutlineNode<LO
 			setValue(value);
 		}
 	}
+
+    @Override
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results) {
+        return processValidationResults(fd, results, true);
+    }
+
+    @Override
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearErrors) {
+
+        ErrorLevel status = ErrorLevel.OK;
+        
+        for (Section section : getSections()) {
+            ErrorLevel level = section.processValidationResults(results, clearErrors);
+            if (level.getLevel() > status.getLevel()) {
+                status = level;
+            }
+        }
+        return status;
+    }
+
 }

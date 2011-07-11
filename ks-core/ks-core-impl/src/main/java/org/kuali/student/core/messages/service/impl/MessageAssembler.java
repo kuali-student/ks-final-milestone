@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.messages.dto.Message;
+import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.core.messages.entity.MessageEntity;
 
 public class MessageAssembler {

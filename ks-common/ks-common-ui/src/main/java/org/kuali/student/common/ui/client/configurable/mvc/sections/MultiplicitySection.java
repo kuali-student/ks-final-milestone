@@ -183,5 +183,8 @@ import com.google.gwt.user.client.ui.Widget;
 		
 		return isDirty;
 	}
-
+	
+	public MultiplicityConfiguration getConfig(){
+		return config;
+	}
 }

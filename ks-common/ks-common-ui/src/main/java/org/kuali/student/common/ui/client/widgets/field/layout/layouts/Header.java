@@ -35,7 +35,7 @@ public class Header extends Composite{
         this.updateable = updateable;
 
         FlowPanel actions = new FlowPanel();
-        actions.add(help);
+        //actions.add(help);
         if (updateable)
 		    actions.add(delete);
 		

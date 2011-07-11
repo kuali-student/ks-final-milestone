@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-embedded</artifactId>
   <packaging>war</packaging>
@@ -7,7 +8,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2-M4-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -72,6 +73,11 @@
       <artifactId>spring-aspects</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.kuali.student.db</groupId>
+      <artifactId>ks-embedded-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
       <version>${kuali.rice.version}</version>
@@ -82,21 +88,6 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
       <version>${kuali.rice.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>xapool</groupId>
-          <artifactId>xapool</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jotm</groupId>
-          <artifactId>jotm</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>javax.transaction</groupId>
-      <artifactId>jta</artifactId>
-      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.admin</groupId>
@@ -218,12 +209,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>backport-util-concurrent</groupId>
-    	<artifactId>backport-util-concurrent</artifactId>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
     </dependency>
     <dependency>
-    	<groupId>net.sf.jsr107cache</groupId>
-    	<artifactId>jsr107cache</artifactId>
+      <groupId>net.sf.jsr107cache</groupId>
+      <artifactId>jsr107cache</artifactId>
     </dependency>
   </dependencies>
 </project>

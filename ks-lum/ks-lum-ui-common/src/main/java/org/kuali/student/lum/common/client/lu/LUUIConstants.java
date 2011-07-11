@@ -29,7 +29,6 @@ public class LUUIConstants {
 
 	// FIXME: Duplicated from lum-api LUConstants
 		    public final static String COURSE_GROUP_NAME = "course";
-		    public final static String PROPOSAL_TYPE_COURSE_CREATE = "kuali.proposal.type.course.create";
 		    public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
 		    public final static String PROGRAM_GROUP_NAME = "program";    
 		    public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";
@@ -40,18 +39,7 @@ public class LUUIConstants {
 		    public final static String LU_LU_RELATION_TYPE_CONTAINS = "luLuRelationType.contains";
 		    public final static String LU_LU_RELATION_TYPE_CROSS_LISTED = "luLuRelationType.alias";
 		    public final static String LU_LU_RELATION_TYPE_JOINTLY_OFFERED = "luLuRelationType.colocated";
-		
-		    // Valid states for Credit Course
-		    public final static String LU_STATE_DRAFT = "Draft"; 
-		    public final static String LU_STATE_SUBMITTED = "Submitted";
-		    public final static String LU_STATE_WITHDRAWN = "Withdrawn";
-		    public final static String LU_STATE_APPROVED = "Approved";
-		    public final static String LU_STATE_NOT_APPROVED = "Not Approved";
-		    public final static String LU_STATE_ACTIVE = "Active";
-		    public final static String LU_STATE_INACTIVE = "Inactive";
-		    public final static String LU_STATE_SUPERSEDED  = "Superseded";
-		    public final static String LU_STATE_RETIRED = "Retired";
-		    
+			    
 		    // Dictionary definitions
 		    public static final String STRUCTURE_CLU_INFO = "org.kuali.student.lum.lu.dto.CluInfo";
 		    public static final String STRUCTURE_CLU_ID_INFO = "org.kuali.student.lum.lu.dto.CluIdentifierInfo";
@@ -136,6 +124,10 @@ public class LUUIConstants {
     public static final String PILOT_COURSE_LABEL_KEY = "cluPilotCourse";
     public static final String PILOT_COURSE_TEXT_LABEL_KEY = "cluPilotCourseText";
     
+    public static final String PROPOSAL_PREV_START_TERM = "previousStartTerm";
+    public static final String PROPOSAL_PREV_END_TERM = "previousEndTerm";
+    
+    
     //Logistics labels
     public static final String LOGISTICS_LABEL_KEY = "cluLogistics";
     public static final String INSTRUCTORS_LABEL_KEY = "cluInstructors";
@@ -165,7 +157,8 @@ public class LUUIConstants {
     public static final String CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeFixedCredits";
     public static final String CREDIT_OPTION_MIN_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMinCredits";
     public static final String CREDIT_OPTION_MAX_CREDITS_LABEL_KEY = "cluLearningResultsOutcomeMaxCredits";
-
+    public static final String CREDIT_HOURS_LABEL_KEY = "cluCreditHours";
+    
     public static final String SCHEDULING_LABEL_KEY = "cluScheduling";  
     public static final String FORMATS_LABEL_KEY = "cluFormats";
     public static final String FORMAT_LABEL_KEY = "cluFormat";
@@ -279,6 +272,7 @@ public class LUUIConstants {
     public static final String TERMS_OFFERED_LABEL_KEY = "cluTermsOffered";
     public static final String DURATION_TYPE_LABEL_KEY = "cluDurationType";
     public static final String DURATION_QUANTITY_LABEL_KEY = "cluDurationQuantity";
+    public static final String COURSE_FORMATS_DURATION_TYPE_LABEL_KEY = "cluCourseFormatsDurationType"; 
     public static final String FIRST_OFFERING_KEY = "cluFirstOffering";
 
     // Financial labels
@@ -309,7 +303,21 @@ public class LUUIConstants {
     public static final String ADD_ANOTHER_ORGANIZATION = "cluAddAnotherOrganization";
     public static final String PERCENTAGE = "cluPercentage";
 
+    //Dependency Constants
+    public static final String DEP_TYPE_CROSS_LISTED = "crossListed";
+    public static final String DEP_TYPE_JOINT = "joint";
+    public static final String DEP_TYPE_COURSE_SET = "cluSet";
+    public static final String DEP_SECTION_COURSE = "course";
+    public static final String DEP_SECTION_PROGRAM = "program";
+    public static final String DEP_SECTION_COURSE_SET = "courseSet";
 
+    //Retirement section constants
+    public static final String RETIREMENT_LABEL_KEY = "retirement";
+	public static final String RETIREMENT_RATIONALE_LABEL_KEY = "courseRetireRationale";
+	public static final String LAST_TERM_OFFERED_LABEL_KEY = "courseLastTermOffered";
+	public static final String LAST_PUBLICATION_YEAR_LABEL_KEY = "coursePublicationYear";
+	public static final String SPECIAL_CIRCUMSTANCES_LABEL_KEY = "courseSpecialCircumstances";
+	    
 
 }
 

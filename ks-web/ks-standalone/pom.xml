@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.web</groupId>
     <artifactId>ks-web</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2-M4-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -65,6 +65,11 @@
       <artifactId>spring-aspects</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.kuali.student.db</groupId>
+      <artifactId>ks-standalone-db</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
       <version>${project.version}</version>
@@ -104,8 +109,8 @@
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
       <version>${project.version}</version>
-      <type>pom</type>                       
-    </dependency>                                 
+      <type>pom</type>
+    </dependency>
     
     <dependency>
       <groupId>org.kuali.student.security</groupId>
@@ -192,12 +197,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>backport-util-concurrent</groupId>
-    	<artifactId>backport-util-concurrent</artifactId>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
     </dependency>
     <dependency>
-    	<groupId>net.sf.jsr107cache</groupId>
-    	<artifactId>jsr107cache</artifactId>
+      <groupId>net.sf.jsr107cache</groupId>
+      <artifactId>jsr107cache</artifactId>
     </dependency>
   </dependencies>
 </project>

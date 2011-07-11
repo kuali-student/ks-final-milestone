@@ -76,6 +76,9 @@
                 <entry key="kuali.reqComponent.type.course.courseset.enrolled.nof">
                     <ref local="luContext"/>
                 </entry>
+                <entry key="kuali.reqComponent.type.course.courseset.enrolled.all">
+                    <ref local="luContext"/>
+                </entry>
                 <entry key="kuali.reqComponent.type.course.courseset.credits.completed.nof">
                     <ref local="luContext"/>
                 </entry>
@@ -170,6 +173,18 @@
                     <ref local="luContext"/>
                 </entry>
 
+				<entry key="kuali.reqComponent.type.course.cumulative.gpa.min">
+                    <ref local="gpaContext"/>
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.credits.min">
+                    <ref local="basicContext"/>                
+                </entry>
+                
+                <entry key="kuali.reqComponent.type.course.freeform.text">
+                    <ref local="basicContext"/>                
+                </entry>
+                
                 <!-- Program Contexts -->
 
                 <entry key="kuali.reqComponent.type.programList.enroll.oneof">
@@ -231,6 +246,9 @@
 	                    <ref local="atpContext"/>                
 						<ref local="gpaContext"/>
                     </list>
+                </entry>
+                <entry key="kuali.reqComponent.type.test">
+                    <ref local="orgContext"/>
                 </entry>
             </map>
         </constructor-arg>

@@ -20,22 +20,22 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.assembly.old.BaseAssembler;
-import org.kuali.student.core.assembly.old.data.SaveResult;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.old.BaseAssembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -55,7 +55,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 // FIXME: should have it's own proposal types
-    public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 
     public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";

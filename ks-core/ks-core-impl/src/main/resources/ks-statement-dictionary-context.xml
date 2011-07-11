@@ -24,7 +24,7 @@
 
  <bean id="statementInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="statementInfo.desc" parent="statementInfo.desc-parent"/>
 
@@ -93,7 +93,7 @@
 
  <bean id="reqComponentInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="reqComponentInfo.desc" parent="reqComponentInfo.desc-parent"/>
 
@@ -440,7 +440,7 @@
 
  <bean id="statementTreeViewInfo.desc-parent" abstract="true" parent="statementInfo.desc-parent">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="statementTreeViewInfo.desc" parent="statementTreeViewInfo.desc-parent"/>
 

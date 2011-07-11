@@ -21,10 +21,10 @@
 	
 	<inherits name="org.kuali.student.common.CommonUtil" />
 	
-	<inherits name="org.kuali.student.core.Core" />
-	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
-	<inherits name="org.kuali.student.core.validation.Validation" />
-	<inherits name="org.kuali.student.core.messages.Message"/>
+	<inherits name="org.kuali.student.common.Core" />
+	<inherits name="org.kuali.student.common.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.common.validation.Validation" />
+	<inherits name="org.kuali.student.common.messages.Message"/>
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>

@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.LazyPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * A view that delays its generation until it requested to be shown.
  * 
  * @author Kuali Student Team
  *
@@ -155,4 +156,8 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
 		names.add(this.getName());
 		
 	}
+	
+	   public boolean isExportButtonActive() {
+	        return false;
+	    }
 }

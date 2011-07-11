@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -30,14 +31,22 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
-import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
-import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.statement.dto.*;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.common.client.widgets.*;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.common.client.widgets.CourseWidget;
+import org.kuali.student.lum.common.client.widgets.GradeWidget;
+import org.kuali.student.lum.common.client.widgets.ProgramWidget;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
@@ -434,7 +443,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
             }
 
-            metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
+            metadataServiceAsync.getMetadataList(ReqCompFieldInfo.class.getName(), fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("getMetadataList failed for req. comp. types: '" + fieldTypes.toString() + "'",caught);

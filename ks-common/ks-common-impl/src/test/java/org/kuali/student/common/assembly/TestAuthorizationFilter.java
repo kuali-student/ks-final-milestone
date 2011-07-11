@@ -17,16 +17,16 @@ import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.dictionary.MockDictionaryService;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter.Permission;
+import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.common.rice.StudentWorkflowConstants;
 import org.kuali.student.common.test.mock.MockProxy;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.assembly.transform.AuthorizationFilter;
-import org.kuali.student.core.assembly.transform.AuthorizationFilter.Permission;
-import org.kuali.student.core.assembly.transform.MetadataFilter;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.core.rice.StudentWorkflowConstants;
 
 public class TestAuthorizationFilter {
 	final Logger LOG = Logger.getLogger(TestAuthorizationFilter.class);

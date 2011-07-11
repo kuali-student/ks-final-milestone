@@ -40,7 +40,7 @@
 	</bean>
     
     <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
 
     <import resource="classpath:ks-spring-security.xml" />
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>

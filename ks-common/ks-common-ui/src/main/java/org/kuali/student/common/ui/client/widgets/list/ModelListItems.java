@@ -20,12 +20,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.CollectionModel;
 import org.kuali.student.common.ui.client.mvc.CollectionModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent;
 import org.kuali.student.common.ui.client.mvc.ModelChangeHandler;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 

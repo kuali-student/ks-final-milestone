@@ -129,6 +129,13 @@
 		optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
+	
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds"
+		parent="atp.advancedAtpSearchParam.optionalAtpIds-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
 
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate"
 		parent="atp.advancedAtpSearchParam.atpStartDate-parent" />
@@ -149,6 +156,20 @@
 	<search:queryParam id="atp.advancedAtpSearchParam.atpType-parent"
 		optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.type" />
+	</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId"
+		parent="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId"
+		parent="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
 
 	<search:queryParam id="atp.advancedAtpSearchParam.atpTypeName"
@@ -525,7 +546,10 @@
 			<ref bean="atp.advancedAtpSearchParam.atpStartDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDate" />
 			<ref bean="atp.advancedAtpSearchParam.atpTypeName" />
-			<ref bean="atp.advancedAtpSearchParam.atpType" />					
+			<ref bean="atp.advancedAtpSearchParam.atpType" />	
+			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -628,6 +652,9 @@
 				<entry key="atp.advancedAtpSearchParam.atpId">
 					<value>atp.id = :atp_advancedAtpSearchParam_atpId</value>
 				</entry>
+				<entry key="atp.advancedAtpSearchParam.optionalAtpIds">
+					<value>atp.id IN (:atp_advancedAtpSearchParam_optionalAtpIds)</value>
+				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpStartDate">
 					<value>atp.startDate = :atp_advancedAtpSearchParam_atpStartDate</value>
 				</entry>
@@ -655,6 +682,16 @@
 				</entry>				
 				<entry  key="atp.queryParam.atpSeasonType">
 					<value> atpseasontype.id  =  :atp_queryParam_atpSeasonType </value>
+				</entry>
+				<!-- 
+					There is a bug in embedded derby that prevents bind parameters in the test "? IS NULL" Jira is: DERBY-2507.
+				    This will not be a problem in oracle/mysql, but may cause problems with our tests that use derby embedded.
+				-->
+				<entry  key="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId">
+					<value>(:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.startDate >= (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId)))</value>
+				</entry>
+				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId">
+					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintId IS NULL OR (atp.endDate &lt;= (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintId)))</value>
 				</entry>
 			</map>
 		</property>

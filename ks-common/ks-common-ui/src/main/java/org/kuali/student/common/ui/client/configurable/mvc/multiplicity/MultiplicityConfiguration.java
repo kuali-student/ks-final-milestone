@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 /**
   *
@@ -32,7 +32,7 @@ import org.kuali.student.core.assembly.data.QueryPath;
   *
   * This class is used to control the Multiplicity, e.g. if its updateable, has headers, min number of items, labels etc.
   * It also holds FieldDescriptors for the fields required to be included in the multiplicity. They are
-  * held in a HashMap keyed by rows, i.e. Map<Integer, List<FieldDescriptor>> .
+  * held in a HashMap keyed by rows, i.e. {@literal Map<Integer, List<FieldDescriptor>>} .
   *
   * The parent for the multiplicity refers to the path to the high level field that owns
   * the repeating elements, e.g. course/versions is the parent field for course version fields versionCode and
@@ -56,6 +56,7 @@ public class MultiplicityConfiguration {
     private Metadata metaData;
     
     private SectionTitle title;
+    private int defaultItemsCreated = 0;
 
     int row = 0;
     
@@ -156,6 +157,7 @@ public class MultiplicityConfiguration {
         copy.setItemLabel(getItemLabel());
         copy.setMetaData(getMetaData());
         copy.setUpdateable(isUpdateable());
+        copy.setDefaultItemsCreated(getDefaultItemsCreated());
         if (getNestedConfig() != null) {
             copy.setNestedConfig(getNestedConfig().copy());
         }
@@ -377,6 +379,14 @@ public class MultiplicityConfiguration {
     public void setCustomMultiplicityGroup(MultiplicityGroup customMultiplicityGroup) {
         this.customMultiplicityGroup = customMultiplicityGroup;
     }
+
+	public void setDefaultItemsCreated(int defaultItemsCreated) {
+		this.defaultItemsCreated = defaultItemsCreated;
+	}
+
+	public int getDefaultItemsCreated() {
+		return defaultItemsCreated;
+	}
     
     
 }

@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data;
 
 public interface HasDataValue {
 	public Data.Value getValue();

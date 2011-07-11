@@ -14,18 +14,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.test.mock.MockProxyFactoryBean;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
@@ -33,6 +33,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
 import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
 import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
+import org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.springframework.context.ApplicationContext;
@@ -74,10 +75,15 @@ public class TestCourseInfoDictionary {
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
+		SubjectAreaUnitOwnerValidator saVal = new SubjectAreaUnitOwnerValidator();
+		
 		List<Validator> vList = new ArrayList<Validator>();
+		
+		saVal.setSearchDispatcher(new MockSearchDispatcher());
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
+		vList.add(saVal);
 		vList.add(getActiveDatesValidator());
 		vf.setValidatorList(vList);
 		
@@ -122,7 +128,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(2, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
 		info.getAttributes().put("finalExamStatus", "123");
@@ -130,7 +136,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(3, validationResults.size());
+		assertEquals(5, validationResults.size());
 
 		LoDisplayInfo loInfo = new LoDisplayInfo();
 		LoCategoryInfo loCatInfo = new LoCategoryInfo();
@@ -146,7 +152,12 @@ public class TestCourseInfoDictionary {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
 		assertTrue(rtInfo.getPlain().matches("[A-Za-z0-9.\\\\\\-;:&#34;,'&amp;%$#@!\t\n\r ]*"));
-		assertEquals(3, validationResults.size());
+//courseSpecificLOs/0/loCategoryInfoList/0/name validation.required
+//courseSpecificLOs/0/loInfo validation.required
+///descr validation.required
+///finalExamStatus validation.validCharsFailed
+///finalExamRationale validation.required
+		assertEquals(7, validationResults.size());
 
 		
 		// Test custom validation 

@@ -3,15 +3,19 @@ package org.kuali.student.lum.program.client.variation.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
@@ -47,7 +51,7 @@ public class VariationEditController extends VariationController {
         super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
-        if (programModel.get("id") != null) {
+        if (getStringProperty(ProgramConstants.ID) != null) {
             setDefaultView(ProgramSections.SUMMARY);
         }
         initHandlers();
@@ -108,9 +112,10 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(SpecializationCreatedEvent event) {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
+                showWarnings();
             }
         });
-        
+
         eventBus.addHandler(SpecializationUpdateEvent.TYPE, new SpecializationUpdateEvent.Handler() {
             @Override
             public void onEvent(SpecializationUpdateEvent event) {
@@ -127,6 +132,9 @@ public class VariationEditController extends VariationController {
                         showView(getCurrentViewEnum());
                     }
                 }
+                
+                //update with any new warnings that exist on specialization
+                showWarnings();
             }
         });
 
@@ -195,7 +203,7 @@ public class VariationEditController extends VariationController {
                             okToChange.exec(true);
                         } else {
                             okToChange.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -221,16 +229,17 @@ public class VariationEditController extends VariationController {
             addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
             initialized = true;
         }
+
     }
 
     @Override
     protected void resetModel() {
-        currentId = programModel.get(ProgramConstants.ID);
+        currentId = getStringProperty(ProgramConstants.ID);
         programModel.resetRoot();
     }
 
     private void doCancel() {
-        showView(ProgramSections.SUMMARY);
+       navigateToParent(ProgramSections.SUMMARY);
     }
 
     @Override
@@ -239,7 +248,7 @@ public class VariationEditController extends VariationController {
     }
 
     private void saveData(DataModel model) {
-        currentId = model.get("id");
+        currentId = model.get(ProgramConstants.ID);
         eventBus.fireEvent(new SpecializationSaveEvent(model.getRoot()));
         setContentTitle(getProgramName());
         setName(getProgramName());
@@ -248,7 +257,53 @@ public class VariationEditController extends VariationController {
 
     @Override
     protected void navigateToParent() {
-        HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), getViewContext());
+        navigateToParent(ProgramSections.SPECIALIZATIONS_EDIT);
     }
 
+    private void navigateToParent(ProgramSections parentSection) {
+
+        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation(), getViewContext()) + "/" + parentSection;
+        HistoryManager.navigate(path);
+    }
+
+    
+	@Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+    	//clear all cross constraints that start with variations
+    	Application.getApplicationContext().clearCrossConstraintsWithStartingPath(null,ProgramConstants.VARIATIONS);
+    	
+    	//Set the context parent path so the proper mapping is retained 
+    	String newParentPath = ProgramConstants.VARIATIONS+"/"+org.kuali.student.lum.program.client.ProgramRegistry.getRow()+"/";
+    	Application.getApplicationContext().setParentPath(newParentPath);
+		
+    	//This callback restricts values displayed in widget (eg. dropdowns, pickers) based on a cross field selection
+    	//and updates the warning messages displayed for the variation. A callback is used since we need the parent 
+    	//ProgramController to finish configuring the view before proceeding.
+		Callback<Boolean> finalizeVariationView = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+		        //Update widgets with constraints
+				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+
+		        onReadyCallback.exec(result);
+			}
+        };
+		super.beforeShow(finalizeVariationView);
+	}
+
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        showWarnings();	
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
+	}
+	
 }

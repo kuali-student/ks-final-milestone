@@ -15,19 +15,13 @@
 
 package org.kuali.student.lum.common.client.lo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
@@ -35,23 +29,40 @@ import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
+import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
+import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class CategoryManagement extends Composite {
-    private KSButton addButton = new KSButton("Create");
-    private KSButton deleteButton = new KSButton("Delete");
-    private KSButton updateButton = new KSButton("Edit");
+    private KSButton addButton = new KSButton("Create", ButtonStyle.SECONDARY);
+    private KSButton deleteButton = new KSButton("Delete", ButtonStyle.SECONDARY);
+    private KSButton updateButton = new KSButton("Edit", ButtonStyle.SECONDARY);
    
     KSCheckBox accreditationCheckBox = new KSCheckBox("Accreditation");
     KSCheckBox skillCheckBox = new KSCheckBox("Skill");
@@ -62,15 +73,20 @@ public class CategoryManagement extends Composite {
 
     CategoryManagementTable categoryManagementTable = null;
    
-    VerticalPanel mainPanel = new VerticalPanel();
-    KSLabel messageLabel = new KSLabel();
+    FlowPanel mainPanel = new FlowPanel();
+    FlowPanel tablePanel = new FlowPanel();
+    HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
     
     List<LoCategoryTypeInfo> categoryTypeList;
     private void initCategoryManagement() {
-        super.initWidget(mainPanel);
+        super.initWidget(layout);
+        layout.add(mainPanel);
+        layout.add(tablePanel);
+        //this.addStyleName("standard-content-padding");
+        tablePanel.addStyleName("KSLOCategoryManagementTablePanel");
         mainPanel.addStyleName("KSLOCategoryManagementMainPanel");
  
-        HorizontalPanel titlePanel = new HorizontalPanel();
+        HorizontalBlockFlowPanel titlePanel = new HorizontalBlockFlowPanel();
         
         KSLabel funnelImg = new KSLabel("");
         funnelImg.addStyleName("KS-LOFunnelImg");
@@ -82,15 +98,15 @@ public class CategoryManagement extends Composite {
         
         mainPanel.add(titlePanel);
         
-        addButton.setStyleName("KS-LOSecondaryButton");
-        deleteButton.setStyleName("KS-LOSecondaryButton");
-        updateButton.setStyleName("KS-LOSecondaryButton");
+        addButton.addStyleName("KS-LOSecondaryButton");
+        deleteButton.addStyleName("KS-LOSecondaryButton");
+        updateButton.addStyleName("KS-LOSecondaryButton");
      
         accreditationCheckBox.setValue(true);
         skillCheckBox.setValue(true);
         subjectCheckBox.setValue(true);
         
-        HorizontalPanel linkButtonPanel = new HorizontalPanel();
+        HorizontalBlockFlowPanel linkButtonPanel = new HorizontalBlockFlowPanel();
         linkButtonPanel.addStyleName("KSLOCategoryManagementFilterPanel");
         
         KSLabel spacer = new KSLabel("");
@@ -125,36 +141,48 @@ public class CategoryManagement extends Composite {
                 filterCategoryByType();
             }
         });
-        linkButtonPanel.add(spacer);
-        linkButtonPanel.add(addButton);
-        linkButtonPanel.add(updateButton);
-        linkButtonPanel.add(deleteButton);
+        
         mainPanel.add(linkButtonPanel);
         
-        HorizontalPanel filterTablePanel = new HorizontalPanel();
-        VerticalPanel filterPanel = new VerticalPanel();
-        filterPanel.addStyleName("KSLOCategoryManagementFilterPanel");
+        VerticalFlowPanel filterPanel = new VerticalFlowPanel();
        
         filterPanel.add(accreditationCheckBox);
         filterPanel.add(skillCheckBox);
         filterPanel.add(subjectCheckBox);
-        HorizontalPanel spacer1 = new HorizontalPanel();
-        spacer1.setStyleName("KS-LOSpacer");
-        filterPanel.add(spacer1);
-        KSLabel wordsInCategory = new KSLabel("By words in category");
-        wordsInCategory.setStyleName("KS-LODialogFieldLabel");
-        filterPanel.add(wordsInCategory);
-        filterPanel.add(wordsInCategoryTextBox);
         
-        filterTablePanel.add(filterPanel);
+        FieldElement wordsInCategory = new FieldElement("By words in category", wordsInCategoryTextBox);
+        filterPanel.add(wordsInCategory);
+        mainPanel.add(filterPanel);
+        
+        tablePanel.add(addButton);
+        tablePanel.add(updateButton);
+        tablePanel.add(deleteButton);
+        updateButton.setEnabled(false);
+		deleteButton.setEnabled(false);
+        
         if(this.categoryManagementTable == null) {
             categoryManagementTable = new CategoryManagementTable();
         }
-        filterTablePanel.add(categoryManagementTable);
-        mainPanel.add(filterTablePanel);
-        
-        mainPanel.add(messageLabel);
+        else{
+        	categoryManagementTable.addStyleName("KSLOCategoryManagementTable");
+        }
+        categoryManagementTable.getTable().addSelectionChangeHandler(new SelectionChangeHandler(){
 
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				if(categoryManagementTable.getSelectedRows().size() > 0){
+					updateButton.setEnabled(true);
+					deleteButton.setEnabled(true);
+				}
+				else{
+					updateButton.setEnabled(false);
+					deleteButton.setEnabled(false);
+				}
+			}
+		});
+        
+        tablePanel.add(categoryManagementTable);
+         
         loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -164,7 +192,12 @@ public class CategoryManagement extends Composite {
             @Override
             public void onSuccess(List<LoCategoryTypeInfo> results) {
                 categoryTypeList = results;
-                categoryManagementTable.loadTable();
+                categoryManagementTable.loadTable(new Callback<Boolean>(){
+					@Override
+					public void exec(Boolean result) {
+						//nothing
+					}
+				});
             }
         });
 
@@ -175,23 +208,24 @@ public class CategoryManagement extends Composite {
             }
 
         });
-        subjectCheckBox.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                filterCategoryByType();
-            }
+        subjectCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				filterCategoryByType();
+			}
         });
-        skillCheckBox.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                filterCategoryByType();
-            }
+        skillCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				filterCategoryByType();
+				
+			}
         });
-        accreditationCheckBox.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                filterCategoryByType();
-            }
+        accreditationCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				filterCategoryByType();
+			}
         });
 
         addButton.addClickHandler(new ClickHandler() {
@@ -254,8 +288,24 @@ public class CategoryManagement extends Composite {
         initCategoryManagement();
     }
     
-    public CategoryManagement(boolean hideInactiveCategories,SelectionPolicy selectionPolicy) {
-        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, selectionPolicy);
+    public CategoryManagement(boolean hideInactiveCategories, boolean isMultiSelect) {
+        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect);
+        initCategoryManagement();
+    }
+    /**
+     * This constructor is used to filter out items already in the picker
+     * <p>
+     * We need to pass the list in the constructor because the table is populated
+     * using an async call  
+     * <p>
+     * See KSLAB-1871
+     * 
+     * @param hideInactiveCategories  ?
+     * @param isMultiSelect
+     * @param loCategoriesToFilter a list of categories that should be filtered from the popup on open
+     */
+    public CategoryManagement(boolean hideInactiveCategories, boolean isMultiSelect, List<LoCategoryInfo> loCategoriesToFilter) {
+        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect, loCategoriesToFilter);
         initCategoryManagement();
     }
     public List<LoCategoryInfo> getSelectedCategoryList(){
@@ -303,48 +353,36 @@ public class CategoryManagement extends Composite {
         addButton.setVisible(b);
     }
     class DeleteConfirmationDialog extends KSLightBox {
-    	FlexTable layoutTable = new FlexTable();
         KSLabel categoryNameLabel = new KSLabel();
         KSLabel categoryTypeLabel = new KSLabel();
         HorizontalPanel spacer = new HorizontalPanel();
         LoCategoryInfo categoryInfo;
+        KSButton deleteButton = new KSButton("Delete");
+        KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
+        KSTextBox nameTextBox = new KSTextBox(); 
+        KSDropDown typeListBox = new KSDropDown();
+        
+        TableFieldLayout layout = new TableFieldLayout();
+        FlowPanel mainPanel = new FlowPanel();
+        
         
         public DeleteConfirmationDialog() {
         	this.setSize(540, 200);
-        	spacer.setStyleName("KS-LOSpacer");
-            VerticalPanel mainPanel = new VerticalPanel();
+        	
+        	mainPanel.addStyleName("LOCategoryDialogSpacing");
+        	layout.addStyleName("LOCategoryDelete");
+        	mainPanel.add(layout);
             
-            KSLabel titleLabel = new KSLabel("Delete Category");
-            titleLabel.setStyleName("KS-LODialogTitle");
-            mainPanel.add(spacer);
-            mainPanel.add(titleLabel);
-            HorizontalPanel spacer1 = new HorizontalPanel();
-            spacer1.setStyleName("KS-LOSpacer");
-            mainPanel.add(spacer1);
-            mainPanel.add(new KSLabel("You are about to delete the following:"));
-            HorizontalPanel spacer2 = new HorizontalPanel();
-            spacer2.setStyleName("KS-LOSpacer"); 
-            mainPanel.add(spacer2);
-            KSLabel catLabel = new KSLabel("Category");
-            mainPanel.add(layoutTable);
-            layoutTable.setWidget(0, 0, catLabel);
-            layoutTable.setWidget(0, 1, categoryNameLabel);
-            KSLabel typeLabel = new KSLabel("Type");
-            layoutTable.setWidget(1, 0, typeLabel);
-            layoutTable.setWidget(1, 1, categoryTypeLabel);
-            layoutTable.getFlexCellFormatter().setStyleName(0, 0, "KS-LODialogLabel");
-            layoutTable.getFlexCellFormatter().setStyleName(1, 0, "KS-LODialogLabel");
+        	layout.setLayoutTitle(SectionTitle.generateH2Title("Delete Category"));
+            layout.setInstructions("You are about to delete the following:");
+            FieldElement category = new FieldElement("Category", categoryNameLabel);
+            FieldElement type = new FieldElement("Type", categoryTypeLabel);
+            layout.addField(category);
+            layout.addField(type);
             
-        	HorizontalPanel spacer3 = new HorizontalPanel();
-            spacer3.setStyleName("KS-LOSpacer"); 
-            mainPanel.add(spacer3);
-            KSButton deleteButton = new KSButton("Delete");
-            Anchor cancelButton = new Anchor();
-            cancelButton.setStyleName("KS-LODialogCancel");
-            cancelButton.setText("Cancel");
-            HorizontalPanel buttonPanel = new HorizontalPanel();
-            buttonPanel.add(deleteButton);
-
+            this.addButton(deleteButton);
+            this.addButton(cancelButton);
+            
             deleteButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -364,8 +402,17 @@ public class CategoryManagement extends Composite {
                                 Window.alert("Update LO Category failed: " + result.getValidationResults().get(0).getMessage());
                            }else{
                             KSNotifier.add(new KSNotification("Update LO Category Successful", false, 3000));
-                            categoryManagementTable.loadTable();
-                            filterCategoryByType();
+                            //categoryManagementTable.remove
+                            categoryManagementTable.loadTable(new Callback<Boolean>(){
+
+								@Override
+								public void exec(Boolean result) {
+									if(result){
+										filterCategoryByType();
+									}
+									
+								}
+							});
                             }
                         }
                     });
@@ -374,7 +421,6 @@ public class CategoryManagement extends Composite {
                 }
             });
 
-            buttonPanel.add(cancelButton);
             cancelButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -382,7 +428,6 @@ public class CategoryManagement extends Composite {
                 }
 
             });
-            mainPanel.add(buttonPanel);
             super.setWidget(mainPanel);
         }
 
@@ -393,70 +438,75 @@ public class CategoryManagement extends Composite {
         }
     }
     class UpdateCategoryDialog extends KSLightBox {
-        FlexTable layoutTable = new FlexTable();
-        KSTextBox nameTextBox = new KSTextBox();
-        KSDropDown typeListBox = new KSDropDown();
         KSButton okButton = new KSButton("Save");
-        Anchor cancelButton = new Anchor("Cancel");
+        KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
+        KSTextBox nameTextBox = new KSTextBox(); 
+        KSDropDown typeListBox = new KSDropDown();
+        
+        GroupFieldLayout layout = new GroupFieldLayout();
+        FlowPanel mainPanel = new FlowPanel();
         LoCategoryInfo categoryInfo;
-        HorizontalPanel spacer = new HorizontalPanel();
-
+        
         public UpdateCategoryDialog() {
         	this.setSize(540, 200);
-        	spacer.setStyleName("KS-LOSpacer");
-        	cancelButton.setStyleName("KS-LODialogCancel");
-        	typeListBox.setHeight("21px");
-        	KSLabel catLabel = new KSLabel("Category");
-        	catLabel.setStyleName("KS-LODialogFieldLabel");
-        	KSLabel typeLabel = new KSLabel("Type");
-        	typeLabel.setStyleName("KS-LODialogFieldLabel");
-            layoutTable.setWidget(0, 0, catLabel);
-            layoutTable.setWidget(0, 1, typeLabel);
-            layoutTable.setWidget(1, 0, nameTextBox);
-            layoutTable.setWidget(1, 1, typeListBox);
-
-            HorizontalPanel buttonPanel = new HorizontalPanel();
-            buttonPanel.add(okButton);
-            buttonPanel.add(cancelButton);
-
-            VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(spacer);
-            KSLabel titleLabel = new KSLabel("Edit Category");
-            titleLabel.setStyleName("KS-LODialogTitle");
-            mainPanel.add(titleLabel);
-            HorizontalPanel spacer1 = new HorizontalPanel();
-            spacer1.setStyleName("KS-LOSpacer");
-            mainPanel.add(spacer1);
-            mainPanel.add(layoutTable);
-            HorizontalPanel spacer2 = new HorizontalPanel();
-            spacer2.setStyleName("KS-LOSpacer");
-            mainPanel.add(spacer2);
-            mainPanel.add(buttonPanel);
+        	mainPanel.addStyleName("LOCategoryDialogSpacing");
+        	layout.setLayoutTitle(SectionTitle.generateH2Title("Edit Category"));
+            
+            FieldElement category = new FieldElement("Category", nameTextBox);
+            FieldElement type = new FieldElement("Type", typeListBox);
+            layout.addField(category);
+            layout.addField(type);
+            
+            
+            this.addButton(okButton);
+            this.addButton(cancelButton);
+            
+            mainPanel.add(layout);
             super.setWidget(mainPanel);
             okButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
+                    boolean error = false;
+                    layout.clearValidationErrors();
+                    if(nameTextBox.getText().isEmpty()){
+                    	layout.addValidationErrorMessage("Category", "Required");
+                    	error = true;
+                    }
+                    if(typeListBox.getSelectedItem() == null || typeListBox.getSelectedItem().isEmpty()){
+                    	layout.addValidationErrorMessage("Type", "Required");
+                    	error = true;
+                    }
+                    
+                    if(!error){
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
+	                        @Override
+	                        public void handleFailure(Throwable caught) {
+	                            GWT.log("updateLoCategory failed ", caught);
+	                            Window.alert("Update LoCategory failed ");
+	                        }
+	                        @Override
+	                        public void onSuccess(DataSaveResult result) {
+	                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+	                                Window.alert("Update LO Category failed: " + result.getValidationResults().get(0).getMessage());
+	                           }else{
+	                            KSNotifier.add(new KSNotification("Update LO Category Successful", false, 3000));
+	                            categoryManagementTable.loadTable(new Callback<Boolean>(){
 
-                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            GWT.log("updateLoCategory failed ", caught);
-                            Window.alert("Update LoCategory failed ");
-                        }
-                        @Override
-                        public void onSuccess(DataSaveResult result) {
-                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
-                                Window.alert("Update LO Category failed: " + result.getValidationResults().get(0).getMessage());
-                           }else{
-                            KSNotifier.add(new KSNotification("Update LO Category Successful", false, 3000));
-                            categoryManagementTable.loadTable();
-                            filterCategoryByType();
-                            }
-                        }
-                    });
-
-                    UpdateCategoryDialog.this.hide();
+									@Override
+									public void exec(Boolean result) {
+										if(result){
+											filterCategoryByType();
+										}
+										
+									}
+								});
+	                            }
+	                        }
+	                    });
+	
+	                    UpdateCategoryDialog.this.hide();
+                    }
                 }
 
             });
@@ -484,7 +534,7 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             nameTextBox.setText(categoryInfo.getName());
-            typeListBox.selectItem(categoryInfo.getType());
+           	typeListBox.selectItem(categoryInfo.getType());
         }
 
         public LoCategoryInfo getCategory() {
@@ -496,68 +546,73 @@ public class CategoryManagement extends Composite {
     }
 
     class CreateCategoryDialog extends KSLightBox {
-        FlexTable layoutTable = new FlexTable();
         KSButton okButton = new KSButton("Save");
-        Anchor cancelButton = new Anchor("Cancel");
+        KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
         KSTextBox nameTextBox = new KSTextBox(); 
         KSDropDown typeListBox = new KSDropDown();
-        HorizontalPanel spacer = new HorizontalPanel();
+        
+        GroupFieldLayout layout = new GroupFieldLayout();
+        FlowPanel mainPanel = new FlowPanel();
         
         public CreateCategoryDialog() {
         	this.setSize(540, 200);
-        	spacer.setStyleName("KS-LOSpacer");
-        	cancelButton.setStyleName("KS-LODialogCancel");
-        	typeListBox.setHeight("21px");
-        	KSLabel catLabel = new KSLabel("Category");
-        	catLabel.setStyleName("KS-LODialogFieldLabel");
-        	KSLabel typeLabel = new KSLabel("Type");
-        	typeLabel.setStyleName("KS-LODialogFieldLabel");
-            layoutTable.setWidget(0, 0, catLabel);
-            layoutTable.setWidget(0, 1, typeLabel);
-            layoutTable.setWidget(1, 0, nameTextBox);
-            layoutTable.setWidget(1, 1, typeListBox);
+        	mainPanel.addStyleName("LOCategoryDialogSpacing");
+        	layout.setLayoutTitle(SectionTitle.generateH2Title("Create New Category"));
             
-            HorizontalPanel buttonPanel = new HorizontalPanel();
-            buttonPanel.add(okButton);
-            buttonPanel.add(cancelButton);
+            FieldElement category = new FieldElement("Category", nameTextBox);
+            FieldElement type = new FieldElement("Type", typeListBox);
+            layout.addField(category);
+            layout.addField(type);
             
-            VerticalPanel mainPanel = new VerticalPanel();
-            mainPanel.add(spacer);
-            KSLabel titleLabel = new KSLabel("Create New Category");
-            titleLabel.setStyleName("KS-LODialogTitle");
-            HorizontalPanel spacer1 = new HorizontalPanel();
-            spacer1.setStyleName("KS-LOSpacer");
             
-            mainPanel.add(titleLabel);
-            mainPanel.add(spacer1);
-            mainPanel.add(layoutTable);
-            HorizontalPanel spacer2 = new HorizontalPanel();
-            spacer2.setStyleName("KS-LOSpacer");
-            mainPanel.add(spacer2);
-            mainPanel.add(buttonPanel);
+            this.addButton(okButton);
+            this.addButton(cancelButton);
+            
+            mainPanel.add(layout);
             super.setWidget(mainPanel);
             okButton.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
-                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
-                        @Override
-                        public void handleFailure(Throwable caught) {
-                            Window.alert("Create LO Category failed: " + caught.getMessage());
-                        }
-                        @Override
-                        public void onSuccess(DataSaveResult result) {
-                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
-                                Window.alert("Create LO Category failed: " + result.getValidationResults().get(0).getMessage());
-                           }else{
-                            KSNotifier.add(new KSNotification("Create LO Category Successful", false, 3000));
-                            categoryManagementTable.loadTable();
-                            filterCategoryByType();
-                            }
-                        }
-                    });
+                    boolean error = false;
+                    layout.clearValidationErrors();
+                    if(nameTextBox.getText().isEmpty()){
+                    	layout.addValidationErrorMessage("Category", "Required");
+                    	error = true;
+                    }
+                    if(typeListBox.getSelectedItem() == null || typeListBox.getSelectedItem().isEmpty()){
+                    	layout.addValidationErrorMessage("Type", "Required");
+                    	error = true;
+                    }
+                    
+                    if(!error){
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
+	                        @Override
+	                        public void handleFailure(Throwable caught) {
+	                            Window.alert("Create LO Category failed: " + caught.getMessage());
+	                        }
+	                        @Override
+	                        public void onSuccess(DataSaveResult result) {
+	                            if(result.getValidationResults()!=null && !result.getValidationResults().isEmpty()){
+	                                Window.alert("Create LO Category failed: " + result.getValidationResults().get(0).getMessage());
+	                           }else{
+	                            KSNotifier.add(new KSNotification("Create LO Category Successful", false, 3000));
+	                            categoryManagementTable.loadTable(new Callback<Boolean>(){
 
-                    CreateCategoryDialog.this.hide();
+									@Override
+									public void exec(Boolean result) {
+										if(result){
+											filterCategoryByType();
+										}
+										
+									}
+								});
+	                            }
+	                        }
+	                    });
+	
+	                    CreateCategoryDialog.this.hide();
+                    }
                 }
             });
             cancelButton.addClickHandler(new ClickHandler() {

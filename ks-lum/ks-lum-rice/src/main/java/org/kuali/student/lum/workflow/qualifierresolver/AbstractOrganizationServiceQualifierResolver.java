@@ -23,12 +23,12 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,13 +40,21 @@ import org.w3c.dom.NodeList;
  */
 public abstract class AbstractOrganizationServiceQualifierResolver implements QualifierResolver {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractOrganizationServiceQualifierResolver.class);
-
+    
     protected static final String DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY = "orgId";
     protected static final String DOCUMENT_CONTENT_XML_ORG_ID_KEY = "organizationIdDocumentContentKey";
 
     // below string MUST match
-    // org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    // org.kuali.student.common.assembly.transform.ProposalWorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME = "info";
+
+    public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
+    public static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
+    public static final String KUALI_ORG_DEPARTMENT               = "kuali.org.Department";
+    public static final String KUALI_ORG_COLLEGE                  = "kuali.org.College";
+    public static final String KUALI_ORG_COC                      = "kuali.org.COC";
+    public static final String KUALI_ORG_DIVISION                 = "kuali.org.Division";
+    public static final String KUALI_ORG_PROGRAM                  = "kuali.org.Program";
 
     private OrganizationService organizationService;
 
@@ -136,8 +144,11 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         }
         return results;
     }
-
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgShortNameKey, String orgIdKey) {
+    
+    /*
+     *  Add attributes for derived role and adhoc routing participants to the results
+     */
+    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
         List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
         if (results != null) {
             for (SearchResultRow result : results) {
@@ -151,13 +162,9 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
                         resolvedOrgShortName = resultCell.getValue();
                     }
                 }
-                if (orgShortNameKey != null) {
-                    attributeSet.put(orgShortNameKey, resolvedOrgShortName);
-                }
                 if (orgIdKey != null) {
                     attributeSet.put(orgIdKey, resolvedOrgId);
                 }
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
                 returnAttrSetList.add(attributeSet);
             }

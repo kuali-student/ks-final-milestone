@@ -24,12 +24,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.messages.dto.LocaleKeyList;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.dto.MessageGroupKeyList;
-import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.common.messages.dto.LocaleKeyList;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageList;
+import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.core.messages.entity.MessageEntity;
-import org.kuali.student.core.messages.service.MessageService;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -86,7 +86,7 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#addMessage(org.kuali.student.core.messages.dto.Message)
+	 * @see org.kuali.student.common.messages.service.MessageService#addMessage(org.kuali.student.common.messages.dto.Message)
 	 */
 	@Override
 	public Message addMessage(Message messageInfo) {
@@ -103,7 +103,7 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#getLocales()
+	 * @see org.kuali.student.common.messages.service.MessageService#getLocales()
 	 */
 	@Override
 	public LocaleKeyList getLocales() {
@@ -118,7 +118,7 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#getMessage(java.lang.String,
+	 * @see org.kuali.student.common.messages.service.MessageService#getMessage(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
 	@Override
@@ -137,7 +137,7 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#getMessageGroups()
+	 * @see org.kuali.student.common.messages.service.MessageService#getMessageGroups()
 	 */
 	@Override
 	public MessageGroupKeyList getMessageGroups() {
@@ -155,7 +155,7 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#getMessages(java.lang.String,
+	 * @see org.kuali.student.common.messages.service.MessageService#getMessages(java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -183,8 +183,8 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#getMessagesByGroups(java.lang.String,
-	 *      org.kuali.student.core.messages.dto.MessageGroupKeyList)
+	 * @see org.kuali.student.common.messages.service.MessageService#getMessagesByGroups(java.lang.String,
+	 *      org.kuali.student.common.messages.dto.MessageGroupKeyList)
 	 */
 	@Override
 	public MessageList getMessagesByGroups(String localeKey,
@@ -202,9 +202,9 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	/**
-	 * @see org.kuali.student.core.messages.service.MessageService#updateMessage(java.lang.String,
+	 * @see org.kuali.student.common.messages.service.MessageService#updateMessage(java.lang.String,
 	 *      java.lang.String, java.lang.String,
-	 *      org.kuali.student.core.messages.dto.Message)
+	 *      org.kuali.student.common.messages.dto.Message)
 	 */
 	@Override
 	public Message updateMessage(String localeKey, String messageGroupKey,

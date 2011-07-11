@@ -21,13 +21,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 	<persistence-unit name="Lu" transaction-type="JTA">
-		<class>org.kuali.student.core.entity.Type</class>
-		<class>org.kuali.student.core.entity.Attribute</class>
-		<class>org.kuali.student.core.entity.Meta</class>
-		<class>org.kuali.student.core.entity.MetaEntity</class>
-		<class>org.kuali.student.core.entity.RichText</class>
-		<class>org.kuali.student.core.entity.TimeAmount</class>
-		<class>org.kuali.student.core.entity.Amount</class>
+		<class>org.kuali.student.common.entity.Type</class>
+		<class>org.kuali.student.common.entity.Attribute</class>
+		<class>org.kuali.student.common.entity.Meta</class>
+		<class>org.kuali.student.common.entity.MetaEntity</class>
+		<class>org.kuali.student.common.entity.RichText</class>
+		<class>org.kuali.student.common.entity.TimeAmount</class>
+		<class>org.kuali.student.common.entity.Amount</class>
 
 		<class>org.kuali.student.lum.lu.entity.AffiliatedOrg</class>
 		<class>org.kuali.student.lum.lu.entity.AllowedCluLoRelationType</class>
@@ -55,6 +55,7 @@
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluIdentifier</class>
+		<class>org.kuali.student.lum.lu.entity.CluIdentifierAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructor</class>
 		<class>org.kuali.student.lum.lu.entity.CluInstructorAttribute</class>
 		<class>org.kuali.student.lum.lu.entity.CluLoRelation</class>

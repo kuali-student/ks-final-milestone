@@ -31,13 +31,9 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 	public static final String DOCUMENT_TYPE_NAME                   = KimAttributes.DOCUMENT_TYPE_NAME;
 
 	public static final String QUALIFICATION_DEPARTMENT_ID          = "departmentId";
-	public static final String QUALIFICATION_DEPARTMENT             = "department";
 	public static final String QUALIFICATION_DIVISION_ID            = "divisionId";
-	public static final String QUALIFICATION_DIVISION               = "division";
 	public static final String QUALIFICATION_COLLEGE_ID             = "collegeId";
-	public static final String QUALIFICATION_COLLEGE                = "college";
 	public static final String QUALIFICATION_ORG_ID                 = "orgId";
-	public static final String QUALIFICATION_ORG                    = "org";
 
 	public static final String QUALIFICATION_DATA_ID                = "dataId";
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";

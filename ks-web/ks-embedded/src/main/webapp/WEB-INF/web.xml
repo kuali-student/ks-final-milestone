@@ -38,6 +38,16 @@
 	  <filter-name>springSecurityFilterChain</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>gwtCacheControlFilter</filter-name>
+		<filter-class>org.kuali.student.common.util.filter.GWTCacheControlFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>gwtCacheControlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
     <context-param>
       <param-name>environment</param-name>
@@ -196,6 +206,10 @@
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+		<init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>ksb/WEB-INF/remoting-servlet.xml</param-value>
+        </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -306,6 +320,18 @@
 		<servlet-name>GWT-CORE</servlet-name>
 		<url-pattern>/org.kuali.student.core.organization.ui.OrgEntry/rpcservices/*</url-pattern>
 	</servlet-mapping>	
+	
+	<!-- Export Download HTTP Servlet -->
+    <servlet>  
+   	 	<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   	 	<servlet-class>org.kuali.student.common.ui.server.gwt.ExportDocumentDownload</servlet-class>  
+   	 </servlet>  
+   	 
+   	 <servlet-mapping>  
+   	 		<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
+   			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
+   	 </servlet-mapping>  
+	<!-- HTTP Servlet end -->
 
 	<session-config>
 		<session-timeout>60</session-timeout>

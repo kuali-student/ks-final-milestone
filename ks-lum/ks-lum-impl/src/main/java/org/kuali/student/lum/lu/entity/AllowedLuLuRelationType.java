@@ -27,7 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LU_LU_ALOW_RELTN_TYPE")

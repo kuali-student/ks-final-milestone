@@ -7,6 +7,68 @@
     http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!-- Statement dependency analysis -->
+	<search:searchType id="stmt.search.dependencyAnalysis" parent="stmt.search.dependencyAnalysis-parent" />
+	<search:searchType id="stmt.search.dependencyAnalysis-parent" abstract="true">
+		<search:name>Statement Dependency Analysis</search:name>
+		<search:desc>Query Statements that reference the input cluIds and clusets. Searches up the statement hierarchy</search:desc>
+		<search:searchResultTypeInfo>
+			<ref bean="stmt.result.dependencyAnalysis" />
+		</search:searchResultTypeInfo>
+		<search:searchCriteriaTypeInfo>
+			<ref bean="stmt.criteria.dependencyAnalysis" />
+		</search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchResultTypeInfo id="stmt.result.dependencyAnalysis" parent="stmt.result.dependencyAnalysis-parent" />
+	<search:searchResultTypeInfo id="stmt.result.dependencyAnalysis-parent" abstract="true">
+		<search:name>Statement Dependency Analysis Results</search:name>
+		<search:desc>Statement Dependency Analysis Results</search:desc>
+		<search:resultColumns>
+			<ref bean="stmt.resultColumn.refObjId" />
+			<ref bean="stmt.resultColumn.rootId" />
+			<ref bean="stmt.resultColumn.requirementComponentIds" />
+			<ref bean="stmt.resultColumn.statementTypeId" />
+			<ref bean="stmt.resultColumn.statementTypeName" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
+	<search:resultColumn id="stmt.resultColumn.refObjId" parent="stmt.resultColumn.refObjId-parent" />
+    <search:resultColumn id="stmt.resultColumn.refObjId-parent" abstract="true">
+        <search:name>Reference Object Id</search:name>
+        <search:desc>Identifier of a referenced object</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+	
+	<search:searchCriteriaTypeInfo id="stmt.criteria.dependencyAnalysis" parent="stmt.criteria.reqComponentFieldType-parent" />
+	<search:searchCriteriaTypeInfo id="stmt.criteria.dependencyAnalysis-parent" abstract="true">
+		<search:name>Requirement Component Type Relations</search:name>
+		<search:desc>Advanced criteria</search:desc>
+		<search:queryParams>
+			<ref bean="stmt.queryParam.cluSetIds" />
+			<ref bean="stmt.queryParam.cluVersionIndIds" />
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="stmt.queryParam.cluSetIds" parent="stmt.queryParam.cluSetIds-parent" />
+	<search:queryParam id="stmt.queryParam.cluSetIds-parent" optional="false" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Clu Set Ids</dict:name>
+			<dict:desc>Clu Set Ids</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	
+	<search:queryParam id="stmt.queryParam.cluVersionIndIds" parent="stmt.queryParam.cluVersionIndIds-parent" />
+	<search:queryParam id="stmt.queryParam.cluVersionIndIds-parent" optional="false" abstract="true">
+		<dict:fieldDescriptor>
+			<dict:name>Clu Version Independant Ids</dict:name>
+			<dict:desc>Clu Version Independant Ids</dict:desc>
+			<dict:dataType>string</dict:dataType>
+		</dict:fieldDescriptor>
+	</search:queryParam>
+	<!--  -->
+
 	<search:searchType id="stmt.search.cluInReqComponent" parent="stmt.search.cluInReqComponent-parent" />
 	<search:searchType id="stmt.search.cluInReqComponent-parent" abstract="true">
 		<search:name>Basic and Advanced Search</search:name>
@@ -59,6 +121,20 @@
     <search:resultColumn id="stmt.resultColumn.reqComponentTypeDesc-parent" abstract="true">
         <search:name>Requirement Component Type Description</search:name>
         <search:desc>Description a requirement type component</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="stmt.resultColumn.rootId" parent="stmt.resultColumn.rootId-parent" />
+    <search:resultColumn id="stmt.resultColumn.rootId-parent" abstract="true">
+        <search:name>Root Id</search:name>
+        <search:desc>Root statement id or root Program clu id</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="stmt.resultColumn.requirementComponentIds" parent="stmt.resultColumn.requirementComponentIds-parent" />
+    <search:resultColumn id="stmt.resultColumn.requirementComponentIds-parent" abstract="true">
+        <search:name>Requirement Component Ids</search:name>
+        <search:desc>Comma delimited requirement component ids</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 

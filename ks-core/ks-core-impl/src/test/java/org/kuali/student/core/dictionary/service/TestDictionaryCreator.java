@@ -3,9 +3,10 @@ package org.kuali.student.core.dictionary.service;
 import org.junit.Test;
 import java.beans.IntrospectionException;
 import java.io.IOException;
+
+import org.kuali.student.common.dictionary.service.impl.DictionaryCreator;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
-import org.kuali.student.core.dictionary.service.impl.DictionaryCreator;
 import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 

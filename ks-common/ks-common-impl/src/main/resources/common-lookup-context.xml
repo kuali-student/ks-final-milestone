@@ -15,9 +15,44 @@
 		  
 
 	<bean id="commonLookup-parent" abstract="true"
-		class="org.kuali.student.core.dictionary.dto.CommonLookup" />
+		class="org.kuali.student.common.dictionary.dto.CommonLookup" />
 	<bean id="param" abstract="true"
-		class="org.kuali.student.core.dictionary.dto.CommonLookupParam" />
+		class="org.kuali.student.common.dictionary.dto.CommonLookupParam" />
+
+	<bean id="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode"
+		parent="commonLookup-parent">
+		<property name="id"
+			value="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode" />
+		<property name="name" value="Find Organizations" />
+		<property name="desc"
+			value="Search for administrative department organization for a given subject code" />
+		<property name="searchTypeId" value="subjectCode.search.orgsForSubjectCode"/>
+		<property name="searchParamIdKey" value="subjectCode.queryParam.optionalOrgId" />
+		<property name="resultReturnKey" value="subjectCode.resultColumn.orgId" />
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="subjectCode.queryParam.optionalOrgId" />
+					<property name="name" value="Org Id" />
+					<property name="desc" value="Identifier of Organization" />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="subjectCode.queryParam.code" />
+					<property name="name" value="Subject Code" />
+					<property name="desc" value="SubjectCode cross constraint" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="fieldPath" value="/subjectArea"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="kuali.common.lookup.admin.departments.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.lu.lookup.admin.departments.suggest" />
@@ -341,6 +376,74 @@
 		<property name="id" value="kuali.common.lookup.campusLocations" />
 	</bean>
 
+	<bean id="kuali.common.enumeration.management.objectState" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueString" value="kuali.state" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextType" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Type" />
+					<property name="desc" value="The type of context being used" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextValue" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The value of the supplied context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.contextDate" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="DATE" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Date" />
+					<property name="desc" value="A date supplied as context" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="fieldPath" value="campusLocations"/>
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.objectState" />
+	</bean>
+
+	<bean id="kuali.common.enumeration.management.adminOrgType" parent="commonLookup-parent">
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="name" value="Get enumerations" />
+		<property name="desc" value="Get enumerated lists of values given context" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+		<property name="id" value="kuali.common.lookup.objectState" />
+	</bean>
+
 	<bean id="kuali.common.lookup.feeTypes" parent="commonLookup-parent">
 		<property name="searchTypeId" value="enumeration.management.search" />
 		<property name="name" value="Get enumerations" />
@@ -397,7 +500,7 @@
 			</list>
 		</property>
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
-		<property name="id" value="kuali.common.lookup.feeTypes" />
+		<property name="id" value="kuali.common.lookup.feeTypes" />		
 	</bean>
 
 	<bean id="kuali.common.lookup.rateTypes" parent="commonLookup-parent">
@@ -472,6 +575,40 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="dataType" value="STRING" />
 					<property name="optional" value="true" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.atptype.duration</value>
+							<value>kuali.atptype.intensity</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
+	</bean>
+	
+	<bean id="kuali.common.enumeration.management.search.duration" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.enumeration.management.search.duration" />
+		<property name="searchTypeId" value="enumeration.management.search" />
+		<property name="searchParamIdKey" value="enumeration.queryParam.enumerationCode" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="enumeration.queryParam.enumerationType" />
+					<property name="name" value="Enumeration Type" />
+					<property name="desc" value="The type of the enumeration to search" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
 					<property name="defaultValueString" value="kuali.atptype.duration" />
 					<property name="caseSensitive" value="true" />
 				</bean>
@@ -487,7 +624,6 @@
 		</property>
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
 	</bean>
-
 	<bean id="kuali.common.enumeration.management.search.subjectAreas"
 		parent="commonLookup-parent">
 		<property name="id"
@@ -567,9 +703,27 @@
 		<property name="desc" value="Returns the list of all ATP Duration Types" />
 		<property name="resultReturnKey" value="atp.resultColumn.atpDurType" />
 		<property name="searchParamIdKey" value="atp.queryParam.atpDurationType" />
-  <property name="params">
+  		<property name="params">
 			<list/>
-  </property>
+  		</property>
+	</bean>
+
+	<bean id="kuali.common.lookup.subjectCodes" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.subjectCodes" />
+		<property name="searchTypeId" value="subjectCode.search.subjectCodeGeneric" />
+		<property name="name" value="All Subject Codes" />
+		<property name="desc" value="Returns the list of all Subject Codes" />
+		<property name="resultReturnKey" value="subjectCode.resultColumn.code" />
+		<property name="searchParamIdKey" value="subjectCode.queryParam.code" />
+  		<property name="params">
+			<bean parent="param">   <!-- suggest box entry definition -->
+				<property name="key" value="subjectCode.queryParam.code" />
+				<property name="name" value="Subject Code" />
+				<property name="desc" value="Subject Code" />
+				<property name="writeAccess" value="ALWAYS" />
+				<property name="usage" value="DEFAULT" />
+			</bean>
+  		</property>
 	</bean>
 
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="commonLookup-parent">
@@ -621,21 +775,20 @@
 					<property name="desc" value="Type of a program" />
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
-     	<list> <!-- this list is not complete -->
+     					<list> <!-- this list is not complete -->
 							<value>kuali.lu.type.credential.Baccalaureate</value>
 							<value>kuali.lu.type.credential.Masters</value>
-					 	<value>kuali.lu.type.credential.Professional</value>
-					 	<value>kuali.lu.type.credential.Doctoral</value>
-					 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
-					 	<value>kuali.lu.type.credential.GraduateCertificate </value>
-					 	<value>kuali.lu.type.credential.ContinuingEd</value>
-					 	<value>kuali.lu.type.MajorDiscipline</value>
-					 	<value>kuali.lu.type.Variation</value>
-					 	<value>kuali.lu.type.MinorDiscipline</value>
-					 	<value>kuali.lu.type.CoreProgram</value>
-					 	<value>kuali.lu.type.Honors</value>
-					 	<value>kuali.lu.type.LivingLearning</value>
-					 	<value>kuali.lu.type.Requirement</value>
+						 	<value>kuali.lu.type.credential.Professional</value>
+						 	<value>kuali.lu.type.credential.Doctoral</value>
+						 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
+						 	<value>kuali.lu.type.credential.GraduateCertificate </value>
+						 	<value>kuali.lu.type.credential.ContinuingEd</value>
+						 	<value>kuali.lu.type.MajorDiscipline</value>
+						 	<value>kuali.lu.type.Variation</value>
+						 	<value>kuali.lu.type.MinorDiscipline</value>
+						 	<value>kuali.lu.type.CoreProgram</value>
+						 	<value>kuali.lu.type.Honors</value>
+						 	<value>kuali.lu.type.LivingLearning</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -666,9 +819,9 @@
 					<property name="desc" value="Type of a Test" />
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
-     	<list>
+						<list>
 							<value>kuali.lu.type.standardized.test</value>
-					 	<value>kuali.lu.type.standardized.test.component</value>
+					 		<value>kuali.lu.type.standardized.test.component</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -678,7 +831,7 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>
 
-<bean id="kuali.common.lookup.firstexpectedoffering.suggest"
+	<bean id="kuali.common.lookup.firstexpectedoffering.suggest"
 		parent="commonLookup-parent">
 		<property name="id"	value="kuali.common.lookup.firstexpectedoffering.suggest" />
 		<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
@@ -698,11 +851,39 @@
 					<property name="defaultValueList">
 						<list> <!-- this list is not complete -->
 							<value>kuali.atp.type.Spring</value>
+							<value>kuali.atp.type.Summer</value>
 							<value>kuali.atp.type.Fall</value>
 							<value>kuali.atp.type.Session1</value>
 							<value>kuali.atp.type.Session2</value>
 							<value>kuali.atp.type.Mini-mester1A</value>
 							<value>kuali.atp.type.Mini-mester1B</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="atp.resultColumn.atpId" />
+	</bean>
+
+	<bean id="kuali.common.lookup.academicYear"	parent="commonLookup-parent">
+		<property name="id"	value="kuali.common.lookup.academicYear" />
+		<property name="searchTypeId" value="atp.search.advancedAtpSearch" />
+		<property name="name" value="Advanced ATP match" />
+		<property name="desc" value="Search atp type described by session, duration and year" />
+		<property name="searchParamIdKey" value="atp.advancedAtpSearchParam.atpId" />
+		<property name="params">
+			<list>
+				<bean parent="param">
+					<property name="key" value="atp.advancedAtpSearchParam.atpType" />
+					<property name="name" value="Atp types" />
+					<property name="desc" value="Atp types for courses" />
+					<property name="caseSensitive" value="false" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.atp.type.AY</value>
 						</list>
 					</property>
 				</bean>
@@ -818,7 +999,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 							<value>Submitted</value>
 							<value>Withdrawn</value>
 							<value>Approved</value>
@@ -995,7 +1176,196 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
+							<value>Submitted</value>
+							<value>Withdrawn</value>
+							<value>Approved</value>
+							<!-- do not show rejected <value>rejected</value> -->
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
+
+	<bean id="kuali.common.lookup.findProgram.advanced.approvedonly"
+		parent="commonLookup-parent">
+		<property name="id"
+			value="kuali.common.lookup.findProgram.advanced.approvedonly" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
+		<property name="name" value="Programs Only" />
+		<property name="desc" value="Search for programs" />
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="name" value="Program Title"/>
+					<property name="desc" value="Program title."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalCode"/>
+					<property name="name" value="Program Code (Subject Code/Number)"/>
+					<property name="desc" value="Program number."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalDescr"/>
+					<property name="name" value="Phrase in Description"/>
+					<property name="desc" value="Program description"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLevel"/>
+					<property name="name" value="Level"/>
+					<property name="desc" value="Program level."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="CUSTOM"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalType"/>
+					<property name="name" value="Type"/>
+					<property name="desc" value="Type of a program"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueList">
+     	<list> <!-- this list is not complete -->
+							<value>kuali.lu.type.credential.Baccalaureate</value>
+							<value>kuali.lu.type.credential.Masters</value>
+					 	<value>kuali.lu.type.credential.Professional</value>
+					 	<value>kuali.lu.type.credential.Doctoral</value>
+					 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
+					 	<value>kuali.lu.type.credential.GraduateCertificate </value>
+					 	<value>kuali.lu.type.credential.ContinuingEd</value>
+					 	<value>kuali.lu.type.MajorDiscipline</value>
+					 	<value>kuali.lu.type.Variation</value>
+					 	<value>kuali.lu.type.MinorDiscipline</value>
+					 	<value>kuali.lu.type.CoreProgram</value>
+					 	<value>kuali.lu.type.Honors</value>
+					 	<value>kuali.lu.type.LivingLearning</value>
+						</list>
+					</property>
+					<property name="optional" value="true"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="CUSTOM"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return approved clus -->
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="CLU State" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>Active</value>
+							<value>Approved</value>
+							<!-- do not show retired: <value>retired</value> -->
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
+	<bean id="kuali.common.lookup.findProgram.advanced.proposalsonly"
+		parent="commonLookup-parent">
+		<property name="id"
+			value="kuali.common.lookup.findProgram.advanced.proposalsonly" />
+		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
+		<property name="name" value="Proposals Only" />
+		<property name="desc" value="Search for proposals" />
+		<property name="params">
+			<list>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLongName"/>
+					<property name="name" value="Program Title"/>
+					<property name="desc" value="Program title."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalCode"/>
+					<property name="name" value="Program Code (Subject Code/Number)"/>
+					<property name="desc" value="Program number."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="false"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+					<property name="widget" value="SUGGEST_BOX"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalDescr"/>
+					<property name="name" value="Phrase in Description"/>
+					<property name="desc" value="Program description"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="ADVANCED_CUSTOM"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalLevel"/>
+					<property name="name" value="Level"/>
+					<property name="desc" value="Program level."/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="ALWAYS"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="CUSTOM"/>
+				</bean>
+				<bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="lu.queryParam.luOptionalType"/>
+					<property name="name" value="Type"/>
+					<property name="desc" value="Type of a program"/>
+					<property name="dataType" value="STRING"/>
+					<property name="writeAccess" value="NEVER"/>
+					<property name="defaultValueList">
+     	<list> <!-- this list is not complete -->
+							<value>kuali.lu.type.credential.Baccalaureate</value>
+							<value>kuali.lu.type.credential.Masters</value>
+					 	<value>kuali.lu.type.credential.Professional</value>
+					 	<value>kuali.lu.type.credential.Doctoral</value>
+					 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
+					 	<value>kuali.lu.type.credential.GraduateCertificate </value>
+					 	<value>kuali.lu.type.credential.ContinuingEd</value>
+					 	<value>kuali.lu.type.MajorDiscipline</value>
+					 	<value>kuali.lu.type.Variation</value>
+					 	<value>kuali.lu.type.MinorDiscipline</value>
+					 	<value>kuali.lu.type.CoreProgram</value>
+					 	<value>kuali.lu.type.Honors</value>
+					 	<value>kuali.lu.type.LivingLearning</value>
+						</list>
+					</property>
+					<property name="optional" value="true"/>
+					<property name="caseSensitive" value="true"/>
+					<property name="usage" value="CUSTOM"/>
+				</bean>
+				<bean parent="param"><!-- limit search to only return all but rejected proposals -->
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="State" />
+					<property name="desc" value="CLU State" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>Draft</value>
 							<value>Submitted</value>
 							<value>Withdrawn</value>
 							<value>Approved</value>
@@ -1084,16 +1454,6 @@
 			<list>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="proposal.queryParam.proposalId" />
-					<property name="name" value="Id" />
-					<property name="desc" value="Unique identifier for a proposal." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="false" />
-					<property name="usage" value="DEFAULT" />
-				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="proposal.queryParam.proposalOptionalName" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Name." />
@@ -1107,6 +1467,59 @@
 		</property>
 		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
 	</bean>
+
+	<bean id="kuali.common.lookup.basic.proposedCoursesByTitle" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.basic.proposedCoursesByTitle" />
+		<property name="name" value="Course Proposals" />
+		<property name="searchTypeId" value="proposal.search.generic" />
+		<property name="desc" value="Search for course Proposals" />
+		<property name="searchParamIdKey" value="proposal.resultColumn.proposalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="proposal.queryParam.proposalOptionalName" />
+					<property name="name" value="Proposal Title" />
+					<property name="desc" value="Proposal Title" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">   <!-- limit search to credit course for this UI context -->
+					<property name="key" value="proposal.queryParam.proposalOptionalType" />
+					<property name="name" value="Proposal Type" />
+					<property name="desc" value="Type of a Proposal" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+						<list>
+							<value>kuali.proposal.type.course.modify</value>
+							<value>kuali.proposal.type.course.create</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="proposal.resultColumn.proposalId" />
+	</bean>		
+	
+	<bean id="kuali.common.lookup.basic.proposedCoursesByCode" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.basic.proposedCoursesByCode" />
+		<property name="name" value="Course Proposals by Course Code" />
+		<property name="searchTypeId" value="lu.search.proposalsByCourseCode" />
+		<property name="desc" value="Search for course Proposals" />
+		<property name="searchParamIdKey" value="lu.resultColumn.proposalId" />
+		<property name="params">
+			<list>
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Course Code" />
+					<property name="desc" value="Course Code" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.proposalId" />
+	</bean>	
 	
 	<bean id="kuali.common.lookup.basic.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.basic.approvedCourses" />
@@ -1149,6 +1562,24 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>	
 	
+	<bean id="kuali.common.lookup.basic.approvedCoursesByTitle" parent="kuali.common.lookup.basic.approvedCourses">
+		<property name="id" value="kuali.common.lookup.basic.approvedCoursesByTitle" />
+		<property name="name" value="Approved Courses By Title" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list merge="true">
+				<bean parent="param">   <!-- suggest box entry definition -->
+					<property name="key" value="lu.queryParam.luOptionalLongName" />
+					<property name="name" value="Title" />
+					<property name="desc" value="Course title." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+		
 	<bean id="kuali.common.lookup.advanced.approvedCourses" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.advanced.approvedCourses" />
 		<property name="searchTypeId" value="lu.search.mostCurrent.union" />		
@@ -1252,7 +1683,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -1324,7 +1755,7 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>draft</value>
+							<value>Draft</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -1509,7 +1940,7 @@
 							<value>Submitted</value>
 							<value>Active</value>
 							<value>Approved</value>
-							<value>Inactive</value>
+							<value>Suspended</value>
 							<!-- do not show retired or superseded-->
 						</list>
 					</property>

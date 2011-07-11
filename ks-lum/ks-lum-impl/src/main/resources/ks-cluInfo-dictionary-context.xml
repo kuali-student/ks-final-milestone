@@ -86,7 +86,7 @@
      This is an example of adding a lookup constraint in addition to base constraint
     -->
     <bean id="constraint.lookup.campusLocations"
-          class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
           parent="kuali.common.lookup.campusLocations">
         <property name="id" value="all.campusLocations"/>
     </bean>
@@ -116,7 +116,7 @@
 
     <bean id="cluInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
     </bean>
     <bean id="cluInfo.descr" parent="cluInfo.descr-parent"/>
 
@@ -131,10 +131,18 @@
     <bean id="cluInfo.enrollable" parent="cluInfo.enrollable-parent"/>
 
     <bean id="constraint.lookup.atp"
-          class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
           parent="kuali.common.lookup.atp">
         <property name="id" value="all atps"/>
     </bean>
+
+    <bean id="constraint.lookup.basic.orgcurriculum.fromSubjectCode"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.basic.orgcurriculum.fromSubjectCode">
+        <property name="id" value="constraint.lookup.basic.orgcurriculum.fromSubjectCode"/>
+    </bean>
+
+
 
     <bean id="cluInfo.expectedFirstAtp-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="expectedFirstAtp"/>
@@ -180,7 +188,7 @@
 
     <bean id="cluInfo.intensity-parent" abstract="true" parent="baseComplex">
         <property name="name" value="intensity"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.AmountInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.dto.AmountInfo"/>
     </bean>
     <bean id="cluInfo.intensity" parent="cluInfo.intensity-parent"/>
 
@@ -214,7 +222,7 @@
     <bean id="cluInfo.nextReviewPeriod" parent="cluInfo.nextReviewPeriod-parent"/>
 
     <bean id="constraint.lookup.offeredAtpTypes"
-          class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
           parent="kuali.common.lookup.atp.seasons">
         <property name="id" value="all.seasons.offered"/>
     </bean>
@@ -251,7 +259,7 @@
 
     <bean id="cluInfo.stdDuration-parent" abstract="true" parent="baseComplex">
         <property name="name" value="stdDuration"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.TimeAmountInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.dto.TimeAmountInfo"/>
     </bean>
     <bean id="cluInfo.stdDuration" parent="cluInfo.stdDuration-parent"/>
 
@@ -309,7 +317,7 @@
 
     <bean id="cluFeeInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
     </bean>
     <bean id="cluFeeInfo.descr" parent="cluFeeInfo.descr-parent"/>
 
@@ -348,7 +356,7 @@
 
     <bean id="cluFeeRecordInfo.descr-parent" abstract="true" parent="baseComplex">
         <property name="name" value="descr"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
     </bean>
     <bean id="cluFeeRecordInfo.descr" parent="cluFeeRecordInfo.descr-parent"/>
 
@@ -459,9 +467,9 @@
     <bean id="affiliatedOrgInfo.percentage" parent="affiliatedOrgInfo.percentage-parent"/>
 
     <!-- AmountInfo-->
-    <bean id="org.kuali.student.core.dto.AmountInfo-parent" abstract="true"
+    <bean id="org.kuali.student.common.dto.AmountInfo-parent" abstract="true"
           parent="objectStructureDefinition">
-        <property name="name" value="org.kuali.student.core.dto.AmountInfo"/>
+        <property name="name" value="org.kuali.student.common.dto.AmountInfo"/>
         <property name="attributes">
             <list>
                 <ref bean="amountInfo.unitQuantity"/>
@@ -469,12 +477,15 @@
             </list>
         </property>
     </bean>
-    <bean id="org.kuali.student.core.dto.AmountInfo" parent="org.kuali.student.core.dto.AmountInfo-parent"/>
+    <bean id="org.kuali.student.common.dto.AmountInfo" parent="org.kuali.student.common.dto.AmountInfo-parent"/>
 
     <bean id="amountInfo.unitQuantity-parent" abstract="true" parent="baseString">
         <property name="name" value="unitQuantity"/>
-        <property name="validChars" ref="numeric"/>
-        <property name="maxLength" value="3"/>
+        <property name="validChars" ref="numeric.range"/>
+<!--    commented out the length because base has no real limit and
+        moved the length to the Course dictionary where it is limited
+         <property name="maxLength" value="3"/>
+-->
         <property name="requireConstraint">
             <bean parent="requiresConstraint">
                 <property name="fieldPath" value="unitType"/>
@@ -484,7 +495,7 @@
     <bean id="amountInfo.unitQuantity" parent="amountInfo.unitQuantity-parent"/>
 
     <bean id="constraint.lookup.unitTypes"
-          class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
           parent="kuali.common.lookup.amountInfo.unitType">
         <property name="id" value="all.unitTypes"/>
     </bean>
@@ -494,6 +505,30 @@
         <property name="lookupDefinition" ref="constraint.lookup.unitTypes"/>
     </bean>
     <bean id="amountInfo.unitType" parent="amountInfo.unitType-parent"/>
+
+    <bean id="constraint.lookup.intensity"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.enumeration.management.search.intensity">
+        <property name="id" value="all.unitTypes"/>
+    </bean>
+    
+    <bean id="amountInfo.intensity-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="unitType"/>
+        <property name="lookupDefinition" ref="constraint.lookup.intensity"/>
+    </bean>
+    <bean id="amountInfo.intensity" parent="amountInfo.intensity-parent"/>
+
+    <bean id="constraint.lookup.duration"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.enumeration.management.search.duration">
+        <property name="id" value="all.unitTypes"/>
+    </bean>
+    
+    <bean id="amountInfo.duration-parent" abstract="true" parent="baseKualiType">
+        <property name="name" value="unitType"/>
+        <property name="lookupDefinition" ref="constraint.lookup.duration"/>
+    </bean>
+    <bean id="amountInfo.duration" parent="amountInfo.duration-parent"/>
 
     <!-- AccreditationInfo-->
     <bean id="org.kuali.student.lum.lu.dto.AccreditationInfo-parent"
@@ -565,6 +600,7 @@
 
     <bean id="cluIdentifierInfo.division-parent" abstract="true" parent="baseKualiCodeLoose">
         <property name="name" value="division"/>
+        <property name="lookupDefinition" ref="constraint.lookup.subjectCodes"/>
     </bean>
     <bean id="cluIdentifierInfo.division" parent="cluIdentifierInfo.division-parent"/>
 
@@ -679,9 +715,9 @@
 
 
     <!-- TimeAmountInfo-->
-    <bean id="org.kuali.student.core.dto.TimeAmountInfo-parent"
+    <bean id="org.kuali.student.common.dto.TimeAmountInfo-parent"
           abstract="true" parent="objectStructureDefinition">
-        <property name="name" value="org.kuali.student.core.dto.TimeAmountInfo"/>
+        <property name="name" value="org.kuali.student.common.dto.TimeAmountInfo"/>
         <property name="attributes">
             <list>
                 <ref bean="timeAmountInfo.atpDurationTypeKey"/>
@@ -689,13 +725,20 @@
             </list>
         </property>
     </bean>
-    <bean id="org.kuali.student.core.dto.TimeAmountInfo" parent="org.kuali.student.core.dto.TimeAmountInfo-parent"/>
+    <bean id="org.kuali.student.common.dto.TimeAmountInfo" parent="org.kuali.student.common.dto.TimeAmountInfo-parent"/>
 
     <bean id="constraint.lookup.durations"
-          class="org.kuali.student.core.dictionary.dto.LookupConstraint"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
           parent="kuali.common.lookup.durations">
         <property name="id" value="all.durations"/>
     </bean>
+
+    <bean id="constraint.lookup.subjectCodes"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.subjectCodes">
+        <property name="id" value="all.subjectCodes"/>
+    </bean>
+
 
     <bean id="timeAmountInfo.atpDurationTypeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="atpDurationTypeKey"/>
@@ -785,7 +828,7 @@
 
     <bean id="cluInfo.versionInfo-parent" abstract="true" parent="baseComplex">
         <property name="name" value="versionInfo"/>
-        <property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+        <property name="dataObjectStructure" ref="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
     </bean>
     <bean id="cluInfo.versionInfo" parent="cluInfo.versionInfo-parent"/>
 </beans>

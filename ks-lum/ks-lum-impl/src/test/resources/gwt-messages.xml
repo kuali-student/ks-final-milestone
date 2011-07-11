@@ -103,7 +103,8 @@
     <bean parent="enValidation" p:messageId="validation.mustBeInteger"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:messageId="validation.mustBeLong"		p:value="Must be numeric"/>
     <bean parent="enValidation" p:messageId="validation.occurs"		p:value="Invalid number of occurrences."/>
-    
+    <bean parent="enValidation" p:messageId="validation.invalid"		p:value="Invalid value"/>
+
 
 	
 	

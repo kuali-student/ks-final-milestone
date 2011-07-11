@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageList;
+import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.dto.MessageGroupKeyList;
-import org.kuali.student.core.messages.dto.MessageList;
-import org.kuali.student.core.messages.service.MessageService;
 
 import com.google.gwt.user.server.rpc.RPC;
 

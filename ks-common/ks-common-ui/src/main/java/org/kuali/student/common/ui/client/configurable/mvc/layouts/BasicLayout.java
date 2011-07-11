@@ -5,11 +5,18 @@ import org.kuali.student.common.ui.client.mvc.View;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * The most basic implementation of a LayoutController, no navigation, all showView calls must be invoked
+ * by the app.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class BasicLayout extends LayoutController{
 	private FlowPanel viewContainer = new FlowPanel();
 
 	public BasicLayout(String controllerId) {
-		super(controllerId);
+		super();
 		this.initWidget(viewContainer);
 	}
 

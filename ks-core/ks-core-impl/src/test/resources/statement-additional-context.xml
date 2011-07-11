@@ -26,7 +26,7 @@
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <bean id="lumSearchDispatcher"
-          class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="StatementServiceImpl"/>
@@ -34,11 +34,11 @@
         </property>
     </bean>
     <bean id="lumCrossServiceSearchManager"
-          class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+          class="org.kuali.student.common.search.service.impl.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
     <bean id="statementSearchManager"
-          class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:statement-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
@@ -65,14 +65,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.core.exceptions.OperationFailedException" />
+            value="org.kuali.student.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>
@@ -240,7 +240,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="StatementDaoImpl"/>
         <property name="dictionaryServiceDelegate">
-		    <bean class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+		    <bean class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
 		        <constructor-arg>
 			        <value>classpath:ks-statement-dictionary-context.xml;</value>
 		        </constructor-arg>

@@ -13,12 +13,16 @@
     <ref bean="freestanding.search.cluset" />
     <ref bean="freestanding.search.courseset" />
     <ref bean="freestanding.search.findCourse" />
+    <ref bean="freestanding.search.courseId" />
     <ref bean="freestanding.search.courseVersions" />
     <ref bean="freestanding.search.findProposal" />
     <ref bean="freestanding.search.findMajor" />
 
     <!--Not sure these are actually used-->
     <ref bean="freestanding.search.approvedCourses" />
+    <ref bean="freestanding.search.approvedCoursesByTitle" />
+    <ref bean="freestanding.search.proposedCoursesByCode" />
+    <ref bean="freestanding.search.proposedCoursesByTitle" />
     <ref bean="freestanding.search.proposedCourses" />
     <ref bean="freestanding.search.reusableCluSets" />
     <ref bean="freestanding.search.courseRanges" />
@@ -47,6 +51,12 @@
  </bean>
  <bean id="freestanding.search.findCourse" parent="freestanding.search.findCourse-parent" />
 
+ <bean id="freestanding.search.courseId-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="courseId" />
+ </bean>
+ <bean id="freestanding.search.courseId" parent="freestanding.search.courseId-parent" />
+
+
  <bean id="freestanding.search.findProposal-parent" abstract="true" parent="baseKualiProposalId">
   <property name="name" value="findProposal" />
  </bean>
@@ -62,10 +72,25 @@
  </bean>
  <bean id="freestanding.search.approvedCourses" parent="freestanding.search.approvedCourses-parent" />
 
+ <bean id="freestanding.search.approvedCoursesByTitle-parent" abstract="true" parent="baseKualiProposalId">
+  <property name="name" value="approvedCoursesByTitle" />
+ </bean>
+ <bean id="freestanding.search.approvedCoursesByTitle" parent="freestanding.search.approvedCoursesByTitle-parent" />
+
  <bean id="freestanding.search.proposedCourses-parent" abstract="true" parent="baseKualiCluId">
   <property name="name" value="proposedCourses" />
  </bean>
  <bean id="freestanding.search.proposedCourses" parent="freestanding.search.proposedCourses-parent" />
+
+ <bean id="freestanding.search.proposedCoursesByTitle-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCoursesByTitle" />
+ </bean>
+ <bean id="freestanding.search.proposedCoursesByTitle" parent="freestanding.search.proposedCoursesByTitle-parent" />
+
+ <bean id="freestanding.search.proposedCoursesByCode-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="proposedCoursesByCode" />
+ </bean>
+ <bean id="freestanding.search.proposedCoursesByCode" parent="freestanding.search.proposedCoursesByCode-parent" />
 
  <bean id="freestanding.search.courseVersions-parent" parent="baseKualiId">
   <property name="name" value="searchCourseVersions" />
@@ -159,5 +184,41 @@
   <property name="hasMetaData" value="false"/>
  </bean>
  <bean id="freestanding.browse.courseCatalog.bySubjectAreaObject" parent="freestanding.browse.courseCatalog.bySubjectAreaObject-parent"/>
+
+	<!-- Dependency Analysis -->
+	<bean id="freestanding.dependency-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="dependency" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.dependency.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.dependency.courseId" parent="baseString">
+					<property name="name" value="courseId" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.dependency" parent="freestanding.dependency-parent" />
+
+	<!-- Browse Program search and filters -->
+	<bean id="freestanding.browseProgram-parent" abstract="true" parent="objectStructureDefinition">
+		<property name="name" value="browseProgram" />
+		<property name="attributes">
+			<list>
+				<bean id="freestanding.browseProgram.filter" parent="baseString">
+					<property name="name" value="filter" />
+				</bean>
+				<bean id="freestanding.browseProgram.search" parent="baseString">
+					<property name="name" value="search" />
+				</bean>
+			</list>
+		</property>
+		<property name="hasMetaData" value="false" />
+	</bean>
+	<bean id="freestanding.browseProgram" parent="freestanding.browseProgram-parent" />
+
+
 
 </beans>

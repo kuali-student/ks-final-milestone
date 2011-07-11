@@ -246,14 +246,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="kuali.id" id="constraint.kuali.id" className="org.kuali.student.core.validation.KualiIdValidator" serverSide="true">
+	<dict:constraint key="kuali.id" id="constraint.kuali.id" className="org.kuali.student.common.validation.KualiIdValidator" serverSide="true">
 		<!-- Kuali ID; calculated by service on add, then read-only. -->
 		<dict:maxOccurs>1</dict:maxOccurs>
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="kuali.key" id="constraint.kuali.key" className="org.kuali.student.core.validation.KualiTypeValidator" serverSide="true">
+	<dict:constraint key="kuali.key" id="constraint.kuali.key" className="org.kuali.student.common.validation.KualiTypeValidator" serverSide="true">
 		<!-- Kuali KEY; structured like a type but unique like and ID, used to identify configured objects. -->
 		<dict:minOccurs>1</dict:minOccurs>
 		<dict:maxOccurs>1</dict:maxOccurs>
@@ -286,7 +286,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="kuali.meta.data" id="constraint.kuali.meta.data" className="org.kuali.student.core.validation.KualiMetaDataValidator" serverSide="true">
+	<dict:constraint key="kuali.meta.data" id="constraint.kuali.meta.data" className="org.kuali.student.common.validation.KualiMetaDataValidator" serverSide="true">
 		<!-- Kuali Meta Data: calculated by service, read-only -->
 		<dict:maxOccurs>1</dict:maxOccurs>
 		</dict:constraint>
@@ -305,21 +305,21 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="related.orgId" id="constraint.related.orgId" className="org.kuali.student.core.org.validation.OrgIdExistsValidator" serverSide="true">
+	<dict:constraint key="related.orgId" id="constraint.related.orgId" className="org.kuali.student.common.org.validation.OrgIdExistsValidator" serverSide="true">
 		<!-- Id of an existing ORG -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="related.principalId" id="constraint.related.principalId" className="org.kuali.student.core.auth.validation.PrincipaldExistsValidator" serverSide="true">
+	<dict:constraint key="related.principalId" id="constraint.related.principalId" className="org.kuali.student.common.auth.validation.PrincipaldExistsValidator" serverSide="true">
 		<!-- Id of an existing PRINCIPAL -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="related.personId" id="constraint.related.personId" className="org.kuali.student.core.person.validation.PersonIddExistsValidator" serverSide="true">
+	<dict:constraint key="related.personId" id="constraint.related.personId" className="org.kuali.student.common.person.validation.PersonIddExistsValidator" serverSide="true">
 		<!-- Id of an existing PERSON -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
@@ -366,14 +366,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="related.proposal" id="constraint.related.proposal" className="org.kuali.student.core.proposal.validation.ProposalIdExistsValidator" serverSide="true">
+	<dict:constraint key="related.proposal" id="constraint.related.proposal" className="org.kuali.student.common.proposal.validation.ProposalIdExistsValidator" serverSide="true">
 		<!-- Id of an existing PROPOSAL -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="related.document" id="constraint.related.document" className="org.kuali.student.core.document.validation.DocumentIdExistsValidator" serverSide="true">
+	<dict:constraint key="related.document" id="constraint.related.document" className="org.kuali.student.common.document.validation.DocumentIdExistsValidator" serverSide="true">
 		<!-- Id of an existing DOCUMENT -->
 		<!-- Requires special logic to check that the ID supplied actually exists -->
 		<dict:minLength>1</dict:minLength>
@@ -707,14 +707,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:lookup>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.type.credit.course" id="constraint.hard.coded.type.credit.course" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.type.credit.course" id="constraint.hard.coded.type.credit.course" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.type.credit.course.format.shell" id="constraint.hard.coded.type.credit.course.format.shell" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.type.credit.course.format.shell" id="constraint.hard.coded.type.credit.course.format.shell" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourseFormatShell" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourseFormatShell</dict:value>
@@ -784,322 +784,322 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.official" id="constraint.hard.coded.official" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.official" id="constraint.hard.coded.official" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.identifier.official" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.official</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.active" id="constraint.hard.coded.active" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.active" id="constraint.hard.coded.active" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "active" -->
 		<dict:validChars>
 		<dict:value>regex:Active</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.cross-listed" id="constraint.hard.coded.cross-listed" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.cross-listed" id="constraint.hard.coded.cross-listed" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.identifier.cross-listed" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.cross-listed</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.co-located" id="constraint.hard.coded.co-located" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.co-located" id="constraint.hard.coded.co-located" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.relation.type.co-located" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.relation\.type\.co-located</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lulurelation.courseformat" id="constraint.hard.coded.lulurelation.courseformat" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lulurelation.courseformat" id="constraint.hard.coded.lulurelation.courseformat" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.lu.relation.type.hasCourseFormat" -->
 		<dict:validChars>
 		<dict:value>regex:kulai\.lu\.lu\.relation\.type\.hasCourseFormat</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lulurelation.programlevel" id="constraint.hard.coded.lulurelation.programlevel" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lulurelation.programlevel" id="constraint.hard.coded.lulurelation.programlevel" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.lu.relation.type.hasProgramLevel" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.lu\.relation\.type\.hasProgramLevel</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lulurelation.programtype" id="constraint.hard.coded.lulurelation.programtype" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lulurelation.programtype" id="constraint.hard.coded.lulurelation.programtype" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.lu.relation.type.hasProgramType" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.lu\.relation\.type\.hasProgramType</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.version" id="constraint.hard.coded.version" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.version" id="constraint.hard.coded.version" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.identifier.version" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.identifier\.version</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.zero" id="constraint.hard.coded.zero" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.zero" id="constraint.hard.coded.zero" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be 0 -->
 		<dict:validChars>
 		<dict:value>regex:0</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.one" id="constraint.hard.coded.one" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.one" id="constraint.hard.coded.one" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be 1 -->
 		<dict:validChars>
 		<dict:value>regex:1</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.true" id="constraint.hard.coded.true" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.true" id="constraint.hard.coded.true" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be TRUE -->
 		<dict:validChars>
 		<dict:value>regex:true</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.false" id="constraint.hard.coded.false" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.false" id="constraint.hard.coded.false" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be FALSE -->
 		<dict:validChars>
 		<dict:value>regex:false</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.eye.color" id="constraint.hard.coded.eye.color" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.eye.color" id="constraint.hard.coded.eye.color" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.eye.color" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.eye\.color</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.left.handed" id="constraint.hard.coded.left.handed" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.left.handed" id="constraint.hard.coded.left.handed" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.left.handed" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.left\.handed</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.rate.type" id="constraint.hard.coded.rate.type" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.rate.type" id="constraint.hard.coded.rate.type" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.type.CreditCourse.dynamic.rate.type" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lu\.type\.CreditCourse\.dynamic\.rate\.type</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.singleUse.lo" id="constraint.hard.coded.singleUse.lo" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.singleUse.lo" id="constraint.hard.coded.singleUse.lo" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.type.singleUse" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.type\.singleUse</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.singleUse.lo.sequence" id="constraint.hard.coded.singleUse.lo.sequence" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.singleUse.lo.sequence" id="constraint.hard.coded.singleUse.lo.sequence" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.type.SingleUse.dynamic.sequence" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.type\.singleUse\.dynamic\.sequence</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.unclassified.lo.category" id="constraint.hard.coded.unclassified.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.unclassified.lo.category" id="constraint.hard.coded.unclassified.lo.category" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.category.type.unclassified" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.category\.type\.unclassified</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.accreditation.lo.category" id="constraint.hard.coded.accreditation.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.accreditation.lo.category" id="constraint.hard.coded.accreditation.lo.category" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.category.type.accreditation" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.category\.type\.accreditation</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.skill.lo.category" id="constraint.hard.coded.skill.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.skill.lo.category" id="constraint.hard.coded.skill.lo.category" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.category.type.skill" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.category\.type\.skill</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.subject.lo.category" id="constraint.hard.coded.subject.lo.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.subject.lo.category" id="constraint.hard.coded.subject.lo.category" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "kuali.lo.category.type.subject" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.lo\.category\.type\.subject</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lulorealtion.includes" id="constraint.hard.coded.lulorealtion.includes" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lulorealtion.includes" id="constraint.hard.coded.lulorealtion.includes" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lu.lo.relation.type.includes" -->
 		<dict:validChars>
 		<dict:value>regex:kulai\.lu\.lo\.relation\.type\.includes</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lolorealtion.includes" id="constraint.hard.coded.lolorealtion.includes" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lolorealtion.includes" id="constraint.hard.coded.lolorealtion.includes" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.lo.lo.relation.type.includes" -->
 		<dict:validChars>
 		<dict:value>regex:kulai\.lo\.lo\.relation\.type\.includes</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.singleUse.lo.repository" id="constraint.hard.coded.singleUse.lo.repository" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.singleUse.lo.repository" id="constraint.hard.coded.singleUse.lo.repository" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.loRepository.key.single.use" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.loRepository\.key\.singleUse</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.credit.awarded.resultUsage" id="constraint.hard.coded.credit.awarded.resultUsage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.credit.awarded.resultUsage" id="constraint.hard.coded.credit.awarded.resultUsage" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- must be "Kuali.resultUsageType.CreditAwarded" -->
 		<dict:validChars>
 		<dict:value>regex:Kuali\.resultUsageType\.CreditAwarded</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.fixed.credit" id="constraint.hard.coded.fixed.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.fixed.credit" id="constraint.hard.coded.fixed.credit" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.resultComponentType.credit.degree.fixed" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.fixed</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.variable.credit" id="constraint.hard.coded.variable.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.variable.credit" id="constraint.hard.coded.variable.credit" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.resultComponentType.credit.degree.range" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.range</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.final.grade" id="constraint.hard.coded.final.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.final.grade" id="constraint.hard.coded.final.grade" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.resultComponentType.finalGrade" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultComponentType\.finalGrade</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.academic.credit" id="constraint.hard.coded.academic.credit" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.academic.credit" id="constraint.hard.coded.academic.credit" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.creditType.credit.degree" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.creditType\.credit\.degree</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.final.qualitative.result.Usage" id="constraint.hard.coded.final.qualitative.result.Usage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.final.qualitative.result.Usage" id="constraint.hard.coded.final.qualitative.result.Usage" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.resultComponentType.finalQualitative" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.final.grad.awarded.resultUsage" id="constraint.hard.coded.final.grad.awarded.resultUsage" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.final.grad.awarded.resultUsage" id="constraint.hard.coded.final.grad.awarded.resultUsage" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Must be "kuali.resultUsageType.finalGradeAwarded"" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultUsageType\.finalGradeAwarded</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.letter.grade" id="constraint.hard.coded.letter.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.letter.grade" id="constraint.hard.coded.letter.grade" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.gradeType.Letter" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.gradeType\.Letter</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.pass-fail.grade" id="constraint.hard.coded.pass-fail.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.pass-fail.grade" id="constraint.hard.coded.pass-fail.grade" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.gradeType.Pass-Fail" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.gradeType\.Pass-Fail</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.final.qualitative" id="constraint.hard.coded.final.qualitative" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.final.qualitative" id="constraint.hard.coded.final.qualitative" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.resultComponentType.finalQualitative" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.resultComponentType\.finalQualitative</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.referenceType.CLU" id="constraint.hard.coded.referenceType.CLU" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.referenceType.CLU" id="constraint.hard.coded.referenceType.CLU" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.referenceType.CLU" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.referenceType\.CLU</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.referenceType.Proposal" id="constraint.hard.coded.referenceType.Proposal" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.referenceType.Proposal" id="constraint.hard.coded.referenceType.Proposal" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.referenceType.proposal" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.referenceType\.proposal</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.group.proposal" id="constraint.hard.coded.group.proposal" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.group.proposal" id="constraint.hard.coded.group.proposal" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.proposal.type.group" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.proposal\.type\.group</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.syllabus" id="constraint.hard.coded.syllabus" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.syllabus" id="constraint.hard.coded.syllabus" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.proposal.ProposalDocRelationType.syllabus" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.proposal\.ProposalDocRelationType\.syllabus</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.other.document" id="constraint.hard.coded.other.document" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.other.document" id="constraint.hard.coded.other.document" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.proposal.ProposalDocRelationType.other" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.proposal\.ProposalDocRelationType\.other</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.file" id="constraint.hard.coded.file" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.file" id="constraint.hard.coded.file" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.document.type.file" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.document\.type\.file</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.course.proposal.doc.category" id="constraint.hard.coded.course.proposal.doc.category" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.course.proposal.doc.category" id="constraint.hard.coded.course.proposal.doc.category" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.document.category.courseProposal.Doc.Category" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.document\.category\.courseProposal\.Doc\.Category</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.rateType.fixedRate" id="constraint.hard.coded.rateType.fixedRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.rateType.fixedRate" id="constraint.hard.coded.rateType.fixedRate" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Fixed Rate" -->
 		<dict:validChars>
 		<dict:value>regex:Fixed Rate</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.rateType.variableRate" id="constraint.hard.coded.rateType.variableRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.rateType.variableRate" id="constraint.hard.coded.rateType.variableRate" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Variable Rate" -->
 		<dict:validChars>
 		<dict:value>regex:Variable Rate</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.rateType.multipleRate" id="constraint.hard.coded.rateType.multipleRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.rateType.multipleRate" id="constraint.hard.coded.rateType.multipleRate" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Multiple Rate" -->
 		<dict:validChars>
 		<dict:value>regex:Multiple Rate</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.rateType.perCreditRate" id="constraint.hard.coded.rateType.perCreditRate" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.rateType.perCreditRate" id="constraint.hard.coded.rateType.perCreditRate" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Per Credit Rate" -->
 		<dict:validChars>
 		<dict:value>regex:Per Credit Rate</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.feeType.Revenue" id="constraint.hard.coded.feeType.Revenue" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.feeType.Revenue" id="constraint.hard.coded.feeType.Revenue" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "Revenue" -->
 		<dict:validChars>
 		<dict:value>regex:Revenue</dict:value>
@@ -1125,27 +1125,27 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- Don't know all the details yet -->
 		</dict:constraint>
 
-	<dict:constraint key="calc.meta.versionInd" id="constraint.calc.meta.versionInd" className="org.kuali.student.core.calculationVersionIndCalculator" serverSide="true">
+	<dict:constraint key="calc.meta.versionInd" id="constraint.calc.meta.versionInd" className="org.kuali.student.common.calculationVersionIndCalculator" serverSide="true">
 		<!-- Calculates the version indicator that is used for optimistic locking -->
 		<!-- This could be as simple as a nano-second date-time stamp of the last update or a sequence number of the object that gets incremented on each update or some other more complex computation. -->
 		</dict:constraint>
 
-	<dict:constraint key="calc.now" id="constraint.calc.now" className="org.kuali.student.core.calculation.NowCalculator" serverSide="true">
+	<dict:constraint key="calc.now" id="constraint.calc.now" className="org.kuali.student.common.calculation.NowCalculator" serverSide="true">
 		<!-- Sets a field to the current time -->
 		<!-- Worry about timezone issues -->
 		</dict:constraint>
 
-	<dict:constraint key="calc.today" id="constraint.calc.today" className="org.kuali.student.core.calculation.TodayCalculator" serverSide="true">
+	<dict:constraint key="calc.today" id="constraint.calc.today" className="org.kuali.student.common.calculation.TodayCalculator" serverSide="true">
 		<!-- Sets a field to system date -->
 		<!-- Worry about timezone issues -->
 		</dict:constraint>
 
-	<dict:constraint key="calc.authenicated.principalId" id="constraint.calc.authenicated.principalId" className="org.kuali.student.core.auth.calculation.AuthenticatedPrincipalCalculator" serverSide="true">
+	<dict:constraint key="calc.authenicated.principalId" id="constraint.calc.authenicated.principalId" className="org.kuali.student.common.auth.calculation.AuthenticatedPrincipalCalculator" serverSide="true">
 		<!-- Sets a field to the currently authenticated user -->
 		<!-- How do we know who the real user is when a service calls another service? -->
 		</dict:constraint>
 
-	<dict:constraint key="calc.plain.text" id="constraint.calc.plain.text" className="org.kuali.student.core.calculation.PlainTextCalculator" serverSide="true">
+	<dict:constraint key="calc.plain.text" id="constraint.calc.plain.text" className="org.kuali.student.common.calculation.PlainTextCalculator" serverSide="true">
 		<!-- Strips the formatting out of the formatted version of the rich text field and stores it in this plain text field -->
 		</dict:constraint>
 
@@ -1386,56 +1386,56 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<dict:maxLength>36</dict:maxLength>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.credit.course.clu" id="constraint.hard.coded.credit.course.clu" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.credit.course.clu" id="constraint.hard.coded.credit.course.clu" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType.credit.course" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.credit\.course</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.credit.course.clu.set" id="constraint.hard.coded.credit.course.clu.set" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.credit.course.clu.set" id="constraint.hard.coded.credit.course.clu.set" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType.credit.course.set" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.credit\.course\.set</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.required.count" id="constraint.hard.coded.required.count" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.required.count" id="constraint.hard.coded.required.count" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType.requiredCount" -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.requiredCount</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.lrd.credit.course.final.grade" id="constraint.hard.coded.lrd.credit.course.final.grade" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.lrd.credit.course.final.grade" id="constraint.hard.coded.lrd.credit.course.final.grade" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType. -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.lrd\.credit\.course\.final\.grade</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.overall.gpa" id="constraint.hard.coded.overall.gpa" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.overall.gpa" id="constraint.hard.coded.overall.gpa" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType. -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.overall\.gpa</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.overall.totalCredits" id="constraint.hard.coded.overall.totalCredits" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.overall.totalCredits" id="constraint.hard.coded.overall.totalCredits" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType. -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.overall\.totalCredits</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.operator" id="constraint.hard.coded.operator" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.operator" id="constraint.hard.coded.operator" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType. -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.operator</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
-	<dict:constraint key="atp.in.future" id="constraint.atp.in.future" className="org.kuali.student.core.atp.validation.FutureATPValidatorValidator" serverSide="true">
+	<dict:constraint key="atp.in.future" id="constraint.atp.in.future" className="org.kuali.student.common.atp.validation.FutureATPValidatorValidator" serverSide="true">
 		<!-- The ATP must start in the future -->
 		</dict:constraint>
 
@@ -1443,7 +1443,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 		<!-- The variation codes must be unique -->
 		</dict:constraint>
 
-	<dict:constraint key="hard.coded.countType" id="constraint.hard.coded.countType" className="org.kuali.student.core.calculation.HardCodedValueCalculator" serverSide="true">
+	<dict:constraint key="hard.coded.countType" id="constraint.hard.coded.countType" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be"kuali.reqCompFieldType. -->
 		<dict:validChars>
 		<dict:value>regex:kuali\.reqCompFieldType\.countType</dict:value>

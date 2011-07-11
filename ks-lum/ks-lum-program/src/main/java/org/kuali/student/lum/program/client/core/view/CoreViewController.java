@@ -25,7 +25,12 @@ import org.kuali.student.lum.program.client.major.ActionType;
  */
 public class CoreViewController extends CoreController {
 
-    private final DropdownList actionBox = new DropdownList(ActionType.getValues());
+    /**
+     * Initialize the action drop-down with a list of values.  Note that these values
+     * will be changed further down in the code depending on if we are working with the latest 
+     * version of the program.
+     */ 
+    private final DropdownList actionBox = new DropdownList(ActionType.getValuesForCoreProgram(false));
 
     /**
      * Constructor.
@@ -48,13 +53,11 @@ public class CoreViewController extends CoreController {
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), viewContext);
                 } else if (actionType == ActionType.MODIFY_VERSION) {
-                    String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                    String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), viewContext);
                 }
-
             }
         });
         eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {
@@ -88,11 +91,11 @@ public class CoreViewController extends CoreController {
         if (status == ProgramStatus.ACTIVE) {
             programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>() {
                 public void onSuccess(Boolean isLatest) {
-                    actionBox.setList(ActionType.getValues(isLatest));
+                    actionBox.setList(ActionType.getValuesForCoreProgram(isLatest));
                 }
             });
         } else {
-            actionBox.setList(ActionType.getValues(false));
+            actionBox.setList(ActionType.getValuesForCoreProgram(false));
         }
     }
 }

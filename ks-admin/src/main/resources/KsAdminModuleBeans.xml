@@ -22,6 +22,7 @@
         <value>org.kuali.student.core.messages</value>
         <value>org.kuali.student.core.enumerationmanagement</value>
         <value>org.kuali.student.core.atp</value>
+        <value>org.kuali.student.core.subjectcode</value>
       </list>
     </property>
     <property name="initializeDataDictionary" value="true" />
@@ -78,6 +79,12 @@
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuCode.xml</value>
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuLuRelationType.xml</value>
         <value>classpath:org/kuali/student/lum/lu/bo/datadictionary/LuType.xml</value>
+		<value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCode.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCodeType.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/bo/datadictionary/SubjectCodeJoinOrg.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeTypeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeMaintenanceDocument.xml</value>
+        <value>classpath:org/kuali/student/core/subjectcode/document/datadictionary/SubjectCodeJoinOrgMaintenanceDocument.xml</value>
       </list>
     </property>
   </bean>
@@ -94,5 +101,17 @@
   	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
   	<property name="cachingEnabled" value="true"/>
   </bean>
+
+  <bean id="ks.subjectCodeService" class="org.kuali.student.core.subjectcode.service.impl.SubjectCodeServiceImpl" >
+  	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
+  	<property name="cachingEnabled" value="true"/>
+  	<property name="searchManager" ref="ks.subjectCode.searchManager"/>
+  </bean>
+
+	<bean id="ks.subjectCode.searchManager"
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0"
+			value="classpath:org/kuali/student/core/subjectcode/subjectcode-search-config.xml" />
+	</bean>
         
 </beans>

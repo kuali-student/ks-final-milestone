@@ -25,7 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;;
 
 @Entity
 @Table(name = "KSST_REF_STMT_REL_TYPE")

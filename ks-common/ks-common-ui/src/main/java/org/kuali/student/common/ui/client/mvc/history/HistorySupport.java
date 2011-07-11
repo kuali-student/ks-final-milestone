@@ -15,6 +15,12 @@
 
 package org.kuali.student.common.ui.client.mvc.history;
 
+/**
+ * Interface controllers and views must implement for history support
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public interface HistorySupport {
     public void onHistoryEvent(String historyStack);
 	public String collectHistory(String historyStack);

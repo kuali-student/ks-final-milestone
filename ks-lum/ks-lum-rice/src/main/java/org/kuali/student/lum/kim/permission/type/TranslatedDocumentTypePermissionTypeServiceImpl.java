@@ -26,7 +26,7 @@ import java.util.Set;
 import org.kuali.rice.kim.bo.impl.KimAttributes;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kns.service.impl.DocumentTypePermissionTypeServiceImpl;
-import org.kuali.student.core.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 
 /**

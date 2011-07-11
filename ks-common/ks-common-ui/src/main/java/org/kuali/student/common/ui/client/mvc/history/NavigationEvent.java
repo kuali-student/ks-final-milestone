@@ -19,6 +19,12 @@ import org.kuali.student.common.ui.client.mvc.UncheckedApplicationEvent;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Event that is fired when a history token should be logged on the history stack
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class NavigationEvent extends UncheckedApplicationEvent<NavigationEventHandler>{
     public static final Type<NavigationEventHandler> TYPE = new Type<NavigationEventHandler>();
     

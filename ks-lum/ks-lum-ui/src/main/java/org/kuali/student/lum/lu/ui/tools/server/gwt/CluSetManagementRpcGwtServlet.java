@@ -18,17 +18,17 @@ package org.kuali.student.lum.lu.ui.tools.server.gwt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
@@ -78,8 +78,6 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
             return getDataService().saveData(data);
-        }catch (DataValidationErrorException dvee){
-            return new DataSaveResult(dvee.getValidationResults(), null);
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
             throw new OperationFailedException("Failed to save data");
@@ -222,7 +220,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                             cluInformation.setCredits(credits);
                         }
-                        cluInformation.setVerIndependentId(cluInfo.getVersionInfo().getVersionIndId());
+                        cluInformation.setVerIndependentId(cluInfo.getId());
                         result.add(cluInformation);
                     }
                 } catch (Exception e) {
@@ -265,7 +263,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 List<SearchResultCell> cells = row.getCells();
                 CluInformation cluInformation = new CluInformation();
                 for(SearchResultCell cell : cells) {
-                    if(cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
+                    if(cell.getKey().equals("lu.resultColumn.cluId")) {
                         cluInformation.setVerIndependentId(cell.getValue());
                     }
                     if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {

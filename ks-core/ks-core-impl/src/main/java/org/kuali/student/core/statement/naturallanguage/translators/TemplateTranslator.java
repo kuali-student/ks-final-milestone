@@ -18,8 +18,8 @@ package org.kuali.student.core.statement.naturallanguage.translators;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.VelocityTemplateEngine;
-import org.kuali.student.core.exceptions.OperationFailedException;
 
 /**
  * This class merges an Apache Velocity template with a map of data to produce

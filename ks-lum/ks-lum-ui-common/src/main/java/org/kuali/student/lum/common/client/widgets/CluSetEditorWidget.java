@@ -6,6 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -30,15 +39,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 
 import com.google.gwt.dom.client.Style;
@@ -287,8 +287,17 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
-        choosingSection.addWidget(
-                new HTML("<b>Add a course, course set, or course range</b>"));
+        HTML prompt;
+        if(cluSetType.equals("kuali.cluSet.type.Program")){
+            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
+            prompt = new HTML("Add program or program sets. You may  <br/>"
+                    + "add any combination of programs or program sets.");
+        }
+        else{
+            choosingSection.addWidget(new HTML("<b>Add a course, course set, or course range</b>"));
+            prompt = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets.");
+        }
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -303,9 +312,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
-        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
-            "add any combination of courses, dynamic course ranges, or Course sets. ");
-        this.addWidget(html);
+        this.addWidget(prompt);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }
