@@ -1,6 +1,8 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.DynamicAttributeListBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -24,7 +26,10 @@ public class MajorProposalInformationEditConfiguration extends AbstractSectionCo
     protected void buildLayout() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title("Proposal Information"));  //TODO: get title from ProgramProperties
         configurer.addField(section, ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle()));
-        configurer.addField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType()));
+        
+        FieldDescriptor typeOfModification = configurer.addField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType()));
+        typeOfModification.setWidgetBinding(DynamicAttributeListBinding.INSTANCE);
+        
         configurer.addField(section, ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluAbstractType()));
         configurer.addField(section, ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale()));
         rootSection.addSection(section);     
