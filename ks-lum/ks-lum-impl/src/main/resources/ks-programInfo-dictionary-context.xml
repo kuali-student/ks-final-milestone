@@ -2083,6 +2083,14 @@
  <property name="params">
   <list merge="true">
    <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endTerm"/>
+   </bean>	
+   <bean parent="param">
 	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
 	<property name="caseSensitive" value="false" />
 	<property name="writeAccess" value="NEVER" />
