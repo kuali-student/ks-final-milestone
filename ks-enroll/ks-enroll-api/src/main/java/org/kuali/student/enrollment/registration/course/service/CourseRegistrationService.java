@@ -10,20 +10,17 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.registration.course.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.registration.course.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegRequestInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegResponseInfo;
-import org.kuali.student.enrollment.registration.course.infc.RegRequest;
 import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.OperationStatusInfo;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -57,7 +54,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * Checks if a student can register at all i.e., checks if the students
      * current academic status allows them to register. This is more generic
      * operation and doesn't take in the term information.
-     * 
+     *
      * @param studentId
      * @param context
      * @return
@@ -79,7 +76,9 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     // public String canAccessRegRequest(String studentId, String termId);
 
     /**
-     * Checks the eligibility of a student to register given the term.
+     * Checks the eligibility of a student to register given the term. If the student is eligible for a term, then they can build reg cart for the term. 
+     * 
+     * Impl notes:
      * 
      * @param studentId
      * @param termId
@@ -108,11 +107,25 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public KeyDateInfo getAppointmentWindow(@WebParam(name = "studentId") String studentId,
+    public List <DateRangeInfo> getAppointmentWindow(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 
+
+    /**
+     * Checks if the student is eligible to register for a particular course offering, basic prereq checks
+     * @param studentId
+     * @param regGroupId
+     * @param context
+     * @return
+     */
+    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(@WebParam(name = "studentId") String studentId,
+            @WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    
     /**
      * Checks if the student is eligible to register for a particular
      * registration group. Used when student or admin tries to do one-click
@@ -138,7 +151,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public List<RegistrationGroupInfo> getEligibleRegGroupsForCourseOffering(
+    public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentAndCourseOffering(
             @WebParam(name = "studentId") String studentId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
@@ -153,7 +166,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public Integer calculateCreditLoadForTerm(@WebParam(name = "studentId") String studentId,
+    public String calculateCreditLoadForTerm(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context);
 
     /**
@@ -165,7 +178,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      */
-    public Integer getCreditLoadForRequest(@WebParam(name = "studentId") String studentId,
+    public String getCreditLoadForRequest(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "regRequestInfo") RegRequestInfo regRequestInfo,
             @WebParam(name = "context") ContextInfo context);
 
@@ -180,7 +193,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public Integer getAvailableSeatsForRegGroup(@WebParam(name = "regGroupId") String regGroupId,
+    public Integer getAvailableSeatsForRegGroupAndStudent(@WebParam(name = "regGroupId") String regGroupId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -231,42 +244,8 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public Integer getAvailablebleSeatsInSeatpool(@WebParam(name = "studentId") String studentId,
+    public Integer getAvailableSeatsInSeatpool(
             @WebParam(name = "seatpoolId") String seatpoolId, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Get all the registration alerts for a student - part of notification.
-     * 
-     * @param studentId
-     * @param termId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<String> getRegAlertsForStudent(@WebParam(name = "studentId") String studentId,
-            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Gets the registration holds for a student.
-     * 
-     * @param studentId
-     * @param termId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<HoldInfo> getRegHoldsForStudent(@WebParam(name = "studentId") String studentId,
-            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
 
@@ -384,7 +363,24 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validate a reg request to see that there are no conflicting or invalid
+     * 
+     * @param reqRequestInfo
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ValidationResultInfo> validateReqRequest(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
+     * Validate a reg request to see that there are no conflicting or invalid/
+     * ineligible
      * registration groups in the request after each modification or when
      * finally submitting or saving it.
      * 
@@ -397,9 +393,30 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegRequestInfo validateReqRequest(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
+    public RegResponseInfo verifyReqRequest(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
+     * Validate a reg request to see that there are no conflicting or invalid/
+     * ineligible
+     * registration groups in the request after each modification or when
+     * finally submitting or saving it.
+     * 
+     * @param reqRequestInfo
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public RegResponseInfo verifyReqRequestForSubmission(@WebParam(name = "reqRequestId") String reqRequestId,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
      * Create a new reg request from an existing reg request. Convenient when a
@@ -419,7 +436,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegRequestInfo createNewReqRequestFromExisting(
+    public RegRequestInfo createReqRequestFromExisting(
             @WebParam(name = "existingRegRequestId") String existingRegRequestId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -452,73 +469,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
-     * Creates the {@link RegRequest} in the backed, validates it
-     * and registers a student to the course. This is a one-step shortcut to
-     * registration for admin or students.
-     * 
-     * @param reqRequest
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public RegResponseInfo oneStepRegister(@WebParam(name = "reqRequest") RegRequestInfo reqRequest,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * TODO review the need for this  
-     * 
-     * NOTE - do not implement this now 
-     * 
-     * An admin operation to register or drop
-     * students as a group to/from a course. Validate the reg requests. THe
-     * RegRequestInfo will contain only one item in this case. This method is
-     * not transactional, so if registration fails for some students, then rest
-     * of the registration will continue processing.
-     * 
-     * @param reqRequests
-     * @param context
-     * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-
-    public List<RegResponseInfo> registerStudentsToCourse(
-            @WebParam(name = "reqRequests") List<RegRequestInfo> reqRequests,
-            @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
   
-    /**
-     * Removes a student from a waitlist for a course.
-     * 
-     * @param reqRequestInfo
-     * @param context
-     * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public RegResponseInfo removeStudentFromWaitlist(@WebParam(name = "reqRequestInfo") RegRequestInfo reqRequestInfo,
-            @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-    
     /**
      * Gets a waitlist entry by id.
      * 
@@ -530,7 +481,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public CourseWaitlistEntryInfo getWaitlistEntryById(
+    public CourseWaitlistEntryInfo getCourseWaitlistEntryById(
             @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -550,7 +501,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegResponseInfo updateWaitlistEntry(
+    public RegResponseInfo updateCourseWaitlistEntry(
             @WebParam(name = "reqRequestInfo") CourseWaitlistEntryInfo courseWaitlistEntryInfo,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -569,10 +520,31 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegResponseInfo deleteWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
+    public RegResponseInfo deleteCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
+
+
+
+    /**
+     * Deletes a waitlist entry
+     * 
+     * @param reqRequestInfo
+     * @param context
+     * @return
+     * @throws AlreadyExistsException
+     * @throws DataValidationErrorException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public RegResponseInfo registerStudentFromWaitlist(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
+            @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
 
     /**
      * Gets the waitlist for a course offering.
@@ -585,11 +557,47 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public CourseWaitlistInfo getWaitlistForCourseOffering(
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForCourseOffering(
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /**
+     * Gets the waitlist for a course offering.
+     * 
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(
+            @WebParam(name = "regGroupId") String regGroupId,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+
+    /**
+     * Gets the waitlist for a course offering.
+     * 
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndCourseOffering(
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /**
      * TODO review Get all the waitlist the student is in for a term. Returns
      * CourseWaitlistEntryInfo which is the student-waitlist relation.
@@ -603,27 +611,10 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<CourseWaitlistEntryInfo> getWaitlistsForStudentByTerm(@WebParam(name = "studentId") String studentId,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
-
-    
-
-    /**
-     * Gets a waitlist by id.
-     * 
-     * @param courseWaitlistId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public CourseWaitlistInfo getWaitlistById(@WebParam(name = "courseWaitlistId") String courseWaitlistId,
-            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Gets the course registration by ID.
@@ -637,22 +628,21 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
     /**
-     * Gets the course registration for a student.
+     * Gets the course registration by ID.
      * 
-     * @param studentId
+     * @param courseRegistrationId
      * @param context
      * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
      */
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(
-            @WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public CourseRegistrationInfo getCourseRegistrationsByIdList(
+            @WebParam(name = "courseRegistrationIds") List<String> courseRegistrationIds,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    
     /**
      * Gets the course registration for a student for a term.
      * 
@@ -699,8 +689,20 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegRequestInfo getCourseRegRequestForCourseRegn(
+    public List<RegRequestInfo> getRegRequestsForCourseRegn(
             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    public List<RegRequestInfo> getRegRequestsForCourseOffering(
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "studentId") String studentId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -738,6 +740,32 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    public ActivityRegistrationInfo getActivityRegistrationsByIdList(
+            @WebParam(name = "activityRegistrationIds") List<String> activityRegistrationIds,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
+     * Get the activity registrations for this course registration. A course
+     * registration results in one-many activity registrations depending on the
+     * reg group the student registered for.
+     * 
+     * @param courseRegistrationId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForActivityOffering(
+            @WebParam(name = "courseRegistrationId") String courseRegistrationId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
     /**
      * Get all activity registrations by student for a certain term.
      * 
@@ -750,7 +778,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<ActivityRegistrationInfo> getActivityRegistrationsByStudentForTerm(
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForStudentByTerm(
             @WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -783,6 +811,17 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(
+            @WebParam(name = "courseRegistrationId") String courseRegistrationId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(
+            @WebParam(name = "courseRegistrationId")List<String>  regGroupIds,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByRegGroupId(
             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;

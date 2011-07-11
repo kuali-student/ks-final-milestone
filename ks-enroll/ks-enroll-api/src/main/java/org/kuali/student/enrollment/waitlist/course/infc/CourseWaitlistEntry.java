@@ -16,9 +16,9 @@ import java.util.Date;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * Represents a single student in the course waitlist. Contains information such as
- * student id, the waitlist option (reg group id and clearing strategy) and the
- * student's position in the waitlist. As more seats become available the
+ * Represents a single student in the course waitlist. Contains information such
+ * as student id, the waitlist option (reg group id and clearing strategy) and
+ * the student's position in the waitlist. As more seats become available the
  * students in the waitlist are moved to the course.
  * <P>
  * It is represented by an LPR at Class I level, when a student actually
@@ -30,30 +30,38 @@ import org.kuali.student.r2.common.infc.Relationship;
 
 public interface CourseWaitlistEntry extends Relationship {
 
-    /**
-     * Returns the student id in waitlist entry waitlisted.
-     */
-    public String getStudentId();
+	/**
+	 * Returns the student id in waitlist entry waitlisted.
+	 */
+	public String getStudentId();
 
-    /**
-     * Returns the position of this entry in the waitlist for a particular
-     * waitlist option .
-     */
-    public Integer getPosition();
+	/**
+	 * Returns the position of this entry in the waitlist for a particular
+	 * waitlist option .
+	 */
+	public Integer getPosition();
 
-    /**
-     * Returns true if the student has checked in to the waitlist. Used to track
-     * if the student is still interested in being in the wailist.
-     * 
-     * @return
-     */
-    public Date getLastCheckedIn();
+	/**
+	 * Returns true if the student has checked in to the waitlist. Used to track
+	 * if the student is still interested in being in the wailist.
+	 * 
+	 * @return
+	 */
+	public Date getLastCheckedIn();
 
-    /**
-     * Returns the
-     * 
-     * @return
-     */
-    public String getRegGroupId();
+	/**
+	 * Returns the reg group id for this waitlist entry. A waitlist entry should
+	 * always be on tied to a single reg group. 
+	 * 
+	 * @return
+	 */
+	public String getRegGroupId();
 
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @return
+	 */
+	public String getCourseOfferingId();
 }
