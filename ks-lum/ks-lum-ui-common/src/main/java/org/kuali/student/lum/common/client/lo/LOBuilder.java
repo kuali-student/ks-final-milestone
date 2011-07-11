@@ -268,13 +268,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 			for (String strValue : loDescription) {
 
 				boolean foundEmptyBox = false;
-				while (ix > 0) {
-					ix--;
-					if (existingLOs.get(ix).getUserObject().getLOText().trim()
+				
+				for(int i=0;i<ix;i++)
+				{
+					if (existingLOs.get(i).getUserObject().getLOText().trim()
 							.length() == 0) {
-						existingLOs.get(ix).getUserObject().setLOText(strValue);
+						existingLOs.get(i).getUserObject().setLOText(strValue);
 						foundEmptyBox = true;
-						break;
+						i=ix;
 					}
 				}
 
