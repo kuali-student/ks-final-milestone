@@ -152,8 +152,11 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	                    viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
 	                    if("kuali.proposal.type.course.create.admin".equals(proposalType)||"kuali.proposal.type.course.modify.admin".equals(proposalType)){
 	                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	                    }else{
+	                    }else if (proposalType.startsWith("kuali.proposal.type.course")){
 	                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	                    } else {
+	                    	ProgramRegistry.setCreateNew(true);
+	                    	Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
 	                    }
 	                    ((KSPicker) searchWidget).getSearchWindow().hide();
                 	}

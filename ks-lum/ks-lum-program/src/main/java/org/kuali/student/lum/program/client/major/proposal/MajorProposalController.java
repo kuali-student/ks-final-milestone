@@ -85,9 +85,6 @@ public class MajorProposalController extends MajorController {
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
         
-        if (workflowUtil != null){
-            workflowUtil.requestAndSetupModel();    
-        }
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
@@ -523,6 +520,9 @@ public class MajorProposalController extends MajorController {
 		//Clear the parent path again
 		Application.getApplicationContext().setParentPath("");
 		super.beforeShow(onReadyCallback);
+		
+		//FIXME: Should this be in the onReadyCallback		
+        workflowUtil.requestAndSetupModel();		
 	}
 
 	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
