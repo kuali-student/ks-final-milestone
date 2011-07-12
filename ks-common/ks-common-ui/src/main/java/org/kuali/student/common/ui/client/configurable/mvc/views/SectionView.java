@@ -86,12 +86,12 @@ public abstract class SectionView extends BaseSection implements View {
             getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
                 @Override
-                public void onRequestFail(Throwable cause) {
+                public void onRequestFail(Throwable cause) {	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                     Window.alert("Failed to get model: "  + modelId + " for SectionView " + getName());
                     onReadyCallback.exec(false);
                 }
 
-                @Override
+                @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                 public void onModelReady(DataModel m) {
                     model = m;
                     updateWidgetData(m);
@@ -105,7 +105,7 @@ public abstract class SectionView extends BaseSection implements View {
         for (Section section : sections) {
             if (section instanceof SectionView) {
                 ((SectionView) section).beforeShow(new Callback<Boolean>() {
-                    @Override
+                    @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                     public void exec(Boolean result) {
                     }
                 });
