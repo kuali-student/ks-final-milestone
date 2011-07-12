@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
-
 
 import javax.xml.namespace.QName;
 
@@ -12,7 +10,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -28,6 +25,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
+	private static final long serialVersionUID = 1L;	
+	
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
     public final static String DEFAULT_VALUE_OF_ATP_STATE ="kuali.atp.state.Official";
@@ -41,7 +40,6 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         academicCalendarInfo.setKey(academicCalendarKey);
         academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        ContextInfo context = ContextInfo.newInstance();
         try{
         	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {   
