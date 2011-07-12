@@ -44,6 +44,7 @@
 			<list merge="true">
 				<ref bean="programProposalInfo.abstract" />
 				<ref bean="programProposalInfo.typeOfModification" />
+				<ref bean="programProposalInfo.impactedUnits" />				
 			</list>
 		</property>	
 	</bean>
@@ -321,5 +322,11 @@
 		<property name="dynamic" value="true"/>
 	</bean>
 	<bean id="programProposalInfo.typeOfModification" parent="programProposalInfo.typeOfModification-parent" />
+
+	<bean id="programProposalInfo.impactedUnits-parent" abstract="true" parent="baseStringReallyLong">
+		<property name="name" value="impactedUnits" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="programProposalInfo.impactedUnits" parent="programProposalInfo.impactedUnits-parent" />
 
 </beans>

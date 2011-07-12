@@ -5562,6 +5562,10 @@
   <property name="initialLookup" ref="kuali.lu.lookup.programModificationType" /> 
  </bean>
 
+ <bean id="programProposalInfo.impactedUnits" parent="department-lookup-binding-parent">
+  <property name="path" value="programProposalInfo.impactedUnits" />
+ </bean>
+
  <bean id="majorDisciplineInfo.universityClassification" parent="uilookupconfig-parent">
   <property name="path" value="majorDisciplineInfo.universityClassification" />
   <property name="initialLookup"
