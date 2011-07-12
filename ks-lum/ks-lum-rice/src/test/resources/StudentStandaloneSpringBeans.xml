@@ -126,7 +126,7 @@
 			<!-- See KimConstants.PersonAffiliationTypes -->
 			<list>
 				<value>STAFF</value>
-				<value>FACULTY</value>
+				<value>FCLTY</value>
 			</list>
 		</property>
 		<!--<property name="orgService" ref="orgClient"/>-->

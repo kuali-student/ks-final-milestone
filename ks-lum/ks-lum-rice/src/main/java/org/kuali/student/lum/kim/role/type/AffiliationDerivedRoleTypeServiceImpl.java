@@ -10,6 +10,7 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 public class AffiliationDerivedRoleTypeServiceImpl extends
 	KimDerivedRoleTypeServiceBase {
 
+	private static final String EMPLOYEE_STATUS_ACTIVE = "A";
 	private List<String> includedAffiliationTypes = null;
 	
 	@Override
@@ -20,7 +21,7 @@ public class AffiliationDerivedRoleTypeServiceImpl extends
 
 		// check to see if principalID is a staff member or faculty memeber
 		for (String affiliationType : includedAffiliationTypes) {
-			if (signedOnPerson.hasAffiliationOfType(affiliationType)) {
+			if (signedOnPerson.hasAffiliationOfType(affiliationType) && (signedOnPerson.getEmployeeStatusCode().equals(EMPLOYEE_STATUS_ACTIVE))) {
 				return true;
 			}
 		}	
