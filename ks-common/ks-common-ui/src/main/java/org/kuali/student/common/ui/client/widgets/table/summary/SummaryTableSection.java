@@ -33,6 +33,16 @@ public class SummaryTableSection extends VerticalSection {
     Controller controller;
     DataModel comparisonModel = null;
     List<ShowRowConditionCallback> showRowCallbacks = new ArrayList<ShowRowConditionCallback>();
+    boolean isMissingFields= false;	//KSLAB-1985
+	boolean hasWarnings= false;	//KSLAB-1985
+    
+    public boolean getIsMissingFields() {
+		return isMissingFields;
+	}
+
+    public boolean getHasWarnings(){
+    	return hasWarnings;
+    }
 
     public SummaryTableSection(Controller controller) {
         super();
@@ -85,40 +95,56 @@ public class SummaryTableSection extends VerticalSection {
     }
     
     @Override
-    public ErrorLevel processValidationResults(
-    		List<ValidationResultInfo> results) {
+    public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
     	
-    	ErrorLevel status = ErrorLevel.OK;
+    	//initialize condition parameters
+    	ErrorLevel status= ErrorLevel.OK;
+    	isMissingFields= false;
+    	hasWarnings= false;
+    	
     	for(int i = 0; i < results.size(); i++){
+    		
     		if(summaryTable.containsKey(results.get(i).getElement())){
+    			
     			System.out.println(results.get(i).getElement() + " *** " + results.get(i).getErrorLevel() + " *** " + results.get(i).getMessage());
     			if(results.get(i).getLevel().getLevel() > status.getLevel()){
-    				status = results.get(i).getLevel();
+    				
+    				status= results.get(i).getLevel();
+    				
+    				if(results.get(i).getMessage().equals("Required")){	//KSLAB-1985
+    					isMissingFields= true;
+    				}
     			}
+    			
     			if(this.isValidationEnabled){
         			summaryTable.highlightRow(results.get(i).getElement(), "rowHighlight");
         		}
     		}
     	}
     	
-    	List<ValidationResultInfo> warnings = Application.getApplicationContext().getValidationWarnings();
-    	ValidationResultInfo tempVr = new ValidationResultInfo();
+    	List<ValidationResultInfo> warnings= Application.getApplicationContext().getValidationWarnings();
+    	ValidationResultInfo tempVr= new ValidationResultInfo();
+    	
     	tempVr.setElement("");
     	for(int i = 0; i < warnings.size(); i++){
+    		
     		//Reformat the validation element path based on how it can be referenced in sumaryTable rowMap
-    		String element = warnings.get(i).getElement();    		
-    		if (element.startsWith("/")){    			
+    		String element= warnings.get(i).getElement();    		
+    		if (element.startsWith("/")){    		    			
     			//Remove leading '/' since paths aren't stored this way in rowMap
-    			element = element.substring(1);
-    		} else if (element.matches(".*/[0-9]+")){
+    			element= element.substring(1);
+    			
+    		} else if (element.matches(".*/[0-9]+")){    			
     			//Validation warnings returns path to individual items of simple multiplicity, 
     			//stripping of the item index to highlight the entire field. 
-    			element = element.substring(0, element.lastIndexOf("/")); 
+    			element= element.substring(0, element.lastIndexOf("/")); 
     		}
     		
     		if(summaryTable.containsKey(element)){
+    			
+        		hasWarnings= true;	//KSLAB-1985	assumed indicates warnings present
     			if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
-    				status = warnings.get(i).getLevel();
+    				status= warnings.get(i).getLevel();
     			}
     			
        			summaryTable.highlightRow(element, "warning");
