@@ -6,8 +6,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.enrollment.registration.course.infc.RegResponse;
-import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
+import org.kuali.student.enrollment.courseregistration.infc.RegResponse;
+import org.kuali.student.enrollment.courseregistration.infc.RegResponseItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.w3c.dom.Element;

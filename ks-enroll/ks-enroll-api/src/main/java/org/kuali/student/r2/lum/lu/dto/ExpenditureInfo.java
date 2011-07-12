@@ -56,10 +56,11 @@ public class ExpenditureInfo extends HasAttributesAndMetaInfo implements Expendi
     public ExpenditureInfo(Expenditure exp) {
         super(exp);
         
-        if(null == exp) return;
+        if(null != exp) {
         
         this.affiliatedOrgs = (null != exp.getAffiliatedOrgs()) ? new ArrayList<AffiliatedOrgInfo>((List<AffiliatedOrgInfo>)exp.getAffiliatedOrgs()) : null;
         this.id = exp.getId();
+        }
     }
  
     @Override

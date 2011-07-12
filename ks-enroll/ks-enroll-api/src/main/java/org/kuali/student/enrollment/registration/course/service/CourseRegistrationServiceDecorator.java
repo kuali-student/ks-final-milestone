@@ -11,7 +11,6 @@ import org.kuali.student.enrollment.registration.course.dto.RegGroupRegistration
 import org.kuali.student.enrollment.registration.course.dto.RegRequestInfo;
 import org.kuali.student.enrollment.registration.course.dto.RegResponseInfo;
 import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistEntryInfo;
-import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -541,20 +540,59 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
+
 	@Override
-	public List<CourseRegistrationInfo> searchForCourseRegistrations(
+	public CourseWaitlistEntryInfo getCourseWaitlistEntryById(
+			String courseWaitlistEntryId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+
+	@Override
+	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(
+			String regGroupId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	
+	@Override
+	public RegResponseInfo updateCourseWaitlistEntry(
+			CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	@Override
+	public RegResponseInfo deleteCourseWaitlistEntry(
+			String courseWaitlistEntryId, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
+
+	@Override
+	public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(
 			QueryByCriteria criteria) {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
 	@Override
-	public List<String> searchForCourseOfferingRegistrationIds(
-			QueryByCriteria criteria) {
+	public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria) {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
-
 	@Override
 	public List<ActivityRegistrationInfo> searchForActivityRegistrations(
 			QueryByCriteria criteria) {
@@ -584,78 +622,35 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 	}
 
 	@Override
-	public List<CourseWaitlistInfo> searchForCourseWaitlists(
+	public List<CourseRegistrationInfo> searchForCourseRegistrations(
 			QueryByCriteria criteria) {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
 	@Override
-	public List<String> searchForCourseWaitlistIds(QueryByCriteria criteria) {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public List<CourseWaitlistInfo> searchForCourseWaitlistEntries(
+	public List<String> searchForCourseOfferingRegistrationIds(
 			QueryByCriteria criteria) {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public List<CourseWaitlistInfo> searchForCourseWaitlistEntryIds(
-			QueryByCriteria criteria) {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public CourseWaitlistEntryInfo getCourseWaitlistEntryById(
-			String courseWaitlistEntryId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public RegResponseInfo updateCourseWaitlistEntry(
-			CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public RegResponseInfo deleteCourseWaitlistEntry(
-			String courseWaitlistEntryId, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
-	@Override
-	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(
-			String regGroupId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
 	@Override
 	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndCourseOffering(
-			String courseOfferingId, ContextInfo context)
+			String courseOfferingId, String studentId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
 
+	@Override
+	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndRegGroup(
+			String regGroupId, String studentId, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+		return null;
+	}
 	
 }
