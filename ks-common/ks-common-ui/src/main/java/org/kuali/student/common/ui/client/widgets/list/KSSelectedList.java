@@ -517,6 +517,18 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
 		}
 	}
 
+	public ErrorLevel processValidationResult(ValidationResultInfo vr, String fieldName) {
+		//Validation results passed to selected list should be in the form foo/bar/1
+		String indexNumber=vr.getElement().substring(vr.getElement().lastIndexOf('/')+1);
+		int index = Integer.parseInt(indexNumber);
+		if(index<getSelectedItems().size()){
+			KSItemLabel itemLabel = getSelectedItems().get(index);
+			return itemLabel.processValidationResult(vr, fieldName);
+		}else{
+			return ErrorLevel.OK;
+		}
+	}
+
 	@Override
 	public boolean shouldProcessValidationResult(ValidationResultInfo vr) {
 		//Check if the element ends in a number and is thus a list of primitives (foo/bar/2)
