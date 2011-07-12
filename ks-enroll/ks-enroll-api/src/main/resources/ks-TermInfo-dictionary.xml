@@ -25,7 +25,7 @@
     <bean id="termInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="termInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-        <property name="objectLabel" value=""/>
+        <property name="objectLabel" value="Term Info"/>
         <property name="objectDescription" value=""/>
         <property name="titleAttribute" value="name"/>
         <property name="primaryKeys">
