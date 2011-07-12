@@ -1973,7 +1973,7 @@
 		<property name="writeAccess" value="NEVER" />
 		<property name="dataType" value="STRING" />
 		<property name="optional" value="true" />
-		<property name="fieldPath" value="prevStartTerm"/>
+		<property name="fieldPath" value="/proposal/prevStartTerm"/>
 	   </bean>
 	   <bean parent="param">
 		<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />

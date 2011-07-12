@@ -117,12 +117,7 @@ public class SearchUtils {
                 param.setKey(metaParam.getKey());
                 if(metaParam.getFieldPath()!=null){
                 	FieldDescriptor fd = null;
-                	String finalPath;
-                	if(metaParam.getFieldPath().startsWith("/")){
-                		finalPath=metaParam.getFieldPath().substring(1);
-                	}else{
-                		finalPath=Application.getApplicationContext().getParentPath()+metaParam.getFieldPath();
-                	}
+                	String finalPath = resolvePath(metaParam.getFieldPath());
             		crossConstraints.add(finalPath);
             		fd = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
                 	if(fd!=null){
@@ -193,5 +188,15 @@ public class SearchUtils {
         sr.setParams(params);
         searchRequestWrapper.setSearchRequest(sr);
     }
+
+	public static String resolvePath(String path) {
+		String finalPath;
+		if(path.startsWith("/")){
+    		finalPath=path.substring(1);
+    	}else{
+    		finalPath=Application.getApplicationContext().getParentPath()+path;
+    	}
+		return finalPath;
+	}
 
 }

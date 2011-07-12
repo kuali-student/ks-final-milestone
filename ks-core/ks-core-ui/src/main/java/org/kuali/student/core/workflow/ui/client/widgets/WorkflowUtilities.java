@@ -29,14 +29,16 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.Model;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.util.SearchUtils;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -54,10 +56,12 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -193,18 +197,60 @@ public class WorkflowUtilities{
 		setupDialog();
 	}
 
-	public void addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition){
+	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd){
         //Add a new field to the workflow widget
 		if(approveDialogView != null){
 			QueryPath path = QueryPath.concat(parentPath, fieldKey);
 	        Metadata meta = modelDefinition.getMetadata(path);
-	        if(meta.isCanEdit() && (MetadataInterrogator.isRequiredForNextState(meta) || meta.getConstraints().get(0).getMinOccurs()>0)){
+	        if(forceAdd || (meta.isCanEdit() && (MetadataInterrogator.isRequiredForNextState(meta) || meta.getConstraints().get(0).getMinOccurs()>0))){
 	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
 	            approveDialogView.addField(fd);
 	            approveFields.add(fd.getFieldKey());
 	            fd.setHasHadFocus(true);
+	            return fd;
 	        }
 		}
+		return null;
+	}
+	
+	public void updateApproveFields(){
+		parentController.requestModel(new ModelRequestCallback<DataModel>(){
+			public void onModelReady(DataModel model) {
+				//approveDialogView.updateView(model);
+				for (final FieldDescriptor fd:approveDialogView.getFields()){
+					//Update the widgets of any cross constraints so the values are there and can be reprocessed.
+					if(fd.getFieldWidget() instanceof HasCrossConstraints){
+						HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
+						if(constraints!=null){
+							for(String path:constraints){
+								String finalPath = SearchUtils.resolvePath(path);
+								FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
+								if(crossField!=null){
+									ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
+									if(mwb!=null){
+										mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
+										//This insanity is needed because setting a widget value can be asynchronous.
+										//Adds a callback and reprocesses constraints after the value has actually been set
+										if(crossField.getFieldWidget() instanceof KSPicker && ((KSPicker)crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract){
+											((KSSelectItemWidgetAbstract)((KSPicker)crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>(){
+												public void exec(Widget result) {
+													((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+												}
+											});
+										}
+									}
+								}
+							}
+						}
+						((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+					}
+				}
+					
+			}
+			public void onRequestFail(Throwable cause) {
+			}
+			
+		});
 	}
 	
 	public void requestAndSetupModel() {
@@ -669,7 +715,7 @@ public class WorkflowUtilities{
 				dialogPanel.add(fieldLabel);
 				dialogPanel.add(required);
 				dialogPanel.add(rationaleEditor);
-                if(approveDialogView!=null){
+                if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
                 	dialogPanel.add(approveDialogView.asWidget());
                 }
 				dialogPanel.add(approvalButton);

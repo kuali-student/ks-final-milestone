@@ -406,7 +406,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							//Only display if this is a modification
 							String versionedFromId = model.get("versionInfo/versionedFromId");
 							if(versionedFromId!=null && !versionedFromId.isEmpty()){
-								workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition);
+								if(workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition,false)!=null){
+									//Add the previous start term since we need it as a widget so it can act as a cross field constraint
+									FieldDescriptor fd=workflowUtil.addApproveDialogField("proposal", "prevStartTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM), modelDefinition,true);
+									fd.getFieldWidget().setVisible(false);
+									fd.hideLabel();
+									workflowUtil.updateApproveFields();
+								}
 							}
 						}
 						public void onRequestFail(Throwable cause) {
