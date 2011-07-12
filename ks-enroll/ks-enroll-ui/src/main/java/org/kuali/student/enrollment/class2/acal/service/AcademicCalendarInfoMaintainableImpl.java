@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+
 
 import javax.xml.namespace.QName;
 
@@ -10,6 +12,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.kns.util.ObjectUtils;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -22,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
@@ -36,7 +40,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         academicCalendarInfo.setKey(academicCalendarKey);
-        academicCalendarInfo.setStateKey(DEFAULT_VALUE_OF_ATP_STATE);
+        academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         ContextInfo context = ContextInfo.newInstance();
         try{
         	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
@@ -62,7 +66,8 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
             
         }catch (VersionMismatchException vme){
             
-        }
+        }       
+        
     }
     
     @Override
@@ -84,6 +89,21 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         }
         return null;
   
+    }
+    
+  
+    /**
+     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     */
+    @Override
+    public void prepareForSave() {
+    	System.out.println (">>> in prepareForSave ");
+        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+        	AcademicCalendarInfo newAcal = (AcademicCalendarInfo)getDataObject();   	
+        	newAcal.setTypeKey("kuali.atp.type.AcademicCalendar");
+            newAcal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        }
+        super.prepareForSave();
     }
     
     protected AcademicCalendarService getAcademicCalendarService() {
