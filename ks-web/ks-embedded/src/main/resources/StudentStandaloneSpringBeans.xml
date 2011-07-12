@@ -38,9 +38,9 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+				<value>classpath:AcademicCalendarInfoUI.xml</value>	
 				<!-- 
-				<value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>
-				<value>classpath:AcademicCalendarInfoUI.xml</value>				
+				<value>classpath:ks-AcademicCalendarInfo-dictionary.xml</value>							
 				<value>classpath:AcademicCalendarInfo.xml</value>
 				<value>classpath:AcademicCalendarLookupView.xml</value>
 				<value>classpath:AcademicCalendarInfoMaintenance.xml</value>
