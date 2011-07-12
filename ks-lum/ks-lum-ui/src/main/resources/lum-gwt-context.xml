@@ -405,6 +405,7 @@
 
     <bean id="majorDisciplineProposalDataService" class="org.kuali.student.lum.program.server.MajorDisciplineProposalDataService">
         <property name="transformationManager" ref="majorDisciplineProposalTransformationManager"/>
+		<property name="proposalService" ref="proposalClient"/>
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
