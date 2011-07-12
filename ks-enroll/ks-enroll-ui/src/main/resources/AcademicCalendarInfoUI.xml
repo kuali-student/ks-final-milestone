@@ -30,6 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="academicCalendarInfoUI.startDate"/>
                 <ref bean="academicCalendarInfoUI.endDate"/>
                 <ref bean="academicCalendarInfoUI.credentialProgramTypeKey"/>
+                
                 <!--  other attributes not used by UI -->
                 <ref bean="academicCalendarInfo.typeKey"/>
                 <ref bean="academicCalendarInfo.stateKey"/>
@@ -87,7 +88,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendar-LookupView" parent="LookupView">
     <property name="title" value="Academic Calendar Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
-<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" /> -->
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" /> 
     
     <property name="criteriaFields">
       <list>
