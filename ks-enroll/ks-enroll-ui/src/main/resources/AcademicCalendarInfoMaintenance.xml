@@ -31,7 +31,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                <list>
                 <bean parent="AttributeField" p:propertyName="startDate"/>
                 <bean parent="AttributeField" p:propertyName="endDate"/>
-                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey">
+                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
                 <!-- 
                     <property name="control">
               			<bean parent="SelectControl"/>
