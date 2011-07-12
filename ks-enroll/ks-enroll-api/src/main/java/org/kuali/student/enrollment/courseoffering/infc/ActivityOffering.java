@@ -48,7 +48,7 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
      * @name Activity Id
      */
     public String getActivityId();
-        
+       
     /**
      * Alphanumeric character that identifies the section of the course offering
      * @name Activity Code
@@ -58,6 +58,8 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     /**
      * Academic term the activity is being offered in. Should be same as CourseOffering unless changed, then must 
      * be nested term of courseOffering
+     * @name Term Key
+     * @impl map to Lui.getAtpKey
      */
     public String getTermKey();
         
@@ -73,6 +75,7 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
      * canonical activity
      * 
      * @name: Grading Options
+     * @impl maps to Lui.gradingOptions
      */
     public List<String> getGradingOptions();
     
@@ -80,6 +83,7 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     /**
      * Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
      * @name Instructors
+     * @impl maps to Lui.instructors
      */
     public List<? extends LuiInstructor> getInstructors();
        
@@ -139,12 +143,14 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     /**
      * Total maximum number of "seats" or enrollment slots that can be filled for the offering. 
      * @name Maximum Enrollment
+     * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
 
     /** 
      * Total minimum number of seats that must be filled for the offering not to be canceled. 
      * @name Minimum  Enrollment
+     * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();    
 }

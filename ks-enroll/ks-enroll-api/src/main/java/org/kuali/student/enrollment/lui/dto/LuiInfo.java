@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
@@ -41,7 +42,8 @@ import org.w3c.dom.Element;
 		"studySubjectArea", "maximumEnrollment", "minimumEnrollment",
 		"effectiveDate", "expirationDate", "fees", "gradingOptions",
 		"studyTitle", "unitsContentOwner", "unitsDeployment", "expenditure",
-		"revenues", "meta", "attributes", "_futureElements" })
+		"revenues", "hasWaitlist", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
+		"waitlistMaximum", "waitlistTypeKey", "meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	private static final long serialVersionUID = 1L;
@@ -73,7 +75,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	@XmlElement
 	private List<LuiInstructorInfo> instructors;
 	
-	// nina begin refactored from CourseOffering
+	// nina begin refactored from CourseOffering, RegistrationGroup, ActivityOffering
 	@XmlElement
 	private List<FeeInfo> fees;
 	
@@ -94,7 +96,22 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	@XmlElement
 	private List<RevenueInfo> revenues;
-	// nina end refactored from CourseOffering
+	
+	@XmlElement
+	private Boolean hasWaitlist;
+
+	@XmlElement
+	private Boolean isWaitlistCheckinRequired;
+
+	@XmlElement
+	private TimeAmount waitlistCheckinFrequency;
+
+	@XmlElement
+	private Integer waitlistMaximum;
+
+	@XmlElement
+	private String waitlistTypeKey;
+	// nina end refactored from CourseOffering, RegistrationGroup, ActivityOffering
 	
 	@XmlAnyElement
 	private List<Element> _futureElements;
@@ -275,5 +292,50 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	public void setRevenues(List<RevenueInfo> revenues) {
 		this.revenues = revenues;
+	}
+
+	@Override
+	public Boolean getHasWaitlist() {
+		return hasWaitlist;
+	}
+
+	@Override
+	public Boolean getIsWaitlistCheckinRequired() {
+		return isWaitlistCheckinRequired;
+	}
+
+	@Override
+	public TimeAmount getWaitlistCheckinFrequency() {
+		return waitlistCheckinFrequency;
+	}
+
+	@Override
+	public Integer getWaitlistMaximum() {
+		return waitlistMaximum;
+	}
+
+	@Override
+	public String getWaitlistTypeKey() {
+		return waitlistTypeKey;
+	}
+
+	public void setHasWaitlist(Boolean hasWaitlist) {
+		this.hasWaitlist = hasWaitlist;
+	}
+
+	public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
+		this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+	}
+
+	public void setWaitlistCheckinFrequency(TimeAmount waitlistCheckinFrequency) {
+		this.waitlistCheckinFrequency = waitlistCheckinFrequency;
+	}
+
+	public void setWaitlistMaximum(Integer waitlistMaximum) {
+		this.waitlistMaximum = waitlistMaximum;
+	}
+
+	public void setWaitlistTypeKey(String waitlistTypeKey) {
+		this.waitlistTypeKey = waitlistTypeKey;
 	}
 }

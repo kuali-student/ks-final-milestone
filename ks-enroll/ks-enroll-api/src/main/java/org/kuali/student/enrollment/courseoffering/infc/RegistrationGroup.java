@@ -56,42 +56,49 @@ public interface RegistrationGroup extends IdEntity {
     /**
      * Total maximum number of "seats" or enrollment slots that can be filled for the offering. Constrained by smallest activity enrollment
      * @name Maximum Enrollment
+     * @impl maps to Lui.maximumEnrollment
      */
     public Integer getMaximumEnrollment();
 
     /** 
      * Total minimum number of seats that must be filled for the offering not to be canceled. Constrained by smallest activity enrollment
      * @name Minimum  Enrollment
+     * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();
     
     /**
      * Indicates whether a RegistrationGroup has a waitlist
      * @name Has Waitlist
+     * @impl maps to Lui.hasWaitlist
      */
     public Boolean getHasWaitlist();
 
     /**
      * Indicates the type of waitlist as it relates to processing students on and off
      * @name Waitlist Type
+     * @impl maps to Lui.waitlistTypeKey
      */
     public String getWaitlistTypeKey();
 
     /**
      * Maximum number of students to be allowed on the wait list
      * @name Waitlist Maximum
+     * @impl maps to Lui.waitlistMaximum
      */
     public Integer getWaitlistMaximum();    
 
     /**
      * Indicates if the waitlist requires checkin
      * @name Is Waitlist Checkin Required
+     * @impl maps to Lui.isWaitlistCheckinRequired
      */
     public Boolean getIsWaitlistCheckinRequired();
     
     /**
      * Frequency for the waitlist checkin
      * @name Waitlist Checkin Frequency 
+     * @impl maps to Lui.waitlistCheckinFrequency
      */
     public TimeAmount getWaitlistCheckinFrequency();
 

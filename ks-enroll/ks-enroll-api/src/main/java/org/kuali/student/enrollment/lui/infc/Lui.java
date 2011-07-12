@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
@@ -123,5 +124,34 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * @name Expenditure
      */
     public Expenditure getExpenditure();
- 
+
+    /**
+     * Indicates whether a RegistrationGroup has a waitlist
+     * @name Has Waitlist
+     */
+    public Boolean getHasWaitlist();
+
+    /**
+     * Indicates the type of waitlist as it relates to processing students on and off
+     * @name Waitlist TypeKey
+     */
+    public String getWaitlistTypeKey();
+
+    /**
+     * Maximum number of students to be allowed on the wait list
+     * @name Waitlist Maximum
+     */
+    public Integer getWaitlistMaximum();    
+    
+    /**
+     * Indicates if the waitlist requires checkin
+     * @name Is Waitlist Checkin Required
+     */
+    public Boolean getIsWaitlistCheckinRequired();
+    
+    /**
+     * Frequency for the waitlist checkin
+     * @name Waitlist Checkin Frequency 
+     */
+    public TimeAmount getWaitlistCheckinFrequency();
 }
