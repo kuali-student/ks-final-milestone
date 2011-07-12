@@ -402,6 +402,10 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("program.menu.sections.proposalInformation")
   String program_menu_sections_proposalInformation();
 
+  @DefaultMessage("Change Impact")
+  @Key("program.menu.sections.proposalChangeImpact")
+  String program_menu_sections_proposalChangeImpact();
+
 
   /**
    * Translated "Description and Catalog Information".
@@ -551,6 +555,24 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Abstract")
   @Key("cluAbstractType")
   String proposalInformation_cluAbstractType();
+  
+  // Proposal - Change Impact Section
+  
+  @DefaultMessage("Related Course Changes")
+  @Key("cluRelatedCourseChangesType")
+  String proposalInformation_cluRelatedCourseChangesType();
+ 
+  @DefaultMessage("Impacted Units")
+  @Key("cluImpactedUnitsType")
+  String proposalInformation_cluImpactedUnitsType();
+   
+  @DefaultMessage("Impacted Articulation Transfer Programs")
+  @Key("cluImpactedArticulationTransferProgramsType")
+  String proposalInformation_cluImpactedArticulationTransferProgramsType();
+ 
+  @DefaultMessage("Student Transition Plans")
+  @Key("cluStudentTransitionPlansType")
+  String proposalInformation_cluStudentTransitionPlansType();
   
    /**
    * Translated "Program Actions: Modify, Retire...".

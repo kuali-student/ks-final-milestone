@@ -6,6 +6,7 @@ import org.kuali.student.lum.program.client.major.edit.CatalogInformationEditCon
 import org.kuali.student.lum.program.client.major.edit.CollaboratorsEditConfiguration;
 import org.kuali.student.lum.program.client.major.edit.LearningObjectivesEditConfiguration;
 import org.kuali.student.lum.program.client.major.edit.MajorInformationEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.MajorProposalChangeImpactEditConfiguration;
 import org.kuali.student.lum.program.client.major.edit.MajorProposalInformationEditConfiguration;
 import org.kuali.student.lum.program.client.major.edit.MajorProposalSummaryConfiguration;
 import org.kuali.student.lum.program.client.major.edit.ManagingBodiesEditConfiguration;
@@ -21,6 +22,7 @@ public class MajorProposalConfigurer extends AbstractProgramConfigurer {
     public MajorProposalConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
         programSectionConfigManager.registerConfiguration(new MajorProposalInformationEditConfiguration());
+        programSectionConfigManager.registerConfiguration(new MajorProposalChangeImpactEditConfiguration());
         programSectionConfigManager.registerConfiguration(new MajorInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
         programSectionConfigManager.registerConfiguration(new SpecializationsEditConfiguration());
