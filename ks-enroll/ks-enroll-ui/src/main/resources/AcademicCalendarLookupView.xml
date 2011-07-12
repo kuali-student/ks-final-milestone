@@ -18,12 +18,31 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-  <bean id="AcademicCalendarLookupView" parent="LookupView">
-    <property name="title" value="Academic Calendar Info Lookup" />
+  <bean id="AcademicCalendar-LookupView" parent="LookupView">
+    <property name="title" value="Academic Calendar Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
-  <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
+ <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" />
     
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="credentialProgramTypeKey"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="key" />
+        <bean parent="AttributeField" p:propertyName="startDate" />
+        <bean parent="AttributeField" p:propertyName="endDate" />
+        <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey" />        
+      </list>
+    </property>
+  </bean>
+<!--   
+  <bean id="AcademicCalendar-LookupView2" parent="LookupView">
+    <property name="title" value="Academic Calendar Info Lookup (General)" />
+    <property name="viewName" value="AcademicCalendar-LookupView2"/>
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
@@ -34,7 +53,6 @@ limitations under the License.
     </property>
     <property name="resultFields">
       <list>
-<!--    <bean parent="AttributeField" p:propertyName="name" /> -->
 		<bean parent="AttributeField" p:propertyName="key" />
         <bean parent="AttributeField" p:propertyName="startDate" />
         <bean parent="AttributeField" p:propertyName="endDate" />
@@ -42,4 +60,5 @@ limitations under the License.
       </list>
     </property>
   </bean>
+-->  
 </beans>
