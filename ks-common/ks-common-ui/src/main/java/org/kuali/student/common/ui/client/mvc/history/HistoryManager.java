@@ -194,7 +194,10 @@ public class HistoryManager {
      * @return
      */
     public static String collectHistoryStack() {
-        String result = root.collectHistory("");
+        String result = null;
+        if (root != null){
+            result = root.collectHistory("");
+        }
 		if(result == null){
 			result = "";
 		}
