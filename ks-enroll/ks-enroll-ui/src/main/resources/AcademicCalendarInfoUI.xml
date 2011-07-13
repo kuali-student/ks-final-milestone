@@ -51,7 +51,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             	  p:allowWhitespace="false" />
     	</property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="TextControl" p:size="60"/>
     	</property> 
     </bean>
     
@@ -93,7 +93,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="credentialProgramTypeKey"/>
+<!--    <bean parent="LookupCriteriaAttributeField" p:propertyName="credentialProgramTypeKey"/> -->
       </list>
     </property>
     <property name="resultFields">
