@@ -44,7 +44,11 @@
 			<list merge="true">
 				<ref bean="programProposalInfo.abstract" />
 				<ref bean="programProposalInfo.typeOfModification" />
-				<ref bean="programProposalInfo.impactedUnits" />				
+				<ref bean="programProposalInfo.impactedUnits" />	
+				<ref bean="programProposalInfo.relatedCourseChanges" />
+				<ref bean="programProposalInfo.impactedArticulationTransferPrograms" />
+				<ref bean="programProposalInfo.studentTransitionPlans" />
+							
 			</list>
 		</property>	
 	</bean>
@@ -329,5 +333,26 @@
 		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	<bean id="programProposalInfo.impactedUnits" parent="programProposalInfo.impactedUnits-parent" />
-
+	
+	<bean id="programProposalInfo.relatedCourseChanges-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="relatedCourseChanges" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 	
+ 	<bean id="programProposalInfo.relatedCourseChanges" parent="programProposalInfo.relatedCourseChanges-parent" />
+  	
+ 	<bean id="programProposalInfo.impactedArticulationTransferPrograms-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="impactedArticulationTransferPrograms" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 
+  	<bean id="programProposalInfo.impactedArticulationTransferPrograms" parent="programProposalInfo.impactedArticulationTransferPrograms-parent" />
+  	
+ 	<bean id="programProposalInfo.studentTransitionPlans-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="studentTransitionPlans" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 
+   	<bean id="programProposalInfo.studentTransitionPlans" parent="programProposalInfo.studentTransitionPlans-parent" />
+ 
 </beans>
