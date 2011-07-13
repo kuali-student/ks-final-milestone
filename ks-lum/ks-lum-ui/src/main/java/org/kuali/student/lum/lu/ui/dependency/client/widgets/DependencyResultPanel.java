@@ -261,7 +261,11 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 else if (fieldValue.indexOf("View Program") > 0) {
                 	fieldValue = fieldValue.replaceAll("View Program", "");
                 	fieldValue = "           " + fieldValue;
-                }	
+                }
+                
+                if (fieldValue.indexOf("Different Org") > 0) 
+                	fieldValue = fieldValue.replaceAll("Different Org", "   * Different Org");
+                
                 linkElement.setFieldValue(fieldValue);
                 
                 linkElementSubItems.add(linkElement);
@@ -277,6 +281,10 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 if (child instanceof SpanPanel) {
                     SpanPanel header = (SpanPanel) child;
                     text = header.getText();
+                }
+                if (child instanceof KSLabel && (text != null) && (text != "")) {
+                	KSLabel countLabel = (KSLabel) child;
+                	text = text + countLabel.getText();
                 }
             }
             return text;
