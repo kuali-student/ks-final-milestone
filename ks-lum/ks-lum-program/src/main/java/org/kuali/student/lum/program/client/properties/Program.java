@@ -268,11 +268,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String major_variationsFailed(String arg0);
 
   /**
-   * Translated "Curriculum Oversight Division".
+   * Translated "Curriculum Oversight College".
    * 
-   * @return translated "Curriculum Oversight Division"
+   * @return translated "Curriculum Oversight College"
    */
-  @DefaultMessage("Curriculum Oversight Division")
+  @DefaultMessage("Curriculum Oversight College")
   @Key("managingBodies.curriculumOversightDivision")
   String managingBodies_curriculumOversightDivision();
 
@@ -286,11 +286,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_curriculumOversightUnit();
 
   /**
-   * Translated "Deployment Division".
+   * Translated "Deployment College".
    * 
-   * @return translated "Deployment Division"
+   * @return translated "Deployment College"
    */
-  @DefaultMessage("Deployment Division")
+  @DefaultMessage("Deployment College")
   @Key("managingBodies.deploymentDivision")
   String managingBodies_deploymentDivision();
 
@@ -304,11 +304,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_deploymentUnit();
 
   /**
-   * Translated "Financial Control Division".
+   * Translated "Financial Control College".
    * 
-   * @return translated "Financial Control Division"
+   * @return translated "Financial Control College"
    */
-  @DefaultMessage("Financial Control Division")
+  @DefaultMessage("Financial Control College")
   @Key("managingBodies.financialControlDivision")
   String managingBodies_financialControlDivision();
 
@@ -322,11 +322,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_financialControlUnit();
 
   /**
-   * Translated "Financial Resources Division".
+   * Translated "Financial Resources College".
    * 
-   * @return translated "Financial Resources Division"
+   * @return translated "Financial Resources College"
    */
-  @DefaultMessage("Financial Resources Division")
+  @DefaultMessage("Financial Resources College")
   @Key("managingBodies.financialResourcesDivision")
   String managingBodies_financialResourcesDivision();
 
@@ -349,11 +349,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_seeAll();
 
   /**
-   * Translated "Student Oversight Division".
+   * Translated "Student Oversight College".
    * 
-   * @return translated "Student Oversight Division"
+   * @return translated "Student Oversight College"
    */
-  @DefaultMessage("Student Oversight Division")
+  @DefaultMessage("Student Oversight College")
   @Key("managingBodies.studentOversightDivision")
   String managingBodies_studentOversightDivision();
 
