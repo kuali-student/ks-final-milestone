@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.search.dto.SortDirection;
+
 public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +51,9 @@ public class LookupMetadata implements Serializable {
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
     //TODO is DEFAULT needed? it has 0 references
+    
+    private SortDirection sortDirection;
+    
     public enum Usage {
         DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
@@ -223,4 +228,12 @@ public class LookupMetadata implements Serializable {
         sb.append(desc);
         return sb.toString();
     }
+
+	public SortDirection getSortDirection() {
+		return sortDirection;
+	}
+
+	public void setSortDirection(SortDirection sortDirection) {
+		this.sortDirection = sortDirection;
+	}
 }

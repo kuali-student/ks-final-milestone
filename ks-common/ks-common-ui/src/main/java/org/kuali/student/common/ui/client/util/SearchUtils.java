@@ -14,6 +14,7 @@ import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
@@ -101,6 +102,9 @@ public class SearchUtils {
 
         if (lookup.getResultSortKey() != null){
         	sr.setSortColumn(lookup.getResultSortKey());
+        }
+        if(SortDirection.DESC.equals(lookup.getSortDirection())){
+        	sr.setSortDirection(SortDirection.DESC);
         }
 
         //initialize search parameters that are hidden from the UI because they are set to default context specific values

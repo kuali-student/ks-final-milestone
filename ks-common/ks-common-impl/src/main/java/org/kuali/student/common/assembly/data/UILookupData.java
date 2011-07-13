@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.kuali.student.common.dictionary.dto.CommonLookup;
+import org.kuali.student.common.search.dto.SortDirection;
 
 
 public class UILookupData extends CommonLookup{
@@ -36,6 +37,8 @@ public class UILookupData extends CommonLookup{
 	    
 	    private Integer minQuerySize; //minimum size of query before initiating search.
 
+	    private SortDirection sortDirection;
+	    
 	    // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 		// and custom screens of the advanced search lightbox
 	    //TODO is DEFAULT needed? it has 0 references
@@ -184,5 +187,13 @@ public class UILookupData extends CommonLookup{
 	        sb.append(desc);
 	        return sb.toString();
 	    }
+
+		public SortDirection getSortDirection() {
+			return sortDirection;
+		}
+
+		public void setSortDirection(SortDirection sortDirection) {
+			this.sortDirection = sortDirection;
+		}
 
 }

@@ -216,7 +216,7 @@ public class WorkflowUtilities{
 	public void updateApproveFields(){
 		parentController.requestModel(new ModelRequestCallback<DataModel>(){
 			public void onModelReady(DataModel model) {
-				//approveDialogView.updateView(model);
+				approveDialogView.updateView(model);
 				for (final FieldDescriptor fd:approveDialogView.getFields()){
 					//Update the widgets of any cross constraints so the values are there and can be reprocessed.
 					if(fd.getFieldWidget() instanceof HasCrossConstraints){

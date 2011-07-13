@@ -2026,6 +2026,7 @@
   <property name="widget" value="DROP_DOWN" />
   <property name="resultDisplayKey" value="atp.resultColumn.atpDescrPlain" />
   <property name="resultSortKey" value="atp.resultColumn.atpStartDate" />
+  <property name="sortDirection" value="DESC"/>
   <property name="results">
    <list>
     <bean parent="result">
