@@ -304,6 +304,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 				@Override
 				public void onModelReady(DataModel model) {
+					
 					//Setup View Context
 					String idType = null;
 		    		String viewContextId = "";
@@ -375,6 +376,37 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	}
     }
 
+    @Override
+    public void getMetadataForFinalState(final KSAsyncCallback<Metadata> callback){
+		//Setup View Context
+		String idType = null;
+		String viewContextId = "";
+		if(getViewContext().getIdType() != null){
+            idType = getViewContext().getIdType().toString();
+            viewContextId = getViewContext().getId();
+            if(getViewContext().getIdType()==IdAttributes.IdType.COPY_OF_OBJECT_ID){
+            	viewContextId = null;
+            }
+		}
+		HashMap<String, String> idAttributes = new HashMap<String, String>();
+		if(idType != null){
+			idAttributes.put(IdAttributes.ID_TYPE, idType);
+		}
+
+		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
+		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());		    		
+		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
+		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, "Publication Review");
+		
+		//Get metadata and complete initializing the screen
+		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+			@Override
+			public void onSuccess(Metadata result) {
+				callback.onSuccess(result);
+			}
+		});
+    }
+    
     private void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
     	if (workflowUtil != null){
     		workflowUtil.requestAndSetupModel();	
@@ -413,6 +445,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 									fd.hideLabel();
 									workflowUtil.updateApproveFields();
 								}
+							}else{
+								//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
+								workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");
 							}
 						}
 						public void onRequestFail(Throwable cause) {

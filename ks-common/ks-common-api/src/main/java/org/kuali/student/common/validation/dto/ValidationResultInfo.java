@@ -16,6 +16,7 @@
 package org.kuali.student.common.validation.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -176,4 +177,29 @@ public class ValidationResultInfo implements Serializable {
 				+ " data=[" + invalidData + "]";
 	}
 
+	/**
+	 * Checks if there are any validation errors exceeding the threshold and ignoring the list of fieldPaths passed in
+	 * @param validationResults
+	 * @param threshold
+	 * @param ignoreFields
+	 * @return
+	 */
+	public static boolean hasValidationErrors(List<ValidationResultInfo> validationResults, ErrorLevel threshold, List<String> ignoreFields){
+		 if (validationResults != null) {
+            for (ValidationResultInfo validationResult : validationResults) {
+            	//Ignore any fields that are in the list
+            	if(ignoreFields!=null && !ignoreFields.contains(validationResult.getElement())){
+            		//Return true if any of the validation results exceed your threshold
+            		if (validationResult.getLevel() == ErrorLevel.ERROR) {
+	                    return true;
+	                }
+	                if (ErrorLevel.WARN.equals(threshold) && validationResult.getLevel() == ErrorLevel.WARN) {
+	                    return true;
+	                }
+            	}
+            }
+        }
+		return false;
+	}
+	
 }

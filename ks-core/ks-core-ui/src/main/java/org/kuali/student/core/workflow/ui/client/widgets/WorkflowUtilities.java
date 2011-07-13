@@ -162,7 +162,8 @@ public class WorkflowUtilities{
 	private KSLightBox submitSuccessDialog;
 	private VerticalPanel dialogPanel;
 	private VerticalSectionView approveDialogView;
-	private HashSet<String> approveFields = new HashSet<String>();
+	private VerticalSectionView blanketApproveDialogView;
+	private HashSet<String> ignoredApproveDialogFields = new HashSet<String>();
     
     private final KSLabel workflowStatusLabel = new KSLabel("");
     
@@ -193,20 +194,31 @@ public class WorkflowUtilities{
 		approveDialogView = new VerticalSectionView(viewEnum, name, modelId);
 		approveDialogView.setController(parentController);
 		
+		blanketApproveDialogView = new VerticalSectionView(viewEnum, name, modelId);
+		blanketApproveDialogView.setController(parentController);
+		
 		setupWFButtons();
 		setupDialog();
 	}
 
 	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd){
-        //Add a new field to the workflow widget
+
+		QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata meta = modelDefinition.getMetadata(path);
+        
+        //Always add to blanket approve 
+        if(blanketApproveDialogView != null){
+        	FieldDescriptor fd1 = new FieldDescriptor(path.toString(), messageKey, meta);
+        	fd1.setHasHadFocus(true);
+        	blanketApproveDialogView.addField(fd1);
+        }
+        
+		//Add a new field to the workflow widget
 		if(approveDialogView != null){
-			QueryPath path = QueryPath.concat(parentPath, fieldKey);
-	        Metadata meta = modelDefinition.getMetadata(path);
 	        if(forceAdd || (meta.isCanEdit() && (MetadataInterrogator.isRequiredForNextState(meta) || meta.getConstraints().get(0).getMinOccurs()>0))){
 	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-	            approveDialogView.addField(fd);
-	            approveFields.add(fd.getFieldKey());
 	            fd.setHasHadFocus(true);
+	    	    approveDialogView.addField(fd);
 	            return fd;
 	        }
 		}
@@ -218,41 +230,46 @@ public class WorkflowUtilities{
 			public void onModelReady(DataModel model) {
 				approveDialogView.updateView(model);
 				for (final FieldDescriptor fd:approveDialogView.getFields()){
-					//Update the widgets of any cross constraints so the values are there and can be reprocessed.
-					if(fd.getFieldWidget() instanceof HasCrossConstraints){
-						HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
-						if(constraints!=null){
-							for(String path:constraints){
-								String finalPath = SearchUtils.resolvePath(path);
-								FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
-								if(crossField!=null){
-									ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
-									if(mwb!=null){
-										mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
-										//This insanity is needed because setting a widget value can be asynchronous.
-										//Adds a callback and reprocesses constraints after the value has actually been set
-										if(crossField.getFieldWidget() instanceof KSPicker && ((KSPicker)crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract){
-											((KSSelectItemWidgetAbstract)((KSPicker)crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>(){
-												public void exec(Widget result) {
-													((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
-												}
-											});
-										}
-									}
-								}
-							}
-						}
-						((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
-					}
+					updateApprovedField(fd);
 				}
-					
+				blanketApproveDialogView.updateView(model);
+				for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
+					updateApprovedField(fd);
+				}	
 			}
 			public void onRequestFail(Throwable cause) {
 			}
 			
 		});
 	}
-	
+	private void updateApprovedField(final FieldDescriptor fd){
+		//Update the widgets of any cross constraints so the values are there and can be reprocessed.
+		if(fd.getFieldWidget() instanceof HasCrossConstraints){
+			HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
+			if(constraints!=null){
+				for(String path:constraints){
+					String finalPath = SearchUtils.resolvePath(path);
+					FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
+					if(crossField!=null){
+						ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
+						if(mwb!=null){
+							mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
+							//This insanity is needed because setting a widget value can be asynchronous.
+							//Adds a callback and reprocesses constraints after the value has actually been set
+							if(crossField.getFieldWidget() instanceof KSPicker && ((KSPicker)crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract){
+								((KSSelectItemWidgetAbstract)((KSPicker)crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>(){
+									public void exec(Widget result) {
+										((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+									}
+								});
+							}
+						}
+					}
+				}
+			}
+			((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+		}
+	}
 	public void requestAndSetupModel() {
 		
 		if(null==dataModel){
@@ -809,38 +826,103 @@ public class WorkflowUtilities{
                             if (rationaleEditor.getText().trim().equals("")) {
                                 required.setText("Please enter the decision rationale");
                             } else {
-                                addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
-                                workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
-                                    @Override
-                                    public void handleFailure(Throwable caught) {
-                                    		submitSuccessDialog.hide();
-                                        Window.alert("Error blanket approving Proposal");
-                                    }
+                            	
+								if(blanketApproveDialogView!=null){
+									//Validate all the fields on the current section (the additional required fields)
+									parentController.requestModel(new ModelRequestCallback<DataModel>(){
 
-                                    public void onSuccess(Boolean result) {
-                                    		submitSuccessDialog.hide();
-                                        if (result) {
-                                            // KSLAB-1828; we get "B" back from workflowRpcServiceAsync.getActionsRequested()
-                                            // even though we just successfully submitted blanket approval to workflow,
-                                            // because the workflow action hasn't been completed yet.
-                                            enableWorkflowActionsWidgets(false);
+										@Override
+										public void onModelReady(final DataModel model) {
+											blanketApproveDialogView.updateModel();
+											if(parentController instanceof WorkflowEnhancedNavController){
+												((WorkflowEnhancedNavController)parentController).getMetadataForFinalState(new KSAsyncCallback<Metadata>(){
 
-                                            updateWorkflow(dataModel);
-                                            if (submitCallback != null) {
-                                                submitCallback.exec(result);
-                                            }
-                                            // Notify the user that the document was approved
-                                            KSNotifier.add(new KSNotification("Proposal will be blanket approved", false));
-                                        } else {
-                                            Window.alert("Error blanket approving Proposal");
-                                        }
-                                    }
-                                });    	
+													@Override
+													public void onSuccess(
+															Metadata metadata) {
+														model.validateForMetadata(metadata, new Callback<List<ValidationResultInfo>>() {
+										                    @Override
+										                    public void exec(List<ValidationResultInfo> results) {
+										                    	//first validate the dialog section
+										                    	
+										                    	//Process the results on the additional fields view
+										                    	
+										                    	if(ErrorLevel.OK.equals(blanketApproveDialogView.processValidationResults(results))){
+										                    		List<String> ignoreFields = new ArrayList<String>(ignoredApproveDialogFields);
+										                    		for(FieldDescriptor fd:blanketApproveDialogView.getFields()){
+										                    			ignoreFields.add(fd.getFieldKey());
+										                    		}
+											                    	if(!ValidationResultInfo.hasValidationErrors(results,ErrorLevel.WARN,ignoreFields)){
+																		//Save first and then do the workflow actions later
+																		SaveActionEvent saveActionEvent = new SaveActionEvent();
+														                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+														                    public void onActionComplete(ActionEvent action) {
+														                    	doBlanketApprove();
+														                    }
+														                });
+														                parentController.fireApplicationEvent(saveActionEvent);
+											                    	}else{
+											                    		KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
+											                    	}
+										                    	}else{
+										                    		KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
+										                    	}
+										                    }
+														});
+													}
+													
+												});
+											}
+										}
+
+										@Override
+										public void onRequestFail(
+												Throwable cause) {
+											KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
+										}
+										
+									});
+
+								}else{
+									doBlanketApprove();
+								}
+                            	
+   	
                             }
                         } else {
                             submitSuccessDialog.hide();
                         }
                     }
+
+					private void doBlanketApprove() {
+                        addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
+                        workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                            @Override
+                            public void handleFailure(Throwable caught) {
+                            		submitSuccessDialog.hide();
+                                Window.alert("Error blanket approving Proposal");
+                            }
+
+                            public void onSuccess(Boolean result) {
+                            		submitSuccessDialog.hide();
+                                if (result) {
+                                    // KSLAB-1828; we get "B" back from workflowRpcServiceAsync.getActionsRequested()
+                                    // even though we just successfully submitted blanket approval to workflow,
+                                    // because the workflow action hasn't been completed yet.
+                                    enableWorkflowActionsWidgets(false);
+
+                                    updateWorkflow(dataModel);
+                                    if (submitCallback != null) {
+                                        submitCallback.exec(result);
+                                    }
+                                    // Notify the user that the document was approved
+                                    KSNotifier.add(new KSNotification("Proposal will be blanket approved", false));
+                                } else {
+                                    Window.alert("Error blanket approving Proposal");
+                                }
+                            }
+                        }); 
+					}
                 });
 
                 SectionTitle headerTitle = SectionTitle.generateH3Title("Blanket Approve Proposal");
@@ -855,6 +937,9 @@ public class WorkflowUtilities{
                 dialogPanel.add(fieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
+                if(blanketApproveDialogView!=null && !blanketApproveDialogView.getFields().isEmpty()){
+                	dialogPanel.add(blanketApproveDialogView.asWidget());
+                }
                 dialogPanel.add(blanketApprovalButton);
                 dialogPanel.setSize("580px", "400px");
                 // submitSuccessDialog.setWidget(dialogPanel);
@@ -1172,5 +1257,9 @@ public class WorkflowUtilities{
 
 	public List<KSMenuItemData> getAdditionalItems() {
 		return additionalItems;
+	}
+
+	public void addIgnoreDialogField(String string) {
+		ignoredApproveDialogFields.add(string);
 	}
 }

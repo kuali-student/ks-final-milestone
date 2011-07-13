@@ -90,6 +90,21 @@ public class DataModelValidator {
     }
 
     /**
+     * Use to validate the entire DataModel structure against constraints defined in the metadata
+     * for the given metadata
+     *
+     * @param metadata
+     * @param model
+     * @return
+     */
+    public List<ValidationResultInfo> validateForMetadata(Metadata metadata, final DataModel model) {
+        validateNextState = true;
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+        doValidate(model, metadata, new QueryPath(), results);
+        return results;
+    }
+    
+    /**
      * Use to validated a single field within the data model against constraints defined in the metadata
      *
      * @param fd
