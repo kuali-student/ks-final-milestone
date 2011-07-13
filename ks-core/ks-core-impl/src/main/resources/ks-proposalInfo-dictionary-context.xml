@@ -325,7 +325,8 @@
 
 	<bean id="programProposalInfo.impactedUnits-parent" abstract="true" parent="baseStringReallyLong">
 		<property name="name" value="impactedUnits" />		
-		<property name="dynamic" value="true"/>
+		<property name="dynamic" value="true"/>	
+		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	<bean id="programProposalInfo.impactedUnits" parent="programProposalInfo.impactedUnits-parent" />
 
