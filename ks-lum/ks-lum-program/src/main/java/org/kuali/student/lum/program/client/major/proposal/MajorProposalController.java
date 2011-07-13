@@ -316,6 +316,14 @@ public class MajorProposalController extends MajorController {
                 showView(event.getViewToken());
             }
         });
+        eventBus.addHandler(ModelLoadedEvent.TYPE, new ModelLoadedEvent.Handler(){
+			@Override
+			public void onEvent(ModelLoadedEvent event) {
+				if (workflowUtil != null){
+					workflowUtil.requestAndSetupModel();
+				}
+			}        	
+        });
     }
 
     @Override
@@ -519,10 +527,7 @@ public class MajorProposalController extends MajorController {
 		}
 		//Clear the parent path again
 		Application.getApplicationContext().setParentPath("");
-		super.beforeShow(onReadyCallback);
-		
-		//FIXME: Should this be in the onReadyCallback		
-        workflowUtil.requestAndSetupModel();		
+		super.beforeShow(onReadyCallback);						
 	}
 
 	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
