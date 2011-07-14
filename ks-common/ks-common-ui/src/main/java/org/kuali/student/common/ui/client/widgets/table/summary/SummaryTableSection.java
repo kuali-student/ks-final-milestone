@@ -420,17 +420,16 @@ public class SummaryTableSection extends VerticalSection {
                     			firstValueEmpty = false;
                     		}
 	                	}
-	                	
+                	}
 		                
-	                	ModelWidgetBinding binding = field.getModelWidgetBinding();
+	                ModelWidgetBinding binding = field.getModelWidgetBinding();
 	                
-		                if (binding != null) {
-		                    Widget w = field.getFieldWidget();
-		                    binding.setWidgetValue(w, model, fieldPath);
-		                } else {
-		                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
-		                }
-	                }
+		            if (binding != null) {
+		                Widget w = field.getFieldWidget();
+		                binding.setWidgetValue(w, model, fieldPath);
+		            } else {
+		                GWT.log(field.getFieldKey() + " has no widget binding.", null);
+		            }
                 	
                 }
 
