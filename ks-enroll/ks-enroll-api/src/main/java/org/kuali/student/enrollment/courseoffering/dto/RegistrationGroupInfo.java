@@ -73,7 +73,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.activityOfferingIds = new ArrayList<String>();
         this.courseOfferingId = null;
         this.formatId = null;
-        this.hasWaitlist = null;
+        this.hasWaitlist = new Boolean(false);
         this.isHonorsOffering = new Boolean(false);
         this.isWaitlistCheckinRequired = new Boolean(false);
         this.maximumEnrollment = null;

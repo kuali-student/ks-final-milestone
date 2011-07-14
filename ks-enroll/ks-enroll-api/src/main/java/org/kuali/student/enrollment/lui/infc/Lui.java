@@ -22,6 +22,8 @@ import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.lu.dto.FeeInfo;
+import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
@@ -110,13 +112,13 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * Fees associated with the course offering. 
      * @name Fees
      */    
-    public List<? extends Fee> getFees();
+    public List<FeeInfo> getFees();
     
     /**
      * Organization that receives the revenue associated with the course
      * @name Revenues
      */
-    public List<? extends Revenue> getRevenues();
+    public List<RevenueInfo> getRevenues();
     
     
     /**

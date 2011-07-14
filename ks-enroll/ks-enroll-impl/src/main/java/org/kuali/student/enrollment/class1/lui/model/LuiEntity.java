@@ -83,6 +83,18 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
     private List<LuiInstructorEntity> instructors;
     
+    @Column(name="HAS_WTLST")
+    private boolean hasWaitlist;
+    
+    @Column(name="IS_WTLSTCHK_REQ")
+    private boolean isWaitlistCheckinRequired;
+    
+	@Column(name = "STDY_TITLE")
+	private String studyTitle;
+    
+	@Column(name = "WTLST_MAX")
+	private Integer waitlistMaximum;
+	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
     
@@ -99,6 +111,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setMaxSeats(lui.getMaximumEnrollment());
         	this.setMinSeats(lui.getMinimumEnrollment());
         	this.setStudySubjectArea(lui.getStudySubjectArea());
+        	this.setHasWaitlist(lui.getHasWaitlist());
+        	this.setWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
+        	this.setWaitlistMaximum(lui.getWaitlistMaximum());
+        	this.setStudyTitle(lui.getStudyTitle());
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
         	if(lui.getExpirationDate() != null)
@@ -135,6 +151,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setAtpKey(atpKey);
     	obj.setCluId(cluId);
     	obj.setStudySubjectArea(studySubjectArea);
+    	obj.setHasWaitlist(hasWaitlist);
+    	obj.setIsWaitlistCheckinRequired(isWaitlistCheckinRequired);
+    	if(waitlistMaximum != null)
+    		obj.setWaitlistMaximum(waitlistMaximum);
+    	obj.setStudyTitle(studyTitle);
     	if(maxSeats != null)
     		obj.setMaximumEnrollment(maxSeats);
     	if(minSeats != null)
@@ -268,6 +289,38 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
 	public void setInstructors(List<LuiInstructorEntity> instructors) {
 		this.instructors = instructors;
+	}
+
+	public boolean isHasWaitlist() {
+		return hasWaitlist;
+	}
+
+	public void setHasWaitlist(boolean hasWaitlist) {
+		this.hasWaitlist = hasWaitlist;
+	}
+
+	public boolean isWaitlistCheckinRequired() {
+		return isWaitlistCheckinRequired;
+	}
+
+	public void setWaitlistCheckinRequired(boolean isWaitlistCheckinRequired) {
+		this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+	}
+
+	public String getStudyTitle() {
+		return studyTitle;
+	}
+
+	public void setStudyTitle(String studyTitle) {
+		this.studyTitle = studyTitle;
+	}
+
+	public Integer getWaitlistMaximum() {
+		return waitlistMaximum;
+	}
+
+	public void setWaitlistMaximum(Integer waitlistMaximum) {
+		this.waitlistMaximum = waitlistMaximum;
 	}
 
 	@Override

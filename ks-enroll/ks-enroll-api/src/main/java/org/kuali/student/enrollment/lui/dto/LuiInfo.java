@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
@@ -104,7 +104,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	private Boolean isWaitlistCheckinRequired;
 
 	@XmlElement
-	private TimeAmount waitlistCheckinFrequency;
+	private TimeAmountInfo waitlistCheckinFrequency;
 
 	@XmlElement
 	private Integer waitlistMaximum;
@@ -128,6 +128,18 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		effectiveDate = null;
 		expirationDate = null;
 		_futureElements = null;
+		fees = new ArrayList<FeeInfo>();
+		gradingOptions = new ArrayList<String>();
+		studyTitle = null;
+		unitsContentOwner  = new ArrayList<String>();
+		unitsDeployment = new ArrayList<String>();
+		expenditure = null;
+		hasWaitlist = new Boolean(false);
+		isWaitlistCheckinRequired = new Boolean(false);
+		waitlistCheckinFrequency = null;
+	    waitlistMaximum = null;
+	    waitlistTypeKey = null;
+	    revenues = new ArrayList<RevenueInfo>();
 	}
 
 	public LuiInfo(Lui lui) {
@@ -146,6 +158,20 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
 		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
+		this.fees = (null != lui.getFees()) ? 
+		        new ArrayList<FeeInfo>(lui.getFees()) : null;
+		this.gradingOptions = new ArrayList<String>(lui.getGradingOptions());
+		this.studyTitle = lui.getStudyTitle();
+		this.unitsContentOwner  = new ArrayList<String>(lui.getUnitsContentOwner());
+		this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
+		this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+		this.hasWaitlist = (null != lui.getHasWaitlist()) ? new Boolean(lui.getHasWaitlist()) : null;
+		this.isWaitlistCheckinRequired = (null != lui.getIsWaitlistCheckinRequired()) ? new Boolean(lui.getIsWaitlistCheckinRequired()) : null;
+		this.waitlistCheckinFrequency = new TimeAmountInfo(lui.getWaitlistCheckinFrequency());
+		this.waitlistMaximum = lui.getWaitlistMaximum();
+		this.waitlistTypeKey = lui.getWaitlistTypeKey();
+		this.revenues = (null != lui.getRevenues()) ? 
+		        new ArrayList<RevenueInfo>(lui.getRevenues()) : null;
 	}
 
 	@Override
@@ -232,7 +258,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	}
 
 	@Override
-	public List<? extends Fee> getFees() {
+	public List<FeeInfo> getFees() {
 		return fees;
 	}
 
@@ -305,7 +331,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 	}
 
 	@Override
-	public TimeAmount getWaitlistCheckinFrequency() {
+	public TimeAmountInfo getWaitlistCheckinFrequency() {
 		return waitlistCheckinFrequency;
 	}
 
@@ -327,7 +353,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
 	}
 
-	public void setWaitlistCheckinFrequency(TimeAmount waitlistCheckinFrequency) {
+	public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
 		this.waitlistCheckinFrequency = waitlistCheckinFrequency;
 	}
 
