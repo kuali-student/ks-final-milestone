@@ -37,6 +37,8 @@ public interface CreditCourseConstants
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String START_TERM = "startTerm";
 	public static final String END_TERM = "endTerm";
+	public static final String PREV_START_TERM = "prevStartTerm";
+	public static final String PREV_END_TERM = "prevEndTerm";
 	public static final String PILOT_COURSE = "pilotCourse";
 	public static final String CROSS_LISTINGS = "crossListings";
 	public static final String VERSIONS = "variations";

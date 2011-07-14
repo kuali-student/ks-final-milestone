@@ -7,10 +7,17 @@ import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -19,10 +26,13 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -59,7 +69,7 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;  	   		   		
+   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;	   		
     }
 
 	/**
@@ -291,5 +301,33 @@ public class CourseAdminController extends CourseProposalController{
 
         menu.refresh();
     }
+
+	@Override
+	protected void configureScreens(DataModelDefinition modelDefinition,
+			final Callback<Boolean> onReadyCallback) {
+		super.configureScreens(modelDefinition, new Callback<Boolean>(){
+
+			@Override
+			public void exec(final Boolean result) {
+				requestModel(new ModelRequestCallback<DataModel>(){
+					@Override
+					public void onModelReady(DataModel model) {
+						String versionedFromId = model.get("versionInfo/versionedFromId");
+						if(versionedFromId!=null && !versionedFromId.isEmpty()){
+							VerticalSectionView view = (VerticalSectionView) viewMap.get(CourseSections.COURSE_INFO);
+							Section activeDatesSection = view.getSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY);
+							FieldDescriptor fd = cfg.addField(activeDatesSection, CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM, cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM));
+							WorkflowUtilities.updateCrossField(fd, model);
+						}
+						onReadyCallback.exec(result);
+					}
+					@Override
+					public void onRequestFail(Throwable cause) {
+						throw new RuntimeException("Error getting model",cause);
+					}
+				});
+			}
+		});
+	}
 
 }

@@ -111,7 +111,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         view.addSection(loSection);
         view.addView(requisitesSection);
         view.addSection(this.createHiddenRequisitesSection());
-        view.addSection(activeDatesSection);
+        view.addSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY,activeDatesSection);
         view.addSection(financialSection);
         view.addView(documentTool);
         
@@ -147,12 +147,15 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
      */
     @Override
     protected Section generateActiveDatesSection(Section section) {
-        
+        FieldDescriptor fd = addField(section, PROPOSAL_PATH + "/" + PREV_START_TERM, generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
+    	
     	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
     	
         addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
         addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-    
+       
         return section;
     }
         

@@ -407,7 +407,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		});
     }
     
-    private void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
+    protected void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
     	if (workflowUtil != null){
     		workflowUtil.requestAndSetupModel();	
     	}

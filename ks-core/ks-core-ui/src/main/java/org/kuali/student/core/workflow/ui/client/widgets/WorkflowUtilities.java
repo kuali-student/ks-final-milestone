@@ -230,11 +230,11 @@ public class WorkflowUtilities{
 			public void onModelReady(DataModel model) {
 				approveDialogView.updateView(model);
 				for (final FieldDescriptor fd:approveDialogView.getFields()){
-					updateApprovedField(fd);
+					updateCrossField(fd,dataModel);
 				}
 				blanketApproveDialogView.updateView(model);
 				for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
-					updateApprovedField(fd);
+					updateCrossField(fd,dataModel);
 				}	
 			}
 			public void onRequestFail(Throwable cause) {
@@ -242,7 +242,7 @@ public class WorkflowUtilities{
 			
 		});
 	}
-	private void updateApprovedField(final FieldDescriptor fd){
+	public static void updateCrossField(final FieldDescriptor fd, DataModel dataModel){
 		//Update the widgets of any cross constraints so the values are there and can be reprocessed.
 		if(fd.getFieldWidget() instanceof HasCrossConstraints){
 			HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
