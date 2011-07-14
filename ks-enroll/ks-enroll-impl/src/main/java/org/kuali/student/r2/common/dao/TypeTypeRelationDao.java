@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 
 public class TypeTypeRelationDao extends GenericEntityDao<TypeTypeRelationEntity>{
 

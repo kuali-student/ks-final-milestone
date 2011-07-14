@@ -18,7 +18,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.TypeTypeRelation;
-import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 
 @Entity

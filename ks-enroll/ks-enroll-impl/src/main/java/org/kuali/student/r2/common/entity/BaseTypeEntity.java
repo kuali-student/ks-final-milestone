@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.entity.KSEntityConstants;
 
 

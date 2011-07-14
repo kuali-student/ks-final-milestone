@@ -15,15 +15,14 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import org.junit.Test;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 /**

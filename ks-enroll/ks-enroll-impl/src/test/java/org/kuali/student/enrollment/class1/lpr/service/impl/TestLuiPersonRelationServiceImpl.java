@@ -138,7 +138,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     @Test
     public void testCreateBulkRelationshipsForPersonExceptions() {
         try {
-            List<String> createResults = lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "",new  LuiPersonRelationInfo(), callContext);
+            lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "",new  LuiPersonRelationInfo(), callContext);
 
         } catch (Throwable ex) {
             // ex.printStackTrace();

@@ -16,6 +16,8 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
@@ -24,6 +26,10 @@ import org.kuali.student.r2.common.infc.Attribute;
 @Entity
 @Table(name = "KSLP_LPR_ATTR")
 public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity<LuiPersonRelationEntity> {
+
+    @ManyToOne
+    @JoinColumn(name = "OWNER")
+    private LuiPersonRelationEntity owner;
 
 	public LuiPersonRelationAttributeEntity () {
 	}
@@ -35,4 +41,14 @@ public class LuiPersonRelationAttributeEntity extends BaseAttributeEntity<LuiPer
 	public LuiPersonRelationAttributeEntity(Attribute att) {
 		super(att);
 	}
+
+    @Override
+    public void setOwner(LuiPersonRelationEntity owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public LuiPersonRelationEntity getOwner() {
+        return owner;
+    }
 }

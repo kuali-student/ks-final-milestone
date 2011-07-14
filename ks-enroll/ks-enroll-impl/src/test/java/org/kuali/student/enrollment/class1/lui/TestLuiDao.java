@@ -10,7 +10,6 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 //TODO: works fine in eclipse. un-ignore when fixing mvn build

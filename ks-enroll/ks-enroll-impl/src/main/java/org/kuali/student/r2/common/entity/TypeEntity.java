@@ -64,7 +64,7 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 		typeInfo.setAttributes(new ArrayList<AttributeInfo>());
 		// TODO - refactor this into a central place; probably Igor's Converter
 		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-		for (BaseAttributeEntity att : this.getAttributes()) {
+		for (BaseAttributeEntity<?> att : this.getAttributes()) {
 			atts.add(att.toDto());
 		}
 		// end refactor

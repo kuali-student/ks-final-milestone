@@ -23,7 +23,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.HasMeta;

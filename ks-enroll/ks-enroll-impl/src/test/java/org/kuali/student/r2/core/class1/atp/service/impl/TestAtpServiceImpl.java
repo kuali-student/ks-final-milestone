@@ -94,6 +94,9 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("TestDesc1");
+        atpInfo.setDescr(rt);
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
         try {
@@ -107,11 +110,11 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         }
         
         // test read
-		AtpInfo fetched = atpService.getAtp("testAtpId1", callContext);
+		AtpInfo fetched = atpService.getAtp("newId", callContext);
 		assertNotNull(fetched);
-		assertEquals("testAtpId1", fetched.getKey());
-		assertEquals("testAtp1", fetched.getName());
-		assertEquals("Desc 101", fetched.getDescr().getPlain());
+		assertEquals("newId", fetched.getKey());
+		assertEquals("newId", fetched.getName());
+		assertEquals("TestDesc1", fetched.getDescr().getPlain());
 		assertEquals("kuali.atp.state.Draft", fetched.getStateKey());
 		assertEquals("kuali.atp.type.AcademicCalendar", fetched.getTypeKey());
          
@@ -142,6 +145,17 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
         } catch (Exception e){
             fail(e.getMessage());
         }
+        // undo the update done above
+        updated = atpService.getAtp(updated.getKey(), callContext);
+        updated.setName(atpNameOrig);
+        
+        try {
+	        updated = atpService.updateAtp(updated.getKey(), updated, callContext);
+        } catch (Exception e) {
+            fail("Exception thrown when updating ATP: " + e.getMessage());
+        }
+        assertNotNull(updated);
+        assertEquals(atpNameOrig, updated.getName());
     }
     
     @Test

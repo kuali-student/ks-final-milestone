@@ -2,10 +2,9 @@ package org.kuali.student.r2.common.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Inheritance;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
-import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.entity.KSEntityConstants;
 
 @MappedSuperclass

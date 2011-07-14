@@ -100,6 +100,9 @@ public class TestAtpServiceImplRemote {
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("TestDesc1");
+        atpInfo.setDescr(rt);
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
         try {
@@ -113,11 +116,11 @@ public class TestAtpServiceImplRemote {
         }
         
         // test read
-		AtpInfo fetched = atpServiceValidation.getAtp("testAtpId1", callContext);
+		AtpInfo fetched = atpServiceValidation.getAtp("newId", callContext);
 		assertNotNull(fetched);
-		assertEquals("testAtpId1", fetched.getKey());
-		assertEquals("testAtp1", fetched.getName());
-		assertEquals("Desc 101", fetched.getDescr().getPlain());
+		assertEquals("newId", fetched.getKey());
+		assertEquals("newId", fetched.getName());
+		assertEquals("TestDesc1", fetched.getDescr().getPlain());
 		assertEquals("kuali.atp.state.Draft", fetched.getStateKey());
 		assertEquals("kuali.atp.type.AcademicCalendar", fetched.getTypeKey());
          
@@ -142,12 +145,23 @@ public class TestAtpServiceImplRemote {
         try{
         	atpServiceValidation.deleteAtp("testDeleteAtpId1", callContext);
 	        try {
-		        AtpInfo deleted = atpServiceValidation.getAtp("testDeleteAtpId1", callContext);
+		        atpServiceValidation.getAtp("testDeleteAtpId1", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e){
             fail(e.getMessage());
         }
+        // undo the update done above
+        updated = atpServiceValidation.getAtp(updated.getKey(), callContext);
+        updated.setName(atpNameOrig);
+        
+        try {
+	        updated = atpServiceValidation.updateAtp(updated.getKey(), updated, callContext);
+        } catch (Exception e) {
+            fail("Exception thrown when updating ATP: " + e.getMessage());
+        }
+        assertNotNull(updated);
+        assertEquals(atpNameOrig, updated.getName());
     }
     
     @Test
@@ -200,7 +214,7 @@ public class TestAtpServiceImplRemote {
         try{
         	atpServiceValidation.deleteAtp("testDeleteAtpId2", callContext);
 	        try {
-		        AtpInfo deleted = atpServiceValidation.getAtp("testDeleteAtpId2", callContext);
+		        atpServiceValidation.getAtp("testDeleteAtpId2", callContext);
 		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
 	        } catch (DoesNotExistException dnee) {}
         } catch (Exception e) {

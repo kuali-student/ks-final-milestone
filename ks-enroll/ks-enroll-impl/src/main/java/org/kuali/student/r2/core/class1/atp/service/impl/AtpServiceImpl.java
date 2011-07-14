@@ -942,7 +942,7 @@ public class AtpServiceImpl implements AtpService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
-        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
 
         if (null == refObjectURI) {
             throw new MissingParameterException("refObjectUri parameter cannot be null");
@@ -953,7 +953,7 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
         }
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity> typeEntity : typeEntities) {
+        for (TypeEntity<? extends BaseAttributeEntity<?>> typeEntity : typeEntities) {
             typeInfos.add(typeEntity.toDto());
         }
         return typeInfos;
@@ -981,12 +981,12 @@ public class AtpServiceImpl implements AtpService {
         }
 
         // now get the List of the related Types based on those IDs
-        List<TypeEntity<? extends BaseAttributeEntity>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity>>();
+        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
         typeEntities.addAll(atpTypeDao.findByIds(ids));
         
         // convert them to DTOs and return them
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity> entity : typeEntities) {
+        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
             typeInfos.add(entity.toDto());
         }
         

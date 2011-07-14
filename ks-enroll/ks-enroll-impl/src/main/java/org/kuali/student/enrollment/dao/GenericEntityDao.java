@@ -62,7 +62,7 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     }
 
     @Override
-    public <T> T merge(T entity) {
+    public T merge(T entity) {
         return em.merge(entity);
     }
 

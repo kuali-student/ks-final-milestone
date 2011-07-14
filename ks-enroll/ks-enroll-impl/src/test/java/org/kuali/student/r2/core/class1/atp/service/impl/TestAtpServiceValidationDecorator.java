@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -130,8 +131,7 @@ public class TestAtpServiceValidationDecorator {
         	List<ValidationResultInfo> vri= atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
         	assertTrue(vri.isEmpty());
         } catch (Exception ex) {
-            //fail("exception from service call :" + ex.getMessage());
-        	//TODO: test exception aspect
+            fail("exception from service call :" + ex.getMessage());
         } 
     }
 }

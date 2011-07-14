@@ -8,7 +8,7 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSEN_ATP_STATE")
-public class AtpStateEntity extends MetaEntity{
+public class AtpStateEntity extends MetaEntity {
     private String name;
 
     @Column(name="DESCR")

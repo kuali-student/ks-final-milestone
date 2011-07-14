@@ -48,7 +48,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     private AtpStateEntity atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AtpAttributeEntity> attributes;
+    private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
   
     
     public AtpEntity(){}
