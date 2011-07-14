@@ -17,5 +17,5 @@ END;
 
 delete from KS_DB_VERSION where MODULE_NAME ='ks-lum-sql'
 /
-insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('1.1.0', 'ks-lum-sql', '','')
+insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('1.1.1', 'ks-lum-sql', '','')
 /
