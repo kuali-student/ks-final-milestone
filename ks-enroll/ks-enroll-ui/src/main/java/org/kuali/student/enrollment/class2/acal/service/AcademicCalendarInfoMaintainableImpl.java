@@ -29,8 +29,6 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
 	
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
-    public final static String DEFAULT_VALUE_OF_ATP_STATE ="kuali.atp.state.Official";
-
     
     private transient AcademicCalendarService academicCalendarService;
   
@@ -40,6 +38,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         academicCalendarInfo.setKey(academicCalendarKey);
         academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        System.out.println(">>>>credentialProgramTypeKey = "+academicCalendarInfo.getCredentialProgramTypeKey());
         try{
         	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {   
@@ -99,7 +98,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
         	AcademicCalendarInfo newAcal = (AcademicCalendarInfo)getDataObject();   	
         	newAcal.setTypeKey("kuali.atp.type.AcademicCalendar");
-            newAcal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            newAcal.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         }
         super.prepareForSave();
     }
