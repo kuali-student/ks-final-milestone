@@ -107,9 +107,9 @@
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1"> /-->
-<!--        <property name="control">
+        <property name="control">
             <bean parent="CheckboxControlDefinition"/>
-        </property>-->
+        </property>
     </bean>
 
     <bean id="baseKualiDate" abstract="true" parent="attributeDefinition">
