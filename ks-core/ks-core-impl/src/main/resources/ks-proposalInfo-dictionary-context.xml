@@ -324,6 +324,7 @@
 	<bean id="programProposalInfo.typeOfModification-parent" abstract="true" parent="baseStringReallyLong">
 		<property name="name" value="typeOfModification" />		
 		<property name="dynamic" value="true"/>
+		<property name="maxOccurs" value="unbounded" />
 	</bean>
 	<bean id="programProposalInfo.typeOfModification" parent="programProposalInfo.typeOfModification-parent" />
 

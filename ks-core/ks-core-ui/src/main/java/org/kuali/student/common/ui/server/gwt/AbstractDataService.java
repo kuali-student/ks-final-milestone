@@ -63,7 +63,7 @@ public abstract class AbstractDataService implements DataService{
 
 			Object dto = get(dtoId);
 			if (dto != null){
-				return transformationManager.transform(dto, filterProperties);
+				return transformationManager.transform(dto, getDtoClass().getName(), filterProperties);
 			}
 		} catch(DoesNotExistException e){
 			return null;
@@ -138,7 +138,7 @@ public abstract class AbstractDataService implements DataService{
 			List<ValidationResultInfo> validationResults = validate(dto);
 			
 			//Convert saved data object back to data object to send to UI
-			Data persistedData = transformationManager.transform(dto, filterProperties);			
+			Data persistedData = transformationManager.transform(dto, getDtoClass().getName(), filterProperties);			
 			
 			saveResult.setValue(persistedData);
 			saveResult.setValidationResults(validationResults);			
@@ -236,7 +236,7 @@ public abstract class AbstractDataService implements DataService{
 			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
 			dto = save(dto, filterProperties);
 				
-			Data persistedData = transformationManager.transform(dto,filterProperties);
+			Data persistedData = transformationManager.transform(dto,getDtoClass().getName(), filterProperties);
 			return new DataSaveResult(null, persistedData);
 		} catch (DataValidationErrorException dvee){
 			return new DataSaveResult(dvee.getValidationResults(), null);

@@ -71,7 +71,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
 	private String defaultDocType;
-	private String proposalDefinition;
+	private String proposalObjectType;
 	
 	List<DocumentTypeConfiguration> docTypeConfigs;
 
@@ -163,7 +163,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		}	
 		
 		//Tack on proposal data to data returned to UI client
-		Data proposalData = mapper.convertFromBean(proposalInfo);
+		Data proposalData = mapper.convertFromBean(proposalInfo, getProposalMetadata());
 		data.set("proposal", proposalData);		
 	}
 
@@ -178,9 +178,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
 		Metadata proposalMetadata;
 		if (workflowNode == null || workflowNode.isEmpty()){
-			proposalMetadata = metadataService.getMetadata(getProposalDefinition(), null, "SAVED", nextState);
+			proposalMetadata = metadataService.getMetadata(getProposalObjectType(), null, "SAVED", nextState);
 		} else {
-			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalDefinition(), workflowNode);
+			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalObjectType(), workflowNode);
 		}
 		
 		Map<String, Metadata> properties = metadata.getProperties();
@@ -342,7 +342,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 */
 	private Metadata getProposalMetadata(){
 		if (proposalMetadata == null){
-			proposalMetadata = metadataService.getMetadata(getProposalDefinition());
+			proposalMetadata = metadataService.getMetadata(getProposalObjectType());
 		}
 		
 		return proposalMetadata;
@@ -399,16 +399,16 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	/** 
 	 * @return the dictionary definition to use when getting metadata.
 	 */
-	public String getProposalDefinition() {
-		if (proposalDefinition == null){
+	public String getProposalObjectType() {
+		if (proposalObjectType == null){
 			return ProposalInfo.class.getName();
 		}
-		return proposalDefinition;
+		return proposalObjectType;
 	}
 
 
-	public void setProposalDefinition(String proposalDefinition) {
-		this.proposalDefinition = proposalDefinition;
+	public void setProposalObjectType(String proposalDefinition) {
+		this.proposalObjectType = proposalDefinition;
 	}
 
 

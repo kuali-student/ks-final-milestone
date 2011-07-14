@@ -26,20 +26,27 @@ public class TransformationManager {
 	 * and the converted DTO object.
 	 *
 	 * @param value
+	 * @param objectType TODO
 	 * @return
 	 * @throws Exception
 	 */
-	public Data transform(Object value) throws Exception{
+	public Data transform(Object value, String objectType) throws Exception{
+		Metadata metadata = null;
+		metadata = (metadata != null ? metadata:getMetadata(objectType, new HashMap<String,Object>()));
+		
 		applyOutboundFilters(value.getClass().getName(), value, new HashMap<String,Object>());
-		Data dataValue = mapper.convertFromBean(value);
+		Data dataValue = mapper.convertFromBean(value, metadata);
 		applyOutboundFilters(value.getClass().getName(), dataValue, new HashMap<String,Object>());
 
 		return dataValue;
 	}
 
-	public Data transform(Object value, Map<String,Object> filterProperties) throws Exception{
+	public Data transform(Object value, String objectType, Map<String,Object> filterProperties) throws Exception{
+		Metadata metadata = null;
+		metadata = (metadata != null ? metadata:getMetadata(objectType, new HashMap<String,Object>()));
+
 		applyOutboundFilters(value.getClass().getName(), value, filterProperties);
-		Data dataValue = mapper.convertFromBean(value);
+		Data dataValue = mapper.convertFromBean(value, metadata);
 		applyOutboundFilters(value.getClass().getName(), dataValue, filterProperties);
 
 		return dataValue;

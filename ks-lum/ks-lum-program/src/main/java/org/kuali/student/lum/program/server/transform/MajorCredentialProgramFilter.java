@@ -51,7 +51,7 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter {
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);
         CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
         // and convert to Data
-        Data credPgmData = mapper.convertFromBean(credPgm);
+        Data credPgmData = mapper.convertFromBean(credPgm, null);
 
         // Add the CredentialProgram to the data passed in
         data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
