@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <!-- TermInfo-->
     <import resource="classpath:ks-TermInfo-dictionary.xml"/>
     
-    <bean id="TermInfoUI" parent="termInfo-parent">
+    <bean id="termInfoUI" parent="termInfo-parent">
        	<property name="objectLabel" value="Term Info"/>
         <property name="titleAttribute" value="key"/>
         <property name="attributes">
@@ -83,11 +83,33 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
+
+  <bean id="TermInfo-LookupView" parent="LookupView">
+    <property name="title" value="Term Info Lookup (by Key)" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
     
-    <bean id="TermInfo-MaintenanceView" parent="MaintenanceView">
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
+<!--    <bean parent="LookupCriteriaAttributeField" p:propertyName="typeKey"/> -->
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="key" />
+        <bean parent="AttributeField" p:propertyName="typeKey" /> 		
+        <bean parent="AttributeField" p:propertyName="startDate" />
+        <bean parent="AttributeField" p:propertyName="endDate" />       
+      </list>
+    </property>
+  </bean>
+
+    
+  <bean id="TermInfo-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="TermInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
@@ -134,7 +156,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <bean id="TermInfoMaintenanceDocument" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl"/>
     <property name="documentTypeName" value="TermInfoMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
