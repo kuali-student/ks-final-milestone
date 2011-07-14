@@ -13,6 +13,8 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsView
 public enum ProgramSections {
     PROGRAM_PROPOSAL_VIEW,
     PROGRAM_PROPOSAL_EDIT,
+    PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW,
+    PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT,
     PROGRAM_DETAILS_VIEW,
     PROGRAM_DETAILS_EDIT,
     SPECIALIZATIONS_VIEW,
@@ -45,6 +47,7 @@ public enum ProgramSections {
 
     static {
         sectionMap.put(PROGRAM_PROPOSAL_VIEW, PROGRAM_PROPOSAL_EDIT);
+        sectionMap.put(PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT);
         sectionMap.put(PROGRAM_DETAILS_VIEW, PROGRAM_DETAILS_EDIT);
         sectionMap.put(SPECIALIZATIONS_VIEW, SPECIALIZATIONS_EDIT);
         sectionMap.put(ProgramRequirementsViewController.ProgramRequirementsViews.PREVIEW, PROGRAM_REQUIREMENTS_EDIT);

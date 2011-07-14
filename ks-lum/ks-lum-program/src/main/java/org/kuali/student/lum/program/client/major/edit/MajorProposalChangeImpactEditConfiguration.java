@@ -16,7 +16,7 @@ public class MajorProposalChangeImpactEditConfiguration extends AbstractSectionC
 
    
     public MajorProposalChangeImpactEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_EDIT, ProgramProperties.get().program_menu_sections_proposalChangeImpact(), ProgramConstants.PROGRAM_MODEL_ID);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT, ProgramProperties.get().program_menu_sections_proposalChangeImpact(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override
