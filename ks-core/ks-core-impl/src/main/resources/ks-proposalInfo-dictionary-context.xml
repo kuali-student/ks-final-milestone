@@ -109,15 +109,6 @@
 								<bean parent="whenConstraint">
 									<property name="values">
 										<list>
-										<!-- For testing only delete later -->
-											<value>PreRoute</value>
-											<value>Document Organization Review</value>
-											<value>Publication Decision Review</value>
-											<value>Department Review</value>
-											<value>Division Review</value>
-											<value>College Review</value>
-											<value>Senate Review</value>
-										<!-- ============================= -->
 											<value>Publication Review</value>
 										</list>
 									</property>
