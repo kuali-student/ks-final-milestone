@@ -87,7 +87,14 @@ public class ProgramUtils {
         for (ValidationResultInfo validationResult : validationResults) {
             String element = validationResult.getElement();
             if (element.contains(ProgramConstants.VARIATIONS)) {
-            	FieldDescriptor fd = Application.getApplicationContext().getPathToFieldMapping(null, element);
+            	String fdPath = element;
+            	if (element.matches(".*/[0-9]+")){
+            		//If path ends in number then strip it off, it is for an individual item in a list element
+            		fdPath = element.substring(0,element.lastIndexOf("/"));
+            	}
+            	FieldDescriptor fd = Application.getApplicationContext().getPathToFieldMapping(null, fdPath);
+            	            	
+            	//If field descriptor found, display error on the field, otherwise display a generic error message.
             	if(fd!=null){
             		fd.getFieldElement().processValidationResult(validationResult);
             	}else{
