@@ -37,8 +37,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="attributes">
             <list>
                 <ref bean="TermInfo-key"/>
+                <ref bean="TermInfo-typeKey"/>
                 <!-- 
-                <ref bean="academicCalendarInfo.typeKey"/>
                 <ref bean="academicCalendarInfo.stateKey"/>
                 <ref bean="academicCalendarInfo.name"/>
                 <ref bean="academicCalendarInfo.descr"/>
@@ -65,6 +65,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property> 
     </bean>
 
+	<bean id="TermInfo-typeKey" parent="TermInfo-typeKey-parent"/>
+    <bean id="TermInfo-typeKey-parent" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="typeKey"/>        
+        <property name="label" value="Term" />
+        <property name="required" value="true"/>
+        <property name="unique" value="true"/> 
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="TextControl" p:size="42"/>
+    	</property> 
+    </bean>
+    
     <bean id="TermInfo-startDate" parent="TermInfo-startDate-parent"/>
     <bean id="TermInfo-startDate-parent" abstract="true" parent="AttributeReferenceDummy-genericDate">
         <property name="name" value="startDate"/>
@@ -98,7 +113,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           	 <property name="title" value="Term"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="key"/>
+                <bean parent="AttributeField" p:propertyName="typeKey">
+                    <property name="control">
+              			<bean parent="SelectControl"/>
+            		</property>
+            		<property name="optionsFinder">
+              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
+            		</property>
+                </bean>
                 <bean parent="AttributeField" p:propertyName="startDate"/>
                 <bean parent="AttributeField" p:propertyName="endDate"/>
                </list>
