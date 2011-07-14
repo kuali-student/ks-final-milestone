@@ -22,6 +22,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- AcademicCalendarInfo-->
+    <bean id="academicCalendarInfo" parent="academicCalendarInfo-parent"/>
     <bean id="academicCalendarInfo-parent" abstract="true" parent="dataObjectEntry">
         <property name="name" value="academicCalendarInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
@@ -49,7 +50,6 @@
             </list>
         </property>
     </bean>
-    <bean id="academicCalendarInfo" parent="academicCalendarInfo-parent"/>
 
 	<bean id="academicCalendarInfo.key" parent="academicCalendarInfo.key-parent"/>
     <bean id="academicCalendarInfo.key-parent" abstract="true" parent="baseKualiKey">
