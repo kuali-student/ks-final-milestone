@@ -145,11 +145,12 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             }
             
             List<StatementTreeViewInfo> statementTreeViewInfos = courseService.getCourseStatements(courseInfo.getId(), null, null);
-            
-            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
-            
-            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
-        		courseService.updateCourseStatement(courseInfo.getId(), it.next());
+            if(statementTreeViewInfos!=null){
+	            statementTreeViewInfoStateSetter(courseInfo.getState(), statementTreeViewInfos.iterator());
+	            
+	            for(Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();)
+	        		courseService.updateCourseStatement(courseInfo.getId(), it.next());
+            }
         }
         
     }
