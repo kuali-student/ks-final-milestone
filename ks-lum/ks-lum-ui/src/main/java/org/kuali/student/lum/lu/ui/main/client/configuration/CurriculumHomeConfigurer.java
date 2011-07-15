@@ -65,7 +65,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         viewModify.add(courses);
         viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
         viewModify.add(getFindCoursesWidget());
-        viewModify.add(getFindProposalsWidget());
+        viewModify.add(getFindCourseProposalsWidget());
         SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
         programs.addStyleName("bold");
         viewModify.add(programs);
@@ -73,6 +73,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
+        viewModify.add(getFindProgramProposalsWidget());
 
         //RecentlyViewed
         RecentlyViewedBlock recent = new RecentlyViewedBlock(
@@ -129,11 +130,58 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return anchor;
     }
 
-
-    protected Widget getFindProposalsWidget() {
+    
+    
+    /**
+     * 
+     * This method will call getFindProposalsWidget() and return
+     * proposals for courses.
+     * 
+     * @return
+     */
+    protected Widget getFindCourseProposalsWidget(){
+        return getFindProposalsWidget(true);
+    }
+    /**
+     * 
+     * This method will call getFindProposalsWidget() and return
+     * proposals for programs.
+     * 
+     * @return
+     */
+    protected Widget getFindProgramProposalsWidget(){
+        return getFindProposalsWidget(false);
+    }
+    
+    /**
+     * 
+     * This method will generate the find proposals widget.
+     * <p>
+     * It is used by course and program.  Rather than call it directly,
+     * call either getFindCourseProposalsWidget() or getFindProgramProposalsWidget()
+     * to make the code a bit clearer.
+     * 
+     * @param isCourseSearch true for course, false for program
+     * @return the widget
+     */
+    protected Widget getFindProposalsWidget(boolean isCourseSearch) {
         final Widget searchWidget;
+        
+        // Load a search to get back either programs or courses
+        String searchMetadataPropName = "";
+        if (isCourseSearch){
+            searchMetadataPropName = "findCourseProposal";
+        }
+        else {
+            searchMetadataPropName = "findProgramProposal"; 
+        }
+        
         if (searchMetadata != null) {
-            Metadata metadata = searchMetadata.getProperties().get("findProposal");
+            
+            // Find search in the search meta data
+            // 
+            Metadata metadata = searchMetadata.getProperties().get(searchMetadataPropName);
+          
             searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
             SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
             if (panel != null) {

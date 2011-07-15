@@ -1517,6 +1517,66 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>
 
+
+	<!-- The course proposal search overrides the advanced proposal lookup search.
+	     It specifies a custom list of parameters that are used to lookup data in
+	     the database (specified in the defaultValueList).  These params are 
+	     eventually passed to the SQL query, where they are used to return
+	     the data matching them.
+	     
+	     The SQL is defined in proposal-search-config.xml near the bottom
+	     of the file.
+	     
+	     Also see common-lookup-context.xml, lum-ui-lookup.xml
+      
+	 -->
+	<bean id="courseProposalSearch" parent="kuali.common.lookup.proposal.advanced">
+		<property name="params">
+			<!-- Merge will merge these properties with those of the parent -->
+			<list merge="true">
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.queryParam.proposalOptionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type" />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+					<list>
+					    <value>kuali.proposal.type.course.create</value>
+						<value>kuali.proposal.type.course.create.admin</value>
+						<value>kuali.proposal.type.course.modify</value>
+						<value>kuali.proposal.type.course.modify.admin</value>
+						<value>kuali.proposal.type.course.retire</value>
+		 			</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="programProposalSearch" parent="kuali.common.lookup.proposal.advanced">
+		<property name="params">
+			<!-- Merge will merge these properties with those of the parent -->
+			<list merge="true">
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="proposal.queryParam.proposalOptionalType" />
+					<property name="name" value="Type" />
+					<property name="desc" value="Type" />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+					<list>
+					    <value>kuali.proposal.type.majorDiscipline.create</value>
+						<value>kuali.proposal.type.majorDiscipline.modify</value>
+ 		 			</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="kuali.common.lookup.proposal.advanced" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.proposal.advanced" />
 		<property name="searchTypeId" value="proposal.search.generic" />

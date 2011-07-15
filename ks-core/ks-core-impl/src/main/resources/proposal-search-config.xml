@@ -93,7 +93,8 @@
         optional="true" abstract="true">
         <ref bean="field.proposalInfo.name.fd" />
     </search:queryParam>
-
+	
+	<!-- An optional query param used to choose the type of proposal to search for (program or course).    -->
     <search:queryParam id="proposal.queryParam.proposalOptionalType" parent="proposal.queryParam.proposalOptionalType-parent"/>
     <search:queryParam id="proposal.queryParam.proposalOptionalType-parent"
         optional="true" abstract="true">
