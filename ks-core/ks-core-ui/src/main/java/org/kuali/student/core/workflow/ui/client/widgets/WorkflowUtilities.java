@@ -215,7 +215,10 @@ public class WorkflowUtilities{
         
 		//Add a new field to the workflow widget
 		if(approveDialogView != null){
-	        if(forceAdd || (meta.isCanEdit() && (MetadataInterrogator.isRequiredForNextState(meta) || meta.getConstraints().get(0).getMinOccurs()>0))){
+	        if(forceAdd || 
+	        		(meta.isCanEdit() && 
+	        				(MetadataInterrogator.isRequiredForNextState(meta) || 
+	        						(meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
 	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
 	            fd.setHasHadFocus(true);
 	    	    approveDialogView.addField(fd);
