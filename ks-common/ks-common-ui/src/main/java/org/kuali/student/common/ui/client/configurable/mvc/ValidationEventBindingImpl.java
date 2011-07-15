@@ -25,9 +25,11 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 
 /**
  * Adds the appropriate handler to the widget contained within the FieldDescriptor for when
@@ -47,6 +49,15 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
                     if (event.isUserInitiated()) {
                         processValidationEvent(fd);
                     }
+                }
+            });
+        } else if(w instanceof KSPicker && ((KSPicker)w).getInputWidget() instanceof HasSelectionChangeHandlers){
+            ((KSPicker)w).addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                	if(event.isUserInitiated()){
+                		processValidationEvent(fd);
+                	}
                 }
             });
         } else if (w instanceof HasBlurHandlers) {

@@ -328,7 +328,11 @@ padding:4px 6px;
 
 /*** Forms_ Activity ***/
 
-.ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
+.ks-form-course-format-activity { 
+	padding: 10px; 
+	margin-bottom: 10px;
+	max-width: 450px;
+}
 
 .ks-form-course-format-activity-header {
 border-bottom:1px dotted #CCCCCC;
@@ -346,8 +350,8 @@ position:relative;
                font-size:1.083em; 
                font-weight:bold; 
                height:1%; 
-               line-height: 1.7em; 
-
+               line-height: 1.7em;
+               text-transform:uppercase; 
 }
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 

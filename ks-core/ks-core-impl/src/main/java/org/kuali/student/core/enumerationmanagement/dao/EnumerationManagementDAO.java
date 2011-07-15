@@ -18,11 +18,10 @@ package org.kuali.student.core.enumerationmanagement.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
-import org.kuali.student.core.exceptions.DoesNotExistException;
 
 public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
 

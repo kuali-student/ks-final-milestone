@@ -195,13 +195,16 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue WHERE enumValue.enumeration.id = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT DISTINCT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue LEFT JOIN enumValue.contextEntityList enumContext WHERE enumValue.enumeration.id = :enumeration_queryParam_enumerationType</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationCode">
 					<value>enumValue.code IN(:enumeration_queryParam_enumerationCode)</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationOptionalCode">
 					<value>enumValue.code</value>
+				</entry>	
+				<entry key="enumeration.queryParam.contextType">
+					<value>enumContext.contextKey</value>
 				</entry>	
 				<entry key="enumeration.queryParam.contextValue">
 					<value>LOWER(enumValue.value) LIKE '%' || LOWER(:enumeration_queryParam_contextValue) || '%'</value>

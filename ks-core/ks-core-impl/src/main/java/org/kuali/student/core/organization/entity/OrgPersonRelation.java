@@ -31,9 +31,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
-
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSOR_ORG_PERS_RELTN", uniqueConstraints={@UniqueConstraint(columnNames={"ORG_PERS_RELTN_TYPE","ORG","PERS_ID"})})
 @NamedQueries( {

@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.ViewLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -40,8 +42,8 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,10 +74,9 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     /**
      * Constructor
      * Sets up event handlers fro section update events and validation request events.
-     * @param controllerId - not used
      */
-    public LayoutController(String controllerId){
-        super(controllerId);
+    public LayoutController(){
+        super();
         //Global section update Event handling
 		addApplicationEventHandler(SectionUpdateEvent.TYPE, new SectionUpdateHandler(){
 
@@ -387,7 +388,8 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	}
 	
 	/**
- 	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)
+ 	 * Check to see if current/all section(s) is valid (ie. does not contain any errors) - also displays
+ 	 * them in the ui if possible
  	 *
 	 * @param validationResults List of validation results for the layouts model.
 	 * @param checkCurrentSectionOnly true if errors should be checked on current section only, false if all sections should be checked
@@ -471,12 +473,19 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	 */
 	@Override
 	public void beforeViewChange(Enum<?> viewChangingTo, Callback<Boolean> okToChange) {
-		if(this.getCurrentView() instanceof Controller){
+	    
+	    if(this.getCurrentView() instanceof Controller){
 			((Controller)this.getCurrentView()).beforeViewChange(viewChangingTo, okToChange);
-		}
+	    }
 		else{
 			okToChange.exec(true);
 		}
+        if(this instanceof MenuSectionController){
+            ((MenuSectionController)this).showExport(isExportButtonActive());
+        } else if(this instanceof TabMenuController){
+            ((TabMenuController)this).showExport(isExportButtonActive());
+        }
+
 	}
 
 	@Override
@@ -548,5 +557,8 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 	public void clear() {
 		
 	}
-	
+
+	public boolean isExportButtonActive() {
+	    return false;
+	}
 }

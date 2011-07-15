@@ -16,35 +16,39 @@
 package org.kuali.student.lum.lo.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebService;
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
@@ -743,7 +747,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
 	 */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
@@ -755,7 +759,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
 	 */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
@@ -764,7 +768,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
 	 */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
@@ -775,7 +779,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
 	 */
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes()
@@ -784,7 +788,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
 	 */
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey)
@@ -795,7 +799,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypes()
@@ -804,7 +808,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(
@@ -816,7 +820,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
 	 */
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(
@@ -850,7 +854,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		}
 	    
 	    if (null == loLoRelationInfo.getState()) {
-	    	loLoRelationInfo.setState("draft"); // TODO - enum of allowed states? retrieve allowed states from dictionary?
+	    	loLoRelationInfo.setState(DtoConstants.STATE_DRAFT);
 	    }
 	    Lo lo = loDao.fetch(Lo.class, loId);
 	    Lo relatedLo = loDao.fetch(Lo.class, relatedLoId);
@@ -1009,7 +1013,57 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
-        return searchManager.search(searchRequest, loDao);
+        SearchResult result =  searchManager.search(searchRequest, loDao);
+        if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
+//        	for(SearchParam param:searchRequest.getParams()){
+//        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
+        	groupCategories(result);
+//        		}
+//        	}
+        }
+        
+        return result;
 	}
 
+	//Updates search results grouping category names as a comma delimited list
+	private void groupCategories(SearchResult result) {
+		Map<String,SearchResultCell> idToCellMap = new HashMap<String,SearchResultCell>();
+		for(Iterator<SearchResultRow> iter = result.getRows().iterator();iter.hasNext();){
+			SearchResultRow row = iter.next();
+			SearchResultCell categoryCell = null;
+			String loId = null;
+			//Get search result cell values
+			for(SearchResultCell cell:row.getCells()){
+				if("lo.resultColumn.categoryName".equals(cell.getKey())){
+					categoryCell = cell;
+					break;
+				}else if("lo.resultColumn.loId".equals(cell.getKey())){
+					loId = cell.getValue();
+				}
+			}
+			//If a row exists with the same loId, append the category to the existing row and remove the current row.
+			if(loId!=null){
+				if(idToCellMap.containsKey(loId)){
+					SearchResultCell cell = idToCellMap.get(loId);
+					if(cell == null){
+						cell = new SearchResultCell("lo.resultColumn.categoryName","");
+						idToCellMap.put(loId, cell);
+					}
+					if(categoryCell!=null){
+						if(cell.getValue()==null||cell.getValue().isEmpty()){
+							cell.setValue(categoryCell.getValue());
+						}else if(categoryCell.getValue()!=null && !categoryCell.getValue().isEmpty()){
+							cell.setValue(cell.getValue()+", "+categoryCell.getValue());
+						}
+					}
+					//Remove this row since we alreay have a mapping to a row with this lo Id
+					iter.remove();
+				} else {
+					//Otherwise add a mapping and continue
+					idToCellMap.put(loId, categoryCell);
+				}
+			}
+		}
+	}
+	
 }

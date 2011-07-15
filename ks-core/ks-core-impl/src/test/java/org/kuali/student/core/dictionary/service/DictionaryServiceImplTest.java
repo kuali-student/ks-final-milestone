@@ -11,11 +11,11 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.core.dictionary.service.jaxws.GetObjectStructureResponse;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.common.dictionary.service.jaxws.GetObjectStructureResponse;
 
 public class DictionaryServiceImplTest {
 	@Test

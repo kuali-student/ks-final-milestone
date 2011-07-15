@@ -2,6 +2,8 @@ package org.kuali.student.lum.lu.ui.main.client.configuration;
 
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -13,8 +15,6 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.rice.StudentIdentityConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
@@ -61,6 +61,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
         programs.addStyleName("bold");
         viewModify.add(programs);
+        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
         viewModify.add(getFindMajorsWidget());
         viewModify.add(getFindCoreProgramWidget());
         viewModify.add(getFindCredentialProgramWidget());
@@ -77,11 +78,9 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
                 getMessage(TOOLS_DESC));
         tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
         tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
+        tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
+        
         //Coming soon
-        Label depAnalysis = new Label(getMessage(DEP_ANALYSIS));
-        depAnalysis.setStyleName("contentBlock-navLink-disabled");
-        depAnalysis.setTitle("Coming Soon");
-        tools.add(depAnalysis);
         Label learningObjectives = new Label(getMessage(LOS));
         learningObjectives.setTitle("Coming Soon");
         learningObjectives.setStyleName("contentBlock-navLink-disabled");
@@ -96,7 +95,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-    private Widget getFindCredentialProgramWidget() {
+	private Widget getFindCredentialProgramWidget() {
         Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
         anchor.addClickHandler(new ClickHandler() {
             @Override

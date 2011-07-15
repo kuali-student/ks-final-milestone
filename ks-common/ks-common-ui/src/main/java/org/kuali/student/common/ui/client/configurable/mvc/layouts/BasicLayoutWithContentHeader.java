@@ -20,7 +20,7 @@ public class BasicLayoutWithContentHeader extends LayoutController{
 	protected KSDocumentHeader header = new KSDocumentHeader(false);
 
 	public BasicLayoutWithContentHeader(String controllerId) {
-		super(controllerId);
+		super();
 		layout.add(header);
 		layout.add(viewContainer);
 		this.initWidget(layout);

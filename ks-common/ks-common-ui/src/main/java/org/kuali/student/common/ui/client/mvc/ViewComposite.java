@@ -130,4 +130,8 @@ public abstract class ViewComposite extends Composite implements View {
     	// TODO Auto-generated method stub
     	return this;
     }
+    
+    public boolean isExportButtonActive() {
+        return false;
+    }
 }

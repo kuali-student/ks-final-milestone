@@ -19,12 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.rice.core.util.ConcreteKeyValue;
+import org.kuali.rice.core.util.KeyValue;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 
 public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
@@ -36,8 +37,8 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 	 * @param orgType
 	 * @return
 	 */
-	public static List<KeyLabelPair> findCocOrgs(String orgType) {
-		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
+	public static List<KeyValue> findCocOrgs(String orgType) {
+		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
 		SearchParam qpOrgType = new SearchParam();
@@ -78,7 +79,7 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 				}
 		        if (StringUtils.isBlank(orgLongName)) {
 		           //use shortName when longName is blank
-		            orgEntities.add(buildKeyLabelPair(orgId, orgShortName, null, null));
+		            orgEntities.add(buildKeyValue(orgId, orgShortName, null, null));
 		        }
 		        else {
 		            /*
@@ -86,9 +87,9 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		             * the drop-down list for DepartmentCoC or DivisionCoC should display the full/long 
 		             * names instead of short names.
 		             */
-		            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
+		            orgEntities.add(new ConcreteKeyValue(orgId, orgLongName));
 		        }
-//		        orgEntities.add(buildKeyLabelPair(orgId, null, orgLongName, null));
+//		        orgEntities.add(buildKeyValue(orgId, null, orgLongName, null));
 			}
 
 			return orgEntities;

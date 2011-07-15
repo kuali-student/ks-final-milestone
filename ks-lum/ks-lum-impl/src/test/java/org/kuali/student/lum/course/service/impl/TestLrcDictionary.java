@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.lum.lrc.dto.CredentialInfo;
 import org.kuali.student.lum.lrc.dto.CreditInfo;
 import org.kuali.student.lum.lrc.dto.GradeInfo;

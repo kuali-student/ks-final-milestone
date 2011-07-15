@@ -2,7 +2,8 @@ package org.kuali.student.lum.program.client;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import org.kuali.student.core.assembly.data.Data;
+
+import org.kuali.student.common.assembly.data.Data;
 
 import java.util.HashMap;
 

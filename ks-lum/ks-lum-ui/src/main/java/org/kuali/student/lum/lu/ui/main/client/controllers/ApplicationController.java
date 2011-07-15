@@ -31,7 +31,7 @@ public class ApplicationController extends LayoutController{
 	public FlowPanel container = new FlowPanel();
 	
 	public ApplicationController(String controllerId, Widget header) {
-		super(controllerId);
+		super();
 		this.init(header);
 		this.setupViews();
 		this.addHandlers();

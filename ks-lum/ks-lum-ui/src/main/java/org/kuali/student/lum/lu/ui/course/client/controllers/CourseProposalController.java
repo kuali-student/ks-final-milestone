@@ -22,6 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -38,6 +43,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
@@ -48,6 +54,8 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -55,24 +63,26 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTable;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -85,6 +95,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for course proposal screens.  This controller controls all functions of the course proposal process
@@ -129,9 +140,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private final BlockingTask loadDataTask = new BlockingTask("Retrieving Data");
 	private final BlockingTask saving = new BlockingTask("Saving");
     final CourseRequirementsDataModel reqDataModel;
-
+   
     public CourseProposalController(){
-        super(CourseProposalController.class.getName());
+        super();
         reqDataModel = new CourseRequirementsDataModel(this);
         initialize();
         addStyleName("courseProposal");
@@ -159,7 +170,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this ,proposalPath);
 
-        super.setDefaultModelId(cfg.getModelId());
+   		super.setDefaultModelId(cfg.getModelId());
         super.registerModel(cfg.getModelId(), new ModelProvider<DataModel>() {
 
             @Override
@@ -294,6 +305,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                    comparisonModel.setDefinition(def);
 
 		                    configureScreens(def, onReadyCallback);
+
 		                }
 			          });
 					
@@ -330,7 +342,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 cfg.setStatementTypes(stmtTypesOut);
                 cfg.setModelDefinition(modelDefinition);
                 cfg.configure(CourseProposalController.this);
-
+                
+                //Update any cross fields
+                for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+                	crossConstraint.reprocessWithUpdatedConstraints();
+                }
+                
                 onReadyCallback.exec(true);
                 KSBlockingProgressIndicator.removeTask(initializingTask);
             }
@@ -664,7 +681,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @Override
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
-		init(onReadyCallback);
+    	Application.getApplicationContext().clearCrossConstraintMap(null);
+    	Application.getApplicationContext().clearPathToFieldMapping(null);
+    	Application.getApplicationContext().setParentPath("");
+    	
+    	init(onReadyCallback);
 	}
     
    @Override
@@ -886,4 +907,43 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseRequirementsDataModel getReqDataModel() {
         return reqDataModel;
     }
+      
+    @Override
+    public DataModel getExportDataModel() {
+        return cluProposalModel;
+    }
+    
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
+    @Override
+    public String getExportTemplateName() {
+        return "proposal.template";
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(cluProposalModel.getModelName());
+            heading.setFieldValue2(comparisonModel.getModelName());
+            exportElements.add(heading);
+            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+        }
+        return exportElements;
+    }
+    
+    @Override
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {   
+            return true;
+        } else {
+            return false;
+        }
+            
+    }  
 }

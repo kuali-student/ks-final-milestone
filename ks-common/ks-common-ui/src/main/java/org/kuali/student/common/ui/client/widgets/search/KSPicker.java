@@ -16,21 +16,30 @@
 package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.dom.client.Element;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.StringValue;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.SelectItemWidgetBinding;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
 import org.kuali.student.common.ui.client.mvc.TranslatableValueWidget;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
-import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
-import org.kuali.student.common.ui.client.service.SearchServiceFactory;
+import org.kuali.student.common.ui.client.util.SearchUtils;
+import org.kuali.student.common.ui.client.util.SearchUtils.SearchRequestWrapper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
@@ -47,19 +56,9 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.StringValue;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -78,7 +77,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget {
+public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget, HasCrossConstraints {
 
     private FlowPanel layout = new FlowPanel();
     private BasicWidget basicWidget;
@@ -96,7 +95,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private List<Callback<String>> basicSelectionTextChangeCallbacks =
         new ArrayList<Callback<String>>();
     private CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
-
+    
+    private SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
+    
     public KSPicker(WidgetConfigInfo config) {
         this.config = config;
 		init(config.lookupMeta, config.additionalLookups);
@@ -221,14 +222,16 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
             		break;
             }
             basicWidget = new BasicWidget(listItemWidget);
-            populateListWidget(inLookupMetadata);
+            SearchUtils.initializeSearchRequest(inLookupMetadata, searchRequestWrapper);
+            if(!searchRequestWrapper.isDeferSearch()) populateListWidget(searchRequestWrapper.getSearchRequest());
         } else {
         	if (inLookupMetadata.getWidget() == LookupMetadata.Widget.DROP_DOWN || inLookupMetadata.getWidget() == LookupMetadata.Widget.RADIO){
                 basicWidget = new BasicWidget(new KSLabel());
         	} else {
         		//FIXME: This method of creating read is very inefficient, need better solution
         		basicWidget = new BasicWidget(new KSLabelList());
-                populateListWidget(inLookupMetadata);
+                SearchUtils.initializeSearchRequest(inLookupMetadata, searchRequestWrapper);
+                if(!searchRequestWrapper.isDeferSearch()) populateListWidget(searchRequestWrapper.getSearchRequest());
         	}
             layout.add(basicWidget.get());
         }
@@ -303,8 +306,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         }
     }
 
-    private void populateListWidget(LookupMetadata inLookupMetadata){
-        SearchRequest sr = initializeSearchRequest(inLookupMetadata);
+    private void populateListWidget(SearchRequest sr){
+        
         cachingSearchService.search(sr, new KSAsyncCallback<SearchResult>(){
 
             @Override
@@ -609,53 +612,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		}
     }
 
-    private SearchRequest initializeSearchRequest(LookupMetadata lookup) {
-
-        SearchRequest sr = new SearchRequest();
-        List<SearchParam> params = new ArrayList<SearchParam>();
-
-        sr.setSearchKey(lookup.getSearchTypeId());
-
-        if (lookup.getResultSortKey() != null){
-        	sr.setSortColumn(lookup.getResultSortKey());
-        }
-
-        //initialize search parameters that are hidden from the UI because they are set to default context specific values
-        for(LookupParamMetadata metaParam: lookup.getParams()){
-            if(metaParam.getWriteAccess() == WriteAccess.NEVER){
-                if ((metaParam.getDefaultValueString() == null || metaParam.getDefaultValueString().isEmpty())&&
-                    (metaParam.getDefaultValueList() == null || metaParam.getDefaultValueList().isEmpty())) {
-                    //FIXME throw an exception?
-                    GWT.log("Key = " + metaParam.getKey() + " has write access NEVER but has no default value!", null);
-                    continue;
-                }
-                SearchParam param = new SearchParam();
-                param.setKey(metaParam.getKey());
-                if(metaParam.getDefaultValueList()==null){
-                    param.setValue(metaParam.getDefaultValueString());
-                }else{
-                    param.setValue(metaParam.getDefaultValueList());
-                }
-                params.add(param);
-            }
-            else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
-                if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
-                   (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())){
-                    SearchParam param = new SearchParam();
-                    param.setKey(metaParam.getKey());
-                    if(metaParam.getDefaultValueList()==null){
-                        param.setValue(metaParam.getDefaultValueString());
-                    }else{
-                        param.setValue(metaParam.getDefaultValueList());
-                    }
-                    params.add(param);
-                }
-            }
-        }
-        sr.setParams(params);
-
-        return sr;
-    }
 
     public AdvancedSearchWindow getSearchWindow(){
         return advSearchWindow;
@@ -713,6 +669,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		basicWidget.addValuesChangeHandler(handler);
 	}
 
+	public void addSelectionChangeHandler(SelectionChangeHandler handler) {
+        if(basicWidget != null)
+		basicWidget.addSelectionChangeHandler(handler);
+	}
+
+	
 	@Override
 	public void addFocusLostCallback(Callback<Boolean> callback) {
 		basicWidget.addFocusLostCallback(callback);
@@ -726,5 +688,16 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     public void setValue(Map<String, String> translations) {
         basicWidget.setValue(translations);
     }
+
+	@Override
+    public HashSet<String> getCrossConstraints() {
+		return searchRequestWrapper.getCrossConstraints();
+	}
+
+	@Override
+	public void reprocessWithUpdatedConstraints() {
+        SearchUtils.initializeSearchRequest(config.lookupMeta, searchRequestWrapper);
+        populateListWidget(searchRequestWrapper.getSearchRequest());
+	}
 
 }

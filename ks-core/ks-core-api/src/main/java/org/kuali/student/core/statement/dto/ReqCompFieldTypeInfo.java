@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dictionary.old.dto.FieldDescriptor;
+import org.kuali.student.common.dto.Idable;
 
 /**
  *Detailed information about a requirement component field type.

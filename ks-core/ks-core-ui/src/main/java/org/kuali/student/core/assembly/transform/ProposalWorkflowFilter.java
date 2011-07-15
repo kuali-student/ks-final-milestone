@@ -21,11 +21,18 @@ import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.rice.kew.webservice.DocumentResponse;
 import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
 import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
+import org.kuali.student.common.assembly.transform.FilterException;
+import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.TransformFilter;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Data.StringKey;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
@@ -188,7 +195,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         //Get the workflow document or create one if workflow document doesn't exist
         DocumentDetailDTO docDetail;
         if (workflowId != null){
-        	docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+        	docDetail = workflowUtilityService.getDocumentDetail(workflowId);
         } else  {
             LOG.info("Creating Workflow Document.");
                         
@@ -202,7 +209,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+				docDetail = workflowUtilityService.getDocumentDetail(workflowId);
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}			
@@ -216,10 +223,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
         	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent, "");
+        	stdResp = simpleDocService.save(docDetail.getDocumentId().toString(), username, docTitle, docContent, "");
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent);
+        	stdResp = simpleDocService.saveDocumentContent(docDetail.getDocumentId().toString(), username, docTitle, docContent);
         }
 
         //Check if there were errors saving

@@ -16,7 +16,7 @@ public class BasicLayout extends LayoutController{
 	private FlowPanel viewContainer = new FlowPanel();
 
 	public BasicLayout(String controllerId) {
-		super(controllerId);
+		super();
 		this.initWidget(viewContainer);
 	}
 

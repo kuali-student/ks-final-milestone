@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
 
 /**
  *Detailed information about credit for a CLU, including common data-driven constraints around repetition.

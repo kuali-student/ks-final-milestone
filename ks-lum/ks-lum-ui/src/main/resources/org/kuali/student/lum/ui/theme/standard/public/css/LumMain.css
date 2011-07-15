@@ -582,3 +582,111 @@ a.KS-Program-Rule-ObjectView-Button{
 .cluSetTitle{
     font-weight:bold;
 }
+
+.KS-Indent{
+	padding-left: 15px;
+}
+
+.ks-dependency-container{
+	display:inline-block;
+	padding-left:20px;
+	white-space:normal;
+	width:950px;
+}
+
+.ks-dependency-search{	
+	background: #f1f1f2;
+	padding: 15px;
+}
+
+.ks-dependency-search .gwt-SuggestBox {
+    margin-right: 10px;
+}
+
+.ks-dependency-results{	
+	width: 700px;
+	margin-left: 15px;
+	margin-top: 15px;	
+}
+
+.ks-dependency-oversight{
+	padding-top: 10px;
+	font-style: italic;		
+}
+
+.ks-dependency-type-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;
+}
+
+.ks-dependency-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;	
+}
+
+.ks-dependency-section-title{
+	font-weight: bold;
+}
+
+.ks-dependency-section-header{
+	padding-bottom: 2px;
+}
+
+.ks-dependency-details{
+	padding-left: 30px;
+	padding-bottom: 15px;
+}
+
+.ks-dependency-simple-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-complex-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-type-label{
+	font-weight: normal;
+}
+
+.ks-dependency-view-link{
+	padding-left: 10px;
+}
+
+.ks-dependency-highlight{
+	margin-left: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
+	background: #f1f1f2;
+}
+
+.KS-Filter-Options-Parent-Container{
+	border: 1px solid #E8E8E8;
+	background: #F8F8F8;
+	margin-top: 15px;
+	width: 200px;	
+}
+
+.KS-Filter-Options-Title-Panel{
+	padding: 5px;
+}
+
+.KS-Filter-Item-Label{
+	background: #D0D0D0;
+	padding: 5px;
+}
+
+.KS-Filter-Item input[type="checkbox"] + label{
+	display: inline;
+	line-height: 2m;
+	font-weight: normal;
+}
+
+.KS-Filter-Item .gwt-CheckBox{
+	display: block;
+	margin: 10px;
+}

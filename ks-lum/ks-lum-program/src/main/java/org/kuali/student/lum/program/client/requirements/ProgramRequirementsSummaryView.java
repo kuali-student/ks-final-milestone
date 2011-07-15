@@ -7,6 +7,12 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -28,15 +34,10 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.RulePreviewWidget;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.*;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
@@ -115,12 +116,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
-
         if (!rules.isInitialized() || parentController.reloadFlag) {
             retrieveProgramRequirements(onReadyCallback);
             return;
-       }
-        
+        }
         onReadyCallback.exec(true);
     }
 
@@ -143,6 +142,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
                     updateRequirementWidgets(programReqInfo);
                 }
+                callback.exec(true);
+            }
+        });
+    }
+
+     public void justStoreRules(final Callback<Boolean> callback) {
+        rules.updateProgramEntities(new Callback<List<ProgramRequirementInfo>>() {
+            @Override
+            public void exec(List<ProgramRequirementInfo> programReqInfos) {
                 callback.exec(true);
             }
         });

@@ -3,21 +3,21 @@ package org.kuali.student.common.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.search.service.impl.CrossSearchManager;
-import org.kuali.student.core.search.service.impl.SearchDispatcherImpl;
-import org.kuali.student.core.search.service.impl.SearchManagerImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.common.search.service.impl.CrossSearchManager;
+import org.kuali.student.common.search.service.impl.SearchDispatcherImpl;
+import org.kuali.student.common.search.service.impl.SearchManagerImpl;
 
 public class MockSearch implements SearchService {
 	SearchManagerImpl sm;

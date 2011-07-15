@@ -19,7 +19,7 @@
   <jdbc-connection-descriptor jcd-alias="ksAdminDataSource"
       default-connection="false" jdbc-level="3.0" eager-release="false" batch-mode="false"
       useAutoCommit="0" ignoreAutoCommitExceptions="false">
-    <sequence-manager className="org.kuali.rice.core.ojb.ConfigurableSequenceManager">
+    <sequence-manager className="org.kuali.rice.core.framework.persistence.ojb.ConfigurableSequenceManager">
       <attribute attribute-name="property.prefix" attribute-value="datasource.ojb.sequenceManager" />
     </sequence-manager>
     <object-cache class="org.apache.ojb.broker.cache.ObjectCachePerBrokerImpl" />
@@ -340,7 +340,7 @@
     <field-descriptor name="orgId" column="ORG_ID" jbdc-type="VARCHAR" />
     <field-descriptor name="type" column="TYPE" jbdc-type="VARCHAR" />
     <field-descriptor name="cluId" column="CLU_ID" jbdc-type="VARCHAR" />
-    <field-descriptor name="primary" column="IS_PR" jdbc-type="BIT" conversion="org.kuali.rice.kew.ojb.OjbCharBooleanConversion"/>
+    <field-descriptor name="primary" column="IS_PR" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
   </class-descriptor>
   
   <class-descriptor class="org.kuali.student.lum.lu.bo.CluAtpTypeKey" table="KSLU_CLU_ATP_TYPE_KEY">
@@ -618,10 +618,10 @@
     <field-descriptor name="lastAtp" column="LAST_ATP" jbdc-type="VARCHAR" />
     <field-descriptor name="lastAdmitAtp" column="LAST_ADMIT_ATP" jbdc-type="VARCHAR" />
     <field-descriptor name="referenceURL" column="REF_URL" jbdc-type="VARCHAR" />
-    <field-descriptor name="canCreateLui" column="CAN_CREATE_LUI" jdbc-type="BIT" conversion="org.kuali.rice.kew.ojb.OjbCharBooleanConversion"/>
-    <field-descriptor name="hazardousForDisabledStudents" column="IS_HAZR_DISBLD_STU" jdbc-type="BIT" conversion="org.kuali.rice.kew.ojb.OjbCharBooleanConversion"/>
-    <field-descriptor name="hasEarlyDropDeadline" column="HAS_EARLY_DROP_DEDLN" jdbc-type="BIT" conversion="org.kuali.rice.kew.ojb.OjbCharBooleanConversion"/>
-    <field-descriptor name="enrollable" column="IS_ENRL" jdbc-type="BIT" conversion="org.kuali.rice.kew.ojb.OjbCharBooleanConversion"/>
+    <field-descriptor name="canCreateLui" column="CAN_CREATE_LUI" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="hazardousForDisabledStudents" column="IS_HAZR_DISBLD_STU" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="hasEarlyDropDeadline" column="HAS_EARLY_DROP_DEDLN" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    <field-descriptor name="enrollable" column="IS_ENRL" jdbc-type="BIT" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     <field-descriptor name="nextReviewPeriod" column="NEXT_REVIEW_PRD" jbdc-type="VARCHAR" />
     <field-descriptor name="defaultEnrollmentEstimate" column="DEF_ENRL_EST" jbdc-type="INTEGER" />
     <field-descriptor name="defaultMaximumEnrollment" column="DEF_MAX_ENRL" jbdc-type="INTEGER" />

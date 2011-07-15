@@ -16,8 +16,13 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Key;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
@@ -34,17 +39,15 @@ import org.kuali.student.common.ui.client.event.ValidateRequestEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Key;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -106,7 +109,14 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	                        			@Override
 	                        			public void onModelReady(DataModel model) {
 	                        				validateField(fieldDescriptor, model, parent);
-	                                                                                           
+	                                        
+	                        				//Cross referenced field update:
+	                        				HashSet<HasCrossConstraints> fds = Application.getApplicationContext().getCrossConstraint(null, Application.getApplicationContext().getParentPath()+fieldDescriptor.getFieldKey());
+	                        				if(fds!=null){
+	                        					for(HasCrossConstraints fd:fds){
+                        							fd.reprocessWithUpdatedConstraints();
+	                        					}
+	                        				}
 	                        			}
 	
 	                        			@Override

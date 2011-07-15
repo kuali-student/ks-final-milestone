@@ -2,8 +2,8 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.List;
 
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 public interface CanProcessValidationResults {
 

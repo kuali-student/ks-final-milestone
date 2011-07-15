@@ -33,7 +33,7 @@
     <param name="rice.logging.configure">true</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="serviceNamespace">KSLumUI</param>
-    <param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param>    
+    <param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>    
     
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>

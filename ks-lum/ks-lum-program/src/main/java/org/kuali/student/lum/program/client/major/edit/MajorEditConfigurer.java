@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 

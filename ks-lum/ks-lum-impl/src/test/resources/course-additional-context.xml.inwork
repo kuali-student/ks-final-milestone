@@ -44,7 +44,7 @@
 		class="org.kuali.student.lum.lu.service.impl.LuServiceImpl" />
 		
 	<bean id="searchManager"
-		class="org.kuali.student.core.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.common.search.service.impl.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
@@ -72,7 +72,7 @@
 		<property name="luService" ref="luClient"/>
 	</bean>
 	
-	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.poc.DictionaryServiceImpl">
+	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.poc.DictionaryServiceImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
 	</bean>
 	
@@ -80,11 +80,11 @@
 		<!--<property name="messageService" ref="ks.messageServiceMock"/>-->		
 	</bean>
 	<bean id="dictionaryServiceDelegate" 
-	   class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceSpringImpl">
+	   class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
 	</bean>
 
-	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
+	<bean id="ks.messageServiceMock" class="org.kuali.student.common.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
  				<value>classpath:gwt-messages.xml</value>				
@@ -99,14 +99,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.core.exceptions.OperationFailedException" />
+            value="org.kuali.student.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>

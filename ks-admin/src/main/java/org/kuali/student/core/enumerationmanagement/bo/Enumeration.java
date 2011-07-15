@@ -21,17 +21,18 @@ public class Enumeration extends KsInactivatableFromToBase {
         enumeratedValueList = new ArrayList<EnumeratedValue>();
     }
     
-    @Override
-    protected LinkedHashMap<String,Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        
-        map.put("name", name);
-        map.put("description", description);
-        map.put("activeFromDate", activeFromDate);
-        map.put("activeToDate", activeToDate);
-        
-        return map;
-    }
+// now handled with reflection   
+//    @Override
+//    protected LinkedHashMap<String,Object> toStringMapper() {
+//        LinkedHashMap<String, Object> map = super.toStringMapper();
+//        
+//        map.put("name", name);
+//        map.put("description", description);
+//        map.put("activeFromDate", activeFromDate);
+//        map.put("activeToDate", activeToDate);
+//        
+//        return map;
+//    }
 
 
     public String getName() {

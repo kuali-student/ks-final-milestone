@@ -16,14 +16,14 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
@@ -392,9 +392,11 @@ public class ProgramRequirementsDataModel {
      * 
      * @param programReqInfo
      */
-    protected void setRuleState(ProgramRequirementInfo programReqInfo){
-    	String programState = ((DataModel)model).get(ProgramConstants.STATE);
-    	programReqInfo.setState(programState);    	
+    protected void setRuleState(ProgramRequirementInfo programReqInfo) {
+        if (model != null) {
+            String programState = ((DataModel) model).get(ProgramConstants.STATE);
+            programReqInfo.setState(programState);
+        }
     }
 
     public void markRuleAsDeleted(Integer internalProgReqID) {

@@ -1,31 +1,37 @@
 package org.kuali.student.lum.program.client;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.dto.DtoConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
@@ -36,8 +42,12 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -72,7 +82,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @param programModel
      */
     public ProgramController(String name, DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
-        super(name);
+        super();
         programRemoteService = createProgramRemoteService();
         this.eventBus = eventBus;
         this.programModel = programModel;
@@ -118,6 +128,8 @@ public abstract class ProgramController extends MenuSectionController {
                                         case CANCEL:
                                             okToChange.exec(false);
                                             dialog.hide();
+                                            // Because this event fires after the history change event we need to "undo" the history events. 
+                                            HistoryManager.logHistoryChange();  
                                             break;
                                     }
                                 }
@@ -410,5 +422,58 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected Data getDataProperty(String key) {
         return programModel.get(key);
+    }
+    
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null) {
+            if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY) 
+                    || this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)) {
+                return true;            
+            } else {
+                return false;
+            }
+            
+        } else {
+            return false;
+        }
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+
+        String viewName = null;
+        String sectionTitle = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+            if (currentView != null && currentView instanceof Section) {
+                Section currentSection = (Section) currentView;
+                List<Section> nestedSections = currentSection.getSections();
+                for (int i = 0; i < nestedSections.size(); i++) {
+                    ExportElement sectionExportItem = new ExportElement();
+                    ArrayList<ExportElement> subList = null;
+                    Section nestedSection = nestedSections.get(i);
+                    if (nestedSection != null && nestedSection instanceof SectionView) {
+                        SectionView nestedSectionView = (SectionView) nestedSection;
+                        viewName =  nestedSectionView.getName();
+                        sectionTitle = nestedSectionView.getTitle();
+                        sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
+                        sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
+                        subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
+                        if (subList != null && subList.size()> 0) {
+                            sectionExportItem.setSubset(subList);
+                            exportElements.add(sectionExportItem);
+                        }
+                    }                    
+                }
+            }
+            return exportElements;
+            
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;
+    
     }
 }

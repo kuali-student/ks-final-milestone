@@ -24,7 +24,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
     private ProgramRequirementsSummaryView preview;
     boolean reloadFlag;
 
-    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header, boolean reloadFlag) {
+    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header, boolean reloadFlag){
         this(controller, eventBus, name, viewType, isReadOnly, header);
         this.reloadFlag = reloadFlag;
     }
@@ -132,7 +132,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
                                 preview.storeRules(new Callback<Boolean>() {
                                     @Override
                                     public void exec(Boolean result) {
-                                        okToChange.exec(true);                                        
+                                        okToChange.exec(true);
                                     }
                                 });
                                 break;

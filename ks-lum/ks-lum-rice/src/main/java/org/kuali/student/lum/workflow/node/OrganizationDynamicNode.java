@@ -14,8 +14,9 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.exception.RiceRuntimeException;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.util.xml.XmlJotter;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
@@ -32,7 +33,6 @@ import org.kuali.rice.kew.role.RoleRouteModule;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -179,8 +179,7 @@ public class OrganizationDynamicNode implements DynamicNode {
                 orgIds.add(attributeValue);
             }
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:" + XmlJotter.jotDocument(xmlContent));
             }
             return orgIds;
         } catch (XPathExpressionException e) {
@@ -272,7 +271,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
         LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
-        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getRouteHeaderId(), routeNodeDefinition);
+        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;

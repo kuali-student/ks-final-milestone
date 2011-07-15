@@ -17,6 +17,9 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
@@ -25,8 +28,6 @@ import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.service.CommentRpcService;
-import org.kuali.student.common.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -47,11 +48,10 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.core.assembly.data.QueryPath;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
+import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
@@ -875,10 +875,11 @@ public class WorkflowUtilities{
             public void onClick(ClickEvent event) {	
             	final ConfirmationDialog confirmationCancelProposal =
                     new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
+                 
             	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
             	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
                 confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
-                
+                   
             	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
             		@Override
             		public void onClick(ClickEvent event) {

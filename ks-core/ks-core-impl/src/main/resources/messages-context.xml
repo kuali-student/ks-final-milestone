@@ -112,11 +112,11 @@
         class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
     <bean id="messageDAO"
-        class="org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl">
+        class="org.kuali.student.common.messages.dao.impl.MessageManagementDAOImpl">
     </bean>
 
     <bean id="messageServiceImpl"
-        class="org.kuali.student.core.messages.service.impl.MessageServiceImpl">
+        class="org.kuali.student.common.messages.service.impl.MessageServiceImpl">
         <property name="messageDAO" ref="messageDAO" />
     </bean>
 <!-- <bean id="mapExceptionAdvisor"

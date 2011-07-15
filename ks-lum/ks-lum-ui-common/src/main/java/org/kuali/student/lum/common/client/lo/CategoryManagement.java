@@ -18,6 +18,7 @@ package org.kuali.student.lum.common.client.lo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -40,7 +41,6 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.assembly.data.Data;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -290,6 +290,22 @@ public class CategoryManagement extends Composite {
     
     public CategoryManagement(boolean hideInactiveCategories, boolean isMultiSelect) {
         this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect);
+        initCategoryManagement();
+    }
+    /**
+     * This constructor is used to filter out items already in the picker
+     * <p>
+     * We need to pass the list in the constructor because the table is populated
+     * using an async call  
+     * <p>
+     * See KSLAB-1871
+     * 
+     * @param hideInactiveCategories  ?
+     * @param isMultiSelect
+     * @param loCategoriesToFilter a list of categories that should be filtered from the popup on open
+     */
+    public CategoryManagement(boolean hideInactiveCategories, boolean isMultiSelect, List<LoCategoryInfo> loCategoriesToFilter) {
+        this.categoryManagementTable = new CategoryManagementTable(hideInactiveCategories, isMultiSelect, loCategoriesToFilter);
         initCategoryManagement();
     }
     public List<LoCategoryInfo> getSelectedCategoryList(){

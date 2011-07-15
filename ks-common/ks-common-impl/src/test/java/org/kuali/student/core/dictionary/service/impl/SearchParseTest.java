@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

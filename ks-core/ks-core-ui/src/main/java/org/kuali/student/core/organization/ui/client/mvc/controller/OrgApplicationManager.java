@@ -33,7 +33,7 @@ public class OrgApplicationManager extends Controller{
 
     
     public OrgApplicationManager(){
-        super(OrgApplicationManager.class.getName());
+        super();
         super.initWidget(viewPanel);
     }
 

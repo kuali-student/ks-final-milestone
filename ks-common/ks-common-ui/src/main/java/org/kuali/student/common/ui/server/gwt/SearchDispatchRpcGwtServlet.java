@@ -16,11 +16,12 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import org.kuali.student.common.assembly.transform.IdTranslatorFilter;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.search.dto.*;
+import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
-import org.kuali.student.core.assembly.transform.IdTranslatorFilter;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.*;
-import org.kuali.student.core.search.service.SearchDispatcher;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

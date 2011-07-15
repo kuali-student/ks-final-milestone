@@ -29,29 +29,30 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -83,7 +84,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
         loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState("draft");
+        loInfo.setState(DtoConstants.STATE_DRAFT);
 
         LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo); 
         assertNotNull(created);
@@ -102,7 +103,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
         assertEquals("kuali.lo.type.singleUse", created.getType()); 
-        assertEquals("draft", created.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, created.getState());
 
         loInfo = client.getLo(loId);
         loInfo.setName("Lo in the mid 30s");
@@ -120,7 +121,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertNotNull(newAttributes);
         assertEquals("attrValue", newAttributes.get("attrKey"));
         assertEquals("kuali.lo.type.singleUse", updated.getType()); 
-        assertEquals("draft", updated.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, updated.getState());
 
         try {
             client.updateLo(loId, loInfo);
@@ -235,7 +236,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         attributes.put("attrKey", "attrValue");
         loInfo.setAttributes(attributes);
         loInfo.setType("kuali.lo.type.singleUse");
-        loInfo.setState("draft");
+        loInfo.setState(DtoConstants.STATE_DRAFT);
 
         try {
         	 LoInfo created = client.createLo(loInfo.getLoRepositoryKey (), loInfo.getType (), loInfo);
@@ -529,7 +530,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals("81abea67-3bcc-4088-8348-e265f3670145", llrInfo.getLoId());
     	assertEquals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
         // Detecting expected errors
         try {
     		client.getLoLoRelation(null);
@@ -596,7 +597,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	assertEquals("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", llrInfo.getLoId());
     	assertEquals("91a91860-d796-4a17-976b-a6165b1a0b05", llrInfo.getRelatedLoId());
     	assertEquals("kuali.lo.relation.type.includes", llrInfo.getType());
-    	assertEquals("draft", llrInfo.getState());
+    	assertEquals(DtoConstants.STATE_DRAFT, llrInfo.getState());
         // Detecting expected errors
         try {
     		client.createLoLoRelation(null, "foo", "bar", llrInfo);

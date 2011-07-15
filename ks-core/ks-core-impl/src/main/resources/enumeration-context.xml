@@ -112,11 +112,11 @@
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="enumDAO"
-		class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+		class="org.kuali.student.common.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
 	</bean>
 
 	<bean id="enumerationServiceImpl"
-		class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+		class="org.kuali.student.common.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
 		<property name="enumDAO" ref="enumDAO" />
 	</bean>
 <!-- <bean id="mapExceptionAdvisor"

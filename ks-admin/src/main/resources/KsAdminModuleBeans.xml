@@ -11,7 +11,7 @@
 
   <bean id="ksAdminModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
     <property name="namespaceCode" value="KS-ADMIN" />
-    <property name="dataSourceName" value="ksAdminDataSource" />
+	<!-- <property name="dataSourceName" value="ksAdminDataSource" /> -->
     <property name="databaseRepositoryFilePaths">
       <list>
         <value>OJB-repository-ksadmin.xml</value>
@@ -86,13 +86,22 @@
     <property name="moduleConfiguration" ref="ksAdminModuleConfiguration" />
   </bean>
 
-  <bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+
+  <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
     <property name="localServiceName" value="KSCoreContext" />
+	<property name="beanNames">
+		<set>
+			<value>ks.messageService</value>
+		</set>
+	</property>
   </bean>
+
+  
 
   <bean id="ks.messageService" class="org.kuali.student.admin.messages.service.impl.MessageServiceImpl" >
   	<!--<property name="cachingEnabled" value="${ks.messageService.enableCaching}"/>-->
   	<property name="cachingEnabled" value="true"/>
   </bean>
+
         
 </beans>

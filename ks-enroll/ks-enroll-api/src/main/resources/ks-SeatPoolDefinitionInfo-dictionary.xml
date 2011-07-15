@@ -1,0 +1,115 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- SeatPoolDefinitionInfo-->
+    <bean id="seatPoolDefinitionInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="seatPoolDefinitionInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo"/>
+        <property name="objectLabel" value="Seat Pool"/>
+        <property name="objectDescription" value="Seat Pool"/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="seatPoolDefinitionInfo.id"/>
+                <ref bean="seatPoolDefinitionInfo.typeKey"/>
+                <ref bean="seatPoolDefinitionInfo.stateKey"/>
+                <ref bean="seatPoolDefinitionInfo.name"/>
+                <ref bean="seatPoolDefinitionInfo.descr"/>
+                <ref bean="seatPoolDefinitionInfo.capacityRestrictionRule"/>
+                <ref bean="seatPoolDefinitionInfo.courseOfferingId"/>
+                <ref bean="seatPoolDefinitionInfo.maximumSeatCount"/>
+                <ref bean="seatPoolDefinitionInfo.processingPriority"/>
+                <ref bean="seatPoolDefinitionInfo.registrationGroupIds"/>
+<!--                <ref bean="seatPoolDefinitionInfo.attributes"/>-->
+<!--                <ref bean="seatPoolDefinitionInfo.meta"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="seatPoolDefinitionInfo" parent="seatPoolDefinitionInfo-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.id" parent="seatPoolDefinitionInfo.id-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.typeKey" parent="seatPoolDefinitionInfo.typeKey-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.stateKey" parent="seatPoolDefinitionInfo.stateKey-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.name" parent="seatPoolDefinitionInfo.name-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.descr" parent="seatPoolDefinitionInfo.descr-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.capacityRestrictionRule-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="capacityRestrictionRule"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.capacityRestrictionRule" parent="seatPoolDefinitionInfo.capacityRestrictionRule-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.courseOfferingId-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="courseOfferingId"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.courseOfferingId" parent="seatPoolDefinitionInfo.courseOfferingId-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.maximumSeatCount-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="maximumSeatCount"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.maximumSeatCount" parent="seatPoolDefinitionInfo.maximumSeatCount-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.processingPriority-parent" abstract="true" parent="baseKualiInteger">
+        <property name="name" value="processingPriority"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.processingPriority" parent="seatPoolDefinitionInfo.processingPriority-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.registrationGroupIds-parent" abstract="true" parent="baseKualiString">
+        <property name="name" value="registrationGroupIds"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="seatPoolDefinitionInfo.registrationGroupIds" parent="seatPoolDefinitionInfo.registrationGroupIds-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="seatPoolDefinitionInfo.attributes" parent="seatPoolDefinitionInfo.attributes-parent"/>
+
+    <bean id="seatPoolDefinitionInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="seatPoolDefinitionInfo.meta" parent="seatPoolDefinitionInfo.meta-parent"/>
+</beans>

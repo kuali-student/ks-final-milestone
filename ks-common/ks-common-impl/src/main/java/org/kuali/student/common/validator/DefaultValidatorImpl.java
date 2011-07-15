@@ -18,28 +18,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dictionary.dto.CaseConstraint;
+import org.kuali.student.common.dictionary.dto.CommonLookupParam;
+import org.kuali.student.common.dictionary.dto.Constraint;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.LookupConstraint;
+import org.kuali.student.common.dictionary.dto.MustOccurConstraint;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.dto.RequiredConstraint;
+import org.kuali.student.common.dictionary.dto.ValidCharsConstraint;
+import org.kuali.student.common.dictionary.dto.WhenConstraint;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.dictionary.dto.CaseConstraint;
-import org.kuali.student.core.dictionary.dto.CommonLookupParam;
-import org.kuali.student.core.dictionary.dto.Constraint;
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.LookupConstraint;
-import org.kuali.student.core.dictionary.dto.MustOccurConstraint;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.dto.RequiredConstraint;
-import org.kuali.student.core.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.core.dictionary.dto.WhenConstraint;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.service.MessageService;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.SearchDispatcher;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
@@ -409,7 +408,17 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if(caseField!=null){
         	if(absolutePath){
         		try {
-					fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
+        			if(caseField.isDynamic()){
+        				//Pull the value from the dynamic attribute map
+        				//TODO There needs to be some mapping from PropertyUtils to the KS path
+        				//Until then, this will only work for root level properties
+        				Map<String,String> attributes = (Map<String,String>) PropertyUtils.getNestedProperty(rootData, "attributes");
+        				if(attributes!=null){
+        					fieldValue = attributes.get(constraint.getFieldPath().substring(1));
+        				}
+        			}else{
+        				fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
+        			}
 				} catch (IllegalAccessException e) {
 				} catch (InvocationTargetException e) {
 				} catch (NoSuchMethodException e) {

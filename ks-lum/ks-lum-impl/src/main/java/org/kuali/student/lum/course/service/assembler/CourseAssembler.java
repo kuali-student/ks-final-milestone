@@ -27,16 +27,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -308,15 +308,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		identifier.setShortName(course.getTranscriptTitle());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
 		identifier.setDivision(course.getSubjectArea());
-
-		//Custom logic to set the code as the concatenation of division and course number suffix if code not provided
-		if (StringUtils.hasText(course.getCode())){
-			identifier.setCode(course.getCode());
-		} else if(StringUtils.hasText(course.getCourseNumberSuffix()) && StringUtils.hasText(course.getSubjectArea())){
-			identifier.setCode(calculateCourseCode(course.getSubjectArea(),course.getCourseNumberSuffix()));			
-		}else{
-			identifier.setCode(null);
-		}
+		identifier.setCode(course.getCode());
 		
 		//Custom logic to set the level, if level not provided
 		if(StringUtils.hasText(course.getLevel())) {
@@ -353,7 +345,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setState(course.getState());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
-		//Add in ings
+		//Add in crosslistings
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			CluIdentifierInfo cluIdentifier = new CluIdentifierInfo();
 			cluIdentifier.setId(crossListing.getId());
@@ -363,16 +355,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setState(course.getState());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
 			cluIdentifier.setAttributes(crossListing.getAttributes());
-
-	        //Custom logic to set the code as the concatenation of division and course number suffix if code not provided
-	        if (StringUtils.hasText(crossListing.getCode())){
-	            cluIdentifier.setCode(crossListing.getCode());
-	        } else if(StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())){
-	            cluIdentifier.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));         
-	        }else{
-	            cluIdentifier.setCode(null);
-	        }
-	        			
+            cluIdentifier.setCode(crossListing.getCode());	        			
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 
@@ -631,7 +614,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						ResultComponentInfo resultComponent = new ResultComponentInfo();
 						resultComponent.setId(id);
 						resultComponent.setType(type);
-						//resultComponent.setState ("Active");
 						resultComponent.setState (course.getState());
 						resultComponent.setResultValues(resultValues);
 						resultComponent.setAttributes(attributes);
@@ -784,7 +766,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		
 		// Loop through all the los in this clu
 		for(LoDisplayInfo loDisplay : course.getCourseSpecificLOs()){
-
+			
 			// If this is a clu create/new lo update then all los will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId()))) {
@@ -813,8 +795,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 results.add(relationNode);
             } else if (NodeOperation.UPDATE == operation
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-				// If the clu already has this lo, then just update the lo
             	loDisplay.getLoInfo().setState(course.getState());
+            	// If the clu already has this lo, then just update the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                 		.disassemble(loDisplay, NodeOperation.UPDATE);
 				results.add(loNode);
@@ -993,7 +975,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		    	format.setState(course.getState());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.CREATE);
-                formatNode.getNodeData().setState(course.getState());
                 results.add(formatNode);
 
                 
@@ -1022,7 +1003,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             	format.setState(course.getState());
 				BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.UPDATE);
-				formatNode.getNodeData().setState(course.getState());
 				results.add(formatNode);
 
 				// remove this entry from the map so we can tell what needs to
@@ -1147,7 +1127,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Loop through all the joints in this course
 		for (CourseJointInfo joint : course.getJoints()) {
-
 			// If this is a course create then all joints will be created
 			if (NodeOperation.UPDATE.equals(operation) && joint.getRelationId() != null
 					&& currentJointIds.containsKey(joint.getRelationId())) {
@@ -1155,11 +1134,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// be deleted at the end
 				CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
 				relation.setRelatedCluId(joint.getCourseId());
+				relation.setState(course.getState());
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
 				jointNode.setBusinessDTORef(joint);
 				jointNode.setNodeData(relation);
 				jointNode.setOperation(NodeOperation.UPDATE);
-				jointNode.getNodeData().setState(course.getState());
 				results.add(jointNode);
 			} else if (!NodeOperation.DELETE.equals(operation)) {
 				// the joint does not exist, so create cluclurelation
@@ -1186,18 +1165,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         }
 		
 		return results;
-	}
-
-	/**
-	 * 
-	 * This method calculates code for course and cross listed course.
-	 * 
-	 * @param subjectArea
-	 * @param suffixNumber
-	 * @return
-	 */
-	private String calculateCourseCode(String subjectArea, String suffixNumber) {
-	    return subjectArea + suffixNumber;
 	}
 	
 	public void setLuService(LuService luService) {

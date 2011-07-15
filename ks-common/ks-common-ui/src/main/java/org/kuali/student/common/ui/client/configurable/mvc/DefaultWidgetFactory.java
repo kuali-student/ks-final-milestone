@@ -15,11 +15,11 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.MetadataInterrogator.ConstraintIds;
 import org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.MetadataInterrogator.ConstraintIds;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;

@@ -18,9 +18,9 @@ package org.kuali.student.common.validator;
 import java.util.Collection;
 import java.util.Date;
 
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 
 public class ValidatorUtils {
 
@@ -86,12 +86,12 @@ public class ValidatorUtils {
 			}
 
 			if (("not_equal".equalsIgnoreCase (operator)
-     || "greater_than".equalsIgnoreCase(operator)) && compareResult >= 1) {
+     || "greater_than".equalsIgnoreCase(operator) || "greater_than_equal".equalsIgnoreCase(operator)) && compareResult >= 1) {
 				result = true;
 			}
 
 			if (("not_equal".equalsIgnoreCase (operator)
-     || "less_than".equalsIgnoreCase(operator)) && compareResult <= -1) {
+     || "less_than".equalsIgnoreCase(operator)|| "less_than_equal".equalsIgnoreCase(operator)) && compareResult <= -1) {
 				result = true;
 			}
 		}

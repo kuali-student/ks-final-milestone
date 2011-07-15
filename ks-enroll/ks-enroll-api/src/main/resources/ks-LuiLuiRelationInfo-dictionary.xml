@@ -1,0 +1,108 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:ks-base-dictionary.xml"/>
+
+<!-- LuiLuiRelationInfo-->
+    <bean id="luiLuiRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+        <property name="name" value="luiLuiRelationInfo"/>
+        <property name="objectClass" value="org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo"/>
+        <property name="objectLabel" value=""/>
+        <property name="objectDescription" value=""/>
+        <property name="titleAttribute" value="name"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="luiLuiRelationInfo.id"/>
+                <ref bean="luiLuiRelationInfo.typeKey"/>
+                <ref bean="luiLuiRelationInfo.stateKey"/>
+                <ref bean="luiLuiRelationInfo.name"/>
+                <ref bean="luiLuiRelationInfo.descr"/>
+                <ref bean="luiLuiRelationInfo.effectiveDate"/>
+                <ref bean="luiLuiRelationInfo.expirationDate"/>
+                <ref bean="luiLuiRelationInfo.luiId"/>
+                <ref bean="luiLuiRelationInfo.relatedLuiId"/>
+<!--                <ref bean="luiLuiRelationInfo.attributes"/>-->
+<!--                <ref bean="luiLuiRelationInfo.meta"/>-->
+            </list>
+        </property>
+    </bean>
+    <bean id="luiLuiRelationInfo" parent="luiLuiRelationInfo-parent"/>
+
+    <bean id="luiLuiRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+        <property name="name" value="id"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.id" parent="luiLuiRelationInfo.id-parent"/>
+
+    <bean id="luiLuiRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+        <property name="name" value="typeKey"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.typeKey" parent="luiLuiRelationInfo.typeKey-parent"/>
+
+    <bean id="luiLuiRelationInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+        <property name="name" value="stateKey"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.stateKey" parent="luiLuiRelationInfo.stateKey-parent"/>
+
+    <bean id="luiLuiRelationInfo.name-parent" abstract="true" parent="baseKualiName">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.name" parent="luiLuiRelationInfo.name-parent"/>
+
+    <bean id="luiLuiRelationInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.descr" parent="luiLuiRelationInfo.descr-parent"/>
+
+    <bean id="luiLuiRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+        <property name="name" value="effectiveDate"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.effectiveDate" parent="luiLuiRelationInfo.effectiveDate-parent"/>
+
+    <bean id="luiLuiRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+        <property name="name" value="expirationDate"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.expirationDate" parent="luiLuiRelationInfo.expirationDate-parent"/>
+
+    <bean id="luiLuiRelationInfo.luiId-parent" abstract="true" parent="baseKualiLuiId">
+        <property name="name" value="luiId"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.luiId" parent="luiLuiRelationInfo.luiId-parent"/>
+
+    <bean id="luiLuiRelationInfo.relatedLuiId-parent" abstract="true" parent="baseKualiLuiId">
+        <property name="name" value="relatedLuiId"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.relatedLuiId" parent="luiLuiRelationInfo.relatedLuiId-parent"/>
+
+    <bean id="luiLuiRelationInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="attributes"/>
+<!--        <property name="maxOccurs" value="999999999"/>-->
+    </bean>
+    <bean id="luiLuiRelationInfo.attributes" parent="luiLuiRelationInfo.attributes-parent"/>
+
+    <bean id="luiLuiRelationInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="luiLuiRelationInfo.meta" parent="luiLuiRelationInfo.meta-parent"/>
+</beans>

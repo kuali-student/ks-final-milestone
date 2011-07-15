@@ -42,7 +42,4 @@ public class ProgramClientConstants {
 
     public static final String CORE_PROGRAM = "kuali.lu.type.CoreProgram";
     public static final String MAJOR_PROGRAM = "kuali.lu.type.MajorDiscipline";
-
-    public static final String STATE_ACTIVE = "Active";
-    public static final String STATE_DRAFT = "Draft";
 }

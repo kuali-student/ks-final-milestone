@@ -23,14 +23,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.kuali.rice.core.api.services.CoreApiServiceLocator;
 import org.kuali.rice.kew.xml.UserXmlParser;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityAffiliationImpl;
-import org.kuali.rice.kim.bo.entity.impl.KimEntityEmailImpl;
+import org.kuali.rice.kim.impl.entity.email.EntityEmailBo;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityEmploymentInformationImpl;
-import org.kuali.rice.kim.bo.entity.impl.KimEntityEntityTypeImpl;
+import org.kuali.rice.kim.impl.entity.type.EntityTypeDataBo;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityImpl;
 import org.kuali.rice.kim.bo.entity.impl.KimEntityNameImpl;
-import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
+import org.kuali.rice.kim.impl.entity.principal.PrincipalBo;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.SequenceAccessorService;
 
@@ -118,7 +119,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			affiliation.setEntityAffiliationId(""+affiliationId);
 			affiliation.setAffiliationTypeCode(affiliationTypeCode);
 			affiliation.setActive(true);
-			affiliation.setDefault(true);
+			affiliation.setDefaultValue(true);
 			affiliation.setEntityId(entity.getEntityId());
 			String campusCode = userElement.getChildTextTrim(CAMPUS_CD_ELEMENT, NAMESPACE);
 			if(!StringUtils.isBlank(campusCode)){
@@ -127,7 +128,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			entity.getAffiliations().add(affiliation);
 		}		
 		
-		KimEntityEntityTypeImpl entityType = new KimEntityEntityTypeImpl();
+		EntityTypeDataBo entityType = new EntityTypeDataBo();
 		entity.getEntityTypes().add(entityType);
 		entityType.setEntityTypeCode(entityTypeCode);
 		entityType.setEntityId(entity.getEntityId());
@@ -145,7 +146,7 @@ public class KSUserXmlParser extends UserXmlParser {
 			name.setFirstName(firstName);
 			name.setMiddleName("");
 			name.setLastName(lastName);
-			name.setDefault(true);
+			name.setDefaultValue(true);
 			
 			entity.getNames().add(name);
 		}
@@ -155,15 +156,14 @@ public class KSUserXmlParser extends UserXmlParser {
 		String emailAddress = userElement.getChildTextTrim(EMAIL_ELEMENT, NAMESPACE);
 		if (!StringUtils.isBlank(emailAddress)) {
 			Long emailId = sas.getNextAvailableSequenceNumber(
-					"KRIM_ENTITY_EMAIL_ID_S", KimEntityEmailImpl.class);
-			KimEntityEmailImpl email = new KimEntityEmailImpl();
+					"KRIM_ENTITY_EMAIL_ID_S", EntityEmailBo.class);
+			EntityEmailBo email = new EntityEmailBo();
 			email.setActive(true);
-			email.setEntityEmailId("" + emailId);
 			email.setEntityTypeCode("PERSON");
 			// must be in krim_email_typ_t.email_typ_cd:
 			email.setEmailTypeCode("WRK");
 			email.setEmailAddress(emailAddress);
-			email.setDefault(true);
+			email.setDefaultValue(true);
 			email.setEntityId(entity.getEntityId());
 			KNSServiceLocator.getBusinessObjectService().save(email);
 		}
@@ -172,7 +172,7 @@ public class KSUserXmlParser extends UserXmlParser {
     }
     
     @Override
-	protected KimPrincipalImpl constructPrincipal(Element userElement, String entityId) {
+	protected PrincipalBo constructPrincipal(Element userElement, String entityId) {
     	String principalId = userElement.getChildTextTrim(WORKFLOW_ID_ELEMENT, NAMESPACE);
     	if (principalId == null) {
     		principalId = userElement.getChildTextTrim(PRINCIPAL_ID_ELEMENT, NAMESPACE);
@@ -184,13 +184,13 @@ public class KSUserXmlParser extends UserXmlParser {
     	String password= userElement.getChildTextTrim(PASSWORD_ELEMENT, NAMESPACE);
     	
     	
-		KimPrincipalImpl principal = new KimPrincipalImpl();
+    	PrincipalBo principal = new PrincipalBo();
 		principal.setActive(true);
 		principal.setPrincipalId(principalId);
 		principal.setPrincipalName(principalName);
 		principal.setEntityId(entityId);
 		try {
-			principal.setPassword(KNSServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
+			principal.setPassword(CoreApiServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
 		} catch (GeneralSecurityException e) {
 			LOG.warn("Error hashing password.",e);
 		}

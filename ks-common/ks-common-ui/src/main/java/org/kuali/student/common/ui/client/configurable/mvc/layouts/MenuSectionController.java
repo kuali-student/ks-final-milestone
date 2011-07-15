@@ -8,6 +8,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -61,8 +62,8 @@ public class MenuSectionController extends LayoutController implements ContentNa
         }
     };
 
-    public MenuSectionController(String controllerId) {
-        super(controllerId);
+    public MenuSectionController() {
+        super();
         List<View> list = new ArrayList<View>();
         menuViewMap.put("", list);
         menu.setStyleName("ks-menu-layout-menu");
@@ -113,9 +114,14 @@ public class MenuSectionController extends LayoutController implements ContentNa
         header.getInfoLabel().addStyleName("content-warning");
 
     }
+
+    public void showPrint(boolean show) {
+        header.showPrint(show);
+//        header.showJasper(show);
+    }
     
-    public void showPrint(boolean show){
-    	header.showPrint(show);
+    public void showExport(boolean show) {
+        header.showJasper(show);
     }
 
     /**
@@ -320,5 +326,9 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
     }
 
-
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        return super.getExportElementsFromView();
+        
+    }
 }

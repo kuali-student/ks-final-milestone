@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalInfo -->
 <!-- **************************************** -->
 <!-- Detailed information about a proposal. -->
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <dict:type key="*" id="type.proposalInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -266,10 +266,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.proposalInfo.metaInfo.(default).(default) -->
 <!-- *************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.proposalInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.proposalInfo.metaInfo" parent="object.field.proposalInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.proposalInfo.metaInfo" parent="object.field.proposalInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.proposalInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
