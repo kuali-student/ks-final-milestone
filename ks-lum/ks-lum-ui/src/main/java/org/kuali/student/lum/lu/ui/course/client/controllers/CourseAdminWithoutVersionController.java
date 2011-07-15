@@ -17,9 +17,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminWithoutVersionConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -118,8 +116,8 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
     	});
     	
     	//Store the rules if save was called
-    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminConfigurer){
-    		((CourseAdminConfigurer )cfg).getRequisitesSection().storeRules(new Callback<Boolean>(){
+    	if((String)cluProposalModel.get(CreditCourseConstants.ID)!=null && cfg instanceof CourseAdminWithoutVersionConfigurer){
+    		((CourseAdminWithoutVersionConfigurer)cfg).getRequisitesSection().storeRules(new Callback<Boolean>(){
     			public void exec(Boolean result) {
 					if(result){
 						CourseAdminWithoutVersionController.this.fireApplicationEvent(saveActionEvent); 
