@@ -28,15 +28,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 
 import org.kuali.rice.kns.datadictionary.validation.DataType;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 public class DictionaryCreator {
 
@@ -53,12 +50,12 @@ public class DictionaryCreator {
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
-    public void execute(Class<?> clazz) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    public void execute(Class<?> clazz) {
         String outputFileName = "target/ks-" + clazz.getSimpleName() + "-dictionary.xml";
         execute(clazz, outputFileName);
     }
 
-    public void execute(Class<?> clazz, String outputFileName) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    public void execute(Class<?> clazz, String outputFileName) {
         // Create base dictionary object structure for DTOs that map to entities
         File file = new File(outputFileName);
         OutputStream os;
@@ -70,7 +67,7 @@ public class DictionaryCreator {
         StringBuffer s = new StringBuffer();
         addSpringHeaderOpen(s);
 
-        addObjectStructure(clazz, s, new HashSet<Class<?>>());
+        writeObjectStructure(clazz, s);
 
         addSpringHeaderClose(s);
         try {
@@ -81,14 +78,7 @@ public class DictionaryCreator {
         }
     }
 
-    private void addObjectStructure(Class<?> clazz, StringBuffer s,
-            Set<Class<?>> processed) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
-        //Don't process if processed
-        if (processed.contains(clazz)) {
-            return;
-        }
-        processed.add(clazz);
-
+    private void writeObjectStructure(Class<?> clazz, StringBuffer s) {
         BeanInfo beanInfo;
         try {
             beanInfo = Introspector.getBeanInfo(clazz);
@@ -96,12 +86,10 @@ public class DictionaryCreator {
             throw new IllegalArgumentException(ex);
         }
 
-
         //Step 1, create the abstract structure
-        s.append("\n\n<!-- " + clazz.getSimpleName() + "-->");
-        s.append("\n<bean id=\"" + initLower(clazz.getSimpleName())
-                + "-parent\" abstract=\"true\" parent=\"" + initLower(DataObjectEntry.class.getSimpleName())
-                + "\">");
+        s.append("\n\n<!-- ").append(clazz.getSimpleName()).append("-->");
+        s.append("\n<bean id=\"").append(initLower(clazz.getSimpleName())).append("-parent\" abstract=\"true\"");
+        s.append(" parent=\"").append(initLower(DataObjectEntry.class.getSimpleName())).append("\">");
         addProperty("name", initLower(clazz.getSimpleName()), s);
         addProperty("objectClass", clazz.getName(), s);
         addProperty("objectLabel", "", s);
@@ -123,33 +111,86 @@ public class DictionaryCreator {
         s.append("\n<property name=\"attributes\">");
         s.append("\n<list>");
 
-        for (PropertyDescriptor pd : getFilteredSortedProperties(beanInfo)) {
-            String fieldName = initLower(clazz.getSimpleName() + "." + initLower(pd.getName()));
-            s.append("\n<ref bean=\"" + fieldName + "\"/>");
-        }
+        this.writeAttributeRefBeans(clazz, null, s, new Stack<Class<?>>(), beanInfo);
         s.append("\n</list>");
         s.append("\n</property>");
         s.append("\n</bean>");
 
         //Create the instance
-        s.append("\n<bean id=\"" + initLower(clazz.getSimpleName()) + "\" parent=\""
-                + initLower(clazz.getSimpleName()) + "-parent\"/>");
+        s.append("\n<bean id=\"").append(initLower(clazz.getSimpleName())).append("\"");
+        s.append(" parent=\"").append(initLower(clazz.getSimpleName())).append("-parent\"/>");
 
         //Step 2, loop through attributes
-        Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
+        this.writeAttributeDefinitions(clazz, null, s, new Stack<Class<?>>(), beanInfo);
+
+    }
+
+    private void writeAttributeRefBeans(Class<?> clazz, String parentFieldName, StringBuffer s,
+            Stack<Class<?>> parents, BeanInfo beanInfo) {
+        if (parents.contains(clazz)) {
+            return;
+        }
         for (PropertyDescriptor pd : getFilteredSortedProperties(beanInfo)) {
-            dependantStructures.addAll(addAttributeDefinition(clazz, pd, s, processed));
+            String fieldName = calcFieldName(clazz, parentFieldName, pd);
+            s.append("\n<ref bean=\"").append(fieldName).append("\"/>");
+            Class<?> actualClass = this.calcActualClass(clazz, pd);
+            String baseKualiType = calcBaseKualiType(clazz, pd, actualClass);
+            // Add complex sub-types fields
+            if ("baseKualiComplex".equals(baseKualiType)) {
+                parents.push(clazz);
+                BeanInfo fieldBeanInfo;
+                try {
+                    fieldBeanInfo = Introspector.getBeanInfo(actualClass);
+                } catch (IntrospectionException ex) {
+                    throw new IllegalArgumentException(ex);
+                }
+                writeAttributeRefBeans(actualClass, fieldName, s, parents, fieldBeanInfo);
+                parents.pop();
+            }
         }
-        //Step 3, process all dependant object structures
-        for (Class<?> dependantClass : dependantStructures) {
-            addObjectStructure(dependantClass, s, processed);
+    }
+
+    private void writeAttributeDefinitions(Class<?> clazz, String parentFieldName, StringBuffer s,
+            Stack<Class<?>> parents, BeanInfo beanInfo) {
+        if (parents.contains(clazz)) {
+            return;
         }
+        for (PropertyDescriptor pd : getFilteredSortedProperties(beanInfo)) {
+            String fieldName = calcFieldName(clazz, parentFieldName, pd);
+            Class<?> actualClass = this.calcActualClass(clazz, pd);
+            String baseKualiType = calcBaseKualiType(clazz, pd, actualClass);
+            writeAttributeDefinition(clazz, parentFieldName, pd, baseKualiType, s);
+
+            // Add complex sub-types fields
+            if ("baseKualiComplex".equals(baseKualiType)) {
+                parents.push(clazz);
+                BeanInfo fieldBeanInfo;
+                try {
+                    fieldBeanInfo = Introspector.getBeanInfo(actualClass);
+                } catch (IntrospectionException ex) {
+                    throw new IllegalArgumentException(ex);
+                }
+                writeAttributeDefinitions(actualClass, fieldName, s, parents, fieldBeanInfo);
+                parents.pop();
+
+            }
+        }
+    }
+
+    private String calcFieldName(Class<?> clazz, String parentFieldName, PropertyDescriptor pd) {
+        if (parentFieldName == null) {
+            return initLower(clazz.getSimpleName()) + "." + initLower(pd.getName());
+        }
+        return parentFieldName + "." + initLower(pd.getName());
     }
 
     private List<PropertyDescriptor> getFilteredSortedProperties(BeanInfo beanInfo) {
         List<PropertyDescriptor> list = new ArrayList(beanInfo.getPropertyDescriptors().length);
         for (PropertyDescriptor pd : beanInfo.getPropertyDescriptors()) {
             if (pd.getPropertyType().equals(Class.class)) {
+                continue;
+            }
+            if (pd.getName().equals("attributes")) {
                 continue;
             }
             list.add(pd);
@@ -259,32 +300,36 @@ public class DictionaryCreator {
         return null;
     }
 
-    private Set<Class<?>> addAttributeDefinition(Class<?> clazz, PropertyDescriptor pd,
-            StringBuffer s, Set<Class<?>> processed) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
-        Set<Class<?>> dependantStructures = new HashSet<Class<?>>();
+    private String calcBaseKualiType(Class<?> clazz, PropertyDescriptor pd, Class<?> actualClass) {
+        DataType dt = calcDataType(clazz, pd);
+        String baseKualiType = calcBaseKualiType(actualClass, pd, dt);
+        return baseKualiType;
+    }
+
+    private Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
+        Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
+        return actualClass;
+    }
+
+    private void writeAttributeDefinition(Class<?> clazz, String parentFieldName, PropertyDescriptor pd, String baseKualiType,
+            StringBuffer s) {
 
         //Create the abstract field
-        String name = clazz.getSimpleName().substring(0, 1).toLowerCase() + clazz.getSimpleName().substring(
-                1) + "." + pd.getName();
-        Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
-        DataType dt = calcDataType(clazz, pd);
-        String parentField = calcBaseKualiType(actualClass, pd, dt);
+        String fieldName = this.calcFieldName(clazz, parentFieldName, pd);
 
-        s.append("\n\n<bean id=\"" + name
-                + "-parent\" abstract=\"true\" parent=\"" + parentField + "\">");
+        s.append("\n\n<bean id=\"").append(fieldName).append("-parent\" abstract=\"true\" parent=\"").append(baseKualiType).append("\">");
         addProperty("name", initLower(pd.getName()), s);
-        if (isList(pd)) {
-            addProperty("maxOccurs", "" + DictionaryConstants.UNBOUNDED, s);
-        }
+        // TODO: implement maxoccurs
+//        if (isList(pd)) {
+//            addProperty("maxOccurs", "" + DictionaryConstants.UNBOUNDED, s);
+//        }
         s.append("\n</bean>");
 
         //Create the instance
-        s.append("\n<bean id=\"" + name + "\" parent=\"" + name
-                + "-parent\"/>");
-        return dependantStructures;
+        s.append("\n<bean id=\"").append(fieldName).append("\" parent=\"").append(fieldName).append("-parent\"/>");
     }
 
-    private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    private DataType calcDataType(Class<?> clazz, PropertyDescriptor pd) {
         Class<?> actualClass = Bean2DictionaryConverter.calcActualClass(clazz, pd);
         DataType dataType = Bean2DictionaryConverter.calcDataType(clazz.getName(), actualClass);
         return dataType;
@@ -297,7 +342,7 @@ public class DictionaryCreator {
         return false;
     }
 
-    private boolean isComplex(Class<?> clazz, PropertyDescriptor pd) throws InvalidParameterException, MissingParameterException, ReadOnlyException {
+    private boolean isComplex(Class<?> clazz, PropertyDescriptor pd) {
         return isComplex(calcDataType(clazz, pd));
     }
 
@@ -384,19 +429,17 @@ public class DictionaryCreator {
     }
 
     private void addValue(String value, StringBuffer s) {
-        s.append("\n<value>" + value + "</value>");
+        s.append("\n<value>").append(value).append("</value>");
     }
 
     private void addProperty(String propertyName, String propertyValue,
             StringBuffer s) {
-        s.append("\n<property name=\"" + propertyName + "\" value=\"" + propertyValue
-                + "\"/>");
+        s.append("\n<property name=\"").append(propertyName).append("\" value=\"").append(propertyValue).append("\"/>");
     }
 
     private static void addPropertyRef(String propertyName, String propertyValue,
             StringBuffer s) {
-        s.append("\n<property name=\"" + propertyName + "\" ref=\"" + propertyValue
-                + "\"/>");
+        s.append("\n<property name=\"").append(propertyName).append("\" ref=\"").append(propertyValue).append("\"/>");
     }
 
     private void addSpringHeaderClose(StringBuffer s) {
@@ -421,10 +464,7 @@ public class DictionaryCreator {
         s.append("-->").append("\n");
         s.append("<beans xmlns=\"http://www.springframework.org/schema/beans\"").append("\n");
         s.append("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"").append("\n");
-        s.append("xsi:schemaLocation=\"").append("\n");
-        s.append("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd").append("\n");
-        s.append("\">").append("\n");
+        s.append("xsi:schemaLocation=\"").append("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd").append("\">").append("\n");
         s.append("\n<import resource=\"classpath:ks-base-dictionary.xml\"/>");
     }
 }
-

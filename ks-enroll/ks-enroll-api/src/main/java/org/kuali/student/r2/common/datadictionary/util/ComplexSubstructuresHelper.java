@@ -93,7 +93,7 @@ public class ComplexSubstructuresHelper {
                     throw new RuntimeException(originalClass.getName(), ex);
                 }
                 if (classToCheck.equals(Object.class)) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(originalClass.getName(), ex);
                 }
             } catch (SecurityException ex) {
                 throw new RuntimeException(ex);

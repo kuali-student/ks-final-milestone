@@ -89,58 +89,50 @@ public class TestDictionaryCreator {
     @Test
     public void testExecute() {
         System.out.println("execute");
-        try {
-            // lpr
-            new DictionaryCreator().execute(LuiPersonRelationInfo.class);
-            // lui
-            new DictionaryCreator().execute(LuiInfo.class);
-            new DictionaryCreator().execute(LuiLuiRelationInfo.class);
-            new DictionaryCreator().execute(LuiCapacityInfo.class);            
-            // atp
-            new DictionaryCreator().execute(AtpInfo.class);
-            new DictionaryCreator().execute(MilestoneInfo.class);
-            new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
-            new DictionaryCreator().execute(AtpAtpRelationInfo.class);
-            // acal
-            new DictionaryCreator().execute(AcademicCalendarInfo.class);
-            new DictionaryCreator().execute(CampusCalendarInfo.class);
-            new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
-            new DictionaryCreator().execute(HolidayInfo.class);
-            new DictionaryCreator().execute(KeyDateInfo.class);
-            new DictionaryCreator().execute(TermInfo.class);
-            // hold
-            new DictionaryCreator().execute(HoldInfo.class);
-            new DictionaryCreator().execute(IssueInfo.class);
-            new DictionaryCreator().execute(RestrictionInfo.class);
-            // Course Offering
-            new DictionaryCreator().execute(CourseOfferingInfo.class);
-            new DictionaryCreator().execute(ActivityOfferingInfo.class);
-            new DictionaryCreator().execute(RegistrationGroupInfo.class);
-            new DictionaryCreator().execute(SeatPoolDefinitionInfo.class);
-            
-            // r2 common
-            new DictionaryCreator().execute(AttributeInfo.class);
-            new DictionaryCreator().execute(ComparisonInfo.class);
-            new DictionaryCreator().execute(ContextInfo.class);
-            new DictionaryCreator().execute(CriteriaInfo.class);
-            new DictionaryCreator().execute(MetaInfo.class);
-            new DictionaryCreator().execute(RichTextInfo.class);
-            new DictionaryCreator().execute(SearchParamInfo.class);
-            new DictionaryCreator().execute(StateInfo.class);
-            new DictionaryCreator().execute(StatusInfo.class);
-            new DictionaryCreator().execute(TimeAmountInfo.class);
-            new DictionaryCreator().execute(TypeInfo.class);
-            new DictionaryCreator().execute(TypeTypeRelationInfo.class);
-            new DictionaryCreator().execute(ValidationResultInfo.class);
-            // r1 common
-            new DictionaryCreator().execute(AmountInfo.class);
+//        // lpr
+//        new DictionaryCreator().execute(LuiPersonRelationInfo.class);
+//        // lui
+//        new DictionaryCreator().execute(LuiInfo.class);
+//        new DictionaryCreator().execute(LuiLuiRelationInfo.class);
+//        new DictionaryCreator().execute(LuiCapacityInfo.class);
+        // atp
+        new DictionaryCreator().execute(AtpInfo.class);
+        new DictionaryCreator().execute(MilestoneInfo.class);
+        new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
+        new DictionaryCreator().execute(AtpAtpRelationInfo.class);
+//        // acal
+//        new DictionaryCreator().execute(AcademicCalendarInfo.class);
+//        new DictionaryCreator().execute(CampusCalendarInfo.class);
+//        new DictionaryCreator().execute(RegistrationDateGroupInfo.class);
+//        new DictionaryCreator().execute(HolidayInfo.class);
+//        new DictionaryCreator().execute(KeyDateInfo.class);
+//        new DictionaryCreator().execute(TermInfo.class);
+//        // hold
+//        new DictionaryCreator().execute(HoldInfo.class);
+//        new DictionaryCreator().execute(IssueInfo.class);
+//        new DictionaryCreator().execute(RestrictionInfo.class);
+//        // Course Offering
+//        new DictionaryCreator().execute(CourseOfferingInfo.class);
+//        new DictionaryCreator().execute(ActivityOfferingInfo.class);
+//        new DictionaryCreator().execute(RegistrationGroupInfo.class);
+//        new DictionaryCreator().execute(SeatPoolDefinitionInfo.class);
 
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
-
-
-
+//        // r2 common
+//        new DictionaryCreator().execute(AttributeInfo.class);
+//        new DictionaryCreator().execute(ComparisonInfo.class);
+//        new DictionaryCreator().execute(ContextInfo.class);
+//        new DictionaryCreator().execute(CriteriaInfo.class);
+//        new DictionaryCreator().execute(MetaInfo.class);
+//        new DictionaryCreator().execute(RichTextInfo.class);
+//        new DictionaryCreator().execute(SearchParamInfo.class);
+//        new DictionaryCreator().execute(StateInfo.class);
+//        new DictionaryCreator().execute(StatusInfo.class);
+//        new DictionaryCreator().execute(TimeAmountInfo.class);
+//        new DictionaryCreator().execute(TypeInfo.class);
+//        new DictionaryCreator().execute(TypeTypeRelationInfo.class);
+//        new DictionaryCreator().execute(ValidationResultInfo.class);
+//        // r1 common
+//        new DictionaryCreator().execute(AmountInfo.class);
 
     }
 }
