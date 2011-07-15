@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalend
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -134,8 +135,30 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramType(String credentialProgramTypeKey,
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // TODO: this will be replaced by func on searching dynamic attributes
+    
+    	List<AcademicCalendarInfo> acals = new ArrayList<AcademicCalendarInfo>();
+    	List<String> atpKeys = atpService.getAtpKeysByType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context);
+    	if (atpKeys != null && !atpKeys.isEmpty()){
+    		for(String atpKey : atpKeys){
+    			try {
+					AtpInfo atp = atpService.getAtp(atpKey, context);
+	 				List<AttributeInfo> attributes = atp.getAttributes();
+					if(attributes != null && !attributes.isEmpty()){
+						for(AttributeInfo attribute : attributes){
+							if(attribute.getKey().equals("CredentialProgramType")){
+								AcademicCalendarInfo acal = acalAssembler.assemble(atp, context);
+								if(acal != null) acals.add(acal);
+							}
+						}
+					}
+    			} catch (DoesNotExistException e) {
+					throw new OperationFailedException("getAtpKeysByType found invalid atp: " + atpKey);
+				}
+    		}
+    	}
+    	
+        return acals;
     }
 
     @Override

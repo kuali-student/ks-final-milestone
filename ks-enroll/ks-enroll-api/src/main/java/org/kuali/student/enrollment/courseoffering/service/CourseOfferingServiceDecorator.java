@@ -25,7 +25,15 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     
     private CourseOfferingService nextDecorator;
     
-    @Override
+    public CourseOfferingService getNextDecorator() {
+		return nextDecorator;
+	}
+
+	public void setNextDecorator(CourseOfferingService nextDecorator) {
+		this.nextDecorator = nextDecorator;
+	}
+
+	@Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
         

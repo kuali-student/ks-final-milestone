@@ -3,11 +3,14 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.List;
 
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -25,6 +28,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
+	private LuiService luiService;
+	private CourseOfferingAssembler coAssembler;
+	
+	public LuiService getLuiService() {
+		return luiService;
+	}
+
+	public void setLuiService(LuiService luiService) {
+		this.luiService = luiService;
+	}
+
+	public CourseOfferingAssembler getCoAssembler() {
+		return coAssembler;
+	}
+
+	public void setCoAssembler(CourseOfferingAssembler coAssembler) {
+		this.coAssembler = coAssembler;
+	}
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
@@ -48,8 +69,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		LuiInfo lui = luiService.getLui(courseOfferingId, context);		
+		return coAssembler.assemble(lui, context);
 	}
 
 	@Override

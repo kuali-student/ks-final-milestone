@@ -17,13 +17,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.AtpAssembler;
+import org.kuali.student.r2.common.infc.DTOAssembler;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
-public class AtpAtpRelationAssembler implements AtpAssembler<Object, Object> {
+public class AtpAtpRelationAssembler implements DTOAssembler<Object, Object> {
     private AtpService atpService;
     
     public AtpService getAtpService() {

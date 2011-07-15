@@ -3,10 +3,10 @@ package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.infc.AtpAssembler;
+import org.kuali.student.r2.common.infc.DTOAssembler;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
-public class TermAssembler implements AtpAssembler<TermInfo, AtpInfo>{
+public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
      
     @Override
     public TermInfo assemble(AtpInfo atp, ContextInfo context) {
