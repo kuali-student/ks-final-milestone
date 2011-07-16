@@ -94,7 +94,10 @@ public class StylishDropDown extends Composite{
 				else if (event.getNativeKeyCode() == KeyboardListener.KEY_UP)
 					StylishDropDown.this.hideMenu();
 				else if (event.getNativeKeyCode() == KeyboardListener.KEY_TAB)
-					titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+				{
+					StylishDropDown.this.showMenu();
+					titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Main-Hover");
+				}					
 			}	
 		} 
 	}; 
@@ -103,10 +106,8 @@ public class StylishDropDown extends Composite{
 
 		@Override
 		public void onFocus(FocusEvent event) {
-			if(enabled) {
-				titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Hover");
-				StylishDropDown.this.showMenu();	
-			}	
+			if(enabled) 
+				titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Main-Hover");
 		}
 	}; 
 
@@ -114,7 +115,7 @@ public class StylishDropDown extends Composite{
 
 		@Override
 		public void onMouseOver(MouseOverEvent event) {
-			titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Hover");
+			titleLayout.addStyleName("KS-Basic-Menu-Item-Panel-Main-Hover");
 		}
 		
 	};
@@ -123,7 +124,7 @@ public class StylishDropDown extends Composite{
 
 		@Override
 		public void onMouseOut(MouseOutEvent event) {
-			titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Hover");
+			titleLayout.removeStyleName("KS-Basic-Menu-Item-Panel-Main-Hover");
 		}
 		
 	};
