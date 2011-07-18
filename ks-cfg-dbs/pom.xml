@@ -326,9 +326,9 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
-        <version>1.4</version>
+        <version>1.6</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -342,9 +342,9 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.kuali.maven.impex</groupId>
+        <groupId>org.kuali.maven.plugins</groupId>
         <artifactId>maven-impex-plugin</artifactId>
-        <version>1.0.17</version>
+        <version>1.0.22</version>
         <dependencies>
           <dependency>
             <groupId>mysql</groupId>
@@ -506,7 +506,7 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
+            <groupId>org.kuali.maven.plugins</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <executions>
               <execution>
@@ -580,7 +580,7 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
+            <groupId>org.kuali.maven.plugins</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <executions>
               <execution>
@@ -687,7 +687,7 @@
             </dependencies>
           </plugin>
           <plugin>
-            <groupId>org.kuali.maven.impex</groupId>
+            <groupId>org.kuali.maven.plugins</groupId>
             <artifactId>maven-impex-plugin</artifactId>
             <configuration>
               <forceMojoExecution>true</forceMojoExecution>
@@ -828,22 +828,71 @@
     <profile>
       <!-- This profile commits any Impex changes to SCM -->
       <id>commit-impex-changes</id>
+      <modules>
+        <module>ks-standalone-db</module>
+        <module>ks-embedded-db</module>
+      </modules>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-plugin</artifactId>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>maven-impex-plugin</artifactId>
             <executions>
               <execution>
-                <id>commit-impex-changes</id>
-                <phase>process-resources</phase>
+                <id>id-invalid</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>id-invalid-data-files</goal>
+                </goals>
+                <configuration>
+                  <schemaXMLFile>${project.basedir}/src/main/impex/schema.xml</schemaXMLFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>morph-xml</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>generate-data-dtd</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>generate-oracle-sql</id>
+                <phase>none</phase>
+              </execution>
+              <execution>
+                <id>generate-mysql-sql</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.kuali.maven.plugins</groupId>
+            <artifactId>maven-scm-plugin</artifactId>
+            <configuration>
+              <message>Automated Impex update</message>
+            </configuration>
+            <executions>
+              <execution>
+                <id>add</id>
+                <phase>${scm.phase}</phase>
                 <goals>
                   <goal>add</goal>
                   <goal>checkin</goal>
                 </goals>
                 <configuration>
-                  <message>Automated Impex update</message>
                   <includes>**/src/main/impex/*.xml,**/src/main/impex/*.dtd</includes>
+                </configuration>
+              </execution>
+              <execution>
+                <id>remove</id>
+                <phase>${scm.phase}</phase>
+                <goals>
+                  <goal>remove</goal>
+                  <goal>checkin</goal>
+                </goals>
+                <configuration>
+                  <includes>${impex.data.invalid}</includes>
                 </configuration>
               </execution>
             </executions>
