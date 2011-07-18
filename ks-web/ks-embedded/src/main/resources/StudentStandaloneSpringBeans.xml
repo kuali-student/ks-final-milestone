@@ -40,7 +40,9 @@
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>
+				<value>classpath:KeyDateInfoUI.xml</value>
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>
+  			    <value>classpath:TermWrapperMaintenance.xml</value> 
 				
 				<!--
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	
