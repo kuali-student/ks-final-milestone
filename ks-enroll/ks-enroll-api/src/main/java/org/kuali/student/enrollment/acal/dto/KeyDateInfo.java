@@ -101,7 +101,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 	}
 
 	public void setStartDate(Date startDate) {
-		this.startDate = new Date(startDate.getTime());
+		this.startDate = null != startDate ? new Date(startDate.getTime()) : null;
 	}
 
 	@Override
@@ -110,6 +110,6 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = new Date(endDate.getTime());
+		this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
 	}
 }

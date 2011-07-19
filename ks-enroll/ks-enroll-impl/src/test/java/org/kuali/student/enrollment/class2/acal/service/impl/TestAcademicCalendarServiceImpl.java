@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
@@ -34,6 +36,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -803,4 +806,47 @@ public class TestAcademicCalendarServiceImpl{
         }    	
     }
 
+    @Test
+    public void testCreateKeyDateForTerm() throws AlreadyExistsException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	KeyDateInfo keyDate = new KeyDateInfo();
+    	keyDate.setKey("new-keydate-Id");
+    	keyDate.setName("testCreate");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        
+        keyDate.setStartDate(cal.getTime());
+        keyDate.setIsAllDay(false);
+        keyDate.setIsDateRange(true);
+        keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        keyDate.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("Test");
+        keyDate.setDescr(descr);
+       
+        
+        try {
+        	KeyDateInfo created = acalServiceValidation.createKeyDateForTerm("termRelationTestingTerm1", "new-keydate-Id", keyDate, callContext);
+            assertNotNull(created);
+            assertEquals("new-keydate-Id", created.getKey());
+            assertEquals("testCreate", created.getName());
+            
+            try{
+            	List<KeyDateInfo> kds = acalServiceValidation.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
+            	assertNotNull(kds);
+            	assertTrue(!kds.isEmpty());
+            	List<String> kdIds = new ArrayList<String>();
+            	for(KeyDateInfo kd : kds){
+            		kdIds.add(kd.getKey());
+            	}
+            	assertTrue(kdIds.contains("new-keydate-Id"));
+            }catch(DoesNotExistException e) {
+                fail(e.getMessage());
+            }
+        }
+        catch(AlreadyExistsException e) {
+            fail(e.getMessage());
+        } 
+    }
 }

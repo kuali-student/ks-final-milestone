@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
@@ -930,7 +932,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     @Override
     public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
+ 
         return null;
     }
 
@@ -950,14 +952,85 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         return null;
     }
 
+    private boolean checkExistenceForKeyDateinTerm(String termKey, String keyDateKey, ContextInfo context) throws OperationFailedException{
+    	boolean ret = false;
+    	List<AtpMilestoneRelationInfo> amRels;
+		try {
+			amRels = atpService.getAtpMilestoneRelationsByAtp(termKey, context);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("get DoesNotExistException when getAtpMilestoneRelationsByAtp " + termKey);
+		} catch (InvalidParameterException e) {
+			throw new OperationFailedException("get InvalidParameterException when getAtpMilestoneRelationsByAtp " + termKey);
+		} catch (MissingParameterException e) {
+			throw new OperationFailedException("get MissingParameterException when getAtpMilestoneRelationsByAtp " + termKey);
+		} catch (OperationFailedException e) {
+			throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
+		}
+        
+        if(amRels != null && !amRels.isEmpty()){                  
+            for(AtpMilestoneRelationInfo amRel : amRels){
+            	if(amRel.getAtpKey().equals(termKey)){
+                    if(amRel.getTypeKey().equals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY)){
+                        if(amRel.getMilestoneKey().equals(keyDateKey)){
+                        	return true;
+                        }
+                    }
+            	}
+            }
+        }
+      
+        return ret;
+    }
+    
     @Override
+    @Transactional
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo,
             ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	KeyDateInfo keyDate = null;
+    	if(!checkExistenceForKeyDateinTerm(termKey, keyDateKey, context)){
+    		MilestoneInfo msInfo = toMilestoneInfo(keyDateInfo);
+        	if ( msInfo != null){
+        		//create keydate
+        		keyDate = new  KeyDateInfo(atpService.createMilestone(keyDateKey, msInfo, context));
+        		
+        		//create atp-milestone relation
+        		AtpMilestoneRelationInfo amRelInfo = new AtpMilestoneRelationInfo();
+        		amRelInfo.setAtpKey(termKey);
+        		amRelInfo.setId(UUIDHelper.genStringUUID());
+        		amRelInfo.setMilestoneKey(keyDateKey);
+        		amRelInfo.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
+        		amRelInfo.setTypeKey(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY);
+        		atpService.createAtpMilestoneRelation(amRelInfo, context);
+        	}
+    	}
+    	
+        return keyDate;
     }
 
+    private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo){
+    	if(keyDateInfo != null){
+			MilestoneInfo msInfo = new MilestoneInfo();
+			msInfo.setAllDay(keyDateInfo.getIsAllDay());
+			msInfo.setAttributes(keyDateInfo.getAttributes());
+			msInfo.setDateRange(keyDateInfo.getIsDateRange());
+			msInfo.setDescr(keyDateInfo.getDescr());
+			msInfo.setKey(keyDateInfo.getKey());
+			msInfo.setMeta(keyDateInfo.getMeta());
+			msInfo.setName(keyDateInfo.getName());
+			msInfo.setStartDate(keyDateInfo.getStartDate());
+			msInfo.setEndDate(keyDateInfo.getEndDate());
+			msInfo.setStateKey(keyDateInfo.getStateKey());
+			msInfo.setTypeKey(keyDateInfo.getTypeKey());
+			
+			return msInfo;
+    	}
+    	else
+    		return null;
+    }
+    
     @Override
     public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
