@@ -83,26 +83,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="AttributeField" p:propertyName="endDate"/>
                </list>
              </property>             
-          </bean> 
-          <!-- 
-          <bean parent="MaintenanceCollectionGroupSection">
-              <property name="title" value="Academic Calendar Terms"/>  
-              <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-              <property name="propertyName" value="fiscalOfficer.accounts"/>
-              <property name="items">
-                <list>
-                  <bean parent="AttributeField" p:propertyName="startDate"/>
-                  <bean parent="AttributeField" p:propertyName="endDate"/>
-                </list>
-              </property>   
-              <property name="layoutManager.summaryTitle" value="Term"/> 
-              <property name="layoutManager.summaryFields">
-                <list>
-                  <value>number</value>
-                </list>
-              </property>
-           </bean> 
-           -->       
+          </bean>      
        </list>
      </property>
   </bean>  
