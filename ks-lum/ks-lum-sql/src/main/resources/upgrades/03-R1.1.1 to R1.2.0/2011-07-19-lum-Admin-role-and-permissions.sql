@@ -29,7 +29,7 @@ INSERT INTO KRIM_ROLE_MBR_T (MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NB
 /
 --- Create the value for the permission, ie the screen component name
   INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID,ATTR_VAL,KIM_ATTR_DEFN_ID,KIM_TYP_ID,OBJ_ID,PERM_ID,VER_NBR)
-  VALUES ('4000','cluModifyItem','115','19','de7477c5-9197-4357-a26d-82fe0abe351d','3202',1)
+  VALUES ('4001','cluModifyItem','115','19','de7477c5-9197-4357-a26d-82fe0abe351d','3202',1)
 /
   -- Create the link between the role and the permission
 INSERT INTO KRIM_ROLE_PERM_T (ACTV_IND,OBJ_ID,PERM_ID,ROLE_ID,ROLE_PERM_ID,VER_NBR)
