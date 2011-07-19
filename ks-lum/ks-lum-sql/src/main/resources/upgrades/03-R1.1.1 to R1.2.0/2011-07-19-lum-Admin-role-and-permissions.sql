@@ -12,7 +12,7 @@
 /
   -- Create the KS ADMIIN role
 insert into KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT) values
-('7001', '7f49d87c-5837-4b15-959e-ea2e3fd7dfe6','1','KS Admin Role', 'KS-SYS','KS Admin Role : KS Admin Screens', '1','Y',null) -- Default or should it be 18???
+('7001', '7f49d87c-5837-4b15-959e-ea2e3fd7dfe6','1','KS Admin Role', 'KS-SYS','KS Admin Role : KS Admin Screens', '1','Y',null)
 / 
   -- Create the link between the role and the permission
 INSERT INTO KRIM_ROLE_PERM_T (ACTV_IND,OBJ_ID,PERM_ID,ROLE_ID,ROLE_PERM_ID,VER_NBR)
