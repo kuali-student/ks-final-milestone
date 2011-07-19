@@ -11,11 +11,6 @@
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
     <bean id="mockPermissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="mockLprService" parent="mockLprValidationService" />
-    <bean id="mockLprValidationService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceValidationDecorator" >
-        <property name="nextDecorator" ref="mockLprPersistenceService"/>
-        <property name="validator" ref="validator"/>
-    </bean>
     <bean id="mockLprPersistenceService" class="org.kuali.student.enrollment.classI.lpr.mock.LuiPersonRelationServiceMockImpl"/>
         
 
