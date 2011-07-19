@@ -30,8 +30,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
@@ -51,8 +50,7 @@ import org.w3c.dom.Element;
         "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
-        "meta", "attributes", "_futureElements"})
-        
+        "meta", "attributes", "_futureElements"})        
 public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
@@ -121,7 +119,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private List<String> jointOfferingIds;
     
     @XmlElement
-    private ResultValuesGroup creditOptions;
+    private ResultValuesGroupInfo creditOptions;
     
     @XmlElement
     private List<String> gradingOptions;
@@ -223,7 +221,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.maximumEnrollment = (null != course.getMaximumEnrollment()) ? new Integer(course.getMaximumEnrollment()) : null;
         this.minimumEnrollment = (null != course.getMinimumEnrollment()) ? new Integer(course.getMinimumEnrollment()) : null;
         this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(course.getJointOfferingIds()) : null;
-        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroup(course.getCreditOptions()) : null;
+        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions()) : null;
         this.gradingOptions = (null != course.getGradingOptions()) ? new ArrayList<String>(course.getGradingOptions()) : null;
         this.gradeRosterLevel = course.getGradeRosterLevel();
         this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
@@ -366,7 +364,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     }
 
     @Override
-    public ResultValuesGroup getCreditOptions() {
+    public ResultValuesGroupInfo getCreditOptions() {
         return this.creditOptions;
     }
 
@@ -513,7 +511,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(ResultValuesGroup creditOptions) {
+    public void setCreditOptions(ResultValuesGroupInfo creditOptions) {
         this.creditOptions = creditOptions;
     }
 

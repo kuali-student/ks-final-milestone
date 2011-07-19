@@ -18,7 +18,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
@@ -110,21 +110,21 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroup getResultValuesGroup(String resultValuesGroupId, ContextInfo context)
+    public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesGroup(resultValuesGroupId, context);
     }
 
     @Override
-    public List<ResultValuesGroup> getResultValuesGroupsByIdList(List<String> resultValuesGroupIdList, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(List<String> resultValuesGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesGroupsByIdList(resultValuesGroupIdList, context);
     }
 
     @Override
-    public List<ResultValuesGroup> getResultValuesGroupsByResultValue(String resultValueId, ContextInfo context)
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(String resultValueId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getResultValuesGroupsByResultValue(resultValueId, context);
@@ -138,7 +138,7 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroup createResultValuesGroup(ResultValuesGroup resultValuesGroupInfo, ContextInfo context)
+    public ResultValuesGroupInfo createResultValuesGroup(ResultValuesGroupInfo resultValuesGroupInfo, ContextInfo context)
             throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -147,8 +147,8 @@ public abstract class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public ResultValuesGroup updateResultValuesGroup(String resultValuesGroupKey,
-            ResultValuesGroup resultValuesGroupInfo, ContextInfo context)
+    public ResultValuesGroupInfo updateResultValuesGroup(String resultValuesGroupKey,
+            ResultValuesGroupInfo resultValuesGroupInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException,
@@ -218,7 +218,7 @@ public abstract class LRCServiceDecorator implements LRCService {
 
     @Override
     public List<ValidationResultInfo> validateResultValuesGroup(String validationType,
-            ResultValuesGroup resultValuesGroupInfo, ContextInfo context) throws DoesNotExistException,
+            ResultValuesGroupInfo resultValuesGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().validateResultValuesGroup(validationType, resultValuesGroupInfo, context);
     }

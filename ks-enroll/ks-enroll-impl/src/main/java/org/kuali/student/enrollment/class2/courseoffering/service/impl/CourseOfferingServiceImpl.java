@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -593,4 +594,33 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		return null;
 	}
 
+    @Override
+    public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateCourseOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateActivityOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 }

@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -222,6 +223,36 @@ public interface CourseOfferingService extends DataDictionaryService {
     public StatusInfo deleteCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     
+    /** 
+     * Validates a course offering. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param courseOfferingInfo the course offering information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    
     /**
      * Retrieves the course offering restrictions.
      *
@@ -297,7 +328,36 @@ public interface CourseOfferingService extends DataDictionaryService {
     public StatusInfo deleteCourseOfferingRestriction(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "restrictionId") String restrictionId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     
+    /** 
+     * Validates a course offering restrictions. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param restrictionInfo the course offering restriction information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateCourseOfferingRestriction(@WebParam(name = "validationType") String validationType, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    
     /**
      * This method returns the TypeInfo for a given activity offering
      * type key.
@@ -441,6 +501,36 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public StatusInfo deleteActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
      
+    
+    /** 
+     * Validates a activity offering. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param activityOfferingInfo the activity offering information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateActivityOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
     /**
      * Retrieves the activity offering restrictions.
      *
@@ -515,6 +605,37 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public StatusInfo deleteActivityOfferingRestriction(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "restrictionId") String restrictionId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
+
+    /** 
+     * Validates a activity offering restrictions. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param restrictionInfo the activity offering restriction information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateActivityOfferingRestriction(@WebParam(name = "validationType") String validationType, @WebParam(name = "restrictionInfo") StatementTreeViewInfo restrictionInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+        
     
     /**
      * When/for how long does the offering meet in class during the term. 
@@ -684,6 +805,36 @@ public interface CourseOfferingService extends DataDictionaryService {
     public StatusInfo deleteRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 
+    /** 
+     * Validates a registration group. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType Identifier of the extent of validation
+     * @param registrationGroupInfo the registrationGroup information to be tested.
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return the results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
+     * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateRegistrationGroup(@WebParam(name = "validationType") String validationType,  @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    
     /**
      * Retrieve information about a SeatPoolDefinition
      * 

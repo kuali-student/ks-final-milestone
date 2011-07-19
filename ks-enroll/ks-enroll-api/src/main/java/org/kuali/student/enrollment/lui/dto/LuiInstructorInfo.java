@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  *Information about a potential instructor for a clu.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"Id", "orgId", "personId", "personInfoOverride", 
+@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "orgId", "personId", "personInfoOverride", 
         "percentageEffort", "meta", "attributes", "_futureElements"})
 public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiInstructor, Serializable {
 

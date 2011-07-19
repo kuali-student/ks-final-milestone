@@ -15,11 +15,11 @@ import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lu.infc.Fee;
-
 /**
  * 
  * @author Kamal
@@ -126,8 +126,6 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * The options/scales that indicate the allowable grades that can be awarded.
      * If the value is set here then the Clu must have a grading option set on the
      * canonical activity. 
-     * 
-     * ResultValuesGroup will contain grade values valid for this course offering
      * 
      * @name: Grading Options
      */

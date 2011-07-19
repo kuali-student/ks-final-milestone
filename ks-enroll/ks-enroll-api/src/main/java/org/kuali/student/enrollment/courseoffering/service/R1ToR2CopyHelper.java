@@ -9,10 +9,10 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroup;
 
 /**
  * Utility to copy R1 to R2 structures
@@ -142,22 +142,22 @@ public class R1ToR2CopyHelper {
         return r2;
     }
 
-    public List<ResultValuesGroup> copyResultValuesGroupList(List<org.kuali.student.lum.lrc.dto.ResultComponentInfo> r1List) {
+    public List<ResultValuesGroupInfo> copyResultValuesGroupList(List<org.kuali.student.lum.lrc.dto.ResultComponentInfo> r1List) {
         if (r1List == null) {
             return null;
         }
-        List<ResultValuesGroup> r2List = new ArrayList<ResultValuesGroup>(r1List.size());
+        List<ResultValuesGroupInfo> r2List = new ArrayList<ResultValuesGroupInfo>(r1List.size());
         for (org.kuali.student.lum.lrc.dto.ResultComponentInfo r1 : r1List) {
             r2List.add(copyResultValuesGroup(r1));
         }
         return r2List;
     }
-    
-    public ResultValuesGroup copyResultValuesGroup(org.kuali.student.lum.lrc.dto.ResultComponentInfo r1) {
+
+    public ResultValuesGroupInfo copyResultValuesGroup(org.kuali.student.lum.lrc.dto.ResultComponentInfo r1) {
         if (r1 == null) {
             return null;
         }
-        ResultValuesGroup r2 = new ResultValuesGroup();
+        ResultValuesGroupInfo r2 = new ResultValuesGroupInfo();
         r2.setAttributes(copyAttributes(r1.getAttributes()));
         r2.setDescr(copyRichText(r1.getDesc()));
         // TODO: Deep copy the dates

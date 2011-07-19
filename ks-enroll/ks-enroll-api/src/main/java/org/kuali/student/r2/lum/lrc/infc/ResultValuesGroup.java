@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 
-public interface ResutValuesGroup extends IdEntity {
+public interface ResultValuesGroup extends IdEntity {
 
 
     /**
