@@ -58,6 +58,7 @@ public interface RegistrationDateGroup {
      * Gets the key identifying the term for this date group.
      *
      * @return the term key
+     * @readOnly
      */
     public String getTermKey();
 

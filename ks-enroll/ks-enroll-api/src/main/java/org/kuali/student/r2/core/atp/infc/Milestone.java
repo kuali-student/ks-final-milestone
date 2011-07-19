@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.atp.infc;
 
 import java.util.Date;
 
-import org.kuali.student.enrollment.acal.infc.KeyDate;
+import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 
 
 /**
@@ -28,9 +28,7 @@ import org.kuali.student.enrollment.acal.infc.KeyDate;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-// TODO - this is the same as org.kuali.student.enrollment.classII.acal.infc.KeyDate; need to find a
-// common package that makes sense, and get rid of one of them
-public interface Milestone extends KeyDate {
+public interface Milestone extends KeyDateOrMilestone {
 
     /**
      * Name: Is All Day
@@ -39,6 +37,7 @@ public interface Milestone extends KeyDate {
      *
      * @return true if this is an all-day event, false otherwise
      */
+    @Override
     public Boolean getIsAllDay();
    
 
@@ -49,6 +48,7 @@ public interface Milestone extends KeyDate {
      * @return true if the end date is different than the start date,
      *         false if the start end end date are the same
      */
+    @Override
     public Boolean getIsDateRange();
    
     /**
@@ -57,6 +57,7 @@ public interface Milestone extends KeyDate {
      *
      * @return the milestone start date 
      */
+    @Override
     public Date getStartDate();
    
     /**
@@ -66,6 +67,7 @@ public interface Milestone extends KeyDate {
      *
      * @return the milestone end date
      */
+    @Override
     public Date getEndDate();
    
 }

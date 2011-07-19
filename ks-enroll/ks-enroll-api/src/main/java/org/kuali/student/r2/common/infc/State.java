@@ -33,12 +33,15 @@ public interface State extends HasKey, HasAttributes, HasEffectiveDates {
     /**
      * Friendly name of the State
      * @name Name
+     * @readOnly
+     * @required
      */
     public String getName();
 
     /**
      * Narrative description of the State
      * @name Description
+     * @readOnly
      */
     public String getDescr();
 }

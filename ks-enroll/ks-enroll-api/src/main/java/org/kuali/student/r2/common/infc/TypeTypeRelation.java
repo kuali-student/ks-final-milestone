@@ -23,19 +23,24 @@ public interface TypeTypeRelation extends KeyEntity, HasEffectiveDates {
 
  /**
   * The key for the type that is the controlling or "main" type in this type-type relationship.
-  * @namne Owner Type Key
+  * @name Owner Type Key
+  * @readOnly
+  * @required
   */
  public String getOwnerTypeKey ();
 
  /**
   * The key for the type that is the controlled or "secondary" type in this type-type relationship.
   * @name Related Type Key
+  * @readOnly
+  * @required
   */
  public String getRelatedTypeKey ();
  
  /**
   * The rank or ordering of this relationship as compared to other relationships of the same type and same owner type.
   * @name Rank
+  * @readOnly
   */    
  public Integer getRank();
 }

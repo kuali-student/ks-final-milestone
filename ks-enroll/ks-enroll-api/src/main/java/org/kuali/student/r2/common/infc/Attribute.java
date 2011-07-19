@@ -28,13 +28,19 @@ public interface Attribute extends HasId {
     /**
      * The internally assigned id to this key/value pair
      * @name Id
+     * @required on updates
+     * @readOnly
      */
     public String getId();
   
 
     /**
      * The key that identifies the name of the dynamic attribute
+     * 
+     * Note: this key does not have to be unique and could be repeated to simulate a list.
      * @name Attribute Type Key
+     * @readOnly on updates
+     * @required
      */
     public String getKey();
   

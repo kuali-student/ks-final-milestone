@@ -26,6 +26,8 @@ public interface HasType  {
     /**
      * Unique identifier for the type of this object.
      * @name Type Key
+     * @readOnly on updates
+     * @required
      */
 
     public String getTypeKey();

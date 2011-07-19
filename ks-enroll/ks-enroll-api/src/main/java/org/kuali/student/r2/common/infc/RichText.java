@@ -29,6 +29,7 @@ public interface RichText {
      * stripped out.
      *
      * @name Plan Text
+     * @required
      */
     public String getPlain();
     

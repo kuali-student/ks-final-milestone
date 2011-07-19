@@ -33,7 +33,13 @@ public interface HasKey extends HasPrimaryKey {
      * <li>Key values have significance in that they are referenced in Configuration
      * <li>Key values are expected to be occasionally used in application code
      * </ul>
+     * 
+     * Once an object is created with the specified key it cannot be changed. Instead the
+     * object must be deleted or in-activated and a new object created with the right key.
+     * 
      * @name Key
+     * @readOnly on updates
+     * @required
      */
     public String getKey();
 }

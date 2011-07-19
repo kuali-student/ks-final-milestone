@@ -34,12 +34,15 @@ public interface Status {
     /**
      * Indicates the success or failure of the operation
      * @name Success Indicator
+     * @readOnly
+     * @required
      */
     public Boolean getIsSuccess();
 
     /**
      * Optional message indicating a reason
      * @name Message
+     * @readOnly
      */
     public String getMessage();
 }

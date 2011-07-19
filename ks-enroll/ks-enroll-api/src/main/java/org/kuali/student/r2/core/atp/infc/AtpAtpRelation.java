@@ -32,7 +32,8 @@ public interface AtpAtpRelation extends Relationship {
      *  Name: ATP Key
      *  A unique identifier for the first ATP in the relation.
      * 
-     *  @return the ATP key
+     * @return the ATP key
+     * @required
      */
     public String getAtpKey();
   
@@ -42,6 +43,7 @@ public interface AtpAtpRelation extends Relationship {
      *  A unique identifier for the second ATP in the relation.
      *
      *  @return the ATP key
+     * @required
      */
     public String getRelatedAtpKey();
   

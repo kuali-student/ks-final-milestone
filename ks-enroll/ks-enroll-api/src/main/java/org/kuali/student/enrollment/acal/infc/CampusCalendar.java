@@ -30,34 +30,34 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 public interface CampusCalendar extends KeyEntity {
 
     /**
-     * Name: Location
      * The campus or location to which this calendar pertains.
+     * @name Location
      */
     public String getLocation();
    
 
     /**
-     * Name: Start Date
-     * Date and time the term became effective. This
+     * Date and time the campus calendar became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
      * time period proper. This is a similar concept to the effective
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     * @name Start Date
      */
     public Date getStartDate();
   
 
     /**
-     * Name: End Date
-     * Date and time the term expires. This does not
+     * Date and time the campus calendar expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
      * proper. If specified, this must be greater than or equal to the
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     * @name End Date
      */
     public Date getEndDate();
 }

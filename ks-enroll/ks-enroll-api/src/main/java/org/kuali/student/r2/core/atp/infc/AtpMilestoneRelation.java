@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.student.r2.core.atp.infc;
 
 import org.kuali.student.r2.common.infc.Relationship;
-
 
 /**
  *  Information about a mapping between a Milestone and an Academic
@@ -26,22 +24,23 @@ import org.kuali.student.r2.common.infc.Relationship;
  *  @Author tom
  *  @Since Tue Apr 05 14:22:34 EDT 2011
  */
-
 public interface AtpMilestoneRelation extends Relationship {
 
     /**
-     *  Name: ATP Key
-     *  A unique identifier for the related ATP.
+     * Name: ATP Key
+     * A unique identifier for the related ATP.
      * 
-     *  @return the ATP key
+     * @return the ATP key
+     * @required
      */
     public String getAtpKey();
 
     /**
-     *  Name: Milestone Key
-     *  A unique identifier for the related Milestone.
+     * Name: Milestone Key
+     * A unique identifier for the related Milestone.
      *
-     *  @return the Milestone key
+     * @return the Milestone key
+     * @required
      */
     public String getMilestoneKey();
 }

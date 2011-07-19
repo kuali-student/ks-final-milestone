@@ -15,7 +15,6 @@
 
 package org.kuali.student.enrollment.acal.infc;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.kuali.student.r2.common.infc.KeyEntity;
@@ -33,7 +32,6 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 public interface Term extends KeyEntity {
 
     /**
-     * Name: Start Date
      * Date and time the term became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -41,12 +39,12 @@ public interface Term extends KeyEntity {
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     * @Name Start Date
      */
     public Date getStartDate();
   
 
     /**
-     * Name: End Date
      * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
@@ -54,6 +52,7 @@ public interface Term extends KeyEntity {
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     * @name End Date
      */
     public Date getEndDate();
   

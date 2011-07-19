@@ -21,13 +21,18 @@ public interface LuiPersonRelationRoster extends IdEntity {
      * {@link LuiPersonRelationRoster}
      * 
      * @return
+     * @name Associated Lui Ids
      */
     public List<String> getAssociatedLuiIds();
 
     /**
      * This method gets the LPRs that the roster is composed of 
      * 
-     * @return
+     * This is a read only field.
+     * Use service operations to manage the who is on the list of lprs for this roster.
+     * 
+     * @name Lpr Ids
+     * @readOnly
      */
     public List<String> getLprIds();
 }

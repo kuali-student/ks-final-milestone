@@ -22,17 +22,22 @@ public interface Version {
     /**
      * Version independent Id that remains the same across all versions
      * @name Version Independent Id
+     * @readOnly
+     * @required
      */
     public String getVersionIndId();
     /**
      * The sequence number of the version
      * @name Sequence Number
+     * @readOnly
+     * @required
      */
     public Long getSequenceNumber();
 
     /**
      * The date and time this version became current.
      * @name Current Version Start Date
+     * @required
      */
     public Date getCurrentVersionStart();
 

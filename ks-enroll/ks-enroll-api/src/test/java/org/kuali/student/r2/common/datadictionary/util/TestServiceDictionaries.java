@@ -73,10 +73,10 @@ public class TestServiceDictionaries {
         inputFiles.add(calculateXmlFileName(LuiLuiRelationInfo.class));
         inputFiles.add(calculateXmlFileName(LuiCapacityInfo.class));
         inputFiles.add("Course Offering Service");
-        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
-        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
-        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
-        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
+//        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
+//        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
+//        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
+//        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
         return inputFiles;
     }
 

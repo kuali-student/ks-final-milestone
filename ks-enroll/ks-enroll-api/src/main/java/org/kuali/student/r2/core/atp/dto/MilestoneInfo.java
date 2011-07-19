@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 import org.w3c.dom.Element;
 
@@ -62,11 +63,11 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone,
 	 * @param milestone
 	 *            the Milestone to copy
 	 */
-	public MilestoneInfo(Milestone milestone) {
+	public MilestoneInfo(KeyDateOrMilestone milestone) {
 		super(milestone);
 		if (null != milestone) {
-			this.isAllDay = new Boolean(milestone.getIsAllDay());
-			this.isDateRange = new Boolean(milestone.getIsDateRange());
+			this.isAllDay = milestone.getIsAllDay();
+			this.isDateRange = milestone.getIsDateRange();
 			this.startDate = null != milestone.getStartDate() ? new Date(
 					milestone.getStartDate().getTime()) : null;
 			this.endDate = null != milestone.getEndDate() ? new Date(milestone

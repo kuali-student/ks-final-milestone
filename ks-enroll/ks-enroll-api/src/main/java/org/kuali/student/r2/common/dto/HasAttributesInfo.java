@@ -35,11 +35,7 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 
 			if (null != hasAtts.getAttributes()) {
 				for (Attribute att : hasAtts.getAttributes()) {
-					AttributeInfo attributeInfo = new AttributeInfo();
-					attributeInfo.setKey(att.getKey());
-					attributeInfo.setValue(att.getValue());
-					attributeInfo.setId(att.getId());
-					attributes.add(attributeInfo);
+					attributes.add(new AttributeInfo (att));
 				}
 			}
 		}

@@ -28,8 +28,9 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface Issue extends IdEntity {
 
     /**
-     * Name: Organization Id
      * The organization related to this hold category.
+     * @name Organization Id
+     * @required
      */
     public String getOrganizationId();
 }

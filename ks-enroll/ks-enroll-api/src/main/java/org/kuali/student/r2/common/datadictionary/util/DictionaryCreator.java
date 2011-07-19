@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
 import org.kuali.rice.kns.datadictionary.DataObjectEntry;
 
@@ -65,8 +64,9 @@ public class DictionaryCreator {
             throw new IllegalArgumentException(ex);
         }
         StringBuffer s = new StringBuffer();
-        addSpringHeaderOpen(s);
-
+        writeSpringHeaderOpen(s);
+        this.writeCommonSubStructuresImports(s);
+        
         writeObjectStructure(clazz, s);
 
         addSpringHeaderClose(s);
@@ -446,7 +446,7 @@ public class DictionaryCreator {
         s.append("\n</beans>").append("\n");
     }
 
-    private void addSpringHeaderOpen(StringBuffer s) {
+    private void writeSpringHeaderOpen(StringBuffer s) {
         s.append("<!--").append("\n");
         s.append(" Copyright 2011 The Kuali Foundation").append("\n");
         s.append("").append("\n");
@@ -466,5 +466,11 @@ public class DictionaryCreator {
         s.append("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"").append("\n");
         s.append("xsi:schemaLocation=\"").append("http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd").append("\">").append("\n");
         s.append("\n<import resource=\"classpath:ks-base-dictionary.xml\"/>");
+    }
+    
+    private void writeCommonSubStructuresImports (StringBuffer s) {
+        // TODO: only write out the ones that are used in this structure
+        s.append("\n<import resource=\"classpath:ks-RichTextInfo-dictionary.xml\"/>");        
+        s.append("\n<import resource=\"classpath:ks-MetaInfo-dictionary.xml\"/>");  
     }
 }

@@ -26,9 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.KeyDate;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -64,7 +62,7 @@ public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable 
 	 * @param keyDate
 	 *            the KeyDate to copy
 	 */
-	public KeyDateInfo(KeyDate keyDate) {
+	public KeyDateInfo(KeyDateOrMilestone keyDate) {
 		super(keyDate);
 		if (null != keyDate) {
 			this.isAllDay = keyDate.getIsAllDay();

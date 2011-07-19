@@ -96,7 +96,7 @@ public class TestDictionaryCreator {
 //        new DictionaryCreator().execute(LuiLuiRelationInfo.class);
 //        new DictionaryCreator().execute(LuiCapacityInfo.class);
         // atp
-        new DictionaryCreator().execute(AtpInfo.class);
+        new DictionaryCreator().execute(AtpInfo.class);       
         new DictionaryCreator().execute(MilestoneInfo.class);
         new DictionaryCreator().execute(AtpMilestoneRelationInfo.class);
         new DictionaryCreator().execute(AtpAtpRelationInfo.class);
@@ -122,8 +122,8 @@ public class TestDictionaryCreator {
 //        new DictionaryCreator().execute(ComparisonInfo.class);
 //        new DictionaryCreator().execute(ContextInfo.class);
 //        new DictionaryCreator().execute(CriteriaInfo.class);
-//        new DictionaryCreator().execute(MetaInfo.class);
-//        new DictionaryCreator().execute(RichTextInfo.class);
+        new DictionaryCreator().execute(MetaInfo.class);
+        new DictionaryCreator().execute(RichTextInfo.class);
 //        new DictionaryCreator().execute(SearchParamInfo.class);
 //        new DictionaryCreator().execute(StateInfo.class);
 //        new DictionaryCreator().execute(StatusInfo.class);

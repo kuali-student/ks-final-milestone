@@ -13,58 +13,57 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.acal.infc;
+package org.kuali.student.r2.common.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
- * Information about a key date. A key date may represent a single
- * point in time or a range depending on the value of isDateRange().
+ * Information about a milestone or a key date. A milestone or a key date may 
+ * represent a single point in time or a range depending on the value of isDateRange().
  *
- * @author tom
- * @since Tue Apr 05 14:22:34 EDT 2011
+ * @Author tom
+ * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface KeyDate extends KeyDateOrMilestone {
+public interface KeyDateOrMilestone extends KeyEntity {
 
     /**
-     * Tests if this key date is an all day event. An all-day event
+     * Name: Is All Day
+     * Tests if this Milestone is an all day event. An all-day event
      * does not have a meaningful time component in the date.
-     * @name Is All Day
-     */
-    @Override
-    public Boolean getIsAllDay();
-  
-    /**
-     * Tests if this key date has a date range. 
      *
-     * Should return true if the end date is different than the start date,
-     *         false if the start end end date are the same
-     * @name Is Date Range
+     * @return true if this is an all-day event, false otherwise
      */
-    @Override
-    public Boolean getIsDateRange();
-    
+    public Boolean getIsAllDay();
+   
 
     /**
-     * The start date and time of the key date.
+     * Name: Is Date Range
+     * Tests if this milestone has a date range. 
      *
-     * @name Start Date
+     * @return true if the end date is different than the start date,
+     *         false if the start end end date are the same
      */
-    @Override
-    public Date getStartDate();
-    
+    public Boolean getIsDateRange();
+   
     /**
-     * The end date and time of the key date. The end
+     * Name: Start Date
+     * The start date and time of the milestone.
+     *
+     * @return the milestone start date 
+     */
+    public Date getStartDate();
+   
+    /**
+     * Name: End Date 
+     * The end date and time of the milestone. The end
      * date must be equal to or greater that the start.
      *
-     * @return the key date end date
-     * @name End Date
+     * @return the milestone end date
      */
-    @Override
     public Date getEndDate();
-    
+   
 }

@@ -25,6 +25,8 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
     /**
      * Friendly name of the Type
      * @name Name
+     * @readOnly
+     * @required
      */
     public String getName();
     
@@ -32,6 +34,7 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
     /**
      * Narrative description of the type
      * @name Description
+     * @readOnly
      */
     public String getDescr();        
         
@@ -44,6 +47,7 @@ public interface Type extends HasKey, HasAttributes, HasEffectiveDates {
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
      * @name Reference Object URI
+     * @readOnly
      */
     public String getRefObjectURI();
     

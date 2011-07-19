@@ -26,6 +26,7 @@ public interface HasState  {
     /**
      * Unique identifier for the state of this object.
      * @name State Key
+     * @required
      */
 
     public String getStateKey();

@@ -34,14 +34,16 @@ public interface LuiPersonRelation
         extends Relationship {
 
     /**
-     * Name: LUI Id
      * Unique identifier for a Learning Unit Instance (LUI).
+     * @name LUI Id
+     * @required
      */
     public String getLuiId();
 
     /**
-     * Name: Person Id
      * Unique identifier for a person record.
+     * @name Person Id
+     * @required
      */
     public String getPersonId();
 

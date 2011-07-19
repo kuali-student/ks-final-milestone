@@ -36,6 +36,8 @@ public interface HasMeta {
      * Attempts to set or update should result in a ReadOnlyException
      * being thrown.
      * @name Create/Update meta info
+     * @readOnly
+     * @required on updates
      */
 
     public Meta getMeta();

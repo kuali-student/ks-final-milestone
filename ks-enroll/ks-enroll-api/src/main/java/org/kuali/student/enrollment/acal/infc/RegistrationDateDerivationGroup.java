@@ -37,51 +37,53 @@ package org.kuali.student.enrollment.acal.infc;
 public interface RegistrationDateDerivationGroup {
 
     /**
-     * Name: Registration Start Date Term Key
      * Gets the key of the Term from which the start of the
      * registration period is derived. If null, then the registration
      * start date needs to be explicitly set.
      *
      * @return a term key
+     * @name Registration Start Date Term Key
+     * @readOnly
      */
     public String getRegistrationStartDateTermKey();
 
     /**
-     * Name: Registration End Date Term Key
      * Gets the key of the Term from which the end of the registration
      * period is derived. If null, then the registration end date
      * needs to be explicitly set.
      *
      * @return a term key
+     * @name Registration End Date Term Key
      */
     public String getRegistrationEndDateTermKey();
 
     /**
-     * Name: Class Start Date Term Key
      * Gets the key of the Term from which the start of the class
      * period is derived. If null, then the class start date needs to
      * be explicitly set.
      *
      * @return a term key
+     * @name Class Start Date Term Key
      */
     public String getClassStartDateTermKey();
 
 
     /**
-     * Name: Class End Date Term Key
      * Gets the key of the Term from which the end of the class period
      * is derived. If null, then the class end date needs to be
      * explicitly set.
      *
      * @return a term key
+     * @name Class End Date Term Key
      */
     public String getClassEndDateTermKey();
+    
     /**
-     * Name: Add Date Term Key
      * Gets the key of the Term from which the add date is derived. If
      * null, then the add date needs to be explicitly set.
      *
      * @return a term key
+     * @name Add Date Term Key
      */
     public String getAddDateTermKey();
  
@@ -106,32 +108,32 @@ public interface RegistrationDateDerivationGroup {
     public String getFinalExamStartDateTermKey();
  
     /**
-     * Name: Final Exam End Date Term Key
      * Gets the key of the Term from which the end of the final exam
      * period is derived. If null, then the class end date needs to be
      * explicitly set.
      *
      * @return a term key
+     * @name Final Exam End Date Term Key
      */
     public String getFinalExamEndDateTermKey();
  
-    /**
-     * Name: Grading Start Date Term Key
+    /** 
      * Gets the key of the Term from which the start of the grading
      * period is derived. If null, then the class start date needs to
      * be explicitly set.
      *
      * @return a term key
+     * @name Grading Start Date Term Key
      */
     public String getGradingStartDateTermKey();
  
     /**
-     * Name: Grading End Date Term Key
      * Gets the key of the Term from which the end of the grading
      * period is derived. If null, then the class end date needs to be
      * explicitly set.
      *
      * @return a term key
+     * @name Grading End Date Term Key
      */
     public String getGradingEndDateTermKey();
  

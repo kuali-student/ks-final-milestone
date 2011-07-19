@@ -46,6 +46,7 @@ public interface ValidationResult {
      *
      * TODO: decide if this is a key that then gets resolved into a real localized message using the message service or the final localized message itself
      * @name Message
+     * @readOnly
      */
     public String getMessage();
   
@@ -57,6 +58,7 @@ public interface ValidationResult {
      *
      * TODO: find out how repeating substructures are handled in this notation, with [n] occurrence brackets?
      * @name Element
+     * @required
      */
     public String getElement();
    
@@ -68,6 +70,7 @@ public interface ValidationResult {
      * 1=WARN
      * 2=ERROR
      * @name Level
+     * @required
      */
     public Integer getLevel();
  

@@ -23,6 +23,8 @@ public interface StateProcess extends HasKey, HasAttributes, HasEffectiveDates {
     /**
      * Friendly name of the State Process
      * @name Name
+     * @readOnly
+     * @required
      */
     public String getName();
     
@@ -30,6 +32,7 @@ public interface StateProcess extends HasKey, HasAttributes, HasEffectiveDates {
     /**
      * Narrative description of the State Process
      * @name Description
+     * @readOnly
      */
     public String getDescr();        
             

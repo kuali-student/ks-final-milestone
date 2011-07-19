@@ -32,23 +32,22 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 public interface AcademicCalendar extends KeyEntity {
 
     /**
-     * Name: Campus Calendar 
      * The campus calendar key corresponding to this academic
      * calendar. A multi-year academic calendar may have more than one
      * campus calendar.
+     * @name Campus Calendar
      */
     public List<String> getCampusCalendarKeys();
     
 
     /**
-     * Name: Credential Program Type Key
      * The credential program type key to which this calendar
      * relates.
+     * @name Credential Program Type Key
      */
     public String getCredentialProgramTypeKey();
     
     /**
-     * Name: Start Date
      * Date and time the term became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -56,11 +55,11 @@ public interface AcademicCalendar extends KeyEntity {
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     * @name Start Date
      */
     public Date getStartDate();
 
     /**
-     * Name: End Date
      * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
@@ -68,6 +67,7 @@ public interface AcademicCalendar extends KeyEntity {
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     * @name End Date
      */
     public Date getEndDate();
 

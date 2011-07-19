@@ -30,22 +30,24 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface Hold extends IdEntity {
 
     /**
-     * Name: Issue Id
      * The Issue Id.
+     * @name Issue Id
+     * @required
      */
     public String getIssueId();
    
 
     /**
-     * Name: Person Id
      * The Id of the Person.
+     * @name Person Id
+     * @required
      */
     public String getPersonId();
    
     /**
-     * Name: Is Warning
      * Indicates whether this hold is a warning or should result in a
      * block.
+     * @name is Warning
      */
     public Boolean getIsWarning();
     
@@ -56,14 +58,15 @@ public interface Hold extends IdEntity {
     public Boolean getIsOverridable();
    
     /**
-     * Name: Effective Date
      * The date this hold becomes effective.
+     * @name Effective Date
+     * @required
      */
     public Date getEffectiveDate();
    
     /**
-     * Name: Released Date
      * The date this hold was released, of null if not yet released.
+     * @name Released Date
      */
     public Date getReleasedDate();
 

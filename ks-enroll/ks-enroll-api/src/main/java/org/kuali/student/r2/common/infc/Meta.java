@@ -34,6 +34,8 @@ public interface Meta {
      * determine conflicts in updates.
      *
      * @name Version Indicator
+     * @readOnly
+     * @required on updates
      */
     public String getVersionInd();
 
@@ -41,12 +43,16 @@ public interface Meta {
      * The date and time the thing being described with this meta information was last
      * updated
      * @name Create Time
+     * @readOnly
+     * @required on updates
      */
     public Date getCreateTime();
 
     /**
      * The principal who created the thing being described with this meta information
      * @name Create Id
+     * @readOnly
+     * @required on updates
      */
     public String getCreateId();
 
@@ -54,6 +60,8 @@ public interface Meta {
      * The date and time the thing being described with this meta information was last
      * updated
      * @name Update Time
+     * @readOnly
+     * @required on updates
      */
     public Date getUpdateTime();
 
@@ -62,6 +70,8 @@ public interface Meta {
      * 
      * The principal who last updated the thing being described with this meta
      * information
+     * @readOnly
+     * @required on updates
      */
     public String getUpdateId();
 }
