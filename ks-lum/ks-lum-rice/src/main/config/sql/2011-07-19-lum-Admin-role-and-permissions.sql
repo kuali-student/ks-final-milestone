@@ -20,7 +20,7 @@ INSERT INTO KRIM_ROLE_PERM_T (ACTV_IND,OBJ_ID,PERM_ID,ROLE_ID,ROLE_PERM_ID,VER_N
 /
   -- add link to admin person to the new KS ADMIN ROLE role 
 INSERT INTO KRIM_ROLE_MBR_T (MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NBR) 
-  VALUES ('5000','P','357007f5-4793-46e5-bd67-4d1dc4a14e7a','7001','admin',1)
+  VALUES ('admin','P','357007f5-4793-46e5-bd67-4d1dc4a14e7a','7001','1302',1)
 /
 -- Create permission for CourseWorkflowActionList...
 -- Create the new permission 
