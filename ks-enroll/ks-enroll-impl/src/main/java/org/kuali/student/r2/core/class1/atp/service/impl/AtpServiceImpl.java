@@ -438,8 +438,14 @@ public class AtpServiceImpl implements AtpService {
             throw new AlreadyExistsException();
         }
         atpDao.persist(atp);
-
-        return atpDao.find(atpKey).toDto();
+        
+		AtpEntity retrived = atpDao.find(atpKey);
+		AtpInfo info = null;
+		if(retrived != null){
+			info = retrived.toDto();
+		}
+		
+        return info;
     }
 
     @Override

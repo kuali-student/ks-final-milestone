@@ -146,7 +146,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
 	 				List<AttributeInfo> attributes = atp.getAttributes();
 					if(attributes != null && !attributes.isEmpty()){
 						for(AttributeInfo attribute : attributes){
-							if(attribute.getKey().equals("CredentialProgramType")){
+							if(attribute.getKey().equals("CredentialProgramType") && attribute.getValue().equals(credentialProgramTypeKey)){
 								AcademicCalendarInfo acal = acalAssembler.assemble(atp, context);
 								if(acal != null) acals.add(acal);
 							}

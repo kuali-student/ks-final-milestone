@@ -777,11 +777,30 @@ public class TestAcademicCalendarServiceImpl{
         
         DictionaryEntryInfo fakeEntry = null;
         try {
-            fakeEntry = acalServiceValidation.getDataDictionaryEntry("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
+            fakeEntry = acalServiceValidation.getDataDictionaryEntry("fakeKey", callContext);            fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
             assertNull(fakeEntry);
         }
     }
+    
+    @Test
+    public void testGetAcademicCalendarsByCredentialProgramType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setKey("testAcal-CPT-Id1");
+        acal.setName("testGetAcalByCpt");
+        acal.setCredentialProgramTypeKey("credentialProgramType-Key");
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        try{
+            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcal-CPT-Id1", acal, callContext);
+            assertNotNull(created);
+
+            List<AcademicCalendarInfo> acals = acalServiceValidation.getAcademicCalendarsByCredentialProgramType("credentialProgramTypeKey", callContext);
+            assertNotNull(acals);
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }    	
+    }
+
 }

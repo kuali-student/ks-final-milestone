@@ -136,7 +136,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private Boolean isWaitlistCheckinRequired;
     
     @XmlElement
-    private TimeAmount waitlistCheckinFrequency;
+    private TimeAmountInfo waitlistCheckinFrequency;
     
     @XmlElement
     private String fundingSource;
@@ -387,7 +387,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     
 
     @Override
-    public TimeAmount getWaitlistCheckinFrequency() {
+    public TimeAmountInfo getWaitlistCheckinFrequency() {
         return this.waitlistCheckinFrequency;
     }
     
@@ -533,7 +533,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
     }
 
-    public void setWaitlistCheckinFrequency(TimeAmount waitlistCheckinFrequency) {
+    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
         this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
 

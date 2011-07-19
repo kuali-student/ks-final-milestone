@@ -2,15 +2,20 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import java.util.List;
 
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -29,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private LuiService luiService;
+	private CourseService courseService;
+	private AcademicCalendarService acalService;
 	private CourseOfferingAssembler coAssembler;
 	
 	public LuiService getLuiService() {
@@ -37,6 +44,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 	public void setLuiService(LuiService luiService) {
 		this.luiService = luiService;
+	}
+
+	public CourseService getCourseService() {
+		return courseService;
+	}
+
+	public void setCourseService(CourseService courseService) {
+		this.courseService = courseService;
+	}
+
+	public AcademicCalendarService getAcalService() {
+		return acalService;
+	}
+
+	public void setAcalService(AcademicCalendarService acalService) {
+		this.acalService = acalService;
 	}
 
 	public CourseOfferingAssembler getCoAssembler() {
@@ -114,17 +137,95 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public CourseOfferingInfo createCourseOfferingFromCanonical(
 			String courseId, String termKey, List<String> formatIdList,
 			ContextInfo context) throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+        
+        CourseInfo courseInfo = getCourse(courseId);
+        if (courseInfo != null)
+        	courseOfferingInfo.setCourseId(courseId);
+        else
+        	throw new DoesNotExistException("The course does not exist. course: " + courseId);
+        
+        if(acalService.getTerm(termKey, context) != null)
+        	courseOfferingInfo.setTermKey(termKey);
+        else
+        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
+        
+        if (checkExistenceForFormats(formatIdList, context))
+        	courseOfferingInfo.setFormatIds(formatIdList);
+        
+        courseOfferingInfo.setId(UUIDHelper.genStringUUID());
+        mapCoursetoOffering(courseInfo, courseOfferingInfo);
+        LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
+        luiService.createLui(courseId, termKey, luiInfo, context);
+        
+		return courseOfferingInfo;
 	}
 
+	private CourseInfo getCourse(String courseId)throws DoesNotExistException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException{
+		CourseInfo course = null;
+		try {
+			course = courseService.getCourse(courseId);
+		} catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+			throw new DoesNotExistException("The course does not exist. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+			throw new InvalidParameterException("The course has invalid parameter. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.MissingParameterException e) {
+			throw new MissingParameterException("The course is missing parameter. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+			throw new OperationFailedException("Operation failed when getting course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
+			throw new PermissionDeniedException("Permission denied when getting course: " + courseId);
+		}
+		
+		return course;
+	}
+	
+	//TODO:call LuService 
+	private boolean checkExistenceForFormats(List<String> formatIds, ContextInfo context){
+		if(formatIds != null && !formatIds.isEmpty()){
+			for(String formatId : formatIds){
+				//luService.getClu(formatId, context);
+			}
+		}
+
+    	return true;
+    }
+	
+	private void mapCoursetoOffering(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo){
+		courseOfferingInfo.setCourseId(courseInfo.getId());
+		courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+		courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
+		courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
+		courseOfferingInfo.setCourseCode(courseInfo.getCode());
+		courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
+		courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
+		courseOfferingInfo.setGradingOptions(courseInfo.getGradingOptions());
+		    
+		    // TODO: worry about which credit option to apply.
+		if (courseInfo.getCreditOptions() == null) {
+		    courseOfferingInfo.setCreditOptions(null);
+		} else if (courseInfo.getCreditOptions().isEmpty()) {
+		    courseOfferingInfo.setCreditOptions(null);
+		} else {
+		    courseOfferingInfo.setCreditOptions(new R1ToR2CopyHelper().copyResultValuesGroup(courseInfo.getCreditOptions().get(0)));
+		}
+		courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
+		courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper().copyCourseExpenditure(courseInfo.getExpenditure()));
+		courseOfferingInfo.setFees(new R1ToR2CopyHelper().copyCourseFeeList(courseInfo.getFees()));
+		courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));		
+	}
+	
 	@Override
+	@Transactional
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
 			CourseOfferingInfo courseOfferingInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -136,6 +237,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public CourseOfferingInfo updateCourseOfferingFromCanonical(
 			String courseOfferingId, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -147,6 +249,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public StatusInfo deleteCourseOffering(String courseOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
