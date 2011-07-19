@@ -251,7 +251,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 	}
 
 	@Override
-	public RegResponseInfo updateRegRequest(RegRequestInfo reqRequestInfo,
+	public RegRequestInfo updateRegRequest(RegRequestInfo reqRequestInfo,
 			ContextInfo context) throws DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -407,14 +407,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndRegGroup(
-			String regGroupId, String studentId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
+
 
 	@Override
 	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(
@@ -649,6 +642,19 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
 		return null;
 	}
+
+    /**
+     * This overridden method ...
+     * 
+     * @see org.kuali.student.enrollment.registration.course.service.CourseRegistrationService#getCourseWaitlistEntryForStudentAndRegGroup(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentAndRegGroup(String regGroupId, String studentId,
+            ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
 
 	
 	
