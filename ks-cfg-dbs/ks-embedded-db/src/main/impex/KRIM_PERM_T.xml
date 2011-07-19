@@ -298,7 +298,7 @@
         OBJ_ID="068ab713-372d-4bff-94e2-8806bb54b003" PERM_ID="3201"
         PERM_TMPL_ID="4001" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Determine availability of Course Workflow Action List Menu"
+        DESC_TXT="Determine availability of Course Workflow Action List"
         NM="KS Admin Course Workflow" NMSPC_CD="KS-SYS"
         OBJ_ID="7983fc6e-50ec-4278-8009-03dc7d2f777e" PERM_ID="3202"
         PERM_TMPL_ID="4001" VER_NBR="1"/>
