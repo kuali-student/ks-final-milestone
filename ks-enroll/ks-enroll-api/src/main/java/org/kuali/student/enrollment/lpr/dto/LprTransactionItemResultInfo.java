@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpatnaik)
  *
  */
-public class LuiPersonRelationTransactionItemResultInfo implements LuiPersonRelationTransactionItemResult, Serializable {
+public class LprTransactionItemResultInfo implements LuiPersonRelationTransactionItemResult, Serializable {
 
     private static final long serialVersionUID = 1L;
 

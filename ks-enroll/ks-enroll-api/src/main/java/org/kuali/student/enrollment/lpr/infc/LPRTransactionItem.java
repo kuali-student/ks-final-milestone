@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kuali Student Team (sambit)
  */
 
-public interface LPRTransactionItem extends Entity {
+public interface LprTransactionItem extends Entity {
 
     /**
      * The person id for the relation request.

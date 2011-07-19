@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
 import org.kuali.student.r2.common.dto.EntityInfo;
@@ -22,7 +22,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprTransactionItemInfo", propOrder = {"typeKey", "stateKey", "personId",
         "newLuiId", "existingLuiId", "requestOptions", "lprTransactionItemResult", "meta", "attributes", "_futureElements"})
-public class LPRTransactionItemInfo extends EntityInfo implements LPRTransactionItem,
+public class LprTransactionItemInfo extends EntityInfo implements LprTransactionItem,
         Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,7 +45,7 @@ public class LPRTransactionItemInfo extends EntityInfo implements LPRTransaction
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LPRTransactionItemInfo() {
+    public LprTransactionItemInfo() {
         super();
         this.personId = null;
         this.newLuiId = null;
@@ -54,7 +54,7 @@ public class LPRTransactionItemInfo extends EntityInfo implements LPRTransaction
         this._futureElements = null;
     }
 
-    public LPRTransactionItemInfo(LPRTransactionItem lprTransactionItem) {
+    public LprTransactionItemInfo(LprTransactionItem lprTransactionItem) {
         
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
