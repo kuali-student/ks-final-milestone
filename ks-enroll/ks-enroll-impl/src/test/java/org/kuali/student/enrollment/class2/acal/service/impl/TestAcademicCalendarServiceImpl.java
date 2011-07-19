@@ -833,6 +833,15 @@ public class TestAcademicCalendarServiceImpl{
             assertEquals("testCreate", created.getName());
             
             try{
+            	KeyDateInfo retrieved = acalServiceValidation.getKeyDate("new-keydate-Id", callContext);
+            	assertNotNull(retrieved);
+            	assertEquals("new-keydate-Id", retrieved.getKey());
+                assertEquals("testCreate", retrieved.getName());
+            }catch(DoesNotExistException e) {
+                fail(e.getMessage());
+            }
+            
+            try{
             	List<KeyDateInfo> kds = acalServiceValidation.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
             	assertNotNull(kds);
             	assertTrue(!kds.isEmpty());

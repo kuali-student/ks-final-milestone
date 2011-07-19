@@ -861,8 +861,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     @Override
     public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        MilestoneInfo ms = atpService.getMilestone(keyDateKey, context);
+
+        if(ms != null)
+        	return new KeyDateInfo(ms);
+        else
+        	return null;
     }
 
     @Override
