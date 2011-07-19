@@ -5,9 +5,12 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -27,6 +30,7 @@ import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -40,7 +44,12 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
-    protected Metadata searchMetadata;
+	private static final String EVENT_ON_VALUE_CHANGE = "onValueChange";
+	private static final String EVENT_ONCLICK = "onClick";
+	protected Metadata searchMetadata;
+	private boolean hasAdminAccess = false;
+	final KSCheckBox adminOptionCheckbox = new KSCheckBox(
+			getMessage("useCurriculumReview"));
 
     public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
@@ -305,16 +314,19 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("startBlankProposal"));
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyApprovedCourse"));
 	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyProposedCourse"));
-	            final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
+//	            final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
 						if(event.getValue()){
-							if ("admin".equals(Application.getApplicationContext().getUserId())){
-				            	adminOptionCheckbox.setVisible(true);
-				            	adminOptionCheckbox.setEnabled(true);
-				            	adminOptionCheckbox.setValue(false);
-				            }
+							checkAdminPermission(
+									"useCurriculumReview",
+									CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE);
+//							if ("admin".equals(Application.getApplicationContext().getUserId())){
+//				            	adminOptionCheckbox.setVisible(true);
+//				            	adminOptionCheckbox.setEnabled(true);
+//				            	adminOptionCheckbox.setValue(false);
+//				            }
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(false);
 							startProposalButton.setEnabled(true);
@@ -351,14 +363,15 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 					}
 	            });
 	            
-	            //FIXME: This should check permissions for admin functionality rather than just admin user
-	            if ("admin".equals(Application.getApplicationContext().getUserId())){
-	            	adminOptionCheckbox.setValue(false);
-	            	adminOptionCheckbox.setVisible(true);
-	            } else {
-	            	adminOptionCheckbox.setValue(true);
-	            	adminOptionCheckbox.setVisible(false);	            	
-	            }
+				checkAdminPermission("useCurriculumReview",
+						CurriculumHomeConfigurer.EVENT_ONCLICK);
+//	            if ("admin".equals(Application.getApplicationContext().getUserId())){
+//	            	adminOptionCheckbox.setValue(false);
+//	            	adminOptionCheckbox.setVisible(true);
+//	            } else {
+//	            	adminOptionCheckbox.setValue(true);
+//	            	adminOptionCheckbox.setVisible(false);	            	
+//	            }
 	            
 	            layout.add(radioOptionBlank);
 	            layout.add(radioOptionCopyCourse);
@@ -476,4 +489,49 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return anchor;
     }
 
+    private void checkAdminPermission(String screenComponent,
+			final String onEventOff) {
+		String principalId = Application.getApplicationContext().getUserId();
+		SecurityRpcServiceAsync securityRpc = GWT
+				.create(SecurityRpcService.class);
+
+		securityRpc.checkAdminPermission(principalId, screenComponent,
+				new KSAsyncCallback<Boolean>() {
+					public void handleFailure(Throwable caught) {
+						// Assumes admin does not have access...
+						if (onEventOff
+								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
+							
+								adminOptionCheckbox.setValue(true);
+								adminOptionCheckbox.setVisible(false);
+							
+						} 
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						hasAdminAccess = result;
+						if (onEventOff
+								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
+							if (hasAdminAccess) {
+								adminOptionCheckbox.setValue(false);
+								adminOptionCheckbox.setVisible(true);
+							} else {
+								adminOptionCheckbox.setValue(true);
+								adminOptionCheckbox.setVisible(false);
+							}
+						} else if (onEventOff
+								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
+							if (hasAdminAccess) {
+								adminOptionCheckbox.setVisible(true);
+								adminOptionCheckbox.setEnabled(true);
+								adminOptionCheckbox.setValue(false);
+							}
+						}
+
+					}
+				});
+//		System.out.println(principalId + " access for " + screenComponent
+//				+ " is : " + hasAdminAccess);
+	}
 }

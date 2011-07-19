@@ -15,6 +15,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
@@ -33,6 +35,7 @@ import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConfigurer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -65,6 +68,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private boolean isCurrentVersion;
     private Boolean isInitialized = false;
     private String courseId;
+    
+    private boolean hasAdminAccess = false;
        
     
     // Storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
@@ -95,30 +100,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	    	this.isCurrentVersion = true;
 	    	
 	    	// TODO: use messages
-
-	    	// FIXME: This should check permissions for admin functionality rather than just check if admin user
-            if ("admin".equals(Application.getApplicationContext().getUserId())){
-		    	//Admin users have the option to make modifications to the course administratively or via the
-            	//curriculum review process. Clicking on the "Modify Course" item will present the user with
-            	//a modify dialog to allow them to choose the method of modification.
-            	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
+               	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
 		
 					@Override
 					public void onClick(ClickEvent event) {
-				    	buildModifyDialog(viewContext, modifyPath, model);
+						
+						checkAdminPermission("cluModifyItem", viewContext, modifyPath, model);
 					}
 				});
-            } else {
-            	//Non-admin users are only allowed to make modifications via proposal curriculum review process.
-            	//Clicking the "Modify Course" item will simply navigate user directly to modify course proposal screen.
-		    	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
-		    		
-					@Override
-					public void onClick(ClickEvent event) {
-						doModifyActionItem(viewContext, modifyPath, model);
-					}
-				});            	
-            }
             
 	    	copyCourseActionItem = new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 				@Override
@@ -468,4 +457,39 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private Long getCourseVersionSequenceNumber(DataModel courseModel){
    		return (Long)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_SEQ_NUMBER);
     }
+
+    private void checkAdminPermission(String screenComponent, final ViewContext viewContext, final String modifyPath, final DataModel model) {
+		String principalId = Application.getApplicationContext().getUserId();
+		SecurityRpcServiceAsync securityRpc = GWT
+				.create(SecurityRpcService.class);
+
+		securityRpc.checkAdminPermission(principalId, screenComponent,
+				new KSAsyncCallback<Boolean>() {
+					public void handleFailure(Throwable caught) {
+						// Assume no admin access on failure
+						doModifyActionItem(viewContext, modifyPath, model);
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						hasAdminAccess = result;
+//			            if ("admin".equals(Application.getApplicationContext().getUserId())){
+   	            	    if (hasAdminAccess){
+					    	//Admin users have the option to make modifications to the course administratively or via the
+			            	//curriculum review process. Clicking on the "Modify Course" item will present the user with
+			            	//a modify dialog to allow them to choose the method of modification.
+							    	buildModifyDialog(viewContext, modifyPath, model);
+			            } else {
+			            	//Non-admin users are only allowed to make modifications via proposal curriculum review process.
+			            	//Clicking the "Modify Course" item will simply navigate user directly to modify course proposal screen.
+//					    	modifyCourseActionItem = new KSMenuItemData(CourseWorkflowActionList.this.getMessage("cluModifyItem"), new ClickHandler(){
+									doModifyActionItem(viewContext, modifyPath, model);
+			            }
+
+
+					}
+				});
+//		System.out.println(principalId + " access for " + screenComponent
+//				+ " is : " + hasAdminAccess);
+	}
 }

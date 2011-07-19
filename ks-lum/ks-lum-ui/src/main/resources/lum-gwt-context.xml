@@ -747,6 +747,7 @@
 
     <bean id="SecurityGwtServlet"
           class="org.kuali.student.common.ui.server.gwt.SecurityRpcGwtServlet">
+          <property name="permissionService" ref="permissionServiceClient"/>
     </bean>
 
     <bean id="documentUpload" class="org.kuali.student.core.document.ui.server.upload.UploadServlet">

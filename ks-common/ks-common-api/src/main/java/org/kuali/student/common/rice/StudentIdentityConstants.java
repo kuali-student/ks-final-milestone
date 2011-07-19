@@ -54,4 +54,6 @@ public class StudentIdentityConstants {
 
     public static final String QUALIFICATION_DATA_ID = "dataId";
 
+    public static final String SCREEN_COMPONENT = "screenComponent";
+
 }

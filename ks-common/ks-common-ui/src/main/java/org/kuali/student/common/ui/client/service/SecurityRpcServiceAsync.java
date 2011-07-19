@@ -27,4 +27,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface SecurityRpcServiceAsync {
     
     public void getPrincipalUsername(AsyncCallback<String> callback);
+    public void checkAdminPermission(String principalId, String screenComponent, AsyncCallback<Boolean> callback);
 }
