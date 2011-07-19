@@ -1471,7 +1471,18 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public StatusInfo deleteHoliday(@WebParam(name = "holidayKey") String holidayKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Gets the registration key date group for a term.
+     * Gets the registration key date group for a term.  The date
+     * group is a set of hardened well-known dates where the KeyDates
+     * are marked witha KeyDate Type.
+     *
+     * An registration date group is a short cut to getting a set key
+     * dates related to the given term. A RegistrationDateGroupInfo
+     * is available for all Terms by default and does not explicitly
+     * need to be created.
+     *
+     * If the KeyDates have not been created for the dates in
+     * the group, an RegistrationDateGroup is still returned from
+     * getRegistrationDateGroup() but with empty or default dates.
      *
      * @param termKey unique key of a term
      * @param context Context information containing the principalId
@@ -1521,7 +1532,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      *
      * Updating an registration date group is a short cut to creating or
      * updating the corresponding key dates and relating them to the
-     * given term. An RegistrationDateGroupInfo is available for all
+     * given term. A RegistrationDateGroupInfo is available for all
      * Terms by default and does not explicitly need to be created.
      *
      * If the KeyDates have not been created for the dates in
