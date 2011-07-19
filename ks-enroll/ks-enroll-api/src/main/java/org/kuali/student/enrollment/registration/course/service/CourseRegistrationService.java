@@ -123,6 +123,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * registration group. Used when student or admin tries to do one-click
      * registration or register for a single course.
      * 
+     * @Implementation
      * @param studentId
      * @param regGroupId
      * @param context
@@ -241,10 +242,14 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Create a registration request for a student. This operation does the
-     * following steps: 1. Validate the data in the reqRequestInfo parameter. If
-     * invalid throw an exception. 2. Create an id and persist the registration
-     * request. 3. Return the updated registration request.
+     * Create a registration request for a student.
+     * <p>
+     * Implementation Notes : This operation does the following steps:
+     * <ul>
+     * <li>Validate the data in the reqRequestInfo parameter. If invalid throw
+     * an exception.
+     * <li>Create an id and persist the registration request.
+     * <li>Return the updated registration request.
      * 
      * @param reqRequestInfo
      * @param context
@@ -267,6 +272,8 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * a reg request since that can be done as part of any transaction only.
      * This operation will be called to save a reg cart after changes e.g
      * addition or deletion of courses.
+     * <p>
+     * Implementation notes:
      * 
      * @param reqRequestInfo
      * @param context
@@ -391,7 +398,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * ineligible registration groups in the request after each modification or
      * when finally submitting or saving it.
      * 
-     * 
      * @param reqRequestInfo
      * @param context
      * @return
@@ -457,7 +463,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets a waitlist entry by id.
+     * Gets a course waitlist entry by id.
      * 
      * @param courseWaitlistEntryId
      * @param context

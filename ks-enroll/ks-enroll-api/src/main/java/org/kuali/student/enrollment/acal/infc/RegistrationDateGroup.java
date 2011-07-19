@@ -48,7 +48,7 @@ public interface RegistrationDateGroup {
      * Gets the date derivation structure for the Registration
      * dats.
      *
-     * @return the registratiob derivation date group
+     * @return the registration derivation date group
      */
     public RegistrationDateDerivationGroup getRegistrationDateDerivationGroup();
 

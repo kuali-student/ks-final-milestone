@@ -1,9 +1,9 @@
-package org.kuali.student.r2.core.collection.infc;
+package org.kuali.student.r2.core.queue.infc;
 
 import java.util.Date;
 import java.util.List;
 
-public interface CollectionEntry {
+public interface QueueEntry {
 
 	
 	public String getEntryRefObjectId(); 

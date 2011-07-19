@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.collection.dto;
+package org.kuali.student.r2.core.queue.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,28 +8,28 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Entity;
-import org.kuali.student.r2.core.collection.infc.CollectionEntry;
+import org.kuali.student.r2.core.queue.infc.QueueEntry;
+
 
 /**
  * 
- * This is a description of what this class does - sambitpatnaik don't forget to fill this in. 
- * 
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- *
+* This is a description of what this class does - sambitpatnaik don't forget to fill this in. 
+* 
+* @author Kuali Student Team (sambitpatnaik)
+*
  */
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CollectionEntryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
+@XmlType(name = "QueueEntryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "entryRefObjectId", "entryRefObjectTypeKey", "checkInDate", "position", "meta", "attributes", "_futureElements"})
 
-public class CollectionEntryInfo extends IdEntityInfo implements
-		CollectionEntry, Serializable {
+public class QueueEntryInfo extends IdEntityInfo implements
+		QueueEntry, Serializable {
 	
-	private static final long serialVersionUID = 6513602532091764366L;
 
-	private String entryRefObjectId;
+	private static final long serialVersionUID = 1L;
+
+    private String entryRefObjectId;
 	
 	private String entryRefObjectTypeKey;
 

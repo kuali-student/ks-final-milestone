@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.infc.Relationship;
  * the student's position in the waitlist. As more seats become available the
  * students in the waitlist are moved to the course.
  * <P>
+ * Implementation Notes: 
  * It is represented by an LPR at Class I level, when a student actually
  * registers for the course the LPR is a RegGroupRegistration
  * 
@@ -59,7 +60,7 @@ public interface CourseWaitlistEntry extends Relationship {
 
 	/**
 	 * 
-	 * This method ...
+	 * Course offering id that contains the 
 	 * 
 	 * @return
 	 */

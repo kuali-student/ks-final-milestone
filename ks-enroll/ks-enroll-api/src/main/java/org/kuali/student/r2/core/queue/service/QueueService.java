@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.collection.service;
+package org.kuali.student.r2.core.queue.service;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -7,8 +7,8 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CollectionManagerServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
-import org.kuali.student.r2.core.collection.dto.EntitiesCollectionInfo;
-import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
+import org.kuali.student.r2.core.queue.dto.QueueEntryInfo;
+import org.kuali.student.r2.core.queue.dto.QueueInfo;
 
 /**
  * 
@@ -18,18 +18,18 @@ import org.kuali.student.r2.core.collection.dto.CollectionEntryInfo;
  *
  */
 
-@WebService(name = "CollectionManagerService", targetNamespace =  CollectionManagerServiceConstants.NAMESPACE)
+@WebService(name = "QueueService", targetNamespace =  CollectionManagerServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 
-public interface EntitiesCollectionService {
+public interface QueueService {
 
 	public StatusInfo addEntryToCollection(String collectionEntryId, String collectionId);
 	public StatusInfo removeFromCollection(String collectionEntryId);
-	public  CollectionEntryInfo getHighestRankedEntry();
-	public CollectionEntryInfo createEntry();
+	public  QueueEntryInfo getHighestRankedEntry();
+	public QueueEntryInfo createEntry();
 	public StatusInfo deleteEntry(String collectionEntryId);
-	public EntitiesCollectionInfo createCollection(EntitiesCollectionInfo abstractEntitiesCollection);
+	public QueueInfo createCollection(QueueInfo abstractEntitiesCollection);
 	public StatusInfo deleteCollection(String collectionId);
 	
 	

@@ -145,7 +145,7 @@
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2ws-plugin</artifactId>
-        <version>2.3.1</version>
+        <version>${cxf.version}</version>
         <executions>
           <execution>
             <id>luiPersonRelationService-wsdl</id>
@@ -163,7 +163,7 @@
             <id>atpService-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.core.classI.atp.service.AtpService</className>
+              <className>org.kuali.student.r2.core.atp.service.AtpService</className>
               <genWsdl>true</genWsdl>
               <verbose>true</verbose>
             </configuration>
@@ -175,7 +175,7 @@
             <id>academicCalendarService-wsdl</id>
             <phase>${ks.java2ws.phase}</phase>
             <configuration>
-              <className>org.kuali.student.enrollment.classII.academiccalendar.service.AcademicCalendarService</className>
+              <className>org.kuali.student.enrollment.acal.service.AcademicCalendarService</className>
               <genWsdl>true</genWsdl>
               <verbose>true</verbose>
             </configuration>
