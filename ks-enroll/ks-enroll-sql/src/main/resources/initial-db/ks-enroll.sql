@@ -139,29 +139,29 @@ CREATE TABLE KSEN_ATP_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testAtpId1', 'testAtp1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testAtpId2', 'testAtp2', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-102', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testDeleteAtpId1', 'testDeleteAtp1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-103', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testDeleteAtpId2', 'testDeleteAtp2', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-104', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-201', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId2', 'testTerm2', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-301', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testAtpId1', 'testAtp1', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testAtpId2', 'testAtp2', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-102', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testDeleteAtpId1', 'testDeleteAtp1', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-103', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testDeleteAtpId2', 'testDeleteAtp2', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-104', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-201', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId2', 'testTerm2', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-301', 0);
 
 --  Term Atps for testing
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm1', 'testingTerm1', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-1', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm2', 'testingTerm2', {ts '2001-01-01 00:00:00.0'}, {ts '2001-05-31 00:00:00.0'}, 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-2', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm3', 'testingTerm3', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-7', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm4', 'testingTerm4', {ts '2011-01-01 00:00:00.0'}, {ts '2011-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-8', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTermDelete', 'testingTermDelete', {ts '2031-01-01 00:00:00.0'}, {ts '2031-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-9', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm5', 'testingTerm3', {ts '2000-09-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-10', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm6', 'testingTerm4', {ts '2011-01-01 00:00:00.0'}, {ts '2011-05-31 00:00:00.0'}, 'kuali.atp.type.HalfFall2', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-11', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm1', 'testingTerm1', to_timestamp('2000-09-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2000-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-1', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm2', 'testingTerm2', to_timestamp('2001-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2001-05-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-2', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm3', 'testingTerm3', to_timestamp('2000-09-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2000-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-7', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm4', 'testingTerm4', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-05-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-8', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTermDelete', 'testingTermDelete', to_timestamp('2031-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2031-05-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.HalfFall1', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-9', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm5', 'testingTerm3', to_timestamp('2000-09-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2000-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'RICHTEXT-TRT-10', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingTerm6', 'testingTerm4', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-05-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.HalfFall2', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-11', 0);
 
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal1', 'testingAcal1', {ts '2000-09-01 00:00:00.0'}, {ts '2001-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-3', 0);
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal2', 'testingAcal2', {ts '2001-09-01 00:00:00.0'}, {ts '2002-06-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-4', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal1', 'testingAcal1', to_timestamp('2000-09-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2001-06-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-3', 0);
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('termRelationTestingAcal2', 'testingAcal2', to_timestamp('2001-09-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2002-06-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-TRT-4', 0);
 
 
 --  AtpAtpRelationEntity
@@ -182,18 +182,18 @@ CREATE TABLE KSEN_ATPATP_RELTN
    RELATED_ATP_ID varchar2(255)
 );
 
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.associated', 'testAtpId2');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testTermId1');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testTermId1', 'kuali.atp.atp.relation.includes', 'testTermId2');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testDeleteAtpId1');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-5', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testDeleteAtpId2');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.associated', 'testAtpId2');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testTermId1');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-3', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'testTermId1', 'kuali.atp.atp.relation.includes', 'testTermId2');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-4', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testDeleteAtpId1');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-5', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.includes', 'testDeleteAtpId2');
 
 CREATE TABLE KSEN_ATPATP_RELTN_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -217,10 +217,10 @@ CREATE TABLE KSEN_MSTONE
    RT_DESCR_ID varchar2(255)
 );
 
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId', 'testId', {ts '2011-07-10 00:00:00.0'}, {ts '2011-07-20 00:00:00.0'}, 'kuali.atp.milestone.AdvanceRegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-105', 0);
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId2', 'testId2', {ts '2011-08-01 00:00:00.0'}, {ts '2011-10-01 00:00:00.0'}, 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-106', 0);
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId3', 'testId3', {ts '2011-11-01 00:00:00.0'}, null, 'kuali.atp.milestone.DropDate', 'kuali.milestone.state.Draft', 1, 0, 'RICHTEXT-107', 0);
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testDeleteId', 'testDeleteId', {ts '2011-11-01 00:00:00.0'}, null, 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 0, 'RICHTEXT-108', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId', 'testId', to_timestamp('2011-07-10 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-07-20 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.AdvanceRegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-105', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId2', 'testId2', to_timestamp('2011-08-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-10-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-106', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testId3', 'testId3', to_timestamp('2011-11-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), null, 'kuali.atp.milestone.DropDate', 'kuali.milestone.state.Draft', 1, 0, 'RICHTEXT-107', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testDeleteId', 'testDeleteId', to_timestamp('2011-11-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), null, 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 0, 'RICHTEXT-108', 0);
 
 --  AtpMilestoneRelationEntity
 CREATE TABLE KSEN_ATPMSTONE_RELTN
@@ -244,15 +244,15 @@ CREATE TABLE KSEN_ATPMSOTNE_RELTN_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'testAtpId1', 'testId', 'kuali.atp.milestone.relation.owns');
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'testAtpId2', 'testId2', 'kuali.atp.milestone.relation.owns');
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'testDeleteAtpId1', 'testId', 'kuali.atp.milestone.relation.owns');
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'testDeleteAtpId2', 'testId2', 'kuali.atp.milestone.relation.owns');
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.relation.state.active', 'testAtpId1', 'testId', 'kuali.atp.milestone.relation.owns');
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.relation.state.active', 'testAtpId2', 'testId2', 'kuali.atp.milestone.relation.owns');
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-3', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.relation.state.active', 'testDeleteAtpId1', 'testId', 'kuali.atp.milestone.relation.owns');
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('ATPMSTONEREL-4', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.relation.state.active', 'testDeleteAtpId2', 'testId2', 'kuali.atp.milestone.relation.owns');
 
 -- StateEntity
 CREATE TABLE KSEN_COMM_STATE
@@ -393,65 +393,65 @@ CREATE TABLE KSEN_TYPETYPE_RELTN
    RT_DESCR_ID varchar2(255)
 );
 
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-0', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.precedes', 'kuali.atp.type.Fall', 'kuali.atp.type.Spring', 0, 'Fall precedes Spring');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Fall', 0, 'Academic year contains semester');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Spring', 1, 'Academic year contains semester');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Summer', 2, 'Academic year contains semester');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.Holiday', 'kuali.atp.type.SpringBreak' , 0, 'Spring break is a holiday');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-5', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.Holiday', 'kuali.atp.type.Thanksgiving' , 0, 'Thanksgiving is a holiday');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Fall' , 0, 'kuali.atp.type.Fall is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall1' , 0, 'kuali.atp.type.HalfFall1 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall2' , 0, 'kuali.atp.type.HalfFall2 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring1' , 0, 'kuali.atp.type.HalfSpring1 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.5', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring2' , 0, 'kuali.atp.type.HalfSpring2 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.6', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1A' , 0, 'kuali.atp.type.Mini-mester1A is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.7', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1B' , 0, 'kuali.atp.type.Mini-mester1B is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.8', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2C' , 0, 'kuali.atp.type.Mini-mester2C is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.9', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2D' , 0, 'kuali.atp.type.Mini-mester2D is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.10', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session1' , 0, 'kuali.atp.type.Session1 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.11', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session2' , 0, 'kuali.atp.type.Session2 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.12', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG1' , 0, 'kuali.atp.type.SessionG1 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.13', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG2' , 0, 'kuali.atp.type.SessionG2 is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.14', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Spring' , 0, 'kuali.atp.type.Spring is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.15', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SpringBreak' , 0, 'kuali.atp.type.SpringBreak is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.16', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Summer' , 0, 'kuali.atp.type.Summer is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.17', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SummerEve' , 0, 'kuali.atp.type.SummerEve is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.18', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Winter' , 0, 'kuali.atp.type.Winter is a type of Term');
-INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.19', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Adhoc' , 0, 'kuali.atp.type.Adhoc is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-0', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.precedes', 'kuali.atp.type.Fall', 'kuali.atp.type.Spring', 0, 'Fall precedes Spring');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Fall', 0, 'Academic year contains semester');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Spring', 1, 'Academic year contains semester');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-3', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.contains', 'kuali.atp.type.AY', 'kuali.atp.type.Summer', 2, 'Academic year contains semester');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-4', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.Holiday', 'kuali.atp.type.SpringBreak' , 0, 'Spring break is a holiday');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('TYPETYPEREL-5', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.Holiday', 'kuali.atp.type.Thanksgiving' , 0, 'Thanksgiving is a holiday');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Fall' , 0, 'kuali.atp.type.Fall is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall1' , 0, 'kuali.atp.type.HalfFall1 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.3', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfFall2' , 0, 'kuali.atp.type.HalfFall2 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.4', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring1' , 0, 'kuali.atp.type.HalfSpring1 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.5', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.HalfSpring2' , 0, 'kuali.atp.type.HalfSpring2 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.6', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1A' , 0, 'kuali.atp.type.Mini-mester1A is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.7', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester1B' , 0, 'kuali.atp.type.Mini-mester1B is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.8', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2C' , 0, 'kuali.atp.type.Mini-mester2C is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.9', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Mini-mester2D' , 0, 'kuali.atp.type.Mini-mester2D is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.10', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session1' , 0, 'kuali.atp.type.Session1 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.11', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Session2' , 0, 'kuali.atp.type.Session2 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.12', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG1' , 0, 'kuali.atp.type.SessionG1 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.13', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SessionG2' , 0, 'kuali.atp.type.SessionG2 is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.14', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Spring' , 0, 'kuali.atp.type.Spring is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.15', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SpringBreak' , 0, 'kuali.atp.type.SpringBreak is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.16', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Summer' , 0, 'kuali.atp.type.Summer is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.17', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.SummerEve' , 0, 'kuali.atp.type.SummerEve is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.18', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Winter' , 0, 'kuali.atp.type.Winter is a type of Term');
+INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.19', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Adhoc' , 0, 'kuali.atp.type.Adhoc is a type of Term');
 
 --  Allowed type relations
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.FallSpring', 1, 'AcademicCalendar can contain FallSpring');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Fall', 2, 'AcademicCalendar can contain Fall');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.3', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Fall', 'kuali.atp.type.HalfFall1', 1, 'Fall can contain HalfFall1');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.4', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Fall', 'kuali.atp.type.HalfFall2', 2, 'Fall can contain HalfFall2');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.5', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Winter', 3, 'AcademicCalendar can contain Winter');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.6', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Spring', 4, 'AcademicCalendar can contain Spring');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.7', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.HalfSpring1', 1, 'Spring can contain HalfSpring1');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.8', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.SpringBreak', 2, 'Spring can contain SpringBreak');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.9', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.HalfSpring2', 3, 'Spring can contain HalfSpring2');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.10', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Session1', 5, 'AcademicCalendar can contain Session1');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.11', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session1', 'kuali.atp.type.Mini-mester1A', 1, 'Session1 can contain Mini-mester1A');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.12', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session1', 'kuali.atp.type.Mini-mester1B', 2, 'Session1 can contain Mini-mester1B');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.13', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Summer', 'kuali.atp.type.Session2', 2, 'Summer can contain Session2');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.14', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session2', 'kuali.atp.type.Mini-mester2C', 1, 'Session2 can contain Mini-mester2C');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.15', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session2', 'kuali.atp.type.Mini-mester2D', 2, 'Session2 can contain Mini-mester2D');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.16', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.SummerEve', 6, 'AcademicCalendar can contain SummerEve');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.17', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.SummerEve', 'kuali.atp.type.SessionG1', 1, 'SummerEve can contain SessionG1');
-INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.18', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.allowed','kuali.atp.type.SummerEve', 'kuali.atp.type.SessionG2', 2, 'SummerEve can contain SessionG2');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.FallSpring', 1, 'AcademicCalendar can contain FallSpring');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Fall', 2, 'AcademicCalendar can contain Fall');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.3', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Fall', 'kuali.atp.type.HalfFall1', 1, 'Fall can contain HalfFall1');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.4', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Fall', 'kuali.atp.type.HalfFall2', 2, 'Fall can contain HalfFall2');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.5', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Winter', 3, 'AcademicCalendar can contain Winter');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.6', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Spring', 4, 'AcademicCalendar can contain Spring');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.7', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.HalfSpring1', 1, 'Spring can contain HalfSpring1');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.8', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.SpringBreak', 2, 'Spring can contain SpringBreak');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.9', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Spring', 'kuali.atp.type.HalfSpring2', 3, 'Spring can contain HalfSpring2');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.10', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.Session1', 5, 'AcademicCalendar can contain Session1');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.11', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session1', 'kuali.atp.type.Mini-mester1A', 1, 'Session1 can contain Mini-mester1A');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.12', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session1', 'kuali.atp.type.Mini-mester1B', 2, 'Session1 can contain Mini-mester1B');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.13', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Summer', 'kuali.atp.type.Session2', 2, 'Summer can contain Session2');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.14', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session2', 'kuali.atp.type.Mini-mester2C', 1, 'Session2 can contain Mini-mester2C');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.15', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.Session2', 'kuali.atp.type.Mini-mester2D', 2, 'Session2 can contain Mini-mester2D');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.16', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.AcademicCalendar', 'kuali.atp.type.SummerEve', 6, 'AcademicCalendar can contain SummerEve');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.17', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.SummerEve', 'kuali.atp.type.SessionG1', 1, 'SummerEve can contain SessionG1');
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.atp.type.type.relation.allowed.18', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.type.type.relation.type.allowed','kuali.atp.type.SummerEve', 'kuali.atp.type.SessionG2', 2, 'SummerEve can contain SessionG2');
 
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate1', 'testKeyDate1', {ts '2001-09-10 00:00:00.0'}, {ts '2001-09-20 00:00:00.0'}, 'kuali.atp.milestone.AdvanceRegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-5', 0);
-INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate2', 'testKeyDate2', {ts '2001-08-01 00:00:00.0'}, {ts '2001-10-01 00:00:00.0'}, 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-6', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate1', 'testKeyDate1', to_timestamp('2001-09-10 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2001-09-20 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.AdvanceRegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-5', 0);
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('testKeyDate2', 'testKeyDate2', to_timestamp('2001-08-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2001-10-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.RegistrationPeriod', 'kuali.milestone.state.Draft', 0, 1, 'RICHTEXT-TRT-6', 0);
 
 --  Term to Term AtpAtpRelations for testing
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm3', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm4');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-TermTerm-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'termRelationTestingTerm3', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm4');
 
 --  Acal to Term AtpAtpRelations for testing
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm1');
-INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal2', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal1', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm1');
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('termRelationTestingRel-AcalTerm-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.atp.relation.state.active', 'termRelationTestingAcal2', 'kuali.atp.atp.relation.includes', 'termRelationTestingTerm2');
 
 --  Term to KeyDate AtpMilestoneRelations for testing
-INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('termRelationTestingRel-TermDate-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'termRelationTestingTerm1', 'testKeyDate1', 'kuali.atp.milestone.relation.owns');
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('termRelationTestingRel-TermDate-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.atp.milestone.relation.state.active', 'termRelationTestingTerm1', 'testKeyDate1', 'kuali.atp.milestone.relation.owns');
 
 -- HoldRichTextEntity
 CREATE TABLE KSEN_HOLD_RICH_TEXT
@@ -475,8 +475,8 @@ CREATE TABLE KSEN_STATE_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -496,8 +496,8 @@ CREATE TABLE KSEN_HOLD_TYPE_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -539,8 +539,8 @@ CREATE TABLE KSEN_RESTRICTION_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -568,8 +568,8 @@ CREATE TABLE KSEN_ISSUE_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -602,13 +602,13 @@ CREATE TABLE KSEN_HOLD_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
-INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-1', 'Hold one', 'RICHTEXT-Hold-301', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.student', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
-INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-2', 'Hold two', 'RICHTEXT-Hold-401', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.instructor', 'kuali.hold.state.active', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
+INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-1', 'Hold one', 'RICHTEXT-Hold-301', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.student', 'kuali.hold.state.active', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
+INSERT INTO KSEN_HOLD (ID, NAME, RT_DESCR_ID, IS_WARNING, IS_OVERRIDABLE, PERS_ID, ISSUE_ID, TYPE_ID, STATE_ID, EFF_DT, RELEASED_DT, VER_NBR) VALUES ('Hold-2', 'Hold two', 'RICHTEXT-Hold-401', 0, 1, '1', 'Hold-Issue-1', 'kuali.hold.type.instructor', 'kuali.hold.state.active', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
 
 CREATE TABLE KSLP_LPR
 (
@@ -631,8 +631,8 @@ CREATE TABLE KSLP_LPR_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
@@ -693,7 +693,7 @@ INSERT INTO KSLP_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lp
 INSERT INTO KSLP_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.exam.proctor', 'Proctor', 'Person who administers a test or examination', 0);
 
 -- LuiPersonRelationEntity
-INSERT INTO KSLP_LPR (ID, PERSONID, LUIID, EFFECTIVEDATE, EXPIRATIONDATE, RELATION_TYPE_ID, RELATION_STATE_ID, VER_NBR) VALUES ('testLprId1', 'testPersonId1', 'testLuiId1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.lpr.type.registrant', 'kuali.lpr.state.registered', 0);
+INSERT INTO KSLP_LPR (ID, PERSONID, LUIID, EFFECTIVEDATE, EXPIRATIONDATE, RELATION_TYPE_ID, RELATION_STATE_ID, VER_NBR) VALUES ('testLprId1', 'testPersonId1', 'testLuiId1', to_timestamp('2000-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.lpr.type.registrant', 'kuali.lpr.state.registered', 0);
 
 --LuiTypeEntity
 CREATE TABLE KSEN_LUI_TYPE
@@ -775,15 +775,15 @@ CREATE TABLE KSEN_LUI_ATTR
 (
    ID varchar2(255) PRIMARY KEY NOT NULL,
    OBJ_ID varchar2(36),
-   KEY varchar2(255),
-   VALUE varchar2(2000),
+   ATTR_KEY varchar2(255),
+   ATTR_VALUE varchar2(2000),
    OWNER varchar2(255)
 );
 
-INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-1', 'Lui one', 'ENGL 100 section 123', 'cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', 'Lui-1-Desc', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
-INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-2', 'Lui rwo', 'ENGL 100 section 124', 'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', 'Lui-2-Desc', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
-INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-3', 'Lui three', 'ENGL 100 section 223', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', 'Lui-3-Desc', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
-INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-4', 'Lui four', 'ENGL 100 section 224', 'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', 'Lui-4-Desc', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0);
+INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-1', 'Lui one', 'ENGL 100 section 123', 'cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', 'Lui-1-Desc', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
+INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-2', 'Lui rwo', 'ENGL 100 section 124', 'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', 'Lui-2-Desc', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
+INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-3', 'Lui three', 'ENGL 100 section 223', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', 'Lui-3-Desc', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
+INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID, EFF_DT, EXP_DT, VER_NBR) VALUES ('Lui-4', 'Lui four', 'ENGL 100 section 224', 'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', 'Lui-4-Desc', to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2011-12-31 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 0);
 
 --LuiLuiRelationEntity
 CREATE TABLE KSEN_LUILUI_RELTN
@@ -805,8 +805,8 @@ CREATE TABLE KSEN_LUILUI_RELTN
    RELATED_LUI_ID varchar2(255)
 );
 
-INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2');
-INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4');
+INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2');
+INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, to_timestamp('2011-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), to_timestamp('2100-01-01 00:00:00.0','YYYY-MM-DD HH24.MI.SS.FF'), 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4');
 
 --Lui jn LuiInstructorEntity
 CREATE TABLE KSEN_LUI_JN_LUI_INSTR
@@ -832,179 +832,6 @@ CREATE TABLE KSEN_ISSRESTRCTN_RELTN
 );
 
 INSERT INTO KSEN_ISSRESTRCTN_RELTN(ID, ISSUE_ID, RESTRICTION_ID, VER_NBR) VALUES ('Issue-Restriction-Rel-1', 'Hold-Issue-1', 'Hold-Restriction-1', 0);
-
-ALTER TABLE KSAP_ATP_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_ATP_DUR_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_ATP_SEASONAL_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_ATP_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_DT_RANGE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_DT_RANGE_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_MLSTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_MLSTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSCO_COMMENT_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSCO_COMMENT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSCO_REFERENCE_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSCO_TAG_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSCO_TAG_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_DOCUMENT_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_DOCUMENT_CATEGORY_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_DOCUMENT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_REF_DOC_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_REF_DOC_REL_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_REF_OBJ_SUB_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSDO_REF_OBJ_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_ATPATP_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_ATPMSOTNE_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_ATP_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_HOLD_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_HOLD_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_ISSUE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_LUI_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_RESTRICTION_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSEN_STATE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_CATEGORY_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_CATEGORY_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_REPOSITORY_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLO_LO_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLP_LPR_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLR_RESCOMP_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLR_RESCOMP_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLR_SCALE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLUCLU_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_ACCRED_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_ACCT_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_ADMIN_ORG_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_FEE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_FEE_REC_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_IDENT_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_INSTR_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_LO_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_LO_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_PUBL_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_PUBL_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_PUB_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_RESULT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_SET_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_CLU_SET_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_DLVMTHD_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_INSTFRMT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LUILUI_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LUI_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LULU_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LU_CD_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LU_CODE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LU_PUBL_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_LU_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSLU_RSLT_USG_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_HIRCHY_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_ORG_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_ORG_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_PERS_RELTN_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_PERS_RELTN_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_POS_RESTR_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSOR_ORG_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSPR_PROPOSAL_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSPR_PROPOSAL_REFTYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSPR_PROPOSAL_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_OBJECT_SUB_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_OBJECT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_REF_STMT_REL_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_REF_STMT_REL_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_REQ_COM_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_STMT_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_STMT_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSST_USAGE_TYPE_ATTR RENAME COLUMN KEY TO ATTR_KEY;
-ALTER TABLE KSAP_ATP_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_ATP_DUR_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_ATP_SEASONAL_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_ATP_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_DT_RANGE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_DT_RANGE_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_MLSTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSAP_MLSTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSCO_COMMENT_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSCO_COMMENT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSCO_REFERENCE_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSCO_TAG_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSCO_TAG_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_DOCUMENT_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_DOCUMENT_CATEGORY_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_DOCUMENT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_REF_DOC_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_REF_DOC_REL_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_REF_OBJ_SUB_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSDO_REF_OBJ_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_ATPATP_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_ATPMSOTNE_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_ATP_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_HOLD_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_HOLD_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_ISSUE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_LUI_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_RESTRICTION_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSEN_STATE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_CATEGORY_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_CATEGORY_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_REPOSITORY_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLO_LO_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLP_LPR_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLR_RESCOMP_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLR_RESCOMP_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLR_SCALE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLUCLU_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_ACCRED_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_ACCT_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_ADMIN_ORG_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_FEE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_FEE_REC_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_IDENT_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_INSTR_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_LO_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_LO_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_PUBL_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_PUBL_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_PUB_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_RESULT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_SET_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_CLU_SET_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_DLVMTHD_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_INSTFRMT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LUILUI_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LUI_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LULU_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LU_CD_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LU_CODE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LU_PUBL_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_LU_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSLU_RSLT_USG_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_HIRCHY_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_ORG_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_ORG_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_PERS_RELTN_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_PERS_RELTN_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_POS_RESTR_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSOR_ORG_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSPR_PROPOSAL_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSPR_PROPOSAL_REFTYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSPR_PROPOSAL_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_OBJECT_SUB_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_OBJECT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_REF_STMT_REL_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_REF_STMT_REL_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_REQ_COM_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_STMT_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_STMT_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
-ALTER TABLE KSST_USAGE_TYPE_ATTR RENAME COLUMN VALUE TO ATTR_VALUE;
 
 ALTER TABLE KSEN_LUI ADD HAS_WTLST NUMBER(22);
 ALTER TABLE KSEN_LUI ADD IS_WTLSTCHK_REQ NUMBER(22);
