@@ -35,3 +35,7 @@ INSERT INTO KRIM_ROLE_MBR_T (MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NB
 INSERT INTO KRIM_ROLE_PERM_T (ACTV_IND,OBJ_ID,PERM_ID,ROLE_ID,ROLE_PERM_ID,VER_NBR)
   VALUES ('Y','cd698882-8b60-4fb5-8141-5a974d0fc91d','3202','7001','6002',1)
 /
+-- Create a new KRIM Type that is linked to the Java service documentTypeAndNodeOrStatePermissionTypeService  
+  INSERT INTO KRIM_TYP_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,SRVC_NM,VER_NBR)
+  VALUES ('Y','3002','KS Permission','KS-SYS','addedc8-ddd6-4a38-b6d2-c75637677810','permissionPermissionTypeService',1)
+/
