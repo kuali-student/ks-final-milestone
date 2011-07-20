@@ -29,6 +29,6 @@ public interface RegResponse extends IdEntity {
      * 
      * @return
      */
-    public List<RegResponseItem> getRegResponseItemInfos();
+    public List<? extends RegResponseItem> getRegResponseItemInfos();
    
 }

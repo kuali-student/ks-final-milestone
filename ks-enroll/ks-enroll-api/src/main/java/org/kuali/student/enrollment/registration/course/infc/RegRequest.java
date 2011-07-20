@@ -47,7 +47,7 @@ public interface RegRequest extends IdEntity {
      * 
      * @return
      */
-    public List<RegRequestItem> getRegRequestItems();
+    public List<? extends RegRequestItem> getRegRequestItems();
 
 
 }

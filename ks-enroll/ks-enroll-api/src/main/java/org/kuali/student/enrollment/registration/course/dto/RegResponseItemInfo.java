@@ -3,14 +3,20 @@ package org.kuali.student.enrollment.registration.course.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.w3c.dom.Element;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RegResponseItemInfo", propOrder = {"courseRegistrationId", "courseWaitlistEntryId", "operationStatus",
+        "meta", "attributes", "_futureElements"})
 public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements RegResponseItem, Serializable {
 
     private static final long serialVersionUID = 1L;

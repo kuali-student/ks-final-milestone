@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.course.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,8 +16,8 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegRequestInfo", propOrder = {"id", "typeKey", "stateKey", "requestorId", "studentId", "termKey",
-        "regRequestItems", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegRequestInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "requestorId",
+        "studentId", "termKey", "regRequestItems", "meta", "attributes", "_futureElements"})
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,7 +28,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     @XmlElement
     private String termKey;
     @XmlElement
-    private List<RegRequestItem> regRequestItems;
+    private List<RegRequestItemInfo> regRequestItems;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -47,7 +48,13 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
             this.requestorId = regRequest.getRequestorId();
             this.studentId = regRequest.getStudentId();
             this.termKey = regRequest.getTermKey();
-            this.regRequestItems = regRequest.getRegRequestItems();
+            this.regRequestItems = new ArrayList<RegRequestItemInfo>();
+            if (regRequest.getRegRequestItems() != null) {
+                for (RegRequestItem regRequestItem : regRequest.getRegRequestItems()) {
+                    this.regRequestItems.add(new RegRequestItemInfo(regRequestItem));
+                }
+            }
+
             this._futureElements = null;
         }
 
@@ -65,7 +72,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         this.termKey = termKey;
     }
 
-    public void setRegRequestItems(List<RegRequestItem> regRequestItems) {
+    public void setRegRequestItems(List<RegRequestItemInfo> regRequestItems) {
         this.regRequestItems = regRequestItems;
     }
 
@@ -86,7 +93,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     }
 
     @Override
-    public List<RegRequestItem> getRegRequestItems() {
+    public List<RegRequestItemInfo> getRegRequestItems() {
         return regRequestItems;
     }
 

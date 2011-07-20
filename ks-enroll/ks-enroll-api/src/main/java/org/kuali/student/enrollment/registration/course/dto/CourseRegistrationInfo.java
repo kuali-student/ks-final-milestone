@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOfferingId", "studentId",
-        "creditCount", "meta", "attributes", "_futureElements"})
+        "creditCount", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class CourseRegistrationInfo extends RelationshipInfo implements CourseRegistration, Serializable {
 
     private static final long serialVersionUID = 1L;

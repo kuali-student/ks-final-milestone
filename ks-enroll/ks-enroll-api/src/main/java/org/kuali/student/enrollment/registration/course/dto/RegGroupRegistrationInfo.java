@@ -19,7 +19,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegGroupRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "regGroupId", "studentId",
-        "meta", "attributes", "_futureElements"})
+        "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class RegGroupRegistrationInfo extends RelationshipInfo implements RegGroupRegistration, Serializable {
 
     private static final long serialVersionUID = 1L;

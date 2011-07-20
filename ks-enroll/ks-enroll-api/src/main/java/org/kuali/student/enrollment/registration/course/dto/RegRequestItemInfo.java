@@ -15,9 +15,9 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegRequestItemInfo", propOrder = {"id", "typeKey", "stateKey", "newRegGroupId", "existingRegGroupId",
-        "okToWaitlist", "okToHoldList", "okToExceptionList", "gradingOption", "creditOption", "regResponseItem",
-        "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegRequestItemInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "newRegGroupId",
+        "existingRegGroupId", "okToWaitlist", "okToHoldList", "gradingOption", "creditOption", "meta", "attributes",
+        "_futureElements"})
 public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, Serializable {
 
     private static final long serialVersionUID = 1L;
