@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,6 +31,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 import org.w3c.dom.Element;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueInfo", propOrder = {"id", "name", "descr", "scaleKey", "rank", "effectiveDate", "expirationDate", "value", "meta", "attributes", "_futureElements"})
 public class ResultValueInfo extends HasAttributesAndMetaInfo implements ResultValue, Serializable {
 

@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
                 "qualifierTypeKey", "qualifierId", "requestDate", 
                 "approvedByPersonId", "approvedDate", "restrictionOverride", 
                 "dateOverride", "milestoneOverride", "statementOverride",
-		"holdOverride", "meta", "attributes", "_futureElements" })
+		"holdOverride","learningResultOverride", "meta", "attributes", "_futureElements" })
 
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 	private static final long serialVersionUID = 1L;
