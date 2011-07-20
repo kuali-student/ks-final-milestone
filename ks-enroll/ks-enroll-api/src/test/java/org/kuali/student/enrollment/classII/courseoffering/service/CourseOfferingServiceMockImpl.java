@@ -34,6 +34,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
     private static Map<String, CourseOfferingInfo> courseOfferingCache = new HashMap<String, CourseOfferingInfo>();
     private static Map<String, ActivityOfferingInfo> activityOfferingCache = new HashMap<String, ActivityOfferingInfo>();
+    private static Map<String, List<ActivityOfferingInfo> > courseToActivityOfferingCache = new HashMap<String, List<ActivityOfferingInfo> >();
+    private static Map<String, List<RegistrationGroupInfo> > courseToRegGroupCache = new HashMap<String, List<RegistrationGroupInfo> >();
     private static Map<String, RegistrationGroupInfo> registrationGroupCache = new HashMap<String, RegistrationGroupInfo>();
     private static Map<String, CourseInfo> courseCache = new HashMap<String, CourseInfo>();
     private static Map<String, TypeInfo> typesCache = new HashMap<String, TypeInfo>();
@@ -174,7 +176,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         CourseOfferingInfo courseOfferingInfo = courseOfferingCache.get(courseOfferingId);
         CourseInfo courseInfo = courseCache.get(courseOfferingInfo.getCourseId());
-        courseOfferingInfo.setCourseCode(courseInfo.getCode());
+        courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
         courseOfferingInfo.setCourseId(courseInfo.getId());
         courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
         courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
@@ -237,13 +239,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public List<ActivityOfferingInfo> getActivitiesForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
-        List<String> activityOfferingIds = courseOffering.getActivityOfferingIds();
-        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
-        for (String activityOfferingId : activityOfferingIds) {
-            activityOfferingInfos.add(activityOfferingCache.get(activityOfferingId));
-        }
-        return activityOfferingInfos;
+        return courseToActivityOfferingCache.get(courseOfferingId);
     }
 
     @Override
@@ -270,10 +266,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         activityOfferingCache.put(activityOfferingInfo.getId(), activityOfferingInfo);
 
         for (String courseOfferingId : courseOfferingIdList) {
-            CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
-            List<String> activitiesForCourse = courseOffering.getActivityOfferingIds();
-            activitiesForCourse.add(activityOfferingInfo.getId());
-
+            List<ActivityOfferingInfo> activities = courseToActivityOfferingCache.get(courseOfferingId);
+            if(null == activities) {
+                activities = new ArrayList<ActivityOfferingInfo>();
+            }
+            
+            activities.add(activityOfferingInfo);
+            
+            courseToActivityOfferingCache.put(courseOfferingId, activities);
         }
 
         return activityOfferingInfo;
@@ -354,14 +354,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
-        List<String> regGroupIds = courseOffering.getRegistrationGroupIds();
-        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-
-        for (String regGroupId : regGroupIds) {
-            regGroups.add(registrationGroupCache.get(regGroupId));
-        }
-        return regGroups;
+        return courseToRegGroupCache.get(courseOfferingId);
     }
 
     @Override
@@ -370,8 +363,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
         List<FormatInfo> formatsInfo = new ArrayList<FormatInfo>();
-        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-        List<String> regGroupIds = courseOffering.getRegistrationGroupIds();
+
+        List<RegistrationGroupInfo> regGroups = courseToRegGroupCache.get(courseOfferingId);
+        
+        if(null == regGroups) {
+            regGroups = new ArrayList<RegistrationGroupInfo>();
+        }
+        
+        List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
 
         try {
             formatsInfo = courseService.getCourseFormats(courseOffering.getCourseId());
@@ -389,15 +388,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
         for (FormatInfo format : formatsInfo) {
 
-            for (String regGroupId : regGroupIds) {
-                RegistrationGroupInfo regGroup = registrationGroupCache.get(regGroupId);
-
+            for (RegistrationGroupInfo regGroup : regGroups) {                
                 if (format.getId().equals(regGroup.getFormatId()) && format.getType().equals(formatTypeKey)) {
-                    regGroups.add(regGroup);
+                    result.add(regGroup);
                 }
             }
         }
-        return regGroups;
+        return result;
     }
 
     @Override
@@ -409,9 +406,15 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         registrationGroupInfo.setId(String.valueOf(Math.random()));
         registrationGroupCache.put(registrationGroupInfo.getId(), registrationGroupInfo);
 
-        CourseOfferingInfo courseOffering = courseOfferingCache.get(courseOfferingId);
-        List<String> regGroupsForCourse = courseOffering.getRegistrationGroupIds();
-        regGroupsForCourse.add(registrationGroupInfo.getId());
+        List<RegistrationGroupInfo> regGroups = courseToRegGroupCache.get(courseOfferingId);
+        
+        if(null == regGroups) {
+            regGroups = new ArrayList<RegistrationGroupInfo>();
+        }
+
+        regGroups.add(registrationGroupInfo);
+        
+        courseToRegGroupCache.put(courseOfferingId, regGroups);                
 
         return registrationGroupInfo;
     }
