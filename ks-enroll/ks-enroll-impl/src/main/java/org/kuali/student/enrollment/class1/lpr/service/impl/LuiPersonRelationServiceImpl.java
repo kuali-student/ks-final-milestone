@@ -28,7 +28,7 @@ import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -411,11 +411,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#updateLuiPersonRelationTransaction(java.lang.String, org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTransactionItemInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#updateLuiPersonRelationTransaction(java.lang.String, org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public LPRTransactionInfo updateLuiPersonRelationTransaction(String lprTransactionId,
-            LuiPersonRelationTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
+            LPRTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
             DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
