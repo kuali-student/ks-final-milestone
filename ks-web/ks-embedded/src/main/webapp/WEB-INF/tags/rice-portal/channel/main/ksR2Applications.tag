@@ -34,7 +34,7 @@
       <br>
       <li><portal:portalLink displayTitle="true" title="Term with Key Dates (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.TermWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
       <br>
-
+  </ul>
   <strong>KS Enroll -- Schedule Classes</strong>
   <strong>KS Enroll -- Course Offering</strong>
 
@@ -46,6 +46,6 @@
  <!-- 
     <li><portal:portalLink displayTitle="true" title="Course Info Dto Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.CourseInfoDto&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 -->    
-  </ul>      
+      
 </div>
 <channel:portalChannelBottom />
