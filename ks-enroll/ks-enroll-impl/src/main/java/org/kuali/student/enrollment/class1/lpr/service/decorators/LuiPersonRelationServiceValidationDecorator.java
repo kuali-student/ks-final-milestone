@@ -164,7 +164,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#createLuiPersonRelationTransaction(org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#createLuiPersonRelationTransaction(org.kuali.student.enrollment.lpr.dto.LprTransactionInfo, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public LPRTransactionInfo createLuiPersonRelationTransaction(
