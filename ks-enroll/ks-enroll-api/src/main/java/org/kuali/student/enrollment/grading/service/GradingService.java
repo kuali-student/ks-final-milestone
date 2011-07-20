@@ -63,7 +63,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  *
  * @author Kuali Student Team (Kamal)
  */
-@WebService(name = "GradingService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
+@WebService(name = "GradingService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface GradingService extends DataDictionaryService {
 

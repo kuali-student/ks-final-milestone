@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.EntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationTransactionItemInfo", propOrder = {"personId",
+@XmlType(name = "LPRTransactionItemInfo", propOrder = {"personId",
         "newLuiId", "existingLuiId", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
 public class LPRTransactionItemInfo extends EntityInfo implements LPRTransactionItem,
         Serializable {
