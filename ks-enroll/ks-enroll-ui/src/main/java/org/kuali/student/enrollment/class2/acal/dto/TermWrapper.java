@@ -14,6 +14,16 @@ public class TermWrapper implements Serializable {
     KeyDateInfo dropPeriodEndsDate;
     KeyDateInfo finalExaminationsDates;
     KeyDateInfo gradesDueDate;
+    
+	public TermWrapper (){
+		termInfo = new TermInfo();
+		classesMeetDates = new KeyDateInfo();
+		registrationPeriod = new KeyDateInfo();
+		dropPeriodEndsDate = new KeyDateInfo();
+		finalExaminationsDates = new KeyDateInfo();
+		gradesDueDate = new KeyDateInfo();
+	}
+	
 	/**
 	 * @return the termInfo
 	 */
