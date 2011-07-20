@@ -43,6 +43,6 @@ public interface LuiPersonRelationRequest extends IdEntity {
      * 
      * @return
      */
-    public List<RequestOption> requestOptions();
+    public List<? extends RequestOption> getRequestOptions();
 
 }

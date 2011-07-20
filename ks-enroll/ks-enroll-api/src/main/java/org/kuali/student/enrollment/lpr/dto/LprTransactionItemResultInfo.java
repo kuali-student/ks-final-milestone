@@ -16,12 +16,18 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelationTransactionItemResult;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
 import org.w3c.dom.Element;
+
 
 /**
  * This is a description of what this class does - sambitpatnaik don't forget to fill this in. 
@@ -29,20 +35,43 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpatnaik)
  *
  */
-public class LprTransactionItemResultInfo implements LuiPersonRelationTransactionItemResult, Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "LuiPersonRelationTransactionItemResultInfo", propOrder = {"resultingLprId", "messages", "status", "_futureElements"})
+public class LprTransactionItemResultInfo implements LprTransactionItemResult, Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private String resultingLprId;
-    
+
+    @XmlElement
     private List<String> messages;
     
+    @XmlElement    
     private String status;
     
     @XmlAnyElement
     private List<Element> _futureElements;
 
 
+    public LprTransactionItemResultInfo() {
+        this.resultingLprId = null;
+        this.messages = new ArrayList<String>();
+        this.status = null;
+        this._futureElements = null;
+    }
+    
+    
+    public LprTransactionItemResultInfo(LprTransactionItemResult result) {
+
+        if(null == result) return;
+        
+        this.resultingLprId = result.getResultingLprId();
+        this.status = result.getStatus();
+        this.messages = (null != result.getMessages()) ? new ArrayList<String>(result.getMessages()) : new ArrayList<String>();
+        this._futureElements = null;        
+    }
+    
     public void setResultingLprId(String resultingLprId) {
         this.resultingLprId = resultingLprId;
     }

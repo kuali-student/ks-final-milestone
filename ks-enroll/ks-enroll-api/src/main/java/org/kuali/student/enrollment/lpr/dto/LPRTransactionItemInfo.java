@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -9,20 +10,15 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItemResult;
+import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
 import org.kuali.student.r2.common.dto.EntityInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"typeKey", "stateKey", "personId",
-        "newLuiId", "existingLuiId", "requestOptions", "lprTransactionItemResult", "meta", "attributes", "_futureElements"})
-public class LprTransactionItemInfo extends EntityInfo implements LprTransactionItem,
+@XmlType(name = "LuiPersonRelationTransactionItemInfo", propOrder = {"personId",
+        "newLuiId", "existingLuiId", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
+public class LPRTransactionItemInfo extends EntityInfo implements LPRTransactionItem,
         Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,15 +33,15 @@ public class LprTransactionItemInfo extends EntityInfo implements LprTransaction
     private String existingLuiId;
 
     @XmlElement
-    private List<RequestOption> requestOptions;
+    private List<RequestOptionInfo> requestOptions;
 
     @XmlElement
-    private LprTransactionItemResult lprTransactionItemResult;
+    private LprTransactionItemResultInfo lprTransactionItemResult;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LprTransactionItemInfo() {
+    public LPRTransactionItemInfo() {
         super();
         this.personId = null;
         this.newLuiId = null;
@@ -54,33 +50,42 @@ public class LprTransactionItemInfo extends EntityInfo implements LprTransaction
         this._futureElements = null;
     }
 
-    public LprTransactionItemInfo(LprTransactionItem lprTransactionItem) {
+    public LPRTransactionItemInfo(LPRTransactionItem lprTransactionItem) {
         
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
             this.personId = lprTransactionItem.getPersonId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
-            this.requestOptions = lprTransactionItem.getRequestOptions();
+
+            this.requestOptions = new ArrayList<RequestOptionInfo>();
+            if(null != lprTransactionItem.getRequestOptions()) {
+                for(RequestOption reqOp : lprTransactionItem.getRequestOptions()) {
+                    this.requestOptions.add(new RequestOptionInfo(reqOp));
+                }
+            }
+            
+            this.lprTransactionItemResult =  new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
+            
             this._futureElements = null;
         }
     }
 
     @Override
-    public LprTransactionItemResult getLprTransactionItemResult() {
+    public LprTransactionItemResultInfo getLprTransactionItemResult() {
         return lprTransactionItemResult;
     }
 
-    public void setLprTransactionResult(LprTransactionItemResult lprTransactionResult) {
+    public void setLprTransactionResult(LprTransactionItemResultInfo lprTransactionResult) {
         this.lprTransactionItemResult = lprTransactionResult;
     }
 
     @Override
-    public List<RequestOption> getRequestOptions() {
+    public List<RequestOptionInfo> getRequestOptions() {
         return requestOptions;
     }
 
-    public void setRequestOptions(List<RequestOption> requestOptions) {
+    public void setRequestOptions(List<RequestOptionInfo> requestOptions) {
         this.requestOptions = requestOptions;
     }
 

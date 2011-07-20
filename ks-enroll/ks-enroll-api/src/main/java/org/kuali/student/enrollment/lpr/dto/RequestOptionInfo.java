@@ -10,7 +10,16 @@
  */
 package org.kuali.student.enrollment.lpr.dto;
 
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambitpatnaik don't forget to
@@ -18,12 +27,34 @@ import org.kuali.student.enrollment.lpr.infc.RequestOption;
  * 
  * @author Kuali Student Team (sambitpatnaik)
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RequestOptionInfo", propOrder = {"optionValueType", "optionValue", "_futureElements"})
 public class RequestOptionInfo implements RequestOption {
 
+    @XmlElement
     private String optionValueType;
 
+    @XmlElement
     private String optionValue;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
+        
+    public RequestOptionInfo() {
+        this.optionValue = null;
+        this.optionValueType = null;
+        this._futureElements = null;
+    }
+    
+    public RequestOptionInfo(RequestOption reqOp) {
+        if(null == reqOp) return;
+        
+        this.optionValue = reqOp.getOptionValue();
+        this.optionValueType = reqOp.getOptionValueType();
+        this._futureElements = null;
+    }
+    
+    
     public void setOptionValueType(String optionValueType) {
         this.optionValueType = optionValueType;
     }

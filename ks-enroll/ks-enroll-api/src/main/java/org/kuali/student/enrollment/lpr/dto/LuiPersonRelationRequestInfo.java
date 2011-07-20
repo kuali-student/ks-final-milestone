@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,9 +18,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiPersonRelationRequestInfo", propOrder = {"id", "typeKey", "stateKey", "requestingPersonId",
         "personId", "newLuiId", "existingLuiId", "requestOptions", "meta",
-        "attributes", "_futureElements"})
-        
-        
+        "attributes", "_futureElements"})                
 public class LuiPersonRelationRequestInfo extends IdEntityInfo implements LuiPersonRelationRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,28 +31,36 @@ public class LuiPersonRelationRequestInfo extends IdEntityInfo implements LuiPer
     @XmlElement
     private String existingLuiId;
     @XmlElement
-    private List<RequestOption> requestOptions;
+    private List<RequestOptionInfo> requestOptions;
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LuiPersonRelationRequestInfo(LuiPersonRelationRequest luiPersonRelationRequest) {
-        super(luiPersonRelationRequest);
+    public LuiPersonRelationRequestInfo(LuiPersonRelationRequest lprRequest) {
+        super(lprRequest);
 
-        if (null != luiPersonRelationRequest) {
-            this.requestingPersonId = luiPersonRelationRequest.getRequestingPersonId();
-            this.personId = luiPersonRelationRequest.getPersonId();
-            this.newLuiId = luiPersonRelationRequest.getNewLuiId();
-            this.existingLuiId = luiPersonRelationRequest.getExistingLuiId();
-            this.requestOptions = luiPersonRelationRequest.requestOptions();
+        if (null != lprRequest) {
+            this.requestingPersonId = lprRequest.getRequestingPersonId();
+            this.personId = lprRequest.getPersonId();
+            this.newLuiId = lprRequest.getNewLuiId();
+            this.existingLuiId = lprRequest.getExistingLuiId();
+            
+            this.requestOptions = new ArrayList<RequestOptionInfo>();
+            if(null != lprRequest.getRequestOptions()) {
+                for(RequestOption reqOp : lprRequest.getRequestOptions()) {
+                    this.requestOptions.add(new RequestOptionInfo(reqOp));
+                }
+            }
+            
+            this.requestOptions = (null != lprRequest)  ? new ArrayList<RequestOptionInfo>((List<RequestOptionInfo>)lprRequest.getRequestOptions()) : new ArrayList<RequestOptionInfo>();
             this._futureElements = null;
         }
     }
 
-    public List<RequestOption> getRequestOptions() {
+    public List<RequestOptionInfo> getRequestOptions() {
         return requestOptions;
     }
 
-    public void setRequestOptions(List<RequestOption> requestOptions) {
+    public void setRequestOptions(List<RequestOptionInfo> requestOptions) {
         this.requestOptions = requestOptions;
     }
 
@@ -73,11 +80,6 @@ public class LuiPersonRelationRequestInfo extends IdEntityInfo implements LuiPer
     @Override
     public String getExistingLuiId() {
         return existingLuiId;
-    }
-
-    @Override
-    public List<RequestOption> requestOptions() {
-        return requestOptions;
     }
 
     @Override

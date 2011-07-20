@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.lpr.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Entity;
-import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * A transaction item represents a request for creating a new relation of a
@@ -13,7 +12,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kuali Student Team (sambit)
  */
 
-public interface LprTransactionItem extends Entity {
+public interface LPRTransactionItem extends Entity {
 
     /**
      * The person id for the relation request.
@@ -42,7 +41,7 @@ public interface LprTransactionItem extends Entity {
      * 
      * @return
      */
-    public List<RequestOption> getRequestOptions();
+    public List<? extends RequestOption> getRequestOptions();
 
     /**
      * 

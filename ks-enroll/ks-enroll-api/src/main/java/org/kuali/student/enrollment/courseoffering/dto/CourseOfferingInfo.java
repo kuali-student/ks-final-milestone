@@ -209,7 +209,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.formatIds = (null != course.getFormatIds()) ? new ArrayList<String>(course.getFormatIds()) : null;
         this.subjectArea = course.getSubjectArea();
         this.isHonorsOffering = (null != course.getIsHonorsOffering()) ? new Boolean(course.getIsHonorsOffering()) : null; 
-        this.instructors = (null != course.getInstructors()) ? new ArrayList<LuiInstructorInfo>(((List<LuiInstructorInfo>)course.getInstructors())) : null;
+        this.instructors = (null != course.getInstructors()) ? new ArrayList<LuiInstructorInfo>(((List<LuiInstructorInfo>)course.getInstructors())) : new ArrayList<LuiInstructorInfo>();
         this.unitsContentOwner = course.getUnitsContentOwner();
         this.finalExamStatus = (null != course.getFinalExamStatus()) ? new Boolean(course.getFinalExamStatus()) : null;
         this.waitlistTypeKey = course.getWaitlistTypeKey();

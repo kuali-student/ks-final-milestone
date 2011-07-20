@@ -19,7 +19,7 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -961,7 +961,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      */
     public LPRTransactionInfo updateLuiPersonRelationTransaction(
             @WebParam(name = "lprTransactionId") String lprTransactionId,
-            @WebParam(name = "luiPersonRelationRequestInfo") LuiPersonRelationTransactionItemInfo luiPersonRelationRequestInfo,
+            @WebParam(name = "luiPersonRelationRequestInfo") LPRTransactionItemInfo luiPersonRelationRequestInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
