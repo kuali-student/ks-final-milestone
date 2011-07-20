@@ -172,7 +172,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         info.setAllDay(isAllDay());
         info.setDateRange(isDateRange());
         info.setMeta(super.toDTO());
-        info.setDescr(getDescr().toDto());
+        info.setDescr((getDescr()!= null) ? getDescr().toDto() : null);
         
         if(getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
