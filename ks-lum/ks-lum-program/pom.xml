@@ -8,6 +8,9 @@
         <artifactId>ks-lum</artifactId>
         <version>1.2-M4-SNAPSHOT</version>
     </parent>
+    <properties>
+     <kuali.clover.generate.info.phase>none</kuali.clover.generate.info.phase>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
