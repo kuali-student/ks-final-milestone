@@ -58,6 +58,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="academicCalendarInfoUI.startDate" parent="academicCalendarInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
+        <property name="minLength" value="10" />        
         <property name="controlField">
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
@@ -67,6 +68,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="academicCalendarInfoUI.endDate" parent="academicCalendarInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
+        <property name="minLength" value="10" />        
         <property name="controlField">
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
@@ -85,7 +87,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property> 
     </bean>
     
-    <bean id="AcademicCalendar-LookupView" parent="LookupView">
+    <bean id="AcademicCalendarInfo-LookupView" parent="LookupView">
     <property name="title" value="Academic Calendar Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" /> 
@@ -106,6 +108,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>
 
+
+  <bean id="AcademicCalendarInfo-InquiryView" parent="InquiryView">
+     <property name="title" value="Academic Calendar Info Inquiry"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoInquiryViewHelperServiceImpl" />
+     
+     <property name="Items">
+         <list>
+           <bean parent="GroupSectionGridLayout">
+             <property name="layoutManager.numberOfColumns" value="2"/>
+             <property name="title" value="Academic Calendar Info Inquiry"/>
+             <property name="items">
+               <list>
+                <bean parent="AttributeField" p:propertyName="key"/>
+                <bean parent="AttributeField" p:propertyName="startDate"/>
+                <bean parent="AttributeField" p:propertyName="endDate"/>
+                <bean parent="AttributeField" p:propertyName="credentialProgramTypeKey"/>
+               </list>
+             </property>             
+           </bean>
+         </list>
+     </property>
+  </bean>
 
   <bean id="AcademicCalendarInfo-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="Academic Calendar Info Maintenance"/>
