@@ -41,31 +41,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
                 <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
 
-				<bean parent="Header" p:headerText="Term Dates"/> 
-				<bean parent="Header" p:headerText=""/> 
-				<bean parent="MessageField" p:messageText="Dates between which classes should meet" />
-				<bean parent="MessageField" p:messageText="" />
+				<bean parent="Header" p:headerText="Term Dates" p:colSpan="2"/> 
+				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2"/>
+				<!-- <bean parent="BlankField"/> -->
                 <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
                 <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>  
                 
-                <bean parent="MessageField" p:messageText="Registration Period" />
-                <bean parent="MessageField" p:messageText="" />
+                <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
                 <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate"/>
                 <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate"/>  
 
-				<bean parent="MessageField" p:messageText="Drop Period ends" />
-				<bean parent="MessageField" p:messageText="" />                              
+				<bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
                 <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
                 	 <property name="label" value="Date" />
                 </bean>
 
-				<bean parent="MessageField" p:messageText="Final Examinations" /> 
-				<bean parent="MessageField" p:messageText="" />              
+				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
                 <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
                 <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
                 
-				<bean parent="MessageField" p:messageText="Grades Due" /> 
-				<bean parent="MessageField" p:messageText="" /> 
+				<bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
                 <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
                 	<property name="label" value="Date" />
                 </bean>                                     
