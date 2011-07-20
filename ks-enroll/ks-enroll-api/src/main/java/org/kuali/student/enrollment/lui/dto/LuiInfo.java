@@ -33,12 +33,11 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "luiCode", "cluId", "atpKey", "instructors", 
+		"descr", "luiCode", "cluId", "atpKey",  
 		"studySubjectArea", "maximumEnrollment", "minimumEnrollment",
 		"effectiveDate", "expirationDate", "fees", "gradingOptions",
 		"studyTitle", "unitsContentOwner", "unitsDeployment", "expenditure",
@@ -71,9 +70,6 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
 	@XmlElement
 	private Date expirationDate;
-
-	@XmlElement
-	private List<LuiInstructorInfo> instructors;
 	
 	// nina begin refactored from CourseOffering, RegistrationGroup, ActivityOffering
 	@XmlElement
@@ -124,7 +120,6 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		studySubjectArea = null;
 		maximumEnrollment = null;
 		minimumEnrollment = null;
-		instructors = new ArrayList<LuiInstructorInfo>();
 		effectiveDate = null;
 		expirationDate = null;
 		_futureElements = null;
@@ -153,8 +148,6 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 		this.studySubjectArea = lui.getStudySubjectArea();
 		this.maximumEnrollment = (null != lui.getMaximumEnrollment()) ? new Integer(lui.getMaximumEnrollment()) : null;
 		this.minimumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
-		this.instructors = (null != lui.getInstructors()) ? 
-		        new ArrayList<LuiInstructorInfo>(lui.getInstructors()) : null; 
 		this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
 		this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
 		this._futureElements = null;
@@ -228,14 +221,6 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         this.minimumEnrollment = minimumEnrollment;
     }
 
-    @Override
-	public List<LuiInstructorInfo> getInstructors() {
-        return instructors;
-    }
-
-    public void setInstructors(List<LuiInstructorInfo> instructors) {
-        this.instructors = instructors;
-    }
 
     @Override
 	public Date getEffectiveDate() {

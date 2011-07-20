@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -175,22 +175,22 @@ public class R1ToR2CopyHelper {
 
     }
     
-    public List<LuiInstructorInfo> copyInstructors(List<org.kuali.student.lum.lu.dto.CluInstructorInfo> r1List){
+    public List<OfferingInstructorInfo> copyInstructors(List<org.kuali.student.lum.lu.dto.CluInstructorInfo> r1List){
         if (r1List == null) {
             return null;
         }
-        List<LuiInstructorInfo> r2List = new ArrayList<LuiInstructorInfo>(r1List.size());
+        List<OfferingInstructorInfo> r2List = new ArrayList<OfferingInstructorInfo>(r1List.size());
         for (org.kuali.student.lum.lu.dto.CluInstructorInfo r1 : r1List) {
             r2List.add(copyInstructor(r1));
         }
         return r2List;   	
     }
     
-    public LuiInstructorInfo copyInstructor(org.kuali.student.lum.lu.dto.CluInstructorInfo r1){
+    public OfferingInstructorInfo copyInstructor(org.kuali.student.lum.lu.dto.CluInstructorInfo r1){
         if (r1 == null) {
             return null;
         }
-        LuiInstructorInfo r2 = new LuiInstructorInfo();
+        OfferingInstructorInfo r2 = new OfferingInstructorInfo();
         r2.setAttributes(copyAttributes(r1.getAttributes()));
         r2.setOrgId(r1.getOrgId());
         r2.setPersonId(r1.getPersonId());

@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
@@ -73,7 +72,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     private Boolean isHonorsOffering;
     
     @XmlElement
-    private List<LuiInstructorInfo> instructors;
+    private List<OfferingInstructorInfo> instructors;
     
     @XmlElement
     private List<String> gradingOptions;
@@ -249,7 +248,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     }
 
     @Override
-    public List<LuiInstructorInfo> getInstructors() {
+    public List<OfferingInstructorInfo> getInstructors() {
         return instructors;
     }
 
@@ -262,7 +261,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.descr = descr;
     }
 
-    public void setInstructors(List<LuiInstructorInfo> instructors) {
+    public void setInstructors(List<OfferingInstructorInfo> instructors) {
         this.instructors = instructors;
     }
 

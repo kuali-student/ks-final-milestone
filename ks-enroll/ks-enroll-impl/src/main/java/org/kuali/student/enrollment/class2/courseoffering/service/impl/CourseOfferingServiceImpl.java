@@ -206,10 +206,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
 		courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
 		courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
-		courseOfferingInfo.setCourseCode(courseInfo.getCode());
+		courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
 		courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
 		courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-		courseOfferingInfo.setGradingOptions(courseInfo.getGradingOptions());
+		
+		// TODO: this won't map directly from courseInfo
+		courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
 		    
 		    // TODO: worry about which credit option to apply.
 		if (courseInfo.getCreditOptions() == null) {

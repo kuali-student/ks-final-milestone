@@ -111,7 +111,7 @@
 				<artifactId>cxf-java2ws-plugin</artifactId>
 				<version>${cxf.version}</version>
 				<executions>
-					<execution>
+<!--					<execution>
 						<id>academicCalendarService-wsdl</id>
 						<phase>${ks.java2ws.phase}</phase>
 						<configuration>
@@ -135,7 +135,7 @@
 							<goal>java2ws</goal>
 						</goals>
 					</execution>
-					<!-- <execution> <id>atpService-wsdl</id> <phase>${ks.java2ws.phase}</phase> 
+					 <execution> <id>atpService-wsdl</id> <phase>${ks.java2ws.phase}</phase> 
 						<configuration> <className>org.kuali.student.r2.core.atp.service.AtpService</className> 
 						<genWsdl>true</genWsdl> <verbose>true</verbose> </configuration> <goals> 
 						<goal>java2ws</goal> </goals> </execution> <execution> <id>learningResultRecordService-wsdl</id> 
@@ -150,7 +150,7 @@
 						<goal>java2ws</goal> </goals> </execution> <execution> <id>gradingService-wsdl</id> 
 						<phase>${ks.java2ws.phase}</phase> <configuration> <className>org.kuali.student.enrollment.grading.service.GradingService</className> 
 						<genWsdl>true</genWsdl> <verbose>true</verbose> </configuration> <goals> 
-						<goal>java2ws</goal> </goals> </execution> -->
+						<goal>java2ws</goal> </goals> </execution> 
 					<execution>
 						<id>luiPersonRelationService-wsdl</id>
 						<phase>${ks.java2ws.phase}</phase>
@@ -162,11 +162,19 @@
 						<goals>
 							<goal>java2ws</goal>
 						</goals>
+					</execution> -->
+					<execution>
+						<id>courseOfferingService-wsdl</id>
+						<phase>${ks.java2ws.phase}</phase>
+						<configuration>
+							<className>org.kuali.student.enrollment.courseoffering.service.CourseOfferingService</className>
+							<genWsdl>true</genWsdl>
+							<verbose>true</verbose>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
 					</execution>
-					<!-- <execution> <id>courseOfferingService-wsdl</id> <phase>${ks.java2ws.phase}</phase> 
-						<configuration> <className>org.kuali.student.enrollment.courseoffering.service.CourseOfferingService</className> 
-						<genWsdl>true</genWsdl> <verbose>true</verbose> </configuration> <goals> 
-						<goal>java2ws</goal> </goals> </execution> -->
 				</executions>
 			</plugin>
 		</plugins>

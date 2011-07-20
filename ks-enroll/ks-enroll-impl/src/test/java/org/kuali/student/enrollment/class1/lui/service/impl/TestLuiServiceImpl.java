@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -70,7 +70,7 @@ public void testGetLui()throws DoesNotExistException, InvalidParameterException,
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getTypeKey()); 
         assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
         
-        List<LuiInstructorInfo> instructors = obj.getInstructors();
+        List<OfferingInstructorInfo> instructors = obj.getInstructors();
         assertTrue(instructors.size() == 1);
         assertEquals("Pers-1", instructors.get(0).getPersonId());
         assertEquals("Org-1", instructors.get(0).getOrgId());
@@ -96,8 +96,8 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
 	info.setCluId("testCluId");
 	info.setAtpKey("testAtpId1");
 	
-	List<LuiInstructorInfo> instructors = new ArrayList<LuiInstructorInfo>();
-	LuiInstructorInfo instructor = new LuiInstructorInfo();
+	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 	instructor.setId("LUI-INSTR-Test-1");
 	instructor.setOrgId("Org-1");
 	instructor.setPersonId("Pers-2");

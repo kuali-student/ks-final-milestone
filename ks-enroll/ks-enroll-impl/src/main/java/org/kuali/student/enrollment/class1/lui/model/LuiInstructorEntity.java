@@ -9,13 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-
+@Deprecated
 @Entity
 @Table(name = "KSEN_LUI_INSTR")
 public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity>{
@@ -36,7 +36,7 @@ public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<Lu
 
     public LuiInstructorEntity(){}
     
-    public LuiInstructorEntity(LuiInstructor luiInstructor){
+    public LuiInstructorEntity(OfferingInstructor luiInstructor){
     	super(luiInstructor);
     	try{
     		this.setId(luiInstructor.getId());
@@ -57,8 +57,8 @@ public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<Lu
          }
     }
     
-    public LuiInstructorInfo toDto(){
-    	LuiInstructorInfo obj = new LuiInstructorInfo();
+    public OfferingInstructorInfo toDto(){
+    	OfferingInstructorInfo obj = new OfferingInstructorInfo();
     	obj.setId(getId());
     	obj.setOrgId(orgId);
     	obj.setPersonId(personId);

@@ -10,7 +10,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
@@ -81,35 +80,8 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * @name Description
      * @impl initially this is copied from the canonical course description and then updated and stored in the Lui description.
      */
-
     public RichText getDescr();
-    
-    
-    /**
-     * Activity Offerings for the course offering
-     * 
-     * This field is not directly updatable, use #createActivityOffering 
-     * and #deleteActivityOffering to manage this list of activity offering ids.
-     * 
-     * @name Activity Offering Ids
-     * @readOnly
-     * @required
-     * @impl must map to the version dependent id
-     */
-    public List<String> getActivityOfferingIds();
-    
-    /**
-     * Registration Groups for the course offering
-     * This field is not directly updatable, use #createRegistrationGroup 
-     * and #deleteRegistrationGroup to manage this list of registration group ids.
-     * @name Registration Group Ids
-     * @readOnly
-     * @required
-     * @impl must map to the version dependent id
-     */
-    public List<String> getRegistrationGroupIds();
-    
-    
+               
     /**
      * Academic term of course offering
      * @name Term Key
@@ -127,7 +99,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * @name Course Id
      * @readOnly
      * @required
-     * @impl this maps the the version dependent id as the offering must point to one and only one version of the course
+     * @impl this maps the the version dependent id as the offering must point to one and only one version of the course. Maps to cluId in Lui.
      */
     public String getCourseId();
                 
@@ -139,7 +111,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * @name Format Ids
      * @readOnly
      * @required
-     * @impl this maps to the version dependent id of the format as this must point to one and only one version of the course
+     * @impl this maps to the version dependent id of the format as this must point to one and only one version of the course. Maps to cluRelationIds in Lui  
      */
     public List<String> getFormatIds();
     
@@ -157,11 +129,11 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * is calculated from it's two constituent parts, the subject area and the course number suffix.
      * For example: Subject Area = "ENG" and Suffix = "101" then code = "ENG101"
      * 
-     * @name Course Code
-     * @impl initialially this is copied from the course catalog code but then is subsequently stored in the lui.
+     * @name Course Offering Code
+     * @impl initialially this is copied from the course catalog code but then is subsequently stored in the lui as lui.officialIdentifier.code
      */
-    public String getCourseCode();
-
+    public String getCourseOfferingCode();
+    
     /**
      * Identifies the department and/subject code of the course as reflected in the course catalog.
      * 
@@ -172,7 +144,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * Often used in the calculation of the courseCode
      * 
      * @name Subject Area
-     * @impl initially copied from the canonical course but then stored in the Lui identifier division field (?) not the study subject area (?)
+     * @impl initially copied from the canonical course but then stored in the Lui as lui.officialIdentifier.division
      */
     public String getSubjectArea();
     
@@ -189,7 +161,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * Often used in the calculation of the courseCode.
      * 
      * @name Course Number Suffix
-     * @impl initially copied from the canonical course but then stored in the Lui identifier suffix field.
+     * @impl initially copied from the canonical course but then stored in the Lui  as lui.officialIdentifier.suffixCode
      */
     public String getCourseNumberSuffix();
         
@@ -209,7 +181,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * AN EXPLORATION OF DEEP SPACE ARTIFACTS
      * 
      * @name Course Title 
-     * @impl initially copied from the canonical course but then stored in the Lui identifier title field (or is it the name field?).
+     * @impl initially copied from the canonical course but then stored in the Lui as lui.officialIdentifier.longName
      */
     public String getCourseTitle();
            
@@ -244,13 +216,10 @@ public interface CourseOffering extends HasId, TypeStateEntity {
     
     /**
      * The unique identifier of the other course offerings with which this offering is joint-listed
-     * 
-     * WARNING: ???? I don't think we discussed this.  Joint means that this course meets in the same space as another course.  
-     * Is that captured at this level or only at the activity levels
-     * 
+     *  
      * @name Joint Offering Ids
      * @readOnly I think?
-     * @impl initially copied from the canonical course joints then????
+     * @impl Canonical might suggest offerings that can be jointly offered. This is stored as a luiluirelation of joint type
      */
     public List<String> getJointOfferingIds();
     
@@ -265,12 +234,10 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * 
      * For example: an id might point to Pass/Fail or Letter Graded option.
      * 
-     * TODO: rename to make it more clear these are IDs, getGradingOptionIds?
-     * 
-     * @name: Grading Options
-     * @impl these are actually ids to ResultValuesGroup
+     * @name: Grading Option Ids
+     * @impl these are actually ids to ResultValuesGroup. Lui.resultOptionIds returns a list of resultOptions. Filter options with grading type and those should give the resultValueGroupIds 
      */
-    public List<String> getGradingOptions();
+    public List<String> getGradingOptionIds();
     
     /**
      * Type of credit of course offering. 
@@ -282,14 +249,13 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * Often it is just a fixed single value but a ResultValuesGroup could contain
      * a range (with increments) or even a discrete list of possible credit values.
      * @name Credit Options
-     * @impl if the application specifies a 
+     * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option with credit type and that should give the resultValueGroup 
      */    
     public ResultValuesGroup getCreditOptions();
     
     /**
      * Key indicating the level at which grade rosters should be generated - activity, format or course.
      * 
-     * TODO: change the name of this field to make it clear this is key that is stored in the type system.
      * TODO: define these types.
      * TODO: add a service method to get the list of types that can be put in this field.
      * 
@@ -297,7 +263,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * @name Grade Roster Level Key
      * @impl this should be a constrained the a list types generated from the roster types from the generic type system.
      */
-    public String getGradeRosterLevel();
+    public String getGradeRosterLevelTypeKey();
     
         
     /******** Personnel Information *****************/
@@ -305,16 +271,12 @@ public interface CourseOffering extends HasId, TypeStateEntity {
     /**
      * Instructors for this course offering
      * 
-     * TODO: ???? Decide how to stored this info.  I though instructors are supposed to be stored in an LPR but then I see this structure which 
-     * looks a lot like the CluInstructor but with a percentage of effort. Also does the business want to allow an unknown person to be added in at 
-     * the offering level (the LuiInstructor has personOverride info). Needs more discussion.
-     * 
      * TODO: find out if the canonical instructors should be copied down
      * 
      * @name Instructors
-     * @impl ????
+     * @impl These are derived from Lui Person relations with instructor type
      */
-    public List<? extends LuiInstructor> getInstructors();
+    public List<? extends OfferingInstructor> getInstructors();
     
     
     /********* Organization Information **************/
@@ -327,11 +289,8 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * This is typically an academic department but could be for example the extended studies office that is responsible for delivering the course 
      * even though it's content is managed by an academic department.
      * 
-     * TODO: this is a list of Org Ids so we should change the name to better reflect this, getUnitsDeploymentIds 
-     * TODO: revisit the name how about just getAdministeringOrgIds
-     * 
      * @name Units Deployment
-     * @impl initalized from canonical course units deployment but then stored in lui units deployment
+     * @impl initalized from canonical course units deployment but then stored in lui.unitsDeployment
      */
     public List<String> getUnitsDeployment();
     
@@ -341,11 +300,9 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * 
      * This is typically an academic department.
      * 
-     * TODO: rename this to make it more clear it contains a list of Org Ids, i.e. getUnitsContentOwner
-     * 
      * @name Units Content Owner
      * @readOnly
-     * @impl this is never updatable so it should just be grabbed from the canonical course
+     * @impl this is never updatable so it should just be grabbed from the canonical course and then stored in lui.unitsContentOwner
      */
     public List<String> getUnitsContentOwner();
     
@@ -357,17 +314,16 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * 
      * Initially copied from the canonical course and then, depending on configuration, updated.
      * 
-     * TODO: figure out how to store this?  LuCodes again? or does setting this to true create another Lui of type = "Final Exam" that way
-     * we can (eventually) store the date and time of the final exam on that Lui.
-     * 
-     * TODO: should we rename this field?  Since it is a Boolean shouldn't it be getHasFinalExam, status implies more values.
-     * 
-     * @name Final Exam Status
-     * @impl This is not currently a field on the canonical Course so schools like UCB are storing this as a dynamic attribute on the Course
+     * @name Has Final Exam 
+     * @impl If set to true, create a lui of type final exam and a lui lui relation to the course offering  
      */
-    public Boolean getFinalExamStatus();
+    public Boolean getHasFinalExam();    
     
     /*********** Waitlist *****************************/
+    
+    /*
+     * TODO: Skip this section for core slice development
+     */
     
     /**
      * Indicates whether a RegistrationGroup has a waitlist
@@ -418,16 +374,16 @@ public interface CourseOffering extends HasId, TypeStateEntity {
     
     /**
      * The primary source of funding for the offering.
-     * TODO: decide what this really should be? Is it an orgId? 
-     * The example values from ATEAM are Self-support & State- support
      * @name Funding Source
-     * @impl TODO figure this out
+     * @impl fyi "funding source" is an enumeration values are state support, self-support, contract funding
      */
     public String getFundingSource();
     
     /*
      * TODO: Change CourseFeeInfo, CourseRevenueInfo and CourseExpenditureInfo to interfaces 
      * after course service is migrated to 1.3
+     * 
+     * Evaluate creating parallel financial structures in enrollment so that there is no referential dependencies from enr to curriculum module
      */
     
     /**

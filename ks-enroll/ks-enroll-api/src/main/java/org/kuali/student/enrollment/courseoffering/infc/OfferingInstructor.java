@@ -13,15 +13,15 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lui.infc;
+package org.kuali.student.enrollment.courseoffering.infc;
  
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 
 /**
- *Information about a potential instructor for a LUI (learning unit instance).
+ * Information about a potential instructor for a LUI (learning unit instance). These are built from Lui Person Relations with instructor type
  */ 
-public interface LuiInstructor extends HasAttributesAndMeta, HasId {
+public interface OfferingInstructor extends HasAttributesAndMeta, HasId {
     
     /**
      * Unique identifier for an organization. This indicates which organization this individual is 

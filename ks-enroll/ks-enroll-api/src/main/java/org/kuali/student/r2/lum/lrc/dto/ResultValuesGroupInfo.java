@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -42,7 +44,7 @@ import org.w3c.dom.Element;
  * @Author sambit
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
-
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValuesGroupInfo", propOrder = { "id", "typeKey",
 		"stateKey", "name", "descr", "resultValueIds", "resultValueRange", "effectiveDate",
 		"expirationDate", "meta", "attributes", "_futureElements" })

@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -79,9 +79,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	@Column(name = "STDY_SUBJ_AREA")
     private String studySubjectArea;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-    @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
-    private List<LuiInstructorEntity> instructors;
+//	@OneToMany(cascade=CascadeType.ALL)
+//    @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
+//    private List<LuiInstructorEntity> instructors;
     
     @Column(name="HAS_WTLST")
     private boolean hasWaitlist;
@@ -108,8 +108,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setLuiCode(lui.getLuiCode());
         	this.setAtpKey(lui.getAtpKey());
         	this.setCluId(lui.getCluId());
-        	this.setMaxSeats(lui.getMaximumEnrollment());
-        	this.setMinSeats(lui.getMinimumEnrollment());
+        	this.setMaxSeats(lui.getMaximumEnrollment());        	
+        	this.setMinSeats(lui.getMinimumEnrollment());        	
         	this.setStudySubjectArea(lui.getStudySubjectArea());
         	this.setHasWaitlist(lui.getHasWaitlist());
         	this.setWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
@@ -122,15 +122,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	
 	        if(lui.getDescr() != null)
 	            this.setDescr(new LuiRichTextEntity(lui.getDescr()));
-	        
-	        this.setInstructors(new ArrayList<LuiInstructorEntity>());
-	        if (null != lui.getInstructors()){
-	        	for(LuiInstructor instructor : lui.getInstructors()){
-	        		LuiInstructorEntity instrEntity = new LuiInstructorEntity(instructor);
-	        		this.getInstructors().add(instrEntity);
-	        	}
-	        }
-	        
+	        	        
 	        this.setAttributes(new ArrayList<LuiAttributeEntity>());
 	        if (null != lui.getAttributes()) {
 	            for (Attribute att : lui.getAttributes()) {
@@ -169,13 +161,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         obj.setMeta(super.toDTO());
         if(descr != null)
             obj.setDescr(descr.toDto());
-
-        List<LuiInstructorInfo> instructors = new ArrayList<LuiInstructorInfo>();
-        for (LuiInstructorEntity instructor : getInstructors()) {
-        	LuiInstructorInfo instructorInfo = instructor.toDto();
-        	instructors.add(instructorInfo);
-        }
-        obj.setInstructors(instructors);
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
@@ -281,14 +266,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
 	public void setStudySubjectArea(String studySubjectArea) {
 		this.studySubjectArea = studySubjectArea;
-	}
-
-	public List<LuiInstructorEntity> getInstructors() {
-		return instructors;
-	}
-
-	public void setInstructors(List<LuiInstructorEntity> instructors) {
-		this.instructors = instructors;
 	}
 
 	public boolean isHasWaitlist() {

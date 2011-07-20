@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
@@ -43,11 +42,10 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = { "id", "typeKey", "stateKey", "descr", 
-        "courseId", "formatIds", "termKey", 
-        "activityOfferingIds", "registrationGroupIds",
-        "courseCode", "courseNumberSuffix", "courseTitle",  "isHonorsOffering", "instructors", 
-        "subjectArea", "unitsDeployment", "unitsContentOwner", "finalExamStatus", "maximumEnrollment", "minimumEnrollment", 
-        "jointOfferingIds", "creditOptions", "gradingOptions", "gradeRosterLevel",
+        "courseId", "formatIds", "termKey",         
+        "courseOfferingCode", "courseNumberSuffix", "courseTitle",  "isHonorsOffering", "instructors", 
+        "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment", "minimumEnrollment", 
+        "jointOfferingIds", "creditOptions", "gradingOptionIds", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
         "meta", "attributes", "_futureElements"})        
@@ -60,13 +58,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
 
     @XmlElement
     private RichTextInfo descr;
-    
-    @XmlElement
-    private List<String> activityOfferingIds;
-    
-    @XmlElement
-    private List<String> registrationGroupIds;
-    
+        
     @XmlElement
     private String courseId;
 
@@ -80,7 +72,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private Boolean isHonorsOffering;
 
     @XmlElement
-    private List<LuiInstructorInfo> instructors;
+    private List<OfferingInstructorInfo> instructors;
     
     @XmlElement
     private List<String> unitsDeployment;
@@ -89,7 +81,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private List<String> unitsContentOwner;
     
     @XmlElement
-    private Boolean finalExamStatus;
+    private Boolean hasFinalExam;
     
     @XmlElement
     private String waitlistTypeKey;
@@ -101,7 +93,7 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private String termKey;
     
     @XmlElement
-    private String courseCode;
+    private String courseOfferingCode;
     
     @XmlElement
     private String courseNumberSuffix;
@@ -122,10 +114,10 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     private ResultValuesGroupInfo creditOptions;
     
     @XmlElement
-    private List<String> gradingOptions;
+    private List<String> gradingOptionIds;
     
     @XmlElement
-    private String gradeRosterLevel;
+    private String gradeRosterLevelTypeKey;
     
     @XmlElement
     private Boolean hasWaitlist;
@@ -160,27 +152,25 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     public CourseOfferingInfo() {
         this.id = null;
         this.descr = null;
-        this.activityOfferingIds = new ArrayList<String>();
-        this.registrationGroupIds = new ArrayList<String>();
         this.courseId = null;
         this.formatIds = new ArrayList<String>();
         this.subjectArea = null;
         this.isHonorsOffering = new Boolean(false); 
-        this.instructors = new ArrayList<LuiInstructorInfo>();
+        this.instructors = new ArrayList<OfferingInstructorInfo>();
         this.unitsContentOwner = null;
-        this.finalExamStatus = new Boolean(false);
+        this.hasFinalExam = new Boolean(false);
         this.waitlistTypeKey = null;
         this.waitlistMaximum = null;
         this.termKey = null;
-        this.courseCode = null;
+        this.courseOfferingCode = null;
         this.courseNumberSuffix = null;
         this.courseTitle = null;
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
         this.jointOfferingIds = new ArrayList<String>();
         this.creditOptions = null;
-        this.gradingOptions = new ArrayList<String>();
-        this.gradeRosterLevel = null;
+        this.gradingOptionIds = new ArrayList<String>();
+        this.gradeRosterLevelTypeKey = null;
         this.hasWaitlist = new Boolean(false);
         this.isWaitlistCheckinRequired = new Boolean(false);
         this.waitlistCheckinFrequency = null;
@@ -203,27 +193,25 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
 
         this.id = course.getId();
         this.descr = (null != course.getDescr()) ? new RichTextInfo(course.getDescr()) : null;
-        this.activityOfferingIds = (null != course.getActivityOfferingIds()) ? new ArrayList<String>(course.getActivityOfferingIds()) : null ;
-        this.registrationGroupIds = (null != course.getRegistrationGroupIds()) ?  new ArrayList<String>(course.getRegistrationGroupIds()) : null;
         this.courseId = course.getCourseId();
         this.formatIds = (null != course.getFormatIds()) ? new ArrayList<String>(course.getFormatIds()) : null;
         this.subjectArea = course.getSubjectArea();
         this.isHonorsOffering = (null != course.getIsHonorsOffering()) ? new Boolean(course.getIsHonorsOffering()) : null; 
-        this.instructors = (null != course.getInstructors()) ? new ArrayList<LuiInstructorInfo>(((List<LuiInstructorInfo>)course.getInstructors())) : new ArrayList<LuiInstructorInfo>();
+        this.instructors = (null != course.getInstructors()) ? new ArrayList<OfferingInstructorInfo>(((List<OfferingInstructorInfo>)course.getInstructors())) : new ArrayList<OfferingInstructorInfo>();
         this.unitsContentOwner = course.getUnitsContentOwner();
-        this.finalExamStatus = (null != course.getFinalExamStatus()) ? new Boolean(course.getFinalExamStatus()) : null;
+        this.hasFinalExam = (null != course.getHasFinalExam()) ? new Boolean(course.getHasFinalExam()) : null;
         this.waitlistTypeKey = course.getWaitlistTypeKey();
         this.waitlistMaximum = (null != course.getWaitlistMaximum()) ? new Integer(course.getWaitlistMaximum()) : null;
         this.termKey = course.getTermKey();
-        this.courseCode = course.getCourseCode();
+        this.courseOfferingCode = course.getCourseOfferingCode();
         this.courseNumberSuffix = course.getCourseNumberSuffix();
         this.courseTitle = course.getCourseTitle();
         this.maximumEnrollment = (null != course.getMaximumEnrollment()) ? new Integer(course.getMaximumEnrollment()) : null;
         this.minimumEnrollment = (null != course.getMinimumEnrollment()) ? new Integer(course.getMinimumEnrollment()) : null;
         this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(course.getJointOfferingIds()) : null;
         this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions()) : null;
-        this.gradingOptions = (null != course.getGradingOptions()) ? new ArrayList<String>(course.getGradingOptions()) : null;
-        this.gradeRosterLevel = course.getGradeRosterLevel();
+        this.gradingOptionIds = (null != course.getGradingOptionIds()) ? new ArrayList<String>(course.getGradingOptionIds()) : null;
+        this.gradeRosterLevelTypeKey = course.getGradeRosterLevelTypeKey();
         this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
         this.isWaitlistCheckinRequired = (null != course.getIsWaitlistCheckinRequired()) ? new Boolean(course.getIsWaitlistCheckinRequired()) : null;
         this.waitlistCheckinFrequency = (null != course.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(course.getWaitlistCheckinFrequency()) : null;
@@ -256,22 +244,6 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.descr = descr;
     }
     
-    @Override
-    public List<String> getActivityOfferingIds() {
-        if(null == this.activityOfferingIds) {
-            this.activityOfferingIds = new ArrayList<String>();
-        }
-        return activityOfferingIds;
-    }
-
-    @Override
-    public List<String> getRegistrationGroupIds() {
-        if(null == this.registrationGroupIds) {
-            this.registrationGroupIds = new ArrayList<String>();
-        }
-        return registrationGroupIds;
-    }
-
     @Override
     public String getCourseId() {
         return this.courseId;
@@ -310,8 +282,8 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         return this.unitsContentOwner;    }
 
     @Override
-    public Boolean getFinalExamStatus() {
-        return this.finalExamStatus;
+    public Boolean getHasFinalExam() {
+        return this.hasFinalExam;
     }
 
     @Override
@@ -330,8 +302,8 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     }
 
     @Override
-    public String getCourseCode() {
-        return this.courseCode;
+    public String getCourseOfferingCode() {
+        return this.courseOfferingCode;
     }
 
     @Override
@@ -369,8 +341,8 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     }
 
     @Override
-    public String getGradeRosterLevel() {
-        return this.gradeRosterLevel;
+    public String getGradeRosterLevelTypeKey() {
+        return this.gradeRosterLevelTypeKey;
     }
 
     @Override
@@ -426,25 +398,17 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
     }
    
     @Override
-    public List<String> getGradingOptions() {
-        return this.gradingOptions;
+    public List<String> getGradingOptionIds() {
+        return this.gradingOptionIds;
     }
     
     @Override
-    public List<LuiInstructorInfo> getInstructors() {
+    public List<OfferingInstructorInfo> getInstructors() {
         return instructors;
     }
 
-    public void setInstructors(List<LuiInstructorInfo> instructors) {
+    public void setInstructors(List<OfferingInstructorInfo> instructors) {
         this.instructors = instructors;
-    }
-
-    public void setActivityOfferingIds(List<String> activityOfferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
-    }
-
-    public void setRegistrationGroupIds(List<String> registrationGroupIds) {
-        this.registrationGroupIds = registrationGroupIds;
     }
 
     public void setCourseId(String courseId) {
@@ -471,8 +435,8 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.unitsContentOwner = unitsContentOwner;
     }
 
-    public void setFinalExamStatus(Boolean finalExamStatus) {
-        this.finalExamStatus = finalExamStatus;
+    public void setHasFinalExam(Boolean hasFinalExam) {
+        this.hasFinalExam = hasFinalExam;
     }
 
     public void setWaitlistTypeKey(String waitlistTypeKey) {
@@ -487,8 +451,8 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.termKey = termKey;
     }
 
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
     }
 
     public void setCourseNumberSuffix(String courseNumberSuffix) {
@@ -515,12 +479,12 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
         this.creditOptions = creditOptions;
     }
 
-    public void setGradingOptions(List<String> gradingOptions) {
-        this.gradingOptions = gradingOptions;
+    public void setGradingOptionIds(List<String> gradingOptionIds) {
+        this.gradingOptionIds = gradingOptionIds;
     }
 
-    public void setGradeRosterLevel(String gradeRosterLevel) {
-        this.gradeRosterLevel = gradeRosterLevel;
+    public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {
+        this.gradeRosterLevelTypeKey = gradeRosterLevelTypeKey;
     }
 
     public void setHasWaitlist(Boolean hasWaitlist) {
@@ -557,6 +521,5 @@ public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOff
 
     public void setRegistrationOrderTypeKey(String registrationOrderTypeKey) {
         this.registrationOrderTypeKey = registrationOrderTypeKey;
-    }
-        
+    }        
 }

@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.lui.infc;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.lui.dto.LuiInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
@@ -71,12 +71,6 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * @name Minimum  Enrollment
      */
     public Integer getMinimumEnrollment();
-
-    /**
-     * Instructors for the Lui
-     * @name Instructors
-     */
-    public List<LuiInstructorInfo> getInstructors();
     
     /**
      * Name of the course used in the college catalog.

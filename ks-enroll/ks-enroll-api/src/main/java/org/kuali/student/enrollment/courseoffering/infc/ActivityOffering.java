@@ -11,7 +11,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
@@ -85,7 +84,7 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
      * @name Instructors
      * @impl maps to Lui.instructors
      */
-    public List<? extends LuiInstructor> getInstructors();
+    public List<? extends OfferingInstructor> getInstructors();
        
     /********** Final Exam Information *****************/
     

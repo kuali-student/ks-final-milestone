@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.lui.dto;
+package org.kuali.student.enrollment.courseoffering.dto;
  
 import java.io.Serializable;
 import java.util.List;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lui.infc.LuiInstructor;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.w3c.dom.Element;
 
@@ -33,9 +33,9 @@ import org.w3c.dom.Element;
  *Information about a potential instructor for a clu.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "orgId", "personId", "personInfoOverride", 
+@XmlType(name = "OfferingInstructorInfo", propOrder = {"id", "orgId", "personId", "personInfoOverride", 
         "percentageEffort", "meta", "attributes", "_futureElements"})
-public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiInstructor, Serializable {
+public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements OfferingInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiIn
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LuiInstructorInfo() {
+    public OfferingInstructorInfo() {
         this.id = null;
         this.orgId = null;
         this.personId = null;
@@ -66,7 +66,7 @@ public class LuiInstructorInfo extends HasAttributesAndMetaInfo implements LuiIn
         this._futureElements  = null;
     }
     
-    public LuiInstructorInfo(LuiInstructor instructor) {
+    public OfferingInstructorInfo(OfferingInstructor instructor) {
         
         super(instructor);
         

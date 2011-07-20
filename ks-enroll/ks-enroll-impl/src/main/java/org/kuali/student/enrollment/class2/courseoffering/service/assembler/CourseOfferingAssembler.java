@@ -17,11 +17,11 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setDescr(lui.getDescr());
 			co.setCourseId(lui.getCluId());
 			co.setTermKey(lui.getAtpKey());
-			co.setCourseCode(lui.getLuiCode());
+			co.setCourseOfferingCode(lui.getLuiCode());
 			//co.setCourseNumberSuffix(courseNumberSuffix) //TODO: where to map?
 			co.setCourseTitle(lui.getStudyTitle());
 			//co.setIsHonorsOffering(isHonorsOffering)     //TODO: where to map?
-			co.setInstructors(lui.getInstructors());
+			//co.setInstructors(lui.getInstructors());
 			co.setSubjectArea(lui.getStudySubjectArea());
 			co.setUnitsDeployment(lui.getUnitsDeployment());
 			co.setUnitsContentOwner(lui.getUnitsContentOwner());
@@ -29,7 +29,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setMaximumEnrollment(lui.getMaximumEnrollment());
 			co.setMinimumEnrollment(lui.getMinimumEnrollment());
 			//co.setCreditOptions(creditOptions)         //TODO: where to map?
-			co.setGradingOptions(lui.getGradingOptions());
+			co.setGradingOptionIds(lui.getGradingOptions());
 			//co.setGradeRosterLevel(gradeRosterLevel);  //TODO: where to map?
 			co.setHasWaitlist(lui.getHasWaitlist());
 			co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
@@ -62,17 +62,17 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setStateKey(co.getStateKey());
 			//lui.setName(name);		//TODO: where to map?
 			lui.setDescr(co.getDescr());
-			lui.setLuiCode(co.getCourseCode());
+			lui.setLuiCode(co.getCourseOfferingCode());
 			lui.setCluId(co.getCourseId());
 			lui.setAtpKey(co.getTermKey());
-			lui.setInstructors(co.getInstructors());
+			//lui.setInstructors(co.getInstructors());
 			lui.setStudySubjectArea(co.getSubjectArea());
 			lui.setMaximumEnrollment(co.getMaximumEnrollment());
 			lui.setMinimumEnrollment(co.getMinimumEnrollment());
 			//lui.setEffectiveDate(effectiveDate)		//TODO: where to map?
 			//lui.setExpirationDate(expirationDate)		//TODO: where to map?
 			lui.setFees(co.getFees());
-			lui.setGradingOptions(co.getGradingOptions());
+			lui.setGradingOptions(co.getGradingOptionIds());
 			lui.setStudyTitle(co.getCourseTitle());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
