@@ -73,16 +73,14 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     public List<String> getCourseOfferingIdsBySubjectArea(String termKey, String subjectArea, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getCourseOfferingIdsBySubjectArea(termKey, subjectArea, context);
     }
 
     @Override
     public List<String> getCourseOfferingIdsByUnitContentOwner(String termKey, String unitOwnerId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getCourseOfferingIdsByUnitContentOwner(termKey, unitOwnerId, context);
     }
 
     @Override
@@ -90,78 +88,68 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             List<String> formatIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.createCourseOfferingFromCanonical(courseid, termKey, formatIdList, context);
     }
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId, CourseOfferingInfo courseOfferingInfo,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
     }
 
     @Override
     public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.updateCourseOfferingFromCanonical(courseOfferingId, context);
     }
 
     @Override
     public StatusInfo deleteCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivityOfferingType(activityOfferingTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getAllActivityOfferingTypes(context);
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivityOfferingTypesForActivityType(activityTypeKey, context);
     }
 
     @Override
     public ActivityOfferingInfo getActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivityOffering(activityOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivitiesForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivitiesForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivitiesForRegGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivitiesForRegGroup(registrationGroupId, context);
     }
 
     @Override
@@ -169,8 +157,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.createActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
     }
 
     @Override
@@ -178,72 +165,63 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.updateActivityOffering(activityOfferingId, activityOfferingInfo, context);
     }
 
     @Override
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteActivityOffering(activityOfferingId, context);
     }
 
     @Override
     public Float calculateInClassContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.calculateInClassContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public Float calculateOutofClassContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.calculateOutofClassContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public Float calculateTotalContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.calculateTotalContactHoursForTerm(activityOfferingId, context);
     }
 
     @Override
     public List<ActivityOfferingInfo> copyActivityOffering(String activityOfferingId, Integer numberOfCopies,
             String copyContextTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.copyActivityOffering(activityOfferingId, numberOfCopies, copyContextTypeKey, context);
     }
 
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getRegistrationGroup(registrationGroupId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getRegGroupsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getRegGroupsByFormatForCourse(String courseOfferingId, String formatTypeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getRegGroupsByFormatForCourse(courseOfferingId, formatTypeKey, context);
     }
 
     @Override
@@ -251,8 +229,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.createRegistrationGroup(courseOfferingId, registrationGroupInfo, context);
     }
 
     @Override
@@ -260,48 +237,42 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.updateRegistrationGroup(registrationGroupId, registrationGroupInfo, context);
     }
 
     @Override
     public StatusInfo deleteRegistrationGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteRegistrationGroup(registrationGroupId, context);
     }
 
     @Override
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getSeatPoolDefinition(seatPoolDefinitionId, context);
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getSeatPoolsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolsForRegGroup(String registrationGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getSeatPoolsForRegGroup(registrationGroupId, context);
     }
 
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo,
             ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.createSeatPoolDefinition(seatPoolDefinitionInfo, context);
     }
 
     @Override
@@ -309,94 +280,79 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.updateSeatPoolDefinition(seatPoolDefinitionId, seatPoolDefinitionInfo, context);
     }
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteSeatPoolDefinition(seatPoolDefinitionId, context);
     }
 
     @Override
     public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getCourseOfferingRestrictions(courseOfferingId, nlUsageTypeKey, language, context);
     }
 
     @Override
-    public StatementTreeViewInfo createCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StatementTreeViewInfo createCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+    	return this.nextDecorator.createCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
     }
 
     @Override
-    public StatementTreeViewInfo updateCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StatementTreeViewInfo updateCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+    	return this.nextDecorator.updateCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
     }
 
     @Override
     public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteCourseOfferingRestriction(courseOfferingId, restrictionId, context);
     }
 
     @Override
     public List<StatementTreeViewInfo> getActivityOfferingRestrictions(String activityOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.getActivityOfferingRestrictions(activityOfferingId, nlUsageTypeKey, language, context);
     }
 
     @Override
-    public StatementTreeViewInfo createActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StatementTreeViewInfo createActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+    	return this.nextDecorator.createActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
     }
 
     @Override
-    public StatementTreeViewInfo updateActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StatementTreeViewInfo updateActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+    	return this.nextDecorator.updateActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
     }
 
     @Override
     public StatusInfo deleteActivityOfferingRestriction(String activityOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.deleteActivityOfferingRestriction(activityOfferingId, restrictionId, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.validateCourseOffering(validationType, courseOfferingInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateCourseOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.validateCourseOfferingRestriction(validationType, restrictionInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.validateActivityOffering(validationType, activityOfferingInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateActivityOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.validateActivityOfferingRestriction(validationType, restrictionInfo, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return this.nextDecorator.validateRegistrationGroup(validationType, registrationGroupInfo, context);
     }
 
 }

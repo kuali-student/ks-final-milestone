@@ -862,11 +862,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MilestoneInfo ms = atpService.getMilestone(keyDateKey, context);
-
-        if(ms != null)
-        	return new KeyDateInfo(ms);
-        else
-        	return null;
+        return ( null != ms) ? new KeyDateInfo(ms) : null;
     }
 
     @Override
