@@ -53,6 +53,7 @@ public class DocumentList extends Composite{
     	this.refObjectType = refObjectType;
     	this.deleteCallback = deleteCallback;
         setDocInfos(docInfos);
+        this.tableLayout.setCellPadding(3);
         this.initWidget(tableLayout);
 	}
 
