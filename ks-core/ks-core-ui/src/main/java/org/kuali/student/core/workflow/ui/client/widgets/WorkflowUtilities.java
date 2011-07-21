@@ -67,6 +67,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
+import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
@@ -397,7 +398,7 @@ public class WorkflowUtilities{
 
 	private void updateWorkflow(DataModel model){
 		updateWorkflowIdFromModel(model);
-		
+
 		if (workflowId != null && !workflowId.isEmpty()){
 			//Determine which workflow actions are displayed in the drop down
 			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
@@ -1207,11 +1208,11 @@ public class WorkflowUtilities{
 		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
 			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
 		} else if (WorkflowConstants.ROUTE_HEADER_FINAL_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY);
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY);
 		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
 			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
 		} else if (WorkflowConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY);
+			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY);
 		} else {
 			statusTranslation = statusCd;
 		}
