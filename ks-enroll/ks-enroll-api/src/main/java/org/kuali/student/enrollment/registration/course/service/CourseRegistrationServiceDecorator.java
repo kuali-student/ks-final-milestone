@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 public class CourseRegistrationServiceDecorator implements CourseRegistrationService {
+    
     protected CourseRegistrationServiceDecorator nextDecorator;
 
 	@Override
@@ -55,7 +56,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
+	@Override 
 	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -180,14 +181,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentAndCourseOffering(
-			String studentId, String courseOfferingId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
+
+	
 
 	@Override
 	public String calculateCreditLoadForTerm(String studentId, String termId,
@@ -196,12 +191,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public String getCreditLoadForRequest(String studentId,
-			RegRequestInfo regRequestInfo, ContextInfo context) {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
 
 	@Override
 	public Integer getAvailableSeatsForRegGroupAndStudent(String regGroupId,
@@ -221,16 +210,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public Integer getAvailableSeatCountForStudent(String studentId,
-			String regGroupId, ContextInfo context)
-			throws DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
-
+	
 	@Override
 	public Integer getAvailableSeatsInSeatpool(String seatpoolId,
 			ContextInfo context) throws InvalidParameterException,
@@ -277,13 +257,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public RegRequestInfo getRegRequest(String reqRequestId, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
+	
 
 	@Override
 	public List<RegRequestInfo> getRegRequestsForStuByTerm(String studentId,
@@ -418,15 +392,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public CourseRegistrationInfo getCourseRegistration(
-			String courseRegistrationId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
+	
 
 	@Override
 	public CourseRegistrationInfo getCourseRegistrationsByIdList(
@@ -498,15 +464,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 		return null;
 	}
 
-	@Override
-	public ActivityRegistrationInfo getActivityRegistration(
-			String activityRegistrationId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-		return null;
-	}
+
 
 	@Override
 	public ActivityRegistrationInfo getActivityRegistrationsByIdList(
@@ -655,6 +613,61 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
+    @Override
+    public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentInCourseOffering(String studentId,
+            String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public RegRequestInfo getRegRequestById(String reqRequestId, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Integer getAvailableSeatCountForStudentInRegGroup(String studentId, String regGroupId, ContextInfo context)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<RegRequestInfo> getRegRequestByIdList(List<String> reqRequestIds, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public CourseRegistrationInfo getCourseRegistrationById(String courseRegistrationId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public ActivityRegistrationInfo getActivityRegistrationById(String activityRegistrationId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+
 
 	
 	
