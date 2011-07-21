@@ -40,6 +40,8 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 import org.apache.log4j.Logger;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
@@ -275,6 +277,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 }
                 clusInRange.add(cluInformation);
             }
+            Collections.sort(result.getClus());
             result.setMembershipQueryInfo(membershipQueryInfo);
             result.setClusInRange(clusInRange);
         }

@@ -3,7 +3,7 @@ package org.kuali.student.lum.common.client.widgets;
 
 import java.io.Serializable;
 
-public class CluInformation implements Serializable {
+public class CluInformation implements Serializable, Comparable<CluInformation> {
     private static final long serialVersionUID = 1123124L;
     private String verIndependentId;
     private String code;
@@ -33,5 +33,9 @@ public class CluInformation implements Serializable {
 	}
 	public String getVerIndependentId() {
 		return verIndependentId;
+	}
+	public int compareTo(CluInformation clu)
+	{
+		return this.code.compareTo(clu.getCode());
 	}
 }
