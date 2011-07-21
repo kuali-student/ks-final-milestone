@@ -83,7 +83,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#createResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo createResultComponent(
 			String resultComponentTypeKey,
 			ResultComponentInfo resultComponentInfo)
@@ -112,7 +112,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#deleteResultComponent(java.lang.String)
 	 */
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteResultComponent(String resultComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -369,7 +369,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#updateResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
 			ResultComponentInfo resultComponentInfo)
 			throws DataValidationErrorException, DoesNotExistException,

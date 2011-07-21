@@ -119,7 +119,7 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException{
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);

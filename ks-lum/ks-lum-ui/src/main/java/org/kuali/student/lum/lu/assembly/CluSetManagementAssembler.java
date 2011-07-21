@@ -28,6 +28,7 @@ import org.kuali.student.common.assembly.old.BaseAssembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -145,7 +146,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input)     throws AssemblyException {
 
         try {

@@ -63,7 +63,7 @@ public class AtpServiceImpl implements AtpService {
     private ValidatorFactory validatorFactory;
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public DateRangeInfo addDateRange(String atpKey, String dateRangeKey, DateRangeInfo dateRangeInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpKey", "dateRangeKey", "dateRangeInfo"}, new Object[]{atpKey, dateRangeKey, dateRangeInfo});
@@ -109,7 +109,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public MilestoneInfo addMilestone(String atpKey, String milestoneKey, MilestoneInfo milestoneInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpKey", "milestoneKey", "milestoneInfo"}, new Object[]{atpKey, milestoneKey, milestoneInfo});
@@ -139,7 +139,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public AtpInfo createAtp(String atpTypeKey, String atpKey, AtpInfo atpInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpTypeKey", "atpKey", "atpInfo"}, new Object[]{atpTypeKey, atpKey, atpInfo});
@@ -170,7 +170,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo deleteAtp(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(Atp.class, atpKey);
@@ -368,7 +368,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo removeDateRange(String dateRangeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(DateRange.class, dateRangeKey);
@@ -380,7 +380,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo removeMilestone(String milestoneKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(Milestone.class, milestoneKey);
@@ -392,7 +392,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"atpKey", "atpInfo"}, new Object[]{atpKey, atpInfo});
@@ -416,7 +416,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public DateRangeInfo updateDateRange(String dateRangeKey, DateRangeInfo dateRangeInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"dateRangeKey", "dateRangeInfo"}, new Object[]{dateRangeKey, dateRangeInfo});
@@ -437,7 +437,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"milestoneKey", "milestoneInfo"}, new Object[]{milestoneKey, milestoneInfo});

@@ -93,7 +93,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public EnumeratedValueInfo addEnumeratedValue(String enumerationKey,
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
@@ -153,7 +153,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public EnumeratedValueInfo updateEnumeratedValue(String enumerationKey,
 			String code, EnumeratedValueInfo enumeratedValue)
 			throws DoesNotExistException, InvalidParameterException,
@@ -188,7 +188,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 	
 	@Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo removeEnumeratedValue(String enumerationKey, String code) {
         enumDAO.removeEnumeratedValue(enumerationKey, code);
         return new StatusInfo();

@@ -17,6 +17,7 @@ import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -115,7 +116,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         return getStateFromNewState(currentCourseState, newCourseState);
     }
 
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     protected void updateCourse(IDocumentEvent iDocumentEvent, String courseState, CourseInfo courseInfo) throws Exception {
         // only change the state if the course is not currently set to that state
         boolean requiresSave = false;

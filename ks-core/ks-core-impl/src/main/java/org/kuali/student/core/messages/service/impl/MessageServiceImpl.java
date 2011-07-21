@@ -113,7 +113,7 @@ public class MessageServiceImpl implements MessageService{
 		}
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
 		
 		if(localeKey == null || messageGroupKey == null || messageKey == null || messageInfo == null){
@@ -128,7 +128,7 @@ public class MessageServiceImpl implements MessageService{
 		}        
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public Message addMessage(Message messageInfo) {
 		if(messageInfo != null)	{
 			MessageEntity messageEntity = new MessageEntity();    
