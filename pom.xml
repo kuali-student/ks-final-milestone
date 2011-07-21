@@ -154,7 +154,6 @@
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
-    <war.plugin.version>2.1-beta-1</war.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
     <!-- build properties -->
@@ -210,6 +209,14 @@
           <configuration>
             <server>${project.artifactId}</server>
             <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
+            <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
           </configuration>
         </plugin>
 
