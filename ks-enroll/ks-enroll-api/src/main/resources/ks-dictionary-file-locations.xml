@@ -103,6 +103,17 @@
             </list>
         </constructor-arg>
      </bean>
+     <!-- CourseOffering Service -->
+    <bean id="courseOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
+    </bean>
+    <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="courseOfferingInfoDictionaryLocation" />          
+            </list>
+        </constructor-arg>
+     </bean>
     <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
      and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
      that is used in the rice dictionary validation service impl -->
@@ -124,7 +135,8 @@
                 <bean parent="issueInfoDictionaryLocation" />                
                 <bean parent="restrictionInfoDictionaryLocation" />    
                 <bean parent="luiInfoDictionaryLocation" />
-                <bean parent="luiLuiRelationInfoDictionaryLocation" />                  
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />  
+                <bean parent="courseOfferingInfoDictionaryLocation" />                  
             </list>
         </constructor-arg>
     </bean>

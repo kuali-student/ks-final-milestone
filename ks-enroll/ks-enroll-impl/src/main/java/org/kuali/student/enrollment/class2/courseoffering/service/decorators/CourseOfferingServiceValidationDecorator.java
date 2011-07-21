@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceDecorator;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -57,16 +59,40 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
         return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
 
-	@Override
-	public CourseOfferingInfo createCourseOfferingFromCanonical(
-			String courseId, String termKey, List<String> formatIdList,
-			ContextInfo context) throws AlreadyExistsException,
-			DoesNotExistException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		
-		return null;
-	}
+    private List<ValidationResultInfo> validate(String validationType, Object info, 
+    		ContextInfo context) throws OperationFailedException, 
+    		MissingParameterException, InvalidParameterException {
+        List<ValidationResultInfo> errors;
+        try {
+            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
+        } catch (PermissionDeniedException ex) {
+            throw new OperationFailedException("Validation failed due to permission exception", ex);
+        }
+        return errors;
+    }
+    
+    @Override
+    public List<ValidationResultInfo> validateCourseOffering(
+    		String validationType, CourseOfferingInfo courseOfferingInfo, 
+    		ContextInfo context) throws DoesNotExistException, 
+    		InvalidParameterException, MissingParameterException, 
+    		OperationFailedException {
+    	return validate(validationType, courseOfferingInfo, context);
+    }
+    
+    private void validateCourseOffering(CourseOfferingInfo courseOfferingInfo, ContextInfo context) 
+	 		throws DataValidationErrorException, OperationFailedException, 
+	 		InvalidParameterException, MissingParameterException {
+		try {
+		    List<ValidationResultInfo> errors = this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), courseOfferingInfo, context);
+		    if (!errors.isEmpty()) {
+		        throw new DataValidationErrorException("Errors", errors);
+		    }
+		} catch (DoesNotExistException ex) {
+		    throw new OperationFailedException("erorr trying to validate", ex);
+		}
+    }
+ 
 	
 	@Override
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -75,19 +101,8 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CourseOfferingInfo updateCourseOfferingFromCanonical(
-			String courseOfferingId, ContextInfo context)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+		validateCourseOffering(courseOfferingInfo, context);
+		return nextDecorator.updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
 	}
 
 }

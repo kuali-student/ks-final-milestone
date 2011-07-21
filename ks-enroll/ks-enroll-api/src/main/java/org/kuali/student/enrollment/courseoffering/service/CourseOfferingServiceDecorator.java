@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
     
-    private CourseOfferingService nextDecorator;
+	protected CourseOfferingService nextDecorator;
     
     public CourseOfferingService getNextDecorator() {
 		return nextDecorator;

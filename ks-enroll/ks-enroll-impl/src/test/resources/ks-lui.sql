@@ -93,5 +93,3 @@ INSERT INTO KSEN_LUI (ID, NAME, LUI_CODE, CLU_ID, TYPE_ID, STATE_ID, RT_DESCR_ID
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-1', 'kuali.lui.lui.relation.associated', 'Lui-2')
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4')
 
-//Lui jn LuiInstructorEntity
-INSERT INTO KSEN_LUI_JN_LUI_INSTR(LUI_ID, LUI_INSTR_ID) VALUES ('Lui-1', 'LUI-INSTR-1')
