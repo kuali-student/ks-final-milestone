@@ -4,9 +4,8 @@ package org.kuali.student.enrollment.registration.course.infc;
 import java.util.List;
 
 
-import org.kuali.student.enrollment.registration.course.dto.RegResponseItemInfo;
-import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.OperationStatus;
 
 public interface RegResponse extends IdEntity {
     /**
@@ -14,7 +13,7 @@ public interface RegResponse extends IdEntity {
      * 
      * @return
      */
-    public OperationStatusInfo getOperationStatusInfo();
+    public OperationStatus getOperationStatus ();
 
     /**
      * The status of registration request id associated with this registration request.
@@ -29,6 +28,6 @@ public interface RegResponse extends IdEntity {
      * 
      * @return
      */
-    public List<? extends RegResponseItem> getRegResponseItemInfos();
+    public List<? extends RegResponseItem> getRegResponseItems();
    
 }

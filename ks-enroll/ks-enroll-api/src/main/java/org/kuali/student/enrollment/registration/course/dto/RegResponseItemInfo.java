@@ -43,7 +43,9 @@ public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements Reg
         if (null != regResponseItem) {
             this.courseRegistrationId = regResponseItem.getCourseRegistrationId();
             this.courseWaitlistEntryId = regResponseItem.getCourseWaitlistEntryId();
-            this.operationStatus = regResponseItem.getOperationStatusInfo();
+            if (regResponseItem.getOperationStatus() != null) {
+             this.operationStatus = new OperationStatusInfo (regResponseItem.getOperationStatus());
+            }
             this._futureElements = null;
         }
     }
@@ -67,11 +69,11 @@ public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements Reg
     }
 
     @Override
-    public OperationStatusInfo getOperationStatusInfo() {
+    public OperationStatusInfo getOperationStatus() {
         return operationStatus;
     }
 
-    public void setOperationStatusInfo(OperationStatusInfo operationStatus) {
+    public void setOperationStatus(OperationStatusInfo operationStatus) {
         this.operationStatus = operationStatus;
     }
 

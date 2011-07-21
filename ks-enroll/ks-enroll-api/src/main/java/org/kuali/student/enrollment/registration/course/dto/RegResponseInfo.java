@@ -18,29 +18,24 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegResponseInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "regRequestId",
-        "regResponseItemInfos", "operationStatusInfo", "meta", "attributes", "_futureElements"})
+    "regResponseItems", "operationStatus", "meta", "attributes", "_futureElements"})
 public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serializable {
 
-    
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String regRequestId;
-
     @XmlElement
-    private List<RegResponseItemInfo> regResponseItemInfos;
-
+    private List<RegResponseItemInfo> regResponseItems;
     @XmlElement
-    private OperationStatusInfo operationStatusInfo;
-
+    private OperationStatusInfo operationStatus;
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public RegResponseInfo() {
         super();
         this.regRequestId = null;
-        this.regResponseItemInfos = null;
-        this.operationStatusInfo = null;
+        this.regResponseItems = null;
+        this.operationStatus = null;
         this._futureElements = null;
 
     }
@@ -49,33 +44,34 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
         super(regResponse);
         if (null != regResponse) {
             this.regRequestId = regResponse.getRegRequestId();
-            this.regResponseItemInfos = new ArrayList<RegResponseItemInfo>();
+            this.regResponseItems = new ArrayList<RegResponseItemInfo>();
 
-            for (RegResponseItem regResponseItemInfo : regResponse.getRegResponseItemInfos()) {
-                this.regResponseItemInfos.add(new RegResponseItemInfo(regResponseItemInfo));
+            for (RegResponseItem regResponseItem : regResponse.getRegResponseItems()) {
+                this.regResponseItems.add(new RegResponseItemInfo(regResponseItem));
             }
-
-            this.operationStatusInfo = regResponse.getOperationStatusInfo();
+            if (regResponse.getOperationStatus() != null) {
+                this.operationStatus = new OperationStatusInfo(regResponse.getOperationStatus());
+            }
             this._futureElements = null;
         }
     }
 
     @Override
-    public List<RegResponseItemInfo> getRegResponseItemInfos() {
-        return regResponseItemInfos;
+    public List<RegResponseItemInfo> getRegResponseItems() {
+        return regResponseItems;
     }
 
     public void setRegResponseItemInfos(List<RegResponseItemInfo> regResponseItemInfos) {
-        this.regResponseItemInfos = regResponseItemInfos;
+        this.regResponseItems = regResponseItemInfos;
     }
 
     @Override
-    public OperationStatusInfo getOperationStatusInfo() {
-        return operationStatusInfo;
+    public OperationStatusInfo getOperationStatus() {
+        return operationStatus;
     }
 
-    public void setOperationStatusInfo(OperationStatusInfo operationStatusInfo) {
-        this.operationStatusInfo = operationStatusInfo;
+    public void setOperationStatus(OperationStatusInfo operationStatus) {
+        this.operationStatus = operationStatus;
     }
 
     @Override
@@ -86,5 +82,4 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
     public void setRegRequestId(String regRequestId) {
         this.regRequestId = regRequestId;
     }
-
 }

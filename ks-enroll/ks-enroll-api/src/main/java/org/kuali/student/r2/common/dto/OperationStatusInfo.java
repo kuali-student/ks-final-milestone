@@ -38,9 +38,18 @@ public class OperationStatusInfo implements OperationStatus, Serializable {
         this.messages = new ArrayList<String>();
         this.warnings = new ArrayList<String>();
         this.errors = new ArrayList<String>();
+        this._futureElements = null;
     }
     
+    public OperationStatusInfo (OperationStatus orig) {
+        this ();
+        if (orig != null) {
+            this.status = orig.getStatus();
+            this.messages = new ArrayList (orig.getMessages());
+        }
+    }
 
+    @Override
     public String getStatus() {
         return status;
     }
@@ -49,6 +58,7 @@ public class OperationStatusInfo implements OperationStatus, Serializable {
         this.status = status;
     }
 
+    @Override
     public List<String> getMessages() {
         return messages;
     }

@@ -19,6 +19,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
@@ -109,13 +110,67 @@ public class Bean2DictionaryConverter {
     }
 
     public static Class<?> calcActualClass(Class<?> clazz, PropertyDescriptor pd) {
-        Class<?> pt = pd.getPropertyType();
+        Class<?> pt = null;
+        // there is a bug in the BeanInfo impl see workaround below
+        // pd.getPropertyType gets the interface not the info object
+        // for example: 
+        // info has...
+        // @Override
+        // ExpenditureInfo getExpenditure ();
+        // 
+        // and interface has
+        // Expenditure getExpenditure ();
+        // then pd.getPropertyType () returns Expenditure not ExpenditureInfo
+        // so...
+        // we use the work around if it gets an interface
+        pt = pd.getPropertyType();
+        if (pt.isInterface()) {
+            pt = workAround (clazz, pd.getReadMethod().getName());
+        }
         if (List.class.equals(pt)) {
             pt = ComplexSubstructuresHelper.getActualClassFromList(clazz, pd.getName());
         }
         return pt;
     }
 
+    
+    private static Class<?> workAround (Class <?> currentTargetClass, String methodName) {
+        Method method = findMethodImplFirst (currentTargetClass, methodName);
+        return method.getReturnType();
+    }
+    
+    /**
+     * Got this code from:
+     * http://raulraja.com/2009/09/12/java-beans-introspector-odd-behavio/
+     * 
+     * workaround for introspector odd behavior with javabeans that implement interfaces with comaptible return types
+     * but instrospection is unable to find the right accessors
+     *
+     * @param currentTargetClass the class being evaluated
+     * @param methodName		 the method name we are looking for
+     * @param argTypes		   the arg types for the method name
+     * @return a method if found
+     */
+    private static Method findMethodImplFirst(Class<?> currentTargetClass, String methodName, Class<?>... argTypes) {
+        Method method = null;
+        if (currentTargetClass != null && methodName != null) {
+            try {
+                method = currentTargetClass.getMethod(methodName, argTypes);
+            } catch (Throwable t) {
+                // nothing we can do but continue
+            }
+            //Is the method in one of our parent classes
+            if (method == null) {
+                Class<?> superclass = currentTargetClass.getSuperclass();
+                if (!superclass.equals(Object.class)) {
+                    method = findMethodImplFirst(superclass, methodName, argTypes);
+                }
+            }
+        }
+        return method;
+    }
+    
+    
     public static DataType calcDataType(String context, Class<?> pt) {
         if (int.class.equals(pt) || Integer.class.equals(pt)) {
             return DataType.INTEGER;

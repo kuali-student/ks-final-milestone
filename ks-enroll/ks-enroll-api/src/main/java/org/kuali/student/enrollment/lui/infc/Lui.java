@@ -18,12 +18,9 @@ package org.kuali.student.enrollment.lui.infc;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lu.dto.FeeInfo;
-import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
@@ -106,13 +103,13 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * Fees associated with the course offering. 
      * @name Fees
      */    
-    public List<FeeInfo> getFees();
+    public List<? extends Fee> getFees();
     
     /**
      * Organization that receives the revenue associated with the course
      * @name Revenues
      */
-    public List<RevenueInfo> getRevenues();
+    public List<? extends Revenue> getRevenues();
     
     
     /**

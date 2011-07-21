@@ -63,7 +63,7 @@ public class TestBaseValidCharsDictionary {
         ValidCharactersConstraint vc = null;
         ValidCharactersConstraintProcessor vccp = new ValidCharactersConstraintProcessor();
 
-        id = "alphanumericHyphenPeriod";
+        id = "AlphanumericHyphenPeriod";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "1"));
@@ -76,7 +76,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "digits";
+        id = "Digits";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "1"));
@@ -89,7 +89,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "numeric";
+        id = "Numeric";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "0"));
@@ -121,7 +121,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "numeric.range";
+        id = "Numeric.range";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "0"));
@@ -162,7 +162,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "positive.numeric.range";
+        id = "Positive.numeric.range";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "0"));
@@ -203,7 +203,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "gpa4.0";
+        id = "Gpa4.0";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "0.0"));
@@ -217,7 +217,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "positive.integer";
+        id = "Positive.integer";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "1"));
@@ -230,7 +230,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "relationalOperator";
+        id = "RelationalOperator";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "="));
@@ -249,7 +249,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "\r"));
         assertNotNull(test(vccp, vc, "\t"));
 
-        id = "alpha";
+        id = "Alpha";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "a"));
@@ -264,7 +264,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "X\r"));
         assertNotNull(test(vccp, vc, "X\t"));
 
-        id = "upperCase";
+        id = "UpperCase";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "AB"));
@@ -280,7 +280,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "X\r"));
         assertNotNull(test(vccp, vc, "X\t"));
 
-        id = "upperAlpha";
+        id = "UpperAlpha";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "AB"));
@@ -293,7 +293,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "X\r"));
         assertNotNull(test(vccp, vc, "X\t"));
 
-        id = "lineText";
+        id = "LineText";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "a"));
@@ -338,7 +338,7 @@ public class TestBaseValidCharsDictionary {
         assertNotNull(test(vccp, vc, "X\r"));
         assertNull(test(vccp, vc, "X\t"));
 
-        id = "multiLineText";
+        id = "MultiLineText";
         vc = vccs.get(id);
         assertNotNull(vc);
         assertNull(test(vccp, vc, "a"));

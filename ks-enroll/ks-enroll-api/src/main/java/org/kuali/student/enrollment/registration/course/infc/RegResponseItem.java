@@ -1,9 +1,8 @@
 package org.kuali.student.enrollment.registration.course.infc;
 
-import java.util.List;
 
-import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.OperationStatus;
 
 /**
  * A more granular status object than the Registration response which gives the
@@ -23,7 +22,7 @@ public interface RegResponseItem extends HasAttributesAndMeta {
      * 
      * @return
      */
-    public OperationStatusInfo getOperationStatusInfo();
+    public OperationStatus getOperationStatus();
     
     /**
      * 

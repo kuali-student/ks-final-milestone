@@ -15,7 +15,6 @@
 
 package org.kuali.student.enrollment.acal.infc;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +30,16 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 
 public interface AcademicCalendar extends KeyEntity {
 
+     /**
+     * Unique identifier for the type of this academic calendar.
+     * @name Type Key
+     * @readOnly on updates
+     * @required
+     * @impl must be the atp type for Academic Calendar
+     */
+    @Override
+    public String getTypeKey();
+    
     /**
      * The campus calendar key corresponding to this academic
      * calendar. A multi-year academic calendar may have more than one
