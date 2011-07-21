@@ -70,6 +70,8 @@ INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VA
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.RegistrationPeriod', 'Registration Period', 'Registration Period', 'http:--student.kuali.org/wsdl/atp/MilestoneInfo', 0);
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.DropDate', 'Drop Date', 'Drop Period Ends', 'http:--student.kuali.org/wsdl/atp/MilestoneInfo', 0);
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.GradesDue', 'Grades Due', 'Grades Due', 'http:--student.kuali.org/wsdl/atp/MilestoneInfo', 0);
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.InstructionalPeriod', 'Classes Meet Dates', 'Classes Meet Dates', 'http:--student.kuali.org/wsdl/atp/MilestoneInfo', 0);
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.FinalExamPeriod', 'Final Examinations Period', 'Final Examinations Period', 'http:--student.kuali.org/wsdl/atp/MilestoneInfo', 0);
 
 -- AtpTypes for AtpAtpRelations
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.includes', 'http:--student.kuali.org/wsdl/atp/AtpAtpRelationInfo', 0);
