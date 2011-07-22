@@ -129,7 +129,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
         }        
         String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
         String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
-        academicCalendarKey = academicCalendarKey.concat(credentialProgram+"."+yearOfStartDate+"-"+yearOfEndDate);
+        academicCalendarKey = academicCalendarKey.concat(credentialProgram.toLowerCase()+"."+yearOfStartDate+"-"+yearOfEndDate);
         return academicCalendarKey;       
         
     }
