@@ -14,7 +14,7 @@ import org.kuali.student.r2.common.infc.OperationStatus;
  * 
  * @author Kuali Student Team (sambit)
  */
-public interface RegResponseItem extends HasAttributesAndMeta {
+public interface RegResponseItem {
     
     /**
      * 

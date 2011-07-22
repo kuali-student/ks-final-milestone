@@ -12,14 +12,12 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.registration.course.infc.RegResponse;
 import org.kuali.student.enrollment.registration.course.infc.RegResponseItem;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegResponseInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "regRequestId",
-    "regResponseItems", "operationStatus", "meta", "attributes", "_futureElements"})
-public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serializable {
+@XmlType(name = "RegResponseInfo", propOrder = {"regRequestId", "regResponseItems", "operationStatus", "_futureElements"})
+public class RegResponseInfo implements RegResponse, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -41,7 +39,7 @@ public class RegResponseInfo extends IdEntityInfo implements RegResponse, Serial
     }
 
     public RegResponseInfo(RegResponse regResponse) {
-        super(regResponse);
+        
         if (null != regResponse) {
             this.regRequestId = regResponse.getRegRequestId();
             this.regResponseItems = new ArrayList<RegResponseItemInfo>();

@@ -16,8 +16,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegResponseItemInfo", propOrder = {"courseRegistrationId", "courseWaitlistEntryId", "operationStatus",
-        "meta", "attributes", "_futureElements"})
-public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements RegResponseItem, Serializable {
+        "_futureElements"})
+public class RegResponseItemInfo implements RegResponseItem, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -39,12 +39,12 @@ public class RegResponseItemInfo extends HasAttributesAndMetaInfo implements Reg
     }
 
     public RegResponseItemInfo(RegResponseItem regResponseItem) {
-        super(regResponseItem);
+
         if (null != regResponseItem) {
             this.courseRegistrationId = regResponseItem.getCourseRegistrationId();
             this.courseWaitlistEntryId = regResponseItem.getCourseWaitlistEntryId();
             if (regResponseItem.getOperationStatus() != null) {
-             this.operationStatus = new OperationStatusInfo (regResponseItem.getOperationStatus());
+                this.operationStatus = new OperationStatusInfo(regResponseItem.getOperationStatus());
             }
             this._futureElements = null;
         }

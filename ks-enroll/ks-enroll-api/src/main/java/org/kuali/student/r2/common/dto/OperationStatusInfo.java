@@ -66,7 +66,8 @@ public class OperationStatusInfo implements OperationStatus, Serializable {
     public void setMessages(List<String> messages) {
         this.messages = messages;
     }
-
+    
+    @Override
     public List<String> getWarnings() {
         return warnings;
     }
@@ -74,7 +75,7 @@ public class OperationStatusInfo implements OperationStatus, Serializable {
     public void setWarnings(List<String> warnings) {
         this.warnings = warnings;
     }
-
+    @Override
     public List<String> getErrors() {
         return errors;
     }

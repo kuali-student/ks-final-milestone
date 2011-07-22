@@ -4,10 +4,9 @@ package org.kuali.student.enrollment.registration.course.infc;
 import java.util.List;
 
 
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.OperationStatus;
 
-public interface RegResponse extends IdEntity {
+public interface RegResponse {
     /**
      * This method gets the item operation status info for the registration response
      * 
