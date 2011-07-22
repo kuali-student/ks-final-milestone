@@ -30,8 +30,8 @@ public class TermWrapperMaintainableImpl extends KualiMaintainableImpl{
 	private static final long serialVersionUID = 1L;	
 	
     public final static String TERM_KEY_PREFIX = "kuali.term.";
-    //Type keys for term ar "kuali.atp.type.Fall", "kuali.atp.type.Winter", "kuali.atp.type.Spring", or "kuali.atp.type.Summer".
-    public final static String TYPE_KEY_PREFIX = "kuali.atp.type.";    
+    //Type keys for term are "kuali.atp.type.Fall", "kuali.atp.type.Winter", "kuali.atp.type.Spring", or "kuali.atp.type.Summer".
+    public final static String TERM_TYPE_KEY_PREFIX = "kuali.atp.type.";    
     public final static String MILESTONE_TYPE_KEY_PREFIX = "kuali.atp.milestone.";    
     public final static String KEY_DATE_INFO_KEY_PREFIX = "kuali.milestone.";
 
@@ -144,7 +144,7 @@ public class TermWrapperMaintainableImpl extends KualiMaintainableImpl{
         String theType;
         
         String theTypeKey = termInfo.getTypeKey();      
-        if (theTypeKey.startsWith(TYPE_KEY_PREFIX)){
+        if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
      	   theType = theTypeKey.substring(15);
         }
         else {
