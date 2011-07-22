@@ -111,12 +111,13 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
         super.prepareForSave();
     }
     
-   /*
-    *  Based on Norm's suggestion at 
-    *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
-    *  AcademicCalendarKey should be 
-    *  kuali.academic.calendar.<last part of credentialProgramTypeKey>.<yearOfStartDate>-<yearOfEndDate>
-    */
+    /*
+     *  Based on Norm's suggestion at 
+     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
+     *  Term Keys should be 
+     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
+     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
+     */
    private String getTermInfoKey(TermInfo termInfo){
        String termKey = new String (TERM_KEY_PREFIX);
        String theType;
@@ -130,7 +131,7 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
        }        
        String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
        String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
-       termKey = termKey.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType);
+       termKey = termKey.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
        return termKey;       
        
    }
