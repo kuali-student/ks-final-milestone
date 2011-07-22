@@ -33,19 +33,15 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "meta", "attributes", "_futureElements"})
-
 public class TermInfo extends KeyEntityInfo implements Term, Serializable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 1L;
     @XmlElement
     private Date startDate;
-
     @XmlElement
     private Date endDate;
-
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
     public TermInfo() {
         startDate = null;
@@ -68,26 +64,22 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
         _futureElements = null;
     }
 
-    
     @Override
     public Date getStartDate() {
-    	return startDate != null ? new Date(startDate.getTime()) : null;
+        return startDate;
     }
 
-
     public void setStartDate(Date startDate) {
-    	if (startDate != null)
-			this.startDate = new Date(startDate.getTime());
+        this.startDate = startDate;
     }
 
     @Override
     public Date getEndDate() {
-    	return endDate != null ? new Date(endDate.getTime()) : null;
+        return endDate;
     }
 
-
     public void setEndDate(Date endDate) {
-		if (endDate != null)
-			this.endDate = new Date(endDate.getTime());
+
+        this.endDate = endDate;
     }
 }

@@ -115,7 +115,7 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = new Date(startDate.getTime());
+        this.startDate = startDate;
     }
 
     @Override
@@ -124,6 +124,6 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = new Date(endDate.getTime());
+        this.endDate = endDate;
     }
 }
