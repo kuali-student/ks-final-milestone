@@ -22,7 +22,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- AtpMilestoneRelationInfo-->
-    <bean id="atpMilestoneRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="atpMilestoneRelationInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="atpMilestoneRelationInfo"/>
         <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo"/>
         <property name="objectLabel" value=""/>
@@ -48,48 +48,48 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="atpMilestoneRelationInfo" parent="atpMilestoneRelationInfo-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="atpMilestoneRelationInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.id" parent="atpMilestoneRelationInfo.id-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.typeKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="atpMilestoneRelationInfo.typeKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.typeKey" parent="atpMilestoneRelationInfo.typeKey-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.stateKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="atpMilestoneRelationInfo.stateKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.stateKey" parent="atpMilestoneRelationInfo.stateKey-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+    <bean id="atpMilestoneRelationInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
         <property name="name" value="effectiveDate"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.effectiveDate" parent="atpMilestoneRelationInfo.effectiveDate-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+    <bean id="atpMilestoneRelationInfo.expirationDate-parent" abstract="true" parent="BaseKuali.expirationDate">
         <property name="name" value="expirationDate"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.expirationDate" parent="atpMilestoneRelationInfo.expirationDate-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.atpKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="atpMilestoneRelationInfo.atpKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="atpKey"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.atpKey" parent="atpMilestoneRelationInfo.atpKey-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.milestoneKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="atpMilestoneRelationInfo.milestoneKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="milestoneKey"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.milestoneKey" parent="atpMilestoneRelationInfo.milestoneKey-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="atpMilestoneRelationInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
         <!--<property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="atpMilestoneRelationInfo.attributes" parent="atpMilestoneRelationInfo.attributes-parent"/>
 
-    <bean id="atpMilestoneRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="atpMilestoneRelationInfo.metaInfo-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="metaInfo"/>
     </bean>
     <bean id="atpMilestoneRelationInfo.metaInfo" parent="atpMilestoneRelationInfo.metaInfo-parent"/>

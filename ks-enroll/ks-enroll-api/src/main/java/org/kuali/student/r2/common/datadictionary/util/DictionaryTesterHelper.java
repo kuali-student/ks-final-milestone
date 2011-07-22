@@ -27,14 +27,17 @@ public class DictionaryTesterHelper {
 
     private String outputFileName;
     private String dictFileName;
+    private List<String>supportFiles;
     private String projectUrl;
 
     public DictionaryTesterHelper(String outputFileName,
             String projectUrl,
-            String dictFileName) {
+            String dictFileName,
+            List<String> supportFiles) {
         this.outputFileName = outputFileName;
         this.projectUrl = projectUrl;
         this.dictFileName = dictFileName;
+        this.supportFiles = supportFiles;
     }
 
     public List<String> doTest() {
@@ -42,11 +45,18 @@ public class DictionaryTesterHelper {
 //            throw new IllegalArgumentException(dictFileName + " does not exist");
 //        }
 //        ApplicationContext ac = new FileSystemXmlApplicationContext(dictFileName);
-        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:" + dictFileName);
+        List<String> configLocations = new ArrayList (supportFiles);
+//        System.out.println ("DictionaryTesterHelper: adding " + supportFiles.size() + " support files");
+        configLocations.add("classpath:" + dictFileName);
+        String[] configLocs = configLocations.toArray(new String[0]);
+        ApplicationContext ac = new ClassPathXmlApplicationContext(configLocs);
         Map<String, DataObjectEntry> beansOfType =
                 (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
         for (DataObjectEntry doe : beansOfType.values()) {
             System.out.println("Loading object structure: " + doe.getFullClassName());
+            if ("org.kuali.rice.kns.bo.AttributeReferenceDummy".equals (doe.getFullClassName())) {
+                continue;
+            }
             DictionaryValidator validator = new DictionaryValidator(doe, new HashSet());
             List<String> errors = validator.validate();
             if (errors.size() > 0) {

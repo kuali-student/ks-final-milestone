@@ -23,7 +23,7 @@
 
     <!-- TermInfo-->
     <bean id="termInfo" parent="termInfo-parent"/>
-    <bean id="termInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="termInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="termInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
         <property name="objectLabel" value="Term Info"/>
@@ -50,48 +50,48 @@
     </bean>
     
     <bean id="termInfo.key" parent="termInfo.key-parent"/>
-    <bean id="termInfo.key-parent" abstract="true" parent="baseKualiKey">
+    <bean id="termInfo.key-parent" abstract="true" parent="BaseKuali.key">
         <property name="name" value="key"/>
     </bean>
 
     <bean id="termInfo.typeKey" parent="termInfo.typeKey-parent"/>
-    <bean id="termInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="termInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
 
     <bean id="termInfo.stateKey" parent="termInfo.stateKey-parent"/>
-    <bean id="termInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="termInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
 
     <bean id="termInfo.name" parent="termInfo.name-parent"/>
-    <bean id="termInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="termInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
 
     <bean id="termInfo.descr" parent="termInfo.descr-parent"/>
-    <bean id="termInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="termInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
 
     <bean id="termInfo.startDate" parent="termInfo.startDate-parent"/>
-    <bean id="termInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="termInfo.startDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="startDate"/>
     </bean>
 
     <bean id="termInfo.endDate" parent="termInfo.endDate-parent"/>
-    <bean id="termInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="termInfo.endDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="endDate"/>
     </bean>
 
     <bean id="termInfo.attributes" parent="termInfo.attributes-parent"/>
-    <bean id="termInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="termInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
         <!--<property name="maxOccurs" value="999999999"/>-->
     </bean>
     
     <bean id="termInfo.meta" parent="termInfo.meta-parent"/>
-    <bean id="termInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="termInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
 </beans>

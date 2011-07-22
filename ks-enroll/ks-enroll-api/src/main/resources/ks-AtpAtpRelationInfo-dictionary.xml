@@ -22,7 +22,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- AtpAtpRelationInfo-->
-<bean id="atpAtpRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+<bean id="atpAtpRelationInfo-parent" abstract="true" parent="DataObjectEntry">
 <property name="name" value="atpAtpRelationInfo"/>
 <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo"/>
 <property name="objectLabel" value=""/>
@@ -48,48 +48,48 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 </bean>
 <bean id="atpAtpRelationInfo" parent="atpAtpRelationInfo-parent"/>
 
-<bean id="atpAtpRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+<bean id="atpAtpRelationInfo.id-parent" abstract="true" parent="BaseKuali.id">
 <property name="name" value="id"/>
 </bean>
 <bean id="atpAtpRelationInfo.id" parent="atpAtpRelationInfo.id-parent"/>
 
-<bean id="atpAtpRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+<bean id="atpAtpRelationInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
 <property name="name" value="typeKey"/>
 </bean>
 <bean id="atpAtpRelationInfo.typeKey" parent="atpAtpRelationInfo.typeKey-parent"/>
 
-<bean id="atpAtpRelationInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+<bean id="atpAtpRelationInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
 <property name="name" value="stateKey"/>
 </bean>
 <bean id="atpAtpRelationInfo.stateKey" parent="atpAtpRelationInfo.stateKey-parent"/>
 
-<bean id="atpAtpRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+<bean id="atpAtpRelationInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
 <property name="name" value="effectiveDate"/>
 </bean>
 <bean id="atpAtpRelationInfo.effectiveDate" parent="atpAtpRelationInfo.effectiveDate-parent"/>
 
-<bean id="atpAtpRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+<bean id="atpAtpRelationInfo.expirationDate-parent" abstract="true" parent="BaseKuali.expirationDate">
 <property name="name" value="expirationDate"/>
 </bean>
 <bean id="atpAtpRelationInfo.expirationDate" parent="atpAtpRelationInfo.expirationDate-parent"/>
 
-<bean id="atpAtpRelationInfo.atpKey-parent" abstract="true" parent="baseKualiString">
+<bean id="atpAtpRelationInfo.atpKey-parent" abstract="true" parent="BaseKuali.string">
 <property name="name" value="atpKey"/>
 </bean>
 <bean id="atpAtpRelationInfo.atpKey" parent="atpAtpRelationInfo.atpKey-parent"/>
 
-<bean id="atpAtpRelationInfo.relatedAtpKey-parent" abstract="true" parent="baseKualiString">
+<bean id="atpAtpRelationInfo.relatedAtpKey-parent" abstract="true" parent="BaseKuali.string">
 <property name="name" value="relatedAtpKey"/>
 </bean>
 <bean id="atpAtpRelationInfo.relatedAtpKey" parent="atpAtpRelationInfo.relatedAtpKey-parent"/>
 
-<bean id="atpAtpRelationInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+<bean id="atpAtpRelationInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="attributes"/>
 <!--<property name="maxOccurs" value="999999999"/>-->
 </bean>
 <bean id="atpAtpRelationInfo.attributes" parent="atpAtpRelationInfo.attributes-parent"/>
 
-<bean id="atpAtpRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+<bean id="atpAtpRelationInfo.metaInfo-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="metaInfo"/>
 </bean>
 <bean id="atpAtpRelationInfo.metaInfo" parent="atpAtpRelationInfo.metaInfo-parent"/>

@@ -22,7 +22,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- HolidayInfo-->
-    <bean id="holidayInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="holidayInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="holidayInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.HolidayInfo"/>
         <property name="objectLabel" value=""/>
@@ -52,63 +52,63 @@
     </bean>
     <bean id="holidayInfo" parent="holidayInfo-parent"/>
 
-    <bean id="holidayInfo.key-parent" abstract="true" parent="baseKualiKey">
+    <bean id="holidayInfo.key-parent" abstract="true" parent="BaseKuali.key">
         <property name="name" value="key"/>
     </bean>
     <bean id="holidayInfo.key" parent="holidayInfo.key-parent"/>
 
-    <bean id="holidayInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="holidayInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="holidayInfo.typeKey" parent="holidayInfo.typeKey-parent"/>
 
-    <bean id="holidayInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="holidayInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="holidayInfo.stateKey" parent="holidayInfo.stateKey-parent"/>
 
-    <bean id="holidayInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="holidayInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="holidayInfo.name" parent="holidayInfo.name-parent"/>
 
-    <bean id="holidayInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="holidayInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="holidayInfo.descr" parent="holidayInfo.descr-parent"/>
 
-    <bean id="holidayInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="holidayInfo.startDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="startDate"/>
     </bean>
     <bean id="holidayInfo.startDate" parent="holidayInfo.startDate-parent"/>
 
-    <bean id="holidayInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="holidayInfo.endDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="endDate"/>
     </bean>
     <bean id="holidayInfo.endDate" parent="holidayInfo.endDate-parent"/>
 
-    <bean id="holidayInfo.isAllDay-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="holidayInfo.isAllDay-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isAllDay"/>
     </bean>
     <bean id="holidayInfo.isAllDay" parent="holidayInfo.isAllDay-parent"/>
 
-    <bean id="holidayInfo.isDateRange-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="holidayInfo.isDateRange-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isDateRange"/>
     </bean>
     <bean id="holidayInfo.isDateRange" parent="holidayInfo.isDateRange-parent"/>
 
-    <bean id="holidayInfo.isInstructionalDay-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="holidayInfo.isInstructionalDay-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isInstructionalDay"/>
     </bean>
     <bean id="holidayInfo.isInstructionalDay" parent="holidayInfo.isInstructionalDay-parent"/>
 
-    <bean id="holidayInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="holidayInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
         <!--<property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="holidayInfo.attributes" parent="holidayInfo.attributes-parent"/>
 
-    <bean id="holidayInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="holidayInfo.metaInfo-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="metaInfo"/>
     </bean>
     <bean id="holidayInfo.metaInfo" parent="holidayInfo.metaInfo-parent"/>

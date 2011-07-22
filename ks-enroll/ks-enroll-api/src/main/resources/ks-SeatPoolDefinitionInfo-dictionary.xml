@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- SeatPoolDefinitionInfo-->
-    <bean id="seatPoolDefinitionInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="seatPoolDefinitionInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="seatPoolDefinitionInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo"/>
         <property name="objectLabel" value="Seat Pool"/>
@@ -51,64 +51,64 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="seatPoolDefinitionInfo" parent="seatPoolDefinitionInfo-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="seatPoolDefinitionInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.id" parent="seatPoolDefinitionInfo.id-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="seatPoolDefinitionInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.typeKey" parent="seatPoolDefinitionInfo.typeKey-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="seatPoolDefinitionInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.stateKey" parent="seatPoolDefinitionInfo.stateKey-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="seatPoolDefinitionInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.name" parent="seatPoolDefinitionInfo.name-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="seatPoolDefinitionInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.descr" parent="seatPoolDefinitionInfo.descr-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.capacityRestrictionRule-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="seatPoolDefinitionInfo.capacityRestrictionRule-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="capacityRestrictionRule"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.capacityRestrictionRule" parent="seatPoolDefinitionInfo.capacityRestrictionRule-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.courseOfferingId-parent" abstract="true" parent="baseKualiString">
+    <bean id="seatPoolDefinitionInfo.courseOfferingId-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="courseOfferingId"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.courseOfferingId" parent="seatPoolDefinitionInfo.courseOfferingId-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.maximumSeatCount-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="seatPoolDefinitionInfo.maximumSeatCount-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumSeatCount"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.maximumSeatCount" parent="seatPoolDefinitionInfo.maximumSeatCount-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.processingPriority-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="seatPoolDefinitionInfo.processingPriority-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="processingPriority"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.processingPriority" parent="seatPoolDefinitionInfo.processingPriority-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.registrationGroupIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="seatPoolDefinitionInfo.registrationGroupIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="registrationGroupIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="seatPoolDefinitionInfo.registrationGroupIds" parent="seatPoolDefinitionInfo.registrationGroupIds-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="seatPoolDefinitionInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="seatPoolDefinitionInfo.attributes" parent="seatPoolDefinitionInfo.attributes-parent"/>
 
-    <bean id="seatPoolDefinitionInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="seatPoolDefinitionInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
     <bean id="seatPoolDefinitionInfo.meta" parent="seatPoolDefinitionInfo.meta-parent"/>

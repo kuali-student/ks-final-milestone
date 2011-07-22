@@ -38,6 +38,10 @@ public class KSDictionaryDocMojo //  extends AbstractMojo
      **/
     private List<String> inputFiles;
     /**
+     * @parameter
+     **/
+    private List<String> supportFiles = new ArrayList ();
+    /**
      * @parameter expression="${htmlDirectory}" default-value="${project.build.directory}/site/services/dictionarydocs"
      */
     private File htmlDirectory;
@@ -58,6 +62,16 @@ public class KSDictionaryDocMojo //  extends AbstractMojo
         this.projectUrl = projectUrl;
     }
 
+    public List<String> getSupportFiles() {
+        return supportFiles;
+    }
+
+    public void setSupportFiles(List<String> supportFiles) {
+        this.supportFiles = supportFiles;
+    }
+    
+    
+
 //    @Override
     public void execute() //      throws MojoExecutionException
     {
@@ -74,7 +88,7 @@ public class KSDictionaryDocMojo //  extends AbstractMojo
             if (dictFileName.endsWith(".xml")) {
                 String outputFileName = replaceXmlWithHtml(dictFileName);
                 String fullOutputFileName = this.htmlDirectory.getAbsolutePath() + "/" + outputFileName;
-                DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName);
+                DictionaryTesterHelper tester = new DictionaryTesterHelper(fullOutputFileName, this.projectUrl, dictFileName, supportFiles);
                 List errors = tester.doTest();
                 if (errors == null) {
                     continue;

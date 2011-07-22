@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- RegistrationGroupInfo-->
-    <bean id="registrationGroupInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="registrationGroupInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="registrationGroupInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo"/>
         <property name="objectLabel" value="Registration Group"/>
@@ -58,99 +58,99 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="registrationGroupInfo" parent="registrationGroupInfo-parent"/>
 
-    <bean id="registrationGroupInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="registrationGroupInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="registrationGroupInfo.id" parent="registrationGroupInfo.id-parent"/>
 
-    <bean id="registrationGroupInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="registrationGroupInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="registrationGroupInfo.typeKey" parent="registrationGroupInfo.typeKey-parent"/>
 
-    <bean id="registrationGroupInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="registrationGroupInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="registrationGroupInfo.stateKey" parent="registrationGroupInfo.stateKey-parent"/>
 
-    <bean id="registrationGroupInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="registrationGroupInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="registrationGroupInfo.name" parent="registrationGroupInfo.name-parent"/>
 
-    <bean id="registrationGroupInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="registrationGroupInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="registrationGroupInfo.descr" parent="registrationGroupInfo.descr-parent"/>
 
-    <bean id="registrationGroupInfo.activityOfferingIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="registrationGroupInfo.activityOfferingIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="activityOfferingIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="registrationGroupInfo.activityOfferingIds" parent="registrationGroupInfo.activityOfferingIds-parent"/>
 
-    <bean id="registrationGroupInfo.courseOfferingId-parent" abstract="true" parent="baseKualiString">
+    <bean id="registrationGroupInfo.courseOfferingId-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="courseOfferingId"/>
     </bean>
     <bean id="registrationGroupInfo.courseOfferingId" parent="registrationGroupInfo.courseOfferingId-parent"/>
 
-    <bean id="registrationGroupInfo.formatId-parent" abstract="true" parent="baseKualiString">
+    <bean id="registrationGroupInfo.formatId-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="formatId"/>
     </bean>
     <bean id="registrationGroupInfo.formatId" parent="registrationGroupInfo.formatId-parent"/>
 
-    <bean id="registrationGroupInfo.hasWaitlist-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="registrationGroupInfo.hasWaitlist-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="hasWaitlist"/>
     </bean>
     <bean id="registrationGroupInfo.hasWaitlist" parent="registrationGroupInfo.hasWaitlist-parent"/>
 
-    <bean id="registrationGroupInfo.isHonorsOffering-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="registrationGroupInfo.isHonorsOffering-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isHonorsOffering"/>
     </bean>
     <bean id="registrationGroupInfo.isHonorsOffering" parent="registrationGroupInfo.isHonorsOffering-parent"/>
 
-    <bean id="registrationGroupInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="registrationGroupInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isWaitlistCheckinRequired"/>
     </bean>
     <bean id="registrationGroupInfo.isWaitlistCheckinRequired" parent="registrationGroupInfo.isWaitlistCheckinRequired-parent"/>
 
-    <bean id="registrationGroupInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="registrationGroupInfo.maximumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumEnrollment"/>
     </bean>
     <bean id="registrationGroupInfo.maximumEnrollment" parent="registrationGroupInfo.maximumEnrollment-parent"/>
 
-    <bean id="registrationGroupInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="registrationGroupInfo.minimumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="minimumEnrollment"/>
     </bean>
     <bean id="registrationGroupInfo.minimumEnrollment" parent="registrationGroupInfo.minimumEnrollment-parent"/>
 
-    <bean id="registrationGroupInfo.registrationCode-parent" abstract="true" parent="baseKualiCode">
+    <bean id="registrationGroupInfo.registrationCode-parent" abstract="true" parent="BaseKuali.code">
         <property name="name" value="registrationCode"/>
     </bean>
     <bean id="registrationGroupInfo.registrationCode" parent="registrationGroupInfo.registrationCode-parent"/>
 
-    <bean id="registrationGroupInfo.waitlistCheckinFrequency-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="registrationGroupInfo.waitlistCheckinFrequency-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="waitlistCheckinFrequency"/>
     </bean>
     <bean id="registrationGroupInfo.waitlistCheckinFrequency" parent="registrationGroupInfo.waitlistCheckinFrequency-parent"/>
 
-    <bean id="registrationGroupInfo.waitlistMaximum-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="registrationGroupInfo.waitlistMaximum-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="waitlistMaximum"/>
     </bean>
     <bean id="registrationGroupInfo.waitlistMaximum" parent="registrationGroupInfo.waitlistMaximum-parent"/>
 
-    <bean id="registrationGroupInfo.waitlistTypeKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="registrationGroupInfo.waitlistTypeKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="waitlistTypeKey"/>
     </bean>
     <bean id="registrationGroupInfo.waitlistTypeKey" parent="registrationGroupInfo.waitlistTypeKey-parent"/>
 
-    <bean id="registrationGroupInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="registrationGroupInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="registrationGroupInfo.attributes" parent="registrationGroupInfo.attributes-parent"/>
 
-    <bean id="registrationGroupInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="registrationGroupInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
     <bean id="registrationGroupInfo.meta" parent="registrationGroupInfo.meta-parent"/>

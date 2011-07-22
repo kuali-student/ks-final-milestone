@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- CourseOfferingInfo-->
-    <bean id="courseOfferingInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="courseOfferingInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="courseOfferingInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
         <property name="objectLabel" value="Course Offering"/>
@@ -77,203 +77,203 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="courseOfferingInfo" parent="courseOfferingInfo-parent"/>
 
-    <bean id="courseOfferingInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="courseOfferingInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="courseOfferingInfo.id" parent="courseOfferingInfo.id-parent"/>
 
-    <bean id="courseOfferingInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="courseOfferingInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="courseOfferingInfo.typeKey" parent="courseOfferingInfo.typeKey-parent"/>
 
-    <bean id="courseOfferingInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="courseOfferingInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="courseOfferingInfo.stateKey" parent="courseOfferingInfo.stateKey-parent"/>
 
-    <bean id="courseOfferingInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="courseOfferingInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="courseOfferingInfo.name" parent="courseOfferingInfo.name-parent"/>
 
-    <bean id="courseOfferingInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="courseOfferingInfo.descr" parent="courseOfferingInfo.descr-parent"/>
 
-    <bean id="courseOfferingInfo.activityOfferingIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.activityOfferingIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="activityOfferingIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.activityOfferingIds" parent="courseOfferingInfo.activityOfferingIds-parent"/>
 
-    <bean id="courseOfferingInfo.courseCode-parent" abstract="true" parent="baseKualiCode">
+    <bean id="courseOfferingInfo.courseCode-parent" abstract="true" parent="BaseKuali.code">
         <property name="name" value="courseCode"/>
     </bean>
     <bean id="courseOfferingInfo.courseCode" parent="courseOfferingInfo.courseCode-parent"/>
 
-    <bean id="courseOfferingInfo.courseId-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.courseId-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="courseId"/>
     </bean>
     <bean id="courseOfferingInfo.courseId" parent="courseOfferingInfo.courseId-parent"/>
 
-    <bean id="courseOfferingInfo.courseNumberSuffix-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.courseNumberSuffix-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="courseNumberSuffix"/>
     </bean>
     <bean id="courseOfferingInfo.courseNumberSuffix" parent="courseOfferingInfo.courseNumberSuffix-parent"/>
 
-    <bean id="courseOfferingInfo.courseTitle-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.courseTitle-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="courseTitle"/>
     </bean>
     <bean id="courseOfferingInfo.courseTitle" parent="courseOfferingInfo.courseTitle-parent"/>
 
-    <bean id="courseOfferingInfo.creditOptions-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.creditOptions-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="creditOptions"/>
     </bean>
     <bean id="courseOfferingInfo.creditOptions" parent="courseOfferingInfo.creditOptions-parent"/>
 
-    <bean id="courseOfferingInfo.expenditure-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.expenditure-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="expenditure"/>
     </bean>
     <bean id="courseOfferingInfo.expenditure" parent="courseOfferingInfo.expenditure-parent"/>
 
-    <bean id="courseOfferingInfo.fees-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.fees-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="fees"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.fees" parent="courseOfferingInfo.fees-parent"/>
 
-    <bean id="courseOfferingInfo.finalExamStatus-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="courseOfferingInfo.finalExamStatus-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="finalExamStatus"/>
     </bean>
     <bean id="courseOfferingInfo.finalExamStatus" parent="courseOfferingInfo.finalExamStatus-parent"/>
 
-    <bean id="courseOfferingInfo.formatIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.formatIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="formatIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.formatIds" parent="courseOfferingInfo.formatIds-parent"/>
 
-    <bean id="courseOfferingInfo.fundingSource-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.fundingSource-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="fundingSource"/>
     </bean>
     <bean id="courseOfferingInfo.fundingSource" parent="courseOfferingInfo.fundingSource-parent"/>
 
-    <bean id="courseOfferingInfo.gradeRosterLevel-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.gradeRosterLevel-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="gradeRosterLevel"/>
     </bean>
     <bean id="courseOfferingInfo.gradeRosterLevel" parent="courseOfferingInfo.gradeRosterLevel-parent"/>
 
-    <bean id="courseOfferingInfo.gradingOptions-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.gradingOptions-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="gradingOptions"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.gradingOptions" parent="courseOfferingInfo.gradingOptions-parent"/>
 
-    <bean id="courseOfferingInfo.hasWaitlist-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="courseOfferingInfo.hasWaitlist-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="hasWaitlist"/>
     </bean>
     <bean id="courseOfferingInfo.hasWaitlist" parent="courseOfferingInfo.hasWaitlist-parent"/>
 
-    <bean id="courseOfferingInfo.instructors-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.instructors-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="instructors"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.instructors" parent="courseOfferingInfo.instructors-parent"/>
 
-    <bean id="courseOfferingInfo.isFinancialAidEligible-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="courseOfferingInfo.isFinancialAidEligible-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isFinancialAidEligible"/>
     </bean>
     <bean id="courseOfferingInfo.isFinancialAidEligible" parent="courseOfferingInfo.isFinancialAidEligible-parent"/>
 
-    <bean id="courseOfferingInfo.isHonorsOffering-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="courseOfferingInfo.isHonorsOffering-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isHonorsOffering"/>
     </bean>
     <bean id="courseOfferingInfo.isHonorsOffering" parent="courseOfferingInfo.isHonorsOffering-parent"/>
 
-    <bean id="courseOfferingInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="courseOfferingInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isWaitlistCheckinRequired"/>
     </bean>
     <bean id="courseOfferingInfo.isWaitlistCheckinRequired" parent="courseOfferingInfo.isWaitlistCheckinRequired-parent"/>
 
-    <bean id="courseOfferingInfo.jointOfferingIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.jointOfferingIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="jointOfferingIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.jointOfferingIds" parent="courseOfferingInfo.jointOfferingIds-parent"/>
 
-    <bean id="courseOfferingInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="courseOfferingInfo.maximumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumEnrollment"/>
     </bean>
     <bean id="courseOfferingInfo.maximumEnrollment" parent="courseOfferingInfo.maximumEnrollment-parent"/>
 
-    <bean id="courseOfferingInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="courseOfferingInfo.minimumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="minimumEnrollment"/>
     </bean>
     <bean id="courseOfferingInfo.minimumEnrollment" parent="courseOfferingInfo.minimumEnrollment-parent"/>
 
-    <bean id="courseOfferingInfo.registrationGroupIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.registrationGroupIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="registrationGroupIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.registrationGroupIds" parent="courseOfferingInfo.registrationGroupIds-parent"/>
 
-    <bean id="courseOfferingInfo.registrationOrderTypeKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.registrationOrderTypeKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="registrationOrderTypeKey"/>
     </bean>
     <bean id="courseOfferingInfo.registrationOrderTypeKey" parent="courseOfferingInfo.registrationOrderTypeKey-parent"/>
 
-    <bean id="courseOfferingInfo.revenues-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.revenues-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="revenues"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.revenues" parent="courseOfferingInfo.revenues-parent"/>
 
-    <bean id="courseOfferingInfo.subjectArea-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.subjectArea-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="subjectArea"/>
     </bean>
     <bean id="courseOfferingInfo.subjectArea" parent="courseOfferingInfo.subjectArea-parent"/>
 
-    <bean id="courseOfferingInfo.termKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.termKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="termKey"/>
     </bean>
     <bean id="courseOfferingInfo.termKey" parent="courseOfferingInfo.termKey-parent"/>
 
-    <bean id="courseOfferingInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.unitsContentOwner-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="unitsContentOwner"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.unitsContentOwner" parent="courseOfferingInfo.unitsContentOwner-parent"/>
 
-    <bean id="courseOfferingInfo.unitsDeployment-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.unitsDeployment-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="unitsDeployment"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.unitsDeployment" parent="courseOfferingInfo.unitsDeployment-parent"/>
 
-    <bean id="courseOfferingInfo.waitlistCheckinFrequency-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.waitlistCheckinFrequency-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="waitlistCheckinFrequency"/>
     </bean>
     <bean id="courseOfferingInfo.waitlistCheckinFrequency" parent="courseOfferingInfo.waitlistCheckinFrequency-parent"/>
 
-    <bean id="courseOfferingInfo.waitlistMaximum-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="courseOfferingInfo.waitlistMaximum-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="waitlistMaximum"/>
     </bean>
     <bean id="courseOfferingInfo.waitlistMaximum" parent="courseOfferingInfo.waitlistMaximum-parent"/>
 
-    <bean id="courseOfferingInfo.waitlistTypeKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="courseOfferingInfo.waitlistTypeKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="waitlistTypeKey"/>
     </bean>
     <bean id="courseOfferingInfo.waitlistTypeKey" parent="courseOfferingInfo.waitlistTypeKey-parent"/>
 
-    <bean id="courseOfferingInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="courseOfferingInfo.attributes" parent="courseOfferingInfo.attributes-parent"/>
 
-    <bean id="courseOfferingInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="courseOfferingInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
     <bean id="courseOfferingInfo.meta" parent="courseOfferingInfo.meta-parent"/>

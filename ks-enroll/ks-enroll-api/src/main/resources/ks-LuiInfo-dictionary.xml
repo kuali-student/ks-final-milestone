@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- LuiInfo-->
-    <bean id="luiInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="luiInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="luiInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.lui.dto.LuiInfo"/>
         <property name="objectLabel" value="Learning Unit Instance"/>
@@ -54,83 +54,83 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="luiInfo" parent="luiInfo-parent"/>
 
-    <bean id="luiInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="luiInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="luiInfo.id" parent="luiInfo.id-parent"/>
 
-    <bean id="luiInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="luiInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="luiInfo.typeKey" parent="luiInfo.typeKey-parent"/>
 
-    <bean id="luiInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="luiInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="luiInfo.stateKey" parent="luiInfo.stateKey-parent"/>
 
-    <bean id="luiInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="luiInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="luiInfo.name" parent="luiInfo.name-parent"/>
 
-    <bean id="luiInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="luiInfo.descr" parent="luiInfo.descr-parent"/>
 
-    <bean id="luiInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+    <bean id="luiInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
         <property name="name" value="effectiveDate"/>
     </bean>
     <bean id="luiInfo.effectiveDate" parent="luiInfo.effectiveDate-parent"/>
 
-    <bean id="luiInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+    <bean id="luiInfo.expirationDate-parent" abstract="true" parent="BaseKuali.expirationDate">
         <property name="name" value="expirationDate"/>
     </bean>
     <bean id="luiInfo.expirationDate" parent="luiInfo.expirationDate-parent"/>
 
-    <bean id="luiInfo.atpKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="luiInfo.atpKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="atpKey"/>
     </bean>
     <bean id="luiInfo.atpKey" parent="luiInfo.atpKey-parent"/>
 
-    <bean id="luiInfo.cluId-parent" abstract="true" parent="baseKualiCluId">
+    <bean id="luiInfo.cluId-parent" abstract="true" parent="BaseKuali.cluId">
         <property name="name" value="cluId"/>
     </bean>
     <bean id="luiInfo.cluId" parent="luiInfo.cluId-parent"/>
 
-    <bean id="luiInfo.luiCode-parent" abstract="true" parent="baseKualiCode">
+    <bean id="luiInfo.luiCode-parent" abstract="true" parent="BaseKuali.code">
         <property name="name" value="luiCode"/>
     </bean>
     <bean id="luiInfo.luiCode" parent="luiInfo.luiCode-parent"/>
 
-    <bean id="luiInfo.maximumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="luiInfo.maximumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumEnrollment"/>
     </bean>
     <bean id="luiInfo.maximumEnrollment" parent="luiInfo.maximumEnrollment-parent"/>
 
-    <bean id="luiInfo.minimumEnrollment-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="luiInfo.minimumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="minimumEnrollment"/>
     </bean>
     <bean id="luiInfo.minimumEnrollment" parent="luiInfo.minimumEnrollment-parent"/>
 
-    <bean id="luiInfo.studySubjectArea-parent" abstract="true" parent="baseKualiString">
+    <bean id="luiInfo.studySubjectArea-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="studySubjectArea"/>
     </bean>
     <bean id="luiInfo.studySubjectArea" parent="luiInfo.studySubjectArea-parent"/>
  
-    <bean id="luiInfo.instructors-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiInfo.instructors-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="instructors"/>
     </bean>
     <bean id="luiInfo.instructors" parent="luiInfo.instructors-parent"/>
            
-    <bean id="luiInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="luiInfo.attributes" parent="luiInfo.attributes-parent"/>
 
-    <bean id="luiInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
     <bean id="luiInfo.meta" parent="luiInfo.meta-parent"/>

@@ -21,7 +21,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
     <bean id="luiPersonRelationInfo" parent="luiPersonRelationInfo-parent"/>
 
-    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="luiPersonRelationInfo-parent" abstract="true" parent="DataObjectEntry">
 
         <property name="objectClass" value="org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo"/>
         <property name="name" value="luiPersonRelationInfo"/>
@@ -92,7 +92,7 @@
     </bean>
 
     <!-- Attribute Definitions -->
-    <bean id="luiPersonRelationInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="luiPersonRelationInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="shortLabel" value="ID"/>
         <property name="summary" value="Unique ID to the LPR"/>
         <property name="label" value="LPR ID"/>
@@ -100,69 +100,69 @@
     </bean>
     <bean id="luiPersonRelationInfo.id" parent="luiPersonRelationInfo.id-parent"/>
 
-    <bean id="luiPersonRelationInfo.luiId-parent" abstract="true" parent="baseKualiLuiId">
+    <bean id="luiPersonRelationInfo.luiId-parent" abstract="true" parent="BaseKuali.luiId">
         <property name="required" value="true"/>
     </bean>
     <bean id="luiPersonRelationInfo.luiId" parent="luiPersonRelationInfo.luiId-parent"/>
 
-    <bean id="luiPersonRelationInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
+    <bean id="luiPersonRelationInfo.personId-parent" abstract="true" parent="BaseKuali.personId">
         <property name="required" value="true"/>
     </bean>
     <bean id="luiPersonRelationInfo.personId" parent="luiPersonRelationInfo.personId-parent"/>
 
-    <bean id="luiPersonRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+    <bean id="luiPersonRelationInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
     </bean>
     <bean id="luiPersonRelationInfo.effectiveDate" parent="luiPersonRelationInfo.effectiveDate-parent"/>
 
-    <bean id="luiPersonRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+    <bean id="luiPersonRelationInfo.expirationDate-parent" abstract="true" parent="BaseKuali.expirationDate">
     </bean>
     <bean id="luiPersonRelationInfo.expirationDate" parent="luiPersonRelationInfo.expirationDate-parent"/>
 
-    <bean id="luiPersonRelationInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="luiPersonRelationInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
     </bean>
     <bean id="luiPersonRelationInfo.typeKey" parent="luiPersonRelationInfo.typeKey-parent"/>
 
-    <bean id="luiPersonRelationInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="luiPersonRelationInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
     </bean>
     <bean id="luiPersonRelationInfo.stateKey" parent="luiPersonRelationInfo.stateKey-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo-parent" abstract="true" parent="baseKualiMeta">
+    <bean id="luiPersonRelationInfo.metaInfo-parent" abstract="true" parent="BaseKuali.meta">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo" parent="luiPersonRelationInfo.metaInfo-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.createTime-parent" abstract="true" parent="baseKualiMeta.createTime">
+    <bean id="luiPersonRelationInfo.metaInfo.createTime-parent" abstract="true" parent="BaseKuali.meta.createTime">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.createTime" parent="luiPersonRelationInfo.metaInfo.createTime-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.createId-parent" abstract="true" parent="baseKualiMeta.createId">
+    <bean id="luiPersonRelationInfo.metaInfo.createId-parent" abstract="true" parent="BaseKuali.meta.createId">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.createId" parent="luiPersonRelationInfo.metaInfo.createId-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.updateTime-parent" abstract="true" parent="baseKualiMeta.updateTime">
+    <bean id="luiPersonRelationInfo.metaInfo.updateTime-parent" abstract="true" parent="BaseKuali.meta.updateTime">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.updateTime" parent="luiPersonRelationInfo.metaInfo.updateTime-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.updateId-parent" abstract="true" parent="baseKualiMeta.updateId">
+    <bean id="luiPersonRelationInfo.metaInfo.updateId-parent" abstract="true" parent="BaseKuali.meta.updateId">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.updateId" parent="luiPersonRelationInfo.metaInfo.updateId-parent"/>
 
-    <bean id="luiPersonRelationInfo.metaInfo.versionInd-parent" abstract="true" parent="baseKualiMeta.versionInd">
+    <bean id="luiPersonRelationInfo.metaInfo.versionInd-parent" abstract="true" parent="BaseKuali.meta.versionInd">
     </bean>
     <bean id="luiPersonRelationInfo.metaInfo.versionInd" parent="luiPersonRelationInfo.metaInfo.versionInd-parent"/>
 
-    <bean id="luiPersonRelationInfo.attributes-parent" abstract="true" parent="baseKualiAttributes">
+    <bean id="luiPersonRelationInfo.attributes-parent" abstract="true" parent="BaseKuali.attributes">
     </bean>
     <bean id="luiPersonRelationInfo.attributes" parent="luiPersonRelationInfo.attributes-parent"/>
 
-    <bean id="luiPersonRelationInfo.attributes.id-parent" abstract="true" parent="baseKualiAttributes.id">
+    <bean id="luiPersonRelationInfo.attributes.id-parent" abstract="true" parent="BaseKuali.attributes.id">
     </bean>
     <bean id="luiPersonRelationInfo.attributes.id" parent="luiPersonRelationInfo.attributes.id-parent"/>
 
-    <bean id="luiPersonRelationInfo.attributes.key-parent" abstract="true" parent="baseKualiAttributes.key">
+    <bean id="luiPersonRelationInfo.attributes.key-parent" abstract="true" parent="BaseKuali.attributes.key">
     </bean>
     <bean id="luiPersonRelationInfo.attributes.key" parent="luiPersonRelationInfo.attributes.key-parent"/>
 
-    <bean id="luiPersonRelationInfo.attributes.value-parent" abstract="true" parent="baseKualiAttributes.value">
+    <bean id="luiPersonRelationInfo.attributes.value-parent" abstract="true" parent="BaseKuali.attributes.value">
     </bean>
     <bean id="luiPersonRelationInfo.attributes.value" parent="luiPersonRelationInfo.attributes.value-parent"/>
     <!--

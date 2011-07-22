@@ -9,6 +9,7 @@
     <import resource="classpath:ks-rice-data-dictionary-service-configuration.xml"/>
     <!--
       RICE Dictionary validation service
+      Based on KNSSpringBeans.xml in Rice Implementation
     -->
     <bean id="riceDictionaryValidationService" class="org.kuali.rice.kns.service.impl.DictionaryValidationServiceImpl">
         <property name="dataDictionaryService">

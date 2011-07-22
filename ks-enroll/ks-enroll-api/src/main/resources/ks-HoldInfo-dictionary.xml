@@ -22,7 +22,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- HoldInfo-->
-<bean id="holdInfo-parent" abstract="true" parent="dataObjectEntry">
+<bean id="holdInfo-parent" abstract="true" parent="DataObjectEntry">
 <property name="name" value="holdInfo"/>
 <property name="objectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
 <property name="objectLabel" value="Hold"/>
@@ -53,68 +53,68 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 </bean>
 <bean id="holdInfo" parent="holdInfo-parent"/>
 
-<bean id="holdInfo.id-parent" abstract="true" parent="baseKualiId">
+<bean id="holdInfo.id-parent" abstract="true" parent="BaseKuali.id">
 <property name="name" value="id"/>
 </bean>
 <bean id="holdInfo.id" parent="holdInfo.id-parent"/>
 
-<bean id="holdInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+<bean id="holdInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
 <property name="name" value="typeKey"/>
 </bean>
 <bean id="holdInfo.typeKey" parent="holdInfo.typeKey-parent"/>
 
-<bean id="holdInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+<bean id="holdInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
 <property name="name" value="stateKey"/>
 </bean>
 <bean id="holdInfo.stateKey" parent="holdInfo.stateKey-parent"/>
 
-<bean id="holdInfo.name-parent" abstract="true" parent="baseKualiName">
+<bean id="holdInfo.name-parent" abstract="true" parent="BaseKuali.name">
 <property name="name" value="name"/>
 </bean>
 <bean id="holdInfo.name" parent="holdInfo.name-parent"/>
 
-<bean id="holdInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+<bean id="holdInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="descr"/>
 </bean>
 <bean id="holdInfo.descr" parent="holdInfo.descr-parent"/>
 
-<bean id="holdInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+<bean id="holdInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
 <property name="name" value="effectiveDate"/>
 </bean>
 <bean id="holdInfo.effectiveDate" parent="holdInfo.effectiveDate-parent"/>
 
-<bean id="holdInfo.isOverridable-parent" abstract="true" parent="baseKualiBoolean">
+<bean id="holdInfo.isOverridable-parent" abstract="true" parent="BaseKuali.boolean">
 <property name="name" value="isOverridable"/>
 </bean>
 <bean id="holdInfo.isOverridable" parent="holdInfo.isOverridable-parent"/>
 
-<bean id="holdInfo.isWarning-parent" abstract="true" parent="baseKualiBoolean">
+<bean id="holdInfo.isWarning-parent" abstract="true" parent="BaseKuali.boolean">
 <property name="name" value="isWarning"/>
 </bean>
 <bean id="holdInfo.isWarning" parent="holdInfo.isWarning-parent"/>
 
-<bean id="holdInfo.issueId-parent" abstract="true" parent="baseKualiString">
+<bean id="holdInfo.issueId-parent" abstract="true" parent="BaseKuali.string">
 <property name="name" value="issueId"/>
 </bean>
 <bean id="holdInfo.issueId" parent="holdInfo.issueId-parent"/>
 
-<bean id="holdInfo.personId-parent" abstract="true" parent="baseKualiPersonId">
+<bean id="holdInfo.personId-parent" abstract="true" parent="BaseKuali.personId">
 <property name="name" value="personId"/>
 </bean>
 <bean id="holdInfo.personId" parent="holdInfo.personId-parent"/>
 
-<bean id="holdInfo.releasedDate-parent" abstract="true" parent="baseKualiDateTime">
+<bean id="holdInfo.releasedDate-parent" abstract="true" parent="BaseKuali.dateTime">
 <property name="name" value="releasedDate"/>
 </bean>
 <bean id="holdInfo.releasedDate" parent="holdInfo.releasedDate-parent"/>
 
-<bean id="holdInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+<bean id="holdInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="attributes"/>
 <!--<property name="maxOccurs" value="999999999"/>-->
 </bean>
 <bean id="holdInfo.attributes" parent="holdInfo.attributes-parent"/>
 
-<bean id="holdInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+<bean id="holdInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="meta"/>
 </bean>
 <bean id="holdInfo.meta" parent="holdInfo.meta-parent"/>

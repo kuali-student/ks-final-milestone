@@ -106,8 +106,9 @@ public class DictionaryValidator {
             errors.add("name cannot be null");
         } else if (ad.getName().trim().equals("")) {
             errors.add("name cannot be blank");
-        }
-        if (ad.getDataType().equals(DataType.COMPLEX)) {
+        } else if (ad.getDataType() == null) {
+            errors.add(ad.getName () + " has a null data type");
+        } else if (ad.getDataType().equals(DataType.COMPLEX)) {
             errorIfNotNull(errors, ad, "exclusiveMin", ad.getExclusiveMin());
             errorIfNotNull(errors, ad, "inclusiveMax", ad.getInclusiveMax());
             errorIfNotNull(errors, ad, "max length", ad.getMaxLength());

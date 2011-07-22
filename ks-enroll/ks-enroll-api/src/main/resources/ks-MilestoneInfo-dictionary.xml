@@ -22,7 +22,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- MilestoneInfo-->
-    <bean id="milestoneInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="milestoneInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="milestoneInfo"/>
         <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.MilestoneInfo"/>
         <property name="objectLabel" value=""/>
@@ -50,53 +50,53 @@
     </bean>
     <bean id="milestoneInfo" parent="milestoneInfo-parent"/>
 
-    <bean id="milestoneInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="milestoneInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="milestoneInfo.attributes" parent="milestoneInfo.attributes-parent"/>
 
-    <bean id="milestoneInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="milestoneInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="milestoneInfo.descr" parent="milestoneInfo.descr-parent"/>
 
-    <bean id="milestoneInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="milestoneInfo.endDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="endDate"/>
     </bean>
     <bean id="milestoneInfo.endDate" parent="milestoneInfo.endDate-parent"/>
 
-    <bean id="milestoneInfo.isDateRange-parent" abstract="true" parent="baseKualiBoolean">
+    <bean id="milestoneInfo.isDateRange-parent" abstract="true" parent="BaseKuali.boolean">
         <property name="name" value="isDateRange"/>
     </bean>
     <bean id="milestoneInfo.isDateRange" parent="milestoneInfo.isDateRange-parent"/>
 
-    <bean id="milestoneInfo.key-parent" abstract="true" parent="baseKualiKey">
+    <bean id="milestoneInfo.key-parent" abstract="true" parent="BaseKuali.key">
         <property name="name" value="key"/>
     </bean>
     <bean id="milestoneInfo.key" parent="milestoneInfo.key-parent"/>
 
-    <bean id="milestoneInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="milestoneInfo.metaInfo-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="metaInfo"/>
     </bean>
     <bean id="milestoneInfo.metaInfo" parent="milestoneInfo.metaInfo-parent"/>
 
-    <bean id="milestoneInfo.name-parent" abstract="true" parent="baseKualiString">
+    <bean id="milestoneInfo.name-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="name"/>
     </bean>
     <bean id="milestoneInfo.name" parent="milestoneInfo.name-parent"/>
 
-    <bean id="milestoneInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="milestoneInfo.startDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="startDate"/>
     </bean>
     <bean id="milestoneInfo.startDate" parent="milestoneInfo.startDate-parent"/>
 
-    <bean id="milestoneInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="milestoneInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="milestoneInfo.stateKey" parent="milestoneInfo.stateKey-parent"/>
 
-    <bean id="milestoneInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="milestoneInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="milestoneInfo.typeKey" parent="milestoneInfo.typeKey-parent"/>

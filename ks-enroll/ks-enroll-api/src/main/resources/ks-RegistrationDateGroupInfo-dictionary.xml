@@ -22,7 +22,7 @@
     <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- RegistrationDateGroupInfo-->
-    <bean id="registrationDateGroupInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="registrationDateGroupInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="registrationDateGroupInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo"/>
         <property name="objectLabel" value=""/>
@@ -50,57 +50,57 @@
     </bean>
     <bean id="registrationDateGroupInfo" parent="registrationDateGroupInfo-parent"/>
 
-    <bean id="registrationDateGroupInfo.addDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.addDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="addDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.addDate" parent="registrationDateGroupInfo.addDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.classEndDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.classEndDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="classEndDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.classEndDate" parent="registrationDateGroupInfo.classEndDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.classStartDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.classStartDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="classStartDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.classStartDate" parent="registrationDateGroupInfo.classStartDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.dropDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.dropDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="dropDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.dropDate" parent="registrationDateGroupInfo.dropDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.finalExamEndDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.finalExamEndDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="finalExamEndDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.finalExamEndDate" parent="registrationDateGroupInfo.finalExamEndDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.finalExamStartDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.finalExamStartDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="finalExamStartDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.finalExamStartDate" parent="registrationDateGroupInfo.finalExamStartDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.gradingEndDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.gradingEndDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="gradingEndDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.gradingEndDate" parent="registrationDateGroupInfo.gradingEndDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.gradingStartDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.gradingStartDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="gradingStartDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.gradingStartDate" parent="registrationDateGroupInfo.gradingStartDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.registrationEndDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.registrationEndDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="registrationEndDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.registrationEndDate" parent="registrationDateGroupInfo.registrationEndDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.registrationStartDate-parent" abstract="true" parent="baseKualiDateTime">
+    <bean id="registrationDateGroupInfo.registrationStartDate-parent" abstract="true" parent="BaseKuali.dateTime">
         <property name="name" value="registrationStartDate"/>
     </bean>
     <bean id="registrationDateGroupInfo.registrationStartDate" parent="registrationDateGroupInfo.registrationStartDate-parent"/>
 
-    <bean id="registrationDateGroupInfo.termKey-parent" abstract="true" parent="baseKualiString">
+    <bean id="registrationDateGroupInfo.termKey-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="termKey"/>
     </bean>
     <bean id="registrationDateGroupInfo.termKey" parent="registrationDateGroupInfo.termKey-parent"/>

@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- LuiCapacityInfo-->
-    <bean id="luiCapacityInfo-parent" abstract="true" parent="dataObjectEntry">
+    <bean id="luiCapacityInfo-parent" abstract="true" parent="DataObjectEntry">
         <property name="name" value="luiCapacityInfo"/>
         <property name="objectClass" value="org.kuali.student.enrollment.lui.dto.LuiCapacityInfo"/>
         <property name="objectLabel" value="Lui Capacity"/>
@@ -51,64 +51,64 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="luiCapacityInfo" parent="luiCapacityInfo-parent"/>
 
-    <bean id="luiCapacityInfo.id-parent" abstract="true" parent="baseKualiId">
+    <bean id="luiCapacityInfo.id-parent" abstract="true" parent="BaseKuali.id">
         <property name="name" value="id"/>
     </bean>
     <bean id="luiCapacityInfo.id" parent="luiCapacityInfo.id-parent"/>
 
-    <bean id="luiCapacityInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="luiCapacityInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="luiCapacityInfo.typeKey" parent="luiCapacityInfo.typeKey-parent"/>
 
-    <bean id="luiCapacityInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+    <bean id="luiCapacityInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="luiCapacityInfo.stateKey" parent="luiCapacityInfo.stateKey-parent"/>
 
-    <bean id="luiCapacityInfo.name-parent" abstract="true" parent="baseKualiName">
+    <bean id="luiCapacityInfo.name-parent" abstract="true" parent="BaseKuali.name">
         <property name="name" value="name"/>
     </bean>
     <bean id="luiCapacityInfo.name" parent="luiCapacityInfo.name-parent"/>
 
-    <bean id="luiCapacityInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiCapacityInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="descr"/>
     </bean>
     <bean id="luiCapacityInfo.descr" parent="luiCapacityInfo.descr-parent"/>
 
-    <bean id="luiCapacityInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
+    <bean id="luiCapacityInfo.effectiveDate-parent" abstract="true" parent="BaseKuali.effectiveDate">
         <property name="name" value="effectiveDate"/>
     </bean>
     <bean id="luiCapacityInfo.effectiveDate" parent="luiCapacityInfo.effectiveDate-parent"/>
 
-    <bean id="luiCapacityInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
+    <bean id="luiCapacityInfo.expirationDate-parent" abstract="true" parent="BaseKuali.expirationDate">
         <property name="name" value="expirationDate"/>
     </bean>
     <bean id="luiCapacityInfo.expirationDate" parent="luiCapacityInfo.expirationDate-parent"/>
 
-    <bean id="luiCapacityInfo.luiIds-parent" abstract="true" parent="baseKualiString">
+    <bean id="luiCapacityInfo.luiIds-parent" abstract="true" parent="BaseKuali.string">
         <property name="name" value="luiIds"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="luiCapacityInfo.luiIds" parent="luiCapacityInfo.luiIds-parent"/>
 
-    <bean id="luiCapacityInfo.maximumSeatCount-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="luiCapacityInfo.maximumSeatCount-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumSeatCount"/>
     </bean>
     <bean id="luiCapacityInfo.maximumSeatCount" parent="luiCapacityInfo.maximumSeatCount-parent"/>
 
-    <bean id="luiCapacityInfo.processingOrder-parent" abstract="true" parent="baseKualiInteger">
+    <bean id="luiCapacityInfo.processingOrder-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="processingOrder"/>
     </bean>
     <bean id="luiCapacityInfo.processingOrder" parent="luiCapacityInfo.processingOrder-parent"/>
 
-    <bean id="luiCapacityInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiCapacityInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="attributes"/>
 <!--        <property name="maxOccurs" value="999999999"/>-->
     </bean>
     <bean id="luiCapacityInfo.attributes" parent="luiCapacityInfo.attributes-parent"/>
 
-    <bean id="luiCapacityInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+    <bean id="luiCapacityInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
         <property name="name" value="meta"/>
     </bean>
     <bean id="luiCapacityInfo.meta" parent="luiCapacityInfo.meta-parent"/>

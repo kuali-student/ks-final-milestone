@@ -21,9 +21,30 @@
 
     <import resource="classpath:ks-base-dictionary.xml"/>
 
+    <bean id="AtpInfo.required.when.state.is.official" parent="CaseConstraint">
+        <property name="operator" value="EQUALS" />
+        <property name="fieldPath" value="stateKey" />
+        <property name="caseSensitive" value="true" />
+        <property name="whenConstraint">
+            <list>
+                <bean parent="WhenConstraint">
+                    <property name="values">
+                        <list>
+                            <value>kuali.atp.state.Official</value>
+                        </list>
+                    </property>
+                    <property name="constraint">
+                        <bean parent="RequiredConstraint" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
     <!-- AtpInfo-->
-    <bean id="atpInfo-parent" abstract="true" parent="dataObjectEntry">
-        <property name="name" value="atpInfo"/>
+    <bean id="AtpInfo-parent" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="AtpInfo"/>
         <property name="objectClass" value="org.kuali.student.r2.core.atp.dto.AtpInfo"/>
         <property name="objectLabel" value=""/>
         <property name="objectDescription" value=""/>
@@ -35,63 +56,92 @@
         </property>
         <property name="attributes">
             <list>
-                <ref bean="atpInfo.key"/>
-                <ref bean="atpInfo.typeKey"/>
-                <ref bean="atpInfo.stateKey"/>
-                <ref bean="atpInfo.name"/>
-                <ref bean="atpInfo.descr"/>
-                <ref bean="atpInfo.startDate"/>
-                <ref bean="atpInfo.endDate"/>
-                <!--<ref bean="atpInfo.attributes"/>
-                <ref bean="atpInfo.metaInfo"/>-->
+                <ref bean="AtpInfo.key"/>
+                <ref bean="AtpInfo.typeKey"/>
+                <ref bean="AtpInfo.stateKey"/>
+                <ref bean="AtpInfo.name"/>
+                <ref bean="AtpInfo.descr"/>
+                <ref bean="AtpInfo.descr.plain"/>                
+                <ref bean="AtpInfo.descr.formatted"/>                   
+                <ref bean="AtpInfo.startDate"/>
+                <ref bean="AtpInfo.endDate"/>
+<!--            <ref bean="AtpInfo.attributes"/>-->
+<!--            <ref bean="AtpInfo.meta"/>-->
             </list>
-        </property>
+        </property>  
     </bean>
-    <bean id="atpInfo" parent="atpInfo-parent"/>
+    <bean id="AtpInfo" parent="AtpInfo-parent"/>
 
-    <bean id="atpInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
-        <property name="name" value="attributes"/>
-<!--        <property name="maxOccurs" value="999999999"/>-->
-    </bean>
-    <bean id="atpInfo.attributes" parent="atpInfo.attributes-parent"/>
-
-    <bean id="atpInfo.descr-parent" abstract="true" parent="baseKualiComplex">
-        <property name="name" value="descr"/>
-    </bean>
-    <bean id="atpInfo.descr" parent="atpInfo.descr-parent"/>
-
-    <bean id="atpInfo.endDate-parent" abstract="true" parent="baseKualiDateTime">
-        <property name="name" value="endDate"/>
-    </bean>
-    <bean id="atpInfo.endDate" parent="atpInfo.endDate-parent"/>
-
-    <bean id="atpInfo.key-parent" abstract="true" parent="baseKualiKey">
-        <property name="name" value="key"/>
-    </bean>
-    <bean id="atpInfo.key" parent="atpInfo.key-parent"/>
-
-    <bean id="atpInfo.metaInfo-parent" abstract="true" parent="baseKualiComplex">
-        <property name="name" value="metaInfo"/>
-    </bean>
-    <bean id="atpInfo.metaInfo" parent="atpInfo.metaInfo-parent"/>
-
-    <bean id="atpInfo.name-parent" abstract="true" parent="baseKualiString">
-        <property name="name" value="name"/>
-    </bean>
-    <bean id="atpInfo.name" parent="atpInfo.name-parent"/>
-
-    <bean id="atpInfo.startDate-parent" abstract="true" parent="baseKualiDateTime">
-        <property name="name" value="startDate"/>
-    </bean>
-    <bean id="atpInfo.startDate" parent="atpInfo.startDate-parent"/>
-
-    <bean id="atpInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
-        <property name="name" value="stateKey"/>
-    </bean>
-    <bean id="atpInfo.stateKey" parent="atpInfo.stateKey-parent"/>
-
-    <bean id="atpInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+    <bean id="AtpInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
         <property name="name" value="typeKey"/>
     </bean>
-    <bean id="atpInfo.typeKey" parent="atpInfo.typeKey-parent"/>
+    <bean id="AtpInfo.typeKey" parent="AtpInfo.typeKey-parent"/>
+
+    <bean id="AtpInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
+        <property name="name" value="stateKey"/>       
+    </bean>
+    <bean id="AtpInfo.stateKey" parent="AtpInfo.stateKey-parent"/>
+
+
+    <bean id="AtpInfo.name-parent" abstract="true" parent="BaseKuali.name">
+        <property name="name" value="name"/>
+    </bean>
+    <bean id="AtpInfo.name" parent="AtpInfo.name-parent"/>
+
+    <bean id="AtpInfo.descr-parent" abstract="true" parent="BaseKuali.descr">
+        <property name="name" value="descr"/>
+    </bean>
+    <bean id="AtpInfo.descr" parent="AtpInfo.descr-parent"/>
+    
+    
+    <bean id="AtpInfo.descr.plain-parent" abstract="true" parent="BaseKuali.descr.plain">
+        <property name="name" value="descr.plain"/>
+    </bean>
+    <bean id="AtpInfo.descr.plain" parent="AtpInfo.descr.plain-parent"/>
+
+    <bean id="AtpInfo.descr.formatted-parent" abstract="true" parent="BaseKuali.descr.formatted">
+        <property name="name" value="descr.formatted"/>
+    </bean>
+    <bean id="AtpInfo.descr.formatted" parent="AtpInfo.descr.formatted-parent"/>
+    
+    <bean id="AtpInfo.startDate-parent" abstract="true" parent="BaseKuali.dateTime">
+        <property name="name" value="startDate"/>
+        <property name="childEntryName" value="startDate"/>        
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Starts"/>
+        <property name="summary" value="Start Date of ATP"/>
+        <property name="label" value="Starts Date"/>
+        <property name="description" value="Date and time the academic time period became effective. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date"/>      
+        <property name="caseConstraint">
+            <ref bean="AtpInfo.required.when.state.is.official"/>
+        </property>   
+    </bean>
+    <bean id="AtpInfo.startDate" parent="AtpInfo.startDate-parent"/>
+    
+    <bean id="AtpInfo.endDate-parent" abstract="true" parent="BaseKuali.dateTime">
+        <property name="name" value="endDate"/>
+        <property name="childEntryName" value="endDate"/>        
+        <property name="required" value="false"/>
+        <property name="shortLabel" value="Ends"/>
+        <property name="summary" value="End Date of the ATP"/>
+        <property name="label" value="End Date"/>
+        <property name="description" value="Date and time the academic time period expires. This does not provide a bound on date ranges or milestones associated with this time period, but instead indicates the time period proper. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date." />      
+    </bean>
+    <bean id="AtpInfo.endDate" parent="AtpInfo.endDate-parent"/>
+
+    <bean id="AtpInfo.key-parent" abstract="true" parent="BaseKuali.key">
+        <property name="name" value="key"/>
+    </bean>
+    <bean id="AtpInfo.key" parent="AtpInfo.key-parent"/>
+
+    <bean id="AtpInfo.meta-parent" abstract="true" parent="BaseKuali.meta">
+        <property name="name" value="meta"/>
+    </bean>
+    <bean id="AtpInfo.meta" parent="AtpInfo.meta-parent"/>
+
+    <bean id="AtpInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
+        <property name="name" value="attributes"/>
+    </bean>
+    <bean id="AtpInfo.attributes" parent="AtpInfo.attributes-parent"/>
+
 </beans>

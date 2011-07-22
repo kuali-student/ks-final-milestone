@@ -22,7 +22,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 <import resource="classpath:ks-base-dictionary.xml"/>
 
 <!-- RestrictionInfo-->
-<bean id="restrictionInfo-parent" abstract="true" parent="dataObjectEntry">
+<bean id="restrictionInfo-parent" abstract="true" parent="DataObjectEntry">
 <property name="name" value="restrictionInfo"/>
 <property name="objectClass" value="org.kuali.student.enrollment.hold.dto.RestrictionInfo"/>
 <property name="objectLabel" value="Restriction"/>
@@ -47,38 +47,38 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 </bean>
 <bean id="restrictionInfo" parent="restrictionInfo-parent"/>
 
-<bean id="restrictionInfo.key-parent" abstract="true" parent="baseKualiKey">
+<bean id="restrictionInfo.key-parent" abstract="true" parent="BaseKuali.key">
 <property name="name" value="key"/>
 </bean>
 <bean id="restrictionInfo.key" parent="restrictionInfo.key-parent"/>
 
-<bean id="restrictionInfo.typeKey-parent" abstract="true" parent="baseKualiTypeKey">
+<bean id="restrictionInfo.typeKey-parent" abstract="true" parent="BaseKuali.typeKey">
 <property name="name" value="typeKey"/>
 </bean>
 <bean id="restrictionInfo.typeKey" parent="restrictionInfo.typeKey-parent"/>
 
-<bean id="restrictionInfo.stateKey-parent" abstract="true" parent="baseKualiStateKey">
+<bean id="restrictionInfo.stateKey-parent" abstract="true" parent="BaseKuali.stateKey">
 <property name="name" value="stateKey"/>
 </bean>
 <bean id="restrictionInfo.stateKey" parent="restrictionInfo.stateKey-parent"/>
 
-<bean id="restrictionInfo.name-parent" abstract="true" parent="baseKualiName">
+<bean id="restrictionInfo.name-parent" abstract="true" parent="BaseKuali.name">
 <property name="name" value="name"/>
 </bean>
 <bean id="restrictionInfo.name" parent="restrictionInfo.name-parent"/>
 
-<bean id="restrictionInfo.descr-parent" abstract="true" parent="baseKualiComplex">
+<bean id="restrictionInfo.descr-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="descr"/>
 </bean>
 <bean id="restrictionInfo.descr" parent="restrictionInfo.descr-parent"/>
 
-<bean id="restrictionInfo.attributes-parent" abstract="true" parent="baseKualiComplex">
+<bean id="restrictionInfo.attributes-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="attributes"/>
 <!--<property name="maxOccurs" value="999999999"/>-->
 </bean>
 <bean id="restrictionInfo.attributes" parent="restrictionInfo.attributes-parent"/>
 
-<bean id="restrictionInfo.meta-parent" abstract="true" parent="baseKualiComplex">
+<bean id="restrictionInfo.meta-parent" abstract="true" parent="BaseKuali.complex">
 <property name="name" value="meta"/>
 </bean>
 <bean id="restrictionInfo.meta" parent="restrictionInfo.meta-parent"/>
