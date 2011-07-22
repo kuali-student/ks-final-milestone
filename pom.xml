@@ -94,6 +94,7 @@
       <modules>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
     </profile>
   </profiles>

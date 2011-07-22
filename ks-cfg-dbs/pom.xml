@@ -658,6 +658,13 @@
                       <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                     </artifactItem>
                     <artifactItem>
+                      <groupId>org.kuali.student.enroll</groupId>
+                      <artifactId>ks-enroll-sql</artifactId>
+                      <version>${project.version}</version>
+                      <includes>**\/*.sql</includes>
+                      <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
                       <groupId>org.kuali.student.db</groupId>
                       <artifactId>ks-rice-db</artifactId>
                       <version>${project.version}</version>
@@ -677,6 +684,11 @@
               <dependency>
                 <groupId>org.kuali.student.lum</groupId>
                 <artifactId>ks-lum-sql</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.enroll</groupId>
+                <artifactId>ks-enroll-sql</artifactId>
                 <version>${project.version}</version>
               </dependency>
               <dependency>
@@ -756,7 +768,7 @@
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
                       <include>initial-db/*/*-create-schema.sql</include>
-                      <include>initial-db/*/*-create-schema.sql</include>
+                      <include>initial-db/*-create-schema.sql</include>
                     </includes>
                   </fileset>
                 </configuration>
@@ -771,7 +783,6 @@
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
-                      <include>initial-db/*/*data/*.sql</include>
                       <include>initial-db/*/*data/*.sql</include>
                     </includes>
                   </fileset>
