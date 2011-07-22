@@ -682,6 +682,8 @@ public class SearchPanel extends Composite{
         for(HasSearchParam field: fields){
             String name = field.getFieldName();
             String value = field.getSearchText();
+          if(!value.isEmpty()&&value.equals("$$##@@"))
+          	value = field.getSearchParam().getValue().toString().toUpperCase();
             if(!value.isEmpty()){
                 HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b>&nbsp;");
                 if (!first) {
