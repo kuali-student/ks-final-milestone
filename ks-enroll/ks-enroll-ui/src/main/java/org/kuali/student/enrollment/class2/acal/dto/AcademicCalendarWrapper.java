@@ -5,16 +5,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 public class AcademicCalendarWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	AcademicCalendarInfo academicCalendarInfo;
-	List<TermInfo> termInfoList;
+	List<TermWrapper> termWrapperList;
 	
 	public AcademicCalendarWrapper (){
-		termInfoList = new ArrayList<TermInfo>();
+		termWrapperList = new ArrayList<TermWrapper>();
 	}
 	/**
 	 * @return the academicCalendarInfo
@@ -29,16 +28,16 @@ public class AcademicCalendarWrapper implements Serializable {
 		this.academicCalendarInfo = academicCalendarInfo;
 	}
 	/**
-	 * @return the termInfoList
+	 * @return the termWrapperList
 	 */
-	public List<TermInfo> getTermInfoList() {
-		return termInfoList;
+	public List<TermWrapper> getTermWrapperList() {
+		return termWrapperList;
 	}
 	/**
-	 * @param termInfoList the termInfoList to set
+	 * @param termWrapperList the termWrapperList to set
 	 */
-	public void setTermInfoList(List<TermInfo> termInfoList) {
-		this.termInfoList = termInfoList;
-	}	
+	public void setTermWrapperList(List<TermWrapper> termWrapperList) {
+		this.termWrapperList = termWrapperList;
+	}
 	
 }

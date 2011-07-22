@@ -18,11 +18,111 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+
+  <bean id="AcademicCalendarWrapper-LookupView" parent="LookupView">
+    <property name="title" value="Academic Calendar Lookup (by Key)" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper" />
+<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupViewHelperServiceImpl" /> -->
+    
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="academicCalendarInfo.key" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />        
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="AcademicCalendarWrapper-InquiryView" parent="InquiryView">
+     <property name="title" value="Academic Calendar Inquiry"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
+<!--      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperInquiryViewHelperServiceImpl" /> -->
+     
+     <property name="Items">
+         <list>
+           <bean parent="GroupSectionGridLayout">
+             <property name="layoutManager.numberOfColumns" value="2"/>
+             <property name="title" value="Academic Calendar"/>
+             <property name="items">
+               <list>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
+               </list>
+             </property>             
+           </bean>
+           <bean parent="CollectionGroupSection">
+              <property name="title" value="Terms"/>  
+              <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+              <property name="propertyName" value="termWrapperList"/>
+              <property name="items">
+                <list>
+                  <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
+                    <property name="control">
+              			<bean parent="SelectControl"/>
+            		</property>
+            		<property name="optionsFinder">
+              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
+            		</property>
+                  </bean>
+                 
+                  <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
+                  
+                  <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
+				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
+
+                  <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>  
+                
+                  <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
+                  <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate"/>  
+
+				  <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
+				                             
+                  <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
+                	 <property name="label" value="Date" />
+                  </bean>
+
+				  <bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
+                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
+                
+				  <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
+                  <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
+                	<property name="label" value="Date" />
+                  </bean>                                     
+            
+                </list>
+  
+              </property>      
+              <property name="layoutManager.summaryTitle" value="Term"/> 
+              <property name="layoutManager.summaryFields">
+                <list>
+                  <value>termInfo.typeKey</value>
+                </list>
+              </property>
+           </bean>
+         </list>
+     </property>
+  </bean>
+  
+  
+  
     
   <bean id="AcademicCalendarWrapper-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="Academic Calendar Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl" />
      
      <property name="items">
        <list merge="true">
@@ -49,18 +149,53 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
          
           <bean parent="MaintenanceCollectionGroupSection">
               <property name="title" value="Terms"/>  
-              <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-              <property name="propertyName" value="termInfoList"/>
+              <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+              <property name="propertyName" value="termWrapperList"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="startDate"/>
-                  <bean parent="AttributeField" p:propertyName="endDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
+                    <property name="control">
+              			<bean parent="SelectControl"/>
+            		</property>
+            		<property name="optionsFinder">
+              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
+            		</property>
+                  </bean>
+                 
+                  <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
+                  
+                  <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
+				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
+
+                  <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>  
+                
+                  <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
+                  <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate"/>  
+
+				  <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
+				                             
+                  <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
+                	 <property name="label" value="Date" />
+                  </bean>
+
+				  <bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
+                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
+                
+				  <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
+                  <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
+                	<property name="label" value="Date" />
+                  </bean>                                     
+            
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Term"/> 
               <property name="layoutManager.summaryFields">              
                 <list>
-                  <value>startDate</value> 
+                  <value>termInfo.typeKey</value> 
                 </list>                             
               </property>
            </bean>    
@@ -71,7 +206,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <bean id="AcademicCalendarWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
-    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl"/>
     <property name="documentTypeName" value="AcademicCalendarWrapperMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">

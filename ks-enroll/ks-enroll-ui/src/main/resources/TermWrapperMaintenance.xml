@@ -18,7 +18,114 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
+<!-- 
+  <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
+  <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="objectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+    <property name="titleAttribute" value="termInfo.key"/>
+    <property name="attributes">
+      <list>
+        <ref bean="TermWrapper.termInfo"/>
+        <ref bean="TermWrapper.classesMeetDates"/>
+        <ref bean="TermWrapper.registrationPeriod"/>
+        <ref bean="TermWrapper.dropPeriodEndsDate"/>
+        <ref bean="TermWrapper.finalExaminationsDates"/>
+        <ref bean="TermWrapper.gradesDueDate"/>
+      </list>
+    </property>
+    <property name="objectLabel" value="Term with Key Dates"/>
+    <property name="primaryKeys">
+      <list>
+        <value>termInfo.key</value>
+      </list>
+    </property>
+  </bean>
+-->
+  <!-- Attribute Definitions 
+  <bean id="TermWrapper.termInfo" parent="termInfoUI">
+  	<property name="name" value="termInfo"/>
+  </bean>	
+  <bean id="TermWrapper.classesMeetDates" parent="keyDateInfoUI">
+  	<property name="name" value="classesMeetDates"/>
+  </bean>
+  <bean id="TermWrapper.registrationPeriod" parent="keyDateInfoUI">
+  	<property name="name" value="registrationPeriod"/>
+  </bean>
+  <bean id="TermWrapper.dropPeriodEndsDate" parent="keyDateInfoUI">
+  	<property name="name" value="registrationPeriod"/>  
+  </bean>
+  <bean id="TermWrapper.finalExaminationsDates" parent="keyDateInfoUI">
+  	<property name="name" value="finalExaminationsDates"/>  
+  </bean> 
+  <bean id="TermWrapper.gradesDueDate" parent="keyDateInfoUI">
+  	<property name="name" value="gradesDueDate"/>   
+  </bean>   
+  -->
+  <!-- LookupView -->
+  <bean id="TermWrapper-LookupView" parent="LookupView">
+    <property name="title" value="Term Lookup (by Key)" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper" />
+<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> -->
     
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.typeKey"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="termInfo.key" />
+        <bean parent="AttributeField" p:propertyName="termInfo.typeKey" /> 		
+        <bean parent="AttributeField" p:propertyName="termInfo.startDate" />
+        <bean parent="AttributeField" p:propertyName="termInfo.endDate" />       
+      </list>
+    </property>
+  </bean>
+  
+  <!-- InquiryView -->
+  <bean id="TermWrapper-InquiryView" parent="InquiryView">
+     <property name="title" value="Term with Key Dates Inquiry"/>
+     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+<!--      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperInquiryViewHelperServiceImpl" />-->
+     
+     <property name="Items">
+         <list>
+           <bean parent="GroupSectionGridLayout">
+             <property name="layoutManager.numberOfColumns" value="2"/>
+             <property name="title" value="Term with Key Dates"/>
+             <property name="items">
+               <list>
+               	<bean parent="AttributeField" p:propertyName="termInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.typeKey"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
+                <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
+				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
+				<bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
+                <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>  
+                <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
+                <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate"/>
+                <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate"/>  
+                <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
+                <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
+                	<property name="label" value="Date" />
+                </bean>
+				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
+                <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
+                <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
+			    <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
+                <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
+               		<property name="label" value="Date" />
+                </bean>   
+               </list>
+             </property>             
+           </bean>
+         </list>
+     </property>
+  </bean>
+ 
+   
   <bean id="TermWrapper-MaintenanceView" parent="MaintenanceView">
      <property name="title" value="Term Wrapper Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
@@ -84,5 +191,5 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       </list>
     </property>
   </bean>  
-
-</beans>    
+</beans>   
+  
