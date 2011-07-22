@@ -3601,6 +3601,35 @@
     <sequence name="KRIM_RSP_TMPL_ID_S" nextval="10000"/>
     <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10000"/>
     <sequence name="KRIM_TYP_ID_S" nextval="10000"/>
+    <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_ACTN_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_ITM_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_S" nextval="10000"/>
+    <sequence name="KRMS_ATTR_DEFN_S" nextval="10000"/>
+    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_TERM_SPEC_PREREQ_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_VLD_ACTN_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_VLD_EVENT_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_VLD_RULE_S" nextval="10000"/>
+    <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_FUNC_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_S" nextval="10000"/>
+    <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_RULE_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
+    <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
+    <sequence name="KRMS_TYP_S" nextval="10000"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
@@ -3608,7 +3637,7 @@
     <sequence name="KRNS_NTE_S" nextval="2020"/>
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
-    <sequence name="KRSB_FLT_SVC_DEF_S" nextval="1000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="1116"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="10000"/>
+    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10000"/>
 </database>
