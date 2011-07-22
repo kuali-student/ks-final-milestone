@@ -9,12 +9,13 @@
   express or implied. See the License for the specific language governing
   permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
     <artifactId>kuali-common</artifactId>
-    <version>10</version>
+    <version>15</version>
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
@@ -153,15 +154,15 @@
     <tomcat.plugin.version>1.1</tomcat.plugin.version>
    <!--  <jetty.plugin.version>8.0.0.M2</jetty.plugin.version> -->
 
-   <!-- added by bonnie -->        
-        <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
-        <jotm.version>2.1.9</jotm.version>
-        <jsp-2.1-glassfish.version>2.1.v20100127</jsp-2.1-glassfish.version>
-        <jsp-api.version>2.1</jsp-api.version>
-        <jsr311-api.version>1.1.1</jsr311-api.version>
-        <jstl.version>1.2</jstl.version>
-        <jta.version>1.1</jta.version>
-        <jdom.version>1.1</jdom.version>
+   <!-- added by bonnie -->
+    <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
+    <jotm.version>2.1.9</jotm.version>
+    <jsp-2.1-glassfish.version>2.1.v20100127</jsp-2.1-glassfish.version>
+    <jsp-api.version>2.1</jsp-api.version>
+    <jsr311-api.version>1.1.1</jsr311-api.version>
+    <jstl.version>1.2</jstl.version>
+    <jta.version>1.1</jta.version>
+    <jdom.version>1.1</jdom.version>
    <!-- end -->
 
     <!-- build properties -->
@@ -230,7 +231,7 @@
           </configuration>
         </plugin>
 		<!--  ends-->
-		
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
