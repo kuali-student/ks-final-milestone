@@ -95,7 +95,7 @@
         PARM_TYP_CD="CONFG"
         TXT="collectorInputFileType;procurementCardInputFileType;enterpriseFeederFileSetType;assetBarcodeInventoryInputFileType;customerLoadInputFileType" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CONS_CD="A" NMSPC_CD="KR-NS"
-        OBJ_ID="A8AD581C8980C038E040C60AF05B7E27"
+        OBJ_ID="A8AF62BD2FCB6CDAE040C60AF05B0405"
         PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
         PARM_DTL_TYP_CD="Document"
         PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
