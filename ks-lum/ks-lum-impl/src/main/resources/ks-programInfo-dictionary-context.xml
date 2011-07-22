@@ -1966,34 +1966,98 @@
  <bean id="programVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
   <property name="name" value="startTerm"/>
   <property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
-    <property name="caseConstraint">
+  <property name="caseConstraint">
    <bean parent="caseConstraint">
-    <property name="operator" value="HAS_VALUE"/>
-    <property name="fieldPath" value="/startTerm"/>
-    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationStartTerm"/>    
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
       <bean parent="whenConstraint">
        <property name="values">
         <list>
-         <value>true</value>
+         <value>DRAFT</value>
         </list>
        </property>
        <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluInfo.expectedFirstAtp">
-         <property name="minOccurs" value="1" />
-         <property name="errorLevel" value="WARN"/>
-         <property name="labelKey" value="validation.variationStartTerm"/>
-         <property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
+        <bean parent="constraint">
+          <property name="caseConstraint">
+			   <bean parent="caseConstraint">
+			    <property name="operator" value="HAS_VALUE"/>
+			    <property name="fieldPath" value="/startTerm"/>
+			    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationStartTerm"/>
+			    <property name="caseSensitive" value="false"/>
+			    <property name="whenConstraint">
+			     <list>
+			      <bean parent="whenConstraint">
+			       <property name="values">
+			        <list>
+			         <value>true</value>
+			        </list>
+			       </property>
+			       <property name="constraint">
+			        <bean parent="cluInfo.expectedFirstAtp">
+         				<property name="minOccurs" value="1" />
+         				<property name="errorLevel" value="WARN"/>
+         				<property name="labelKey" value="validation.variationStartTerm"/>
+         				<property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
+					</bean>
+				   </property>	
+			      </bean>
+			     </list>
+			    </property>
+			   </bean>
+          </property>                   
         </bean>
        </property>
       </bean>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <bean parent="constraint">
+          <property name="caseConstraint">
+			   <bean parent="caseConstraint">
+			    <property name="operator" value="HAS_VALUE"/>
+			    <property name="fieldPath" value="/startTerm"/>
+			    <property name="fieldPathMessageId" value="validation.majorEndTermRequiresVariationStartTerm"/>
+			    <property name="caseSensitive" value="false"/>
+			    <property name="whenConstraint">
+			     <list>
+			      <bean parent="whenConstraint">
+			       <property name="values">
+			        <list>
+			         <value>true</value>
+			        </list>
+			       </property>
+			       <property name="constraint">
+			        <bean parent="cluInfo.expectedFirstAtp">
+         				<property name="minOccurs" value="1" />
+         				<property name="errorLevel" value="ERROR"/>
+         				<property name="labelKey" value="validation.variationStartTerm"/>
+ 		 				<property name="lookupDefinition">
+							<bean parent="constraint.lookup.programVariation.startTerm">
+  								<property name="errorLevel" value="ERROR" /> 
+							</bean>
+		 				</property>	
+			        </bean>
+			       </property>
+			      </bean>
+			     </list>
+			    </property>
+			   </bean>
+          </property>                   
+        </bean>
+       </property>
+      </bean>      
      </list>
     </property>
    </bean>
-  </property>
+  </property>  
  </bean>
  <bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
 
