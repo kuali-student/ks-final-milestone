@@ -26,18 +26,9 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
     public List getKeyValues() {
         List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
 
-        /*
-        try{
- T           List<LuTypeInfo> list = getLuService().getLuTypes(ContextInfo.newInstance());
-            
-        }catch (OperationFailedException ofe){
-            
-        }
-        */
 //        keyValues.add(new ConcreteKeyValue("kuali.lu.type.credential.Baccalaureate", "Baccalaureate" ));
 //        keyValues.add(new ConcreteKeyValue("kuali.lu.type.credential.Masters", "Masters"));
 
-//        ContextInfo context = ContextInfo.newInstance();
  
         try {
            	List<LuTypeInfo> luTypeInfoList = getLuService().getLuTypes();
@@ -67,6 +58,7 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
         return keyValues;
     }
     
+    //Note: here I am using r1 LuService implementation!!!
     protected LuService getLuService() {
         if(luService == null) {
         	luService = (LuService)GlobalResourceLoader.getService(new QName(LuServiceConstants.LU_NAMESPACE,"LuService"));
