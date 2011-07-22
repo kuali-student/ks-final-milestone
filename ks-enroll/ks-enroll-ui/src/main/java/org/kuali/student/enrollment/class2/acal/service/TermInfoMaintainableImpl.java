@@ -2,10 +2,12 @@ package org.kuali.student.enrollment.class2.acal.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -65,6 +67,27 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
             
         }       
         
+    }
+    
+    @Override
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+    	ContextInfo context = ContextInfo.newInstance();
+    	try{
+    		return getAcademicCalendarService().getTerm(dataObjectKeys.get("key"), context);
+            
+        }catch (InvalidParameterException ipe){
+            
+        }catch (MissingParameterException mpe){
+            
+        }catch (OperationFailedException ofe){
+           
+        }catch (PermissionDeniedException pde){
+            
+        }catch (DoesNotExistException dee){
+            
+        }
+        return null;
+  
     }
     
     protected AcademicCalendarService getAcademicCalendarService() {
