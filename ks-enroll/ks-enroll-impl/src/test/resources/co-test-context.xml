@@ -22,14 +22,15 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+	<import resource="classpath:en-course-test-context.xml"/>
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
         <property name="shouldLoadData" value="true"/>
         <property name="preloadMap">
             <map>
-                <entry key="Acal">
-                    <value>classpath:ks-lui.sql</value>
+                <entry key="co">
+                    <value>classpath:ks-courseOffering.sql</value>
                 </entry>
             </map>
         </property>
@@ -42,7 +43,7 @@
         
     <bean id="AtomikosTxMgr"
         class="com.atomikos.icatch.jta.UserTransactionManager"
-        init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
+        init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
         <property name="forceShutdown" value="true" />
         <property name="startupTransactionService" value="true" />
         <property name="transactionTimeout" value="60" />
@@ -52,7 +53,7 @@
         class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
 
     <bean id="JtaTxManager"
-        class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
+        class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer">
         <property name="transactionManager" ref="AtomikosTxMgr" />
         <property name="userTransaction" ref="AtomikosUsrTx" />
         <property name="transactionSynchronizationName"
@@ -78,20 +79,20 @@
 
     <!-- Default JPA EntityManagerFactory -->
     <bean id="defaultEntityManagerFactory" abstract="true"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
             <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
-   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="co"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/courseOffering-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
    </bean>
 
-    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
@@ -193,15 +194,35 @@
 	<bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
 		<property name="luiService" ref="luiService"/>
 		<property name="coAssembler" ref="coAssembler"/>
-		<!--<property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />-->
+		<property name="courseService" ref="courseServiceImpl"/>
+		<property name="acalService" ref="acalService"/>
+		<property name="stateService" ref="stateService"/>
 	</bean>  
-	     
+    	     
     <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
     </bean>
     
+   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    	<property name="atpService" ref="atpService"/>
+    	<property name="acalAssembler" ref="acalAssembler" />
+    	<property name="termAssembler" ref="termAssembler"/>
+    	<property name="dataDictionaryService" ref="dataDictionaryServiceForAcal"/>
+    </bean>
+       
+    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+    	<property name="atpService" ref="atpService"/>
+    	<property name="relAssembler" ref="relAssembler" />
+    </bean>
+      
+	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+
+	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler">
+    	<property name="atpService" ref="atpService"/>
+	</bean>
+	   
     <bean id="coServiceValidation" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
 		<property name="nextDecorator" ref="coService"/>
-		<!--<property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />-->
+		<property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />
 		<property name="validator" ref="validator"/>
     </bean>   
          	   

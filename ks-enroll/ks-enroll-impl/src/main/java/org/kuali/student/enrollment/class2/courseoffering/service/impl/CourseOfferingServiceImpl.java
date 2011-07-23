@@ -18,6 +18,7 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -30,6 +31,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -38,6 +41,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private CourseService courseService;
 	private AcademicCalendarService acalService;
 	private CourseOfferingAssembler coAssembler;
+	private StateService stateService;
 	
 	public LuiService getLuiService() {
 		return luiService;
@@ -69,6 +73,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 	public void setCoAssembler(CourseOfferingAssembler coAssembler) {
 		this.coAssembler = coAssembler;
+	}
+
+	public StateService getStateService() {
+		return stateService;
+	}
+
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
 	}
 
 	@Override
@@ -145,27 +157,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
-        
+        CourseOfferingInfo courseOfferingInfo = null;
+
         CourseInfo courseInfo = getCourse(courseId);
-        if (courseInfo != null)
+        if (courseInfo != null){
+        	courseOfferingInfo = coAssembler.assemble(courseInfo);
         	courseOfferingInfo.setCourseId(courseId);
+        }
         else
         	throw new DoesNotExistException("The course does not exist. course: " + courseId);
         
-        if(acalService.getTerm(termKey, context) != null)
-        	courseOfferingInfo.setTermKey(termKey);
-        else
-        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
+        //TODO: uncomment when make the following insert in ks-lui.sql working 
+        //INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-201', 0)
+//        if(acalService.getTerm(termKey, context) != null)
+//        	courseOfferingInfo.setTermKey(termKey);
+//        else
+//        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
+        courseOfferingInfo.setTermKey(termKey);
         
         if (checkExistenceForFormats(formatIdList, context))
         	courseOfferingInfo.setFormatIds(formatIdList);
         
-        courseOfferingInfo.setId(UUIDHelper.genStringUUID());
-        mapCoursetoOffering(courseInfo, courseOfferingInfo);
-        LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
-        luiService.createLui(courseId, termKey, luiInfo, context);
+        String stateKey = null;
+        List<StateInfo> ivStates = stateService.getInitialValidStates(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, context);
+        if(ivStates != null && ivStates.size() > 0)
+        	stateKey = ivStates.get(0).getKey();
+        else
+        	stateKey = LuiServiceConstants.LUI_DRAFT_STATE_KEY;
+        courseOfferingInfo.setStateKey(stateKey);
+        courseOfferingInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         
+        LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
+        LuiInfo created = luiService.createLui(courseId, termKey, luiInfo, context);
+        
+        if (created != null)
+        	courseOfferingInfo.setId(created.getId());
 		return courseOfferingInfo;
 	}
 
@@ -200,32 +226,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
     	return true;
     }
-	
-	private void mapCoursetoOffering(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo){
-		courseOfferingInfo.setCourseId(courseInfo.getId());
-		courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
-		courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
-		courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
-		courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
-		courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
-		courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-		
-		// TODO: this won't map directly from courseInfo
-		courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
-		    
-		    // TODO: worry about which credit option to apply.
-		if (courseInfo.getCreditOptions() == null) {
-		    courseOfferingInfo.setCreditOptions(null);
-		} else if (courseInfo.getCreditOptions().isEmpty()) {
-		    courseOfferingInfo.setCreditOptions(null);
-		} else {
-		    courseOfferingInfo.setCreditOptions(new R1ToR2CopyHelper().copyResultValuesGroup(courseInfo.getCreditOptions().get(0)));
-		}
-		courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
-		courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper().copyCourseExpenditure(courseInfo.getExpenditure()));
-		courseOfferingInfo.setFees(new R1ToR2CopyHelper().copyCourseFeeList(courseInfo.getFees()));
-		courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));		
-	}
 	
 	@Override
 	@Transactional

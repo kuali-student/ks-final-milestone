@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.infc.DTOAssembler;
 
@@ -90,6 +92,31 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		}
 		else
 			return null;
+	}
+
+	public CourseOfferingInfo assemble(CourseInfo courseInfo){
+		CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+		courseOfferingInfo.setCourseId(courseInfo.getId());
+		courseOfferingInfo.setCourseNumberSuffix(courseInfo.getCourseNumberSuffix());
+		courseOfferingInfo.setCourseTitle(courseInfo.getCourseTitle());
+		courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
+		courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
+		courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
+		courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
+		courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
+		if (courseInfo.getCreditOptions() == null) {
+		    courseOfferingInfo.setCreditOptions(null);
+		} else if (courseInfo.getCreditOptions().isEmpty()) {
+		    courseOfferingInfo.setCreditOptions(null);
+		} else {
+		    courseOfferingInfo.setCreditOptions(new R1ToR2CopyHelper().copyResultValuesGroup(courseInfo.getCreditOptions().get(0)));
+		}
+		courseOfferingInfo.setDescr(new R1ToR2CopyHelper().copyRichText(courseInfo.getDescr()));
+		courseOfferingInfo.setExpenditure(new R1ToR2CopyHelper().copyCourseExpenditure(courseInfo.getExpenditure()));
+		courseOfferingInfo.setFees(new R1ToR2CopyHelper().copyCourseFeeList(courseInfo.getFees()));
+		courseOfferingInfo.setInstructors(new R1ToR2CopyHelper().copyInstructors(courseInfo.getInstructors()));		
+		
+		return courseOfferingInfo;
 	}
 
 }
