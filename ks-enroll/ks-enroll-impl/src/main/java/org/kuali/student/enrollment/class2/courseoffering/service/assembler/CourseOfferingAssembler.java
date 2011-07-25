@@ -19,25 +19,25 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setDescr(lui.getDescr());
 			co.setCourseId(lui.getCluId());
 			co.setTermKey(lui.getAtpKey());
-			co.setCourseOfferingCode(lui.getLuiCode());
+			//co.setCourseOfferingCode(lui.getLuiCode());
 			//co.setCourseNumberSuffix(courseNumberSuffix) //TODO: where to map?
-			co.setCourseTitle(lui.getStudyTitle());
+			//co.setCourseTitle(lui.getStudyTitle());
 			//co.setIsHonorsOffering(isHonorsOffering)     //TODO: where to map?
 			//co.setInstructors(lui.getInstructors());
-			co.setSubjectArea(lui.getStudySubjectArea());
+			//co.setSubjectArea(lui.getStudySubjectArea());
 			co.setUnitsDeployment(lui.getUnitsDeployment());
 			co.setUnitsContentOwner(lui.getUnitsContentOwner());
 			//co.setFinalExamStatus(finalExamStatus);     //TODO: where to map?
 			co.setMaximumEnrollment(lui.getMaximumEnrollment());
 			co.setMinimumEnrollment(lui.getMinimumEnrollment());
 			//co.setCreditOptions(creditOptions)         //TODO: where to map?
-			co.setGradingOptionIds(lui.getGradingOptions());
+			//co.setGradingOptionIds(lui.getGradingOptions());
 			//co.setGradeRosterLevel(gradeRosterLevel);  //TODO: where to map?
-			co.setHasWaitlist(lui.getHasWaitlist());
-			co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
-			co.setWaitlistMaximum(lui.getWaitlistMaximum());
-			co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
-			co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
+			//co.setHasWaitlist(lui.getHasWaitlist());
+			//co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
+			//co.setWaitlistMaximum(lui.getWaitlistMaximum());
+			//co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
+			//co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 			//co.setFundingSource(fundingSource);		//TODO: where to map?
 			co.setFees(lui.getFees());
 			co.setRevenues(lui.getRevenues());
@@ -64,27 +64,27 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setStateKey(co.getStateKey());
 			//lui.setName(name);		//TODO: where to map?
 			lui.setDescr(co.getDescr());
-			lui.setLuiCode(co.getCourseOfferingCode());
+			//lui.setLuiCode(co.getCourseOfferingCode());
 			lui.setCluId(co.getCourseId());
 			lui.setAtpKey(co.getTermKey());
 			//lui.setInstructors(co.getInstructors());
-			lui.setStudySubjectArea(co.getSubjectArea());
+			//lui.setStudySubjectArea(co.getSubjectArea());
 			lui.setMaximumEnrollment(co.getMaximumEnrollment());
 			lui.setMinimumEnrollment(co.getMinimumEnrollment());
 			//lui.setEffectiveDate(effectiveDate)		//TODO: where to map?
 			//lui.setExpirationDate(expirationDate)		//TODO: where to map?
 			lui.setFees(co.getFees());
-			lui.setGradingOptions(co.getGradingOptionIds());
-			lui.setStudyTitle(co.getCourseTitle());
+			//lui.setGradingOptions(co.getGradingOptionIds());
+			//lui.setStudyTitle(co.getCourseTitle());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
 			lui.setExpenditure(co.getExpenditure());
 			lui.setRevenues(co.getRevenues());
-			lui.setHasWaitlist(co.getHasWaitlist());
-			lui.setIsWaitlistCheckinRequired(co.getIsWaitlistCheckinRequired());
-			lui.setWaitlistCheckinFrequency(co.getWaitlistCheckinFrequency());
-			lui.setWaitlistMaximum(co.getWaitlistMaximum());
-			lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
+			//lui.setHasWaitlist(co.getHasWaitlist());
+			//lui.setIsWaitlistCheckinRequired(co.getIsWaitlistCheckinRequired());
+			//lui.setWaitlistCheckinFrequency(co.getWaitlistCheckinFrequency());
+			//lui.setWaitlistMaximum(co.getWaitlistMaximum());
+			//lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 			lui.setMeta(co.getMeta());
 			lui.setAttributes(co.getAttributes());
 			
@@ -103,7 +103,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		courseOfferingInfo.setCourseOfferingCode(courseInfo.getCode());
 		courseOfferingInfo.setUnitsContentOwner(courseInfo.getUnitsContentOwner());
 		courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
-		courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
+		//courseOfferingInfo.setGradingOptionIds(courseInfo.getGradingOptions());
 		if (courseInfo.getCreditOptions() == null) {
 		    courseOfferingInfo.setCreditOptions(null);
 		} else if (courseInfo.getCreditOptions().isEmpty()) {
