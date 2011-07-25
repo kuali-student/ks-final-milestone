@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.infc.Relationship;
 @XmlTransient
 public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implements Relationship, Serializable {
 
+    private static final long serialVersionUID = 1L;
     @XmlAttribute
     private String id;
     @XmlAttribute

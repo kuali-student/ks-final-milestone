@@ -17,10 +17,11 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationRosterInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -699,9 +700,9 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws VersionMismatchException
      *             if optimistic lock version ind has changed
      */
-    public LuiPersonRelationRosterInfo updateLuiPersonRelationRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
-            @WebParam(name = "luiPersonRelationRosterInfo") LuiPersonRelationRosterInfo luiPersonRelationInfo,
+    public LprRosterInfo updateLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "lprRosterInfo") LprRosterInfo lprRosterInfo,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException;
@@ -709,7 +710,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     /**
      * Creates a roster from a LuiPers
      * 
-     * @param luiPersonRelationRosterInfo
+     * @param lprRosterInfo
      *            Information required to create the LUI Person relation roster
      * @param context
      *            Context information containing the principalId and locale
@@ -737,8 +738,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public String createLuiPersonRelationRoster(
-            @WebParam(name = "luiPersonRelationRosterInfo") LuiPersonRelationRosterInfo luiPersonRelationRosterInfo,
+    public String createLprRoster(
+            @WebParam(name = "lprRosterInfo") LprRosterInfo lprRosterInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -763,8 +764,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public StatusInfo deleteLuiPersonRelationRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
+    public StatusInfo deleteLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -781,8 +782,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<LuiPersonRelationInfo> getAllLuiPersonRelationsFromRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
+    public List<LprRosterEntryInfo> getLprEntriesForLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -799,11 +800,50 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<LuiInfo> getAssociatedLuisFromRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
+    public List<LprRosterInfo> getLprRostersByLuiAndRosterType(
+            @WebParam(name = "luiId") String luiId,
+            @WebParam(name = "lprRosterTypeKey") String lprRosterTypeKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+  /**
+   * 
+   * This method ...
+   * 
+   * @param luiId
+   * @param context
+   * @return
+   * @throws DoesNotExistException
+   * @throws DisabledIdentifierException
+   * @throws InvalidParameterException
+   * @throws MissingParameterException
+   * @throws OperationFailedException
+   * @throws PermissionDeniedException
+   */
+    public List<LprRosterInfo> getLprRostersByLui(
+            @WebParam(name = "luiId") String luiId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+  
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param lprRosterId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    
+    public List<LuiInfo> getAssociatedLuisForRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * This method returns all the LPRs contained in the LPR Roster
      * 
@@ -818,7 +858,89 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      */
     public List<LuiInfo> getLprRosterById(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param lprRosterEntry
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws AlreadyExistsException
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws ReadOnlyException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public String createLprRosterEntry(@WebParam(name = "lprRosterEntry") LprRosterEntryInfo lprRosterEntry,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+  
+    
+    /**
+     * 
+     * 
+     * @param luiPersonRelationRosterId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo moveLprRosterEntryToNewRoster(@WebParam(name = "lprRosterEntryId") String lprRosterEntryId,
+            @WebParam(name = "newLprRosterId") String newLprRosterId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+
+/**
+ * 
+ * This method ...
+ * 
+ * @param lprRosterEntryId
+ * @param lprRosterId
+ * @param context
+ * @return
+ * @throws DoesNotExistException
+ * @throws DisabledIdentifierException
+ * @throws InvalidParameterException
+ * @throws MissingParameterException
+ * @throws OperationFailedException
+ * @throws PermissionDeniedException
+ */
+    public StatusInfo removeLprRosterEntryFromLprRoster(@WebParam(name = "lprRosterEntryId") String lprRosterEntryId,
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * This method returns all the LPRs contained in the LPR Roster
+     * 
+     * @param luiPersonRelationRosterId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws DisabledIdentifierException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo addLprEntiesToLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "lprRosterEntryIds") List<String> lprRosterEntryIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -835,8 +957,9 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo addLprToLPRRoster(@WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
-            @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo,
+    public StatusInfo removeLprEntriesFromLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
+            @WebParam(name = "lprRosterEntryIds") List<String> lprRosterEntryIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -853,46 +976,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo addLprsToLPRRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
-            @WebParam(name = "luiPersonRelationInfos") List<String> luiPersonRelations,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * This method returns all the LPRs contained in the LPR Roster
-     * 
-     * @param luiPersonRelationRosterId
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws DisabledIdentifierException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public StatusInfo removeLPRsFromLPRRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
-            @WebParam(name = "luiPersonRelationInfos") List<String> luiPersonRelations,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * This method returns all the LPRs contained in the LPR Roster
-     * 
-     * @param luiPersonRelationRosterId
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws DisabledIdentifierException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public StatusInfo removeAllLPRsFromLPRRoster(
-            @WebParam(name = "luiPersonRelationRosterId") String luiPersonRelationRosterId,
+    public StatusInfo removeAllLprEntriesFromLprRoster(
+            @WebParam(name = "lprRosterId") String lprRosterId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
