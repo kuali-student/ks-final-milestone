@@ -65,7 +65,7 @@ public void testGetLui()throws DoesNotExistException, InvalidParameterException,
 		LuiInfo obj = luiServiceValidation.getLui("Lui-1", callContext);
 		assertNotNull(obj);
 		assertEquals("Lui one", obj.getName()); 
-		assertEquals("ENGL 100 section 123", obj.getLuiCode());
+		//		assertEquals("ENGL 100 section 123", obj.getLuiCode());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, obj.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getTypeKey()); 
         assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
@@ -86,13 +86,13 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
 		InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	LuiInfo info = new LuiInfo();
 	info.setName("Test lui one");
-	info.setLuiCode("LUI-Testing-Section");
+	//	info.setLuiCode("LUI-Testing-Section");
 	info.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 	info.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
 	info.setEffectiveDate(Calendar.getInstance().getTime());
 	info.setMaximumEnrollment(25);
 	info.setMinimumEnrollment(10);
-	info.setStudySubjectArea("Math");
+	//	info.setStudySubjectArea("Math");
 	info.setCluId("testCluId");
 	info.setAtpKey("testAtpId1");
 	
@@ -116,7 +116,7 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
         assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
 		assertEquals("testCluId", created.getCluId());
 		assertEquals("testAtpId1", created.getAtpKey());
-		assertEquals("Math", created.getStudySubjectArea());
+		//		assertEquals("Math", created.getStudySubjectArea());
 		//assertTrue(created.getInstructors().size() == 1);
         				
 	} catch (Exception e) {
@@ -133,7 +133,7 @@ public void testCreateLui() throws AlreadyExistsException,DataValidationErrorExc
         assertEquals(Integer.valueOf(10), retrieved.getMinimumEnrollment());
 		assertEquals("testCluId", retrieved.getCluId());
 		assertEquals("testAtpId1", retrieved.getAtpKey());
-		assertEquals("Math", retrieved.getStudySubjectArea());
+		//		assertEquals("Math", retrieved.getStudySubjectArea());
 //		assertTrue(retrieved.getInstructors().size() == 1);
 //		assertEquals("Org-1", retrieved.getInstructors().get(0).getOrgId());
 //		assertEquals("Pers-2", retrieved.getInstructors().get(0).getPersonId());
@@ -154,7 +154,7 @@ public void testUpdateLui() throws DataValidationErrorException, DoesNotExistExc
 	modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
 	modified.setMaximumEnrollment(25);
 	modified.setMinimumEnrollment(10);
-	modified.setLuiCode("ENGL-100-section-123");
+	//	modified.setLuiCode("ENGL-100-section-123");
 	
 	try{
 		LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
@@ -163,7 +163,7 @@ public void testUpdateLui() throws DataValidationErrorException, DoesNotExistExc
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
         assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
         assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
-        assertEquals("ENGL-100-section-123", updated.getLuiCode());
+	//        assertEquals("ENGL-100-section-123", updated.getLuiCode());
 	}catch (Exception e) {
         fail(e.getMessage());
     }
@@ -203,7 +203,7 @@ public void testCreateLuiLuiRelation()throws AlreadyExistsException, CircularRel
 		InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	LuiInfo info = new LuiInfo();
 	info.setName("Test lui-Lui relation");
-	info.setLuiCode("LUI-Testing-Section");
+	//	info.setLuiCode("LUI-Testing-Section");
 	info.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 	info.setTypeKey(LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
 	info.setEffectiveDate(Calendar.getInstance().getTime());
