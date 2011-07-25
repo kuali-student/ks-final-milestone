@@ -52,7 +52,7 @@ import org.w3c.dom.Element;
         "unitsContentOwner", "unitsDeployment", "resultOptionIds", 
         "fees", "revenues", "expenditure", 
         "meta", "attributes", "_futureElements" })
-        public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
+public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     private static final long serialVersionUID = 1L;
 

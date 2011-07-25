@@ -32,8 +32,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiIdentifierInfo", propOrder = { "id", "typeKey", "stateKey",
-                "code", "shortName", "longName", "division", "suffixCode", 
-                "variation", "meta", "attributes", "_futureElements" })
+        "code", "shortName", "longName", "division", "suffixCode", 
+        "variation", "meta", "attributes", "_futureElements" })
 
 public class LuiIdentifierInfo extends TypeStateEntityInfo implements LuiIdentifier, Serializable {
 
@@ -50,112 +50,112 @@ public class LuiIdentifierInfo extends TypeStateEntityInfo implements LuiIdentif
 
     @XmlElement
     private String longName;
-    
+
     @XmlElement 
     private String division;
-    
+
     @XmlElement
     private String suffixCode;
-    
+
     @XmlElement
     private String variation;
-    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    
+
     public LuiIdentifierInfo() {
-	super();
+        super();
 
-	id = null;
-	code = null;
-	shortName = null;
-	longName = null;
-	division = null;
-	suffixCode = null;
-	variation = null;
+        id = null;
+        code = null;
+        shortName = null;
+        longName = null;
+        division = null;
+        suffixCode = null;
+        variation = null;
 
-	_futureElements = null;
+        _futureElements = null;
     }
-    
-    public LuiIdentifierInfo(LuiIdentifier luiIdentifier) {
-	super(luiIdentifier);
-	
-	if(null == luiIdentifier) {
-	    return;
-	}
-	
-	this.id = luiIdentifier.getId();
-	this.code = luiIdentifier.getCode();
-	this.shortName = luiIdentifier.getShortName();
-	this.longName = luiIdentifier.getLongName();
-	this.division = luiIdentifier.getDivision();
-	this.suffixCode = luiIdentifier.getSuffixCode();
-	this.variation = luiIdentifier.getVariation();
 
-	this._futureElements = null;
+    public LuiIdentifierInfo(LuiIdentifier luiIdentifier) {
+        super(luiIdentifier);
+
+        if(null == luiIdentifier) {
+            return;
+        }
+
+        this.id = luiIdentifier.getId();
+        this.code = luiIdentifier.getCode();
+        this.shortName = luiIdentifier.getShortName();
+        this.longName = luiIdentifier.getLongName();
+        this.division = luiIdentifier.getDivision();
+        this.suffixCode = luiIdentifier.getSuffixCode();
+        this.variation = luiIdentifier.getVariation();
+
+        this._futureElements = null;
     }
 
     @Override
     public String getId() {
-	return id;
+        return id;
     }
-    
+
     public void setId(String id) {
-	this.id = id;
+        this.id = id;
     }
 
     @Override
     public String getCode() {
-	return code;
+        return code;
     }
-    
+
     public void setCode(String code) {
-	this.code = code;
+        this.code = code;
     }
 
     @Override
     public String getShortName() {
-	return shortName;
+        return shortName;
     }
-    
+
     public void setShortName(String shortName) {
-	this.shortName = shortName;
+        this.shortName = shortName;
     }
 
     @Override
     public String getLongName() {
-	return longName;
+        return longName;
     }
-    
+
     public void setLongName(String longName) {
-	this.longName = longName;
+        this.longName = longName;
     }
 
     @Override
     public String getDivision() {
-	return division;
+        return division;
     }
-    
+
     public void setDivision(String division) {
-	this.division = division;
+        this.division = division;
     }
 
     @Override
     public String getSuffixCode() {
-	return suffixCode;
+        return suffixCode;
     }
-    
+
     public void setSuffixCode(String suffixCode) {
-	this.suffixCode = suffixCode;
+        this.suffixCode = suffixCode;
     }
 
     @Override
     public String getVariation() {
-	return variation;
+        return variation;
     }
-    
+
     public void setVariation(String variation) {
-	this.variation = variation;
+        this.variation = variation;
     }
 }
