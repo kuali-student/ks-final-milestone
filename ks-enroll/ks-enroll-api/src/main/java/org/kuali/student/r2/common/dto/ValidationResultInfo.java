@@ -127,6 +127,4 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
     public void setInvalidData(Object invalidData) {
         this.invalidData = invalidData;
     }
-
-	
 }
