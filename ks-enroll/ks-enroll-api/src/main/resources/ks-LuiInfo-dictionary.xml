@@ -43,7 +43,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 <ref bean="luiInfo.expirationDate"/>
                 <ref bean="luiInfo.atpKey"/>
                 <ref bean="luiInfo.cluId"/>
-                <ref bean="luiInfo.luiCode"/>
+<!--                <ref bean="luiInfo.luiCode"/> -->
                 <ref bean="luiInfo.maximumEnrollment" />
                 <ref bean="luiInfo.minimumEnrollment" />
                 <ref bean="luiInfo.studySubjectArea" />
@@ -99,11 +99,12 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
     <bean id="luiInfo.cluId" parent="luiInfo.cluId-parent"/>
 
+<!--
     <bean id="luiInfo.luiCode-parent" abstract="true" parent="BaseKuali.code">
         <property name="name" value="luiCode"/>
     </bean>
     <bean id="luiInfo.luiCode" parent="luiInfo.luiCode-parent"/>
-
+-->
     <bean id="luiInfo.maximumEnrollment-parent" abstract="true" parent="BaseKuali.integer">
         <property name="name" value="maximumEnrollment"/>
     </bean>
