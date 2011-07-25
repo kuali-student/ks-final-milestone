@@ -13,6 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
@@ -27,166 +28,232 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r2.lum.lu.infc.LuCode;
+import org.kuali.student.r2.lum.lu.infc.Expenditure;
+import org.kuali.student.r2.lum.lu.infc.Fee;
+import org.kuali.student.r2.lum.lu.infc.Revenue;
+
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.kuali.student.r2.lum.lu.infc.Revenue;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-    "descr", "luiCode", "cluId", "atpKey",
-    "studySubjectArea", "maximumEnrollment", "minimumEnrollment",
-    "effectiveDate", "expirationDate", "fees", "gradingOptions",
-    "studyTitle", "unitsContentOwner", "unitsDeployment", "expenditure",
-    "revenues", "hasWaitlist", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
-    "waitlistMaximum", "waitlistTypeKey", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
+                "descr", "effectiveDate", "expirationDate", 
+	        "officialIdentifier", "alternateIdentifiers", "cluId",
+	        "cluCluRelationIds", "atpKey", "luiCodes",
+                "maximumEnrollment", "minimumEnrollment", "referenceURL",
+                "unitsContentOwner", "unitsDeployment", "resultOptionIds", 
+                "fees", "revenues", "expenditure", 
+		"meta", "attributes", "_futureElements" })
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
-    
+
     private static final long serialVersionUID = 1L;
-    @XmlElement
-    private String luiCode;
-    @XmlElement
-    private String cluId;
-    @XmlElement
-    private String atpKey;
-    @XmlElement
-    private String studySubjectArea;
-    @XmlElement
-    private Integer maximumEnrollment;
-    @XmlElement
-    private Integer minimumEnrollment;
+
     @XmlElement
     private Date effectiveDate;
+    
     @XmlElement
     private Date expirationDate;
-    // nina begin refactored from CourseOffering, RegistrationGroup, ActivityOffering
+
+    @XmlElement 
+    private LuiIdentifierInfo officialIdentifier;
+
+    @XmlElement 
+    private List<LuiIdentifierInfo> alternateIdentifiers;
+
     @XmlElement
-    private List<FeeInfo> fees;
+    private String cluId;
+    
+    @XmlElement 
+    private List<String> cluCluRelationIds;
+    
     @XmlElement
-    private List<String> gradingOptions;
+    private String atpKey;
+    
     @XmlElement
-    private String studyTitle;
+    private List<LuCodeInfo> luiCodes;
+    
+    @XmlElement
+    private Integer maximumEnrollment;
+    
+    @XmlElement
+    private Integer minimumEnrollment;
+
+    @XmlElement
+    private String referenceURL;
+    
     @XmlElement
     private List<String> unitsContentOwner;
+    
     @XmlElement
     private List<String> unitsDeployment;
+    
     @XmlElement
-    private ExpenditureInfo expenditure;
+    private List<String> resultOptionIds;    
+
+    @XmlElement
+    private List<FeeInfo> fees;
+
     @XmlElement
     private List<RevenueInfo> revenues;
+    
     @XmlElement
-    private Boolean hasWaitlist;
-    @XmlElement
-    private Boolean isWaitlistCheckinRequired;
-    @XmlElement
-    private TimeAmountInfo waitlistCheckinFrequency;
-    @XmlElement
-    private Integer waitlistMaximum;
-    @XmlElement
-    private String waitlistTypeKey;
-    // nina end refactored from CourseOffering, RegistrationGroup, ActivityOffering
+    private ExpenditureInfo expenditure;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
     
     public LuiInfo() {
-        super();
-        luiCode = null;
-        cluId = null;
-        atpKey = null;
-        studySubjectArea = null;
-        maximumEnrollment = null;
-        minimumEnrollment = null;
-        effectiveDate = null;
-        expirationDate = null;
-        _futureElements = null;
-        fees = new ArrayList<FeeInfo>();
-        gradingOptions = new ArrayList<String>();
-        studyTitle = null;
-        unitsContentOwner = new ArrayList<String>();
-        unitsDeployment = new ArrayList<String>();
-        expenditure = null;
-        hasWaitlist = new Boolean(false);
-        isWaitlistCheckinRequired = new Boolean(false);
-        waitlistCheckinFrequency = null;
-        waitlistMaximum = null;
-        waitlistTypeKey = null;
-        revenues = new ArrayList<RevenueInfo>();
+	super();
+
+	effectiveDate = null;
+	expirationDate = null;
+
+	officialIdentifier = null;
+	alternateIdentifiers = null;
+	cluId = null;
+	cluCluRelationIds = null;
+	atpKey = null;
+	luiCodes = null;
+
+	maximumEnrollment = null;
+	minimumEnrollment = null;
+	referenceURL = null;
+	unitsDeployment = new ArrayList<String>();
+	unitsContentOwner  = new ArrayList<String>();
+	resultOptionIds = new ArrayList<String>();
+
+	fees = new ArrayList<FeeInfo>();
+	revenues = new ArrayList<RevenueInfo>();
+	expenditure = null;
+
+	_futureElements = null;
     }
     
     public LuiInfo(Lui lui) {
-        super(lui);
-        
-        if (null == lui) {
-            return;
-        }
-        
-        this.luiCode = lui.getLuiCode();
-        this.cluId = lui.getCluId();
-        this.atpKey = lui.getAtpKey();
-        this.studySubjectArea = lui.getStudySubjectArea();
-        this.maximumEnrollment = (null != lui.getMaximumEnrollment()) ? new Integer(lui.getMaximumEnrollment()) : null;
-        this.minimumEnrollment = (null != lui.getMinimumEnrollment()) ? new Integer(lui.getMinimumEnrollment()) : null;
-        this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
-        this._futureElements = null;
-        if (lui.getFees() != null) {
-            this.fees = new ArrayList<FeeInfo>();
-            for (Fee fee : lui.getFees()) {
-                this.fees.add(new FeeInfo(fee));
-            }
-        }
-        this.gradingOptions = new ArrayList<String>(lui.getGradingOptions());
-        this.studyTitle = lui.getStudyTitle();
-        this.unitsContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
-        this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
-        this.expenditure = new ExpenditureInfo(lui.getExpenditure());
-        this.hasWaitlist = (null != lui.getHasWaitlist()) ? new Boolean(lui.getHasWaitlist()) : null;
-        this.isWaitlistCheckinRequired = (null != lui.getIsWaitlistCheckinRequired()) ? new Boolean(lui.getIsWaitlistCheckinRequired()) : null;
-        this.waitlistCheckinFrequency = new TimeAmountInfo(lui.getWaitlistCheckinFrequency());
-        this.waitlistMaximum = lui.getWaitlistMaximum();
-        this.waitlistTypeKey = lui.getWaitlistTypeKey();
-        if (lui.getRevenues() != null) {
-            this.revenues = new ArrayList<RevenueInfo>();
-            for (Revenue rev : lui.getRevenues()) {
-                this.revenues.add(new RevenueInfo(rev));
-            }
-        } 
+	super(lui);
+	
+	if(null == lui) {
+	    return;
+	}
+	
+	this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
+	this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
+
+	this.officialIdentifier = new LuiIdentifierInfo(lui.getOfficialIdentifier());
+	this.alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
+	for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
+	    this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
+	}
+
+	this.cluId = lui.getCluId();
+	this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
+	this.atpKey = lui.getAtpKey();
+
+	this.luiCodes = new ArrayList<LuCodeInfo>();
+	for (LuCode code : lui.getLuiCodes()) {
+	    this.luiCodes.add(new LuCodeInfo(code));
+	}
+
+	this.maximumEnrollment = lui.getMaximumEnrollment();
+	this.minimumEnrollment = lui.getMinimumEnrollment();
+	this.referenceURL = lui.getReferenceURL();
+	this.unitsContentOwner  = new ArrayList<String>(lui.getUnitsContentOwner());
+	this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
+	this.resultOptionIds = new ArrayList<String>(lui.getResultOptionIds());
+
+	this.fees = new ArrayList<FeeInfo>();
+	for (Fee fee : lui.getFees()) {
+	    this.fees.add(new FeeInfo(fee));
+	}
+
+	this.revenues = new ArrayList<RevenueInfo>();
+	for (Revenue revenue : lui.getRevenues()) {
+	    this.revenues.add(new RevenueInfo(revenue));
+	}
+
+	this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+
+	this._futureElements = null;
+    }
+
+    @Override
+    public Date getEffectiveDate() {
+	return effectiveDate;
+    }
+    
+    public void setEffectiveDate(Date effectiveDate) {
+	this.effectiveDate = effectiveDate;
     }
     
     @Override
-    public String getLuiCode() {
-        return luiCode;
+    public Date getExpirationDate() {
+	return expirationDate;
     }
     
-    public void setLuiCode(String luiCode) {
-        this.luiCode = luiCode;
+    public void setExpirationDate(Date expirationDate) {
+	this.expirationDate = expirationDate;
     }
-    
+
+    @Override
+    public LuiIdentifierInfo getOfficialIdentifier() {
+	return officialIdentifier;
+    }
+
+    public void setOfficialIdentifier(LuiIdentifierInfo officialIdentifier) {
+	this.officialIdentifier = officialIdentifier;
+    }
+
+    @Override
+    public List<LuiIdentifierInfo> getAlternateIdentifiers() {
+	return alternateIdentifiers;
+    }
+
+    public void setAlternateIdentifiers(List< LuiIdentifierInfo> alternateIdentifiers) {
+	this.alternateIdentifiers = alternateIdentifiers;
+    }
+
     @Override
     public String getCluId() {
-        return cluId;
+	return cluId;
     }
     
     public void setCluId(String cluId) {
-        this.cluId = cluId;
+	this.cluId = cluId;
     }
     
     @Override
+    public List<String> getCluCluRelationIds() {
+	return cluCluRelationIds;
+    }
+
+    public void setCluCluRelationIds(List<String> cluCluRelationIds) {
+	this.cluCluRelationIds = cluCluRelationIds;
+    }
+
+    @Override
     public String getAtpKey() {
-        return atpKey;
+	return atpKey;
     }
     
     public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
+	this.atpKey = atpKey;
     }
-    
+
     @Override
-    public String getStudySubjectArea() {
-        return studySubjectArea;
+    public List<LuCodeInfo> getLuiCodes() {
+	return luiCodes;
+    }
+
+    public void setLuiCodes(List<LuCodeInfo> luiCodes) {
+	this.luiCodes = luiCodes;
     }
     
     @Override
@@ -194,150 +261,79 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         return maximumEnrollment;
     }
     
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
+
     @Override
     public Integer getMinimumEnrollment() {
         return minimumEnrollment;
     }
-    
-    public void setStudySubjectArea(String studySubjectArea) {
-        this.studySubjectArea = studySubjectArea;
-    }
-    
-    public void setMaximumEnrollment(Integer maximumEnrollment) {
-        this.maximumEnrollment = maximumEnrollment;
-    }
-    
+
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
     }
+
+    @Override
+    public String getReferenceURL() {
+        return referenceURL;
+    }
+
+    public void setReferenceURL(String referenceURL) {
+	this.referenceURL = referenceURL;
+    }
+
+    @Override
+    public List<String> getUnitsDeployment() {
+	return unitsDeployment;
+    }
+
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+	this.unitsDeployment = unitsDeployment;
+    }
+
+    @Override
+    public List<String> getUnitsContentOwner() {
+	return unitsContentOwner;
+    }
+    
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+	this.unitsContentOwner = unitsContentOwner;
+    }
     
     @Override
-    public Date getEffectiveDate() {
-        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
+    public List<String> getResultOptionIds() {
+	return resultOptionIds;
     }
     
-    public void setEffectiveDate(Date effectiveDate) {
-        if (effectiveDate != null) {
-            this.effectiveDate = new Date(effectiveDate.getTime());
-        }
-    }
-    
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate != null ? new Date(expirationDate.getTime()) : null;
-    }
-    
-    public void setExpirationDate(Date expirationDate) {
-        if (expirationDate != null) {
-            this.expirationDate = new Date(expirationDate.getTime());
-        }
+    public void setResultOptionIds(List<String> resultOptionIds) {
+	this.resultOptionIds = resultOptionIds;
     }
     
     @Override
     public List<FeeInfo> getFees() {
-        return fees;
-    }
-    
-    @Override
-    public List<String> getGradingOptions() {
-        return gradingOptions;
-    }
-    
-    @Override
-    public String getStudyTitle() {
-        return studyTitle;
-    }
-    
-    @Override
-    public List<String> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-    
-    @Override
-    public List<String> getUnitsDeployment() {
-        return unitsDeployment;
-    }
-    
-    @Override
-    public ExpenditureInfo getExpenditure() {
-        return expenditure;
-    }
-    
-    @Override
-    public List<RevenueInfo> getRevenues() {
-        return revenues;
+	return fees;
     }
     
     public void setFees(List<FeeInfo> fees) {
-        this.fees = fees;
+	this.fees = fees;
     }
-    
-    public void setGradingOptions(List<String> gradingOptions) {
-        this.gradingOptions = gradingOptions;
-    }
-    
-    public void setStudyTitle(String studyTitle) {
-        this.studyTitle = studyTitle;
-    }
-    
-    public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-    
-    public void setUnitsDeployment(List<String> unitsDeployment) {
-        this.unitsDeployment = unitsDeployment;
-    }
-    
-    public void setExpenditure(ExpenditureInfo expenditure) {
-        this.expenditure = expenditure;
+
+    @Override
+    public List<RevenueInfo> getRevenues() {
+	return revenues;
     }
     
     public void setRevenues(List<RevenueInfo> revenues) {
-        this.revenues = revenues;
+	this.revenues = revenues;
     }
-    
+
     @Override
-    public Boolean getHasWaitlist() {
-        return hasWaitlist;
+    public ExpenditureInfo getExpenditure() {
+	return expenditure;
     }
     
-    @Override
-    public Boolean getIsWaitlistCheckinRequired() {
-        return isWaitlistCheckinRequired;
-    }
-    
-    @Override
-    public TimeAmountInfo getWaitlistCheckinFrequency() {
-        return waitlistCheckinFrequency;
-    }
-    
-    @Override
-    public Integer getWaitlistMaximum() {
-        return waitlistMaximum;
-    }
-    
-    @Override
-    public String getWaitlistTypeKey() {
-        return waitlistTypeKey;
-    }
-    
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
-    
-    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
-        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-    }
-    
-    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
-        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
-    }
-    
-    public void setWaitlistMaximum(Integer waitlistMaximum) {
-        this.waitlistMaximum = waitlistMaximum;
-    }
-    
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
+    public void setExpenditure(ExpenditureInfo expenditure) {
+	this.expenditure = expenditure;
     }
 }

@@ -15,12 +15,13 @@
  */
 package org.kuali.student.enrollment.lui.infc;
 
-
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
+
+import org.kuali.student.r2.lum.lu.infc.LuCode;
 import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
@@ -31,120 +32,124 @@ import org.kuali.student.r2.lum.lu.infc.Revenue;
 public interface Lui extends IdEntity, HasEffectiveDates {
 
     /**
-     * Name: Lui Code
-     * Code identifier/name for the LUI. This is typically used
-     * human readable form (e.g. ENGL 100 section 123).
+     *  The LUI identifier.
+     *
+     *  @name: Lui Identifier
      */
-    public String getLuiCode();
-  
+    public LuiIdentifier getOfficialIdentifier();
 
     /**
-     * Name: Clu Id
-     * Unique identifier for the Canonical Learning Unit (CLU) of which this is an instance.
+     *  The alternate LUI identifiers.
+     *
+     *  @name: Lui Alternate Identifiers
+     */
+    public List<? extends LuiIdentifier> getAlternateIdentifiers();
+
+    /**
+     * The unique identifier for the Canonical Learning Unit
+     * (CLU) of which this is an instance.
+     *
+     * @name Clu Id
      */
     public String getCluId();
- 
-    /**
-     * Name: ATP Key
-     * Unique identifier for the Academic Time Period (ATP) for which this instance is offered.
-     */
-    public String getAtpKey();
- 
-    /**
-     * Identifies the department and/subject code of the course as reflected in the clu catalog.
-     * This should correspond to the value in the canonical clu.
-     * @name Study Subject Area
-     */
-    public String getStudySubjectArea();
 
     /**
-     * Total maximum number of "seats" or enrollment slots that can be filled for the lui. 
+     * Any Clu Clu Relation identifiers on which this instance is
+     * based. While the LUI is in instance of a CLU, the LUI may be an
+     * instance of a set of CLUs related to the principal CLU, such as
+     * a Course Format.
+     *
+     * @name Clu Clu Relation Ids
+     */
+    public List<String> getCluCluRelationIds();
+
+    /**
+     * The unique identifier for the Academic Time Period (ATP)
+     * for which this instance is offered.
+     *
+     * @name Atp Key
+     */
+    public String getAtpKey();
+
+    /**
+     * List of LU code info structures. These are structures so that
+     * many different types of codes can be associated with the
+     * clu. This allows them to be put into categories.
+     *
+     * @name codes
+     */
+    public List<? extends LuCode> getLuiCodes();
+ 
+    /**
+     * The total maximum number of "seats" or enrollment slots that
+     * can be filled for the lui.
+     *
      * @name Maximum Enrollment
      */    
     public Integer getMaximumEnrollment();
     
     /**
-     * Total minimum number of seats that must be filled for the lui 
-     * @name Minimum  Enrollment
+     * Total minimum number of seats that must be filled for the lui.
+     *
+     * @name Minimum Enrollment
      */
     public Integer getMinimumEnrollment();
-    
-    /**
-     * Name of the course used in the college catalog.
-     * @name Course Title
-     */
-    public String getStudyTitle();
 
     /**
-     * Organization(s) that is responsible for the delivery - and all associated logistics - of the Lui
+     * The reference URL for this LUI.
+     *
+     * @name referenceURL
+     */
+    public String getReferenceURL();
+
+    /**
+     * Organization(s) that is responsible for the delivery - and all
+     * associated logistics - of the Lui.
+     *
      * @name Units Deployment
      */
     public List<String> getUnitsDeployment();
-    
+
     /**
-     * Organization(s) that is responsible for the academic content of the Lui as approved in its canonical form
+     * Organization(s) that is responsible for the academic content of
+     * the Lui as approved in its canonical form.
+     *
      * @name Units Content Owner
      */
     public List<String> getUnitsContentOwner();
 
-    /******** Assessment Information ***************/
     /**
-     * The options/scales that indicate the allowable grades that can be awarded.
-     * If the value is set here then the Clu must have a grading option set on the
-     * canonical activity. 
+     * The options/scales that indicate the allowable grades that can
+     * be awarded.  If the value is set here then the Clu must have a
+     * grading option set on the canonical activity.
      * 
-     * ResultValuesGroup will contain grade values valid for this course offering
+     * ResultValuesGroup will contain grade values valid for this
+     * course offering
      * 
-     * @name: Grading Options
+     * @name: Result Options Ids
      */
-    public List<String> getGradingOptions();
+    public List<String> getResultOptionIds();
     
     /**
-     * Fees associated with the course offering. 
+     * The fees associated with the course offering. 
+     *
      * @name Fees
      */    
     public List<? extends Fee> getFees();
     
     /**
-     * Organization that receives the revenue associated with the course
+     * The organization that receives the revenue associated with
+     * the course.
+     *
      * @name Revenues
      */
     public List<? extends Revenue> getRevenues();
-    
-    
+        
     /**
-     * Organization that incurs the cost associated with the course
+     * The organization that incurs the cost associated with the
+     * course.
+     *
      * @name Expenditure
      */
     public Expenditure getExpenditure();
-
-    /**
-     * Indicates whether a RegistrationGroup has a waitlist
-     * @name Has Waitlist
-     */
-    public Boolean getHasWaitlist();
-
-    /**
-     * Indicates the type of waitlist as it relates to processing students on and off
-     * @name Waitlist TypeKey
-     */
-    public String getWaitlistTypeKey();
-
-    /**
-     * Maximum number of students to be allowed on the wait list
-     * @name Waitlist Maximum
-     */
-    public Integer getWaitlistMaximum();    
-    
-    /**
-     * Indicates if the waitlist requires checkin
-     * @name Is Waitlist Checkin Required
-     */
-    public Boolean getIsWaitlistCheckinRequired();
-    
-    /**
-     * Frequency for the waitlist checkin
-     * @name Waitlist Checkin Frequency 
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
 }
