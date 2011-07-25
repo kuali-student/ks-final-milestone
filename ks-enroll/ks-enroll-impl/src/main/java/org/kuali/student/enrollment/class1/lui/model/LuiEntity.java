@@ -105,16 +105,19 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         try {   
         	this.setId(lui.getId());
         	this.setName(lui.getName());
-        	this.setLuiCode(lui.getLuiCode());
         	this.setAtpKey(lui.getAtpKey());
         	this.setCluId(lui.getCluId());
         	this.setMaxSeats(lui.getMaximumEnrollment());        	
         	this.setMinSeats(lui.getMinimumEnrollment());        	
+		/*
+		 * Lui interface changed. Need to reconcile with contract.
+        	this.setLuiCode(lui.getLuiCode());
         	this.setStudySubjectArea(lui.getStudySubjectArea());
         	this.setHasWaitlist(lui.getHasWaitlist());
         	this.setWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
         	this.setWaitlistMaximum(lui.getWaitlistMaximum());
         	this.setStudyTitle(lui.getStudyTitle());
+		*/
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
         	if(lui.getExpirationDate() != null)
@@ -139,15 +142,20 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	LuiInfo obj = new LuiInfo();
     	obj.setId(getId());
     	obj.setName(name);
-    	obj.setLuiCode(luiCode);
     	obj.setAtpKey(atpKey);
     	obj.setCluId(cluId);
+
+	/*
+	 * LUI interface changed.. reconcile with contract.
+    	obj.setLuiCode(luiCode);
     	obj.setStudySubjectArea(studySubjectArea);
     	obj.setHasWaitlist(hasWaitlist);
     	obj.setIsWaitlistCheckinRequired(isWaitlistCheckinRequired);
     	if(waitlistMaximum != null)
     		obj.setWaitlistMaximum(waitlistMaximum);
     	obj.setStudyTitle(studyTitle);
+	*/
+
     	if(maxSeats != null)
     		obj.setMaximumEnrollment(maxSeats);
     	if(minSeats != null)
