@@ -149,37 +149,49 @@ import org.w3c.dom.Element;
 
         this.officialIdentifier = new LuiIdentifierInfo(lui.getOfficialIdentifier());
         this.alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
-        for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
-            this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
-        }
+	if (lui.getAlternateIdentifiers() != null) {
+	    for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
+		this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
+	    }
+	}
 
         this.cluId = lui.getCluId();
         this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
         this.atpKey = lui.getAtpKey();
 
         this.luiCodes = new ArrayList<LuCodeInfo>();
-        for (LuCode code : lui.getLuiCodes()) {
-            this.luiCodes.add(new LuCodeInfo(code));
-        }
+	if (lui.getLuiCodes() != null) {
+	    for (LuCode code : lui.getLuiCodes()) {
+		this.luiCodes.add(new LuCodeInfo(code));
+	    }
+	}
 
         this.maximumEnrollment = lui.getMaximumEnrollment();
         this.minimumEnrollment = lui.getMinimumEnrollment();
         this.referenceURL = lui.getReferenceURL();
-        this.unitsContentOwner  = new ArrayList<String>(lui.getUnitsContentOwner());
+	if (lui.getUnitsContentOwner() != null) {
+	    this.unitsContentOwner  = new ArrayList<String>(lui.getUnitsContentOwner());
+	}
         this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
         this.resultOptionIds = new ArrayList<String>(lui.getResultOptionIds());
 
         this.fees = new ArrayList<FeeInfo>();
-        for (Fee fee : lui.getFees()) {
-            this.fees.add(new FeeInfo(fee));
-        }
+	if (lui.getFees() != null) {
+	    for (Fee fee : lui.getFees()) {
+		this.fees.add(new FeeInfo(fee));
+	    }
+	}
 
         this.revenues = new ArrayList<RevenueInfo>();
-        for (Revenue revenue : lui.getRevenues()) {
-            this.revenues.add(new RevenueInfo(revenue));
-        }
+	if (lui.getRevenues() != null) {
+	    for (Revenue revenue : lui.getRevenues()) {
+		this.revenues.add(new RevenueInfo(revenue));
+	    }
+	}
 
-        this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+	if (lui.getExpenditure() != null) {
+	    this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+	}
 
         this._futureElements = null;
     }
