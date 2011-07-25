@@ -51,5 +51,4 @@ public interface Fee extends  HasId, HasAttributesAndMeta{
      * @name Description
      */
     public RichText getDescr();
-
 }

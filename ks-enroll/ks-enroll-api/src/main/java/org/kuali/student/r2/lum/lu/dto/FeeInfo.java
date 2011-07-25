@@ -74,6 +74,8 @@ public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializab
         
         this.feeType = fee.getFeeType();
         this.rateType = fee.getRateType();
+
+	/* this needs a deep copy */
         this.feeAmounts = (null != fee.getFeeAmounts()) ? new ArrayList<CurrencyAmountInfo>((List<CurrencyAmountInfo>)fee.getFeeAmounts()) : null;
         this.id = fee.getId();
         this.descr = (null != fee.getDescr()) ? new RichTextInfo(fee.getDescr() ) : null;

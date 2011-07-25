@@ -18,29 +18,13 @@ package org.kuali.student.r2.lum.lu.infc;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
- * Detailed information about a single LUI.
+ * Detailed information about an LU Code.
  */
 public interface LuCode extends IdEntity {
-
-	/**
-	 * Name: Lu Code Code identifier/name for the LU.
-	 */
-	public String getLuCode();
-
-	/**
-	 * Name: Lu Id Unique identifier for the Learning Unit (CLU) of which this
-	 * is an instance.
-	 */
-	public String getId();
-
-	/**
-	 * Name: Lu Type The Lu code's value.
-	 */
-	public String getType();
-
-	/**
-	 * Name: Lu value The Lu code's value.
-	 */
-	public String getValue();
-
+        
+    /**
+     * Name: Value 
+     * The Lu code's value.
+     */
+    public String getValue();
 }
