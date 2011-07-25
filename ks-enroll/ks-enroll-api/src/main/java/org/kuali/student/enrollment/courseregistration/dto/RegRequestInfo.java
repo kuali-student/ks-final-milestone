@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.registration.course.dto;
+package org.kuali.student.enrollment.courseregistration.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.registration.course.infc.RegRequest;
-import org.kuali.student.enrollment.registration.course.infc.RegRequestItem;
+import org.kuali.student.enrollment.courseregistration.infc.RegRequest;
+import org.kuali.student.enrollment.courseregistration.infc.RegRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 

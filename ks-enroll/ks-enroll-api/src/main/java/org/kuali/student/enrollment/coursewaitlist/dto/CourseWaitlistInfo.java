@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.waitlist.course.dto;
+package org.kuali.student.enrollment.coursewaitlist.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.waitlist.course.infc.CourseWaitlist;
+import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitlist;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 

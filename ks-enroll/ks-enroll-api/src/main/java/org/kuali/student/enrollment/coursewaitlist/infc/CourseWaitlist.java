@@ -9,7 +9,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.waitlist.course.infc;
+package org.kuali.student.enrollment.coursewaitlist.infc;
 
 import java.util.List;
 

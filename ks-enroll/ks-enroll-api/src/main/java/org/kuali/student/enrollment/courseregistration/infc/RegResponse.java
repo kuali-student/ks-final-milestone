@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.registration.course.infc;
+package org.kuali.student.enrollment.courseregistration.infc;
 
 
 import java.util.List;

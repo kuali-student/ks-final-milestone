@@ -1,6 +1,6 @@
 /**
  */
-package org.kuali.student.enrollment.registration.course.service;
+package org.kuali.student.enrollment.courseregistration.service;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import javax.jws.soap.SOAPBinding;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.registration.course.dto.ActivityRegistrationInfo;
-import org.kuali.student.enrollment.registration.course.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.registration.course.dto.RegGroupRegistrationInfo;
-import org.kuali.student.enrollment.registration.course.dto.RegRequestInfo;
-import org.kuali.student.enrollment.registration.course.dto.RegResponseInfo;
-import org.kuali.student.enrollment.waitlist.course.dto.CourseWaitlistEntryInfo;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
