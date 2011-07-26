@@ -246,7 +246,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
         entity3.setEffectiveDate(new Date(baseTime-10000000L));
-        entity3.setExpirationDate(new Date(baseTime+10000000L));
+        entity3.setExpirationDate(null);
         entity3.setSortKey(1);
         entity3.setValue("Value3");
         
@@ -352,13 +352,13 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(list.size(), 4);
 
         list = enumService.getEnumeratedValues("Key1", null, null, new Date(baseTime+40000000L));
-        assertEquals(list.size(), 2);
+        assertEquals(list.size(), 3);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "US", new Date(baseTime+40000000L));
         assertEquals(list.size(), 1);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime+40000000L));
-        assertEquals(list.size(), 1);
+        assertEquals(list.size(), 2);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime));
         assertEquals(list.size(), 2);
