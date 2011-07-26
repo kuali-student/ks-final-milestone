@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -17,7 +18,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -314,9 +314,16 @@ public class CourseAdminController extends CourseProposalController{
 					public void onModelReady(DataModel model) {
 						String versionedFromId = model.get("versionInfo/versionedFromId");
 						if(versionedFromId!=null && !versionedFromId.isEmpty()){
+							//Add the required field 
+							//See why the required for next state is not set
 							VerticalSectionView view = (VerticalSectionView) viewMap.get(CourseSections.COURSE_INFO);
 							Section activeDatesSection = view.getSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY);
+							Metadata meta = cfg.getModelDefinition().getMetadata(CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM);
+							if(meta!=null&&meta.getConstraints().get(0)!=null){
+								meta.getConstraints().get(0).setRequiredForNextState(true);
+							}
 							FieldDescriptor fd = cfg.addField(activeDatesSection, CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM, cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM));
+							
 							WorkflowUtilities.updateCrossField(fd, model);
 						}
 						onReadyCallback.exec(result);
