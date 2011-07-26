@@ -51,6 +51,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property> 
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="60"/>
+	    </property>
     </bean>
 
 	<bean id="termInfoUI.typeKey" parent="termInfo.typeKey-parent">
@@ -63,7 +66,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
-    	</property> 
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="60"/>
+	    </property>    	    	
     </bean>
     
     <bean id="termInfoUI.startDate" parent="termInfo.startDate-parent">
