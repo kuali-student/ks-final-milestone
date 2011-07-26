@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.browseprogram.client.views;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -61,45 +62,45 @@ public class BrowseProgramView extends ViewComposite {
         
         container.setTitleWidget(header);
         
-        List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
-        metaData = searchDefinition.getMetadata("filter");
-        lookups.add(metaData.getInitialLookup());
-        
-        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups());
-        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
-			@Override
-			public void onDeselect(FilterEvent e) {
-				handleSelections(e.getSelections());
-			}
-			@Override
-			public void onSelect(FilterEvent e) {
-				handleSelections(e.getSelections());
-			}
-       	
-        });
-        
-        dependencyFilter.addFilterResetEventHandler(new FilterResetEventHandler(){
-			@Override
-			public void onReset() {
-				handleSelections(null);				
-			}        	
-        });
-		
-        layout.add(dependencyFilter);
-        
 		metaData = searchDefinition.getMetadata("search");
 		
 		browsePanel = new BrowsePanel(metaData.getInitialLookup(),400);
 
 		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
 		
-		layout.add(browsePanel);
-
-		container.add(layout);
-		
 		browsePanel.executeSearch(new Callback<Boolean>(){
 			@Override
 			public void exec(Boolean result) {
+				Metadata metaData;
+				List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
+		        metaData = searchDefinition.getMetadata("filter");
+		        lookups.add(metaData.getInitialLookup());
+		        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups());
+		        dependencyFilter.setFilterCount(browsePanel.getFilterCount());
+		        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
+					@Override
+					public void onDeselect(FilterEvent e) {
+						handleSelections(e.getSelections());
+					}
+					@Override
+					public void onSelect(FilterEvent e) {
+						handleSelections(e.getSelections());
+					}
+		       	
+		        });
+		        
+		        dependencyFilter.addFilterResetEventHandler(new FilterResetEventHandler(){
+					@Override
+					public void onReset() {
+						handleSelections(null);				
+					}        	
+		        });
+				
+		        layout.add(dependencyFilter);
+		        
+		        layout.add(browsePanel);
+		        
+				container.add(layout);
 			}
 		});
 

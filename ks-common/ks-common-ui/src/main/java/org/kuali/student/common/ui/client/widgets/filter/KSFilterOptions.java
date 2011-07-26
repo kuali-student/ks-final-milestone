@@ -44,7 +44,7 @@ public class KSFilterOptions extends Composite{
     private VerticalFlowPanel filterContainer = new VerticalFlowPanel();
     private LoadingDiv loading = new LoadingDiv();
     List<KSFilterItem> filterItems = new ArrayList<KSFilterItem>();
-        
+    Map<String,Integer> filterCount=new HashMap<String,Integer>();
     private int itemsIntializing = 0;
     private int itemsSelected = 0;
 
@@ -55,7 +55,7 @@ public class KSFilterOptions extends Composite{
         filterTitlePanel.add(filterDescription);
         filterContainer.add(filterTitlePanel);
         filterContainer.add(filterPanel);
-
+        
         filterContainer.addStyleName("KS-Filter-Options-Parent-Container");
         filterTitlePanel.addStyleName("KS-Filter-Options-Title-Panel");
 
@@ -81,6 +81,10 @@ public class KSFilterOptions extends Composite{
         });
         init(lookups);
         this.initWidget(filterContainer);
+    }
+    public void setFilterCount(Map<String,Integer> filterCount)
+    {
+    	this.filterCount=filterCount;
     }
     
     protected void init(List<LookupMetadata> lookups){
@@ -133,7 +137,11 @@ public class KSFilterOptions extends Composite{
 				public void onSuccess(SearchResult result) {
 					SearchResultListItems items = new SearchResultListItems(result.getRows(), lookup);
 					for (String id:items.getItemIds()){
-		                final KSCheckBox checkbox = new KSCheckBox(items.getItemText(id));
+						int a=0;
+						Map<String,Integer> temp=filterCount;
+						if(temp.containsKey(id))
+							a=temp.get(id);
+						final KSCheckBox checkbox = new KSCheckBox(items.getItemText(id)+" ("+a+")");
 		                checkbox.setFormValue(id);
 		                checkboxes.add(checkbox);
 		                itemContent.add(checkbox);
@@ -205,5 +213,5 @@ public class KSFilterOptions extends Composite{
 		
 		return selectionMap;
     }
-
+    
 }

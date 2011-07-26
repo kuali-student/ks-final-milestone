@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -181,6 +182,76 @@ public class BrowsePanel extends Composite {
 				lookupMetadata.getResultReturnKey(), callback);
 		tablePanel.setVisible(true);
 		layout.setVisible(true);
+	}
+
+	public Map<String,Integer> getFilterCount()
+	{
+		Map<String,Integer> filterCount=new HashMap<String,Integer>();
+		for(ResultRow resultRow:getAllResultRows())
+		{
+			String key=resultRow.getValue("lu.resultColumn.cluOfficialIdentifier.level");
+			if(key!=null)
+			{
+				if(!filterCount.containsKey(key))
+				{
+					filterCount.put(key, 1);
+				}
+				else{
+					int a=filterCount.get(key).intValue();
+					a++;
+					filterCount.put(key, a);
+				}
+			}
+			
+			key=resultRow.getValue("lu.resultColumn.resultComponentId");
+			if(key!=null)
+			{
+				if(!filterCount.containsKey(key))
+				{
+					filterCount.put(key, 1);
+				}
+				else{
+					int a=filterCount.get(key).intValue();
+					a++;
+					filterCount.put(key, a);
+				}
+			}
+			
+			key=resultRow.getValue("lu.resultColumn.luOptionalState");
+			if(key!=null)
+			{
+				if(!filterCount.containsKey(key))
+				{
+					filterCount.put(key, 1);
+				}
+				else{
+					int a=filterCount.get(key).intValue();
+					a++;
+					filterCount.put(key, a);
+				}
+			}
+			
+			key=null;
+			key=resultRow.getValue("lu.resultColumn.luOptionalCampusLocation");
+			
+			while(key!=null)
+			{
+				if(!filterCount.containsKey(key.substring(0,2)))
+				{
+					filterCount.put(key.substring(0,2), 1);
+				}
+				else{
+					int a=filterCount.get(key.substring(0,2)).intValue();
+					a++;
+					filterCount.put(key.substring(0,2), a);
+				}
+				if(key.length()>2)
+					key=key.substring(7);
+				else
+					key=null;
+			}
+		}
+		return filterCount;
 	}
 
 	public List<String> getSelectedIds() {
