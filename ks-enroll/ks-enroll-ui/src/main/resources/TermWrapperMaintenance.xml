@@ -18,12 +18,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<!-- 
+<!--  
   <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
   <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="objectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
     <property name="titleAttribute" value="termInfo.key"/>
-    <property name="attributes">
+    <property name="complexAttributes">
       <list>
         <ref bean="TermWrapper.termInfo"/>
         <ref bean="TermWrapper.classesMeetDates"/>
@@ -42,25 +42,31 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
 -->
   <!-- Attribute Definitions 
-  <bean id="TermWrapper.termInfo" parent="termInfoUI">
+  <bean id="TermWrapper.termInfo" parent="ComplexAttributeDefinition">
   	<property name="name" value="termInfo"/>
+  	<property name="dataObjectEntry" ref="termInfoUI"/>  	
   </bean>	
-  <bean id="TermWrapper.classesMeetDates" parent="keyDateInfoUI">
+  <bean id="TermWrapper.classesMeetDates" parent="ComplexAttributeDefinition">
   	<property name="name" value="classesMeetDates"/>
+  	<property name="dataObjectEntry" ref="keyDateInfoUI"/>
   </bean>
-  <bean id="TermWrapper.registrationPeriod" parent="keyDateInfoUI">
+  <bean id="TermWrapper.registrationPeriod" parent="ComplexAttributeDefinition">
   	<property name="name" value="registrationPeriod"/>
+  	<property name="dataObjectEntry" ref="keyDateInfoUI"/>
   </bean>
-  <bean id="TermWrapper.dropPeriodEndsDate" parent="keyDateInfoUI">
-  	<property name="name" value="registrationPeriod"/>  
+  <bean id="TermWrapper.dropPeriodEndsDate" parent="ComplexAttributeDefinition">
+  	<property name="name" value="registrationPeriod"/>
+  	<property name="dataObjectEntry" ref="keyDateInfoUI"/>  
   </bean>
-  <bean id="TermWrapper.finalExaminationsDates" parent="keyDateInfoUI">
-  	<property name="name" value="finalExaminationsDates"/>  
+  <bean id="TermWrapper.finalExaminationsDates" parent="ComplexAttributeDefinition">
+  	<property name="name" value="finalExaminationsDates"/>
+  	<property name="dataObjectEntry" ref="keyDateInfoUI"/>    
   </bean> 
-  <bean id="TermWrapper.gradesDueDate" parent="keyDateInfoUI">
-  	<property name="name" value="gradesDueDate"/>   
+  <bean id="TermWrapper.gradesDueDate" parent="ComplexAttributeDefinition">
+  	<property name="name" value="gradesDueDate"/>
+  	<property name="dataObjectEntry" ref="keyDateInfoUI"/>     
   </bean>   
-  -->
+-->
   <!-- LookupView -->
   <bean id="TermWrapper-LookupView" parent="LookupView">
     <property name="title" value="Term Lookup (by Key)" />
@@ -130,7 +136,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      <property name="title" value="Term Wrapper Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl" />
-    
+     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="items">
        <list merge="true">
           <bean parent="MaintenanceGroupSectionGridLayout">
@@ -192,4 +198,3 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>  
 </beans>   
-  
