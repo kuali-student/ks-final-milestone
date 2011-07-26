@@ -31,9 +31,9 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationDateGroupInfo", propOrder = {
-		"registrationDateDerivationGroup", "termKey", "registrationDateRange",
+		"termKey", "registrationDateRange",
 		"classDateRange", "addDate", "dropDate", "finalExamDateRange",
-		"gradingDateRange", "_futureElements" })
+		"gradingDateRange", "registrationDateDerivationGroup", "_futureElements" })
 public class RegistrationDateGroupInfo implements RegistrationDateGroup,
 		Serializable {
 

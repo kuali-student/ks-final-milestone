@@ -80,27 +80,119 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.kuali.maven.plugins</groupId>
-        <artifactId>maven-kscontractdoc-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <phase>${ks.contractdoc.phase}</phase>
-            <goals>
-              <goal>kscontractdoc</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <sourceDirs>
-            <sourceDir>${project.basedir}/src/main/java</sourceDir>
-          </sourceDirs>
-        </configuration>
-      </plugin>
-      <!-- <plugin> <groupId>org.kuali.maven.plugins</groupId> <artifactId>maven-ksdictionarydoc-plugin</artifactId> <version>0.0.1-SNAPSHOT</version> 
-        <executions> <execution> <phase>install</phase> <goals> <goal>ksdictionarydoc</goal> </goals> </execution> </executions> 
-        <configuration> <inputFiles> <inputFile>ks-lui-person-relation-dictionary.xml</inputFile> </inputFiles> <projectUrl>https://test.kuali.org/svn/student/sandbox/ks-r2-poc/trunk/ks-services/ks-services-api/src/main/resources</projectUrl> 
-        </configuration> </plugin> -->
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>maven-kscontractdoc-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>  
+                    <!-- This generates the standard contract docs on the site-->
+                    <execution>
+                        <id>generate-contract-documentation</id>                             
+                        <phase>${ks.contractdoc.phase}</phase>
+                        <goals>
+                            <goal>kscontractdoc</goal>                      
+                        </goals>
+                    </execution>
+                    <!-- This generates the the dictionary documentation docs on the site-->                    
+                    <execution>
+                        <id>generate-dictionary-documentation</id>
+                        <phase>${ks.contractdoc.phase}</phase>
+                        <goals>
+                            <goal>ksdictionarydoc</goal>                            
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                               <!--  inputFiles that do not end in ".xml" are treated it
+                               as a header and used it to group the dictionary files--> 
+                               <!-- ATP -->
+                                <inputFile>Academic Time Period (ATP) Service</inputFile>
+                                <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AtpMilestoneRelationInfo-dictionary.xml</inputFile>                               
+                               <!-- ACAL -->                               
+                                <inputFile>Academic Calendar (ACAL) Service</inputFile>
+                                <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-CampusCalendarInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-TermInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationDateGroupInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
+                               <!-- LPR -->
+                                <inputFile>Lui Person Relation (LPR) Service</inputFile>
+                                <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
+                               <!-- Hold -->        
+                                <inputFile>Hold Service</inputFile>
+                                <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RestrictionInfo-dictionary.xml</inputFile>
+                               <!-- LUI -->                
+                                <inputFile>Learning Unit Instance (LUI) Service</inputFile>
+                                <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LuiLuiRelationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
+                               <!-- Course Offering -->
+                                <inputFile>Course Offering Service</inputFile>        
+                                <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
+                            </inputFiles>
+                        </configuration>                                    
+                    </execution>
+                    <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
+                    <execution>
+                        <id>generate-dictionary-files</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>ksdictionarycreator</goal>                            
+                        </goals>
+                        <configuration>
+                            <classNames>
+                                <!-- Atp -->
+                                <className>AtpInfo</className>                    
+                                <className>MilestoneInfo</className>                                    
+                                <className>AtpMilestoneRelationInfo</className>
+                                <className>AtpAtpRelationInfo</className>  
+                                <!-- Acal -->
+                                <className>AcademicCalendarInfo</className>
+                                <className>CampusCalendarInfo</className>
+                                <className>TermInfo</className>
+                                <className>RegistrationDateGroupInfo</className>
+                                <className>HolidayInfo</className>
+                                <className>KeyDateInfo</className>
+                               <!-- LPR -->
+                                <className>LuiPersonRelationInfo</className>
+                               <!-- Hold -->        
+                                <className>HoldInfo</className>
+                                <className>IssueInfo</className>
+                                <className>RestrictionInfo</className>
+                               <!-- LUI -->                
+                                <className>LuiInfo</className>
+                                <className>LuiLuiRelationInfo</className>
+                                <className>LuiCapacityInfo</className>
+                               <!-- Course Offering -->     
+                                <className>CourseOfferingInfo</className>
+                                <className>ActivityOfferingInfo</className>
+                                <className>RegistrationGroupInfo</className>
+                                <className>SeatPoolDefinitionInfo</className>                           
+                            </classNames>                     
+                        </configuration>
+                    </execution>                    
+                </executions>
+                <configuration>
+                    <!-- this defines that location of the source code used for all contract docs executions -->
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                    </sourceDirs>                    
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kuali.rice</groupId>
+                        <artifactId>rice-impl</artifactId>
+                        <version>${kuali.rice.version}</version>
+                    </dependency>                            
+                </dependencies>
+            </plugin>
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2ws-plugin</artifactId>
