@@ -22,27 +22,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <import resource="classpath:ks-KeyDateInfo-dictionary.xml"/>
 
     <!-- KeyDateInfo-->
-    <bean id="keyDateInfoUI" parent="keyDateInfo-parent">
+    <bean id="KeyDateInfoUI" parent="KeyDateInfo-parent">
         <property name="objectLabel" value="Key Date Info"/>
         <property name="attributes">
             <list>
-                <ref bean="keyDateInfoUI.startDate"/>
-                <ref bean="keyDateInfoUI.endDate"/>
+                <ref bean="KeyDateInfoUI.startDate"/>
+                <ref bean="KeyDateInfoUI.endDate"/>
                 
    				<!--  other attributes not used by UI -->                  
-                <ref bean="keyDateInfo.key"/>
-                <ref bean="keyDateInfo.typeKey"/>
-                <ref bean="keyDateInfo.stateKey"/>
-                <ref bean="keyDateInfo.name"/>
-                <ref bean="keyDateInfo.descr"/>
-                <ref bean="keyDateInfo.isAllDay"/>
-                <ref bean="keyDateInfo.isDateRange"/>
-                <ref bean="keyDateInfo.attributes"/>                
+                <ref bean="KeyDateInfo.key"/>
+                <ref bean="KeyDateInfo.typeKey"/>
+                <ref bean="KeyDateInfo.stateKey"/>
+                <ref bean="KeyDateInfo.name"/>
+                <ref bean="KeyDateInfo.descr"/>
+                <ref bean="KeyDateInfo.isAllDay"/>
+                <ref bean="KeyDateInfo.isDateRange"/>              
             </list>
         </property>
     </bean>
     
-    <bean id="keyDateInfoUI.startDate" parent="keyDateInfo.startDate-parent">
+    <bean id="KeyDateInfoUI.startDate" parent="KeyDateInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
@@ -52,7 +51,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
 
-    <bean id="keyDateInfoUI.endDate" parent="keyDateInfo.endDate-parent">
+    <bean id="KeyDateInfoUI.endDate" parent="KeyDateInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />

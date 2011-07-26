@@ -18,31 +18,30 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-	<!-- Overwrite some academicCalendarInfo attributes for UI -->
+	<!-- Overwrite some AcademicCalendarInfo attributes for UI -->
     <import resource="classpath:ks-AcademicCalendarInfo-dictionary.xml"/>
     
-	<bean id="academicCalendarInfoUI" parent="academicCalendarInfo-parent">
+	<bean id="AcademicCalendarInfoUI" parent="AcademicCalendarInfo-parent">
         <property name="objectLabel" value="Academic Calendar"/>
         <property name="titleAttribute" value="key"/>     
         <property name="attributes">
             <list>
-                <ref bean="academicCalendarInfoUI.key"/>
-                <ref bean="academicCalendarInfoUI.startDate"/>
-                <ref bean="academicCalendarInfoUI.endDate"/>
-                <ref bean="academicCalendarInfoUI.credentialProgramTypeKey"/>
+                <ref bean="AcademicCalendarInfoUI.key"/>
+                <ref bean="AcademicCalendarInfoUI.startDate"/>
+                <ref bean="AcademicCalendarInfoUI.endDate"/>
+                <ref bean="AcademicCalendarInfoUI.credentialProgramTypeKey"/>
                 
                 <!--  other attributes not used by UI -->
-                <ref bean="academicCalendarInfo.typeKey"/>
-                <ref bean="academicCalendarInfo.stateKey"/>
-                <ref bean="academicCalendarInfo.name"/>
-                <ref bean="academicCalendarInfo.descr"/>
-                <ref bean="academicCalendarInfo.attributes"/>
+                <ref bean="AcademicCalendarInfo.typeKey"/>
+                <ref bean="AcademicCalendarInfo.stateKey"/>
+                <ref bean="AcademicCalendarInfo.name"/>
+                <ref bean="AcademicCalendarInfo.descr"/>
                 
             </list>
         </property>
     </bean>
     
-    <bean id="academicCalendarInfoUI.key" parent="academicCalendarInfo.key-parent">
+    <bean id="AcademicCalendarInfoUI.key" parent="AcademicCalendarInfo.key-parent">
         <property name="label" value="Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
@@ -55,7 +54,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property> 
     </bean>
     
-    <bean id="academicCalendarInfoUI.startDate" parent="academicCalendarInfo.startDate-parent">
+    <bean id="AcademicCalendarInfoUI.startDate" parent="AcademicCalendarInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />        
@@ -65,7 +64,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
 
-    <bean id="academicCalendarInfoUI.endDate" parent="academicCalendarInfo.endDate-parent">
+    <bean id="AcademicCalendarInfoUI.endDate" parent="AcademicCalendarInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />        
@@ -75,7 +74,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>  
     
-    <bean id="academicCalendarInfoUI.credentialProgramTypeKey" parent="academicCalendarInfo.credentialProgramTypeKey-parent">
+    <bean id="AcademicCalendarInfoUI.credentialProgramTypeKey" parent="AcademicCalendarInfo.credentialProgramTypeKey-parent">
         <property name="label" value="Credential Program"/>
         <property name="required" value="true"/>
         <property name="validationPattern" >

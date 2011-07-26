@@ -21,26 +21,25 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <!-- TermInfo-->
     <import resource="classpath:ks-TermInfo-dictionary.xml"/>
     
-    <bean id="termInfoUI" parent="termInfo-parent">
+    <bean id="TermInfoUI" parent="TermInfo-parent">
        	<property name="objectLabel" value="Term Info"/>
         <property name="titleAttribute" value="key"/>
         <property name="attributes">
             <list>
-                <ref bean="termInfoUI.key"/>
-                <ref bean="termInfoUI.typeKey"/>
-                <ref bean="termInfoUI.startDate"/>
-                <ref bean="termInfoUI.endDate"/>  
+                <ref bean="TermInfoUI.key"/>
+                <ref bean="TermInfoUI.typeKey"/>
+                <ref bean="TermInfoUI.startDate"/>
+                <ref bean="TermInfoUI.endDate"/>  
                 
                 <!--  other attributes not used by UI -->           
-                <ref bean="termInfo.stateKey"/>
-                <ref bean="termInfo.name"/>
-                <ref bean="termInfo.descr"/>
-                <ref bean="termInfo.attributes"/>              
+                <ref bean="TermInfo.stateKey"/>
+                <ref bean="TermInfo.name"/>
+                <ref bean="TermInfo.descr"/>             
             </list>
         </property>
     </bean>
     
-	<bean id="termInfoUI.key" parent="termInfo.key-parent">
+	<bean id="TermInfoUI.key" parent="TermInfo.key-parent">
         <property name="label" value="Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
@@ -56,7 +55,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    </property>
     </bean>
 
-	<bean id="termInfoUI.typeKey" parent="termInfo.typeKey-parent">
+	<bean id="TermInfoUI.typeKey" parent="TermInfo.typeKey-parent">
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="unique" value="true"/> 
@@ -72,7 +71,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	    </property>    	    	
     </bean>
     
-    <bean id="termInfoUI.startDate" parent="termInfo.startDate-parent">
+    <bean id="TermInfoUI.startDate" parent="TermInfo.startDate-parent">
         <property name="label" value="Start Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
@@ -82,7 +81,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
 
-    <bean id="termInfoUI.endDate" parent="termInfo.endDate-parent">
+    <bean id="TermInfoUI.endDate" parent="TermInfo.endDate-parent">
         <property name="label" value="End Date" />
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
