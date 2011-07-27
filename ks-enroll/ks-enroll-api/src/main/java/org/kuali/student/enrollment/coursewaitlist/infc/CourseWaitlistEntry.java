@@ -33,12 +33,14 @@ public interface CourseWaitlistEntry extends Relationship {
 
 	/**
 	 * Returns the student id in waitlist entry waitlisted.
+     * @readOnly
 	 */
 	public String getStudentId();
 
 	/**
 	 * Returns the position of this entry in the waitlist for a particular
-	 * waitlist option .
+	 * waitlist option.
+     * @readOnly
 	 */
 	public Integer getPosition();
 
@@ -46,7 +48,6 @@ public interface CourseWaitlistEntry extends Relationship {
 	 * Returns true if the student has checked in to the waitlist. Used to track
 	 * if the student is still interested in being in the wailist.
 	 * 
-	 * @return
 	 */
 	public Date getLastCheckedIn();
 
@@ -54,7 +55,6 @@ public interface CourseWaitlistEntry extends Relationship {
 	 * Returns the reg group id for this waitlist entry. A waitlist entry should
 	 * always be on tied to a single reg group. 
 	 * 
-	 * @return
 	 */
 	public String getRegGroupId();
 
@@ -62,7 +62,7 @@ public interface CourseWaitlistEntry extends Relationship {
 	 * 
 	 * Course offering id that contains the 
 	 * 
-	 * @return
+	 * @readOnly
 	 */
 	public String getCourseOfferingId();
 }
