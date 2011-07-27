@@ -245,6 +245,17 @@ public class WorkflowUtilities{
 			
 		});
 	}
+	
+	/**
+	 * Updates and binds all of the dependent fields for the field passed in as a parameter. 
+	 * Then reprocesses constraints on the field passed in so it is correctly constrained.
+	 * This is needed since the data values won't be bound to the fields until those sections are displayed
+	 *
+	 * TODO This static class should be moved to a utility at some point
+	 *   
+	 * @param fd the field with cross constraints that needs updating
+	 * @param dataModel
+	 */
 	public static void updateCrossField(final FieldDescriptor fd, DataModel dataModel){
 		//Update the widgets of any cross constraints so the values are there and can be reprocessed.
 		if(fd.getFieldWidget() instanceof HasCrossConstraints){
