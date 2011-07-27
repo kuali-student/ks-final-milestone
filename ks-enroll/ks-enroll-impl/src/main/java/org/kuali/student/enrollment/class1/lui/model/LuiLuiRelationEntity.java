@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
-public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity>{
+public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity>{
     @Column(name = "NAME")
     private String name;
     
@@ -57,7 +57,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LuiAttributeEntity> attributes;
+    private List<LuiLuiRelationAttributeEntity> attributes;
     
     public LuiLuiRelationEntity(){}
     
@@ -66,10 +66,10 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
         
-        this.setAttributes(new ArrayList<LuiAttributeEntity>());
+        this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
         if (null != luiLuiRelation.getAttributes()) {
             for (Attribute att : luiLuiRelation.getAttributes()) {
-                this.getAttributes().add(new LuiAttributeEntity(att));
+                this.getAttributes().add(new LuiLuiRelationAttributeEntity(att));
             }
         }    	
     }
@@ -86,7 +86,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         obj.setMeta(super.toDTO());
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiAttributeEntity att : getAttributes()) {
+        for (LuiLuiRelationAttributeEntity att : getAttributes()) {
         	AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
@@ -160,13 +160,13 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	}
 
 	@Override
-	public void setAttributes(List<LuiAttributeEntity> attributes) {
+	public void setAttributes(List<LuiLuiRelationAttributeEntity> attributes) {
 		this.attributes = attributes;
 		
 	}
 
 	@Override
-	public List<LuiAttributeEntity> getAttributes() {
+	public List<LuiLuiRelationAttributeEntity> getAttributes() {
 		return attributes;
 	}
 

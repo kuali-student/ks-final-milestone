@@ -7,6 +7,6 @@ import org.kuali.student.r2.common.entity.TypeEntity;
 
 @Entity
 @Table(name = "KSEN_LUI_TYPE")
-public class LuiTypeEntity extends TypeEntity<LuiAttributeEntity>{
+public class LuiTypeEntity extends TypeEntity<LuiTypeAttributeEntity>{
 
 }

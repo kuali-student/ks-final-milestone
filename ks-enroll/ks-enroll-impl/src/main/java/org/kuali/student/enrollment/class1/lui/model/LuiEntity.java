@@ -1,14 +1,14 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.lum.lu.infc.LuCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,28 +33,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @Column(name = "NAME")
     private String name;
     
-	@Column(name = "LUI_CODE")
-    private String luiCode;
-
-	//TODO: use CLU?
-//	@ManyToOne
-//	@JoinColumn(name = "CLU_ID")
-//	private Clu clu;
-    
-	@Column(name = "CLU_ID")
-	private String cluId;
-	
-//    @ManyToOne
-//    @JoinColumn(name="ATP_ID")
-//    private AtpEntity atp;
-
-	@Column(name="ATP_ID")
-	private String atpKey;
-	
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private LuiRichTextEntity descr;   
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name = "TYPE_ID")
     private LuiTypeEntity luiType;
@@ -62,6 +45,15 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinColumn(name = "STATE_ID")
     private StateEntity luiState;
     
+	@Column(name = "CLU_ID")
+	private String cluId;
+	
+	@Column(name="ATP_ID")
+	private String atpKey;
+    
+	@Column(name="REF_URL")
+	private String referenceURL;
+	
 	@Column(name = "MAX_SEATS")
 	private Integer maxSeats;
 	
@@ -75,25 +67,27 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXP_DT")
 	private Date expirationDate;
-
-	@Column(name = "STDY_SUBJ_AREA")
-    private String studySubjectArea;
 	
-//	@OneToMany(cascade=CascadeType.ALL)
-//    @JoinTable(name = "KSEN_LUI_JN_LUI_INSTR", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_INSTR_ID"))
-//    private List<LuiInstructorEntity> instructors;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
+	private List<LuCodeEntity> luCodes;
+      
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name = "OFFIC_LUI_ID")
+    private LuiIdentifierEntity officialIdentifier;
     
-    @Column(name="HAS_WTLST")
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "KSEN_LUI_JN_LUI_IDENT", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_LUI_ID"))
+    private List<LuiIdentifierEntity> alternateIdentifiers;
+
+	//	TODO: decide if this this should be stored on the Lui or on a waitlist object?
+   /* @Column(name="HAS_WTLST")
     private boolean hasWaitlist;
     
     @Column(name="IS_WTLSTCHK_REQ")
     private boolean isWaitlistCheckinRequired;
     
-	@Column(name = "STDY_TITLE")
-	private String studyTitle;
-    
 	@Column(name = "WTLST_MAX")
-	private Integer waitlistMaximum;
+	private Integer waitlistMaximum; */
 	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
@@ -108,15 +102,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setAtpKey(lui.getAtpKey());
         	this.setCluId(lui.getCluId());
         	this.setMaxSeats(lui.getMaximumEnrollment());        	
-        	this.setMinSeats(lui.getMinimumEnrollment());        	
+        	this.setMinSeats(lui.getMinimumEnrollment());     
+        	this.setReferenceURL(lui.getReferenceURL());
 		/*
-		 * Lui interface changed. Need to reconcile with contract.
-        	this.setLuiCode(lui.getLuiCode());
-        	this.setStudySubjectArea(lui.getStudySubjectArea());
+		 * decide if this this should be stored on the Lui or on a waitlist object?.
         	this.setHasWaitlist(lui.getHasWaitlist());
         	this.setWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
         	this.setWaitlistMaximum(lui.getWaitlistMaximum());
-        	this.setStudyTitle(lui.getStudyTitle());
 		*/
         	if(lui.getEffectiveDate() != null)
         		this.setEffectiveDate(lui.getEffectiveDate());
@@ -126,6 +118,27 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	        if(lui.getDescr() != null)
 	            this.setDescr(new LuiRichTextEntity(lui.getDescr()));
 	        	        
+	        if(lui.getOfficialIdentifier() != null)
+	        	this.setOfficialIdentifier(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
+
+
+	        this.setLuCodes(new ArrayList<LuCodeEntity>());
+	        if (null != lui.getLuiCodes()){
+	        	for(LuCode luCode : lui.getLuiCodes()){
+	        		LuCodeEntity lcdEntity = new LuCodeEntity(luCode);
+	        		this.getLuCodes().add(lcdEntity);
+	        	}
+	        }
+	        
+
+	        this.setAlternateIdentifiers(new ArrayList<LuiIdentifierEntity>());
+	        if (null != lui.getAlternateIdentifiers()){
+	        	for(LuiIdentifier luiIdentifier : lui.getAlternateIdentifiers()){
+	        		LuiIdentifierEntity liEntity = new LuiIdentifierEntity(luiIdentifier);
+	        		this.getAlternateIdentifiers().add(liEntity);
+	        	}
+	        }
+	        
 	        this.setAttributes(new ArrayList<LuiAttributeEntity>());
 	        if (null != lui.getAttributes()) {
 	            for (Attribute att : lui.getAttributes()) {
@@ -146,14 +159,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setCluId(cluId);
 
 	/*
-	 * LUI interface changed.. reconcile with contract.
-    	obj.setLuiCode(luiCode);
-    	obj.setStudySubjectArea(studySubjectArea);
+	 * decide if this this should be stored on the Lui or on a waitlist object?
     	obj.setHasWaitlist(hasWaitlist);
     	obj.setIsWaitlistCheckinRequired(isWaitlistCheckinRequired);
     	if(waitlistMaximum != null)
     		obj.setWaitlistMaximum(waitlistMaximum);
-    	obj.setStudyTitle(studyTitle);
 	*/
 
     	if(maxSeats != null)
@@ -178,14 +188,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         obj.setAttributes(atts);
         
         return obj;
-    }
-    
-    public String getLuiCode() {
-        return luiCode;
-    }
-
-    public void setLuiCode(String luiCode) {
-        this.luiCode = luiCode;
     }
 
     public Integer getMaxSeats() {
@@ -268,49 +270,65 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 		this.luiState = luiState;
 	}
 
-	public String getStudySubjectArea() {
-		return studySubjectArea;
+	public String getReferenceURL() {
+		return referenceURL;
 	}
 
-	public void setStudySubjectArea(String studySubjectArea) {
-		this.studySubjectArea = studySubjectArea;
+	public void setReferenceURL(String referenceURL) {
+		this.referenceURL = referenceURL;
 	}
-
-	public boolean isHasWaitlist() {
-		return hasWaitlist;
-	}
-
-	public void setHasWaitlist(boolean hasWaitlist) {
-		this.hasWaitlist = hasWaitlist;
-	}
-
-	public boolean isWaitlistCheckinRequired() {
-		return isWaitlistCheckinRequired;
-	}
-
-	public void setWaitlistCheckinRequired(boolean isWaitlistCheckinRequired) {
-		this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-	}
-
-	public String getStudyTitle() {
-		return studyTitle;
-	}
-
-	public void setStudyTitle(String studyTitle) {
-		this.studyTitle = studyTitle;
-	}
-
-	public Integer getWaitlistMaximum() {
-		return waitlistMaximum;
-	}
-
-	public void setWaitlistMaximum(Integer waitlistMaximum) {
-		this.waitlistMaximum = waitlistMaximum;
-	}
+//	public boolean isHasWaitlist() {
+//		return hasWaitlist;
+//	}
+//
+//	public void setHasWaitlist(boolean hasWaitlist) {
+//		this.hasWaitlist = hasWaitlist;
+//	}
+//
+//	public boolean isWaitlistCheckinRequired() {
+//		return isWaitlistCheckinRequired;
+//	}
+//
+//	public void setWaitlistCheckinRequired(boolean isWaitlistCheckinRequired) {
+//		this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
+//	}
+//
+//	public Integer getWaitlistMaximum() {
+//		return waitlistMaximum;
+//	}
+//
+//	public void setWaitlistMaximum(Integer waitlistMaximum) {
+//		this.waitlistMaximum = waitlistMaximum;
+//	}
 
 	@Override
 	public void setAttributes(List<LuiAttributeEntity> attributes) {
 		this.attributes = attributes;			
+	}
+
+	public List<LuCodeEntity> getLuCodes() {
+		return luCodes;
+	}
+
+	public void setLuCodes(List<LuCodeEntity> luCodes) {
+		this.luCodes = luCodes;
+	}
+
+	public LuiIdentifierEntity getOfficialIdentifier() {
+		return officialIdentifier;
+	}
+
+	public void setOfficialIdentifier(LuiIdentifierEntity officialIdentifier) {
+		this.officialIdentifier = officialIdentifier;
+	}
+
+	public List<LuiIdentifierEntity> getAlternateIdentifiers() {
+		return alternateIdentifiers;
+	}
+
+	public void setAlternateIdentifiers(
+			List<LuiIdentifierEntity> alternateIdentifiers) {
+		this.alternateIdentifiers = alternateIdentifiers;
 	}
 
 	@Override

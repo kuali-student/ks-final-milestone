@@ -13,12 +13,14 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			CourseOfferingInfo co = new CourseOfferingInfo();
+			//lui.getReferenceURL(); where to map?
 			co.setId(lui.getId());
 			co.setTypeKey(lui.getTypeKey());
 			co.setStateKey(lui.getStateKey());
 			co.setDescr(lui.getDescr());
 			co.setCourseId(lui.getCluId());
 			co.setTermKey(lui.getAtpKey());
+
 			//co.setCourseOfferingCode(lui.getLuiCode());
 			//co.setCourseNumberSuffix(courseNumberSuffix) //TODO: where to map?
 			//co.setCourseTitle(lui.getStudyTitle());
