@@ -40,6 +40,7 @@ import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.springframework.beans.BeanUtils;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
@@ -249,15 +250,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
-                	//This is tricky, try to temporarily swap the field name and the index in the elementStack(this is for lists of non complex types)
-                	String oldFieldName = field.getName();
-                	elementStack.push(oldFieldName);
-                	field.setName(Integer.toBinaryString(i));
-
-                	processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
-                    
+                	//This is tricky, change the field name to the index in the elementStack(this is for lists of non complex types)
+                	elementStack.push(field.getName());
+                	FieldDefinition tempField = new FieldDefinition();
+                	BeanUtils.copyProperties(field, tempField);
+                	tempField.setName(Integer.toBinaryString(i));
+                	processConstraint(results, tempField, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
                 	elementStack.pop();
-                    field.setName(oldFieldName);
                     i++;
                 }
 
