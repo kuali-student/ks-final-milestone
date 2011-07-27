@@ -447,7 +447,15 @@ public class WorkflowUtilities{
 				items.add(wfFYIWorkflowItem);
 			}
             if(workflowActions.contains("R")){
-                items.add(wfReturnToPreviousItem);
+            	//Don't show the return to previous if this is already in preroute.
+            	//Why is this showing up in WF actions?
+            	String workflowNode = null;
+            	if(dataModel!=null){
+            		workflowNode = dataModel.get("proposal/workflowNode");
+            	}
+            	if(!"PreRoute".equals(workflowNode)){
+            		items.add(wfReturnToPreviousItem);
+            	}
             }
             if(workflowActions.contains("B")){
                 items.add(wfBlanketApproveItem);
@@ -1023,11 +1031,11 @@ public class WorkflowUtilities{
                     @Override
                     public void exec(ConfirmCancelEnum result) {
                         if (!result.name().equals("CANCEL")) {
-                            if ((rationaleEditor.getText().trim().equals("")) && (nodeNameDropDown.getSelectedItem().trim().equals(""))) {
+                            if ((rationaleEditor.getText().trim().equals("")) && (nodeNameDropDown.getSelectedItem()==null || nodeNameDropDown.getSelectedItem().trim().equals(""))) {
                                 required.setText("Please enter the decision rationale and select a node name to return to");
                             } else if (rationaleEditor.getText().trim().equals("")) {
                                 required.setText("Please enter the decision rationale");
-                            } else if (nodeNameDropDown.getSelectedItem().trim().equals("")) {
+                            } else if (nodeNameDropDown.getSelectedItem()==null || nodeNameDropDown.getSelectedItem().trim().equals("")) {
                                 required.setText("Please select a node name to return to");
                             } else {
                                 addRationale(rationaleEditor, DecisionRationaleDetail.RETURN_TO_PREVIOUS.getType());
