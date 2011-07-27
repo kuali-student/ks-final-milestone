@@ -81,7 +81,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone,
 		return isAllDay;
 	}
 
-	public void setAllDay(Boolean isAllDay) {
+	public void setIsAllDay(Boolean isAllDay) {
 		this.isAllDay = isAllDay;
 	}
 
@@ -90,7 +90,7 @@ public class MilestoneInfo extends KeyEntityInfo implements Milestone,
 		return isDateRange;
 	}
 
-	public void setDateRange(Boolean isDateRange) {
+	public void setIsDateRange(Boolean isDateRange) {
 		this.isDateRange = isDateRange;
 	}
 

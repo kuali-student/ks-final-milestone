@@ -26,9 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Holiday;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -87,8 +84,8 @@ public class HolidayInfo extends KeyEntityInfo implements Holiday, Serializable 
 		return isInstructionalDay;
 	}
 
-	public void setInstructionalDay(Boolean instructionalDay) {
-		this.isInstructionalDay = instructionalDay;
+	public void setIsInstructionalDay(Boolean isInstructionalDay) {
+		this.isInstructionalDay = isInstructionalDay;
 	}
 	
    @Override

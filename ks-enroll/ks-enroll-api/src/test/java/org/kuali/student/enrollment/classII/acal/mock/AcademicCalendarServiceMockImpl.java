@@ -709,7 +709,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         MilestoneInfo keyDate = new MilestoneInfo();
         keyDate.setKey(keyDate.getKey());
         keyDate.setName(keyDate.getName());
-        keyDate.setDateRange(keyDateInfo.getIsDateRange());
+        keyDate.setIsDateRange(keyDateInfo.getIsDateRange());
         this.atpService.updateMilestone(keyDateKey, keyDate, context);
         return keyDateInfo;
     }
@@ -1185,7 +1185,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         MilestoneInfo mInfo = new MilestoneInfo();
         mInfo.setAttributes(holidayInfo.getAttributes());
         mInfo.setName(holidayInfo.getName());
-        mInfo.setDateRange(holidayInfo.getIsDateRange());
+        mInfo.setIsDateRange(holidayInfo.getIsDateRange());
         mInfo.setDescr(holidayInfo.getDescr());
         mInfo.setKey(holidayInfo.getKey());
 

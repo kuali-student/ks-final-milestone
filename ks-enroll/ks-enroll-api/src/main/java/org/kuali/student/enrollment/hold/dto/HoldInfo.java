@@ -105,7 +105,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 		return isWarning;
 	}
 
-	public void setWarning(Boolean isWarning) {
+	public void setIsWarning(Boolean isWarning) {
 		this.isWarning = isWarning;
 	}
 
@@ -114,7 +114,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 		return isOverridable;
 	}
 
-	public void setOverridable(Boolean isOverridable) {
+	public void setIsOverridable(Boolean isOverridable) {
 		this.isOverridable = isOverridable;
 	}
 

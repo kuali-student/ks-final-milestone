@@ -13,7 +13,6 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
@@ -30,12 +29,10 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.lum.lu.infc.LuCode;
-import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
@@ -44,69 +41,51 @@ import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-        "descr", "effectiveDate", "expirationDate", 
-        "officialIdentifier", "alternateIdentifiers", "cluId",
-        "cluCluRelationIds", "atpKey", "luiCodes",
-        "maximumEnrollment", "minimumEnrollment", "referenceURL",
-        "unitsContentOwner", "unitsDeployment", "resultOptionIds", 
-        "fees", "revenues", "expenditure", 
-        "meta", "attributes", "_futureElements" })
+@XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+    "descr", "effectiveDate", "expirationDate",
+    "officialIdentifier", "alternateIdentifiers", "cluId",
+    "cluCluRelationIds", "atpKey", "luiCodes",
+    "maximumEnrollment", "minimumEnrollment", "referenceURL",
+    "unitsContentOwner", "unitsDeployment", "resultOptionIds",
+    "fees", "revenues", "expenditure",
+    "meta", "attributes", "_futureElements"})
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
-    @XmlElement 
+    @XmlElement
     private LuiIdentifierInfo officialIdentifier;
-
-    @XmlElement 
+    @XmlElement
     private List<LuiIdentifierInfo> alternateIdentifiers;
-
     @XmlElement
     private String cluId;
-
-    @XmlElement 
+    @XmlElement
     private List<String> cluCluRelationIds;
-
     @XmlElement
     private String atpKey;
-
     @XmlElement
     private List<LuCodeInfo> luiCodes;
-
     @XmlElement
     private Integer maximumEnrollment;
-
     @XmlElement
     private Integer minimumEnrollment;
-
     @XmlElement
     private String referenceURL;
-
     @XmlElement
     private List<String> unitsContentOwner;
-
     @XmlElement
     private List<String> unitsDeployment;
-
     @XmlElement
-    private List<String> resultOptionIds;    
-
+    private List<String> resultOptionIds;
     @XmlElement
     private List<FeeInfo> fees;
-
     @XmlElement
     private List<RevenueInfo> revenues;
-
     @XmlElement
     private ExpenditureInfo expenditure;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -127,7 +106,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         minimumEnrollment = null;
         referenceURL = null;
         unitsDeployment = new ArrayList<String>();
-        unitsContentOwner  = new ArrayList<String>();
+        unitsContentOwner = new ArrayList<String>();
         resultOptionIds = new ArrayList<String>();
 
         fees = new ArrayList<FeeInfo>();
@@ -140,58 +119,60 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     public LuiInfo(Lui lui) {
         super(lui);
 
-        if(null == lui) {
+        if (null == lui) {
             return;
         }
 
         this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
         this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
 
-        this.officialIdentifier = new LuiIdentifierInfo(lui.getOfficialIdentifier());
+        if (lui.getOfficialIdentifier() != null) {
+            this.officialIdentifier = new LuiIdentifierInfo(lui.getOfficialIdentifier());
+        }
         this.alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
-	if (lui.getAlternateIdentifiers() != null) {
-	    for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
-		this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
-	    }
-	}
+        if (lui.getAlternateIdentifiers() != null) {
+            for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
+                this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
+            }
+        }
 
         this.cluId = lui.getCluId();
         this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
         this.atpKey = lui.getAtpKey();
 
         this.luiCodes = new ArrayList<LuCodeInfo>();
-	if (lui.getLuiCodes() != null) {
-	    for (LuCode code : lui.getLuiCodes()) {
-		this.luiCodes.add(new LuCodeInfo(code));
-	    }
-	}
+        if (lui.getLuiCodes() != null) {
+            for (LuCode code : lui.getLuiCodes()) {
+                this.luiCodes.add(new LuCodeInfo(code));
+            }
+        }
 
         this.maximumEnrollment = lui.getMaximumEnrollment();
         this.minimumEnrollment = lui.getMinimumEnrollment();
         this.referenceURL = lui.getReferenceURL();
-	if (lui.getUnitsContentOwner() != null) {
-	    this.unitsContentOwner  = new ArrayList<String>(lui.getUnitsContentOwner());
-	}
+        if (lui.getUnitsContentOwner() != null) {
+            this.unitsContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
+        }
         this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
         this.resultOptionIds = new ArrayList<String>(lui.getResultOptionIds());
 
         this.fees = new ArrayList<FeeInfo>();
-	if (lui.getFees() != null) {
-	    for (Fee fee : lui.getFees()) {
-		this.fees.add(new FeeInfo(fee));
-	    }
-	}
+        if (lui.getFees() != null) {
+            for (Fee fee : lui.getFees()) {
+                this.fees.add(new FeeInfo(fee));
+            }
+        }
 
         this.revenues = new ArrayList<RevenueInfo>();
-	if (lui.getRevenues() != null) {
-	    for (Revenue revenue : lui.getRevenues()) {
-		this.revenues.add(new RevenueInfo(revenue));
-	    }
-	}
+        if (lui.getRevenues() != null) {
+            for (Revenue revenue : lui.getRevenues()) {
+                this.revenues.add(new RevenueInfo(revenue));
+            }
+        }
 
-	if (lui.getExpenditure() != null) {
-	    this.expenditure = new ExpenditureInfo(lui.getExpenditure());
-	}
+        if (lui.getExpenditure() != null) {
+            this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+        }
 
         this._futureElements = null;
     }

@@ -26,7 +26,7 @@
     <bean id="BaseKuali.readOnlyAttributeSecurity" parent="AttributeSecurity">
         <property name="readOnly" value="true" />        
     </bean>
-   
+  
     <bean id="BaseKuali.string" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="STRING" />
         <property name="required" value="false"/>
@@ -79,19 +79,52 @@
         <property name="validCharactersConstraint" ref="Positive.integer" />
     </bean>
 
-
-    <bean id="BaseKuali.currency" abstract="true" parent="AttributeDefinition">
-        <property name="dataType" value="FLOAT" />
+    <bean id="BaseKuali.long" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="LONG" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
         <property name="control">
-            <bean parent="CurrencyControlDefinition" p:size="10"/>
+            <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Positive.integer" />
+    </bean>
+
+    <bean id="BaseKuali.float" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="FLOAT" />
+        <property name="required" value="false"/>
+        <property name="minLength" value="1" />
+        <property name="maxLength" value="10" />
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        </property>
+        <property name="validCharactersConstraint" ref="Numeric" />
+    </bean>
+
+    <bean id="BaseKuali.double" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="DOUBLE" />
+        <property name="required" value="false"/>
+        <property name="minLength" value="1" />
+        <property name="maxLength" value="10" />
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        </property>
+        <property name="validCharactersConstraint" ref="Numeric" />
+    </bean>
+    
+    <bean id="BaseKuali.currency" abstract="true" parent="AttributeDefinition">
+        <property name="dataType" value="FLOAT" />
+        <property name="required" value="false"/>
+        <property name="minLength" value="1" />
+        <property name="maxLength" value="10" />
+        <property name="control">
+            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        </property>
+        <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
+        <property name="validCharactersConstraint" ref="Numeric" />
     </bean>
 
     <bean id="BaseKuali.boolean" abstract="true" parent="AttributeDefinition">
@@ -105,7 +138,7 @@
     </bean>
 
     <bean id="BaseKuali.date" abstract="true" parent="AttributeDefinition">
-        <property name="dataType" value="TRUNCATED_DATE" />
+        <property name="dataType" value="DATE" />
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1" />-->
@@ -263,7 +296,7 @@ Could be implemented as as sequence number or as a UUID.
         <property name="description" value="The date the object became (will) expire"/>
     </bean>
 
- <bean id="BaseKuali.startDate" parent="BaseKuali.dateTime" abstract="true">
+    <bean id="BaseKuali.startDate" parent="BaseKuali.dateTime" abstract="true">
         <property name="required" value="false"/>
         <property name="name" value="startDate"/>
         <property name="childEntryName" value="startDate"/>
@@ -274,6 +307,26 @@ Could be implemented as as sequence number or as a UUID.
     </bean>
 
     <bean id="BaseKuali.endDate" parent="BaseKuali.dateTime" abstract="true">
+        <!-- TODO: add a cross field constraint to ensure end is always >= start -->
+        <property name="name" value="endDate"/>
+        <property name="childEntryName" value="endDate"/>
+        <property name="shortLabel" value="Ends"/>
+        <property name="summary" value="End Date"/>
+        <property name="label" value="End Date of the time range"/>
+        <property name="description" value="The date the range will end.  If null until the end of time."/>
+    </bean>
+
+    <bean id="BaseKuali.start" parent="BaseKuali.dateTime" abstract="true">
+        <property name="required" value="false"/>
+        <property name="name" value="startDate"/>
+        <property name="childEntryName" value="startDate"/>
+        <property name="shortLabel" value="Starts"/>
+        <property name="summary" value="Start Date of the range"/>
+        <property name="label" value="Start Date"/>
+        <property name="description" value="The start date of the time range.  If null then since beginning of time."/>
+    </bean>
+
+    <bean id="BaseKuali.end" parent="BaseKuali.dateTime" abstract="true">
         <!-- TODO: add a cross field constraint to ensure end is always >= start -->
         <property name="name" value="endDate"/>
         <property name="childEntryName" value="endDate"/>
@@ -313,7 +366,6 @@ Could be implemented as as sequence number or as a UUID.
         <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
     </bean>
 
-
     <bean id="BaseKuali.termKey" parent="BaseKuali.atpKey" abstract="true">
         <property name="name" value="termKey"/>
         <property name="childEntryName" value="termKey"/>
@@ -326,10 +378,10 @@ Could be implemented as as sequence number or as a UUID.
     <bean id="BaseKuali.campusCalendarKey" parent="BaseKuali.atpKey" abstract="true">
         <property name="name" value="campusCalendarKey"/>
         <property name="childEntryName" value="campusCalendarKey"/>
-        <property name="shortLabel" value="ATP"/>
-        <property name="summary" value="Unique key to the Academic Time Period (ATP)"/>
-        <property name="label" value="ATO"/>
-        <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="shortLabel" value="Campus Calendar"/>
+        <property name="summary" value="Unique key to a campus calendar"/>
+        <property name="label" value="Campus Calendar Key"/>
+        <property name="description" value="Unique key to a campus calendar"/>
     </bean>
   
     <bean id="BaseKuali.cluId" abstract="true" parent="BaseKuali.idField">
