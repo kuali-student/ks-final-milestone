@@ -39,9 +39,9 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + DtoConstants.STATE_SUBMITTED + "'");
+        LOG.info("Will set CLU state to '" + DtoConstants.STATE_NOT_APPROVED + "'");
         CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
-        updateCourse(actionTakenEvent, DtoConstants.STATE_SUBMITTED, courseInfo);
+        updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED, courseInfo);
     }
 
     @Override
