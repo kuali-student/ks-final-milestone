@@ -312,23 +312,31 @@ public class CourseAdminController extends CourseProposalController{
 				requestModel(new ModelRequestCallback<DataModel>(){
 					@Override
 					public void onModelReady(DataModel model) {
-						String versionedFromId = model.get("versionInfo/versionedFromId");
-						if(versionedFromId!=null && !versionedFromId.isEmpty()){
-							//Add the required field 
-							//See why the required for next state is not set
-							VerticalSectionView view = (VerticalSectionView) viewMap.get(CourseSections.COURSE_INFO);
-							Section activeDatesSection = view.getSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY);
-							Metadata meta = cfg.getModelDefinition().getMetadata(CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM);
-							if(meta!=null&&meta.getConstraints().get(0)!=null){
-								meta.getConstraints().get(0).setRequiredForNextState(true);
-								meta.getConstraints().get(0).setNextState("ACTIVE");
+						//In admin screens add the previous end term field to the active dates section and update it's values   
+						//ONLY when in edit mode. This way it doesn't attempt to retrieve non-existent "Course Info" section;
+						//only the "Summary" section has been configured in non-edit mode.
+						if (model.getDefinition().getMetadata().isCanEdit()){
+							String versionedFromId = model.get("versionInfo/versionedFromId");
+							if(versionedFromId!=null && !versionedFromId.isEmpty()){
+								//Add the required field 
+								//See why the required for next state is not set
+								VerticalSectionView view = (VerticalSectionView) viewMap.get(CourseSections.COURSE_INFO);							
+								Section activeDatesSection = view.getSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY);
+								Metadata meta = cfg.getModelDefinition().getMetadata(CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM);
+								if(meta!=null&&meta.getConstraints().get(0)!=null){
+									meta.getConstraints().get(0).setRequiredForNextState(true);
+									meta.getConstraints().get(0).setNextState("ACTIVE");
+								}
+								FieldDescriptor fd = cfg.addField(activeDatesSection, CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM, cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM));
+								
+								//FIXME: This static method should not live in WorkflowUtilities
+								WorkflowUtilities.updateCrossField(fd, model);
 							}
-							FieldDescriptor fd = cfg.addField(activeDatesSection, CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM, cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM));
-							
-							WorkflowUtilities.updateCrossField(fd, model);
 						}
+						
 						onReadyCallback.exec(result);
 					}
+					
 					@Override
 					public void onRequestFail(Throwable cause) {
 						throw new RuntimeException("Error getting model",cause);
