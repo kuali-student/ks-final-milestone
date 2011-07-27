@@ -441,6 +441,12 @@ public class WorkflowUtilities{
 		//Display all workflow actions if workflowWidgetsEnabled, otherwise just display
 		//the cancel option.
 		if (workflowWidgetsEnabled){
+        	//Get the workflowNode from the proposal
+			String workflowNode = null;
+        	if(dataModel!=null){
+        		workflowNode = dataModel.get("proposal/workflowNode");
+        	}
+        	
 			if(workflowActions.contains("S")){
 				items.add(wfStartWorkflowItem);
 			}
@@ -449,7 +455,14 @@ public class WorkflowUtilities{
             }
 			if(workflowActions.contains("A")){
 				items.add(wfApproveItem);
-				items.add(wfDisApproveItem);
+				//Change the approve label  to resubmit if it is the first node
+				if("PreRoute".equals(workflowNode)){
+    				wfApproveItem.setLabel("Resubmit Proposal");
+            	}else{
+    				wfApproveItem.setLabel("Approve Proposal");
+    				//Only add disapprove if it is not the first node
+    				items.add(wfDisApproveItem);
+            	}
 			}
 			if(workflowActions.contains("K")){
 				items.add(wfAcknowledgeItem);
@@ -460,10 +473,6 @@ public class WorkflowUtilities{
             if(workflowActions.contains("R")){
             	//Don't show the return to previous if this is already in preroute.
             	//Why is this showing up in WF actions?
-            	String workflowNode = null;
-            	if(dataModel!=null){
-            		workflowNode = dataModel.get("proposal/workflowNode");
-            	}
             	if(!"PreRoute".equals(workflowNode)){
             		items.add(wfReturnToPreviousItem);
             	}
