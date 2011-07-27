@@ -1,16 +1,23 @@
-package org.kuali.student.enrollment.courseregistration.service;
+package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -27,18 +34,21 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.StateService;
+import org.springframework.transaction.annotation.Transactional;
 
-public class CourseRegistrationServiceDecorator implements CourseRegistrationService {
-    
-    protected CourseRegistrationServiceDecorator nextDecorator;
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
+    private LuiPersonRelationService lprService;
+    private CourseOfferingService courseOfferingService;
+    private StateService stateService;
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
@@ -46,14 +56,12 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -61,7 +69,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -69,7 +76,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -77,42 +83,36 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -120,14 +120,12 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public Boolean checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
             String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
@@ -135,7 +133,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -143,7 +140,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibiltyForCourseOffering(
             String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException,
@@ -151,7 +147,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibiltyForRegGroup(
             String studentId, String regGroupId, ContextInfo context) throws InvalidParameterException,
@@ -159,7 +154,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentInCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException,
@@ -167,7 +161,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public String calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -175,7 +168,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public String calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -183,7 +175,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public Integer getAvailableSeatsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -191,7 +182,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public Integer getAvailableSeatsForRegGroup(String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -199,7 +189,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public Integer getAvailableSeatsForStudentInRegGroup(String studentId, String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -207,7 +196,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public Integer getAvailableSeatsInSeatpool(String seatpoolId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -215,7 +203,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
@@ -223,7 +210,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegRequestInfo updateRegRequest(String regRequestId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -231,14 +217,12 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public StatusInfo deleteRegRequest(String regRequestId, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo,
             ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
@@ -246,7 +230,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -254,7 +237,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo verifySavedReqRequest(String regRequestId, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -262,7 +244,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -270,28 +251,24 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public StatusInfo cancelRegRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegRequestInfo getRegRequestById(String regRequestId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegRequestInfo> getRegRequestsByIdList(List<String> regRequestIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -299,7 +276,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
             List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -307,7 +283,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public CourseWaitlistEntryInfo getCourseWaitlistEntryById(String courseWaitlistEntryId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -315,7 +290,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo updateCourseWaitlistEntry(CourseWaitlistEntryInfo courseWaitlistEntryInfo,
             ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
@@ -323,7 +297,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -331,7 +304,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
@@ -339,7 +311,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForCourseOffering(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -347,7 +318,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(String regGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -355,7 +325,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndCourseOffering(String courseOfferingId,
             String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -363,7 +332,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentAndRegGroup(String regGroupId, String studentId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -371,7 +339,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -379,7 +346,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public CourseRegistrationInfo getCourseRegistrationById(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -387,7 +353,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public CourseRegistrationInfo getCourseRegistrationsByIdList(List<String> courseRegistrationIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -395,7 +360,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -403,7 +367,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -411,7 +374,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseRegn(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -419,7 +381,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -427,7 +388,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -435,7 +395,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegn(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -443,7 +402,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public ActivityRegistrationInfo getActivityRegistrationById(String activityRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -451,7 +409,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public ActivityRegistrationInfo getActivityRegistrationsByIdList(List<String> activityRegistrationIds,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -459,7 +416,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForActivityOffering(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -467,7 +423,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -475,7 +430,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegGroupRegistrationInfo getRegGroupRegistration(String regGroupRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -483,7 +437,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -491,7 +444,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(List<String> regGroupIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -499,7 +451,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByRegGroupId(String regGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -507,7 +458,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public RegGroupRegistrationInfo getRegGroupRegistrationsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -515,7 +465,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -523,7 +472,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<String> searchForCourseOfferingRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -531,7 +479,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<ActivityRegistrationInfo> searchForActivityRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -539,7 +486,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -547,7 +493,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -555,7 +500,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<String> searchForRegGroupRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -563,7 +507,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -571,7 +514,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
     @Override
     public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -580,5 +522,5 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return null;
     }
 
-	
+
 }
