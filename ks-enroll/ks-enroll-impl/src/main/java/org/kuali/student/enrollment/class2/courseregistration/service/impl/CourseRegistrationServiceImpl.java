@@ -284,23 +284,52 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
     @Override
-    public CourseWaitlistEntryInfo getCourseWaitlistEntryById(String courseWaitlistEntryId, ContextInfo context)
+    public CourseWaitlistEntryInfo getCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public RegResponseInfo updateCourseWaitlistEntry(CourseWaitlistEntryInfo courseWaitlistEntryInfo,
-            ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo updateCourseWaitlistEntry(String courseWaitlistEntryId,
+            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public RegResponseInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
+    public StatusInfo reorderCourseWaitlistEntries(List<String> courseWaitlistEntryIds, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public StatusInfo insertCourseWaitlistEntryAtPosition(String courseWaitlistEntryId, Integer position,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public StatusInfo removeCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public StatusInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public StatusInfo validateCourseWaitlistEntry(String validateTypeKey,
+            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -326,42 +355,49 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
     @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentAndCourseOffering(String courseOfferingId,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentInCourseOffering(String courseOfferingId,
             String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentAndRegGroup(String regGroupId, String studentId,
+    public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentInRegGroup(String regGroupId, String studentId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termId,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public CourseRegistrationInfo getCourseRegistrationById(String courseRegistrationId, ContextInfo context)
+    public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public CourseRegistrationInfo getCourseRegistrationsByIdList(List<String> courseRegistrationIds, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termId,
+    public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
+            String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -375,7 +411,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
     @Override
-    public List<RegRequestInfo> getRegRequestsForCourseRegn(String courseRegistrationId, ContextInfo context)
+    public RegRequestInfo getRegRequestForCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -396,14 +432,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return null;
     }
     @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegn(String courseRegistrationId,
+    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override
-    public ActivityRegistrationInfo getActivityRegistrationById(String activityRegistrationId, ContextInfo context)
+    public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -521,6 +557,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+   
 
 
 }
