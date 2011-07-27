@@ -321,6 +321,7 @@ public class CourseAdminController extends CourseProposalController{
 							Metadata meta = cfg.getModelDefinition().getMetadata(CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM);
 							if(meta!=null&&meta.getConstraints().get(0)!=null){
 								meta.getConstraints().get(0).setRequiredForNextState(true);
+								meta.getConstraints().get(0).setNextState("ACTIVE");
 							}
 							FieldDescriptor fd = cfg.addField(activeDatesSection, CourseProposalConfigurer.PROPOSAL_PATH + "/" + CreditCourseConstants.PREV_END_TERM, cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM));
 							
