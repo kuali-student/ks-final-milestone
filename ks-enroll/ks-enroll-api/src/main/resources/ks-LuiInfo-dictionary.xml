@@ -100,11 +100,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="LuiInfo.officialIdentifier.typeKey" parent="LuiInfo.officialIdentifier.typeKey-parent"/>
 	<bean id="LuiInfo.officialIdentifier.typeKey-parent" abstract="true" parent="LuiInfo.officialIdentifier.typeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+<!--     TODO: MAKE THIS REQUIRED AGAIN ONCE RICE FIXES THE BUG WHERE THIS FAILS EVEN IF THE OFFICIAL IDENTIFIER IS NOT REQUIRD BUT THIS IS-->
+     <property name="required" value="false"/>
 	</bean>
 
 	<bean id="LuiInfo.officialIdentifier.stateKey" parent="LuiInfo.officialIdentifier.stateKey-parent"/>
 	<bean id="LuiInfo.officialIdentifier.stateKey-parent" abstract="true" parent="LuiInfo.officialIdentifier.stateKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+<!--     TODO: MAKE THIS REQUIRED AGAIN ONCE RICE FIXES THE BUG WHERE THIS FAILS EVEN IF THE OFFICIAL IDENTIFIER IS NOT REQUIRD BUT THIS IS-->    
+     <property name="required" value="false"/>    
 	</bean>
 
 	<bean id="LuiInfo.officialIdentifier.code" parent="LuiInfo.officialIdentifier.code-parent"/>
