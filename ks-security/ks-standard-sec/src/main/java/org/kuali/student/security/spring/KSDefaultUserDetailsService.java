@@ -15,12 +15,14 @@
 
 package org.kuali.student.security.spring;
 
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.User;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.security.util.AuthorityUtils;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -38,8 +40,8 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
-    private GrantedAuthority[] authorities = 
-        AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
+    private List<GrantedAuthority> authorities = 
+        AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_KS_ADMIN, ROLE_KS_USER");
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
@@ -54,6 +56,6 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     }
     
     public void setAuthorities(String[] roles) {
-        this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
+        this.authorities =  AuthorityUtils.createAuthorityList(roles);
     }
 }

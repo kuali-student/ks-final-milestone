@@ -16,8 +16,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.ValidationResult;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,14 +35,19 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
     @XmlAnyElement
     private final List<Element> _futureElements;    
 
-    private ValidationResultInfo() {
+
+    public static ValidationResultInfo newInstance() {
+        return new ValidationResultInfo();
+    }
+    
+    public ValidationResultInfo() {
         this.level = null;
         this.message = null;
         this.invalidData = null;
         this._futureElements = null;
     }
 
-    private ValidationResultInfo(ValidationResult builder) {
+    public ValidationResultInfo(ValidationResult builder) {
         this.level = builder.getLevel();
         this.element = builder.getElement();
         this.message = builder.getMessage();
@@ -51,34 +55,32 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         this._futureElements = null;
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.OK
-     */
+
     @Override
-    public boolean isOk() {
+    public Boolean getIsOk() {
         return getLevel() == ErrorLevel.OK.getLevel();
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.WARN
-     */
     @Override
-    public boolean isWarn() {
+    public Boolean getIsWarn() {
         return getLevel() == ErrorLevel.WARN.getLevel();
     }
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
-     * 
-     * @return true if getErrorLevel() == ErrorLevel.ERROR
-     */
+    
+    public void setWarn(String message) {
+        this.level = ErrorLevel.WARN.getLevel();
+        this.message = message;
+    }
+    
     @Override
-    public boolean isError() {
+    public Boolean getIsError() {
         return getLevel() == ErrorLevel.ERROR.getLevel();
+    }
+
+    
+    public void setError(String message) {
+        this.level = ErrorLevel.ERROR.getLevel();
+        this.message = message;
     }
 
     @Override
@@ -91,9 +93,19 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return message;
     }
 
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String getElement() {
         return element;
+    }
+
+    
+    public void setElement(String element) {
+        this.element = element;
     }
 
     @Override
@@ -101,88 +113,18 @@ public class ValidationResultInfo implements ValidationResult, Serializable {
         return level;
     }
 
+    
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public Object getInvalidData() {
         return invalidData;
     }
+
     
-        
-    public static class Builder implements ModelBuilder<ValidationResultInfo>, ValidationResult {
-
-        private String element;
-        private Integer level = ErrorLevel.OK.getLevel();
-        private String message;
-        private Object invalidData = null;
-        
-        public Builder() {}
-        
-        public Builder(ValidationResult validationResultInfo) {
-            this.element = validationResultInfo.getElement();
-            this.level = validationResultInfo.getLevel();
-            this.message = validationResultInfo.getMessage();
-            this.invalidData = validationResultInfo.getInvalidData();            
-        }
-        
-        @Override
-        public ValidationResultInfo build() {
-            return new ValidationResultInfo(this);
-        }              
-        
-        public String getElement() {
-            return element;
-        }
-
-        public void setElement(String element) {
-            this.element = element;
-        }
-
-        public Integer getLevel() {
-            return level;
-        }
-
-        public void setLevel(Integer level) {
-            this.level = level;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        public Object getInvalidData() {
-            return invalidData;
-        }
-
-        public void setInvalidData(Object invalidData) {
-            this.invalidData = invalidData;
-        }
-
-        public void setError(String message) {
-            this.level = ErrorLevel.ERROR.getLevel();
-            this.message = message;
-        }
-
-        public void setWarn(String message) {
-            this.level = ErrorLevel.WARN.getLevel();
-            this.message = message;
-        }
-        
-        @Override
-        public boolean isOk() {
-            return getLevel() == ErrorLevel.OK.getLevel();
-        }
-        
-        @Override
-        public boolean isWarn() {
-            return getLevel() == ErrorLevel.WARN.getLevel();
-        }
-        
-        @Override
-        public boolean isError() {
-            return getLevel() == ErrorLevel.ERROR.getLevel();
-        }        
+    public void setInvalidData(Object invalidData) {
+        this.invalidData = invalidData;
     }
 }

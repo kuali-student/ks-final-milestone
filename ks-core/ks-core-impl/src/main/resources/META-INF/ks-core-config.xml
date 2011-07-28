@@ -48,7 +48,7 @@ c
 
     <param name="ks.core.jpa.showSql">false</param>
     <param name="ks.core.jpa.generateDdl">false</param>
-    <param name="ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.BTMTransactionManagerLookup</param>
+    <param name="ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>
     <param name="ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
     <param name="ks.core.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
     <param name="ks.core.jpa.JpaProperties.hibernate.connection.autocommit">false</param>

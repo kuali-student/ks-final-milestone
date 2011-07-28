@@ -22,19 +22,17 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.enrollment.lpr.dao.LprDao;
-import org.kuali.student.enrollment.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.service.utilities.Constants;
+import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
+import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.service.utilities.Constants;
 
-@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
-@Ignore
+@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestLprDao extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.enrollment.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql")
+	@Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql")
 	private LprDao dao;
     private static String LUIID2 = "testLuiId2";
     private static String PERSONID2 = "testPersonId2";

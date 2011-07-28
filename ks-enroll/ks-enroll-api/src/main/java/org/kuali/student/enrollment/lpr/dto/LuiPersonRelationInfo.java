@@ -24,36 +24,42 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class LuiPersonRelationInfo extends RelationshipInfo
         implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @XmlElement
-    private final String luiId;
+    private String luiId;
+    
     @XmlElement
-    private final String personId;
+    private String personId;
+    
+    @XmlElement
+    private Float commitmentPercent; 
+    
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
-    private LuiPersonRelationInfo() {
-        super ();
+    public LuiPersonRelationInfo() {
         luiId = null;
         personId = null;
         _futureElements = null;
     }
 
-    private LuiPersonRelationInfo(LuiPersonRelation builder) {
-        super(builder);
-        this.luiId = builder.getLuiId();
-        this.personId = builder.getPersonId();
+    public LuiPersonRelationInfo(LuiPersonRelation lpr) {
+        super(lpr);
+        if(lpr!=null){
+        this.luiId = lpr.getLuiId();
+        this.personId = lpr.getPersonId();
         _futureElements = null;
+        }
     }
 
     @Override
@@ -61,48 +67,25 @@ public class LuiPersonRelationInfo extends RelationshipInfo
         return luiId;
     }
 
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
+    }
+
     @Override
     public String getPersonId() {
         return personId;
     }
 
-
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<LuiPersonRelationInfo>, LuiPersonRelation {
-
-        private String luiId;
-        private String personId;
-
-        public Builder() {
-        }
-
-        public Builder(LuiPersonRelation lprInfo) {
-            super(lprInfo);
-            this.luiId = lprInfo.getLuiId();
-            this.personId = lprInfo.getPersonId();
-        }
-
-        @Override
-        public LuiPersonRelationInfo build() {
-            return new LuiPersonRelationInfo(this);
-        }
-
-        @Override
-        public String getLuiId() {
-            return luiId;
-        }
-
-        public void setLuiId(String luiId) {
-            this.luiId = luiId;
-        }
-
-        @Override
-        public String getPersonId() {
-            return personId;
-        }
-
-        public void setPersonId(String personId) {
-            this.personId = personId;
-        }
-       
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
+
+    @Override
+    public Float getCommitmentPercent() {
+        return commitmentPercent;
+    }
+
+    public void setCommitmentPercent(Float commitmentPercent) {
+        this.commitmentPercent = commitmentPercent;
+    }    
 }

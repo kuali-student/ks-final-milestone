@@ -98,9 +98,7 @@
       <artifactId>ks-rice-lessdep</artifactId>
       <version>${project.version}</version>
       <type>pom</type>
-      <scope>test</scope>
     </dependency>
-
 
     <!-- Spring -->
     <dependency>
@@ -123,6 +121,13 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+    </dependency>
+
+    <!-- AspectJ -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
     </dependency>
   </dependencies>
 </project>

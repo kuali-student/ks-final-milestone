@@ -7,13 +7,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 	<import resource="classpath:applicationContext.xml"/> 
     
     <bean id="lprServiceToTest" parent="lprServiceOnBus"/>
-     <bean id="academicCalendarServiceImpl" class="org.kuali.student.core.academiccalendar.mock.AcademicCalendarServiceMockImpl" />
+     <bean id="academicCalendarServiceImpl" class="org.kuali.student.enrollment.classII.acal.mock.AcademicCalendarServiceMockImpl" />
    
-    <bean id="academicCalendarServiceToTest" class="org.kuali.student.core.academiccalendar.conformance.tests.AcademicCalendarServiceTestDecorator" >
+    <bean id="mockAcademicCalendarService" class="org.kuali.student.enrollment.classII.acal.conformance.tests.AcademicCalendarServiceTestDecorator" >
        <property name="nextDecorator" ref="academicCalendarServiceImpl"/>
     </bean>
     
-    <bean name="dataLoader" class="org.kuali.student.enrollment.lpr.service.utilities.DataLoader">
+    <bean name="dataLoader" class="org.kuali.student.enrollment.class1.lpr.service.utilities.DataLoader">
         <property name="em" ref="entityManager"/>
     </bean>
 </beans>

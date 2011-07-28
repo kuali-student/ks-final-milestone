@@ -10,14 +10,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.BaseEntity;
-import org.kuali.student.core.entity.KSEntityConstants;
+import org.kuali.student.common.entity.KSEntityConstants;
+
 
 @MappedSuperclass
 @AttributeOverrides({
 @AttributeOverride(name="id", column=@Column(name="TYPE_KEY"))})
 @Table(name = "KSLP_LPR_TYPE")
-public class BaseTypeEntity extends BaseEntity {
+public class BaseTypeEntity extends BaseVersionEntity {
 	@Column(name = "NAME")
 	private String name;
 	

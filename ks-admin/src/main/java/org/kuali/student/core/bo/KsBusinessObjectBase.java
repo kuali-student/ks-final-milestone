@@ -22,19 +22,20 @@ public abstract class KsBusinessObjectBase extends PersistableBusinessObjectBase
 
     
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
-        super.beforeInsert(persistenceBroker);
+        super.prePersist();
     }
 
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-        
-        toStringMap.put("id", id);
-        
-        return toStringMap;
-    }
+// No longer needed, build via reflection
+//    @Override
+//    protected LinkedHashMap<String, Object> toStringMapper() {
+//        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
+//        
+//        toStringMap.put("id", id);
+//        
+//        return toStringMap;
+//    }
 
     public String getId() {
         return id;

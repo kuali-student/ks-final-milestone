@@ -18,7 +18,6 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -29,9 +28,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.SearchParam;
+import org.kuali.student.r2.common.infc.SearchParam;
 import org.w3c.dom.Element;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Search Parameter
@@ -65,7 +65,8 @@ public class SearchParamInfo implements SearchParam, Serializable {
         if (this.values == null) {
             this.values = null;
         } else {
-            this.values = new ArrayList(infc.getValues());
+            this.values = new ArrayList<String>();
+            Collections.copy(this.values ,infc.getValues());
         }
         this._futureElements = null;
     }
@@ -78,48 +79,5 @@ public class SearchParamInfo implements SearchParam, Serializable {
     @Override
     public String getKey() {
         return key;
-    }
-
-    public static class Builder implements ModelBuilder<SearchParamInfo>, SearchParam {
-
-        private String key;
-        private List<String> values;
-
-        public Builder() {}
-        
-        public Builder(SearchParam searchInfo) {
-            this.key = searchInfo.getKey();
-            this.values = searchInfo.getValues();
-        }
-        
-        public SearchParamInfo build () {
-            return new SearchParamInfo (this);
-        }
-        
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public List<String> getValues() {
-            return values;
-        }
-
-        public void setValues(List<String> values) {
-            this.values = values;
-        }
-
-        /**
-         * Convenience method for setting a single value
-         * Actually stores it as a list with one value.
-         * @param value
-         */
-        public Builder value(String value) {
-            this.values = Arrays.asList(value);
-            return this;
-        }
     }
 }

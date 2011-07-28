@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;

@@ -15,15 +15,17 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum PhoneTypeEnum {
 
-    HOME("HM", "Home", true, "b"),
-    MOBILE("MBL", "Mobile", true, "c"),
-    WORK("WRK", "Work", true, "a"),
-    OTHER("OTH", "Other", true, "d");
+    HOME(KimIdentityServiceConstants.HOME_PHONE_TYPE_KEY, "Home", true, "b"),
+    MOBILE(KimIdentityServiceConstants.MOBILE_PHONE_TYPE_KEY, "Mobile", true, "c"),
+    WORK(KimIdentityServiceConstants.WORK_PHONE_TYPE_KEY, "Work", true, "a"),
+    OTHER(KimIdentityServiceConstants.OTHER_PHONE_TYPE_KEY, "Other", true, "d");
     private String code;
     private String name;
     private boolean active;

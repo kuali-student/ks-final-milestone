@@ -15,7 +15,17 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
+
+import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.kim.api.group.GroupService;
+import org.kuali.rice.kim.api.group.GroupUpdateService;
 import org.kuali.rice.kim.bo.Role;
 import org.kuali.rice.kim.bo.role.dto.DelegateMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.DelegateTypeInfo;
@@ -24,12 +34,9 @@ import org.kuali.rice.kim.bo.role.dto.RoleMemberCompleteInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityActionInfo;
 import org.kuali.rice.kim.bo.role.dto.RoleResponsibilityInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.GroupService;
-import org.kuali.rice.kim.service.GroupUpdateService;
-import org.kuali.rice.kim.service.KimTypeInfoService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.rice.kim.service.RoleUpdateService;
+import org.kuali.rice.kim.service.support.KimTypeService;
 
 /**
  * @author nwright
@@ -43,7 +50,7 @@ public class RoleServiceMockImpl implements
     private transient Map<String, RoleMemberCompleteInfo> roleMemberCompleteInfoCache = new HashMap<String, RoleMemberCompleteInfo>();
     private GroupService groupService;
     private GroupUpdateService groupUpdateService;
-    private KimTypeInfoService kimTypeInfoService;
+    private KimTypeService kimTypeInfoService;
 
     public GroupService getGroupService() {
         return groupService;
@@ -53,11 +60,11 @@ public class RoleServiceMockImpl implements
         this.groupService = groupService;
     }
 
-    public KimTypeInfoService getKimTypeInfoService() {
+    public KimTypeService getKimTypeService() {
         return kimTypeInfoService;
     }
 
-    public void setKimTypeInfoService(KimTypeInfoService kimTypeInfoService) {
+    public void setKimTypeService(KimTypeService kimTypeInfoService) {
         this.kimTypeInfoService = kimTypeInfoService;
     }
 
@@ -471,6 +478,33 @@ public class RoleServiceMockImpl implements
     public void assignPrincipalToRole(String principalId, String namespaceCode,
             String roleName, AttributeSet qualifications)
             throws UnsupportedOperationException {
+        KimRoleInfo roleInfo = null;
+        for (KimRoleInfo role : this.roleCache.values()) {
+            if (namespaceCode.equals(role.getNamespaceCode())) {
+                roleInfo = role;
+                break;
+            }
+            if (null == roleInfo) {
+                roleInfo = new KimRoleInfo();
+                roleInfo.setNamespaceCode(namespaceCode);
+                roleInfo.setActive(true);
+                roleInfo.setRoleId(UUID.randomUUID().toString());
+                this.roleCache.put(roleInfo.getRoleId(), roleInfo);
+            }
+            RoleMembershipInfo roleMembershipInfo = null;
+            if (roleName.equals(roleInfo.getRoleName())) {
+                for (RoleMembershipInfo rmInfo : roleMembershipCache.values()) {
+                    if (rmInfo.getRoleId().equals(roleInfo.getRoleId())) {
+                        roleMembershipInfo = rmInfo;
+                    }
+                }
+            }
+            if (null == roleMembershipInfo) {
+                // roleMembershipInfo = new RoleMembershipInfo(roleInfo.getRoleId(), roleMemberId, memberId, memberTypeCode, qualifier)
+            }
+            
+        }
+
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -23,8 +23,7 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;

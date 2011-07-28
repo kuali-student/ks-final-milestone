@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.common.exceptions.DoesNotExistException;

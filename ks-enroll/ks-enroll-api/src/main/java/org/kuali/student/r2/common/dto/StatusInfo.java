@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
-import org.kuali.student.common.infc.Status;
+import org.kuali.student.r2.common.infc.Status;
 import org.w3c.dom.Element;
 
 /**
@@ -34,76 +33,47 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusInfo", propOrder = {"success", "message", "_futureElements"})
+@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message", "_futureElements"})
 public class StatusInfo implements Status, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@XmlElement
-	private final Boolean success;
+	private Boolean isSuccess;
 	
 	@XmlElement
-	private final String message;
+	private String message;
 	
     @XmlAnyElement
-    private final List<Element> _futureElements;	
-	
-	private StatusInfo() {
-		success = true;
+    private List<Element> _futureElements;	
+
+  
+    public StatusInfo() {
+		isSuccess = Boolean.valueOf(true);
 		message = "";
 		_futureElements = null;
 	}
 	
-	private StatusInfo(Status builder) {
-		this.success = new Boolean(builder.isSuccess().booleanValue());
+    public StatusInfo(Status builder) {
+		this.isSuccess = new Boolean(builder.getIsSuccess().booleanValue());
 		this.message = builder.getMessage();
 		this._futureElements = null;
 	}
 
     @Override
-	public Boolean isSuccess(){
-		return success;
+	public Boolean getIsSuccess(){
+		return isSuccess;
 	}
+
+    public void setSuccess(Boolean success) {
+        this.isSuccess = success;
+    }
 
     @Override
 	public String getMessage() {
 		return message;
 	}
-	
-	public static class Builder implements ModelBuilder<StatusInfo>, Status {
-		private Boolean success;
-		private String message;
 
-		public Builder() {}
-		
-		public Builder(Status status) {
-			this.success = status.isSuccess();
-			this.message = status.getMessage();
-		}
-
-		public StatusInfo build() {
-			return new StatusInfo(this);
-		}
-
-		@Override
-		public Boolean isSuccess() {
-			return success;
-		}
-
-		@Override
-		public String getMessage() {
-			return message;
-		}
-
-        public Boolean getSuccess() {
-            return success;
-        }
-
-        public void setSuccess(Boolean success) {
-            this.success = success;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }	
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

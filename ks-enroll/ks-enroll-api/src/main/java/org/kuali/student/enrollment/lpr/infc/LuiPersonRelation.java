@@ -16,11 +16,14 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 //import com.sun.xml.internal.bind.AnyTypeAdapter;
-import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Detailed information about a single LUI to Person Relation.
+ * 
+ * This is used to link together a learning unit instance and a person in such widely defined
+ * domains as a student registering in a course or an instructor being assigned
+ * to advise students in a particular program.
  *
  * @Author KSContractMojo
  * @Author Kamal
@@ -30,16 +33,24 @@ import org.kuali.student.common.infc.Relationship;
 public interface LuiPersonRelation
         extends Relationship {
 
- /**
-  * Name: LUI Id
-  * Unique identifier for a Learning Unit Instance (LUI).
-  */
- public String getLuiId();
+    /**
+     * Unique identifier for a Learning Unit Instance (LUI).
+     * @name LUI Id
+     * @required
+     */
+    public String getLuiId();
 
- /**
-  * Name: Person Id
-  * Unique identifier for a person record.
-  */
- public String getPersonId();
+    /**
+     * Unique identifier for a person record.
+     * @name Person Id
+     * @required
+     */
+    public String getPersonId();
+
+     /**
+      * Commitment percentage for the person in the LUI
+      * @name Commitment Percent
+      */
+    public Float getCommitmentPercent();
 }
 

@@ -24,8 +24,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.Context;
-import org.kuali.student.common.infc.ModelBuilder;
+import org.kuali.student.r2.common.infc.Context;
 import org.w3c.dom.Element;
 
 /**
@@ -37,21 +36,41 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
 
     private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String principalId;
+    private String principalId;
     @XmlElement
-    private final String localeLanguage;
+    private String localeLanguage;
     @XmlElement
-    private final String localeVariant;
+    private String localeVariant;
     @XmlElement
-    private final String localeRegion;
+    private String localeRegion;
     @XmlElement
-    private final String localeScript;
+    private String localeScript;
     @XmlElement
-    private final String timeZone;
+    private String timeZone;
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
-    private ContextInfo() {
+
+
+    public static ContextInfo newInstance() {
+        return new ContextInfo();
+    }
+
+    public static ContextInfo getInstance(ContextInfo callContext) {
+        return new ContextInfo(callContext);
+    }
+    
+    public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
+        ContextInfo ctx = new ContextInfo();
+        
+        ctx.setPrincipalId(principalId);
+        ctx.setLocaleLanguage(localeLanguage);
+        ctx.setLocaleRegion(localeRegion);
+        
+        return ctx;
+    }
+    
+    public ContextInfo() {
         principalId = null;
         localeLanguage = null;
         localeVariant = null;
@@ -61,14 +80,14 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         _futureElements = null;
     }
 
-    private ContextInfo(Context builder) {
-        super(builder);
-        this.principalId = builder.getPrincipalId();
-        this.localeLanguage = builder.getLocaleLanguage();
-        this.localeVariant = builder.getLocaleVariant();
-        this.localeRegion = builder.getLocaleRegion();
-        this.localeScript = builder.getLocaleScript();
-        this.timeZone = builder.getTimeZone();
+    public ContextInfo(Context context) {
+        super(context);
+        this.principalId = context.getPrincipalId();
+        this.localeLanguage = context.getLocaleLanguage();
+        this.localeVariant = context.getLocaleVariant();
+        this.localeRegion = context.getLocaleRegion();
+        this.localeScript = context.getLocaleScript();
+        this.timeZone = context.getTimeZone();
         this._futureElements = null;
     }
 
@@ -77,9 +96,19 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return principalId;
     }
 
+    
+    public void setPrincipalId(String principalId) {
+        this.principalId = principalId;
+    }
+
     @Override
     public String getLocaleLanguage() {
         return localeLanguage;
+    }
+
+    
+    public void setLocaleLanguage(String localeLanguage) {
+        this.localeLanguage = localeLanguage;
     }
 
     @Override
@@ -87,9 +116,19 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeVariant;
     }
 
+    
+    public void setLocaleVariant(String localeVariant) {
+        this.localeVariant = localeVariant;
+    }
+
     @Override
     public String getLocaleRegion() {
         return localeRegion;
+    }
+
+    
+    public void setLocaleRegion(String localeRegion) {
+        this.localeRegion = localeRegion;
     }
 
     @Override
@@ -97,95 +136,18 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return localeScript;
     }
 
+    
+    public void setLocaleScript(String localeScript) {
+        this.localeScript = localeScript;
+    }
+
     @Override
     public String getTimeZone() {
         return timeZone;
     }
 
-    public static class Builder extends HasAttributesInfo.Builder implements ModelBuilder<ContextInfo>, Context {
-
-        private String principalId;
-        private String localeLanguage;
-        private String localeVariant;
-        private String localeRegion;
-        private String localeScript;
-        private String timeZone;
-
-        public Builder() {
-        }
-
-        public Builder(Context ctxInfo) {
-            super(ctxInfo);
-            this.principalId = ctxInfo.getPrincipalId();
-            this.localeLanguage = ctxInfo.getLocaleLanguage();
-            this.localeVariant = ctxInfo.getLocaleVariant();
-            this.localeRegion = ctxInfo.getLocaleRegion();
-            this.localeScript = ctxInfo.getLocaleScript();
-            this.timeZone = ctxInfo.getTimeZone();
-        }
-
-        public ContextInfo build() {
-            return new ContextInfo(this);
-        }
-
-        @Override
-        public String getPrincipalId() {
-            return principalId;
-        }
-
-        @Override
-        public String getLocaleLanguage() {
-            return localeLanguage;
-        }
-
-        @Override
-        public String getLocaleVariant() {
-            return localeVariant;
-        }
-
-        @Override
-        public String getLocaleRegion() {
-            return localeRegion;
-        }
-
-        @Override
-        public String getLocaleScript() {
-            return localeScript;
-        }
-
-        @Override
-        public String getTimeZone() {
-            return timeZone;
-        }
-
-        public Builder principalId(String principalId) {
-            this.principalId = principalId;
-            return this;
-        }
-
-        public Builder localeLanguage(String localeLanguage) {
-            this.localeLanguage = localeLanguage;
-            return this;
-        }
-
-        public Builder localeRegion(String localeRegion) {
-            this.localeRegion = localeRegion;
-            return this;
-        }
-
-        public Builder localeVariant(String localeVariant) {
-            this.localeVariant = localeVariant;
-            return this;
-        }
-
-        public Builder localeScript(String localeScript) {
-            this.localeScript = localeScript;
-            return this;
-        }
-        
-        public Builder timeZone(String timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
+    
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
     }
 }

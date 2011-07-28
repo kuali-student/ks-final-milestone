@@ -2,19 +2,21 @@ package org.kuali.student.r2.common.entity;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.core.entity.BaseEntity;
-import org.kuali.student.core.entity.KSEntityConstants;
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.infc.Attribute;
 
 @MappedSuperclass
-public class BaseAttributeEntity extends BaseEntity {
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"ATTR_KEY", "OWNER"})})
+public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends BaseEntity {
 	
-	@Column(name = "\"KEY\"")
+	@Column(name = "ATTR_KEY")
 	private String key;
 	
-	@Column(name = "VALUE",length=KSEntityConstants.LONG_TEXT_LENGTH)
+	@Column(name = "ATTR_VALUE",length=KSEntityConstants.LONG_TEXT_LENGTH)
 	private String value;
 
 	public BaseAttributeEntity() {
@@ -29,6 +31,7 @@ public class BaseAttributeEntity extends BaseEntity {
 		this.setId(att.getId());
 		this.key = att.getKey();
 		this.value = att.getValue();
+		// this.owner = att.getOwner();
 	}
 
 	public String getKey() {
@@ -47,12 +50,16 @@ public class BaseAttributeEntity extends BaseEntity {
         this.value = value;
     }
 
-	public AttributeInfo toDto() {
-		AttributeInfo.Builder builder = new AttributeInfo.Builder();
-		builder.setId(this.getId());
-		builder.setKey(this.getKey());
-		builder.setValue(this.getValue());
-		return builder.build();
+	public abstract void setOwner(T owner);
+
+    public abstract T getOwner();
+
+    public AttributeInfo toDto() {
+	    AttributeInfo attributeInfo = new AttributeInfo();
+		attributeInfo.setId(this.getId());
+		attributeInfo.setKey(this.getKey());
+		attributeInfo.setValue(this.getValue());
+		return attributeInfo;
 	}
 
 }

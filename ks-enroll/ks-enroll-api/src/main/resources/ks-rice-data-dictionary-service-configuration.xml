@@ -19,7 +19,7 @@
     <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
     <bean id="riceDataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
         <constructor-arg>
-            <bean class="org.kuali.student.datadictionary.SpringConfigurableDataDictionary" init-method="init">
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionary" init-method="init">
                 <property name="dataDictionaryMapper">
                     <bean class="org.kuali.rice.kns.datadictionary.DataDictionaryIndexMapper"/>
                 </property>

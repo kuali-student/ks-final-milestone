@@ -15,15 +15,17 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum AffiliationTypeEnum {
 
-    FACULTY("FCLTY", "Faculty", true, true, "b"),
-    STAFF("STAFF", "Staff", true, true, "c"),
-    STUDENT("STDNT", "Student", true, true, "a"),
-    AFFILIATE("AFLT", "Affiliate", true, true, "c");
+    FACULTY(KimIdentityServiceConstants.FACULTY_AFFILIATION_TYPE_KEY, "Faculty", true, true, "b"),
+    STAFF(KimIdentityServiceConstants.STAFF_AFFILIATION_TYPE_KEY, "Staff", true, true, "c"),
+    STUDENT(KimIdentityServiceConstants.STUDENT_AFFILIATION_TYPE_KEY, "Student", true, true, "a"),
+    AFFILIATE(KimIdentityServiceConstants.AFFILIATE_AFFILIATION_TYPE_KEY, "Affiliate", true, true, "c");
     private String code;
     private String name;
     private boolean employee;

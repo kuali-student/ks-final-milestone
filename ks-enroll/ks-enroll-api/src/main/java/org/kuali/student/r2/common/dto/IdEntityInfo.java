@@ -17,8 +17,14 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.IdEntity;
-
+import org.kuali.student.r2.common.infc.IdEntity;
+/**
+ * 
+ * This is a description of what this class does - sambit don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team (sambit)
+ *
+ */
 @SuppressWarnings("serial")
 @XmlTransient
 public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Serializable {
@@ -31,7 +37,7 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
         id = null;
     }
 
-    protected IdEntityInfo(IdEntity builder) {
+    public IdEntityInfo(IdEntity builder) {
         super(builder);
         this.id = builder.getId();
     }
@@ -40,29 +46,9 @@ public abstract class IdEntityInfo extends EntityInfo implements IdEntity, Seria
     public String getId() {
         return id;
     }
+    
 
-    /**
-     * The builder class for this abstract EntityInfo.
-     */
-
-    public static class Builder extends EntityInfo.Builder implements IdEntity {
-
-        private String id;
-
-        public Builder() {}
-
-        public Builder(IdEntity entity) {
-            super(entity);
-            this.id = entity.getId();
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setId(String id) {
+        this.id = id;
     }
 }

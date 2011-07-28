@@ -13,157 +13,75 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
-
-
-/**
- * Information about an ATP Milestone Relationship.
- *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
- */
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpMilestoneRelationInfo", propOrder = {"id", "typeKey", "stateKey", "atpKey", "milestoneKey", "effectiveDate", "expirationDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "AtpMilestoneRelationInfo", propOrder = { "id", "typeKey",
+		"stateKey", "atpKey", "milestoneKey", "effectiveDate",
+		"expirationDate", "meta", "attributes", "_futureElements" })
+public class AtpMilestoneRelationInfo extends RelationshipInfo implements
+		AtpMilestoneRelation, Serializable {
 
-public class AtpMilestoneRelationInfo extends RelationshipInfo implements AtpMilestoneRelation, Serializable {
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private String atpKey;
+	@XmlElement
+	private String milestoneKey;
+	@XmlAnyElement
+	private List<Element> _futureElements;
 
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private final String atpKey;
-
-    @XmlElement
-    private final String milestoneKey;
-
-    @XmlAnyElement
-    private final List<Element> _futureElements;  
-
-    private AtpMilestoneRelationInfo() {
-        atpKey = null;
-        milestoneKey = null;
-	_futureElements = null;
-    }
-
-    /**
-     * Constructs a new AtpMilestoneRelationInfo from another
-     * AtpMilestoneRelation.
-     *
-     * @param milestone the AtpMilestoneRelation to copy
-     */
-    public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
-        super(amr);
-        this.atpKey = amr.getAtpKey();
-        this.milestoneKey = amr.getMilestoneKey();
-	_futureElements = null;
-    }
-
-    /**
-     * Gets the ATP key in this relationship.
-     *
-     * @return the ATP key
-     */
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
-
-    /**
-     * Gets the Milestone key in this relationship.
-     *
-     * @return the Milestone key
-     */
-    @Override
-    public String getMilestoneKey() {
-        return milestoneKey;
-    }
-
-    /**
-     * The builder class for this AtpMilestonerelationInfo.
-     */
-    public static class Builder extends RelationshipInfo.Builder implements ModelBuilder<AtpMilestoneRelationInfo>, AtpMilestoneRelation {
-
-        private String atpKey;
-        private String milestoneKey;
+	public AtpMilestoneRelationInfo() {
+		atpKey = null;
+		milestoneKey = null;
+		_futureElements = null;
+	}
 
 	/**
-	 * Constructs a new builder.
+	 * Constructs a new AtpMilestoneRelationInfo from another
+	 * AtpMilestoneRelation.
+	 * 
+	 * @param amr
+	 *            the AtpMilestoneRelation to copy
 	 */
-        public Builder() {
-        }
+	public AtpMilestoneRelationInfo(AtpMilestoneRelation amr) {
+		super(amr);
+		if (null != amr) {
+			this.atpKey = amr.getAtpKey();
+			this.milestoneKey = amr.getMilestoneKey();
+			_futureElements = null;
+		}
+	}
 
-	/**
-	 *  Constructs a new builder initialized from another
-	 *  AtpMilestoneRelation.
-	 */
-        public Builder(AtpMilestoneRelation amrInfo) {
-            super(amrInfo);
-            this.atpKey = amrInfo.getAtpKey();
-            this.milestoneKey = amrInfo.getMilestoneKey();
-        }
+	@Override
+	public String getAtpKey() {
+		return atpKey;
+	}
 
-	/**
-	 * Builds the AtpMilestoneRelation.
-	 *
-	 * @return a new AtpMilestoneRelation
-	 */
-        public AtpMilestoneRelationInfo build() {
-            return new AtpMilestoneRelationInfo(this);
-        }
+	
+	public void setAtpKey(String atpKey) {
+		this.atpKey = atpKey;
+	}
 
-	/**
-	 * Gets the ATP key in this relation.
-	 *
-	 * @return the ATP key
-	 */
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
+	@Override
+	public String getMilestoneKey() {
+		return milestoneKey;
+	}
 
-	/**
-	 * Sets the ATP key in this relation.
-	 *
-	 * @param atpKey the ATP key
-	 */
-        public void atpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
-
-	/**
-	 * Gets the Milestone key in this relation.
-	 *
-	 * @return the Milestone key
-	 */
-        @Override
-        public String getMilestoneKey() {
-            return milestoneKey;
-        }
-
-	/**
-	 * Sets the Milestone key in this relation.
-	 *
-	 * @param milestone the Milestone key
-	 */
-
-        public void setMilestoneKey(String milestoneKey) {
-            this.milestoneKey = milestoneKey;
-        }
-    }
+	
+	public void setMilestoneKey(String milestoneKey) {
+		this.milestoneKey = milestoneKey;
+	}
 }

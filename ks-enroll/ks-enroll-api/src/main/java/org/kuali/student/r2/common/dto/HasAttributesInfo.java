@@ -15,56 +15,43 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.common.infc.HasAttributes;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 @SuppressWarnings("serial")
 @XmlTransient
 public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 
-    @XmlElement
-    protected final List<AttributeInfo> attributes;
+	@XmlElement
+	private List<AttributeInfo> attributes;
 
-    protected HasAttributesInfo() {
-        attributes = null;
-    }
+	public HasAttributesInfo() {
+		attributes = null;
+	}
 
-    protected HasAttributesInfo(HasAttributes builder) {
-        attributes = new ArrayList<AttributeInfo>();
+	public HasAttributesInfo(HasAttributes hasAtts) {
+		if (null != hasAtts) {
+			attributes = new ArrayList<AttributeInfo>();
 
-        AttributeInfo.Builder attBuilder = new AttributeInfo.Builder();
-        for (Attribute att : builder.getAttributes()) {
-            attBuilder.setKey(att.getKey());
-            attBuilder.setValue(att.getValue());
-            attBuilder.setId(att.getId());
-            attributes.add(attBuilder.build());
-        }
-    }
+			if (null != hasAtts.getAttributes()) {
+				for (Attribute att : hasAtts.getAttributes()) {
+					attributes.add(new AttributeInfo (att));
+				}
+			}
+		}
+	}
 
-    /**
-     * @return the attributes
-     */
-    @Override
-    public List<AttributeInfo> getAttributes() {
-        return attributes;
-    }
+	/**
+	 * @return the attributes
+	 */
+	@Override
+	public List<AttributeInfo> getAttributes() {
+		return attributes;
+	}
 
-    public static class Builder implements HasAttributes {
-        private List<? extends Attribute> attributes = new ArrayList<AttributeInfo>();
+	public void setAttributes(List<AttributeInfo> attributes) {
 
-        public Builder() {}
+		this.attributes = attributes;
 
-        public Builder(HasAttributes hasAtts) {
-            this.attributes = hasAtts.getAttributes();
-        }
-
-        @Override
-        public List<? extends Attribute> getAttributes() {
-            return attributes;
-        }
-
-        public void setAttributes(List<? extends Attribute> attributes) {
-            this.attributes = attributes;
-        }
-    }
+	}
 }

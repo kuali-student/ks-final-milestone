@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.kuali.student.common.infc.IdEntity;
 
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Information about a Relationship.
@@ -30,6 +30,7 @@ import org.kuali.student.common.infc.Relationship;
 @XmlTransient
 public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implements Relationship, Serializable {
 
+    private static final long serialVersionUID = 1L;
     @XmlAttribute
     private String id;
     @XmlAttribute
@@ -37,11 +38,11 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     @XmlAttribute
     private String stateKey;
     @XmlElement
-    private final Date effectiveDate;
+    private Date effectiveDate;
     @XmlElement
-    private final Date expirationDate;
+    private Date expirationDate;
 
-    protected RelationshipInfo() {
+    public RelationshipInfo() {
         id = null;
         typeKey = null;
         stateKey = null;
@@ -49,19 +50,32 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         expirationDate = null;
     }
 
-    protected RelationshipInfo(Relationship builder) {
-        super(builder);
-        this.id = builder.getId();
-        this.typeKey = builder.getTypeKey();
-        this.stateKey = builder.getStateKey();        
-        this.effectiveDate = null != builder.getEffectiveDate() ? new Date(builder.getEffectiveDate().getTime()) : null;
-        this.expirationDate = null != builder.getExpirationDate() ? new Date(builder.getExpirationDate().getTime()) : null;
+    public RelationshipInfo(Relationship relationship) {
+        super(relationship);
+        this.id = relationship.getId();
+        this.typeKey = relationship.getTypeKey();
+        this.stateKey = relationship.getStateKey();
+        if (relationship.getEffectiveDate() != null) {
+            this.effectiveDate = new Date(relationship.getEffectiveDate().getTime());
+        }
+        else {
+            this.effectiveDate = null;
+        }
+        if (relationship.getExpirationDate() != null) {
+            this.expirationDate = new Date(relationship.getExpirationDate().getTime());
+        }
+        else {
+            this.expirationDate = null;
+        }
     }
 
-    
     @Override
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -69,14 +83,26 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return typeKey;
     }
 
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
     @Override
     public String getStateKey() {
         return stateKey;
     }
-    
+
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
+    }
+
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
     }
 
     @Override
@@ -84,68 +110,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
         return expirationDate;
     }
 
-    public static class Builder extends HasAttributesAndMetaInfo.Builder implements Relationship {
-
-        private String id;
-        private String typeKey;
-        private String stateKey;        
-        private Date effectiveDate;
-        private Date expirationDate;
-        
-        public Builder() {
-        }
-
-        public Builder(Relationship amrInfo) {
-            super(amrInfo);
-            this.id = amrInfo.getId();            
-            this.typeKey = amrInfo.getTypeKey();
-            this.stateKey = amrInfo.getStateKey();             
-            this.effectiveDate = amrInfo.getEffectiveDate();
-            this.expirationDate = amrInfo.getExpirationDate();
-        }
-
-        @Override
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        @Override
-        public String getTypeKey() {
-            return typeKey;
-        }
-
-        public void setTypeKey(String typeKey) {
-            this.typeKey = typeKey;
-        }
-
-        @Override
-        public String getStateKey() {
-            return stateKey;
-        }
-
-        public void setStateKey(String stateKey) {
-            this.stateKey = stateKey;
-        }
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
-
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
-
-        @Override
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
-
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

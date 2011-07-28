@@ -19,20 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
-import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 
 
 @MappedSuperclass
-public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseTypeEntity implements AttributeOwner<T>  {
+public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseTypeEntity implements AttributeOwner<T>  {
 
-	@OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "LPR_ATTR_ID")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<T> attributes;
 
 
@@ -42,7 +39,7 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 	 * @see org.kuali.student.r2.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
-	public void setAttributes(List<T> attributes) {
+	public void setAttributes(List<T> attributes) { 
 		this.attributes = attributes;
 	}
 
@@ -57,22 +54,22 @@ public abstract class TypeEntity<T extends BaseAttributeEntity> extends BaseType
 	}
 
 	public TypeInfo toDto() {
-		TypeInfo.Builder builder = new TypeInfo.Builder();
-		builder.setName(this.getName());
-		builder.setKey(this.getId());
+		TypeInfo typeInfo = new TypeInfo();
+		typeInfo.setName(this.getName());
+		typeInfo.setKey(this.getId());
 		// TODO: what about RefObjId?
-		builder.setDescr(this.getDescr());
-		builder.setEffectiveDate(this.getEffectiveDate());
-		builder.setExpirationDate(this.getExpirationDate());
-		builder.setAttributes(new ArrayList<Attribute>());
+		typeInfo.setDescr(this.getDescr());
+		typeInfo.setEffectiveDate(this.getEffectiveDate());
+		typeInfo.setExpirationDate(this.getExpirationDate());
+		typeInfo.setAttributes(new ArrayList<AttributeInfo>());
 		// TODO - refactor this into a central place; probably Igor's Converter
 		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-		for (BaseAttributeEntity att : this.getAttributes()) {
+		for (BaseAttributeEntity<?> att : this.getAttributes()) {
 			atts.add(att.toDto());
 		}
 		// end refactor
-		builder.setAttributes(atts);
+		typeInfo.setAttributes(atts);
 		
-		return builder.build();
+		return typeInfo;
 	}
 }

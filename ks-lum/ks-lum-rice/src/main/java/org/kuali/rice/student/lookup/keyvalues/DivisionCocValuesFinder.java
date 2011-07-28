@@ -17,11 +17,11 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.util.KeyValue;
 
 public class DivisionCocValuesFinder extends CocValuesFinder {
 
-	public List<KeyLabelPair> getKeyValues() {
+	public List<KeyValue> getKeyValues() {
 		return findCocOrgs("kuali.org.Division");
 	}
 

@@ -25,8 +25,8 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
 				p:localServiceName="kimPermissionService">
@@ -36,8 +36,8 @@
 		</property>
 	</bean>
 
-	<bean class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
+	<bean class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimIdentityService"
 				p:localServiceName="kimIdentityServiceSOAPUnsecure">

@@ -55,7 +55,7 @@ public interface EntityDao<T> {
 	 * @param <T>    the Entity type
 	 * @return Merged entity.
 	 */
-	<T> T merge(T entity);
+    T merge(T entity);
 
 	/**
 	 * Remove entity from the persistent store.

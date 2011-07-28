@@ -16,7 +16,8 @@
 package org.kuali.student.r2.core.atp.infc;
 
 import java.util.Date;
-import org.kuali.student.common.infc.KeyEntity;
+
+import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 
 
 /**
@@ -27,7 +28,18 @@ import org.kuali.student.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Milestone extends KeyEntity {
+public interface Milestone extends KeyDateOrMilestone {
+
+    /**
+     * Name: Is All Day
+     * Tests if this Milestone is an all day event. An all-day event
+     * does not have a meaningful time component in the date.
+     *
+     * @return true if this is an all-day event, false otherwise
+     */
+    @Override
+    public Boolean getIsAllDay();
+   
 
     /**
      * Name: Is Date Range
@@ -36,16 +48,18 @@ public interface Milestone extends KeyEntity {
      * @return true if the end date is different than the start date,
      *         false if the start end end date are the same
      */
+    @Override
     public Boolean getIsDateRange();
-
+   
     /**
      * Name: Start Date
      * The start date and time of the milestone.
      *
      * @return the milestone start date 
      */
+    @Override
     public Date getStartDate();
-
+   
     /**
      * Name: End Date 
      * The end date and time of the milestone. The end
@@ -53,5 +67,7 @@ public interface Milestone extends KeyEntity {
      *
      * @return the milestone end date
      */
+    @Override
     public Date getEndDate();
+   
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation 
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -13,10 +13,10 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.enrollment.lui.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,204 +26,307 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.enrollment.lui.infc.Lui;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
+import org.kuali.student.r2.lum.lu.infc.LuCode;
+import org.kuali.student.r2.lum.lu.infc.Fee;
+import org.kuali.student.r2.lum.lu.infc.Revenue;
+
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.lu.dto.FeeInfo;
+import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
+
 import org.w3c.dom.Element;
 
-
-/**
- * Detailed information about a single LUI.
- */
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuiInfo", propOrder = {"id","typeKey","stateKey","name", "descr", "luiCode", "cluId", "atpKey", "maxSeats", "effectiveDate", "expirationDate","metaInfo","attributes", "_futureElements"})
-public class LuiInfo extends IdEntityInfo
-  implements Serializable, Lui {
+@XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+    "descr", "effectiveDate", "expirationDate",
+    "officialIdentifier", "alternateIdentifiers", "cluId",
+    "cluCluRelationIds", "atpKey", "luiCodes",
+    "maximumEnrollment", "minimumEnrollment", "referenceURL",
+    "unitsContentOwner", "unitsDeployment", "resultOptionIds",
+    "fees", "revenues", "expenditure",
+    "meta", "attributes", "_futureElements"})
+public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
-	private static final long serialVersionUID = 1L;
- 
+    private static final long serialVersionUID = 1L;
     @XmlElement
-    private final String luiCode;
-
+    private Date effectiveDate;
     @XmlElement
-    private final String cluId;
-
+    private Date expirationDate;
     @XmlElement
-    private final String atpKey;
-
+    private LuiIdentifierInfo officialIdentifier;
     @XmlElement
-    private final Integer maxSeats;
-
+    private List<LuiIdentifierInfo> alternateIdentifiers;
     @XmlElement
-    private final Date effectiveDate;
-
+    private String cluId;
     @XmlElement
-    private final Date expirationDate;
-
+    private List<String> cluCluRelationIds;
+    @XmlElement
+    private String atpKey;
+    @XmlElement
+    private List<LuCodeInfo> luiCodes;
+    @XmlElement
+    private Integer maximumEnrollment;
+    @XmlElement
+    private Integer minimumEnrollment;
+    @XmlElement
+    private String referenceURL;
+    @XmlElement
+    private List<String> unitsContentOwner;
+    @XmlElement
+    private List<String> unitsDeployment;
+    @XmlElement
+    private List<String> resultOptionIds;
+    @XmlElement
+    private List<FeeInfo> fees;
+    @XmlElement
+    private List<RevenueInfo> revenues;
+    @XmlElement
+    private ExpenditureInfo expenditure;
     @XmlAnyElement
-    private final List<Element> _futureElements;    
-    
-    private LuiInfo() {
-        super ();
-    	luiCode = null;
-    	cluId = null;
-    	atpKey = null;
-    	maxSeats = null;
-    	effectiveDate = null;
-    	expirationDate = null;
-    	_futureElements = null;
-    }
-    
-    private LuiInfo(Lui builder) {
-		super(builder);
-		this.luiCode = builder.getLuiCode();
-		this.cluId = builder.getCluId();
-		this.atpKey = builder.getAtpKey();
-		this.maxSeats =builder.getMaxSeats();
-    	this.effectiveDate = null != builder.getEffectiveDate()? new Date(builder.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != builder.getExpirationDate()? new Date(builder.getExpirationDate().getTime()) : null;
-		this._futureElements = null;
-	}
+    private List<Element> _futureElements;
 
-    /**
-     * Code identifier/name for the LUI. This is typically used in
-     * human readable form (e.g. ENGL 100 section 123).
-     */
-    @Override
-    public String getLuiCode() {
-        return luiCode;
+    public LuiInfo() {
+        super();
+
+        effectiveDate = null;
+        expirationDate = null;
+
+        officialIdentifier = null;
+        alternateIdentifiers = null;
+        cluId = null;
+        cluCluRelationIds = null;
+        atpKey = null;
+        luiCodes = null;
+
+        maximumEnrollment = null;
+        minimumEnrollment = null;
+        referenceURL = null;
+        unitsDeployment = new ArrayList<String>();
+        unitsContentOwner = new ArrayList<String>();
+        resultOptionIds = new ArrayList<String>();
+
+        fees = new ArrayList<FeeInfo>();
+        revenues = new ArrayList<RevenueInfo>();
+        expenditure = null;
+
+        _futureElements = null;
     }
 
-    /**
-     * Unique identifier for a Canonical Learning Unit (CLU).
-     */
-    @Override
-    public String getCluId() {
-        return cluId;
+    public LuiInfo(Lui lui) {
+        super(lui);
+
+        if (null == lui) {
+            return;
+        }
+
+        this.effectiveDate = null != lui.getEffectiveDate() ? new Date(lui.getEffectiveDate().getTime()) : null;
+        this.expirationDate = null != lui.getExpirationDate() ? new Date(lui.getExpirationDate().getTime()) : null;
+
+        if (lui.getOfficialIdentifier() != null) {
+            this.officialIdentifier = new LuiIdentifierInfo(lui.getOfficialIdentifier());
+        }
+        this.alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
+        if (lui.getAlternateIdentifiers() != null) {
+            for (LuiIdentifier li : lui.getAlternateIdentifiers()) {
+                this.alternateIdentifiers.add(new LuiIdentifierInfo(li));
+            }
+        }
+
+        this.cluId = lui.getCluId();
+        this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
+        this.atpKey = lui.getAtpKey();
+
+        this.luiCodes = new ArrayList<LuCodeInfo>();
+        if (lui.getLuiCodes() != null) {
+            for (LuCode code : lui.getLuiCodes()) {
+                this.luiCodes.add(new LuCodeInfo(code));
+            }
+        }
+
+        this.maximumEnrollment = lui.getMaximumEnrollment();
+        this.minimumEnrollment = lui.getMinimumEnrollment();
+        this.referenceURL = lui.getReferenceURL();
+        if (lui.getUnitsContentOwner() != null) {
+            this.unitsContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
+        }
+        this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
+        this.resultOptionIds = new ArrayList<String>(lui.getResultOptionIds());
+
+        this.fees = new ArrayList<FeeInfo>();
+        if (lui.getFees() != null) {
+            for (Fee fee : lui.getFees()) {
+                this.fees.add(new FeeInfo(fee));
+            }
+        }
+
+        this.revenues = new ArrayList<RevenueInfo>();
+        if (lui.getRevenues() != null) {
+            for (Revenue revenue : lui.getRevenues()) {
+                this.revenues.add(new RevenueInfo(revenue));
+            }
+        }
+
+        if (lui.getExpenditure() != null) {
+            this.expenditure = new ExpenditureInfo(lui.getExpenditure());
+        }
+
+        this._futureElements = null;
     }
 
-    /**
-     * Unique identifier for an Academic Time Period (ATP).
-     */
-    @Override
-    public String getAtpKey() {
-        return atpKey;
-    }
-
-    /**
-     * Maximum number of "seats" that the LUI will hold for registration.
-     */
-    @Override
-    public Integer getMaxSeats() {
-        return maxSeats;
-    }
-
-    /**
-     * Date and time that this LUI became effective. This is a similar
-     * concept to the effective date on enumerated values. When an
-     * expiration date has been specified, this field must be less
-     * than or equal to the expiration date.
-     */
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    /**
-     * Date and time that this LUI expires. This is a similar concept
-     * to the expiration date on enumerated values. If specified, this
-     * should be greater than or equal to the effective date. If this
-     * field is not specified, then no expiration date has been
-     * currently defined and should automatically be considered
-     * greater than the effective date.
-     */
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
 
-   
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
-    public static class Builder extends IdEntityInfo.Builder implements ModelBuilder<LuiInfo>, Lui {
+    @Override
+    public LuiIdentifierInfo getOfficialIdentifier() {
+        return officialIdentifier;
+    }
 
-		private String luiCode;
-		private String cluId;
-		private String atpKey;
-		private Integer maxSeats;
-		private Date effectiveDate;
-		private Date expirationDate;
-		
-		public Builder() {}
-		
-		public Builder(Lui luiInfo) {
-			super(luiInfo);
-			this.luiCode = luiInfo.getLuiCode();
-			this.cluId = luiInfo.getCluId();
-			this.atpKey = luiInfo.getAtpKey();
-			this.maxSeats = luiInfo.getMaxSeats();
-			this.effectiveDate = luiInfo.getEffectiveDate();
-			this.expirationDate = luiInfo.getExpirationDate();
-		}
+    public void setOfficialIdentifier(LuiIdentifierInfo officialIdentifier) {
+        this.officialIdentifier = officialIdentifier;
+    }
 
-        @Override
-		public LuiInfo build() {
-			return new LuiInfo(this);
-		}
+    @Override
+    public List<LuiIdentifierInfo> getAlternateIdentifiers() {
+        return alternateIdentifiers;
+    }
 
-        @Override
-        public String getLuiCode() {
-            return luiCode;
-        }
+    public void setAlternateIdentifiers(List< LuiIdentifierInfo> alternateIdentifiers) {
+        this.alternateIdentifiers = alternateIdentifiers;
+    }
 
-        public void setLuiCode(String luiCode) {
-            this.luiCode = luiCode;
-        }
+    @Override
+    public String getCluId() {
+        return cluId;
+    }
 
-        @Override
-        public String getCluId() {
-            return cluId;
-        }
+    public void setCluId(String cluId) {
+        this.cluId = cluId;
+    }
 
-        public void setCluId(String cluId) {
-            this.cluId = cluId;
-        }
+    @Override
+    public List<String> getCluCluRelationIds() {
+        return cluCluRelationIds;
+    }
 
-        @Override
-        public String getAtpKey() {
-            return atpKey;
-        }
+    public void setCluCluRelationIds(List<String> cluCluRelationIds) {
+        this.cluCluRelationIds = cluCluRelationIds;
+    }
 
-        public void setAtpKey(String atpKey) {
-            this.atpKey = atpKey;
-        }
+    @Override
+    public String getAtpKey() {
+        return atpKey;
+    }
 
-        @Override
-        public Integer getMaxSeats() {
-            return maxSeats;
-        }
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
+    }
 
-        public void setMaxSeats(Integer maxSeats) {
-            this.maxSeats = maxSeats;
-        }
+    @Override
+    public List<LuCodeInfo> getLuiCodes() {
+        return luiCodes;
+    }
 
-        @Override
-        public Date getEffectiveDate() {
-            return effectiveDate;
-        }
+    public void setLuiCodes(List<LuCodeInfo> luiCodes) {
+        this.luiCodes = luiCodes;
+    }
 
-        public void setEffectiveDate(Date effectiveDate) {
-            this.effectiveDate = effectiveDate;
-        }
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
 
-        @Override
-        public Date getExpirationDate() {
-            return expirationDate;
-        }
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
 
-        public void setExpirationDate(Date expirationDate) {
-            this.expirationDate = expirationDate;
-        }
+    @Override
+    public Integer getMinimumEnrollment() {
+        return minimumEnrollment;
+    }
+
+    public void setMinimumEnrollment(Integer minimumEnrollment) {
+        this.minimumEnrollment = minimumEnrollment;
+    }
+
+    @Override
+    public String getReferenceURL() {
+        return referenceURL;
+    }
+
+    public void setReferenceURL(String referenceURL) {
+        this.referenceURL = referenceURL;
+    }
+
+    @Override
+    public List<String> getUnitsDeployment() {
+        return unitsDeployment;
+    }
+
+    public void setUnitsDeployment(List<String> unitsDeployment) {
+        this.unitsDeployment = unitsDeployment;
+    }
+
+    @Override
+    public List<String> getUnitsContentOwner() {
+        return unitsContentOwner;
+    }
+
+    public void setUnitsContentOwner(List<String> unitsContentOwner) {
+        this.unitsContentOwner = unitsContentOwner;
+    }
+
+    @Override
+    public List<String> getResultOptionIds() {
+        return resultOptionIds;
+    }
+
+    public void setResultOptionIds(List<String> resultOptionIds) {
+        this.resultOptionIds = resultOptionIds;
+    }
+
+    @Override
+    public List<FeeInfo> getFees() {
+        return fees;
+    }
+
+    public void setFees(List<FeeInfo> fees) {
+        this.fees = fees;
+    }
+
+    @Override
+    public List<RevenueInfo> getRevenues() {
+        return revenues;
+    }
+
+    public void setRevenues(List<RevenueInfo> revenues) {
+        this.revenues = revenues;
+    }
+
+    @Override
+    public ExpenditureInfo getExpenditure() {
+        return expenditure;
+    }
+
+    public void setExpenditure(ExpenditureInfo expenditure) {
+        this.expenditure = expenditure;
     }
 }

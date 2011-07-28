@@ -16,7 +16,8 @@
 package org.kuali.student.r2.core.atp.infc;
 
 import java.util.Date;
-import org.kuali.student.common.infc.KeyEntity;
+
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
@@ -39,6 +40,7 @@ public interface Atp extends KeyEntity {
      * expiration date.
      */
     public Date getStartDate();
+   
 
     /**
      * Name: End Date
@@ -51,4 +53,5 @@ public interface Atp extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+ 
 }

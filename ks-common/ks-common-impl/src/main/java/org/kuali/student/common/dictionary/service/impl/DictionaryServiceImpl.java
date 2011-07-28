@@ -18,6 +18,7 @@ public class DictionaryServiceImpl implements DictionaryService{
 
 	public DictionaryServiceImpl() {
 		super();
+		init();
 	}
 
 	public DictionaryServiceImpl(String dictionaryContext) {
@@ -46,7 +47,7 @@ public class DictionaryServiceImpl implements DictionaryService{
 
 	@Override
 	public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-		return objectStructures.get(objectTypeKey);
+		return objectStructures.get(objectTypeKey);	
 	}
 
 	@Override

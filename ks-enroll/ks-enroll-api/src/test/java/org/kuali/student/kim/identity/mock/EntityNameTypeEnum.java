@@ -15,14 +15,16 @@
  */
 package org.kuali.student.kim.identity.mock;
 
+import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
+
 /**
  * @author nwright
  */
 public enum EntityNameTypeEnum {
 
-    OTHER("OTH", "Other", true, "c"),
-    PREFERRED ("PRFR", "Preferred", true, "b"),
-    PRIMARY("PRM", "Primary", true, "a");
+    OTHER(KimIdentityServiceConstants.OTHER_NAME_TYPE_KEY, "Other", true, "c"),
+    PREFERRED (KimIdentityServiceConstants.PREFERRED_NAME_TYPE_KEY, "Preferred", true, "b"),
+    PRIMARY(KimIdentityServiceConstants.PRIMARY_NAME_TYPE_KEY, "Primary", true, "a");
     private String code;
     private String name;
     private boolean active;

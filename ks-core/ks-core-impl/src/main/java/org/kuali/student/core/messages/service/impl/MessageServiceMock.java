@@ -126,13 +126,14 @@ public class MessageServiceMock implements MessageService {
 			String messageKey) {
 
 		Message m = null;
-		m = new Message();
-		m.setGroupName(messageGroupKey);
-		m.setLocale(localeKey);
-		m.setId(messageKey);
-		m.setValue(this.messages.get(localeKey).getMessages(messageGroupKey)
-				.get(messageKey));
-
+		LocaleMessages lMsgs = this.messages.get(localeKey);
+		if (null != lMsgs && null != lMsgs.getMessages(messageGroupKey)) {
+			m = new Message();
+			m.setGroupName(messageGroupKey);
+			m.setLocale(localeKey);
+			m.setId(messageKey);
+			m.setValue(lMsgs.getMessages(messageGroupKey).get(messageKey));
+		}
 		return m;
 	}
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -12,200 +12,104 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.atp.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.infc.ModelBuilder;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 import org.kuali.student.r2.core.atp.infc.Milestone;
-
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-
-/**
- * Information about a milestone.
- *
- * @Author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
- */ 
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "isDateRange", "startDate", "endDate", "metaInfo", "attributes", "_futureElements"})
+@XmlType(name = "MilestoneInfo", propOrder = { "key", "typeKey", "stateKey",
+		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
+		"meta", "attributes", "_futureElements" })
+public class MilestoneInfo extends KeyEntityInfo implements Milestone,
+		Serializable {
 
-public class MilestoneInfo extends KeyEntityInfo implements Milestone, Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private final Boolean isDateRange;
-
-    @XmlElement
-    private final Date startDate;
-
-    @XmlElement
-    private final Date endDate;
-
-    @XmlAnyElement
-    private final List<Element> _futureElements;  
-
-    private MilestoneInfo() {
-	isDateRange = false;
-	startDate = null;
-	endDate = null;
-	_futureElements = null;
-    }
-
-    /**
-     * Constructs a new MilestoneInfo from another Milestone.
-     *
-     * @param milestone the Milestone to copy
-     */
-    public MilestoneInfo(Milestone milestone) {
-        super(milestone);
-	this.isDateRange = milestone.getIsDateRange();
-        this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
-        this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
-	_futureElements = null;
-    }
-
-    /**
-     * Tests if this milestone has a date range. If true, the end date
-     * value follows the start date.
-     *
-     * @return true if this Milestone has different start end end
-     *         dates, false if this Milestone represents a single date
-     */
-    @Override
-    public Boolean getIsDateRange() {
-        return isDateRange;
-    }
-
-    /**
-     * Gets the start Date and time of the milestone.
-     *
-     * @return the milestone start
-     */
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * Gets the end Date and time of the milestone.
-     *
-     * @return the milestone end
-     */
-    @Override
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    /**
-     * The builder class for this MilestoneInfo.
-     */
-    public static class Builder extends KeyEntityInfo.Builder implements ModelBuilder<MilestoneInfo>, Milestone {
-
+	private static final long serialVersionUID = 1L;
+	@XmlElement
+	private Boolean isAllDay;
+	@XmlElement
 	private Boolean isDateRange;
-        private Date startDate;
-        private Date endDate;
+	@XmlElement
+	private Date startDate;
+	@XmlElement
+	private Date endDate;
+	@XmlAnyElement
+	private List<Element> _futureElements;
+
+	public MilestoneInfo() {
+		super();
+		isAllDay = false;
+		isDateRange = false;
+		startDate = null;
+		endDate = null; 
+		_futureElements = null;
+	}
 
 	/**
-	 * Constructs a new builder.
+	 * Constructs a new MilestoneInfo from another Milestone.
+	 * 
+	 * @param milestone
+	 *            the Milestone to copy
 	 */
-        public Builder() {
-        }
+	public MilestoneInfo(KeyDateOrMilestone milestone) {
+		super(milestone);
+		if (null != milestone) {
+			this.isAllDay = milestone.getIsAllDay();
+			this.isDateRange = milestone.getIsDateRange();
+			this.startDate = null != milestone.getStartDate() ? new Date(
+					milestone.getStartDate().getTime()) : null;
+			this.endDate = null != milestone.getEndDate() ? new Date(milestone
+					.getEndDate().getTime()) : null;
+			_futureElements = null;
+		}
+	}
 
-	/**
-	 *  Constructs a new builder initialized from another
-	 *  Milestone.
-	 */
-        public Builder(Milestone milestone) {
-            super(milestone);
-	    this.isDateRange = milestone.getIsDateRange();
-            this.startDate = milestone.getStartDate();
-            this.endDate = milestone.getEndDate();
-        }
+	@Override
+	public Boolean getIsAllDay() {
+		return isAllDay;
+	}
 
-	/**
-	 * Builds the Milestone.
-	 *
-	 * @return a new Milestone
-	 */
-        public MilestoneInfo build() {
-            return new MilestoneInfo(this);
-        }
+	public void setIsAllDay(Boolean isAllDay) {
+		this.isAllDay = isAllDay;
+	}
 
-	/**
-	 * Tests if this milestone has a date range. If true, the end date
-	 * value follows the start date.
-	 *
-	 * @return true if this Milestone has different start end end
-	 *         dates, false if this Milestone represents a single date
-	 */
 	@Override
 	public Boolean getIsDateRange() {
-	    return isDateRange;
+		return isDateRange;
 	}
 
-	/**
-	 * Sets the date range flag.
-	 *
-	 * @param isDateRange true if this Milestone has different
-	 *         start end end dates, false if this Milestone
-	 *         represents a single date
-	 */
-	public void dateRange(Boolean isDateRange) {
-	    this.isDateRange = isDateRange;
+	public void setIsDateRange(Boolean isDateRange) {
+		this.isDateRange = isDateRange;
 	}
 
-	/**
-	 * Gets the start date.
-	 *
-	 * @return the Milestone start date
-	 */
-        @Override
-        public Date getStartDate() {
-            return startDate;
-        }
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
 
-	/**
-	 * Sets the Milestone start date.
-	 *
-	 * @param endDate the start date
-	 */
-        public void setStartDate(Date startDate) {
-            this.startDate = new Date(startDate.getTime());
-        }
+	public void setStartDate(Date startDate) {
+		this.startDate = null != startDate ? new Date(startDate.getTime())
+				: null;
+	}
 
-	/**
-	 * Gets the start date.
-	 *
-	 * @return the Milestone end date
-	 */
-        @Override
-        public Date getEndDate() {
-            return endDate;
-        }
+	@Override
+	public Date getEndDate() {
+		return endDate;
+	}
 
-	/**
-	 * Sets the Milestone end date.
-	 *
-	 * @param endDate the end date
-	 */
-        public void setEndDate(Date endDate) {
-            this.endDate = new Date(endDate.getTime());
-        }
-    }
+	public void setEndDate(Date endDate) {
+		this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
+	}
 }
