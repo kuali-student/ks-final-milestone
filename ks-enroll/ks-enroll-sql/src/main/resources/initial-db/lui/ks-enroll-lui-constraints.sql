@@ -15,6 +15,15 @@
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_LUILUI_RELTN_ATTR
+--------------------------------------------------------
+  ALTER TABLE "KSEN_LUILUI_RELTN_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+	 
+	ALTER TABLE "KSEN_LUILUI_RELTN_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_LUI
 --------------------------------------------------------
 
@@ -28,6 +37,16 @@
 /
  
   ALTER TABLE "KSEN_LUI" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LUI_IDENT_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_IDENT_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+	ALTER TABLE "KSEN_LUI_IDENT_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -48,6 +67,16 @@
 /
  
   ALTER TABLE "KSEN_LUI_JN_LUI_INSTR" MODIFY ("LUI_INSTR_ID" NOT NULL ENABLE)
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LUI_JN_LUI_IDENT
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_JN_LUI_IDENT" MODIFY ("LUI_ID" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_LUI_JN_LUI_IDENT" MODIFY ("ALT_LUI_ID" NOT NULL ENABLE)
 /
 
 --------------------------------------------------------
@@ -81,6 +110,26 @@
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_LUI_TYPE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE);
+/
+
+	ALTER TABLE "KSEN_LUI_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE;
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LUI_IDENT
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_IDENT" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+	ALTER TABLE "KSEN_LUI_IDENT" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Ref Constraints for Table KSEN_LUILUI_RELTN
 --------------------------------------------------------
 
@@ -105,6 +154,14 @@
 /
 
 --------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUILUI_RELTN_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUILUI_RELTN_ATTR" ADD CONSTRAINT "FKA58E96EE6831FFE7" FOREIGN KEY ("OWNER")
+	    REFERENCES "KSEN_LUILUI_RELTN" ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Ref Constraints for Table KSEN_LUI
 --------------------------------------------------------
 
@@ -125,6 +182,14 @@
 /
 
 --------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUI_TYPE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_TYPE_ATTR" ADD CONSTRAINT "FKFC6A7A89F0F1FBFB" FOREIGN KEY ("OWNER")
+	    REFERENCES "KSEN_LUI_TYPE" ("TYPE_KEY") ENABLE
+/
+		
+--------------------------------------------------------
 --  Ref Constraints for Table KSEN_LUI_ATTR
 --------------------------------------------------------
 
@@ -143,3 +208,64 @@
   ALTER TABLE "KSEN_LUI_ATTR" ADD CONSTRAINT "FKDD9BAB5EF0F1FBFB" FOREIGN KEY ("OWNER")
 	  REFERENCES "KSEN_LUI_TYPE" ("TYPE_KEY") ENABLE
 /
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LUI_LUCD
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_LUCD" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+	ALTER TABLE "KSEN_LUI_LUCD" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LUI_LUCD_ATTR 
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_LUCD_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+	  
+	ALTER TABLE "KSEN_LUI_LUCD_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUI_IDENT_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_IDENT_ATTR" ADD CONSTRAINT "FK3C63D6ADB1BE75EA" FOREIGN KEY ("OWNER")
+	    REFERENCES "KSEN_LUI_IDENT" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUI_JN_LUI_IDENT
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_JN_LUI_IDENT" ADD CONSTRAINT "FK40FD27E33A82D447" FOREIGN KEY ("ALT_LUI_ID")
+    REFERENCES "KSEN_LUI_IDENT" ("ID") ENABLE
+/
+
+  ALTER TABLE "KSEN_LUI_JN_LUI_IDENT" ADD CONSTRAINT "FK40FD27E355882CA8" FOREIGN KEY ("LUI_ID")
+    REFERENCES "KSEN_LUI" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUI_LUCD
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_LUCD" ADD CONSTRAINT "FKDDA0AD1755882CA8" FOREIGN KEY ("LUI_ID")
+    REFERENCES "KSEN_LUI" ("ID") ENABLE
+/
+
+  ALTER TABLE "KSEN_LUI_LUCD" ADD CONSTRAINT "FKDDA0AD178D1000ED" FOREIGN KEY ("RT_DESCR_ID")
+    REFERENCES "KSEN_LUI_RICH_TEXT" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_LUI_LUCD_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_LUI_LUCD_ATTR" ADD CONSTRAINT "FK95C7419C1170681" FOREIGN KEY ("OWNER")
+    REFERENCES "KSEN_LUI_LUCD" ("ID") ENABLE
+/
+

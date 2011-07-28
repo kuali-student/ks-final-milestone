@@ -60,6 +60,25 @@ CREATE TABLE KSEN_LUILUI_RELTN
    )
 /
 
+--------------------------------------------------------
+--  KSEN_LUILUI_RELTN_ATTR
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUILUI_RELTN_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUILUI_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+  CREATE TABLE KSEN_LUILUI_RELTN_ATTR
+   (  ID VARCHAR2(255 CHAR), 
+			OBJ_ID VARCHAR2(36 CHAR),  
+			ATTR_KEY VARCHAR2(255 CHAR), 
+			ATTR_VALUE VARCHAR2(2000 CHAR), 
+			OWNER VARCHAR2(255 CHAR)
+   ) 
+/
+
 -----------------------------------------------------------------------------
 -- KSEN_LUI_ATTR
 -----------------------------------------------------------------------------
@@ -120,6 +139,22 @@ CREATE TABLE KSEN_LUI_JN_LUI_INSTR
    )
 /
 
+--------------------------------------------------------
+--  KSEN_LUI_JN_LUI_IDENT
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_JN_LUI_IDENT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_JN_LUI_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_LUI_JN_LUI_IDENT
+	( LUI_ID VARCHAR2(255), 
+		ALT_LUI_ID VARCHAR2(255)
+	)
+/
+
 -----------------------------------------------------------------------------
 -- KSEN_LUI_RICH_TEXT
 -----------------------------------------------------------------------------
@@ -158,5 +193,117 @@ CREATE TABLE KSEN_LUI_TYPE
 			EXPIR_DT TIMESTAMP (6), 
 			NAME VARCHAR2(255)
    )
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_TYPE_ATTR
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+      
+CREATE TABLE KSEN_LUI_TYPE_ATTR
+   (  ID VARCHAR2(255 CHAR),
+			OBJ_ID VARCHAR2(36 CHAR),
+			ATTR_KEY VARCHAR2(255 CHAR),
+			ATTR_VALUE VARCHAR2(2000 CHAR),
+			OWNER VARCHAR2(255 CHAR)
+   ) 
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_IDENT
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_IDENT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_IDENT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+      
+  CREATE TABLE KSEN_LUI_IDENT
+   (  ID VARCHAR2(255 CHAR),
+			OBJ_ID VARCHAR2(36 CHAR),
+			VER_NBR NUMBER(19,0),
+			CREATEID VARCHAR2(255 CHAR),
+			CREATETIME TIMESTAMP (6),
+			UPDATEID VARCHAR2(255 CHAR),
+			UPDATETIME TIMESTAMP (6), 
+			CD VARCHAR2(255 CHAR), 
+			DIV VARCHAR2(255 CHAR), 
+			LNG_NAME VARCHAR2(255 CHAR), 
+			SHRT_NAME VARCHAR2(255 CHAR), 
+			ST VARCHAR2(255 CHAR), 
+			SUFX_CD VARCHAR2(255 CHAR), 
+			TYPE VARCHAR2(255 CHAR), 
+			VARTN VARCHAR2(255 CHAR) 
+   ) 
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_IDENT_ATTR
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_IDENT_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_IDENT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+  CREATE TABLE KSEN_LUI_IDENT_ATTR 
+   (  ID VARCHAR2(255 CHAR), 
+			OBJ_ID VARCHAR2(36 CHAR), 
+			ATTR_KEY VARCHAR2(255 CHAR), 
+			ATTR_VALUE VARCHAR2(2000 CHAR), 
+			OWNER VARCHAR2(255 CHAR)
+   ) 
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_LUCD
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_LUCD';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_LUCD CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+  CREATE TABLE KSEN_LUI_LUCD
+   (  ID VARCHAR2(255),
+			OBJ_ID VARCHAR2(36),
+			VER_NBR NUMBER(19,0), 
+			CREATEID VARCHAR2(255),
+			CREATETIME TIMESTAMP (6), 
+			UPDATEID VARCHAR2(255),
+			UPDATETIME TIMESTAMP (6), 
+			TYPE VARCHAR2(255CHAR), 
+			VALUE VARCHAR2(255), 
+			RT_DESCR_ID VARCHAR2(255),
+			LUI_ID VARCHAR2(255)
+   )
+/ 
+
+--------------------------------------------------------
+--  KSEN_LUI_LUCD_ATTR
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_LUCD_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_LUCD_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+      
+  CREATE TABLE KSEN_LUI_LUCD_ATTR
+   (  ID VARCHAR2(255), 
+			OBJ_ID VARCHAR2(36), 
+			ATTR_KEY VARCHAR2(255 CHAR), 
+			ATTR_VALUE VARCHAR2(2000), 
+			OWNER VARCHAR2(255) 
+   ) 
 /
 
