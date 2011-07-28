@@ -113,10 +113,10 @@
 --  Constraints for Table KSEN_LUI_TYPE_ATTR
 --------------------------------------------------------
 
-  ALTER TABLE "KSEN_LUI_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "KSEN_LUI_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
 /
 
-	ALTER TABLE "KSEN_LUI_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE;
+	ALTER TABLE "KSEN_LUI_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
