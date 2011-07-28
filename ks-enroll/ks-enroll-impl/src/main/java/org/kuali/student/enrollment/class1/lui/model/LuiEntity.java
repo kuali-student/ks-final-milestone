@@ -79,6 +79,16 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinTable(name = "KSEN_LUI_JN_LUI_IDENT", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_LUI_ID"))
     private List<LuiIdentifierEntity> alternateIdentifiers;
 
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
+//	private List<LuiCluRelationEntity> cluCluRelationIds;
+	
+	//TODO: unitsContentOwner
+	//TODO:unitsDeployment
+	//TODO:resultOptionIds -- <LuiResultOptionEntity> see r1 ResultOption
+	//TODO:fees
+	//TODO:revenues
+	//TODO:expenditure
+	
 	//	TODO: decide if this this should be stored on the Lui or on a waitlist object?
    /* @Column(name="HAS_WTLST")
     private boolean hasWaitlist;
@@ -121,7 +131,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	        if(lui.getOfficialIdentifier() != null)
 	        	this.setOfficialIdentifier(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
 
-
 	        this.setLuCodes(new ArrayList<LuCodeEntity>());
 	        if (null != lui.getLuiCodes()){
 	        	for(LuCode luCode : lui.getLuiCodes()){
@@ -130,7 +139,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	        	}
 	        }
 	        
-
 	        this.setAlternateIdentifiers(new ArrayList<LuiIdentifierEntity>());
 	        if (null != lui.getAlternateIdentifiers()){
 	        	for(LuiIdentifier luiIdentifier : lui.getAlternateIdentifiers()){
@@ -335,6 +343,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	public List<LuiAttributeEntity> getAttributes() {
 		return attributes;
 	}
-    
+
+/*	public List<LuiCluRelationEntity> getCluCluRelationIds() {
+		return cluCluRelationIds;
+	}
+
+	public void setCluCluRelationIds(List<LuiCluRelationEntity> cluCluRelationIds) {
+		this.cluCluRelationIds = cluCluRelationIds;
+	}*/
     
 }

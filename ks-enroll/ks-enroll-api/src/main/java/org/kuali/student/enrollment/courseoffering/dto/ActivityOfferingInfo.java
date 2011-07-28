@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
+import org.kuali.student.enrollment.courseoffering.infc.COBasicAssembly;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
@@ -43,7 +44,7 @@ import org.w3c.dom.Element;
         "finalExamStartTime", "finalExamEndTime", "finalExamBuilding", "finalExamRoom", "weeklyInclassContactHours",
         "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
         "id", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
-public class ActivityOfferingInfo extends TypeStateEntityInfo implements ActivityOffering {
+public class ActivityOfferingInfo extends TypeStateEntityInfo implements ActivityOffering, COBasicAssembly {
 
     private static final long serialVersionUID = 1L;
 

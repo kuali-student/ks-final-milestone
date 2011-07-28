@@ -5,14 +5,18 @@ import java.util.List;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -24,6 +28,7 @@ import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -41,6 +46,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private CourseService courseService;
 	private AcademicCalendarService acalService;
 	private CourseOfferingAssembler coAssembler;
+	private ActivityOfferingAssembler aoAssembler;
+	private RegistrationGroupAssembler rgAssembler;
 	private StateService stateService;
 	
 	public LuiService getLuiService() {
@@ -73,6 +80,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 	public void setCoAssembler(CourseOfferingAssembler coAssembler) {
 		this.coAssembler = coAssembler;
+	}
+
+	public ActivityOfferingAssembler getAoAssembler() {
+		return aoAssembler;
+	}
+
+	public void setAoAssembler(ActivityOfferingAssembler aoAssembler) {
+		this.aoAssembler = aoAssembler;
+	}
+
+	public RegistrationGroupAssembler getRgAssembler() {
+		return rgAssembler;
+	}
+
+	public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
+		this.rgAssembler = rgAssembler;
 	}
 
 	public StateService getStateService() {
@@ -178,13 +201,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         if (checkExistenceForFormats(formatIdList, context))
         	courseOfferingInfo.setFormatIds(formatIdList);
         
-        String stateKey = null;
-        List<StateInfo> ivStates = stateService.getInitialValidStates(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, context);
-        if(ivStates != null && ivStates.size() > 0)
-        	stateKey = ivStates.get(0).getKey();
-        else
-        	stateKey = LuiServiceConstants.LUI_DRAFT_STATE_KEY;
-        courseOfferingInfo.setStateKey(stateKey);
+        courseOfferingInfo.setStateKey(getStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, context));
         courseOfferingInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         
         LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
@@ -227,6 +244,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     	return true;
     }
 	
+	private String getStateKey(String processKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException{
+        String stateKey = null;
+        List<StateInfo> ivStates = stateService.getInitialValidStates(processKey, context);
+        if(ivStates != null && ivStates.size() > 0)
+        	stateKey = ivStates.get(0).getKey();
+        else
+        	stateKey = defaultState;	
+        
+        return stateKey;
+	}
+	
 	@Override
 	@Transactional
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -235,10 +264,75 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+        try{
+        	LuiInfo existing = luiService.getLui(courseOfferingId, context);
+        	if(existing != null){
+        		LuiInfo lui = coAssembler.disassemble(courseOfferingInfo, context);
+	
+	            if(lui != null){
+	            	LuiInfo updated = luiService.updateLui(courseOfferingId, lui, context);
+	            	if (updated != null)
+						processRelations(courseOfferingInfo, context);
+	            }
+        	}
+        	else
+        		throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
+        } catch (DoesNotExistException e1) {
+            throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
+        }
+        
+        return courseOfferingInfo;
+	}
+	
+	private void processRelations(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
+			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		//TODO: co.getInstructors() -- wire up with LuiPersonRelationService
+		
+		//TODO: hasFinalExam -- ignore for core slice
+		//how to determine that the lui already exist?
+		if(co.getHasFinalExam()) processFinalExam(co, context);
+			
+		//TODO:jointOfferingIds -- ignore for core slice
+
+		//TODO: creditOptions -- ignore for core slice
+		
+		//TODO: gradingOptionIds -- ignore for core slice
 	}
 
+	private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
+	DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		String cluId = co.getCourseId();
+		String atpKey = co.getTermKey();
+		LuiInfo finalExam = new LuiInfo();
+		finalExam.setCluId(cluId);
+		finalExam.setAtpKey(atpKey);
+		finalExam.setStateKey(co.getStateKey());
+		//TODO: not sure what type
+		finalExam.setTypeKey("kuali.lui.type.course.finalExam");
+		//TODO: what else inherit or fill into finalExam?
+		LuiInfo created;
+		try {
+			created = luiService.createLui(cluId, atpKey, finalExam, context);
+		} catch (AlreadyExistsException e1) {
+			throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpKey: " + atpKey);
+		}
+		
+		if(created != null){
+			LuiLuiRelationInfo luiLuiRelationInfo = new LuiLuiRelationInfo();
+			luiLuiRelationInfo.setLuiId(co.getId());
+			luiLuiRelationInfo.setRelatedLuiId(created.getId());
+			luiLuiRelationInfo.setTypeKey("kuali.lui.lui.relation.IsDeliveredVia");
+			luiLuiRelationInfo.setStateKey(getStateKey(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, context));
+			try {
+					luiService.createLuiLuiRelation(co.getId(), created.getId(), "kuali.lui.lui.relation.IsDeliveredVia", luiLuiRelationInfo, context);
+			} catch (AlreadyExistsException e) {
+				throw new OperationFailedException();
+			} catch (CircularRelationshipException e) {
+				throw new OperationFailedException("CircularRelationshipException when createLuiLuiRelation. luiId: " + co.getId() + ", relatedLuiId: " + created.getId());
+			}
+		}
+	}
+	
 	@Override
 	@Transactional
 	public CourseOfferingInfo updateCourseOfferingFromCanonical(
@@ -360,17 +454,45 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public ActivityOfferingInfo createActivityOffering(
 			List<String> courseOfferingIdList,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+       
+		if(courseOfferingIdList != null && !courseOfferingIdList.isEmpty()){
+			LuiInfo lui = aoAssembler.disassemble(activityOfferingInfo, context);
+			try {
+				LuiInfo created = luiService.createLui(activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermKey(), lui, context);
+				
+				if(created != null){
+					activityOfferingInfo.setId(created.getId());
+					
+					//create luiluirelations
+					for (String courseOfferingId : courseOfferingIdList) {
+						//luiService.createLuiLuiRelation(courseOfferingId, created.getId(), luLuRelationTypeKey, luiLuiRelationInfo, context);
+					}
+					
+					if(activityOfferingInfo.getRegistrationGroupIds() != null && !activityOfferingInfo.getRegistrationGroupIds().isEmpty()){
+						for (String registrationGroupId : activityOfferingInfo.getRegistrationGroupIds()){
+						 //luiService.createLuiLuiRelation(registrationGroupId, created.getId(), luLuRelationTypeKey, luiLuiRelationInfo, context);
+						}
+					}
+				}
+				
+				return activityOfferingInfo;
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException();
+			}
+		}
+		else
+			return null;
 	}
 
 	@Override
+	@Transactional
 	public ActivityOfferingInfo updateActivityOffering(
 			String activityOfferingId,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
@@ -383,6 +505,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public StatusInfo deleteActivityOffering(String activityOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -503,6 +626,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public RegistrationGroupInfo createRegistrationGroup(
 			String courseOfferingId,
 			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
@@ -515,6 +639,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public RegistrationGroupInfo updateRegistrationGroup(
 			String registrationGroupId,
 			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
@@ -527,6 +652,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+	@Transactional
 	public StatusInfo deleteRegistrationGroup(String registrationGroupId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
