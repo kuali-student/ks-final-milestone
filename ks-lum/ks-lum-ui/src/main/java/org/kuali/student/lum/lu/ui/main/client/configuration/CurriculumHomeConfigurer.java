@@ -261,7 +261,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            
 				//Create a dialog for course selection
 	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
-	            VerticalPanel layout = new VerticalPanel();
+	            final VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            
 	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
@@ -363,8 +363,85 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 					}
 	            });
 	            
-				checkAdminPermission("useCurriculumReview",
-						CurriculumHomeConfigurer.EVENT_ONCLICK);
+	            
+	        	String principalId = Application.getApplicationContext().getUserId();
+	    		SecurityRpcServiceAsync securityRpc = GWT
+	    				.create(SecurityRpcService.class);
+
+	    		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
+	    					public void handleFailure(Throwable caught) {
+	    						// Assumes admin does not have access...
+//	    						if (onEventOff
+//	    								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
+//	    							
+//	    								adminOptionCheckbox.setValue(true);
+//	    								adminOptionCheckbox.setVisible(false);
+//	    							
+//	    						} 
+	    					}
+
+	    					@Override
+	    					public void onSuccess(Boolean result) {
+
+	    			            if (result){
+	    		            	adminOptionCheckbox.setValue(false);
+	    		            	adminOptionCheckbox.setVisible(true);
+	    		            } else {
+	    		            	adminOptionCheckbox.setValue(false);
+	    		            	adminOptionCheckbox.setVisible(false);	            	
+	    		            }
+                                continueLayOut();
+	    					}
+	    					
+	    					public void continueLayOut()
+	    					{
+	    			            layout.add(radioOptionBlank);
+	    			            layout.add(radioOptionCopyCourse);
+	    			            layout.add(copyCourseSearchPanel);
+	    			            layout.add(radioOptionCopyProposal);
+	    			            layout.add(copyProposalSearchPanel);
+	    			            layout.add(new KSLabel(""));
+	    			            layout.add(adminOptionCheckbox);
+	    			            
+	    			            startProposalButton.addClickHandler(new ClickHandler(){
+	    							public void onClick(ClickEvent event) {
+	    								if(radioOptionBlank.getValue() && adminOptionCheckbox.getValue()){
+	    									Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());
+	    								} else if (radioOptionBlank.getValue()){
+	    									Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());
+	    								}else if(radioOptionCopyCourse.getValue()){
+	    				                    ViewContext viewContext = new ViewContext();
+	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
+	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+	    				                    if (adminOptionCheckbox.getValue()){
+	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	    				                    } else {
+	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+	    				                    }
+	    								}else if(radioOptionCopyProposal.getValue()){
+	    				                    ViewContext viewContext = new ViewContext();
+	    				                    viewContext.setId(copyProposalSearchPanel.getValue());
+	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+	    				                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+	    				                    if (adminOptionCheckbox.getValue()){
+	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	    				                    } else {
+	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+	    				                    }
+	    								}
+	    								dialog.hide();
+	    							}
+	    						});
+	    			            
+	    			            
+	    			            dialog.setWidget(layout);
+	    			            dialog.show();			
+
+	    						
+	    					}
+	    				});
+//				checkAdminPermission("useCurriculumReview",
+//						CurriculumHomeConfigurer.EVENT_ONCLICK);
 //	            if ("admin".equals(Application.getApplicationContext().getUserId())){
 //	            	adminOptionCheckbox.setValue(false);
 //	            	adminOptionCheckbox.setVisible(true);
@@ -373,47 +450,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 //	            	adminOptionCheckbox.setVisible(false);	            	
 //	            }
 	            
-	            layout.add(radioOptionBlank);
-	            layout.add(radioOptionCopyCourse);
-	            layout.add(copyCourseSearchPanel);
-	            layout.add(radioOptionCopyProposal);
-	            layout.add(copyProposalSearchPanel);
-	            layout.add(new KSLabel(""));
-	            layout.add(adminOptionCheckbox);
-	            
-	            startProposalButton.addClickHandler(new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						if(radioOptionBlank.getValue() && adminOptionCheckbox.getValue()){
-							Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());
-						} else if (radioOptionBlank.getValue()){
-							Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());
-						}else if(radioOptionCopyCourse.getValue()){
-		                    ViewContext viewContext = new ViewContext();
-		                    viewContext.setId(copyCourseSearchPanel.getValue());
-		                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-		                    if (adminOptionCheckbox.getValue()){
-		                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-		                    } else {
-		                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-		                    }
-						}else if(radioOptionCopyProposal.getValue()){
-		                    ViewContext viewContext = new ViewContext();
-		                    viewContext.setId(copyProposalSearchPanel.getValue());
-		                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
-		                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-		                    if (adminOptionCheckbox.getValue()){
-		                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-		                    } else {
-		                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-		                    }
-						}
-						dialog.hide();
-					}
-				});
-	            
-	            
-	            dialog.setWidget(layout);
-	            dialog.show();			
     		}
    		};
     }
