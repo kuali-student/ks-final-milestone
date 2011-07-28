@@ -4448,18 +4448,14 @@
         <column name="CLU_ID" size="255" type="VARCHAR"/>
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXP_DT" type="TIMESTAMP"/>
-        <column name="LUI_CODE" size="255" type="VARCHAR"/>
         <column name="MAX_SEATS" size="10" type="DECIMAL"/>
         <column name="MIN_SEATS" size="10" type="DECIMAL"/>
         <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="STDY_SUBJ_AREA" size="255" type="VARCHAR"/>
+        <column name="REF_URL" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
         <column name="STATE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="HAS_WTLST" size="22" type="DECIMAL"/>
-        <column name="IS_WTLSTCHK_REQ" size="22" type="DECIMAL"/>
-        <column name="STDY_TITLE" size="255" type="VARCHAR"/>
-        <column name="WTLST_MAX" size="22" type="DECIMAL"/>
+        <column name="OFFIC_LUI_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LUI_TYPE" name="FKFD33EB2B7C4E988">
             <reference foreign="TYPE_KEY" local="TYPE_ID"/>
         </foreign-key>
@@ -4468,6 +4464,9 @@
         </foreign-key>
         <foreign-key foreignTable="KSEN_LUI_RICH_TEXT" name="FKFD33EB28D1000ED">
             <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LUI_IDENT" name="FKFD33EB2656AF27">
+            <reference foreign="ID" local="OFFIC_LUI_ID"/>
         </foreign-key>
     </table>
     <table name="KSEN_LUILUI_RELTN">
@@ -4502,6 +4501,16 @@
             <reference foreign="ID" local="STATE_ID"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LUILUI_RELTN_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUILUI_RELTN" name="FKA58E96EE6831FFE7">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LUI_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -4521,6 +4530,33 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LUI_IDENT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="CD" size="255" type="VARCHAR"/>
+        <column name="DIV" size="255" type="VARCHAR"/>
+        <column name="LNG_NAME" size="255" type="VARCHAR"/>
+        <column name="SHRT_NAME" size="255" type="VARCHAR"/>
+        <column name="ST" size="255" type="VARCHAR"/>
+        <column name="SUFX_CD" size="255" type="VARCHAR"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="VARTN" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LUI_IDENT_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_IDENT" name="FK3C63D6ADB1BE75EA">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LUI_INSTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -4534,9 +4570,48 @@
         <column name="PERS_ID" size="255" type="VARCHAR"/>
         <column name="PERS_OVRID" size="255" type="VARCHAR"/>
     </table>
+    <table name="KSEN_LUI_JN_LUI_IDENT">
+        <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ALT_LUI_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_IDENT" name="FK40FD27E33A82D447">
+            <reference foreign="ID" local="ALT_LUI_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LUI" name="FK40FD27E355882CA8">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LUI_JN_LUI_INSTR">
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="LUI_INSTR_ID" required="true" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LUI_LUCD">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="VALUE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_RICH_TEXT" name="FKDDA0AD178D1000ED">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LUI" name="FKDDA0AD1755882CA8">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LUI_LUCD_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_LUCD" name="FK95C7419C1170681">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
     </table>
     <table name="KSEN_LUI_RICH_TEXT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4553,6 +4628,16 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LUI_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI_TYPE" name="FKFC6A7A89F0F1FBFB">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
     </table>
     <table name="KSEN_MSTONE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
