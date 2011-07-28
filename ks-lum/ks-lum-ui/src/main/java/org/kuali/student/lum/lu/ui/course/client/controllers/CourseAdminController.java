@@ -157,18 +157,12 @@ public class CourseAdminController extends CourseProposalController{
 	 * Returns a SaveActionEvent with the appropriate ActionCompleteCallback, which will take additional admin actions once
 	 * save is complete. The action (i.e. button clicked) is determined by the value of the state parameter 
 	 * 
-	 * @param state The state to set on the course when saving course data. DRAFT=Save, APPROVED=Approve, and
-	 * ACTIVE=Approve & Activate
+	 * @param state The state to set on the course when saving course data. DRAFT=Save, ACTIVE=Approve & Activate
 	 * @return the save event that will be fired based on the button click
 	 */
 	private SaveActionEvent getSaveActionEvent(final String state){
     	final SaveActionEvent saveActionEvent = new SaveActionEvent(false);
-		if (DtoConstants.STATE_APPROVED.equalsIgnoreCase(state) || DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
-        	// For "Approve" and "Approve & Activate" actions, automatically blanket approve the admin proposal so it 
-        	// enters final state. This is accomplished by first saving the course (via saveActionEvent) and then by 
-        	// executing the the blanket approve call upon a successful save. When user clicks either of these buttons 
-        	// and blanket approve is successful, they are navigated to the view course screen.
-
+		if (DtoConstants.STATE_ACTIVE.equalsIgnoreCase(state)){
     		saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
 				@Override
 				public void onActionComplete(ActionEvent actionEvent) {
@@ -176,11 +170,6 @@ public class CourseAdminController extends CourseProposalController{
 						workflowUtil.blanketApprove(new Callback<Boolean>(){
 							@Override
 							public void exec(Boolean result) {
-						    	// FIXME:  Even though workflow rpc call to blanket approve is successful, the
-								// asynchronous nature of workflow is causing timing issues here. Need to investigate
-						    	// making blanket approve workflow more synchronous to avoid the timing issues.
-								// NOTE: One solution is to not allow an activate here, and force user to activate from view
-								// screen, the down side being user now requires two clicks.
 								
 								final ViewContext viewContext = new ViewContext();
 				                viewContext.setId((String)cluProposalModel.get(CreditCourseConstants.ID));
