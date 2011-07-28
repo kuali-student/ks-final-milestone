@@ -3,13 +3,36 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-    <import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+    <import resource="classpath:ks-rice-dictionary-validation-service-configuration.xml"/>
     <import resource="classpath:ks-mock-lpr-service-configuration.xml"/>
     <bean id="mockLuiService" class="org.kuali.student.enrollment.classI.lui.mock.LuiServiceMockImpl" />
     <bean id="mockHoldService" class="org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl" />
     <bean id="mockAcademicCalendarService" class= "org.kuali.student.enrollment.classII.acal.mock.AcademicCalendarServiceMockImpl">
         <property name="atpService" ref="mockAtpService"/>
     </bean>
-    <bean id="validatorToTest" parent="validator" />
+    
+     <bean id="testAcalInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-AcademicCalendarInfo-dictionary.xml" />
+    </bean>
+    
+    <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="testAcalInfoDictionaryLocation" />              
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <!--All Objects Data Dictionary Service used by Rice-->
+    <bean id="testDataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
+        <property name="dictionaryLocations" ref="testDictionaryFileLocations" />
+    </bean>
+    
+    <bean id="testValidator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
+        <property name="riceDataDictionaryService" ref="testDataDictionaryServiceForAllUsedByRice" />
+        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
+    </bean>    
+    
     <bean id="mockAtpService" class="org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl"/>
 </beans>

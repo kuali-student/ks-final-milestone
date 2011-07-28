@@ -112,7 +112,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         if (validator == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
-            this.validator = (DataDictionaryValidator) appContext.getBean("validatorToTest");
+            this.validator = (DataDictionaryValidator) appContext.getBean("validator");
         }
         return validator;
     }
