@@ -35,7 +35,6 @@ import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
-import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConfigurer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -299,9 +298,9 @@ public class CourseWorkflowActionList extends StylishDropDown {
 		                            Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
 		                        }
 		                    } else {
-		                        isCurrentVersion = result;
+		                        isCurrentVersion = false;
 		                        doUpdateCourseActionItems(model);
-		                        KSNotifier.add(new KSNotification("Error creating new version for course, this is not the latest version.", false, 5000));
+		                        KSNotifier.add(new KSNotification("Error creating new version for course, this course is currently under modification.", false, 5000));
 		                    }
 		                }
 		            });				    
