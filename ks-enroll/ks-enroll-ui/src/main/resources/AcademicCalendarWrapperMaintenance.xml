@@ -26,16 +26,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="AcademicCalendarInfo.key" />
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="AcademicCalendarInfo.credentialProgramTypeKey"/> 
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.key" />
-        <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.startDate" />
-        <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.endDate" />
-        <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.credentialProgramTypeKey" />        
+		<bean parent="AttributeField" p:propertyName="academicCalendarInfo.key" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />        
       </list>
     </property>
   </bean>
@@ -52,10 +52,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Academic Calendar"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.key"/>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.endDate"/>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.credentialProgramTypeKey"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
                </list>
              </property>             
            </bean>
@@ -65,7 +65,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="propertyName" value="termWrapperList"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="TermInfo.typeKey">
+                  <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -74,8 +74,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             		</property>
                   </bean>
                  
-                  <bean parent="AttributeField" p:propertyName="TermInfo.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="TermInfo.endDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
                   
                   <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
 				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
@@ -108,7 +108,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="layoutManager.summaryTitle" value="Term"/> 
               <property name="layoutManager.summaryFields">
                 <list>
-                  <value>TermInfo.typeKey</value>
+                  <value>termInfo.typeKey</value>
                 </list>
               </property>
            </bean>
@@ -131,11 +131,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="items">
                <list>
                <!-- 
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
                 -->
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.endDate"/>
-                <bean parent="AttributeField" p:propertyName="AcademicCalendarInfo.credentialProgramTypeKey">
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -153,7 +153,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="propertyName" value="termWrapperList"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="TermInfo.typeKey">
+                  <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -162,8 +162,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             		</property>
                   </bean>
                  
-                  <bean parent="AttributeField" p:propertyName="TermInfo.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="TermInfo.endDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                  <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
                   
                   <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
 				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
@@ -195,7 +195,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="layoutManager.summaryTitle" value="Term"/> 
               <property name="layoutManager.summaryFields">              
                 <list>
-                  <value>TermInfo.typeKey</value> 
+                  <value>termInfo.typeKey</value> 
                 </list>                             
               </property>
            </bean>    
@@ -211,7 +211,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>AcademicCalendarInfo.key</value>
+        <value>academicCalendarInfo.key</value>
       </list>
     </property>
   </bean>  
