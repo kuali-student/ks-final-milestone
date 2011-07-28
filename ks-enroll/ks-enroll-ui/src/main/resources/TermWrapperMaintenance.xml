@@ -75,16 +75,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="TermInfo.key" />
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="TermInfo.typeKey"/>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="TermInfo.key" />
-        <bean parent="AttributeField" p:propertyName="TermInfo.typeKey" /> 		
-        <bean parent="AttributeField" p:propertyName="TermInfo.startDate" />
-        <bean parent="AttributeField" p:propertyName="TermInfo.endDate" />       
+		<bean parent="AttributeField" p:propertyName="termInfo.key" />
+        <bean parent="AttributeField" p:propertyName="termInfo.typeKey" /> 		
+        <bean parent="AttributeField" p:propertyName="termInfo.startDate" />
+        <bean parent="AttributeField" p:propertyName="termInfo.endDate" />       
       </list>
     </property>
   </bean>
@@ -102,10 +102,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Term with Key Dates"/>
              <property name="items">
                <list>
-               	<bean parent="AttributeField" p:propertyName="TermInfo.key"/>
-                <bean parent="AttributeField" p:propertyName="TermInfo.typeKey"/>
-                <bean parent="AttributeField" p:propertyName="TermInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="TermInfo.endDate"/>
+               	<bean parent="AttributeField" p:propertyName="termInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.typeKey"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
                 <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
 				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
 				<bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
@@ -143,7 +143,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           	 <property name="title" value="Term Wrapper"/>
              <property name="items">
                <list>
-                 <bean parent="AttributeField" p:propertyName="TermInfo.typeKey">
+                 <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -151,8 +151,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
             		</property>
                 </bean>
-                <bean parent="AttributeField" p:propertyName="TermInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="TermInfo.endDate"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
+                <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
 
 				<bean parent="Header" p:headerText="Term Dates" p:colSpan="2"/> 
 				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2"/>
@@ -193,7 +193,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>TermInfo.key</value>
+        <value>termInfo.key</value>
       </list>
     </property>
   </bean>  
