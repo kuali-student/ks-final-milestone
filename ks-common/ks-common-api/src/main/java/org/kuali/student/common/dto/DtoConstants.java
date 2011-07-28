@@ -12,10 +12,12 @@ public class DtoConstants {
     public final static String STATE_SUSPENDED  = "Suspended";
     public final static String STATE_RETIRED = "Retired";
 
-	
+   
+    
 	public static final String DTO_STATE = "DtoState";
 	public static final String DTO_NEXT_STATE = "DtoNextState";
 	public static final String DTO_WORKFLOW_NODE = "DtoWorkflowNode";
+	public static final String WORKFLOW_NODE_PRE_ROUTE = "PreRoute";
 
 	//FIXME: Need to split out proposal states (ie. workflow states) versus dto states
 	public enum DtoState {

@@ -34,6 +34,7 @@ import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.springframework.beans.BeanUtils;
@@ -383,7 +384,7 @@ public class MetadataServiceImpl {
         fieldPath = (fieldPath != null ? fieldPath.toUpperCase() : fieldPath);
         
         if (workflowNode != null && fieldPath != null && fieldPath.startsWith("PROPOSAL/WORKFLOWNODE")){
-        	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);        	
+        	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, workflowNode);        	
         } else if ("STATE".equals(fieldPath)) {
         	processStateCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
         } else if ("TYPE".equals(fieldPath)) {
@@ -391,11 +392,15 @@ public class MetadataServiceImpl {
         }
     }
         
-	/**
-	 * Adds required constraints based on the workflow route node the proposal is currently in.  
-	 *  
-	 */
-    private void processRequiredByNodeCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint, String type, String state, String nextState, String workflowNode) {
+    /**
+     * Modifies the constraintMetadata to add required to save or required to approve constraints based on the 
+     * workflow route node the proposal is currently in.
+     * 
+     * @param constraintMetadata The fields constraintMetadata to be modified
+     * @param caseConstraint The caseConstraint defined in dictionary for field
+     * @param workflowNode The current node in workflow process
+     */
+    private void processRequiredByNodeCaseConstraint(ConstraintMetadata constraintMetadata, CaseConstraint caseConstraint,  String workflowNode) {
         List<WhenConstraint> whenConstraints = caseConstraint.getWhenConstraint();
         
     	if ("EQUALS".equals(caseConstraint.getOperator()) && whenConstraints != null) {
@@ -404,13 +409,24 @@ public class MetadataServiceImpl {
                 Constraint constraint = whenConstraint.getConstraint();
 
                 if (constraint.getErrorLevel() == ErrorLevel.ERROR && constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0){
-                    //If the current workflowNode is the first one defined in dictionary, 
-                	//then it is required to approve (i.e. required for the next state), otherwise it is required to save (ie required for current state)
-               		if (values.get(0).equals(workflowNode)) {                        
+                    //This is a required field, so need to determine if it is required to save or required to approve based on the
+                	//workflowNode parameter. The order of workflow nodes defined in the case constraint on this field is important in 
+                	//determining if required to approve or required to save. If the workflowNode parameter equals is the first  
+                	//node defined in the constraint, then it's required to approve, otherwise it's required to save.
+               		
+                	if (isWorkflowNodeFirstConstraintValue(workflowNode, values)) {
+                		//Field is required to approve. Indicated this by setting the required for next state flag in metadata.
+                		//If node is PreRoute, then the next state will be set to "SUBMIT" to indicate submit action, otherwise
+                		//will be set to "APPROVED" to indicate approval action for node transition.
                			constraintMetadata.setRequiredForNextState(true);
-               			constraintMetadata.setNextState(DtoState.APPROVED.toString());
+               			if (DtoConstants.WORKFLOW_NODE_PRE_ROUTE.equals(workflowNode)){
+               				constraintMetadata.setNextState(DtoState.SUBMITTED.toString());
+               			} else {
+               				constraintMetadata.setNextState(DtoState.APPROVED.toString());
+               			}
                			constraintMetadata.setMinOccurs(0);
                     } else if (values.contains(workflowNode)){
+                    	//Field is required only for save
                			constraintMetadata.setRequiredForNextState(false);
                			constraintMetadata.setNextState(null);
                			constraintMetadata.setMinOccurs(1);
@@ -418,6 +434,19 @@ public class MetadataServiceImpl {
                 }
             }
         }
+    }
+    
+    /** 
+     * @param values
+     * @param workflowNode
+     * @return true if workflowNode is first item in values, otherwise returns false
+     */
+    private boolean isWorkflowNodeFirstConstraintValue(String workflowNode, List<Object> values){
+    	if (values != null && !values.isEmpty()){
+    		return values.get(0).equals(workflowNode);
+    	} else {
+    		return false;
+    	}
     }
 
 	/**
