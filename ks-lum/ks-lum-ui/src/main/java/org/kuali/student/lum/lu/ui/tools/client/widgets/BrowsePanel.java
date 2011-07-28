@@ -183,72 +183,51 @@ public class BrowsePanel extends Composite {
 		tablePanel.setVisible(true);
 		layout.setVisible(true);
 	}
-
+	/*
+	 * Parameter is a list of column names from backed table.
+	 * Method checks the values of these columns names and tabulates the
+	 * number of occurrences of each value.
+	 * Returns a map of each value and it's occurrence count
+	 */
 	public Map<String,Integer> getFilterCount()
 	{
 		Map<String,Integer> filterCount=new HashMap<String,Integer>();
 		for(ResultRow resultRow:getAllResultRows())
 		{
-			String key=resultRow.getValue("lu.resultColumn.cluOfficialIdentifier.level");
-			if(key!=null)
+			for(String columnName:resultRow.getColumnValues().keySet())
 			{
-				if(!filterCount.containsKey(key))
-				{
-					filterCount.put(key, 1);
-				}
-				else{
-					int a=filterCount.get(key).intValue();
-					a++;
-					filterCount.put(key, a);
-				}
-			}
-			
-			key=resultRow.getValue("lu.resultColumn.resultComponentId");
-			if(key!=null)
-			{
-				if(!filterCount.containsKey(key))
-				{
-					filterCount.put(key, 1);
-				}
-				else{
-					int a=filterCount.get(key).intValue();
-					a++;
-					filterCount.put(key, a);
-				}
-			}
-			
-			key=resultRow.getValue("lu.resultColumn.luOptionalState");
-			if(key!=null)
-			{
-				if(!filterCount.containsKey(key))
-				{
-					filterCount.put(key, 1);
-				}
-				else{
-					int a=filterCount.get(key).intValue();
-					a++;
-					filterCount.put(key, a);
-				}
-			}
-			
-			key=null;
-			key=resultRow.getValue("lu.resultColumn.luOptionalCampusLocation");
-			
-			while(key!=null)
-			{
-				if(!filterCount.containsKey(key.substring(0,2)))
-				{
-					filterCount.put(key.substring(0,2), 1);
-				}
-				else{
-					int a=filterCount.get(key.substring(0,2)).intValue();
-					a++;
-					filterCount.put(key.substring(0,2), a);
-				}
-				if(key.length()>2)
-					key=key.substring(7);
-				else
-					key=null;
+					String columnValue=resultRow.getValue(columnName);
+					/*
+					 * Some values are a string separated by </br> statements.
+					 * The loop removes the </br> statements so values are stored correctly.
+					 * Ex:Campus Location is "NO</br>SO"
+					 */
+
+					while(columnValue.indexOf("<br/>")!=-1)
+					{
+						int f=columnValue.indexOf("<br/>");
+						if(!filterCount.containsKey(columnValue.substring(0,f)))
+						{
+							filterCount.put(columnValue.substring(0,f), 1);
+						}
+						else{
+							int a=filterCount.get(columnValue.substring(0,f)).intValue();
+							a++;
+							filterCount.put(columnValue.substring(0,f), a);
+						}
+						columnValue=columnValue.substring(f+5);
+					}
+
+
+					if(!filterCount.containsKey(columnValue))
+					{
+						filterCount.put(columnValue, 1);
+					}
+					else{
+						int a=filterCount.get(columnValue).intValue();
+						a++;
+						filterCount.put(columnValue, a);
+					}
 			}
 		}
 		return filterCount;

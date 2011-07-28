@@ -75,8 +75,8 @@ public class BrowseProgramView extends ViewComposite {
 				List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
 		        metaData = searchDefinition.getMetadata("filter");
 		        lookups.add(metaData.getInitialLookup());
-		        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups());
-		        dependencyFilter.setFilterCount(browsePanel.getFilterCount());
+		        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups(),
+		        		browsePanel.getFilterCount());
 		        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
 					@Override
 					public void onDeselect(FilterEvent e) {

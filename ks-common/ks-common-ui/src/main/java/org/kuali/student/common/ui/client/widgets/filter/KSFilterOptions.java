@@ -44,14 +44,23 @@ public class KSFilterOptions extends Composite{
     private VerticalFlowPanel filterContainer = new VerticalFlowPanel();
     private LoadingDiv loading = new LoadingDiv();
     List<KSFilterItem> filterItems = new ArrayList<KSFilterItem>();
-    Map<String,Integer> filterCount=new HashMap<String,Integer>();
     private int itemsIntializing = 0;
     private int itemsSelected = 0;
 
     private SearchRpcServiceAsync searchRpcService = GWT.create(SearchRpcService.class);
     
     public KSFilterOptions(List<LookupMetadata> lookups){
-        filterTitlePanel.add(filterTitle);
+        init(lookups,null);
+        this.initWidget(filterContainer);
+    }
+    
+    public KSFilterOptions(List<LookupMetadata> lookups, Map<String,Integer> filterCount){
+        init(lookups,filterCount);
+        this.initWidget(filterContainer);
+    }
+    
+    protected void init(List<LookupMetadata> lookups, Map<String,Integer> filterCount){	
+    	filterTitlePanel.add(filterTitle);
         filterTitlePanel.add(filterDescription);
         filterContainer.add(filterTitlePanel);
         filterContainer.add(filterPanel);
@@ -79,18 +88,9 @@ public class KSFilterOptions extends Composite{
 				itemsSelected = 0;
 			}        	
         });
-        init(lookups);
-        this.initWidget(filterContainer);
-    }
-    public void setFilterCount(Map<String,Integer> filterCount)
-    {
-    	this.filterCount=filterCount;
-    }
-    
-    protected void init(List<LookupMetadata> lookups){
     	for (LookupMetadata lookup:lookups){
     		itemsIntializing ++;
-    		KSFilterItem filterItem = new KSFilterItem(lookup);
+    		KSFilterItem filterItem = new KSFilterItem(lookup,filterCount);
     		filterPanel.add(filterItem);
     	}    	
     }
@@ -119,10 +119,8 @@ public class KSFilterOptions extends Composite{
     private class KSFilterItem extends CollapsablePanel{
     	SpanPanel itemContent;
     	String itemKey;
-    	
     	List<KSCheckBox> checkboxes = new ArrayList<KSCheckBox>();
-    	
-    	public KSFilterItem (final LookupMetadata lookup){
+    	public KSFilterItem (final LookupMetadata lookup, final Map<String,Integer> filterCount){
     		itemContent = new SpanPanel();
     		this.init(new KSLabel(lookup.getTitle()), itemContent, true, true, ImagePosition.ALIGN_LEFT);
     		this.addStyleName("KS-Filter-Item");
