@@ -10,6 +10,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -89,7 +90,7 @@ public class CourseAdminRetireController extends CourseAdminWithoutVersionContro
 						@Override
 						public void exec(String result) {
 							if (result == null){
-								KSNotifier.show("Course saved, but unable to set retire state.");
+								KSNotifier.add(new KSNotification("Course saved, but unable to set retire state.", false, true, 5000));
 							} else {
 								KSNotifier.show("Course saved and retired.");									
 								Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation(), viewContext);

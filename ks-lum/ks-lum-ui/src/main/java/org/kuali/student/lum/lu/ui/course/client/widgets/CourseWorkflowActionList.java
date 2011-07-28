@@ -346,7 +346,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        @Override
  	        public void onSuccess(StatusInfo result) { 	        	
  	        	KSBlockingProgressIndicator.removeTask(processingTask);
- 	        	stateChangeCallback.exec(newState);
+ 	        	if (!result.getSuccess()){
+ 	        		stateChangeCallback.exec(null);
+ 	        	} else {
+ 	        		stateChangeCallback.exec(newState);
+ 	        	}
  	        }
     	});
     	

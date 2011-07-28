@@ -292,9 +292,18 @@ public class CourseAdminController extends CourseProposalController{
     }
 
 	@Override
-	protected void configureScreens(DataModelDefinition modelDefinition,
-			final Callback<Boolean> onReadyCallback) {
-		super.configureScreens(modelDefinition, new Callback<Boolean>(){
+	protected void configureScreens(DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback) {
+		super.configureScreens(modelDefinition, previousEndTermConfigurationCallback(onReadyCallback));
+	}
+
+	/**
+	 * This callback is used to configure the previous end term field after the screens have been configured.
+	 * 
+	 * @param onReadyCallback
+	 * @return
+	 */
+	protected Callback<Boolean> previousEndTermConfigurationCallback(final Callback<Boolean> onReadyCallback){
+		return new Callback<Boolean>(){
 
 			@Override
 			public void exec(final Boolean result) {
@@ -332,7 +341,7 @@ public class CourseAdminController extends CourseProposalController{
 					}
 				});
 			}
-		});
+		};
 	}
-
 }
+

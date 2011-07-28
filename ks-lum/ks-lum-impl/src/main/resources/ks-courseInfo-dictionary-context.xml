@@ -1837,6 +1837,7 @@
 
  <bean id="courseInfo.lastTermOffered-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="lastTermOffered" />
+  <property name="dynamic" value="true"/>
   <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">

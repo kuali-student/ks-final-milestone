@@ -148,6 +148,12 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
     	this.setName(currentTitle);
     	WindowTitleUtils.setContextTitle(currentTitle);		
     }
+	
+	@Override
+	protected Callback<Boolean> previousEndTermConfigurationCallback(Callback<Boolean> onReadyCallback) {
+		//No need to display previous end term when modifying without version, just return original callback.
+		return onReadyCallback;
+	}
 
 	protected  BaseDataOrchestrationRpcServiceAsync getCourseProposalRpcService(){
     	return courseServiceAsync;
