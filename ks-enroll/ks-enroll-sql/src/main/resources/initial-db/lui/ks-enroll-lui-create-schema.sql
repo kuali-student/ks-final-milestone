@@ -27,9 +27,9 @@ CREATE TABLE KSEN_LUI
 			RT_DESCR_ID VARCHAR2(255), 
 			STATE_ID VARCHAR2(255), 
 			TYPE_ID VARCHAR2(255), 
-			OFFIC_LUI_ID VARCHAR2(255) 
+			OFFIC_LUI_ID VARCHAR2(255)
    )
-/ 
+/
 
 -----------------------------------------------------------------------------
 -- KSEN_LUILUI_RELTN
