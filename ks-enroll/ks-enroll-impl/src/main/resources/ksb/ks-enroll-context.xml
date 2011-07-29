@@ -120,7 +120,9 @@
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
     </bean>
-       
+
+    <bean id="courseOfferingService" class="org.kuali.student.enrollment.classII.courseoffering.service.CourseOfferingServiceMockImpl"/>
+
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
