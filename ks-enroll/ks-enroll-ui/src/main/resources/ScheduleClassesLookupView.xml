@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+>
+	<bean id="ScheduleClasses-LookupView" parent="LookupView">
+	    <property name="title" value="Schedule Classes Lookup" />
+	    <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
+	    <property name="viewName" value="scheduleClassesLookup"/>
+	 <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
+	    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoLookupViewHelperServiceImpl" />
+	    
+	    <property name="criteriaFields">
+	      <list>
+            <bean parent="LookupCriteriaAttributeField" p:propertyName="subjectArea">
+                <property name="control">
+          			<bean parent="SelectControl"/>
+        		</property>
+        		<property name="optionsFinder">
+          			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SubjectAreaKeyValues"/>
+        		</property>
+            </bean>
+
+            <bean parent="LookupCriteriaAttributeField" p:propertyName="termKey">
+                <property name="control">
+          			<bean parent="SelectControl"/>
+        		</property>
+        		<property name="optionsFinder">
+          			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ScheduleClassesTermKeyValues"/>
+        		</property>
+            </bean>
+	      </list>
+	    </property>
+
+        <property name="resultFields">
+            <list>
+                <bean parent="AttributeField" p:propertyName="key" />
+		        <bean parent="AttributeField" p:propertyName="subjectArea" />
+		        <bean parent="AttributeField" p:propertyName="courseCode" />
+		        <bean parent="AttributeField" p:propertyName="courseTitle" />
+              </list>
+        </property>
+
+  	</bean>
+</beans>
