@@ -18,52 +18,48 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-	<!-- Overwrite some academicCalendarInfo attributes for UI -->
+	<!-- Overwrite some CourseOfferingInfo attributes for UI -->
     <import resource="classpath:ks-CourseOfferingInfo-dictionary.xml"/>
     
-	<bean id="courseOfferingInfoUI" parent="courseOfferingInfo-parent">
+	<bean id="CourseOfferingInfoUI" parent="CourseOfferingInfo-parent">
         <property name="objectLabel" value="Course Offering"/>
         <property name="titleAttribute" value="id"/>     
         <property name="attributes">
             <list>
-                <ref bean="courseOfferingInfoUI.id"/>
-                <ref bean="courseOfferingInfoUI.courseId"/>                
-                <ref bean="courseOfferingInfoUI.termKey"/>
+                <ref bean="CourseOfferingInfoUI.id"/>
+                <ref bean="CourseOfferingInfoUI.courseId"/>                
+                <ref bean="CourseOfferingInfoUI.termKey"/>
                 
-                <!--  other attributes not used by UI -->
-                <ref bean="courseOfferingInfo.typeKey"/>
-                <ref bean="courseOfferingInfo.stateKey"/>
-                <ref bean="courseOfferingInfo.descr"/>
-                <ref bean="courseOfferingInfo.courseOfferingCode"/>
-                <ref bean="courseOfferingInfo.courseNumberSuffix"/>
-                <ref bean="courseOfferingInfo.courseTitle"/>
-                <ref bean="courseOfferingInfo.creditOptions"/>
-                <ref bean="courseOfferingInfo.expenditure"/>
-                <ref bean="courseOfferingInfo.fees"/>
-                <ref bean="courseOfferingInfo.formatIds"/>
-                <ref bean="courseOfferingInfo.fundingSource"/>
-                <ref bean="courseOfferingInfo.gradeRosterLevelTypeKey"/>
-                <ref bean="courseOfferingInfo.hasWaitlist"/>
-                <ref bean="courseOfferingInfo.instructors"/>
-                <ref bean="courseOfferingInfo.isFinancialAidEligible"/>
-                <ref bean="courseOfferingInfo.isHonorsOffering"/>
-                <ref bean="courseOfferingInfo.isWaitlistCheckinRequired"/>
-                <ref bean="courseOfferingInfo.jointOfferingIds"/>
-                <ref bean="courseOfferingInfo.maximumEnrollment"/>
-                <ref bean="courseOfferingInfo.minimumEnrollment"/>
-                <ref bean="courseOfferingInfo.registrationOrderTypeKey"/>
-                <ref bean="courseOfferingInfo.revenues"/>
-                <ref bean="courseOfferingInfo.subjectArea"/>
-                <ref bean="courseOfferingInfo.unitsContentOwner"/>
-                <ref bean="courseOfferingInfo.unitsDeployment"/>
-                <ref bean="courseOfferingInfo.waitlistCheckinFrequency"/>
-                <ref bean="courseOfferingInfo.waitlistMaximum"/>
-                <ref bean="courseOfferingInfo.waitlistTypeKey"/>                
+                <!--  other attributes not used by UI 
+				<ref bean="CourseOfferingInfo.typeKey"/>
+				<ref bean="CourseOfferingInfo.stateKey"/>
+				<ref bean="CourseOfferingInfo.descr"/>
+				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
+				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
+				<ref bean="CourseOfferingInfo.courseTitle"/>
+				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
+				<ref bean="CourseOfferingInfo.subjectArea"/>
+				<ref bean="CourseOfferingInfo.hasFinalExam"/>
+				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
+				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
+				<ref bean="CourseOfferingInfo.creditOptions"/>
+				<ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey"/>
+				<ref bean="CourseOfferingInfo.hasWaitlist"/>
+				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
+				<ref bean="CourseOfferingInfo.waitlistMaximum"/>
+				<ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
+				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency"/>
+				<ref bean="CourseOfferingInfo.fundingSource"/>
+				<ref bean="CourseOfferingInfo.expenditure"/>
+				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
+				<ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
+				<ref bean="CourseOfferingInfo.meta"/>
+				-->				
             </list>
         </property>
     </bean>
 
-	<bean id="courseOfferingInfoUI.id" parent="courseOfferingInfo.id-parent">
+	<bean id="CourseOfferingInfoUI.id" parent="CourseOfferingInfo.id-parent">
         <property name="label" value="Course Offering ID" />
         <property name="required" value="false"/>
         <property name="validationPattern" >
@@ -75,9 +71,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property> 
     </bean>    
 
-	<bean id="courseOfferingInfoUI.courseId" parent="courseOfferingInfo.courseId-parent">
+	<bean id="CourseOfferingInfoUI.courseId" parent="CourseOfferingInfo.courseId-parent">
         <property name="label" value="Course ID" />
         <property name="required" value="true"/>
+        <property name="summary" value=""/>
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
             	  p:allowWhitespace="false" />
@@ -87,9 +84,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property> 
     </bean>
 
-	<bean id="courseOfferingInfoUI.termKey" parent="courseOfferingInfo.termKey-parent">
+	<bean id="CourseOfferingInfoUI.termKey" parent="CourseOfferingInfo.termKey-parent">
         <property name="label" value="Term" />
         <property name="required" value="true"/>
+        <property name="summary" value=""/>
         <property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
             	  p:allowWhitespace="false" />
@@ -111,7 +109,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="items">
                <list>
                 <bean parent="AttributeField" p:propertyName="termKey">
-                <!-- 
+		            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+		            <property name="fieldLookup.fieldConversions" value="key:termKey"/>                
+                 <!--
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -124,7 +124,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                </list>
              </property>             
           </bean>
-
+          
           <bean parent="MaintenanceCollectionGroupSection">
               <property name="title" value="Instructors"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
@@ -132,15 +132,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="items">
                 <list>
                   <bean parent="AttributeField" p:propertyName="personId" p:label="Instructor ID">
-                  	
-                    <!-- 
-                    <property name="control">
-              			<bean parent="SelectControl"/>
-            		</property>
-            		<property name="optionsFinder">
-              			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.personKeyValues"/>
-            		</property>
-            		-->
+                   <!--
+		            <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.Person"/>
+		            <property name="fieldLookup.fieldConversions">
+		              <map>
+		                <entry key="principalId" value="personId"/>
+		              </map>
+		            </property> 
+		           -->                	
                   </bean>                             
                 </list>
               </property>   
@@ -151,6 +150,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 </list>                             
               </property>
            </bean>  
+           
        </list>
      </property>
     </bean>  
