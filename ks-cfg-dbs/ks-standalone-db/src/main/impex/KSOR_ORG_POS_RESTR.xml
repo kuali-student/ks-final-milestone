@@ -1314,6 +1314,14 @@
         ORG="207" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Physics Dept COC" UPDATEID="admin"
         UPDATETIME="20101213114312" VER_NBR="0"/>
+    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20101213122611"
+        DESCR="Curriculum Manager"
+        ID="cc473647-536d-4688-a33f-e7b00c118cd2" MAX_NUM_RELTN="100"
+        MIN_NUM_RELTN="1" OBJ_ID="0fa77c54-b315-4b4a-8d98-dbe50504dd41"
+        ORG="141"
+        PERS_RELTN_TYPE="kuali.org.PersonRelation.CurriculumManager"
+        TTL="Curriculum Manager" UPDATEID="TESTUSER"
+        UPDATETIME="20101213122611" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20101214143432"
         DESCR="Chair of the Mathematics Dept"
         ID="d00522cd-443e-448d-9462-63ef47a958aa" MAX_NUM_RELTN="100"
