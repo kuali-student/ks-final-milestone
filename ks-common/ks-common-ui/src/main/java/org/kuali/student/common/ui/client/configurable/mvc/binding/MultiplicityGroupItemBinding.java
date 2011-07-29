@@ -48,9 +48,12 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
         String itemPath = QueryPath.concat(path, String.valueOf(multiplicityItem.getItemKey())).toString();
     	String itemRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
-        if (widget instanceof Section) {
-        	itemPath = "";
-            SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
+        if (widget instanceof Section) {        	
+        	if (((Section)widget).isDirty()){
+        		//Only update model if multiplicity section is dirty.
+	        	itemPath = "";
+	            SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
+        	}
         } else if (widget instanceof ModelWidgetBinding) {
             ((ModelWidgetBinding) widget).setModelValue(widget, model, path);
         } else {
