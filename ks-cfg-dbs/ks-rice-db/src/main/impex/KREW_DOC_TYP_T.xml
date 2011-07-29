@@ -431,7 +431,7 @@
         DOC_TYP_VER_NBR="3"
         LBL="Kuali Student Credit Course Parent Document"
         OBJ_ID="B74C332B-25EF-951C-7E52-BFFF305EB1D4" PARNT_ID="3066"
-        PREV_DOC_TYP_VER_NBR="3058" RTE_VER_NBR="2" VER_NBR="8"/>
+        PREV_DOC_TYP_VER_NBR="3058" RTE_VER_NBR="2" VER_NBR="9"/>
     <KREW_DOC_TYP_T ACTV_IND="0" CUR_IND="1"
         DOC_TYP_DESC="Credit Course Retirement" DOC_TYP_ID="3068"
         DOC_TYP_NM="kuali.proposal.type.course.retire"
@@ -476,12 +476,20 @@
         OBJ_ID="B76A7406-9E05-AA1A-1A44-5F5820A9803F" PARNT_ID="3067"
         POST_PRCSR="org.kuali.student.lum.workflow.ProgramPostProcessorBase"
         PREV_DOC_TYP_VER_NBR="3064" RTE_VER_NBR="2" VER_NBR="1"/>
-    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="0"
         DOC_TYP_DESC="Modify Major Discipline Proposal"
         DOC_TYP_ID="3074"
         DOC_TYP_NM="kuali.proposal.type.majorDiscipline.modify"
         DOC_TYP_VER_NBR="2" LBL="Modify Major Discipline Proposal"
         OBJ_ID="3640149A-7269-96B9-9F2E-688F9A5CB915" PARNT_ID="3067"
         POST_PRCSR="org.kuali.student.lum.workflow.ProgramPostProcessorBase"
-        PREV_DOC_TYP_VER_NBR="3065" RTE_VER_NBR="2" VER_NBR="1"/>
+        PREV_DOC_TYP_VER_NBR="3065" RTE_VER_NBR="2" VER_NBR="2"/>
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
+        DOC_TYP_DESC="Modify Major Discipline Proposal"
+        DOC_TYP_ID="3075"
+        DOC_TYP_NM="kuali.proposal.type.majorDiscipline.modify"
+        DOC_TYP_VER_NBR="3" LBL="Modify Major Discipline Proposal"
+        OBJ_ID="B7001D34-3CFB-3356-C6E2-9BA17E47FF85" PARNT_ID="3067"
+        POST_PRCSR="org.kuali.student.lum.workflow.ProgramPostProcessorBase"
+        PREV_DOC_TYP_VER_NBR="3074" RTE_VER_NBR="2" VER_NBR="1"/>
 </dataset>

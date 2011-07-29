@@ -303,7 +303,14 @@
       <routePaths>
         <routePath>
           <start name="PreRoute" nextNode="Department Review" />
-          <role name="Department Review" />
+          <role name="Department Review" nextNode="Division Review" />
+          <role name="Division Review" nextNode="College Review" />
+          <role name="College Review" nextNode="Curriculum Admin Review" />
+          <role name="Curriculum Admin Review" nextNode="Senate Review" />
+          <role name="Senate Review" nextNode="Presidents Office Review" />
+          <role name="Presidents Office Review" nextNode="System Office Review" />
+          <role name="System Office Review" nextNode="Publication Review" />
+          <role name="Publication Review" />
         </routePath>
       </routePaths>
       <routeNodes>
@@ -317,6 +324,43 @@
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
           <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+        </role>
+        <role name="Division Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.Division</organizationTypeCode>
+          <organizationIdQualifierKey>divisionId</organizationIdQualifierKey>
+        </role>
+        <role name="College Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+          <organizationTypeCode>kuali.org.College</organizationTypeCode>
+          <organizationIdQualifierKey>collegeId</organizationIdQualifierKey>
+         </role>
+		<role name="Curriculum Admin Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+		<role name="Senate Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+		<role name="Presidents Office Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="System Office Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>141</organizationId>
+        </role>
+        <role name="Publication Review">
+          <activationType>P</activationType>
+          <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+          <organizationId>176</organizationId>
         </role>
       </routeNodes>
     </documentType>

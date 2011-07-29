@@ -1083,4 +1083,100 @@
         RTE_NODE_CFG_PARM_ID="2991" RTE_NODE_ID="3144" VAL="departmentId"/>
     <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
         RTE_NODE_CFG_PARM_ID="2992" RTE_NODE_ID="3144" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="2993" RTE_NODE_ID="3146" VAL="&lt;start name=&quot;PreRoute&quot;>&lt;activationType>P&lt;/activationType>&lt;mandatoryRoute>false&lt;/mandatoryRoute>&lt;finalApproval>false&lt;/finalApproval>&lt;/start>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="2994" RTE_NODE_ID="3146" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="mandatoryRoute"
+        RTE_NODE_CFG_PARM_ID="2995" RTE_NODE_ID="3146" VAL="false"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="finalApproval"
+        RTE_NODE_CFG_PARM_ID="2996" RTE_NODE_ID="3146" VAL="false"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="2997" RTE_NODE_ID="3146" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="2998" RTE_NODE_ID="3147" VAL="&lt;role name=&quot;Department Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver&lt;/qualifierResolverClass>&lt;organizationTypeCode>kuali.org.Department&lt;/organizationTypeCode>&lt;organizationIdQualifierKey>departmentId&lt;/organizationIdQualifierKey>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="2999" RTE_NODE_ID="3147" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3000" RTE_NODE_ID="3147" VAL="org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationTypeCode"
+        RTE_NODE_CFG_PARM_ID="3001" RTE_NODE_ID="3147" VAL="kuali.org.Department"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationIdQualifierKey"
+        RTE_NODE_CFG_PARM_ID="3002" RTE_NODE_ID="3147" VAL="departmentId"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3003" RTE_NODE_ID="3147" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3004" RTE_NODE_ID="3148" VAL="&lt;role name=&quot;Division Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver&lt;/qualifierResolverClass>&lt;organizationTypeCode>kuali.org.Division&lt;/organizationTypeCode>&lt;organizationIdQualifierKey>divisionId&lt;/organizationIdQualifierKey>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3005" RTE_NODE_ID="3148" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3006" RTE_NODE_ID="3148" VAL="org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationTypeCode"
+        RTE_NODE_CFG_PARM_ID="3007" RTE_NODE_ID="3148" VAL="kuali.org.Division"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationIdQualifierKey"
+        RTE_NODE_CFG_PARM_ID="3008" RTE_NODE_ID="3148" VAL="divisionId"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3009" RTE_NODE_ID="3148" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3010" RTE_NODE_ID="3149" VAL="&lt;role name=&quot;College Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver&lt;/qualifierResolverClass>&lt;organizationTypeCode>kuali.org.College&lt;/organizationTypeCode>&lt;organizationIdQualifierKey>collegeId&lt;/organizationIdQualifierKey>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3011" RTE_NODE_ID="3149" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3012" RTE_NODE_ID="3149" VAL="org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationTypeCode"
+        RTE_NODE_CFG_PARM_ID="3013" RTE_NODE_ID="3149" VAL="kuali.org.College"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationIdQualifierKey"
+        RTE_NODE_CFG_PARM_ID="3014" RTE_NODE_ID="3149" VAL="collegeId"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3015" RTE_NODE_ID="3149" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3016" RTE_NODE_ID="3150" VAL="&lt;role name=&quot;Curriculum Admin Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver&lt;/qualifierResolverClass>&lt;organizationId>141&lt;/organizationId>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3017" RTE_NODE_ID="3150" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3018" RTE_NODE_ID="3150" VAL="org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationId"
+        RTE_NODE_CFG_PARM_ID="3019" RTE_NODE_ID="3150" VAL="141"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3020" RTE_NODE_ID="3150" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3021" RTE_NODE_ID="3151" VAL="&lt;role name=&quot;Senate Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver&lt;/qualifierResolverClass>&lt;organizationId>141&lt;/organizationId>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3022" RTE_NODE_ID="3151" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3023" RTE_NODE_ID="3151" VAL="org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationId"
+        RTE_NODE_CFG_PARM_ID="3024" RTE_NODE_ID="3151" VAL="141"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3025" RTE_NODE_ID="3151" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3026" RTE_NODE_ID="3152" VAL="&lt;role name=&quot;Presidents Office Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver&lt;/qualifierResolverClass>&lt;organizationId>141&lt;/organizationId>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3027" RTE_NODE_ID="3152" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3028" RTE_NODE_ID="3152" VAL="org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationId"
+        RTE_NODE_CFG_PARM_ID="3029" RTE_NODE_ID="3152" VAL="141"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3030" RTE_NODE_ID="3152" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3031" RTE_NODE_ID="3153" VAL="&lt;role name=&quot;System Office Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver&lt;/qualifierResolverClass>&lt;organizationId>141&lt;/organizationId>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3032" RTE_NODE_ID="3153" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3033" RTE_NODE_ID="3153" VAL="org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationId"
+        RTE_NODE_CFG_PARM_ID="3034" RTE_NODE_ID="3153" VAL="141"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3035" RTE_NODE_ID="3153" VAL="Template"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="contentFragment"
+        RTE_NODE_CFG_PARM_ID="3036" RTE_NODE_ID="3154" VAL="&lt;role name=&quot;Publication Review&quot;>&lt;activationType>P&lt;/activationType>&lt;qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver&lt;/qualifierResolverClass>&lt;organizationId>176&lt;/organizationId>&lt;/role>"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="activationType"
+        RTE_NODE_CFG_PARM_ID="3037" RTE_NODE_ID="3154" VAL="P"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="qualifierResolverClass"
+        RTE_NODE_CFG_PARM_ID="3038" RTE_NODE_ID="3154" VAL="org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="organizationId"
+        RTE_NODE_CFG_PARM_ID="3039" RTE_NODE_ID="3154" VAL="176"/>
+    <KREW_RTE_NODE_CFG_PARM_T KEY_CD="ruleSelector"
+        RTE_NODE_CFG_PARM_ID="3040" RTE_NODE_ID="3154" VAL="Template"/>
 </dataset>
