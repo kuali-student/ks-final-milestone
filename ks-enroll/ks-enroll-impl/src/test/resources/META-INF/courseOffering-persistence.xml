@@ -46,10 +46,14 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiInstructorEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity</class>
-         <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
  
  		<class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
 		<class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>

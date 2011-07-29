@@ -39,6 +39,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setMeta(lui.getMeta());
 			co.setStateKey(lui.getStateKey());
 			co.setTypeKey(lui.getTypeKey());
+			co.setDescr(lui.getDescr());
 			co.setAttributes(lui.getAttributes());
 
 			co.setMaximumEnrollment(lui.getMaximumEnrollment());
@@ -112,7 +113,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			if (finalExams.size() > 0) co.setHasFinalExam(true);
 			
 		} catch (DoesNotExistException e) {
-			e.printStackTrace();
+			return;
 		} catch (InvalidParameterException e) {
 			e.printStackTrace();
 		} catch (MissingParameterException e) {
@@ -150,7 +151,6 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setFees(co.getFees());
 			lui.setExpenditure(co.getExpenditure());
 			lui.setRevenues(co.getRevenues());
-	        lui.setCluCluRelationIds(co.getFormatIds());
 	        
 			disassembleIdentifier(co, lui);
 					

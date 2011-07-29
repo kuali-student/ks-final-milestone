@@ -33,6 +33,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			ao.setMeta(lui.getMeta());
 			ao.setStateKey(lui.getStateKey());
 			ao.setTypeKey(lui.getTypeKey());
+			ao.setDescr(lui.getDescr());
 			ao.setAttributes(lui.getAttributes());
 			ao.setActivityId(lui.getCluId());
 			ao.setTermKey(lui.getAtpKey());
@@ -42,52 +43,12 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			
 			//rest fields no mapping doc
 			
-			//LuiLuiRelation (to set courseOfferingIds, registrationGroupIds)
-			 assembleLuiLuiRelations(ao, lui.getId(), context);
 			return ao;
 		}
 		else
 			return null;
 	}
-
-	private void assembleLuiLuiRelations(ActivityOfferingInfo ao, String luiId, ContextInfo context){
-		try {
-			List<String> courseOfferingIds = new ArrayList<String>();
-			List<String> registrationGroupIds = new ArrayList<String>();
-			List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(luiId, context);
-			if(rels != null && !rels.isEmpty()){                  
-                for(LuiLuiRelationInfo rel : rels){
-                	if(rel.getLuiId().equals(luiId)){
-                		if(rel.getTypeKey().equals("kuali.lui.lui.relation.RegisteredForVia")){
-                			LuiInfo lui1 = luiService.getLui(rel.getRelatedLuiId(), context);
-                			if(lui1 != null && lui1.getTypeKey().equals("kuali.lui.type.course.registrationGroup") && !courseOfferingIds.contains(rel.getRelatedLuiId())){
-                				courseOfferingIds.add(rel.getRelatedLuiId());
-                			}
-                		}
-                		
-                   		if(rel.getTypeKey().equals("kuali.lui.lui.relation.IsDeliveredVia")){
-                			LuiInfo lui2 = luiService.getLui(rel.getRelatedLuiId(), context);
-                			if(lui2 != null && !lui2.getTypeKey().equals("kuali.lui.type.course.finalExam") && !registrationGroupIds.contains(rel.getRelatedLuiId())){
-                				registrationGroupIds.add(rel.getRelatedLuiId());
-                			}
-                		}
-                	}
-                }
-			}
-			
-//			if (!courseOfferingIds.isEmpty()) ao.setCourseOfferingIds(courseOfferingIds);
-//			if (!registrationGroupIds.isEmpty()) ao.setRegistrationGroupIds(registrationGroupIds);
-			
-		} catch (DoesNotExistException e) {
-			e.printStackTrace();
-		} catch (InvalidParameterException e) {
-			e.printStackTrace();
-		} catch (MissingParameterException e) {
-			e.printStackTrace();
-		} catch (OperationFailedException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	@Override
 	public LuiInfo disassemble(ActivityOfferingInfo ao, ContextInfo context) {
 		if(ao != null){

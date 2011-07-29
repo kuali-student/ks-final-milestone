@@ -1,10 +1,20 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.DTOAssembler;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGroupInfo, LuiInfo>{
 	private LuiService luiService;
@@ -25,6 +35,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			rg.setMeta(lui.getMeta());
 			rg.setStateKey(lui.getStateKey());
 			rg.setTypeKey(lui.getTypeKey());
+			rg.setDescr(lui.getDescr());
 			rg.setAttributes(lui.getAttributes());					
 			rg.setMaximumEnrollment(lui.getMaximumEnrollment());
 			rg.setMinimumEnrollment(lui.getMinimumEnrollment());
@@ -39,7 +50,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			//co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 			
 			//LuiLuiRelation (to set courseOfferingId, activityOfferingIds)
-			// assembleLuiLuiRelations(rg, lui.getId(), context);
+			 assembleLuiLuiRelations(rg, lui.getId(), context);
 
 			return rg;
 		}
@@ -47,6 +58,46 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			return null;
 	}
 
+	private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context){
+		try {
+			String courseOfferingId = null;;
+			List<String> activityIds= new ArrayList<String>();
+			List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(luiId, context);
+			if(rels != null && !rels.isEmpty()){                  
+                for(LuiLuiRelationInfo rel : rels){
+                	if(rel.getLuiId().equals(luiId)){
+                		if(rel.getTypeKey().equals("kuali.lui.lui.relation.RegisteredForVia")){
+                			LuiInfo lui = luiService.getLui(rel.getRelatedLuiId(), context);
+                			if(lui != null){
+	                			if( lui.getTypeKey().equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
+	                				courseOfferingId = rel.getRelatedLuiId();
+	                			}
+	                			else
+	                			{
+		                			if( !activityIds.contains(rel.getRelatedLuiId())){
+		                				activityIds.add(rel.getRelatedLuiId());
+		                			}
+	                			}
+                			}
+                		}
+                	}
+                }
+			}
+			
+			if ( null != courseOfferingId ) rg.setCourseOfferingId(courseOfferingId);
+			if (!activityIds.isEmpty()) rg.setActivityOfferingIds(activityIds);
+			
+		} catch (DoesNotExistException e) {
+			return;
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
 		if(rg != null){			
