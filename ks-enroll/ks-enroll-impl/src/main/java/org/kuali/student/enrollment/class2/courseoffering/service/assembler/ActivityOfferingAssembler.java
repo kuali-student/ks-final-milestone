@@ -16,7 +16,6 @@ import org.kuali.student.r2.common.infc.DTOAssembler;
 
 public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingInfo, LuiInfo>{
 	private LuiService luiService;
-	private CourseOfferingAssemblerUtils coAssemblerUtils;
 	
 	public LuiService getLuiService() {
 		return luiService;
@@ -26,19 +25,15 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 		this.luiService = luiService;
 	}
 	
-	public CourseOfferingAssemblerUtils getCoAssemblerUtils() {
-		return coAssemblerUtils;
-	}
-
-	public void setCoAssemblerUtils(CourseOfferingAssemblerUtils coAssemblerUtils) {
-		this.coAssemblerUtils = coAssemblerUtils;
-	}
-	
 	@Override
 	public ActivityOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			ActivityOfferingInfo ao = new ActivityOfferingInfo();
-//			coAssemblerUtils.assembleBasics(lui, ao);
+			ao.setId(lui.getId());
+			ao.setMeta(lui.getMeta());
+			ao.setStateKey(lui.getStateKey());
+			ao.setTypeKey(lui.getTypeKey());
+			ao.setAttributes(lui.getAttributes());
 			ao.setActivityId(lui.getCluId());
 			ao.setTermKey(lui.getAtpKey());
 						
@@ -97,7 +92,12 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 	public LuiInfo disassemble(ActivityOfferingInfo ao, ContextInfo context) {
 		if(ao != null){
 			LuiInfo lui = new LuiInfo();
-//			coAssemblerUtils.disassembleBasics(lui, ao);
+			lui.setId(ao.getId());
+			lui.setTypeKey(ao.getTypeKey());
+			lui.setStateKey(ao.getStateKey());
+			lui.setDescr(ao.getDescr());
+			lui.setMeta(ao.getMeta());
+			lui.setAttributes(ao.getAttributes());
 			lui.setCluId(ao.getActivityId());
 			lui.setAtpKey(ao.getTermKey());
 			

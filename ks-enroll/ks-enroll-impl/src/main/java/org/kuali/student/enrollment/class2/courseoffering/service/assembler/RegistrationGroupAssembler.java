@@ -8,7 +8,6 @@ import org.kuali.student.r2.common.infc.DTOAssembler;
 
 public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGroupInfo, LuiInfo>{
 	private LuiService luiService;
-	private CourseOfferingAssemblerUtils coAssemblerUtils;
 
 	public LuiService getLuiService() {
 		return luiService;
@@ -18,20 +17,26 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 		this.luiService = luiService;
 	}
 	
-	public CourseOfferingAssemblerUtils getCoAssemblerUtils() {
-		return coAssemblerUtils;
-	}
-
-	public void setCoAssemblerUtils(CourseOfferingAssemblerUtils coAssemblerUtils) {
-		this.coAssemblerUtils = coAssemblerUtils;
-	}
-	
 	@Override
 	public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			RegistrationGroupInfo rg = new RegistrationGroupInfo();
-//			coAssemblerUtils.assembleBasics(lui, rg);
-//			coAssemblerUtils.assembleCommons(lui, rg);
+			rg.setId(lui.getId());
+			rg.setMeta(lui.getMeta());
+			rg.setStateKey(lui.getStateKey());
+			rg.setTypeKey(lui.getTypeKey());
+			rg.setAttributes(lui.getAttributes());					
+			rg.setMaximumEnrollment(lui.getMaximumEnrollment());
+			rg.setMinimumEnrollment(lui.getMinimumEnrollment());
+
+			//TODO: co.setIsHonorsOffering(isHonorsOffering) -- lui.getLuiCodes() ?
+			
+			//below undecided
+			//co.setHasWaitlist(lui.getHasWaitlist());
+			//co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
+			//co.setWaitlistMaximum(lui.getWaitlistMaximum());
+			//co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
+			//co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 			
 			//LuiLuiRelation (to set courseOfferingId, activityOfferingIds)
 			// assembleLuiLuiRelations(rg, lui.getId(), context);
@@ -46,9 +51,21 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 	public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
 		if(rg != null){			
 			LuiInfo lui = new LuiInfo();
-//			coAssemblerUtils.disassembleBasics(lui, rg);
-//			coAssemblerUtils.disassembleCommons(lui, rg);
+			lui.setId(rg.getId());
+			lui.setTypeKey(rg.getTypeKey());
+			lui.setStateKey(rg.getStateKey());
+			lui.setDescr(rg.getDescr());
+			lui.setMeta(rg.getMeta());
+			lui.setAttributes(rg.getAttributes());
 			
+			//TODO: co.getIsHonorsOffering() --store in a generic lui luCodes type of field?
+			
+			//below undecided
+			//lui.setHasWaitlist(rg.getHasWaitlist());
+			//lui.setIsWaitlistCheckinRequired(rg.getIsWaitlistCheckinRequired());
+			//lui.setWaitlistCheckinFrequency(rg.getWaitlistCheckinFrequency());
+			//lui.setWaitlistMaximum(rg.getWaitlistMaximum());
+			//lui.setWaitlistTypeKey(rg.getWaitlistTypeKey());
 			return lui;
 		}
 		return null;

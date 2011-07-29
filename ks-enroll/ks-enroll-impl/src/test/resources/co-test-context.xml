@@ -203,19 +203,16 @@
     	     
     <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
     	<property name="luiService" ref="luiService"/>
-    	<property name="coAssemblerUtils" ref="coAssemblerUtils" />
     </bean>
     
     <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
-    	<property name="coAssemblerUtils" ref="coAssemblerUtils" />
+    	<property name="luiService" ref="luiService"/>
     </bean>
  
      <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
-    	<property name="coAssemblerUtils" ref="coAssemblerUtils" />
+     	<property name="luiService" ref="luiService"/>
     </bean>
-       
-   <bean id="coAssemblerUtils" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssemblerUtils" />
-   
+         
    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpService"/>
     	<property name="acalAssembler" ref="acalAssembler" />

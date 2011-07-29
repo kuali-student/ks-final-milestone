@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo, LuiInfo>{
 	private LuiService luiService;
-	private CourseOfferingAssemblerUtils coAssemblerUtils;
 	
 
 	public LuiService getLuiService() {
@@ -31,20 +30,28 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		this.luiService = luiService;
 	}
 
-	public CourseOfferingAssemblerUtils getCoAssemblerUtils() {
-		return coAssemblerUtils;
-	}
-
-	public void setCoAssemblerUtils(CourseOfferingAssemblerUtils coAssemblerUtils) {
-		this.coAssemblerUtils = coAssemblerUtils;
-	}
 
 	@Override
 	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			CourseOfferingInfo co = new CourseOfferingInfo();
-//			coAssemblerUtils.assembleBasics(lui, co);
-//			coAssemblerUtils.assembleCommons(lui, co);
+			co.setId(lui.getId());
+			co.setMeta(lui.getMeta());
+			co.setStateKey(lui.getStateKey());
+			co.setTypeKey(lui.getTypeKey());
+			co.setAttributes(lui.getAttributes());
+
+			co.setMaximumEnrollment(lui.getMaximumEnrollment());
+			co.setMinimumEnrollment(lui.getMinimumEnrollment());
+
+			//TODO: co.setIsHonorsOffering(isHonorsOffering) -- lui.getLuiCodes() ?
+			
+			//below undecided
+			//co.setHasWaitlist(lui.getHasWaitlist());
+			//co.setWaitlistTypeKey(lui.getWaitlistTypeKey());
+			//co.setWaitlistMaximum(lui.getWaitlistMaximum());
+			//co.setIsWaitlistCheckinRequired(lui.getIsWaitlistCheckinRequired());
+			//co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 			
 			co.setCourseId(lui.getCluId());
 			co.setTermKey(lui.getAtpKey());
@@ -118,8 +125,21 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	public LuiInfo disassemble(CourseOfferingInfo co, ContextInfo context) {
 		if(co != null){			
 			LuiInfo lui = new LuiInfo();
-//			coAssemblerUtils.disassembleBasics(lui, co);
-//			coAssemblerUtils.disassembleCommons(lui, co);
+			lui.setId(co.getId());
+			lui.setTypeKey(co.getTypeKey());
+			lui.setStateKey(co.getStateKey());
+			lui.setDescr(co.getDescr());
+			lui.setMeta(co.getMeta());
+			lui.setAttributes(co.getAttributes());
+			
+			//TODO: co.getIsHonorsOffering() --store in a generic lui luCodes type of field?
+			
+			//below undecided
+			//lui.setHasWaitlist(co.getHasWaitlist());
+			//lui.setIsWaitlistCheckinRequired(co.getIsWaitlistCheckinRequired());
+			//lui.setWaitlistCheckinFrequency(co.getWaitlistCheckinFrequency());
+			//lui.setWaitlistMaximum(co.getWaitlistMaximum());
+			//lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 			
 			lui.setCluId(co.getCourseId());
 			lui.setCluCluRelationIds(co.getFormatIds());
