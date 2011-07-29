@@ -147,9 +147,13 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 		return new ProcessDocReport(success);
 	}
 
-	protected boolean processCustomRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ProposalInfo proposalInfo) throws Exception {
-	    // do nothing but allow override
-	    return true;
+	protected boolean processCustomRouteLevelChange(
+			DocumentRouteLevelChange documentRouteLevelChange,
+			ProposalInfo proposalInfo) throws Exception {
+		//Update the proposal with the new node name
+		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
+		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+		return true;
 	}
 
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {

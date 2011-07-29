@@ -188,18 +188,4 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
         	statementTreeViewInfoStateSetter(courseState, statementTreeViewInfo.getStatements().iterator());
         }
     }
-
-	@Override
-	protected boolean processCustomRouteLevelChange(
-			DocumentRouteLevelChange documentRouteLevelChange,
-			ProposalInfo proposalInfo) throws Exception {
-		//Update the proposal with the new node name
-		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
-		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
-		return true;
-	}
-
-  
-    
-
 }
