@@ -3943,7 +3943,7 @@
 					<property name="name" value="State" />
 					<property name="desc" value="State" />
 					<property name="dataType" value="STRING" />
-					<property name="hidden" value="false" />
+					<property name="hidden" value="true" />
 				</bean>
 				<bean parent="result">
 					<property name="key" value="lo.resultColumn.categoryName" />
@@ -4062,7 +4062,7 @@
 					<property name="name" value="State" />
 					<property name="desc" value="State" />
 					<property name="dataType" value="STRING" />
-					<property name="hidden" value="false" />
+					<property name="hidden" value="true" />
 				</bean>
 				<bean parent="result">
 					<property name="key" value="lo.resultColumn.categoryName" />
@@ -4158,7 +4158,7 @@
 					<property name="name" value="State" />
 					<property name="desc" value="State" />
 					<property name="dataType" value="STRING" />
-					<property name="hidden" value="false" />
+					<property name="hidden" value="true" />
 				</bean>
 				<bean parent="result">
 					<property name="key" value="lo.resultColumn.categoryName" />
