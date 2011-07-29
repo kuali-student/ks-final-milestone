@@ -590,6 +590,43 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Bulk operation to drop all students from a reg group if it gets canceled.
+     * TODO This is WIP now, DO NOT IMPLEMENT
+     * 
+     * @param regGroupIdList
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public RegResponseInfo dropStudentsFromRegGroups(@WebParam(name = "regGroupIdList") List<String> regGroupIdList,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Bulk operation to move all students between source and destination reg
+     * groups in case a reg group gets canceled. TODO This is WIP now, DO NOT
+     * IMPLEMENT
+     * 
+     * @param sourceRegGroupId
+     * @param destinationRegGroupId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public RegResponseInfo moveStudentsBetweenRegGroups(@WebParam(name = "sourceRegGroupId") String sourceRegGroupId,
+            @WebParam(name = "destinationRegGroupId") String destinationRegGroupId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Set the state of the registration request to canceled. This operation
      * would be used instead of delete when the registration request might need
      * to be stored and not deleted for reporting purposes. Scenarios are
@@ -622,6 +659,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             No {@link RegRequestInfo} found for the id.
      * @throws InvalidParameterException
      *             Invalid id regRequestId
      * @throws MissingParameterException
@@ -631,7 +669,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      *             Not authorized to do this operation
      */
-    public RegRequestInfo getRegRequestById(@WebParam(name = "regRequestId") String regRequestId,
+    public RegRequestInfo getRegRequest(@WebParam(name = "regRequestId") String regRequestId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -642,12 +680,17 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             No regRequestId found for one of the regRequestIds
      * @throws InvalidParameterException
+     *             Invalid regRequestId in regRequestIds list
      * @throws MissingParameterException
+     *             Missing regRequestIds in the input
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
-    public List<RegRequestInfo> getRegRequestsByIdList(@WebParam(name = "regRequestId") List<String> regRequestIds,
+    public List<RegRequestInfo> getRegRequestsByIdList(@WebParam(name = "regRequestIds") List<String> regRequestIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -657,15 +700,24 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * that only requests in certain states are returned.
      * 
      * @param requestStates
+     *            A list of state for the {@link RegRequestInfo} to be
+     *            retrieved. This is optional
      * @param studentId
-     * @param termId
+     *            Id of the student
+     * @param termKey
+     *            Key of the term
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             No {@link RegRequestInfo} found for the input parameters
      * @throws InvalidParameterException
+     *             Invalid studentId, termKey or request state
      * @throws MissingParameterException
+     *             Missing studentId or termKey in the input
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "termKey") String termKey, @WebParam(name = "requestStates") List<String> requestStates,
@@ -676,13 +728,19 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * Gets a course waitlist entry by id.
      * 
      * @param courseWaitlistEntryId
+     *            Id of the course waitlist entry
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             No courseWaitlistEntryId exists
      * @throws InvalidParameterException
+     *             Invalid courseWaitlistEntryId
      * @throws MissingParameterException
+     *             Missing courseWaitlistEntryId in the input
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public CourseWaitlistEntryInfo getCourseWaitlistEntry(
             @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
@@ -692,15 +750,25 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     /**
      * Updates a course waitlist entry
      * 
-     * @param regRequestInfo
+     * @param courseWaitlistEntryId
+     *            Id of the course waitlist entry to be updated
+     * @param courseWaitlistEntryInfo
+     *            The modified {@link CourseWaitlistEntryInfo}
      * @param context
      * @return
      * @throws AlreadyExistsException
      * @throws DataValidationErrorException
+     *             The courseWaitlistEntryInfo is not valid
      * @throws InvalidParameterException
+     *             Invalid courseWaitlistEntryId or courseWaitlistEntryInfo in
+     *             the input
      * @throws MissingParameterException
+     *             Missing courseWaitlistEntryId or courseWaitlistEntryInfo in
+     *             the input
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public StatusInfo updateCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
             @WebParam(name = "courseWaitlistEntryInfo") CourseWaitlistEntryInfo courseWaitlistEntryInfo,
@@ -709,9 +777,9 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * Reorder all the entries that are passed in in the input list i.e., update
-     * each of the entries rank to begin from the top and push the entries not
-     * in the list to the ranks after the entries.
+     * Reorder all the entries that are passed in in the input list, i.e.,
+     * update each of the entries rank to begin from the top and push the
+     * entries not in the list to the ranks after the entries.
      * 
      * @param courseWaitlistEntryId
      * @param position
@@ -719,9 +787,13 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @return
      * @throws DataValidationErrorException
      * @throws InvalidParameterException
+     *             Invalid courseWaitlistEntryIds in the input
      * @throws MissingParameterException
+     *             Missing courseWaitlistEntryIdsin the input
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public StatusInfo reorderCourseWaitlistEntries(
             @WebParam(name = "courseWaitlistEntryIds") List<String> courseWaitlistEntryIds,
@@ -729,17 +801,26 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * Insert a waitlist entry at a particular position in the waitlist. The
+     * courseWaitlistEntryId would be moved to the position and all other
+     * waitlist entries for that reg group would have adjusted rank
      * 
      * @param courseWaitlistEntryId
+     *            The id of the course waitlist entry
      * @param position
+     *            The new rank for the waitlist entry
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             The courseWaitlistEntryId is not found
      * @throws InvalidParameterException
+     *             The courseWaitlistEntryId is invalid
      * @throws MissingParameterException
+     *             Input courseWaitlistEntryId or position is missing
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public StatusInfo insertCourseWaitlistEntryAtPosition(
             @WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
@@ -748,16 +829,22 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * Remove the {@link CourseWaitlistEntryInfo}, change its state to CANCELLED
      * 
      * @param courseWaitlistEntryId
+     *            The id of the course waitlist entry
      * @param context
      * @return
      * @throws DoesNotExistException
+     *             The courseWaitlistEntryId is not found
      * @throws InvalidParameterException
+     *             The courseWaitlistEntryId is invalid
      * @throws MissingParameterException
+     *             Input courseWaitlistEntryId or position is missing
      * @throws OperationFailedException
+     *             Unable to complete request
      * @throws PermissionDeniedException
+     *             Not authorized to do this operation
      */
     public StatusInfo removeCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -769,16 +856,14 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param courseWaitlistEntryId
      * @param context
      * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
     public StatusInfo deleteCourseWaitlistEntry(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a course waitlist entry.
@@ -914,27 +999,22 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-   /**
-    * 
-    * This method ...
-    * 
-    * @param courseRegistrationIds
-    * @param context
-    * @return
-    * @throws DoesNotExistException
-    * @throws InvalidParameterException
-    * @throws MissingParameterException
-    * @throws OperationFailedException
-    * @throws PermissionDeniedException
-    */
+    /**
+     * @param courseRegistrationIds
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(
             @WebParam(name = "courseRegistrationIds") List<String> courseRegistrationIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
     /**
-     * 
      * This method ...
      * 
      * @param studentId
@@ -948,10 +1028,11 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
     public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(
-            @WebParam(name = "studentId") String studentId, @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "studentId") String studentId,
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
+
     /**
      * Gets the course registrations for a student by term.
      * 

@@ -42,7 +42,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     private LuiPersonRelationService lprService;
     private CourseOfferingService courseOfferingService;
-    private StateService stateService;
+    private StateService stateService; 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
@@ -59,7 +59,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS 
         return null;
     }
     @Override
@@ -263,12 +263,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    @Override
-    public RegRequestInfo getRegRequestById(String regRequestId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+   
     @Override
     public List<RegRequestInfo> getRegRequestsByIdList(List<String> regRequestIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -319,13 +314,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    @Override
-    public StatusInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+  
     @Override
     public StatusInfo validateCourseWaitlistEntry(String validateTypeKey,
             CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DataValidationErrorException,
@@ -554,6 +543,33 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public StatusInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+    @Override
+    public RegResponseInfo moveStudentsBetweenRegGroups(String sourceRegGroupId, String destinationRegGroupId,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

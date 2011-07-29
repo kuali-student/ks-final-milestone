@@ -65,35 +65,7 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
         return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#createLuiPersonRelationTransaction(org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo createLuiPersonRelationTransaction(
-            LPRTransactionInfo lPRTransactionInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#createLuiPersonRelationTransactionFromExisting(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo createLuiPersonRelationTransactionFromExisting(
-            String luiPersonRelationTransactionId, ContextInfo context) throws DataValidationErrorException,
-            AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+   
     /**
      * This overridden method ...
      * 
@@ -112,10 +84,10 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprRelationTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
-    public LPRTransactionInfo getLuiPersonRelationTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo getLprRelationTransaction(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
@@ -127,10 +99,10 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLuiPersonRelationTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLprTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
-    public StatusInfo deleteLuiPersonRelationTransaction(String lprTransactionId, ContextInfo context)
+    public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
@@ -138,18 +110,7 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
     }
 
   
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationTransactionsByPerson(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public List<LPRTransactionInfo> getLuiPersonRelationTransactionsByPerson(String personId,
-            ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+    
 
     /**
      * This overridden method ...
@@ -164,59 +125,7 @@ public class LuiPersonRelationServiceDataDictionaryImpl extends LuiPersonRelatio
         return null;
     }
 
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationTransactionsByPersonAndLui(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public List<LPRTransactionInfo> getLuiPersonRelationTransactionsByPersonAndLui(String personId,
-            String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationTransactionsByAtpAndPerson(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public List<LPRTransactionInfo> getLuiPersonRelationTransactionsByAtpAndPerson(String atpId,
-            String personId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationTransactionsByAtpAndLui(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public List<LPRTransactionInfo> getLuiPersonRelationTransactionsByAtpAndLui(String luiId,
-            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#submitLuiPersonRelationTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo submitLuiPersonRelationTransaction(String lprTransactionId,
-            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+    
     
 }
 
