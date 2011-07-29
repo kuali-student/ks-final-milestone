@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
  *
  */
 
-
 public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRelationServiceDecorator  implements HoldsPermissionService {
  
 	private PermissionService permissionService;
@@ -59,7 +58,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 		System.out.println("Inside authorization impl for createBulkRelationshipsForPerson" );
 		//Simulating unknown exception behavior
 		if(personId != null){
-			bulkRelationshipValues.addAll(nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
+			bulkRelationshipValues.addAll(getNextDecorator().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context));
 		}else {
 			throw new NullPointerException("person id is null");
 		}
@@ -68,7 +67,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    	return getNextDecorator().findLuiPersonRelationsForLui(luiId, context);
     }
 
 	@Override
@@ -80,8 +79,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 			OperationFailedException,
 			PermissionDeniedException, 
 			InvalidParameterException {
-		// TODO Kamal - THIS METHOD NEEDS JAVADOCS
-		return nextDecorator.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+		return getNextDecorator().validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
 	}
 
 	  /**
@@ -103,70 +101,5 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 				permissionDetails,
 				qualifierDetails);
 	}
-
-     
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#updateLuiPersonRelationTransaction(java.lang.String, org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo updateLuiPersonRelationTransaction(String lprTransactionId,
-            LPRTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprRelationTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo getLprRelationTransaction(String lprTransactionId, ContextInfo context)
-            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-   
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#deleteLprTransaction(java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-  
- 
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#findLuiPersonRelationsForPersonAndAtp(java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPersonAndAtp(String personId, String atpId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-   
-	
-	
 
 }

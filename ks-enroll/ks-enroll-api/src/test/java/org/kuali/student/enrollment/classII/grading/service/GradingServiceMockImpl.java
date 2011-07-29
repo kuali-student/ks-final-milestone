@@ -36,23 +36,20 @@ public class GradingServiceMockImpl implements GradingService {
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-        // TODO Auto-generated method stub
-        return null;
+    	return null;
     }
 
     @Override
     public TypeInfo getGradeRosterType(String gradeRosterTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return null;
     }
 
     @Override
@@ -201,8 +198,7 @@ public class GradingServiceMockImpl implements GradingService {
     public List<ValidationResultInfo> validateGradeRoster(GradeRosterInfo gradeRoster, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -258,8 +254,7 @@ public class GradingServiceMockImpl implements GradingService {
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return null;
     }
 
     @Override

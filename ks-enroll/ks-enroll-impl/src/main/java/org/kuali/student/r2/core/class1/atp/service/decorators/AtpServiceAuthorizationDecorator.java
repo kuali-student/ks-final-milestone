@@ -19,30 +19,24 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     public PermissionService getPermissionService() {
         return permissionService;
     }
-
     @Override
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
 
     @Override
-    public AtpInfo getAtp(
-            String atpKey, ContextInfo context)
-    throws DoesNotExistException,
-    InvalidParameterException,
-    MissingParameterException,
-    OperationFailedException,
-    PermissionDeniedException {
-        
+    public AtpInfo getAtp(String atpKey, ContextInfo context)
+		    throws	DoesNotExistException, InvalidParameterException, MissingParameterException,
+				    OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtp", null, null)) {
-	        return this.nextDecorator.getAtp(atpKey, context);
-        } else {
+	        return getNextDecorator().getAtp(atpKey, context);
+        }
+        else {
            throw new PermissionDeniedException();
         }
-        
     }
 }

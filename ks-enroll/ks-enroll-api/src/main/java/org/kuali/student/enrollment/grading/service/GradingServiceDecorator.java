@@ -21,31 +21,32 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
-public abstract class GradingServiceDecorator implements GradingService {
-
-
-    protected GradingServiceDecorator nextDecorator;
-            
-    public GradingServiceDecorator getNextDecorator() {
+public abstract class GradingServiceDecorator implements GradingService
+{
+    private GradingService nextDecorator;
+    
+    public GradingService getNextDecorator()
+			throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+		}
         return nextDecorator;
     }
-   
-    public void setNextDecorator(GradingServiceDecorator nextDecorator) {
+    public void setNextDecorator(GradingService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
+    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-      
-        return nextDecorator.getDataDictionaryEntryKeys(context);
+        return getNextDecorator().getDataDictionaryEntryKeys(context);
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-      
         return getNextDecorator().getDataDictionaryEntry(entryKey, context);
     }
 

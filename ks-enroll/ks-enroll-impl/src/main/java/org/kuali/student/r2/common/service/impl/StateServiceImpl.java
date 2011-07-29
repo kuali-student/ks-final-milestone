@@ -32,7 +32,6 @@ public class StateServiceImpl implements StateService{
 	public StateDao getStateDao() {
 		return stateDao;
 	}
-
 	public void setStateDao(StateDao stateDao) {
 		this.stateDao = stateDao;
 	}
@@ -40,7 +39,6 @@ public class StateServiceImpl implements StateService{
 	public StateProcessDao getSpDao() {
 		return spDao;
 	}
-
 	public void setSpDao(StateProcessDao spDao) {
 		this.spDao = spDao;
 	}
@@ -48,13 +46,14 @@ public class StateServiceImpl implements StateService{
 	public StateProcessRelationDao getSprDao() {
 		return sprDao;
 	}
-
 	public void setSprDao(StateProcessRelationDao sprDao) {
 		this.sprDao = sprDao;
 	}
+	
 
 	@Override
-	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	    StateProcessEntity sp = spDao.getProcessByKey(processKey);
 	    if (null == sp) {
 		    throw new DoesNotExistException("This process does not exist: processKey=" + processKey);
@@ -63,14 +62,14 @@ public class StateServiceImpl implements StateService{
 	}
 
 	@Override
-	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    return null;
+	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	    return new ArrayList<String>();
 	}	
 	
 	@Override
-	public StateInfo getState(String processKey, String stateKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
+	public StateInfo getState(String processKey, String stateKey, ContextInfo context) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		StateEntity state = null;
 		try{	
@@ -85,9 +84,8 @@ public class StateServiceImpl implements StateService{
 	}
 
 	@Override
-	public List<StateInfo> getStatesByProcess(String processKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
+	public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<StateInfo> stateInfos = null;
 		List<StateEntity> states;
@@ -111,9 +109,8 @@ public class StateServiceImpl implements StateService{
 	}
 
 	@Override
-	public List<StateInfo> getInitialValidStates(String processKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
+	public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) 
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<StateInfo> stateInfos = null;
 		List<StateEntity> states;

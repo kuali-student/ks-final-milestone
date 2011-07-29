@@ -70,7 +70,6 @@ public class AtpServiceImpl implements AtpService {
     public AtpDao getAtpDao() {
         return atpDao;
     }
-
     public void setAtpDao(AtpDao atpDao) {
         this.atpDao = atpDao;
     }
@@ -78,7 +77,6 @@ public class AtpServiceImpl implements AtpService {
     public AtpTypeDao getAtpTypeDao() {
         return atpTypeDao;
     }
-
     public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
         this.atpTypeDao = atpTypeDao;
     }
@@ -86,7 +84,6 @@ public class AtpServiceImpl implements AtpService {
     public AtpStateDao getAtpStateDao() {
         return atpStateDao;
     }
-
     public void setAtpStateDao(AtpStateDao atpStateDao) {
         this.atpStateDao = atpStateDao;
     }
@@ -94,7 +91,6 @@ public class AtpServiceImpl implements AtpService {
     public AtpRichTextDao getAtpRichTextDao() {
         return atpRichTextDao;
     }
-
     public void setAtpRichTextDao(AtpRichTextDao atpRichTextDao) {
         this.atpRichTextDao = atpRichTextDao;
     }
@@ -102,7 +98,6 @@ public class AtpServiceImpl implements AtpService {
     public AtpAtpRelationDao getAtpRelDao() {
         return atpRelDao;
     }
-
     public void setAtpRelDao(AtpAtpRelationDao atpRelDao) {
         this.atpRelDao = atpRelDao;
     }
@@ -110,7 +105,6 @@ public class AtpServiceImpl implements AtpService {
     public MilestoneDao getMilestoneDao() {
         return milestoneDao;
     }
-
     public void setMilestoneDao(MilestoneDao milestoneDao) {
         this.milestoneDao = milestoneDao;
     }
@@ -118,23 +112,20 @@ public class AtpServiceImpl implements AtpService {
     public AtpMilestoneRelationDao getAtpMilestoneRelationDao() {
         return atpMilestoneRelationDao;
     }
-
     public void setAtpMilestoneRelationDao(AtpMilestoneRelationDao atpMilestoneRelationDao) {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
-    }
-
-    public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
-        this.typeTypeRelationDao = typeTypeRelationDao;
     }
 
     public TypeTypeRelationDao getTypeTypeRelationDao() {
         return typeTypeRelationDao;
     }
+    public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
+        this.typeTypeRelationDao = typeTypeRelationDao;
+    }
 
     public StateService getStateService() {
         return stateService;
     }
-
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
     }
@@ -142,10 +133,10 @@ public class AtpServiceImpl implements AtpService {
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
-
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
+    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -170,8 +161,7 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
@@ -216,16 +206,14 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<AtpInfo> getAtpsByDate(Date searchDate, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<AtpInfo>();
     }
 
     @Override
     public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<AtpInfo>();
     }
 
     @Override
@@ -412,8 +400,7 @@ public class AtpServiceImpl implements AtpService {
     public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -594,16 +581,14 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(List<String> atpAtpRelationIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<AtpAtpRelationInfo>();
     }
 
     @Override
     public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
@@ -625,8 +610,7 @@ public class AtpServiceImpl implements AtpService {
     public List<ValidationResultInfo> validateAtpAtpRelation(String validationType,
             AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<ValidationResultInfo>();
     }
 
     private boolean checkRelationExistence(AtpAtpRelationInfo atpAtpRelationInfo) {
@@ -818,8 +802,7 @@ public class AtpServiceImpl implements AtpService {
     public List<ValidationResultInfo> validateAtpMilestoneRelation(String validationType,
             AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<ValidationResultInfo>();
     }
 
     @Override

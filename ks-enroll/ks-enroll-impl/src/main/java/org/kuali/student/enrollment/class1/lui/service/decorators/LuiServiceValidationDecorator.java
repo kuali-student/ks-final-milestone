@@ -57,34 +57,37 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
             throws OperationFailedException, MissingParameterException, PermissionDeniedException {
         return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
-    
-    private List<ValidationResultInfo> validate(String validationType, Object info, ContextInfo context) throws OperationFailedException, MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
-    }
-    
+
 	@Override
 	public List<ValidationResultInfo> validateLui(String validationType,
 			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return validate(validationType, luiInfo, context);
+        List<ValidationResultInfo> errors;
+        try {
+            errors = _validateInfo(validationType, luiInfo, context);
+            List<ValidationResultInfo> nextDecoratorErrors =
+                    getNextDecorator().validateLui(validationType, luiInfo, context);
+            if (null != nextDecoratorErrors) {
+                errors.addAll(nextDecoratorErrors);
+            }
+        }
+        catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error trying to validate lui", ex);
+        }
+        return errors;
 	}
 	
-    private void validateLui(LuiInfo luiInfo, ContextInfo context) 
+    private void _luiFullValidation(LuiInfo luiInfo, ContextInfo context)
     		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
         try {
-            List<ValidationResultInfo> errors = this.validateLui(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiInfo, context);
+            List<ValidationResultInfo> errors =
+                    this.validateLui(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiInfo, context);
             if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Errors", errors);
+                throw new DataValidationErrorException("Error(s) validating lui", errors);
             }
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("erorr trying to validate", ex);
+            throw new OperationFailedException("Error validating lui", ex);
         }
     }
 	
@@ -94,8 +97,8 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		validateLui(luiInfo, context);
-		return nextDecorator.createLui(cluId,atpKey,luiInfo, context);
+		_luiFullValidation(luiInfo, context);
+		return getNextDecorator().createLui(cluId,atpKey,luiInfo, context);
 	}
 
 	@Override
@@ -104,8 +107,8 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		validateLui(luiInfo, context);
-		return nextDecorator.updateLui(luiId,luiInfo, context);
+		_luiFullValidation(luiInfo, context);
+		return getNextDecorator().updateLui(luiId,luiInfo, context);
 	}
 	
 	@Override
@@ -114,20 +117,33 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return validate(validationType, luiLuiRelationInfo, context);
+        List<ValidationResultInfo> errors;
+        try {
+            errors = _validateInfo(validationType, luiLuiRelationInfo, context);
+            List<ValidationResultInfo> nextDecoratorErrors =
+                    getNextDecorator().validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
+            if (null != nextDecoratorErrors) {
+                errors.addAll(nextDecoratorErrors);
+            }
+        }
+        catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error trying to validate lui-lui relation", ex);
+        }
+        return errors;
 	}
 
-    private void validateLuiLuiRelation(LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) 
+    private void _luiLuiRelationFullValidation(LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
 			throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
 		try {
-		    List<ValidationResultInfo> errors = this.validateLuiLuiRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiLuiRelationInfo, context);
+		    List<ValidationResultInfo> errors =
+                    this.validateLuiLuiRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), luiLuiRelationInfo, context);
 		    if (!errors.isEmpty()) {
-		        throw new DataValidationErrorException("Errors", errors);
+		        throw new DataValidationErrorException("Error(s) validating lui-lui relation", errors);
 		    }
 		} catch (DoesNotExistException ex) {
-		    throw new OperationFailedException("erorr trying to validate", ex);
+		    throw new OperationFailedException("Error validating lui-lui relation", ex);
 		}
-}
+    }
     
 	@Override
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
@@ -137,8 +153,8 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		validateLuiLuiRelation(luiLuiRelationInfo, context);
-		return nextDecorator.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
+		_luiLuiRelationFullValidation(luiLuiRelationInfo, context);
+		return getNextDecorator().createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
 	}
 
 	@Override
@@ -148,8 +164,20 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		validateLuiLuiRelation(luiLuiRelationInfo, context); 
-		return nextDecorator.updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
+		_luiLuiRelationFullValidation(luiLuiRelationInfo, context);
+		return getNextDecorator().updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
 	}
+
+
+    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
+            throws OperationFailedException, MissingParameterException, InvalidParameterException {
+        List<ValidationResultInfo> errors;
+        try {
+            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
+        } catch (PermissionDeniedException ex) {
+            throw new OperationFailedException("Validation failed due to permission exception", ex);
+        }
+        return errors;
+    }
 
 }

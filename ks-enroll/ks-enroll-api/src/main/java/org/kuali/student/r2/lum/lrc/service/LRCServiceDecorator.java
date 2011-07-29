@@ -24,15 +24,19 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 public abstract class LRCServiceDecorator implements LRCService {
 
-    protected LRCService nextDecorator;
-
-    public LRCService getNextDecorator() {
+    private LRCService nextDecorator;
+    
+    public LRCService getNextDecorator()
+			throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+		}
         return nextDecorator;
     }
-
     public void setNextDecorator(LRCService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
+    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -76,12 +80,12 @@ public abstract class LRCServiceDecorator implements LRCService {
 
     @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return nextDecorator.getProcessByKey(processKey, context);
+        return getNextDecorator().getProcessByKey(processKey, context);
     }
     
     @Override
     public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return nextDecorator.getProcessByObjectType(refObjectUri, context);
+        return getNextDecorator().getProcessByObjectType(refObjectUri, context);
     }
         
     @Override

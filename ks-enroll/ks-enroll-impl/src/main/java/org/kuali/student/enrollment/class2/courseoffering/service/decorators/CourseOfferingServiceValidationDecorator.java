@@ -56,37 +56,37 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
         return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
     }
 
-    private List<ValidationResultInfo> validate(String validationType, Object info, 
-    		ContextInfo context) throws OperationFailedException, 
-    		MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
-    }
-    
     @Override
     public List<ValidationResultInfo> validateCourseOffering(
-    		String validationType, CourseOfferingInfo courseOfferingInfo, 
-    		ContextInfo context) throws DoesNotExistException, 
-    		InvalidParameterException, MissingParameterException, 
+    		String validationType, CourseOfferingInfo courseOfferingInfo,
+    		ContextInfo context) throws DoesNotExistException,
+    		InvalidParameterException, MissingParameterException,
     		OperationFailedException {
-    	return validate(validationType, courseOfferingInfo, context);
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = _validateInfo(validationType, courseOfferingInfo, context);
+    		List<ValidationResultInfo> nextDecoratorErrors =
+    				getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
+    		if (null != nextDecoratorErrors) {
+    			errors.addAll(nextDecoratorErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error trying to validate course offering", ex);
+    	}
+    	return errors;
     }
     
-    private void validateCourseOffering(CourseOfferingInfo courseOfferingInfo, ContextInfo context) 
-	 		throws DataValidationErrorException, OperationFailedException, 
-	 		InvalidParameterException, MissingParameterException {
+    private void _courseOfferingFullValidation(CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+	 		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
 		try {
-		    List<ValidationResultInfo> errors = this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), courseOfferingInfo, context);
+		    List<ValidationResultInfo> errors =
+                    this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), courseOfferingInfo, context);
 		    if (!errors.isEmpty()) {
-		        throw new DataValidationErrorException("Errors", errors);
+		        throw new DataValidationErrorException("Error(s) validating course offering", errors);
 		    }
 		} catch (DoesNotExistException ex) {
-		    throw new OperationFailedException("erorr trying to validate", ex);
+		    throw new OperationFailedException("Error validating course offering", ex);
 		}
     }
  
@@ -98,8 +98,20 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		validateCourseOffering(courseOfferingInfo, context);
-		return nextDecorator.updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
+		_courseOfferingFullValidation(courseOfferingInfo, context);
+		return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
 	}
+
+
+    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
+                throws OperationFailedException, MissingParameterException, InvalidParameterException {
+        List<ValidationResultInfo> errors;
+        try {
+            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
+        } catch (PermissionDeniedException ex) {
+            throw new OperationFailedException("Validation failed due to permission exception", ex);
+        }
+        return errors;
+    }
 
 }

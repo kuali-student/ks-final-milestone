@@ -134,8 +134,10 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    public void testCreateHold()throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException, PermissionDeniedException{
+    public void testCreateHold()
+            throws AlreadyExistsException, DataValidationErrorException, 
+                   InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
     	HoldInfo info = new HoldInfo();
     	//info.setId("Test-Hold-1"); id should be system generated
     	info.setName("Test hold one");

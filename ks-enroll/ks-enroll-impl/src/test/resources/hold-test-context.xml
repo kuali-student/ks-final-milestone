@@ -107,7 +107,7 @@
     </bean>
 	
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
-      <property name="service" ref="holdService"/>
+      <property name="nextDecorator" ref="holdService"/>
       <property name="validator" ref="validator"/>
     </bean>
     

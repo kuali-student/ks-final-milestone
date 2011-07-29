@@ -649,7 +649,7 @@ public class LuServiceImpl implements LuService {
 	public List<String> getResourceRequirementsForCluId(String cluId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+	    return new ArrayList<String>();
 	}
 
 	// *** Sets
@@ -772,7 +772,7 @@ public class LuServiceImpl implements LuService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+        return null;
 	}
 
 	@Override
@@ -2043,7 +2043,7 @@ public class LuServiceImpl implements LuService {
 			String cluId, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-	      throw new UnsupportedOperationException("Method not yet implemented!");
+	    return null;
 	}
 
 	@Override
@@ -2052,8 +2052,7 @@ public class LuServiceImpl implements LuService {
 			String cluId, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override

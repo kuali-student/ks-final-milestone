@@ -119,8 +119,7 @@ public class LRRServiceMockImpl implements LearningResultRecordService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    	return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override
@@ -199,8 +198,7 @@ public class LRRServiceMockImpl implements LearningResultRecordService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    	return new ArrayList<ValidationResultInfo>();
 	}
 
 }

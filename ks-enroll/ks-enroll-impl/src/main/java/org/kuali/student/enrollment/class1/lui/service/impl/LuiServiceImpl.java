@@ -43,85 +43,76 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuiServiceImpl implements LuiService {
-private LuiDao luiDao;
-private LuiRichTextDao luiRichTextDao;
-private LuiTypeDao luiTypeDao;
-private LuiLuiRelationDao luiLuiRelationDao;
-private StateService stateService;
-private TypeTypeRelationDao typeTypeRelationDao;
-private AtpService atpService;
-private LuService luService;
-
-public LuiDao getLuiDao() {
-	return luiDao;
-}
-
-public void setLuiDao(LuiDao luiDao) {
-	this.luiDao = luiDao;
-}
-
-public LuiRichTextDao getLuiRichTextDao() {
-	return luiRichTextDao;
-}
-
-public void setLuiRichTextDao(LuiRichTextDao luiRichTextDao) {
-	this.luiRichTextDao = luiRichTextDao;
-}
-
-public LuiTypeDao getLuiTypeDao() {
-	return luiTypeDao;
-}
-
-public void setLuiTypeDao(LuiTypeDao luiTypeDao) {
-	this.luiTypeDao = luiTypeDao;
-}
-
-public LuiLuiRelationDao getLuiLuiRelationDao() {
-	return luiLuiRelationDao;
-}
-
-public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
-	this.luiLuiRelationDao = luiLuiRelationDao;
-}
-
-public StateService getStateService() {
-	return stateService;
-}
-
-public void setStateService(StateService stateService) {
-	this.stateService = stateService;
-}
-
-public TypeTypeRelationDao getTypeTypeRelationDao() {
-	return typeTypeRelationDao;
-}
-
-public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
-	this.typeTypeRelationDao = typeTypeRelationDao;
-}
-
-public AtpService getAtpService() {
-	return atpService;
-}
-
-public void setAtpService(AtpService atpService) {
-	this.atpService = atpService;
-}
-
-public LuService getLuService() {
-	return luService;
-}
-
-public void setLuService(LuService luService) {
-	this.luService = luService;
-}
+	private LuiDao luiDao;
+	private LuiRichTextDao luiRichTextDao;
+	private LuiTypeDao luiTypeDao;
+	private LuiLuiRelationDao luiLuiRelationDao;
+	private StateService stateService;
+	private TypeTypeRelationDao typeTypeRelationDao;
+	private AtpService atpService;
+	private LuService luService;
+	
+	public LuiDao getLuiDao() {
+		return luiDao;
+	}	
+	public void setLuiDao(LuiDao luiDao) {
+		this.luiDao = luiDao;
+	}
+	
+	public LuiRichTextDao getLuiRichTextDao() {
+		return luiRichTextDao;
+	}
+	public void setLuiRichTextDao(LuiRichTextDao luiRichTextDao) {
+		this.luiRichTextDao = luiRichTextDao;
+	}
+	
+	public LuiTypeDao getLuiTypeDao() {
+		return luiTypeDao;
+	}
+	public void setLuiTypeDao(LuiTypeDao luiTypeDao) {
+		this.luiTypeDao = luiTypeDao;
+	}
+	
+	public LuiLuiRelationDao getLuiLuiRelationDao() {
+		return luiLuiRelationDao;
+	}
+	public void setLuiLuiRelationDao(LuiLuiRelationDao luiLuiRelationDao) {
+		this.luiLuiRelationDao = luiLuiRelationDao;
+	}
+	
+	public StateService getStateService() {
+		return stateService;
+	}
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
+	
+	public TypeTypeRelationDao getTypeTypeRelationDao() {
+		return typeTypeRelationDao;
+	}
+	public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
+		this.typeTypeRelationDao = typeTypeRelationDao;
+	}
+	
+	public AtpService getAtpService() {
+		return atpService;
+	}
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
+	
+	public LuService getLuService() {
+		return luService;
+	}
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 			throws OperationFailedException, MissingParameterException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -129,16 +120,14 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws OperationFailedException,
 			MissingParameterException, PermissionDeniedException,
 			DoesNotExistException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
 	public TypeInfo getType(String typeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
@@ -146,8 +135,7 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeInfo>();
 	}
 
 	@Override
@@ -155,8 +143,7 @@ public void setLuService(LuService luService) {
 			String relatedRefObjectURI, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeInfo>();
 	}
 
 	@Override
@@ -164,8 +151,7 @@ public void setLuService(LuService luService) {
 			String ownerTypeKey, String relationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeTypeRelationInfo>();
 	}
 
 	@Override
@@ -184,16 +170,14 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<LuiInfo>();
 	}
 
-        @Override
-        public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
+    @Override
+    public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
 	    throws DoesNotExistException, InvalidParameterException, 
 		   MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -201,16 +185,14 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<LuiInfo>();
 	}
 
 	@Override
 	public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -218,8 +200,7 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -227,8 +208,7 @@ public void setLuService(LuService luService) {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<LuiInfo>();
 	}
 
 	@Override
@@ -236,8 +216,7 @@ public void setLuService(LuService luService) {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -245,8 +224,7 @@ public void setLuService(LuService luService) {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<LuiInfo>();
 	}
 
 	@Override
@@ -254,8 +232,7 @@ public void setLuService(LuService luService) {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -270,20 +247,18 @@ public void setLuService(LuService luService) {
         return obj.toDto();
 	}
 
-        @Override
-        public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
-	    throws DoesNotExistException, InvalidParameterException, 
-		   MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    @Override
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
+		    throws DoesNotExistException, InvalidParameterException, 
+		           MissingParameterException, OperationFailedException {
+	    return new ArrayList<LuiLuiRelationInfo>();
 	}
 
-        @Override
-        public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
+    @Override
+    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
 	    throws DoesNotExistException, InvalidParameterException, 
-		   MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		       MissingParameterException, OperationFailedException {
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -312,8 +287,7 @@ public void setLuService(LuService luService) {
 			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<ValidationResultInfo>();
 	}
 
     private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
@@ -466,8 +440,7 @@ public void setLuService(LuService luService) {
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
@@ -476,8 +449,7 @@ public void setLuService(LuService luService) {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<ValidationResultInfo>();
 	}
 
     private boolean checkExistenceForRelation(LuiLuiRelationInfo relationInfo) {
@@ -541,8 +513,7 @@ public void setLuService(LuService luService) {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
@@ -567,36 +538,28 @@ public void setLuService(LuService luService) {
     public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) 
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
-	
-	// TODO Auto-generated method stub
-	return null;
+        return null;
     }
 
     @Override
     public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return new ArrayList<LuiCapacityInfo>();
     }
 
     @Override
     public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return new ArrayList<String>();
     }
 
     @Override
     public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -604,9 +567,7 @@ public void setLuService(LuService luService) {
 	throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, 
 	       InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return null;
     }
 
     @Override
@@ -615,9 +576,7 @@ public void setLuService(LuService luService) {
 	       InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException, 
 	       VersionMismatchException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return null;
     }
 
     @Override
@@ -625,9 +584,7 @@ public void setLuService(LuService luService) {
 	throws DependentObjectsExistException, DoesNotExistException, 
 	       InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException {
-
-	// TODO Auto-generated method stub
-	return null;
+        return null;
     }
 }
 

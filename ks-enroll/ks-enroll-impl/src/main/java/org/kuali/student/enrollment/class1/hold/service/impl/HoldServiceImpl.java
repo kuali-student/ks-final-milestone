@@ -149,14 +149,12 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -167,68 +165,57 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<StateInfo>();
     }
 
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<StateInfo>();
     }
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeTypeRelationInfo>();
     }
 
     @Override
     public Boolean isPersonRestricted(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<String> getRestrictedPersons(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
     public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getActvHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
@@ -243,44 +230,37 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<HoldInfo> getHoldsByIdList(List<String> holdIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getHoldsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getActiveHoldsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HoldInfo>();
     }
 
     @Override
     public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
     
     private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
@@ -427,8 +407,7 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -446,56 +425,47 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<IssueInfo> getIssuesByRestriction(String restrictionKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<IssueInfo>();
     }
 
     @Override
     public StatusInfo addIssueToRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public StatusInfo removeIssueFromRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<ValidationResultInfo> validateIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public IssueInfo createIssue(IssueInfo issueInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public IssueInfo updateIssue(String issueId, IssueInfo issueInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public StatusInfo deleteIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public RestrictionInfo getRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public List<RestrictionInfo> getRestrictionsByKeyList(List<String> restrictionKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<RestrictionInfo>();
     }
 
     @Override
@@ -543,25 +513,21 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<ValidationResultInfo> validateRestriction(String validationTypeKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
     public RestrictionInfo createRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public RestrictionInfo updateRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
     public StatusInfo deleteRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO andy - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 

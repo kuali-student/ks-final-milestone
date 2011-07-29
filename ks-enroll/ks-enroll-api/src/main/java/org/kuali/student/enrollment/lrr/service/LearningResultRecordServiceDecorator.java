@@ -17,18 +17,21 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
-public abstract class LearningResultRecordServiceDecorator implements
-		LearningResultRecordService {
+public abstract class LearningResultRecordServiceDecorator implements LearningResultRecordService
+{
+	private LearningResultRecordService nextDecorator;
 	
-	protected LearningResultRecordServiceDecorator nextDecorator;
-
-	public LearningResultRecordServiceDecorator getNextDecorator() {
+	public LearningResultRecordService getNextDecorator()
+			throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+		}
 		return nextDecorator;
 	}
-
-	public void setNextDecorator(LearningResultRecordServiceDecorator nextDecorator) {
+	public void setNextDecorator(LearningResultRecordService nextDecorator) {
 		this.nextDecorator = nextDecorator;
 	}
+	
 	
 	@Override
 	public LearningResultRecordInfo getLearningResultRecord(

@@ -77,10 +77,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public AtpService getAtpService() {
         return atpService;
     }
-
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
+    
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
@@ -901,8 +901,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     @Override
     public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return new ArrayList<TermInfo>();
     }
 
     /**
@@ -1177,8 +1176,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<TypeInfo> getHolidayTypesForCampusCalendarType(String campusCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
+    	return new ArrayList<TypeInfo>();
     }
 
     private MilestoneInfo createMilestoneFromHoliday(HolidayInfo holidayInfo) {
@@ -1196,63 +1194,55 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<AcademicCalendarInfo>();
     }
 
     @Override
     public List<String> searchForAcademicCalendarIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public List<CampusCalendarInfo> searchForCampusCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<CampusCalendarInfo>();
     }
 
     @Override
     public List<String> searchForCampusCalendarIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public List<String> searchForTermIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<TermInfo>();
     }
 
     @Override
     public List<KeyDateInfo> searchForKeyDates(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<KeyDateInfo>();
     }
 
     @Override
     public List<String> searchForKeyDateIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 }

@@ -22,111 +22,213 @@ import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 
-public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
+public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService
+{
     private DataDictionaryValidator validator;
-
+    private DataDictionaryService dataDictionaryService;
+    
     @Override
     public DataDictionaryValidator getValidator() {
         return validator;
     }
-
     @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
     }
 
-    private DataDictionaryService dataDictionaryService;
-
     @Override
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
-
     @Override
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
 
+
     @Override
-    public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return validate(validationType, atpInfo, context);
+    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        _atpFullValidation(atpInfo, context);
+        return getNextDecorator().createAtp(atpKey, atpInfo, context);
     }
 
-    private void validateAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+    @Override
+    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        _atpFullValidation(atpInfo, context);
+        return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+    }
+
+    private void _atpFullValidation(AtpInfo atpInfo, ContextInfo context)
+    		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
         try {
             List<ValidationResultInfo> errors = this.validateAtp(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpInfo, context);
             if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Errors", errors);
+                throw new DataValidationErrorException("Error(s) occurred validating atp", errors);
             }
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("erorr trying to validate", ex);
+            throw new OperationFailedException("Error validating atp", ex);
+        }
+    }
+    
+    @Override
+    public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo, ContextInfo context)
+    		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = _validateInfo(validationType, atpInfo, context);
+    		List<ValidationResultInfo> nextDecorationErrors =
+    				getNextDecorator().validateAtp(validationType, atpInfo, context);
+    		if (null != nextDecorationErrors) {
+    			errors.addAll(nextDecorationErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error validating atp", ex);
+    	}
+    	return errors;
+    }
+
+    
+    @Override
+    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	_atpAtpRelationFullValidation(atpAtpRelationInfo, context);
+        return getNextDecorator().createAtpAtpRelation(atpAtpRelationInfo, context);
+    }
+
+    @Override
+    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    	_atpAtpRelationFullValidation(atpAtpRelationInfo, context);
+        return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
+    }
+    
+    private void _atpAtpRelationFullValidation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+    		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+        try {
+            List<ValidationResultInfo> errors = this.validateAtpAtpRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpAtpRelationInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating atp-atp relation", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating atp-atp relation", ex);
+        }
+    }
+    
+    @Override
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+    		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = _validateInfo(validationType, atpAtpRelationInfo, context);
+    		List<ValidationResultInfo> nextDecorationErrors =
+    				getNextDecorator().validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
+    		if (null != nextDecorationErrors) {
+    			errors.addAll(nextDecorationErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error validating atp-atp relation", ex);
+    	}
+    	return errors;
+    }
+
+
+    @Override
+    public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
+    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        _atpMilestoneRelationFullValidation(atpMilestoneRelationInfo, context);
+        return getNextDecorator().createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
+    }
+
+    @Override
+    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(String atpMilestoneRelationId, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        _atpMilestoneRelationFullValidation(atpMilestoneRelationInfo, context);
+        return getNextDecorator().updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
+    }
+
+    private void _atpMilestoneRelationFullValidation(AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
+    		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+        try {
+            List<ValidationResultInfo> errors = this.validateAtpMilestoneRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpMilestoneRelationInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) validating atp-milestone relation", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating atp-milestone relation", ex);
         }
     }
 
     @Override
-    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        validateAtp(atpInfo, context);
-        return this.nextDecorator.createAtp(atpKey, atpInfo, context);
+    public List<ValidationResultInfo> validateAtpMilestoneRelation(String validationType, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context)
+    		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = _validateInfo(validationType, atpMilestoneRelationInfo, context);
+    		List<ValidationResultInfo> nextDecorationErrors =
+    				getNextDecorator().validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
+    		if (null != nextDecorationErrors) {
+    			errors.addAll(nextDecorationErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error validating atp-milestone relation", ex);
+    	}
+    	return errors;
+    }
+
+    
+    @Override
+    public MilestoneInfo createMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
+    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        _milestoneFullValidation(milestoneInfo, context);
+        return getNextDecorator().createMilestone(milestoneKey, milestoneInfo, context);
     }
 
     @Override
-    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        validateAtp(atpInfo, context);
-        return this.nextDecorator.updateAtp(atpKey, atpInfo, context);
+    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        _milestoneFullValidation(milestoneInfo, context);
+        return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
     }
 
-    @Override
-    public MilestoneInfo createMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> validationResults = validate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), milestoneInfo, context);
-        if (validationResults != null && !validationResults.isEmpty()) {
-            throw new DataValidationErrorException("Validation errors during milestone creation", validationResults);
+    private void _milestoneFullValidation(MilestoneInfo milestoneInfo, ContextInfo context)
+    		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+        try {
+            List<ValidationResultInfo> errors = this.validateMilestone(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), milestoneInfo, context);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) validating milestone", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating milestone", ex);
         }
-
-        return this.nextDecorator.createMilestone(milestoneKey, milestoneInfo, context);
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        List<ValidationResultInfo> validationResults = validate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), milestoneInfo, context);
-        if (validationResults != null && !validationResults.isEmpty()) {
-            throw new DataValidationErrorException("Validation errors during milestone creation", validationResults);
-        }
-
-        return this.nextDecorator.updateMilestone(milestoneKey, milestoneInfo, context);
+    public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo, ContextInfo context)
+    		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = _validateInfo(validationType, milestoneInfo, context);
+    		List<ValidationResultInfo> nextDecoratorErrors =
+    				getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
+    		if (null != nextDecoratorErrors) {
+    			errors.addAll(nextDecoratorErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error trying to validate milestone", ex);
+    	}
+    	return errors;
     }
 
-    @Override
-    public AtpMilestoneRelationInfo createAtpMilestoneRelation(AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        List<ValidationResultInfo> validationResults = validate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpMilestoneRelationInfo, context);
-        if (validationResults != null && !validationResults.isEmpty()) {
-            throw new OperationFailedException("Create atp milestone relation failed due to validation error: ", new DataValidationErrorException("Validation errors during atp milestone relation creation", validationResults));
-        }
+    
 
-        return this.nextDecorator.createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
-    }
-
-    @Override
-    public AtpMilestoneRelationInfo updateAtpMilestoneRelation(String atpMilestoneRelationId, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        List<ValidationResultInfo> validationResults = validate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpMilestoneRelationInfo, context);
-        if (validationResults != null && !validationResults.isEmpty()) {
-            throw new OperationFailedException("Create atp milestone relation failed due to validation error: ", new DataValidationErrorException("Validation errors during atp milestone relation creation", validationResults));
-        }
-
-        return this.nextDecorator.updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return validate(validationType, milestoneInfo, context);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateAtpMilestoneRelation(String validationType, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return validate(validationType, atpMilestoneRelationInfo, context);
-
-    }
-
-    private List<ValidationResultInfo> validate(String validationType, Object info, ContextInfo context) throws OperationFailedException, MissingParameterException, InvalidParameterException {
+    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
+    		throws InvalidParameterException, MissingParameterException, OperationFailedException  {
         List<ValidationResultInfo> errors;
         try {
             errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
@@ -135,43 +237,5 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         }
         return errors;
     }
- 
-    private void validateAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
-        try {
-            List<ValidationResultInfo> errors = this.validateAtpAtpRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), atpAtpRelationInfo, context);
-            if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Errors", errors);
-            }
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("erorr trying to validate", ex);
-        }
-    }
-    @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType,
-            AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return validate(validationType, atpAtpRelationInfo, context);
-    }
-
-    @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
-            throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-    	try {
-			validateAtpAtpRelation(atpAtpRelationInfo, context);
-		} catch (DataValidationErrorException e) {
-			throw new OperationFailedException("Operation failed due to Data Validation Error", e);
-		}
-        return this.nextDecorator.createAtpAtpRelation(atpAtpRelationInfo, context);
-    }
-
-    @Override
-    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-    	validateAtpAtpRelation(atpAtpRelationInfo, context);
-        return this.nextDecorator.updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
-    }
-
-
+    
 }

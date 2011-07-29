@@ -39,8 +39,7 @@ public class HoldServiceMockImpl implements HoldService {
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 			throws OperationFailedException, MissingParameterException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<String>();
 	}
 
 	@Override
@@ -48,20 +47,17 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws OperationFailedException,
 			MissingParameterException, PermissionDeniedException,
 			DoesNotExistException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
 	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
 	    return null;
 	}
 	
 	@Override
 	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-	    return null;
+	    return new ArrayList<String>();
 	}
 	
 	@Override
@@ -69,8 +65,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
@@ -78,8 +73,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<StateInfo>();
 	}
 
 	@Override
@@ -87,8 +81,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<StateInfo>();
 	}
 
 	@Override
@@ -96,16 +89,14 @@ public class HoldServiceMockImpl implements HoldService {
 			String currentStateKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
 	public TypeInfo getType(String typeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return null;
 	}
 
 	@Override
@@ -113,8 +104,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeInfo>();
 	}
 
 	@Override
@@ -122,8 +112,7 @@ public class HoldServiceMockImpl implements HoldService {
 			String relatedRefObjectURI, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeInfo>();
 	}
 
 	@Override
@@ -131,8 +120,7 @@ public class HoldServiceMockImpl implements HoldService {
 			String ownerTypeKey, String relationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<TypeTypeRelationInfo>();
 	}
 
 	@Override
@@ -319,8 +307,7 @@ public class HoldServiceMockImpl implements HoldService {
 			HoldInfo holdInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override
@@ -459,8 +446,7 @@ public class HoldServiceMockImpl implements HoldService {
 			IssueInfo issueInfo, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override
@@ -548,8 +534,7 @@ public class HoldServiceMockImpl implements HoldService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+	    return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override

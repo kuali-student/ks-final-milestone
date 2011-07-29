@@ -60,48 +60,42 @@ public class LuiServiceMockImpl implements LuiService {
     public List<String> getDataDictionaryEntryKeys(ContextInfo context)
 	throws OperationFailedException, MissingParameterException,
 	       PermissionDeniedException {
-	// TODO Auto-generated method stub
-	return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
 	throws OperationFailedException, MissingParameterException, 
 	       PermissionDeniedException, DoesNotExistException {
-	// TODO Auto-generated method stub
-	return null;
+    	return null;
     }
     
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context)
 	throws DoesNotExistException, InvalidParameterException,
 	       MissingParameterException, OperationFailedException {
-	// TODO Auto-generated method stub
-	return null;
+    	return null;
     }
     
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
-	// TODO Auto-generated method stub
-	return null;
+    	return new ArrayList<TypeInfo>();
     }
     
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
 	throws DoesNotExistException, InvalidParameterException,
 	       MissingParameterException, OperationFailedException {
-	// TODO Auto-generated method stub
-	return null;
+    	return new ArrayList<TypeInfo>();
     }
     
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
 	throws DoesNotExistException, InvalidParameterException,
 	       MissingParameterException, OperationFailedException {
-	// TODO Auto-generated method stub
-	return null;
+    	return new ArrayList<TypeTypeRelationInfo>();
     }
 
     @Override

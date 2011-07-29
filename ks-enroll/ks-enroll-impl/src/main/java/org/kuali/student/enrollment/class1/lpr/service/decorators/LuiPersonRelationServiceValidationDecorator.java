@@ -62,11 +62,11 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return nextDecorator.findLuiPersonRelationsForLui(luiId, context);
+    	return getNextDecorator().findLuiPersonRelationsForLui(luiId, context);
     }
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+        return getNextDecorator().createBulkRelationshipsForPerson(personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
 	@Override
@@ -78,55 +78,56 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			MissingParameterException,
 			OperationFailedException,
 			PermissionDeniedException {
-		
-	    this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), luiPersonRelationInfo, context);
-		
-	    return super.validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
-		
+        List<ValidationResultInfo> errors;
+        try {
+            errors = _validateInfo(validationType, luiPersonRelationInfo, context);
+            List<ValidationResultInfo> nextDecoratorErrors =
+                    getNextDecorator().validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+            if (null != nextDecoratorErrors) {
+                errors.addAll(nextDecoratorErrors);
+            }
+        }
+        catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error trying to validate lui-person relation", ex);
+        }
+        return errors;
 	}
 
 	@Override
-	public String createLuiPersonRelation(String personId, String luiId,
-			String luiPersonRelationType,
-			LuiPersonRelationInfo luiPersonRelationInfo,
-			ContextInfo context) throws
-			AlreadyExistsException,
-			DoesNotExistException,
-			DisabledIdentifierException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			DataValidationErrorException,
-			ReadOnlyException,
-			PermissionDeniedException {
-		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
-				luiPersonRelationInfo, context);
+	public String createLuiPersonRelation(  String personId,
+                                            String luiId,
+			                                String luiPersonRelationType,
+			                                LuiPersonRelationInfo luiPersonRelationInfo,
+			                                ContextInfo context)
+            throws  AlreadyExistsException,
+			        DoesNotExistException,
+			        DisabledIdentifierException,
+			        InvalidParameterException,
+			        MissingParameterException,
+			        OperationFailedException,
+			        DataValidationErrorException,
+			        ReadOnlyException,
+			        PermissionDeniedException {
 		if (luiPersonRelationInfo.getId() != null) {
 			throw new ReadOnlyException("Id is not allowed to be supplied on a create");
 		}
 		if (luiPersonRelationInfo.getMeta() != null) {
 			throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
 		}
-		if (!vris.isEmpty()) {
-			throw new DataValidationErrorException("Failed validation", vris);
-		}
-		return super.createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+
+        _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
+		return getNextDecorator().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
-	public LuiPersonRelationInfo updateLuiPersonRelation(String luiPersonRelationId,
-			LuiPersonRelationInfo luiPersonRelationInfo,
-			ContextInfo context)
-	throws DataValidationErrorException,
-	DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	ReadOnlyException,
-	OperationFailedException,
-	PermissionDeniedException,
-	VersionMismatchException {
-		List<ValidationResultInfo> vris = this.validateLuiPersonRelation(DataDictionaryValidator.ValidationType.FULL_VALIDATION.name(),
-				luiPersonRelationInfo, context);
+	public LuiPersonRelationInfo updateLuiPersonRelation(   String luiPersonRelationId,
+			                                                LuiPersonRelationInfo luiPersonRelationInfo,
+			                                                ContextInfo context)
+	        throws  DataValidationErrorException, DoesNotExistException,
+	                InvalidParameterException, MissingParameterException,
+	                ReadOnlyException, OperationFailedException,
+	                PermissionDeniedException, VersionMismatchException {
+        _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
 		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
 		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
@@ -139,12 +140,25 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			checkReadOnly("updateTime", orig.getMeta().getUpdateTime(), luiPersonRelationInfo.getMeta().getUpdateTime());
 		}
 
-		if (!vris.isEmpty()) {
-			throw new DataValidationErrorException("Failed validation", vris);
-		}
-		
-		return super.updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+		return getNextDecorator().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
+
+    private void _luiPersonRelationFullValidation(LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+            throws  DataValidationErrorException, DoesNotExistException,
+                    InvalidParameterException, MissingParameterException,
+                    OperationFailedException, PermissionDeniedException {
+		try {
+		    List<ValidationResultInfo> errors =
+                    this.validateLuiPersonRelation(
+                            DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
+                            luiPersonRelationInfo, context);
+		    if (!errors.isEmpty()) {
+		        throw new DataValidationErrorException("Error(s) validating lui-person relation", errors);
+		    }
+		} catch (DoesNotExistException ex) {
+		    throw new OperationFailedException("Error validating lui-person relation", ex);
+		}
+    }
 
     private void checkReadOnly(String field, Object orig, Object supplied)
     throws ReadOnlyException {
@@ -161,6 +175,18 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         throw new ReadOnlyException(field + " is read only but the original value " + origStr + " and the supplied new=" + suppliedStr);
     }
 
-        
+
+
+    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
+            throws OperationFailedException, MissingParameterException, InvalidParameterException {
+        List<ValidationResultInfo> errors;
+        try {
+            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
+        } catch (PermissionDeniedException ex) {
+            throw new OperationFailedException("Validation failed due to permission exception", ex);
+        }
+        return errors;
+    }
+
 }
 

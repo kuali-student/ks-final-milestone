@@ -30,616 +30,585 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class CourseRegistrationServiceDecorator implements CourseRegistrationService {
     
-    protected CourseRegistrationServiceDecorator nextDecorator;
+    private CourseRegistrationService nextDecorator;
+
+    public CourseRegistrationService getNextDecorator() throws OperationFailedException {
+        if (null == nextDecorator) {
+            throw new OperationFailedException(
+                    "Misconfigured application: nextDecorator is null");
+        }
+        return nextDecorator;
+    }
+    public void setNextDecorator(CourseRegistrationService nextDecorator) {
+        this.nextDecorator = nextDecorator;
+    }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
+    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
+            throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    } 
+        return getNextDecorator().getDataDictionaryEntryKeys(context);
+    }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
     }
- 
+
     @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
+    public TypeInfo getType(String typeKey, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null; 
+        return getNextDecorator().getType(typeKey, context);
     }
 
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
     }
 
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
     }
 
     @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
+    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getProcessByKey(processKey, context);
     }
 
     @Override
-    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException,
+    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getProcessByObjectType(refObjectUri, context);
     }
 
     @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
+    public StateInfo getState(String processKey, String stateKey, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getState(processKey, stateKey, context);
     }
 
     @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
+    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getStatesByProcess(processKey, context);
     }
 
     @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
+    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getInitialValidStates(processKey, context);
     }
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
     }
 
     @Override
-    public Boolean checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException,
+    public Boolean checkStudentEligibility(String studentId, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().checkStudentEligibility(studentId, context);
     }
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
-            String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            String termKey, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termKey, context);
     }
 
     @Override
     public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAppointmentWindows(studentId, termKey, context);
     }
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibiltyForCourseOffering(
-            String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException,
+            String studentId, String courseOfferingId, ContextInfo context)
+            throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().checkStudentEligibiltyForCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibiltyForRegGroup(
-            String studentId, String regGroupId, ContextInfo context) throws InvalidParameterException,
+            String studentId, String regGroupId, ContextInfo context)
+            throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().checkStudentEligibiltyForRegGroup(studentId, regGroupId, context);
     }
 
     @Override
     public List<RegistrationGroupInfo> getEligibleRegGroupsForStudentInCourseOffering(String studentId,
-            String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            String courseOfferingId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getEligibleRegGroupsForStudentInCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override
     public String calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
     }
 
     @Override
     public String calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().calculateCreditLoadForRegRequest(studentId, regRequestInfo, context);
     }
 
     @Override
     public Integer getAvailableSeatsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAvailableSeatsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public Integer getAvailableSeatsForRegGroup(String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAvailableSeatsForRegGroup(regGroupId, context);
     }
 
     @Override
     public Integer getAvailableSeatsForStudentInRegGroup(String studentId, String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAvailableSeatsForStudentInRegGroup(studentId, regGroupId, context);
     }
 
     @Override
     public Integer getAvailableSeatsInSeatpool(String seatpoolId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getAvailableSeatsInSeatpool(seatpoolId, context);
     }
 
     @Override
     public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().createRegRequest(regRequestInfo, context);
     }
 
     @Override
     public RegRequestInfo updateRegRequest(String regRequestId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().updateRegRequest(regRequestId, regRequestInfo, context);
     }
 
     @Override
-    public StatusInfo deleteRegRequest(String regRequestId, ContextInfo context) throws InvalidParameterException,
+    public StatusInfo deleteRegRequest(String regRequestId, ContextInfo context)
+            throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().deleteRegRequest(regRequestId, context);
     }
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo,
-            ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
+            ContextInfo context)
+            throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().validateRegRequest(regRequestInfo, context);
     }
 
     @Override
     public RegResponseInfo verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().verifyRegRequest(regRequestInfo, context);
     }
 
     @Override
     public RegResponseInfo verifySavedReqRequest(String regRequestId, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().verifySavedReqRequest(regRequestId, context);
     }
 
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().createRegRequestFromExisting(existingRegRequestId, context);
     }
 
     @Override
-    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
+    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().submitRegRequest(regRequestId, context);
     }
 
     @Override
-    public StatusInfo cancelRegRequest(String regRequestId, ContextInfo context) throws DataValidationErrorException,
+    public StatusInfo cancelRegRequest(String regRequestId, ContextInfo context)
+            throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().cancelRegRequest(regRequestId, context);
     }
-
-   
 
     @Override
     public List<RegRequestInfo> getRegRequestsByIdList(List<String> regRequestIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequestsByIdList(regRequestIds, context);
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
-            List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            List<String> requestStates, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termKey, requestStates, context);
     }
 
     @Override
     public CourseWaitlistEntryInfo getCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntry(courseWaitlistEntryId, context);
     }
 
     @Override
     public StatusInfo updateCourseWaitlistEntry(String courseWaitlistEntryId,
-            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DoesNotExistException,
+            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context)
+            throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().updateCourseWaitlistEntry(courseWaitlistEntryId, courseWaitlistEntryInfo, context);
     }
 
     @Override
     public StatusInfo reorderCourseWaitlistEntries(List<String> courseWaitlistEntryIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().reorderCourseWaitlistEntries(courseWaitlistEntryIds, context);
     }
 
     @Override
     public StatusInfo insertCourseWaitlistEntryAtPosition(String courseWaitlistEntryId, Integer position,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().insertCourseWaitlistEntryAtPosition(courseWaitlistEntryId, position, context);
     }
 
     @Override
     public StatusInfo removeCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().removeCourseWaitlistEntry(courseWaitlistEntryId, context);
     }
 
-   
     @Override
     public StatusInfo validateCourseWaitlistEntry(String validateTypeKey,
-            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context) throws DataValidationErrorException,
+            CourseWaitlistEntryInfo courseWaitlistEntryInfo, ContextInfo context)
+            throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().validateCourseWaitlistEntry(validateTypeKey, courseWaitlistEntryInfo, context);
     }
 
     @Override
     public RegResponseInfo registerStudentFromWaitlist(String courseWaitlistEntryId, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().registerStudentFromWaitlist(courseWaitlistEntryId, context);
     }
 
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForCourseOffering(String courseOfferingId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntriesForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForRegGroup(String regGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntriesForRegGroup(regGroupId, context);
     }
 
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentInCourseOffering(String courseOfferingId,
-            String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            String studentId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntriesForStudentInCourseOffering(courseOfferingId, studentId, context);
     }
 
     @Override
     public CourseWaitlistEntryInfo getCourseWaitlistEntryForStudentInRegGroup(String regGroupId, String studentId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntryForStudentInRegGroup(regGroupId, studentId, context);
     }
 
     @Override
     public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termKey, context);
     }
 
     @Override
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseRegistration(courseRegistrationId, context);
     }
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseRegistrationsByIdList(courseRegistrationIds, context);
     }
 
     @Override
     public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
-            String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            String courseOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
     }
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
     }
 
     @Override
     public RegRequestInfo getRegRequestForCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequestForCourseRegistration(courseRegistrationId, context);
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequestsForCourseOffering(courseOfferingId, context);
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequestsForCourseOfferingByStudent(courseOfferingId, studentId, context);
     }
 
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getActivityRegistrationsForCourseRegistration(courseRegistrationId, context);
     }
 
     @Override
     public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getActivityRegistration(activityRegistrationId, context);
     }
 
     @Override
     public ActivityRegistrationInfo getActivityRegistrationsByIdList(List<String> activityRegistrationIds,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getActivityRegistrationsByIdList(activityRegistrationIds, context);
     }
 
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForActivityOffering(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getActivityRegistrationsForActivityOffering(courseRegistrationId, context);
     }
 
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForStudentByTerm(String studentId, String termId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getActivityRegistrationsForStudentByTerm(studentId, termId, context);
     }
 
     @Override
     public RegGroupRegistrationInfo getRegGroupRegistration(String regGroupRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegGroupRegistration(regGroupRegistrationId, context);
     }
 
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegGroupRegistrationsForCourseRegistration(courseRegistrationId, context);
     }
 
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(List<String> regGroupIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegGroupRegistrationsByIdList(regGroupIds, context);
     }
 
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByRegGroupId(String regGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegGroupRegistrationsByRegGroupId(regGroupId, context);
     }
 
     @Override
     public RegGroupRegistrationInfo getRegGroupRegistrationsForStudentByTerm(String studentId, String termId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegGroupRegistrationsForStudentByTerm(studentId, termId, context);
     }
 
     @Override
     public List<CourseRegistrationInfo> searchForCourseRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForCourseRegistrations(criteria, context);
     }
 
     @Override
     public List<String> searchForCourseOfferingRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForCourseOfferingRegistrationIds(criteria, context);
     }
 
     @Override
     public List<ActivityRegistrationInfo> searchForActivityRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForActivityRegistrations(criteria, context);
     }
 
     @Override
     public List<String> searchForActivityRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForActivityRegistrationIds(criteria, context);
     }
 
     @Override
     public List<RegGroupRegistrationInfo> searchForRegGroupRegistrations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForRegGroupRegistrations(criteria, context);
     }
 
     @Override
     public List<String> searchForRegGroupRegistrationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForRegGroupRegistrationIds(criteria, context);
     }
 
     @Override
     public List<CourseWaitlistEntryInfo> searchForCourseWaitlistEntries(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForCourseWaitlistEntries(criteria, context);
     }
 
     @Override
     public List<String> searchForCourseWaitlistEntryIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().searchForCourseWaitlistEntryIds(criteria, context);
     }
 
     @Override
-    public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
+    public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context)
+            throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().getRegRequest(regRequestId, context);
     }
 
     @Override
     public StatusInfo deleteCourseWaitlistEntry(String courseWaitlistEntryId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().deleteCourseWaitlistEntry(courseWaitlistEntryId, context);
     }
 
     @Override
     public RegResponseInfo dropStudentsFromRegGroups(List<String> regGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().dropStudentsFromRegGroups(regGroupIdList, context);
     }
 
     @Override
     public RegResponseInfo moveStudentsBetweenRegGroups(String sourceRegGroupId, String destinationRegGroupId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().moveStudentsBetweenRegGroups(sourceRegGroupId, destinationRegGroupId, context);
     }
 
-  
-	
+
+
 }

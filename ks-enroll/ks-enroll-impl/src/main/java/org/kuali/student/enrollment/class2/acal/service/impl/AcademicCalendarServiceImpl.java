@@ -52,10 +52,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
-
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
+    
     
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -82,7 +82,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TypeInfo> getAcademicCalendarTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<StateInfo>();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<AcademicCalendarInfo>();
     }
 
     @Override
@@ -122,7 +122,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<AcademicCalendarInfo>();
     }
 
     @Override
@@ -168,7 +168,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             String credentialProgramTypeKey, Integer year, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<AcademicCalendarInfo>();
     }
 
     @Override
@@ -176,7 +176,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     private void processAcalToCcalRelation(String academicCalendarKey, List<String> campusCalendarKeys, ContextInfo context) 
@@ -308,7 +308,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TypeInfo> getCampusCalendarTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -323,7 +323,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<StateInfo>();
     }
 
     @Override
@@ -339,7 +339,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<CampusCalendarInfo>();
     }
 
     @Override
@@ -347,7 +347,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -355,7 +355,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<CampusCalendarInfo>();
     }
 
     @Override
@@ -363,7 +363,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -586,7 +586,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -855,7 +855,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -870,7 +870,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -878,7 +878,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -886,7 +886,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -894,7 +894,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -926,14 +926,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
     public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
- 
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -941,7 +940,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -949,7 +948,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     private boolean checkExistenceForKeyDateinTerm(String termKey, String keyDateKey, ContextInfo context) throws OperationFailedException{
@@ -1058,7 +1057,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -1066,7 +1065,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<HolidayInfo>();
     }
 
     @Override
@@ -1074,7 +1073,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -1113,7 +1112,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -1161,7 +1160,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<AcademicCalendarInfo>();
     }
 
     @Override
@@ -1169,7 +1168,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -1177,7 +1176,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<CampusCalendarInfo>();
     }
 
     @Override
@@ -1185,7 +1184,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -1193,14 +1192,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<TermInfo>();
     }
 
     @Override
@@ -1208,7 +1207,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<KeyDateInfo>();
     }
 
     @Override
@@ -1216,7 +1215,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<String>();
     }
     
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {

@@ -41,29 +41,28 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     private static Map<String, CourseInfo> courseCache = new HashMap<String, CourseInfo>();
     private static Map<String, TypeInfo> typesCache = new HashMap<String, TypeInfo>();
     private static Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionCache = new HashMap<String, SeatPoolDefinitionInfo>();
+    
     private CourseService courseService;
 
     public CourseService getCourseService() {
         return courseService;
     }
-
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
+    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<String>();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
@@ -216,16 +215,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-
-        return null;
+    	return new ArrayList<TypeInfo>();
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -311,8 +308,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public Float calculateTotalContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return calculateInClassContactHoursForTerm(activityOfferingId, context)
+    	return calculateInClassContactHoursForTerm(activityOfferingId, context)
                 + calculateOutofClassContactHoursForTerm(activityOfferingId, context);
     }
 
@@ -321,8 +317,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             String copyContextTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>(numberOfCopies);
+        // TODO - implement activityOfferingInf & activityOffering
         ActivityOfferingInfo activityOfferingInf = activityOfferingCache.get(activityOfferingId);
-
         for (ActivityOfferingInfo activityOffering : activityOfferings) {
             // activityOffering = new ActivityOfferingInfo(activityOfferingInf);
         }
@@ -491,50 +487,42 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
     @Override
     public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<StatementTreeViewInfo>();
     }
 
     @Override
     public StatementTreeViewInfo createCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
     public StatementTreeViewInfo updateCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
     public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
     public List<StatementTreeViewInfo> getActivityOfferingRestrictions(String activityOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return new ArrayList<StatementTreeViewInfo>();
     }
 
     @Override
     public StatementTreeViewInfo createActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
     public StatementTreeViewInfo updateActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override
     public StatusInfo deleteActivityOfferingRestriction(String activityOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	return null;
     }
 
     @Override

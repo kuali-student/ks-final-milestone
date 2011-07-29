@@ -102,6 +102,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     public String getKey() {
         return this.key;
     }
+    
 
     private static Date asDate(String dateStr) {
         if (dateStr == null) {
@@ -116,8 +117,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     }
 
     public void setKey(String key) {
-        // TODO jimt - THIS METHOD NEEDS JAVADOCS
-        
+        this.key = key;
     }
 
     

@@ -27,671 +27,688 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
-
-public abstract class AcademicCalendarServiceDecorator implements AcademicCalendarService {
-    
-    
-	protected AcademicCalendarService nextDecorator;
+public abstract class AcademicCalendarServiceDecorator implements AcademicCalendarService
+{
+	private AcademicCalendarService nextDecorator;	
 	
-    public AcademicCalendarService getNextDecorator() {
+    public AcademicCalendarService getNextDecorator()
+			throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+		}
         return nextDecorator;
     }
-    
     public void setNextDecorator(AcademicCalendarService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
+    
 
     @Override 
     public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getAcademicCalendarState(academicCalendarStateKey, context);
+		return getNextDecorator().getAcademicCalendarState(academicCalendarStateKey, context);
     }
 
     @Override
     public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getAcademicCalendarStates(context);
+		return getNextDecorator().getAcademicCalendarStates(context);
     }
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-    throws OperationFailedException, MissingParameterException,
-    PermissionDeniedException {
-        // TODO Auto-generated method stub
-    	return this.nextDecorator.getDataDictionaryEntryKeys(context);
+            throws OperationFailedException, MissingParameterException,
+                PermissionDeniedException {
+    	return getNextDecorator().getDataDictionaryEntryKeys(context);
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-            ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
+                ContextInfo context)
+            throws OperationFailedException,
+                MissingParameterException, PermissionDeniedException,
+                DoesNotExistException {
        return this.getDataDictionaryEntry(entryKey, context);
     }
 
           @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return this.nextDecorator.getAcademicCalendarType(academicCalendarTypeKey, context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException {
+        return getNextDecorator().getAcademicCalendarType(academicCalendarTypeKey, context);
         
     }
 
     @Override                                        
     public List<TypeInfo> getAcademicCalendarTypes(ContextInfo context) 
-    throws InvalidParameterException, 
-    MissingParameterException, 
-    OperationFailedException {
-    	return this.nextDecorator.getAcademicCalendarTypes(context);
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().getAcademicCalendarTypes(context);
     }
 
     @Override
     public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getAcademicCalendar(academicCalendarKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendar(academicCalendarKey, context);
     }
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsByKeyList(
-            List<String> academicCalendarKeyList, ContextInfo context)
+                List<String> academicCalendarKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-    	return this.nextDecorator.getAcademicCalendarsByKeyList(academicCalendarKeyList, context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendarsByKeyList(academicCalendarKeyList, context);
     }
 
     @Override
     public List<String> getAcademicCalendarKeysByType(
-            String academicCalendarTypeKey, ContextInfo context)
+                String academicCalendarTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-    	return this.nextDecorator.getAcademicCalendarKeysByType(academicCalendarTypeKey, context);
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendarKeysByType(academicCalendarTypeKey, context);
     }
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsByYear(Integer year,
-            ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getAcademicCalendarsByYear(year, context);
+                ContextInfo context)
+            throws InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendarsByYear(year, context);
     }
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramType(
-            String credentialProgramTypeKey, ContextInfo context)
+                String credentialProgramTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getAcademicCalendarsByCredentialProgramType(credentialProgramTypeKey, context);
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendarsByCredentialProgramType(credentialProgramTypeKey, context);
     }
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForYear(
-            String credentialProgramTypeKey, Integer year, ContextInfo context)
+                String credentialProgramTypeKey, Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-     	return this.nextDecorator.getAcademicCalendarsByCredentialProgramTypeForYear(credentialProgramTypeKey,year, context);
+                OperationFailedException, PermissionDeniedException {
+     	return getNextDecorator().getAcademicCalendarsByCredentialProgramTypeForYear(credentialProgramTypeKey,year, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateAcademicCalendar(
-            String validationType, AcademicCalendarInfo academicCalendarInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-    	return this.nextDecorator.validateAcademicCalendar(validationType,academicCalendarInfo, context);
+                String validationType, AcademicCalendarInfo academicCalendarInfo,
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().validateAcademicCalendar(validationType,academicCalendarInfo, context);
     }
 
     @Override
     public AcademicCalendarInfo createAcademicCalendar(
-            String academicCalendarKey,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.createAcademicCalendar(academicCalendarKey,academicCalendarInfo, context);
+                String academicCalendarKey,
+                AcademicCalendarInfo academicCalendarInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().createAcademicCalendar(academicCalendarKey,academicCalendarInfo, context);
     }
 
     @Override
     public AcademicCalendarInfo updateAcademicCalendar(
-            String academicCalendarKey,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context)
-    throws DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException,
-    VersionMismatchException {
-    	return this.nextDecorator.updateAcademicCalendar(academicCalendarKey,academicCalendarInfo, context);
+                String academicCalendarKey,
+                AcademicCalendarInfo academicCalendarInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException,
+                VersionMismatchException {
+    	return getNextDecorator().updateAcademicCalendar(academicCalendarKey,academicCalendarInfo, context);
     }
 
     @Override
     public StatusInfo deleteAcademicCalendar(String academicCalendarKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.deleteAcademicCalendar(academicCalendarKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().deleteAcademicCalendar(academicCalendarKey, context);
     }
 
     @Override
     public AcademicCalendarInfo copyAcademicCalendar(
-            String academicCalendarKey, String newAcademicCalendarKey,
-            ContextInfo context) throws AlreadyExistsException,
-            DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.copyAcademicCalendar(academicCalendarKey,newAcademicCalendarKey, context);
+                String academicCalendarKey, String newAcademicCalendarKey,
+                ContextInfo context)
+            throws AlreadyExistsException,
+                DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().copyAcademicCalendar(academicCalendarKey,newAcademicCalendarKey, context);
     }
 
     @Override
     public String getAcademicCalendarData(String academicCalendarKey,
-            String calendarDataFormatTypeKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.getAcademicCalendarData(academicCalendarKey,calendarDataFormatTypeKey, context);
+                String calendarDataFormatTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getAcademicCalendarData(academicCalendarKey,calendarDataFormatTypeKey, context);
     }
 
     @Override
     public TypeInfo getCampusCalendarType(String campusCalendarTypeKey, ContextInfo context) throws DoesNotExistException,InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getCampusCalendarType(campusCalendarTypeKey, context);
+    	return getNextDecorator().getCampusCalendarType(campusCalendarTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getCampusCalendarTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getCampusCalendarTypes( context);
+    	return getNextDecorator().getCampusCalendarTypes( context);
     }
 
     @Override
     public StateInfo getCampusCalendarState(String campusCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getCampusCalendarState(campusCalendarStateKey, context);
+		return getNextDecorator().getCampusCalendarState(campusCalendarStateKey, context);
     }
 
     @Override
     public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getCampusCalendarStates(context);
+		return getNextDecorator().getCampusCalendarStates(context);
     }
 
     @Override
     public CampusCalendarInfo getCampusCalendar(String campusCalendarKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-    	return this.nextDecorator.getCampusCalendar(campusCalendarKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getCampusCalendar(campusCalendarKey, context);
     }
 
     @Override
     public List<CampusCalendarInfo> getCampusCalendarsByKeyList(
-            List<String> campusCalendarKeyList, ContextInfo context)
+                List<String> campusCalendarKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getCampusCalendarsByKeyList(campusCalendarKeyList, context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getCampusCalendarsByKeyList(campusCalendarKeyList, context);
     }
 
     @Override
     public List<String> getCampusCalendarKeysByType(
-            String campusCalendarTypeKey, ContextInfo context)
+                String campusCalendarTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getCampusCalendarKeysByType(campusCalendarTypeKey, context);
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getCampusCalendarKeysByType(campusCalendarTypeKey, context);
     }
 
     @Override
     public List<CampusCalendarInfo> getCampusCalendarsByYear(Integer year,
-            ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getCampusCalendarsByYear(year, context);
+                ContextInfo context)
+            throws InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getCampusCalendarsByYear(year, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateCampusCalendar(
-            String validationType, CampusCalendarInfo campusCalendarInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-    	return this.nextDecorator.validateCampusCalendar(validationType, campusCalendarInfo, context);
+                String validationType, CampusCalendarInfo campusCalendarInfo,
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().validateCampusCalendar(validationType, campusCalendarInfo, context);
     }
 
     @Override
     public CampusCalendarInfo createCampusCalendar(String campusCalendarKey,
-            CampusCalendarInfo campusCalendarInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.createCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
+                CampusCalendarInfo campusCalendarInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().createCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
     }
 
     @Override
     public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey,
-            CampusCalendarInfo campusCalendarInfo, ContextInfo context)
-    throws DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException,
-    VersionMismatchException {
-    	return this.nextDecorator.updateCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
+                CampusCalendarInfo campusCalendarInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException,
+                VersionMismatchException {
+    	return getNextDecorator().updateCampusCalendar(campusCalendarKey, campusCalendarInfo, context);
     }
 
     @Override
     public StatusInfo deleteCampusCalendar(String campusCalendarKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.deleteCampusCalendar(campusCalendarKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().deleteCampusCalendar(campusCalendarKey, context);
     }
 
     @Override
     public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getTermType(termTypeKey, context);
+    	return getNextDecorator().getTermType(termTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getTermTypes(context);
+    	return getNextDecorator().getTermTypes(context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getTermTypesForAcademicCalendarType(academicCalendarTypeKey, context);
+    	return getNextDecorator().getTermTypesForAcademicCalendarType(academicCalendarTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getTermTypesForTermType(termTypeKey, context);
+    	return getNextDecorator().getTermTypesForTermType(termTypeKey, context);
     }
 
     @Override
     public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getTermState(termStateKey, context);
+		return getNextDecorator().getTermState(termStateKey, context);
     }
 
     @Override
     public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		return this.nextDecorator.getTermStates(context);
+		return getNextDecorator().getTermStates(context);
     }
 
     @Override
     public TermInfo getTerm(String termKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.getTerm(termKey, context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getTerm(termKey, context);
     }
 
     @Override
     public List<TermInfo> getTermsByKeyList(List<String> termKeyList,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getTermsByKeyList(termKeyList, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getTermsByKeyList(termKeyList, context);
     }
 
     @Override
     public List<String> getTermKeysByType(String termTypeKey,
-            ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getTermKeysByType(termTypeKey, context);
+                ContextInfo context)
+            throws InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getTermKeysByType(termTypeKey, context);
     }
 
     @Override
     public List<TermInfo> getIncludedTermsInTerm(String termKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getIncludedTermsInTerm(termKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getIncludedTermsInTerm(termKey, context);
     }
 
     @Override
     public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getContainingTerms(termKey, context);
+    	return getNextDecorator().getContainingTerms(termKey, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateTerm(String validationType,
-            TermInfo termInfo, ContextInfo context)
+                TermInfo termInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.validateTerm(validationType,termInfo, context);
+                MissingParameterException, OperationFailedException {
+    	return getNextDecorator().validateTerm(validationType,termInfo, context);
     }
 
     @Override
     public TermInfo createTerm(String termKey, TermInfo termInfo,
-            ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.createTerm(termKey,termInfo, context);
+                ContextInfo context)
+            throws AlreadyExistsException,
+                DataValidationErrorException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().createTerm(termKey,termInfo, context);
     }
 
     @Override
     public TermInfo updateTerm(String termKey, TermInfo termInfo,
-            ContextInfo context) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException {
-    	return this.nextDecorator.updateTerm(termKey,termInfo, context);
+                ContextInfo context)
+            throws DataValidationErrorException,
+                DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException, VersionMismatchException {
+    	return getNextDecorator().updateTerm(termKey,termInfo, context);
     }
 
     @Override
     public StatusInfo deleteTerm(String termKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.deleteTerm(termKey,context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().deleteTerm(termKey,context);
     }
 
     @Override
     public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException{
-    	return this.nextDecorator.addTermToAcademicCalendar(academicCalendarKey, termKey, context);
+    	return getNextDecorator().addTermToAcademicCalendar(academicCalendarKey, termKey, context);
     }
 
     @Override
     public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws  DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.removeTermFromAcademicCalendar(academicCalendarKey, termKey, context);
+    	return getNextDecorator().removeTermFromAcademicCalendar(academicCalendarKey, termKey, context);
     }
 
     @Override
     public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-    	return this.nextDecorator.addTermToTerm(termKey, includedTermKey, context);
+    	return getNextDecorator().addTermToTerm(termKey, includedTermKey, context);
     }
 
     @Override
     public StatusInfo removeTermFromTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.removeTermFromTerm(termKey, includedTermKey, context);
+    	return getNextDecorator().removeTermFromTerm(termKey, includedTermKey, context);
     }
 				    
     @Override
     public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getKeyDateType(keyDateTypeKey,context);
+    	return getNextDecorator().getKeyDateType(keyDateTypeKey,context);
     }
 
     @Override
     public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.getKeyDateTypesForTermType(termTypeKey,context);
+    	return getNextDecorator().getKeyDateTypesForTermType(termTypeKey,context);
     }
 
     @Override
     public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.getKeyDate(keyDateKey,context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getKeyDate(keyDateKey,context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesByKeyList(List<String> keyDateKeyList,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesByKeyList(keyDateKeyList,context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesByKeyList(keyDateKeyList,context);
     }
 
     @Override
     public List<String> getKeyDateKeysByType(String keyDateTypeKey,
-            ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getKeyDateKeysByType(keyDateTypeKey,context);
+                ContextInfo context)
+            throws InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getKeyDateKeysByType(keyDateTypeKey,context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesForAcademicCalendar(
-            String academicCalendarKey, ContextInfo context)
+                String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesForAcademicCalendar(academicCalendarKey,context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesForAcademicCalendar(academicCalendarKey,context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(
-            String academicCalendarKey, Date startDate, Date endDate,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesForAcademicCalendarByDate(academicCalendarKey,startDate,endDate, context);
+                String academicCalendarKey, Date startDate, Date endDate,
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesForAcademicCalendarByDate(academicCalendarKey,startDate,endDate, context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesForTerm(String termKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesForTerm(termKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesForTerm(termKey, context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesForTermByDate(String termKey,
-            Date startDate, Date endDate, ContextInfo context)
+                Date startDate, Date endDate, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesForTermByDate(termKey,startDate, endDate, context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesForTermByDate(termKey,startDate, endDate, context);
     }
 
     @Override
     public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getAllKeyDatesForTerm(termKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getAllKeyDatesForTerm(termKey, context);
     }
 
     @Override
     public List<KeyDateInfo> getKeyDatesForAllTermsByDate(String termKey,
-            Date startDate, Date endDate, ContextInfo context)
+                Date startDate, Date endDate, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getKeyDatesForAllTermsByDate(termKey,startDate, endDate, context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getKeyDatesForAllTermsByDate(termKey,startDate, endDate, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateKeyDate(String validationType,
-            KeyDateInfo keyDateInfo, ContextInfo context)
+                KeyDateInfo keyDateInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.validateKeyDate(validationType,keyDateInfo , context);
+                MissingParameterException, OperationFailedException {
+    	return getNextDecorator().validateKeyDate(validationType,keyDateInfo , context);
     }
 
     @Override
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey,
-            KeyDateInfo keyDateInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.createKeyDateForTerm(termKey,keyDateKey, keyDateInfo , context);
+                KeyDateInfo keyDateInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().createKeyDateForTerm(termKey,keyDateKey, keyDateInfo , context);
     }
 
     @Override
     public KeyDateInfo updateKeyDate(String keyDateKey,
-            KeyDateInfo keyDateInfo, ContextInfo context)
-    throws DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException,
-    VersionMismatchException {
-    	return this.nextDecorator.updateKeyDate(keyDateKey, keyDateInfo , context);
+                KeyDateInfo keyDateInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException,
+                VersionMismatchException {
+    	return getNextDecorator().updateKeyDate(keyDateKey, keyDateInfo , context);
     }
 
     @Override
     public StatusInfo deleteKeyDate(String keyDateKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.deleteKeyDate(keyDateKey,  context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().deleteKeyDate(keyDateKey,  context);
     }
 
     @Override
     public TypeInfo getHolidayType(String holidayTypeKey, 
-            ContextInfo context) 
-    throws DoesNotExistException, 
-    InvalidParameterException, 
-    MissingParameterException, 
-    OperationFailedException {
-    	return this.nextDecorator.getHolidayType(holidayTypeKey,  context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().getHolidayType(holidayTypeKey,  context);
     }
 
     @Override
     public List<TypeInfo> getHolidayTypesForCampusCalendarType(String campusCalendarTypeKey, 
-            ContextInfo context) 
+                ContextInfo context)
             throws DoesNotExistException, 
-            InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException {
-    	return this.nextDecorator.getHolidayTypesForCampusCalendarType(campusCalendarTypeKey,  context);
+                InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().getHolidayTypesForCampusCalendarType(campusCalendarTypeKey,  context);
     }
 
     @Override
     public List<HolidayInfo> getHolidaysForAcademicCalendar(
-            String academicCalendarKey, ContextInfo context)
+                String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getHolidaysForAcademicCalendar(academicCalendarKey,  context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getHolidaysForAcademicCalendar(academicCalendarKey,  context);
     }
 
     @Override
     public List<ValidationResultInfo> validateHoliday(String validationType,
-            HolidayInfo holidayInfo, ContextInfo context)
+                HolidayInfo holidayInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-    	return this.nextDecorator.validateHoliday(validationType,holidayInfo,  context);
+                MissingParameterException, OperationFailedException {
+    	return getNextDecorator().validateHoliday(validationType,holidayInfo,  context);
     }
 
     @Override
     public HolidayInfo createHolidayForCampusCalendar(String campusCalendarKey,
-            String holidayKey, HolidayInfo holidayInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-      	return this.nextDecorator.createHolidayForCampusCalendar(campusCalendarKey,holidayKey,holidayInfo,  context);
+                String holidayKey, HolidayInfo holidayInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+      	return getNextDecorator().createHolidayForCampusCalendar(campusCalendarKey,holidayKey,holidayInfo,  context);
     }
 
     @Override
     public HolidayInfo updateHoliday(String holidayKey,
-            HolidayInfo holidayInfo, ContextInfo context)
-    throws DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException,
-    VersionMismatchException {
-    	return this.nextDecorator.updateHoliday(holidayKey,holidayInfo,  context);
+                HolidayInfo holidayInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException,
+                VersionMismatchException {
+    	return getNextDecorator().updateHoliday(holidayKey,holidayInfo,  context);
     }
 
     @Override
     public StatusInfo deleteHoliday(String holidayKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
-    	return this.nextDecorator.deleteHoliday(holidayKey,context);
+            throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().deleteHoliday(holidayKey,context);
     }
 
     @Override
     public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getRegistrationDateGroup(termKey,context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getRegistrationDateGroup(termKey,context);
     }
 
     @Override
     public List<ValidationResultInfo> validateRegistrationDateGroup(
-            String validationType,
-            RegistrationDateGroupInfo registrationDateGroupInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-    	return this.nextDecorator.validateRegistrationDateGroup(validationType,registrationDateGroupInfo, context);
+                String validationType,
+                RegistrationDateGroupInfo registrationDateGroupInfo,
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException {
+    	return getNextDecorator().validateRegistrationDateGroup(validationType,registrationDateGroupInfo, context);
     }
 
     @Override
     public RegistrationDateGroupInfo updateRegistrationDateGroup(
-            String termKey,
-            RegistrationDateGroupInfo registrationDateGroupInfo,
-            ContextInfo context) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException {
-    	return this.nextDecorator.updateRegistrationDateGroup(termKey,registrationDateGroupInfo, context);
+                String termKey,
+                RegistrationDateGroupInfo registrationDateGroupInfo,
+                ContextInfo context)
+            throws DataValidationErrorException,
+                DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException, VersionMismatchException {
+    	return getNextDecorator().updateRegistrationDateGroup(termKey,registrationDateGroupInfo, context);
     }
 
     @Override
     public Integer getInstructionalDaysForTerm(String termKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getInstructionalDaysForTerm(termKey, context);
+                ContextInfo context)
+            throws DoesNotExistException,
+                InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getInstructionalDaysForTerm(termKey, context);
     }
 
     @Override
     public List<TermInfo> getTermsForAcademicCalendar(
-            String academicCalendarKey, ContextInfo context)
+                String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-    	return this.nextDecorator.getTermsForAcademicCalendar(academicCalendarKey, context);
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
+    	return getNextDecorator().getTermsForAcademicCalendar(academicCalendarKey, context);
     }
 
     @Override
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return this.nextDecorator.searchForAcademicCalendars(criteria, context);
+                PermissionDeniedException {
+        return getNextDecorator().searchForAcademicCalendars(criteria, context);
     }
 
     @Override
     public List<String> searchForAcademicCalendarIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return this.nextDecorator.searchForAcademicCalendarIds(criteria, context);
+                PermissionDeniedException {
+        return getNextDecorator().searchForAcademicCalendarIds(criteria, context);
     }
 
     @Override
     public List<CampusCalendarInfo> searchForCampusCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return this.nextDecorator.searchForCampusCalendars(criteria, context);
+                PermissionDeniedException {
+        return getNextDecorator().searchForCampusCalendars(criteria, context);
     }
 
     @Override
     public List<String> searchForCampusCalendarIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return this.nextDecorator.searchForCampusCalendarIds(criteria, context);
+                PermissionDeniedException {
+        return getNextDecorator().searchForCampusCalendarIds(criteria, context);
     }
 
     @Override
     public List<String> searchForTermIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return this.nextDecorator.searchForTermIds(criteria, context);
+                PermissionDeniedException {
+        return getNextDecorator().searchForTermIds(criteria, context);
     }
 
     @Override
-    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.nextDecorator.searchForTerms(criteria, context);
+    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException,
+                MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTerms(criteria, context);
     }
 
     @Override
     public List<KeyDateInfo> searchForKeyDates(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+                PermissionDeniedException {
+       return getNextDecorator().searchForKeyDates(criteria, context);
     }
 
     @Override
     public List<String> searchForKeyDateIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+                PermissionDeniedException {
+        return getNextDecorator().searchForKeyDateIds(criteria, context);
     }
-
-
-
-
 
 }

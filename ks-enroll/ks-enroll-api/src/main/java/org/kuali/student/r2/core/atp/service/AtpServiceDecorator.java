@@ -24,488 +24,455 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
-
 public class AtpServiceDecorator implements AtpService {
-	protected AtpService nextDecorator;
+	
+	private AtpService nextDecorator;
 
-	public AtpService getNextDecorator() {
+	public AtpService getNextDecorator() throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException(
+					"Misconfigured application: nextDecorator is null");
+		}
 		return nextDecorator;
 	}
-
 	public void setNextDecorator(AtpService nextDecorator) {
 		this.nextDecorator = nextDecorator;
 	}
+	
+
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-	throws OperationFailedException,
-	MissingParameterException,
-	PermissionDeniedException {
-
-		return this.nextDecorator.getDataDictionaryEntryKeys(context);
+			throws OperationFailedException, MissingParameterException,
+			PermissionDeniedException {
+		return getNextDecorator().getDataDictionaryEntryKeys(context);
 	}
 
 	@Override
 	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-			ContextInfo context)
-	throws OperationFailedException,
-	MissingParameterException,
-	PermissionDeniedException,
-	DoesNotExistException {
-
-		return this.nextDecorator.getDataDictionaryEntry(entryKey,context);
+			ContextInfo context) throws OperationFailedException,
+			MissingParameterException, PermissionDeniedException,
+			DoesNotExistException {
+		return getNextDecorator().getDataDictionaryEntry(entryKey, context);
 	}
 
 	@Override
 	public TypeInfo getType(String typeKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException {
-
-		return this.nextDecorator.getType(typeKey,context);
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getType(typeKey, context);
 	}
 
 	@Override
 	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.getTypesByRefObjectURI(refObjectURI,context);
+		return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
 	}
 
 	@Override
 	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
 			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException {
-		return this.nextDecorator.getAllowedTypesForType(ownerTypeKey,relatedRefObjectURI, context);
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getAllowedTypesForType(ownerTypeKey,
+				relatedRefObjectURI, context);
 	}
 
 	@Override
 	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
 			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException {
-		return this.nextDecorator.getTypeRelationsByOwnerType(ownerTypeKey,relationTypeKey, context);
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey,
+				relationTypeKey, context);
 	}
 
 	@Override
-	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    return nextDecorator.getProcessByKey(processKey, context);
+	public StateProcessInfo getProcessByKey(String processKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getProcessByKey(processKey, context);
 	}
-	
+
 	@Override
-	public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    return nextDecorator.getProcessByObjectType(refObjectUri, context);
+	public List<String> getProcessByObjectType(String refObjectUri,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getProcessByObjectType(refObjectUri, context);
 	}
 
 	@Override
 	public StateInfo getState(String processKey, String stateKey,
-			ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException {
-		return this.nextDecorator.getState(processKey,stateKey,context);
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getState(processKey, stateKey, context);
 	}
 
 	@Override
 	public List<StateInfo> getStatesByProcess(String processKey,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.getStatesByProcess(processKey,context);
+		return getNextDecorator().getStatesByProcess(processKey, context);
 	}
 
 	@Override
 	public List<StateInfo> getInitialValidStates(String processKey,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.getInitialValidStates(processKey,context);
+		return getNextDecorator().getInitialValidStates(processKey, context);
 	}
 
 	@Override
 	public StateInfo getNextHappyState(String processKey,
 			String currentStateKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException {
-		return this.nextDecorator.getNextHappyState(processKey,currentStateKey, context);
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getNextHappyState(processKey,
+				currentStateKey, context);
 	}
 
 	@Override
-	public AtpInfo getAtp(
-			String atpKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.getAtp(atpKey, context);
-	}
-
-	@Override
-	public List<AtpInfo> getAtpsByDate(
-			Date searchDate, ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+	public AtpInfo getAtp(String atpKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getAtpsByDate(searchDate, context);
+		return getNextDecorator().getAtp(atpKey, context);
 	}
 
 	@Override
-	public List<AtpInfo> getAtpsByDates(
-			Date startDate, Date endDate, ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		return this.nextDecorator.getAtpsByDates(startDate,endDate, context);
+	public List<AtpInfo> getAtpsByDate(Date searchDate, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpsByDate(searchDate, context);
 	}
 
 	@Override
-	public List<AtpInfo> getAtpsByKeyList(
-			List<String> atpKeyList, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+	public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getAtpsByKeyList(atpKeyList, context);
+		return getNextDecorator().getAtpsByDates(startDate, endDate, context);
+	}
+
+	@Override
+	public List<AtpInfo> getAtpsByKeyList(List<String> atpKeyList,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpsByKeyList(atpKeyList, context);
 	}
 
 	@Override
 	public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context)
-	throws InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.getAtpKeysByType(atpTypeKey, context);
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpKeysByType(atpTypeKey, context);
 	}
 
 	@Override
-	public MilestoneInfo getMilestone(
-			String milestoneKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.getMilestone(milestoneKey, context);
+	public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getMilestone(milestoneKey, context);
 	}
 
 	@Override
 	public List<MilestoneInfo> getMilestonesByKeyList(
 			List<String> milestoneKeyList, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getMilestonesByKeyList(milestoneKeyList, context);
+		return getNextDecorator().getMilestonesByKeyList(milestoneKeyList,
+				context);
 	}
 
 	@Override
 	public List<String> getMilestoneKeysByType(String milestoneTypeKey,
-			ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getMilestoneKeysByType(milestoneTypeKey, context);
+		return getNextDecorator().getMilestoneKeysByType(milestoneTypeKey,
+				context);
 	}
 
 	@Override
-	public List<MilestoneInfo> getMilestonesByAtp(
-			String atpKey, ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+	public List<MilestoneInfo> getMilestonesByAtp(String atpKey,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getMilestonesByAtp(atpKey, context);
+		return getNextDecorator().getMilestonesByAtp(atpKey, context);
 	}
 
 	@Override
-	public List<MilestoneInfo> getMilestonesByDates(
-			Date startDate, Date endDate, ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		return this.nextDecorator.getMilestonesByDates(startDate, endDate, context);
+	public List<MilestoneInfo> getMilestonesByDates(Date startDate,
+			Date endDate, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getMilestonesByDates(startDate, endDate,
+				context);
 	}
 
 	@Override
 	public List<MilestoneInfo> getMilestonesByDatesAndType(
 			String milestoneTypeKey, Date startDate, Date endDate,
-			ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+			ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate, context);
+		return getNextDecorator().getMilestonesByDatesAndType(milestoneTypeKey,
+				startDate, endDate, context);
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateAtp(
-			String validationType,
-			AtpInfo atpInfo,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+	public List<ValidationResultInfo> validateAtp(String validationType,
+			AtpInfo atpInfo, ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.validateAtp(validationType, atpInfo, context);
+		return getNextDecorator().validateAtp(validationType, atpInfo, context);
 	}
 
 	@Override
-	public AtpInfo createAtp(
-			String atpKey,
-			AtpInfo atpInfo,
-			ContextInfo context)
-	throws AlreadyExistsException,
-	DataValidationErrorException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.createAtp(atpKey ,atpInfo,  context);
+	public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().createAtp(atpKey, atpInfo, context);
 	}
 
 	@Override
-	public AtpInfo updateAtp(
-			String atpKey,
-			AtpInfo atpInfo,
-			ContextInfo context)
-	throws DataValidationErrorException,
-	DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException,
-	VersionMismatchException {
-		return this.nextDecorator.updateAtp(atpKey ,atpInfo,  context);
+	public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateAtp(atpKey, atpInfo, context);
 	}
 
 	@Override
-	public  StatusInfo deleteAtp(String atpKey,ContextInfo context) throws DoesNotExistException,InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		return this.nextDecorator.deleteAtp(atpKey,context);
+	public StatusInfo deleteAtp(String atpKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().deleteAtp(atpKey, context);
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateMilestone(
-			String validationType,
-			MilestoneInfo milestoneInfo,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+	public List<ValidationResultInfo> validateMilestone(String validationType,
+			MilestoneInfo milestoneInfo, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().validateMilestone(validationType,
+				milestoneInfo, context);
+	}
+
+	@Override
+	public MilestoneInfo createMilestone(String milestoneKey,
+			MilestoneInfo milestoneInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().createMilestone(milestoneKey, milestoneInfo,
+				context);
+	}
+
+	@Override
+	public MilestoneInfo updateMilestone(String milestoneKey,
+			MilestoneInfo milestoneInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo,
+				context);
+	}
+
+	@Override
+	public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().deleteMilestone(milestoneKey, context);
+	}
+
+	@Override
+	public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpAtpRelation(atpAtpRelationId, context);
+	}
+
+	@Override
+	public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(
+			List<String> atpAtpRelationIdList, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getAtpAtpRelationsByIdList(
+				atpAtpRelationIdList, context);
+	}
+
+	@Override
+	public List<String> getAtpAtpRelationIdsByType(
+			String atpAtpRelationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpAtpRelationIdsByType(
+				atpAtpRelationTypeKey, context);
+	}
+
+	@Override
+	public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpAtpRelationsByAtp(atpKey, context);
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateAtpAtpRelation(
+			String validationType, AtpAtpRelationInfo atpAtpRelationInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.validateMilestone(validationType,milestoneInfo,context);
+		return getNextDecorator().validateAtpAtpRelation(validationType,
+				atpAtpRelationInfo, context);
 	}
 
 	@Override
-	public MilestoneInfo createMilestone(
-			String milestoneKey,
-			MilestoneInfo milestoneInfo,
-			ContextInfo context)
-	throws AlreadyExistsException,
-	DataValidationErrorException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.createMilestone(milestoneKey,milestoneInfo,context);
+	public AtpAtpRelationInfo createAtpAtpRelation(
+			AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().createAtpAtpRelation(atpAtpRelationInfo,
+				context);
 	}
 
 	@Override
-	public 	MilestoneInfo updateMilestone(
-			String milestoneKey,
-			MilestoneInfo milestoneInfo,
-			ContextInfo context)
-	throws DataValidationErrorException,
-	DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException,
-	VersionMismatchException {
-		return this.nextDecorator.updateMilestone(milestoneKey,milestoneInfo,context);
+	public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId,
+			AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId,
+				atpAtpRelationInfo, context);
 	}
 
 	@Override
-	public StatusInfo deleteMilestone(
-			String milestoneKey, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.deleteMilestone(milestoneKey, context);
+	public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId,
+				context);
 	}
-
-    @Override
-    public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.getAtpAtpRelation(atpAtpRelationId, context);
-    }
-
-    @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(List<String> atpAtpRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.getAtpAtpRelationsByIdList(atpAtpRelationIdList, context);
-    }
-
-    @Override
-    public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
-    }
-
-    @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.getAtpAtpRelationsByAtp(atpKey, context);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	return this.nextDecorator.validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
-    }
-
-    @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.createAtpAtpRelation(atpAtpRelationInfo, context);
-    }
-
-    @Override
-    public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-	return this.nextDecorator.updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
-    }
-
-    @Override
-    public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.deleteAtpAtpRelation(atpAtpRelationId, context);
-    }
 
 	@Override
 	public AtpMilestoneRelationInfo getAtpMilestoneRelation(
 			String atpMilestoneRelationId, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelation(atpMilestoneRelationId, context);
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getAtpMilestoneRelation(
+				atpMilestoneRelationId, context);
 	}
 
 	@Override
 	public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByIdList(
 			List<String> atpMilestoneRelationIdList, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelationsByIdList(atpMilestoneRelationIdList, context);
+		return getNextDecorator().getAtpMilestoneRelationsByIdList(
+				atpMilestoneRelationIdList, context);
 	}
 
 	@Override
 	public List<String> getAtpMilestoneRelationIdsByType(
 			String atpMilestoneRelationTypeKey, ContextInfo context)
-			throws InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelationIdsByType(atpMilestoneRelationTypeKey, context);
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getAtpMilestoneRelationIdsByType(
+				atpMilestoneRelationTypeKey, context);
 	}
 
 	@Override
 	public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByAtp(
-			String atpKey, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelationsByAtp(atpKey, context);
+			String atpKey, ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator()
+				.getAtpMilestoneRelationsByAtp(atpKey, context);
 	}
 
 	@Override
 	public List<AtpMilestoneRelationInfo> getAtpMilestoneRelationsByMilestone(
 			String milestoneKey, ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return this.nextDecorator.getAtpMilestoneRelationsByAtp(milestoneKey, context);
+		return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey,
+				context);
 	}
 
 	@Override
 	public List<ValidationResultInfo> validateAtpMilestoneRelation(
 			String validationType,
 			AtpMilestoneRelationInfo atpMilestoneRelationInfo,
-			ContextInfo context)
-			throws DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return this.nextDecorator.validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
+		return getNextDecorator().validateAtpMilestoneRelation(validationType,
+				atpMilestoneRelationInfo, context);
 	}
 
 	@Override
 	public AtpMilestoneRelationInfo createAtpMilestoneRelation(
 			AtpMilestoneRelationInfo atpMilestoneRelationInfo,
-			ContextInfo context)
-	throws AlreadyExistsException,
-	DataValidationErrorException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().createAtpMilestoneRelation(
+				atpMilestoneRelationInfo, context);
 	}
 
 	@Override
 	public AtpMilestoneRelationInfo updateAtpMilestoneRelation(
 			String atpMilestoneRelationId,
 			AtpMilestoneRelationInfo atpMilestoneRelationInfo,
-			ContextInfo context)
-	throws DataValidationErrorException,
-	DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException,
-	VersionMismatchException {
-		return this.nextDecorator.updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		return getNextDecorator().updateAtpMilestoneRelation(
+				atpMilestoneRelationId, atpMilestoneRelationInfo, context);
 	}
 
 	@Override
-	public StatusInfo deleteAtpMilestoneRelation(
-			String atpMilestoneRelationId, ContextInfo context)
-	throws DoesNotExistException,
-	InvalidParameterException,
-	MissingParameterException,
-	OperationFailedException,
-	PermissionDeniedException {
-		return this.nextDecorator.deleteAtpMilestoneRelation(atpMilestoneRelationId, context);
+	public StatusInfo deleteAtpMilestoneRelation(String atpMilestoneRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteAtpMilestoneRelation(
+				atpMilestoneRelationId, context);
 	}
 
-    @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(String atpKey, String relationType,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-	return this.nextDecorator.getAtpAtpRelationsByAtpAndRelationType(atpKey, relationType, context);
-    }
+	@Override
+	public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtpAndRelationType(
+			String atpKey, String relationType, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getAtpAtpRelationsByAtpAndRelationType(
+				atpKey, relationType, context);
+	}
 }

@@ -25,302 +25,291 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 
-public abstract class LuiServiceDecorator implements LuiService {	
-    protected LuiService nextDecorator;
-
-
-    public LuiService getNextDecorator() {
+public abstract class LuiServiceDecorator implements LuiService
+{	
+	private LuiService nextDecorator;
+	
+    public LuiService getNextDecorator()
+			throws OperationFailedException {
+		if (null == nextDecorator) {
+			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+		}
         return nextDecorator;
     }
-    
-    public  void setNextDecorator(LuiService nextDecorator) {
-	this.nextDecorator=nextDecorator;
-    }
-    
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-	throws OperationFailedException, MissingParameterException,
-	       PermissionDeniedException {
+	public void setNextDecorator(LuiService nextDecorator) {
+		this.nextDecorator = nextDecorator;
+	}
 	
-	return nextDecorator.getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
-	throws OperationFailedException,  MissingParameterException, PermissionDeniedException,
-	       DoesNotExistException {
 	
-	return nextDecorator.getDataDictionaryEntry(entryKey, context);
-    }
+	@Override
+	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
+			throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+		return getNextDecorator().getDataDictionaryEntryKeys(context);
+	}
 
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context)
-	throws DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException {
+	@Override
+	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
+			ContextInfo context) throws OperationFailedException,
+			MissingParameterException, PermissionDeniedException,
+			DoesNotExistException {		 
+		return getNextDecorator().getDataDictionaryEntry(entryKey, context);
+	}
 
-	return nextDecorator.getType(typeKey, context);
-    }
-    
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public TypeInfo getType(String typeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getType(typeKey, context);
+	}
 
-	return nextDecorator.getTypesByRefObjectURI(refObjectURI, context);
-    }
+	@Override
+	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
+	}
 
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-	throws DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException {
+	@Override
+	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
+			String relatedRefObjectURI, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+	}
 
-	return nextDecorator.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-    }
+	@Override
+	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
+			String ownerTypeKey, String relationTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+	}
 
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
-	throws DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException {
+	@Override
+	public LuiInfo getLui(String luiId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getLui(luiId, context);
+	}
 
-	return nextDecorator.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-    }
+	@Override
+	public List<LuiInfo> getLuisByIdList(List<String> luiIdList,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuisByIdList(luiIdList, context);
+	}
 
-    @Override
-    public LuiInfo getLui(String luiId, ContextInfo context)
-	throws DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLui(luiId, context);
-    }
-    
-    @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
-
-	return nextDecorator.getLuisByIdList(luiIdList, context);
-    }
-
-    @Override
+	@Override
     public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiIdsByType(luiTypeKey, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		return getNextDecorator().getLuiIdsByType(luiTypeKey, context);
     }
+	    
+	@Override
+	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuisInAtpByCluId(cluId, atpKey, context);
+	}
 
-    @Override
-    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		return getNextDecorator().getLuiIdsByCluId(cluId, context);
+	}
 
-	return nextDecorator.getLuisInAtpByCluId(cluId, atpKey, context);
-    }
+	@Override
+	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpKey, context);
+	}
 
-    @Override
-    public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
-	throws DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException {
+	@Override
+	public List<LuiInfo> getLuisByRelation(String relatedLuiId,
+			String luLuRelationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
+	}
 
-	return nextDecorator.getLuiIdsByCluId(cluId, context);
-    }
-    
-    @Override
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public List<String> getLuiIdsByRelation(String relatedLuiId,
+			String luLuRelationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
+	}
 
-	return nextDecorator.getLuiIdsInAtpByCluId(cluId, atpKey, context);
-    }
+	@Override
+	public List<LuiInfo> getRelatedLuisByLuiId(String luiId,
+			String luLuRelationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getRelatedLuisByLuiId(luiId, luLuRelationTypeKey, context);
+	}
 
-    @Override
-    public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException {
-		
-	return nextDecorator.getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
-    }
+	@Override
+	public List<String> getRelatedLuiIdsByLuiId(String luiId,
+			String luLuRelationTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context);
+	}
 
-    @Override
-    public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
-	
-	return nextDecorator.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
-    }
-    
-    @Override
-    public List<LuiInfo> getRelatedLuisByLuiId(String luiId, String luLuRelationTypeKey, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public List<ValidationResultInfo> validateLui(String validationType,
+			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().validateLui(validationType,luiInfo, context);
+	}
 
-	return nextDecorator.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey, context);
-    }
+	@Override
+	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().createLui(cluId,atpKey,luiInfo, context);
+	}
 
-    @Override
-    public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationTypeKey, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateLui(luiId,luiInfo, context);
+	}
 
-	return nextDecorator.getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context);
-    }
+	@Override
+	public StatusInfo deleteLui(String luiId, ContextInfo context)
+			throws DependentObjectsExistException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteLui(luiId, context);
+	}
 
-    @Override
-    public List<ValidationResultInfo> validateLui(String validationType, LuiInfo luiInfo, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public LuiInfo updateLuiState(String luiId, String luState,
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().updateLuiState(luiId, luState, context);
+	}
 
-		return nextDecorator.validateLui(validationType,luiInfo, context);
-    }
-
-    @Override
-    public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context) 
-	throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
-	       InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException {
-
-		return nextDecorator.createLui(cluId,atpKey,luiInfo, context);
-    }
-
-    @Override
-    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
-	throws DataValidationErrorException, DoesNotExistException,
-	       InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException,
-	       VersionMismatchException {
-
-		return nextDecorator.updateLui(luiId,luiInfo, context);
-    }
-
-    @Override
-    public StatusInfo deleteLui(String luiId, ContextInfo context)
-	throws DependentObjectsExistException, DoesNotExistException,
-	       InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException {
-	
-	return nextDecorator.deleteLui(luiId, context);
-    }
-
-    @Override
-    public LuiInfo updateLuiState(String luiId, String luState,	ContextInfo context) 
-	throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-	       MissingParameterException, OperationFailedException,
-	       PermissionDeniedException {
-		
-	return nextDecorator.updateLuiState(luiId, luState, context);
-    }
-
-    @Override
-    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
-
-	return nextDecorator.getLuiLuiRelation(luiLuiRelationId, context);
-    }
+	@Override
+	public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuiLuiRelation(luiLuiRelationId, context);
+	}
 
     @Override
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
     }
 
     @Override
     public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiLuiRelationIdsByType(luiLuiRelationTypeKey, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().getLuiLuiRelationIdsByType(luiLuiRelationTypeKey, context);
     }
+    
+	@Override
+	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().getLuiLuiRelationsByLui(luiId, context);
+	}
 
-    @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public List<ValidationResultInfo> validateLuiLuiRelation(
+			String validationType, LuiLuiRelationInfo luiLuiRelationInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
+	}
 
-	return nextDecorator.getLuiLuiRelationsByLui(luiId, context);
-    }
+	@Override
+	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
+			String relatedLuiId, String luLuRelationTypeKey,
+			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+			throws AlreadyExistsException, CircularRelationshipException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
+	}
 
-    @Override
-    public List<ValidationResultInfo> validateLuiLuiRelation(String validationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException {
+	@Override
+	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
+			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
+	}
 
-	return nextDecorator.validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
-    }
-
-    @Override
-    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
-	throws AlreadyExistsException, CircularRelationshipException,
-	       DataValidationErrorException, DoesNotExistException,
-	       InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException {
-
-		return nextDecorator.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
-    }
-
-    @Override
-    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
-	throws DataValidationErrorException, DoesNotExistException,
-	       InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException,
-	       VersionMismatchException {
-
-	return nextDecorator.updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
-    }
-
-    @Override
-    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-	       OperationFailedException, PermissionDeniedException {
-
-	return nextDecorator.deleteLuiLuiRelation(luiLuiRelationId,context);
-    }
+	@Override
+	public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteLuiLuiRelation(luiLuiRelationId,context);
+	}
 
     @Override
     public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiCapacity(luiCapacityId, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().getLuiCapacity(luiCapacityId, context);
     }
 
     @Override
     public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiCapacitiesByIdList(luiCapacityIdList, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().getLuiCapacitiesByIdList(luiCapacityIdList, context);
     }
 
     @Override
     public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.getLuiCapacityIdsByType(luiCapacityTypeKey, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().getLuiCapacityIdsByType(luiCapacityTypeKey, context);
     }
 
     @Override
     public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-
-	return nextDecorator.validateLuiCapacity(validationType, luiCapacityInfo, context);
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    	return getNextDecorator().validateLuiCapacity(validationType, luiCapacityInfo, context);
     }
 
     @Override
     public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-	return nextDecorator.createLuiCapacity(luiCapacityInfo, context);
+			throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().createLuiCapacity(luiCapacityInfo, context);
     }
 
     @Override
     public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-	throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-
-	return nextDecorator.updateLuiCapacity(luiCapacityId, luiCapacityInfo, context);
+			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    	return getNextDecorator().updateLuiCapacity(luiCapacityId, luiCapacityInfo, context);
     }
 
     @Override
     public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context) 
-	throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-	return nextDecorator.deleteLuiCapacity(luiCapacityId, context);
+			throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().deleteLuiCapacity(luiCapacityId, context);
     }
 }
