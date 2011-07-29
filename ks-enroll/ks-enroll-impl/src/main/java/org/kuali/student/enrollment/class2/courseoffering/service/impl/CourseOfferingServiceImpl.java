@@ -505,18 +505,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-	    //TODO: Change this based on the changed structures for courseOferringInfo and activityOfferingInfo
-	    
-	    //		String luiId = activityOfferingInfo.getId();
-//		for (String courseOfferingId : courseOfferingIdList) {
-//			createLuiLuiRelation(luiId, courseOfferingId,"kuali.lui.lui.relation.IsDeliveredVia", context);
-//		}
-//		
-//		if(activityOfferingInfo.getRegistrationGroupIds() != null && !activityOfferingInfo.getRegistrationGroupIds().isEmpty()){
-//			for (String registrationGroupId : activityOfferingInfo.getRegistrationGroupIds()){
-//				createLuiLuiRelation(luiId, registrationGroupId, "kuali.lui.lui.relation.RegisteredForVia", context);
-//			}
-//		}		
+		for (String courseOfferingId : courseOfferingIdList) {
+			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.IsDeliveredVia", context);
+		}
+			
 	}
 	
 	private void createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws AlreadyExistsException, 
@@ -654,8 +646,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		LuiInfo lui = luiService.getLui(registrationGroupId, context);		
+		return rgAssembler.assemble(lui, context);
 	}
 
 	@Override
@@ -664,8 +656,26 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO: implement LuiService.getLuiIdsByRelation and call it instead
+		List<RegistrationGroupInfo> rgs = new ArrayList<RegistrationGroupInfo>();
+		List<String> rgIds = new ArrayList<String>();
+		List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
+		if(rels != null && !rels.isEmpty()){                  
+            for(LuiLuiRelationInfo rel : rels){
+            	if(rel.getRelatedLuiId().equals(courseOfferingId)){
+            		if(rel.getTypeKey().equals("kuali.lui.lui.relation.RegisteredForVia")){
+            			String luiId = rel.getLuiId();
+            			LuiInfo lui = luiService.getLui(luiId, context);
+            			if(lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)){
+            				rgIds.add(luiId);
+            				rgs.add(getRegistrationGroup(luiId, context));
+            			}
+            		}
+            	}
+            }
+		}
+		
+		return rgs;		
 	}
 
 	@Override
@@ -687,26 +697,39 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-//		if(courseOfferingId != null){
-//			LuiInfo lui = rgAssembler.disassemble(registrationGroupInfo, context);
-//			try {
-//				LuiInfo created = luiService.createLui(registrationGroupInfo.get, registrationGroupInfo.getTermKey(), lui, context);
-//				
-//				if(created != null){
-//					registrationGroupInfo.setId(created.getId());
-//					
-//					processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
-//				}
+		if(courseOfferingId != null){
+			LuiInfo lui = rgAssembler.disassemble(registrationGroupInfo, context);
+			try {
+				LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), null, lui, context);
 				
-//				return registrationGroupInfo;
-//			} catch (DoesNotExistException e) {
-//				throw new OperationFailedException();
-//			}
-//		}
-//		else
+				if(created != null){
+					registrationGroupInfo.setId(created.getId());
+					
+					processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+				}
+				
+				return registrationGroupInfo;
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException();
+			}
+		}
+		else
 			return null;
 	}
 
+	private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 
+			throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
+
+			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.RegisteredForVia", context);
+			
+			if(registrationGroupInfo.getActivityOfferingIds() != null && !registrationGroupInfo.getActivityOfferingIds().isEmpty()){
+				for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()){
+					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, "kuali.lui.lui.relation.RegisteredForVia", context);
+				}
+			}	
+	}
+	
 	@Override
 	@Transactional
 	public RegistrationGroupInfo updateRegistrationGroup(
