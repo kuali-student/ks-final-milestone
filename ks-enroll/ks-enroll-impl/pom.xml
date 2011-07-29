@@ -33,6 +33,8 @@
 				<artifactId>ks-enroll-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
+            <!-- Added test jar to be able to wire in mock services, remove after actual implementations are complete -->
 			<dependency>
 				<groupId>org.kuali.student.enroll</groupId>
 				<artifactId>ks-enroll-api</artifactId>
@@ -70,5 +72,11 @@
 					<artifactId>ks-lum-impl</artifactId>
 					<version>${project.version}</version>
     		</dependency>
+            <dependency>
+                <groupId>org.kuali.student.enroll</groupId>
+                <artifactId>ks-enroll-api</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
 	</dependencies>
 </project>
