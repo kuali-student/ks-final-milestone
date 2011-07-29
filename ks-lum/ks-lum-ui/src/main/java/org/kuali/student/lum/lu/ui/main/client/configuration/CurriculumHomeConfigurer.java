@@ -318,19 +318,12 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
-						if(event.getValue()){
-							checkAdminPermission(
-									"useCurriculumReview",
-									CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE);
-//							if ("admin".equals(Application.getApplicationContext().getUserId())){
-//				            	adminOptionCheckbox.setVisible(true);
-//				            	adminOptionCheckbox.setEnabled(true);
-//				            	adminOptionCheckbox.setValue(false);
-//				            }
+
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(false);
 							startProposalButton.setEnabled(true);
-						}
+							adminOptionCheckbox.setEnabled(true);
+
 					}
 	            });
 	            radioOptionBlank.setValue(true);
@@ -341,7 +334,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							copyCourseSearchPanel.setVisible(true);
 							copyProposalSearchPanel.setVisible(false);
 							adminOptionCheckbox.setEnabled(false);
-							adminOptionCheckbox.setValue(true);
+							//adminOptionCheckbox.setValue(true);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -355,7 +348,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(true);
 							adminOptionCheckbox.setEnabled(false);
-							adminOptionCheckbox.setValue(true);
+							//adminOptionCheckbox.setValue(true);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -383,18 +376,16 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    					@Override
 	    					public void onSuccess(Boolean result) {
 
-	    			            if (result){
+	    						final boolean isAuthorized = result;
+	    			            if (isAuthorized){
 	    		            	adminOptionCheckbox.setValue(false);
 	    		            	adminOptionCheckbox.setVisible(true);
 	    		            } else {
 	    		            	adminOptionCheckbox.setValue(false);
 	    		            	adminOptionCheckbox.setVisible(false);	            	
 	    		            }
-                                continueLayOut();
-	    					}
+                               // continueLayOut(result);
 	    					
-	    					public void continueLayOut()
-	    					{
 	    			            layout.add(radioOptionBlank);
 	    			            layout.add(radioOptionCopyCourse);
 	    			            layout.add(copyCourseSearchPanel);
@@ -405,30 +396,78 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    			            
 	    			            startProposalButton.addClickHandler(new ClickHandler(){
 	    							public void onClick(ClickEvent event) {
-	    								if(radioOptionBlank.getValue() && adminOptionCheckbox.getValue()){
-	    									Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());
-	    								} else if (radioOptionBlank.getValue()){
-	    									Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());
-	    								}else if(radioOptionCopyCourse.getValue()){
+	    								
+	    								if(radioOptionBlank.getValue())
+	    								{
+	    									//Determine if it is and admin
+	    									if (adminOptionCheckbox.getValue() && isAuthorized)
+	    									{	    										
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());		    										
+	    									}
+	    									
+	    									if (!adminOptionCheckbox.getValue() && isAuthorized)
+	    									{
+	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());	    										
+	    									}
+	    									
+	    									//If it is not an admin or admin role
+	    									if (!isAuthorized)
+	    									{
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());	
+	    										
+	    									}    									
+	    									
+	    									
+	    								}
+	    								
+	    								if(radioOptionCopyCourse.getValue())
+	    								{
 	    				                    ViewContext viewContext = new ViewContext();
 	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-	    				                    if (adminOptionCheckbox.getValue()){
+	    				                    
+	    				                    //Determine if it is and admin
+	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
 	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    } else {
+	    				                    }
+	    				                    
+	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
 	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
 	    				                    }
-	    								}else if(radioOptionCopyProposal.getValue()){
+	    				                    
+	    				                  //If it is not an admin or admin role
+	    									if (!isAuthorized)
+	    									{
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	    										
+	    									}    
+	    									
+	    								}
+	    								
+	    								if(radioOptionCopyProposal.getValue()){
 	    				                    ViewContext viewContext = new ViewContext();
 	    				                    viewContext.setId(copyProposalSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
 	    				                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-	    				                    if (adminOptionCheckbox.getValue()){
+	    				                    
+	    				                  //Determine if it is and admin
+	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
 	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    } else {
+	    				                    }
+	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
 	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
 	    				                    }
+	    				                    
+	    				                    if (!isAuthorized){
+	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
+	    				                    }
+	    				                    
 	    								}
+	    								
+	    								
+	    								
+	    								
+
 	    								dialog.hide();
 	    							}
 	    						});
@@ -525,49 +564,5 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return anchor;
     }
 
-    private void checkAdminPermission(String screenComponent,
-			final String onEventOff) {
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT
-				.create(SecurityRpcService.class);
 
-		securityRpc.checkAdminPermission(principalId, screenComponent,
-				new KSAsyncCallback<Boolean>() {
-					public void handleFailure(Throwable caught) {
-						// Assumes admin does not have access...
-						if (onEventOff
-								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-							
-								adminOptionCheckbox.setValue(true);
-								adminOptionCheckbox.setVisible(false);
-							
-						} 
-					}
-
-					@Override
-					public void onSuccess(Boolean result) {
-						hasAdminAccess = result;
-						if (onEventOff
-								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-							if (hasAdminAccess) {
-								adminOptionCheckbox.setValue(false);
-								adminOptionCheckbox.setVisible(true);
-							} else {
-								adminOptionCheckbox.setValue(true);
-								adminOptionCheckbox.setVisible(false);
-							}
-						} else if (onEventOff
-								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-							if (hasAdminAccess) {
-								adminOptionCheckbox.setVisible(true);
-								adminOptionCheckbox.setEnabled(true);
-								adminOptionCheckbox.setValue(false);
-							}
-						}
-
-					}
-				});
-//		System.out.println(principalId + " access for " + screenComponent
-//				+ " is : " + hasAdminAccess);
-	}
 }
