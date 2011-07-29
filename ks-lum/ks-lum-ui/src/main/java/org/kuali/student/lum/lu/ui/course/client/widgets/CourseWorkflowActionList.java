@@ -72,7 +72,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
        
     
     // Storing this list at multiple layers: here and in StylishDropDown.menu.items.  We need it here to test for empty
-    private List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     
     public CourseWorkflowActionList(String label) {
     	super(label);
@@ -407,16 +407,39 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	}
     	
 		items.add(copyCourseActionItem);
+		String principalId = Application.getApplicationContext().getUserId();
+		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
 
-    	setItems(items);
+		securityRpc.checkAdminPermission(principalId, "cluModifyItem",
+				new KSAsyncCallback<Boolean>() {
+					public void handleFailure(Throwable caught) {
+						// Assume no admin access on failure
+						//doModifyActionItem(viewContext, modifyPath, model);
+					}
+
+					@Override
+					public void onSuccess(Boolean result) {
+						
+						if (!result) 
+						{
+							items.remove(retireCourseActionItem);
+							
+						}
+						
+				    	setItems(items);
+						
+				    	CourseWorkflowActionList.this.setEnabled(true);
+						if(CourseWorkflowActionList.this.isEmpty()) {
+							CourseWorkflowActionList.this.setVisible(false);
+						}
+						else{
+							CourseWorkflowActionList.this.setVisible(true);
+						}
+					}
+				});		
 		
-    	CourseWorkflowActionList.this.setEnabled(true);
-		if(CourseWorkflowActionList.this.isEmpty()) {
-			CourseWorkflowActionList.this.setVisible(false);
-		}
-		else{
-			CourseWorkflowActionList.this.setVisible(true);
-		}
+		
+
 	}
 	
     public boolean isEmpty() {
