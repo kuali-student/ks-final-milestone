@@ -104,4 +104,46 @@
     <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="3028" ATTR_VAL="false"
         KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
         OBJ_ID="PublicationReview000000RSPATTR04" RSP_ID="305" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40801"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
+        KIM_TYP_ID="7" OBJ_ID="CurriculumAdminReview0RSPATTR01"
+        RSP_ID="308" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40802"
+        ATTR_VAL="Curriculum Admin Review" KIM_ATTR_DEFN_ID="16"
+        KIM_TYP_ID="7" OBJ_ID="CurriculumAdminReview0RSPATTR02"
+        RSP_ID="308" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40803" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
+        OBJ_ID="CurriculumAdminReview0RSPATTR03" RSP_ID="308" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40804" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
+        OBJ_ID="CurriculumAdminReview0RSPATTR04" RSP_ID="308" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40901"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
+        KIM_TYP_ID="7" OBJ_ID="PresidentsOfficeReview0RSPATTR01"
+        RSP_ID="309" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40902"
+        ATTR_VAL="Presidents Office Review" KIM_ATTR_DEFN_ID="16"
+        KIM_TYP_ID="7" OBJ_ID="PresidentsOfficeReview0RSPATTR02"
+        RSP_ID="309" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40903" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
+        OBJ_ID="PresidentsOfficeReview0RSPATTR03" RSP_ID="309" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="40904" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
+        OBJ_ID="PresidentsOfficeReview0RSPATTR04" RSP_ID="309" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41001"
+        ATTR_VAL="CluCreditCourseParentDocument" KIM_ATTR_DEFN_ID="13"
+        KIM_TYP_ID="7" OBJ_ID="SystemOfficeReview0RSPATTR01"
+        RSP_ID="310" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41002"
+        ATTR_VAL="System Office Review" KIM_ATTR_DEFN_ID="16"
+        KIM_TYP_ID="7" OBJ_ID="SystemOfficeReview0RSPATTR02"
+        RSP_ID="310" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41003" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="41" KIM_TYP_ID="7"
+        OBJ_ID="SystemOfficeReview0RSPATTR03" RSP_ID="310" VER_NBR="1"/>
+    <KRIM_RSP_ATTR_DATA_T ATTR_DATA_ID="41004" ATTR_VAL="false"
+        KIM_ATTR_DEFN_ID="40" KIM_TYP_ID="7"
+        OBJ_ID="SystemOfficeReview0RSPATTR04" RSP_ID="310" VER_NBR="1"/>
 </dataset>
