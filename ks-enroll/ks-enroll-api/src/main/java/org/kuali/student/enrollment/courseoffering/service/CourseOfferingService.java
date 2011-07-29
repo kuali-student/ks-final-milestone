@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -72,7 +73,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @param context Context information containing the principalId and locale information about the caller of service
      *            operation
      * @return CourseOffering associated with the passed in Id
-     * @throws DoesNotExistException seatPoolDefinitionId not found
+     * @throws DoesNotExistException courseOfferingId not found
      * @throws InvalidParameterException invalid courseOfferingId
      * @throws MissingParameterException missing courseOfferingId
      * @throws OperationFailedException unable to complete request
@@ -80,6 +81,21 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
+
+    /**
+     * Retrieves a list of course offerings by id list.
+     * 
+     * @param courseOfferingIds List of unique Ids of CourseOffering
+     * @param context Context information containing the principalId and locale information about the caller of service
+     *            operation
+     * @return Course offering list
+     * @throws DoesNotExistException courseOfferingId in the list not found
+     * @throws InvalidParameterException invalid courseOfferingIds
+     * @throws MissingParameterException missing courseOfferingIds
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<CourseOfferingInfo> getCourseOfferingsByIdList(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve CourseOfferings by canonical course id and term. This could return multiple offerings in cases of multiple offerings for formats and cross listed 
@@ -419,6 +435,22 @@ public interface CourseOfferingService extends DataDictionaryService {
     
 
     /**
+     * Retrieves a list of activity offerings by id list.
+     * 
+     * @param activityOfferingIds List of unique Ids of ActivityCourseOffering
+     * @param context Context information containing the principalId and locale information about the caller of service
+     *            operation
+     * @return Activity offering list
+     * @throws DoesNotExistException activityOfferingId in the list not found
+     * @throws InvalidParameterException invalid activityOfferingIds
+     * @throws MissingParameterException missing activityOfferingIds
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    /**
      * Retrieves a list of ActivityOffering records that belongs to a CourseOffering. 
      * 
      * @param courseOfferingId Unique Id of the CourseOffering
@@ -433,21 +465,6 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public List<ActivityOfferingInfo> getActivitiesForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-
-    /**
-     * Retrieves a list of ActivityOffering records that belongs to a RegistrationGroup. 
-     * 
-     * @param registrationGroupId Unique Id of the RegistrationGroup
-     * @param context Context information containing the principalId and locale information about the caller of service
-     *            operation
-     * @return List of SeatPoolDefinitions
-     * @throws DoesNotExistException registrationGroupId not found
-     * @throws InvalidParameterException invalid registrationGroupId
-     * @throws MissingParameterException missing registrationGroupId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ActivityOfferingInfo> getActivitiesForRegGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new Activity Offering
@@ -466,6 +483,23 @@ public interface CourseOfferingService extends DataDictionaryService {
      */
     public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingIdList") List<String> courseOfferingIdList, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Assigns an existing activity offering to a list of course offering. The activity offering should have been created with at least one course offering association
+     * 
+     * @param activityOfferingId Id of the ActivityOffering to be assigned to course offerings      
+     * @param courseOfferingIdList List of courseOffering Ids that the ActivityOffering will belong to     
+     * @param context Context information containing the principalId and locale information about the caller of service
+     *            operation
+     * @return status of the operation (success, failed)
+     * @throws AlreadyExistsException the ActivityOffering being created already exists
+     * @throws DoesNotExistException activityOfferingId or courseOfferingId not found
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo assignActivityToCourseOffering( @WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "courseOfferingIdList") List<String> courseOfferingIdList, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     
     /**
      * Updates an existing ActivityOffering.
@@ -486,7 +520,14 @@ public interface CourseOfferingService extends DataDictionaryService {
     public ActivityOfferingInfo updateActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing ActivityOffering. Activity offering cannot be deleted if a courseOffering or registrationGroup is still pointing to the activity offering.
+     * Deletes an existing ActivityOffering. Deleting an activity will also delete any relation it has with course offerings. 
+     * An activity offering cannot be deleted if it is being referenced in a registration group. The registration group needs
+     * to be updated to drop the activity offering references before the activity offering can be deleted. 
+     * 
+     * The difference in behavior is because of the relationship nature is different between course offering to activity offering and registration group to activity offering. 
+     * Course offering contains activity offering, so deleting an activity offering can be logically interpreted as removing the containing relationship. 
+     * Registration group only references existing activity offerings and hence deleting an activity offering will leave the registration group in inconsistent state and updating
+     * registration group automatically will lead to unintended side effects. 
      *
      * @param activityOfferingId the Id of the ActivityOffering to be deleted
      * @param context Context information containing the principalId
@@ -722,6 +763,21 @@ public interface CourseOfferingService extends DataDictionaryService {
     public RegistrationGroupInfo getRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of registration group by id list.
+     * 
+     * @param registrationGroupIds List of unique Ids of RegistrationGroup
+     * @param context Context information containing the principalId and locale information about the caller of service
+     *            operation
+     * @return Registration Group list
+     * @throws DoesNotExistException registrationGroupId in the list not found
+     * @throws InvalidParameterException invalid registrationGroupIds
+     * @throws MissingParameterException missing registrationGroupIds
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(@WebParam(name = "registrationGroupIds") List<String> registrationGroupIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+        
+    /**
      * Retrieves a list of RegistrationGroup records that belongs to a CourseOffering
      * 
      * @param courseOfferingId Unique Id of the CourseOffering
@@ -789,7 +845,8 @@ public interface CourseOfferingService extends DataDictionaryService {
     public RegistrationGroupInfo updateRegistrationGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /** 
-     * Deletes an existing Registration Group.
+     * Deletes an existing Registration Group. Removes the relationship to the course offering and activity offering. 
+     * The activity offerings are not automatically deleted
      *
      * @param registrationGroupId the Id of the RegistrationGroup to be deleted
      * @param context Context information containing the principalId

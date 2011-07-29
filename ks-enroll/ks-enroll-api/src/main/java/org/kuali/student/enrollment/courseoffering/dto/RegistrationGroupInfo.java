@@ -16,8 +16,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.courseoffering.infc.COBasicAssembly;
-import org.kuali.student.enrollment.courseoffering.infc.COCommonAssembly;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
@@ -28,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", "courseOfferingId", "registrationCode", "formatId", "isHonorsOffering", "maximumEnrollment", "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
-public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup, COBasicAssembly, COCommonAssembly {
+public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
 

@@ -26,24 +26,30 @@ public interface RegistrationGroup extends IdEntity {
      * Activity Offerings for the registration group. This list should be constrained by the canonical 
      * format and the activity offerings listed in the course offering
      * @name ActivityOffering Ids
+     * @impl maps to the lui Ids of the activityOffering retrieved from luiluirelation of type activityOffering to registration group
      */
     public List<String> getActivityOfferingIds();
     
     /**
      * Course offering for this registration group
+     * @readOnly on updates
+     * @required
      * @name CourseOffering Id
+     * @impl maps to the lui Id of the courseOffering retrieved from luiluirelation of type courseoffering to registration group
      */    
     public String getCourseOfferingId();
     
     /**
      * Canonical format to which this registration group belong to.  
      * @name Format Id
+     * @impl this maps the the version dependent id of the format clu. Stored as cluId in Lui 
      */
     public String getFormatId();
     
     /**
      * Uniquely identifies an instance of the course for the purposes of registration
      * @name Registration Code
+     * @impl maps to lui code in Lui
      */
     public String getRegistrationCode();
     

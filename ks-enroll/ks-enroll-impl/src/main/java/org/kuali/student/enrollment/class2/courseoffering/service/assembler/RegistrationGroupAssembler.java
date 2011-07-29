@@ -30,8 +30,8 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 	public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			RegistrationGroupInfo rg = new RegistrationGroupInfo();
-			coAssemblerUtils.assembleBasics(lui, rg);
-			coAssemblerUtils.assembleCommons(lui, rg);
+//			coAssemblerUtils.assembleBasics(lui, rg);
+//			coAssemblerUtils.assembleCommons(lui, rg);
 			
 			//LuiLuiRelation (to set courseOfferingId, activityOfferingIds)
 			// assembleLuiLuiRelations(rg, lui.getId(), context);
@@ -46,8 +46,8 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 	public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
 		if(rg != null){			
 			LuiInfo lui = new LuiInfo();
-			coAssemblerUtils.disassembleBasics(lui, rg);
-			coAssemblerUtils.disassembleCommons(lui, rg);
+//			coAssemblerUtils.disassembleBasics(lui, rg);
+//			coAssemblerUtils.disassembleCommons(lui, rg);
 			
 			return lui;
 		}

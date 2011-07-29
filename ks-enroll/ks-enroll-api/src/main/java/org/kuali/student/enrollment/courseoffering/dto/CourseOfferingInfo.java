@@ -25,8 +25,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.courseoffering.infc.COBasicAssembly;
-import org.kuali.student.enrollment.courseoffering.infc.COCommonAssembly;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
@@ -51,7 +49,7 @@ import org.w3c.dom.Element;
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
         "meta", "attributes", "_futureElements"})        
-public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOffering, COBasicAssembly, COCommonAssembly {
+public class CourseOfferingInfo extends TypeStateEntityInfo implements CourseOffering {
 
     private static final long serialVersionUID = 1L;
 

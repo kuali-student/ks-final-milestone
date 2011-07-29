@@ -433,15 +433,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		return getActivitiesForRelation(courseOfferingId, "kuali.lui.lui.relation.IsDeliveredVia", "kuali.lui.type.course.finalExam", context);
 	}
 
-	@Override
-	public List<ActivityOfferingInfo> getActivitiesForRegGroup(
-			String registrationGroupId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		return getActivitiesForRelation(registrationGroupId, "kuali.lui.lui.relation.RegisteredForVia", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
-
-	}
 
 	private List<ActivityOfferingInfo> getActivitiesForRelation(String relatedLuiId, String relType, String exludedLuiType, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
@@ -513,16 +504,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private void processLuiluiRelationsForActivityOffering(List<String> courseOfferingIdList,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		String luiId = activityOfferingInfo.getId();
-		for (String courseOfferingId : courseOfferingIdList) {
-			createLuiLuiRelation(luiId, courseOfferingId,"kuali.lui.lui.relation.IsDeliveredVia", context);
-		}
-		
-		if(activityOfferingInfo.getRegistrationGroupIds() != null && !activityOfferingInfo.getRegistrationGroupIds().isEmpty()){
-			for (String registrationGroupId : activityOfferingInfo.getRegistrationGroupIds()){
-				createLuiLuiRelation(luiId, registrationGroupId, "kuali.lui.lui.relation.RegisteredForVia", context);
-			}
-		}		
+
+	    //TODO: Change this based on the changed structures for courseOferringInfo and activityOfferingInfo
+	    
+	    //		String luiId = activityOfferingInfo.getId();
+//		for (String courseOfferingId : courseOfferingIdList) {
+//			createLuiLuiRelation(luiId, courseOfferingId,"kuali.lui.lui.relation.IsDeliveredVia", context);
+//		}
+//		
+//		if(activityOfferingInfo.getRegistrationGroupIds() != null && !activityOfferingInfo.getRegistrationGroupIds().isEmpty()){
+//			for (String registrationGroupId : activityOfferingInfo.getRegistrationGroupIds()){
+//				createLuiLuiRelation(luiId, registrationGroupId, "kuali.lui.lui.relation.RegisteredForVia", context);
+//			}
+//		}		
 	}
 	
 	private void createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws AlreadyExistsException, 
@@ -826,4 +820,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+    
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getCourseOfferingsByIdList not supported");
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getActivityOfferingsByIdList not supported");
+    }
+
+    @Override
+    public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("assignActivityToCourseOffering not supported");    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getRegistrationGroupsByIdList not supported");
+    }    
 }

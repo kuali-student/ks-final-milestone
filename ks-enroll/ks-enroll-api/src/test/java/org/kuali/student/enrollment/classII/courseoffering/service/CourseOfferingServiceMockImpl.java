@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
+       
 
     private static Map<String, CourseOfferingInfo> courseOfferingCache = new HashMap<String, CourseOfferingInfo>();
     private static Map<String, ActivityOfferingInfo> activityOfferingCache = new HashMap<String, ActivityOfferingInfo>();
@@ -240,20 +241,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return courseToActivityOfferingCache.get(courseOfferingId);
-    }
-
-    @Override
-    public List<ActivityOfferingInfo> getActivitiesForRegGroup(String registrationGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        List<ActivityOfferingInfo> activityOfferings = new ArrayList<ActivityOfferingInfo>();
-        RegistrationGroupInfo regGroup = registrationGroupCache.get(registrationGroupId);
-        List<String> activityOfferingIds = regGroup.getActivityOfferingIds();
-        for (String activityOfferingId : activityOfferingIds) {
-            activityOfferings.add(activityOfferingCache.get(activityOfferingId));
-        }
-
-        return activityOfferings;
     }
 
     @Override
@@ -578,6 +565,74 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
+    }
+
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CourseOfferingInfo> cList = new ArrayList<CourseOfferingInfo>();
+        
+        for(String cId : courseOfferingIds) {
+            CourseOfferingInfo cOffering = courseOfferingCache.get(cId);
+            if(null == cOffering) throw new DoesNotExistException("Course Offering not found for: " + cId);
+            cList.add(cOffering);
+        }
+        
+        return cList;
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ActivityOfferingInfo> aList = new ArrayList<ActivityOfferingInfo>();
+        
+        for(String aId : activityOfferingIds) {
+            ActivityOfferingInfo activity = activityOfferingCache.get(aId);
+            if(null == activity) throw new DoesNotExistException("Activity Offering not found for: " + aId);
+            aList.add(activity);
+        }
+        
+        return aList;
+    }
+
+
+    @Override
+    public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ActivityOfferingInfo activity = activityOfferingCache.get(activityOfferingId);        
+        if(null == activity) throw new DoesNotExistException("Activity offering not found for: " + activityOfferingId);
+
+        for(String cId : courseOfferingIdList) {
+            CourseOfferingInfo cInfo = courseOfferingCache.get(cId);
+            if(null == cInfo) throw new DoesNotExistException("Course offering not found for: " + cId);
+        }
+
+        for(String cId : courseOfferingIdList) {
+            List<ActivityOfferingInfo> aList = courseToActivityOfferingCache.get(cId);
+            if(null == aList) throw new OperationFailedException("Inconsistent data!");
+            
+            for(ActivityOfferingInfo aInfo : aList) {
+                if(aInfo.getId().equals(activityOfferingId)) throw new AlreadyExistsException("activity offering " + activityOfferingId + " already mapped to course offering " + cId );
+            }
+            
+            aList.add(activity);
+            courseToActivityOfferingCache.put(cId, aList);
+        }
+        
+        
+        StatusInfo s = new StatusInfo();
+        s.setSuccess(true);
+        return s;
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RegistrationGroupInfo> regList = new ArrayList<RegistrationGroupInfo>();
+        
+        for(String regId : registrationGroupIds) {
+            RegistrationGroupInfo reg = registrationGroupCache.get(regId);
+            if(null == reg) throw new DoesNotExistException("Reg group not found for: " + regId);
+            regList.add(reg);
+        }
+        
+        return regList;
     }
     
 }

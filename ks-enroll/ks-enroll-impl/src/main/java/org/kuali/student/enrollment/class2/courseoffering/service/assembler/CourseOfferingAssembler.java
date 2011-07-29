@@ -43,8 +43,8 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			CourseOfferingInfo co = new CourseOfferingInfo();
-			coAssemblerUtils.assembleBasics(lui, co);
-			coAssemblerUtils.assembleCommons(lui, co);
+//			coAssemblerUtils.assembleBasics(lui, co);
+//			coAssemblerUtils.assembleCommons(lui, co);
 			
 			co.setCourseId(lui.getCluId());
 			co.setTermKey(lui.getAtpKey());
@@ -118,8 +118,8 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	public LuiInfo disassemble(CourseOfferingInfo co, ContextInfo context) {
 		if(co != null){			
 			LuiInfo lui = new LuiInfo();
-			coAssemblerUtils.disassembleBasics(lui, co);
-			coAssemblerUtils.disassembleCommons(lui, co);
+//			coAssemblerUtils.disassembleBasics(lui, co);
+//			coAssemblerUtils.disassembleCommons(lui, co);
 			
 			lui.setCluId(co.getCourseId());
 			lui.setCluCluRelationIds(co.getFormatIds());

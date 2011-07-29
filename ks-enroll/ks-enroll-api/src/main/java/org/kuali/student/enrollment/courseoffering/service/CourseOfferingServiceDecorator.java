@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
     
 	protected CourseOfferingService nextDecorator;
-    
+    	
     public CourseOfferingService getNextDecorator() {
 		return nextDecorator;
 	}
@@ -143,13 +143,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
     	return this.nextDecorator.getActivitiesForCourseOffering(courseOfferingId, context);
-    }
-
-    @Override
-    public List<ActivityOfferingInfo> getActivitiesForRegGroup(String registrationGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-    	return this.nextDecorator.getActivitiesForRegGroup(registrationGroupId, context);
     }
 
     @Override
@@ -355,4 +348,23 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     	return this.nextDecorator.validateRegistrationGroup(validationType, registrationGroupInfo, context);
     }
 
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.nextDecorator.getCourseOfferingsByIdList(courseOfferingIds, context);
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.nextDecorator.getActivityOfferingsByIdList(activityOfferingIds, context);
+    }
+
+    @Override
+    public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.assignActivityToCourseOffering(activityOfferingId, courseOfferingIdList, context);
+    }
+
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.nextDecorator.getRegistrationGroupsByIdList(registrationGroupIds, context);
+    }
 }

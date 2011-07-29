@@ -55,7 +55,6 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * @required
      * @impl must be the lui type for a course offering
      */
-
     @Override
     public String getTypeKey();
     

@@ -82,19 +82,7 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
      */
 
     public RichText getDescr();
-            
-    /**
-     * Course Oferrings to which this activity offering belongs to.
-     * @name CourseOffering Ids
-     */
-    public List<String> getCourseOfferingIds();
-        
-    /**
-     * Registration Groups to which this activity offering belongs to
-     * @name RegistrationGroup ids
-     */
-    public List<String> getRegistrationGroupIds();
-    
+                
     /**
      * Canonical activity whose instance is this activity offering  
      * @name Activity Id

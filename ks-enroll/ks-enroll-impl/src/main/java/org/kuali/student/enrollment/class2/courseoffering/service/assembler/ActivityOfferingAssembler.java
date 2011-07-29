@@ -38,7 +38,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 	public ActivityOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			ActivityOfferingInfo ao = new ActivityOfferingInfo();
-			coAssemblerUtils.assembleBasics(lui, ao);
+//			coAssemblerUtils.assembleBasics(lui, ao);
 			ao.setActivityId(lui.getCluId());
 			ao.setTermKey(lui.getAtpKey());
 						
@@ -80,8 +80,8 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
                 }
 			}
 			
-			if (!courseOfferingIds.isEmpty()) ao.setCourseOfferingIds(courseOfferingIds);
-			if (!registrationGroupIds.isEmpty()) ao.setRegistrationGroupIds(registrationGroupIds);
+//			if (!courseOfferingIds.isEmpty()) ao.setCourseOfferingIds(courseOfferingIds);
+//			if (!registrationGroupIds.isEmpty()) ao.setRegistrationGroupIds(registrationGroupIds);
 			
 		} catch (DoesNotExistException e) {
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 	public LuiInfo disassemble(ActivityOfferingInfo ao, ContextInfo context) {
 		if(ao != null){
 			LuiInfo lui = new LuiInfo();
-			coAssemblerUtils.disassembleBasics(lui, ao);
+//			coAssemblerUtils.disassembleBasics(lui, ao);
 			lui.setCluId(ao.getActivityId());
 			lui.setAtpKey(ao.getTermKey());
 			
