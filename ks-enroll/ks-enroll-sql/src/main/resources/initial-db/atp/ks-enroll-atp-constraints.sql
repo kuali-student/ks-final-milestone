@@ -193,16 +193,6 @@
 /
 
 --------------------------------------------------------
---  Constraints for Table KSEN_ATPMSOTNE_RELTN_ATTR
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_ATPMSOTNE_RELTN_ATTR" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_ATPMSOTNE_RELTN_ATTR" ADD PRIMARY KEY ("ID") ENABLE
-/
-
---------------------------------------------------------
 --  Constraints for Table KSEN_ATPMSTONE_RELTN_ATTR
 --------------------------------------------------------
 
