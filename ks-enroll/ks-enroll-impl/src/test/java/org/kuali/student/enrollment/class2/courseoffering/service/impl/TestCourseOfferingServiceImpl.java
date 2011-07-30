@@ -13,8 +13,10 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -71,7 +73,6 @@ public class TestCourseOfferingServiceImpl {
     		
     		CourseOfferingInfo obj = coServiceValidation.getCourseOffering("Lui-1", callContext);
     		assertNotNull(obj);
-    		assertEquals("ENGL 100 section 123", obj.getCourseOfferingCode());
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, obj.getStateKey()); 
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getTypeKey()); 
             assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
@@ -131,4 +132,69 @@ public class TestCourseOfferingServiceImpl {
 		}
     }
     
+    @Test
+    public void testCreateAndGetActivityOffering() throws AlreadyExistsException, DataValidationErrorException,InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException{
+    	List<String> courseOfferingIdList = new ArrayList<String>();
+    	courseOfferingIdList.add("Lui-1");
+		ActivityOfferingInfo ao = new ActivityOfferingInfo();
+		ao.setActivityId("CLU-1");
+		ao.setTermKey("testAtpId1");
+		ao.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+		ao.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+		
+		 try {
+			 ActivityOfferingInfo created = coServiceValidation.createActivityOffering(courseOfferingIdList, ao, callContext);
+			 assertNotNull(created);
+			 
+			 ActivityOfferingInfo retrieved = coServiceValidation.getActivityOffering(created.getId(), callContext);
+			 assertNotNull(retrieved);
+			 assertEquals("CLU-1", retrieved.getActivityId());
+		     assertEquals("testAtpId1", retrieved.getTermKey());
+		     assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
+		     assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey()); 
+		     
+		     //test getActivitiesForCourseOffering
+		     List<ActivityOfferingInfo> activities = coServiceValidation.getActivitiesForCourseOffering("Lui-1", callContext);
+		     assertNotNull(activities);
+		     assertTrue(activities.size() == 1);
+		     assertEquals(activities.get(0).getActivityId(), "CLU-1");
+		     assertEquals(activities.get(0).getId(), created.getId());
+		 } catch (Exception ex) {
+	    		fail("exception from service call :" + ex.getMessage());
+    	 }  
+    }
+    
+    @Test
+	public void testCreateAndGetRegistrationGroup() throws AlreadyExistsException, DoesNotExistException,DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,PermissionDeniedException {
+    	String courseOfferingId = "Lui-1";
+		RegistrationGroupInfo rg = new RegistrationGroupInfo();
+		rg.setFormatId("CLU-1");
+		rg.setName("RegGroup-1");
+		rg.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+		rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+		
+		try {
+			RegistrationGroupInfo created =  coServiceValidation.createRegistrationGroup(courseOfferingId, rg, callContext);
+			assertNotNull(created);
+			
+			RegistrationGroupInfo retrieved = coServiceValidation.getRegistrationGroup(created.getId(), callContext);
+			assertNotNull(retrieved);
+			assertEquals("CLU-1", retrieved.getFormatId());
+			assertEquals("RegGroup-1", retrieved.getName());
+		    assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
+		    assertEquals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, retrieved.getTypeKey());
+		    
+		    //test getRegGroupsForCourseOffering
+		    List<RegistrationGroupInfo> rgs = coServiceValidation.getRegGroupsForCourseOffering(courseOfferingId, callContext);
+		    assertNotNull(rgs);
+		    assertTrue(rgs.size() == 1);
+		    assertEquals(rgs.get(0).getFormatId(), "CLU-1");
+		    assertEquals(rgs.get(0).getId(), created.getId());
+		    assertEquals(rgs.get(0).getCourseOfferingId(), courseOfferingId);
+		} catch (Exception ex) {
+    		fail("exception from service call :" + ex.getMessage());
+		}
+	}
 }
