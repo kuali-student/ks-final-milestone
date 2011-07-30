@@ -288,35 +288,6 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         throw new DoesNotExistException(typeKey);
     }
 
-    // @Override
-    // public List<LuiPersonRelationTypeInfo>
-    // findLuiPersonRelationTypesForLuiPersonRelation(
-    // String personId,
-    // String luiId,
-    // String relationState,
-    // ContextInfo context)
-    // throws DoesNotExistException, DisabledIdentifierException,
-    // InvalidParameterException, MissingParameterException,
-    // OperationFailedException, PermissionDeniedException {
-    // // TODO: reevaluate if this method is needed -- I can see no use case for
-    // it
-    // Map<String, LuiPersonRelationTypeInfo> types = new HashMap();
-    // for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
-    // if (!lpr.getPersonId().equals(personId)) {
-    // continue;
-    // }
-    // if (!lpr.getLuiId().equals(luiId)) {
-    // continue;
-    // }
-    // if (!lpr.getState().equals(relationState)) {
-    // continue;
-    // }
-    // LuiPersonRelationTypeInfo type =
-    // this.getLuiPersonRelationType(lpr.getType());
-    // types.put(type.getKey(), type);
-    // }
-    // return new ArrayList(types.values());
-    // }
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
@@ -577,30 +548,13 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#updateLuiPersonRelationTransaction(java.lang.String,
-     *      org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo,
-     *      org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    public LPRTransactionInfo updateLuiPersonRelationTransaction(String lprTransactionId,
-            LPRTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    /**
-     * This overridden method ...
-     * 
      * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprRelationTransaction(java.lang.String,
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
     public LPRTransactionInfo getLprRelationTransaction(String lprTransactionId, ContextInfo context)
-            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -689,8 +643,8 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
     @Override
     public String createLprRosterEntry(LprRosterEntryInfo lprRosterEntryInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -728,14 +682,6 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
     @Override
     public LPRTransactionInfo validateLprTransaction(String lprTransactionId, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public LPRTransactionInfo verifyLprTransaction(String lprTransactionId, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -787,7 +733,14 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public LPRTransactionInfo submitLprTransaction(String lprTransactionId, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public LPRTransactionInfo updateLuiPersonRelationTransaction(String lprTransactionId,
+            LPRTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
