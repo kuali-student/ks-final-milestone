@@ -844,13 +844,6 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
-    <table name="KSEN_ATPMSOTNE_RELTN_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-    </table>
     <table name="KSEN_ATPMSTONE_RELTN">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
