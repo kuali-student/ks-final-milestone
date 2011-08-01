@@ -30,7 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfoUI.courseId"/>                
                 <ref bean="CourseOfferingInfoUI.termKey"/>
                 
-                <!--  other attributes not used by UI 
+                <!--  other attributes not used by UI -->		
 				<ref bean="CourseOfferingInfo.typeKey"/>
 				<ref bean="CourseOfferingInfo.stateKey"/>
 				<ref bean="CourseOfferingInfo.descr"/>
@@ -53,8 +53,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 				<ref bean="CourseOfferingInfo.expenditure"/>
 				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
 				<ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
-				<ref bean="CourseOfferingInfo.meta"/>
-				-->				
+				<ref bean="CourseOfferingInfo.meta"/>						
             </list>
         </property>
     </bean>
@@ -132,14 +131,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="items">
                 <list>
                   <bean parent="AttributeField" p:propertyName="personId" p:label="Instructor ID">
-                   <!--
 		            <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.Person"/>
 		            <property name="fieldLookup.fieldConversions">
 		              <map>
 		                <entry key="principalId" value="personId"/>
 		              </map>
 		            </property> 
-		           -->                	
                   </bean>                             
                 </list>
               </property>   
