@@ -13,19 +13,19 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformationManager;
 import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.common.assembly.transform.TransformationManager;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -120,7 +120,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException{
+	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException, VersionMismatchException{
 		Map<String, Object> filterProperties = getDefaultFilterProperties();
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
 		
@@ -147,6 +147,8 @@ public abstract class AbstractDataService implements DataService{
 			throw dvee;
 		}catch (OperationFailedException ofe){
 		    throw ofe;
+		}catch (VersionMismatchException vme){
+		    throw vme;
 		}catch (Exception e) {
 			LOG.error("Failed to save data",e);
 			throw new OperationFailedException("Failed to save data",e);
