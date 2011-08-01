@@ -69,7 +69,8 @@ public class TermInfoTypeKeyValues extends KeyValuesBase implements Serializable
         }catch (DoesNotExistException dee){
         	
         }  
-*/        
+*/      
+        //pull out data from KSEN_TYPETYPE_RELTN 
         try {
         	List<TypeInfo> typeInfoList = getAcademicCalendarService().getTermTypes(ContextInfo.newInstance());
         	for (TypeInfo typeInfo : typeInfoList){
