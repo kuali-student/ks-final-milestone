@@ -310,7 +310,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         String parentPath = Application.getApplicationContext().getParentPath();
                         parentPath = parentPath==null?"":parentPath;
                         
-						if(vrElement.equals(parentPath+f.getFieldKey())){
+						if((parentPath+vrElement).equals(parentPath+f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
