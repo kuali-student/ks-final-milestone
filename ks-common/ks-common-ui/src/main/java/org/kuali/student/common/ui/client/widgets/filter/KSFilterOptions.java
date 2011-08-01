@@ -134,17 +134,24 @@ public class KSFilterOptions extends Composite{
 				@Override
 				public void onSuccess(SearchResult result) {
 					SearchResultListItems items = new SearchResultListItems(result.getRows(), lookup);
-					for (String id:items.getItemIds()){
-						int a=0;
-						Map<String,Integer> temp=filterCount;
-						if(temp.containsKey(id))
-							a=temp.get(id);
-						final KSCheckBox checkbox = new KSCheckBox(items.getItemText(id)+" ("+a+")");
-		                checkbox.setFormValue(id);
-		                checkboxes.add(checkbox);
-		                itemContent.add(checkbox);
-		                
-		                checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
+					for (String id:items.getItemIds()){			
+						final KSCheckBox checkbox;
+
+						if(filterCount!=null)
+						{
+							if(filterCount.get(id)==null)
+								checkbox = new KSCheckBox(items.getItemText(id)+" (0)");
+							else
+								checkbox = new KSCheckBox(items.getItemText(id)+" ("+filterCount.get(id)+")");
+						}
+						else
+							checkbox = new KSCheckBox(items.getItemText(id));
+
+						checkbox.setFormValue(id);
+						checkboxes.add(checkbox);
+						itemContent.add(checkbox);
+
+						checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 
 							@Override
 							public void onValueChange(ValueChangeEvent<Boolean> event) {
