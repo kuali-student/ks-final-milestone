@@ -112,6 +112,7 @@ public class KSRadioButton extends RadioButton{
                 }
                 else{
                     KSRadioButton.this.removeStyleName("KS-Radio-Selected");
+                    KSRadioButton.this.setFocus(false);
                 }
 
             }
