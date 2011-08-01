@@ -45,8 +45,10 @@
       <li><portal:portalLink displayTitle="true" title="Course Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.lum.course.dto.CourseInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
  
   </ul>
-   
-
+  <strong>KS Enroll -- Grading</strong>
+  <ul class="chan">
+     <li><portal:portalLink displayTitle="true" title="Grading" url="${ConfigProperties.application.url}/spring/grading?viewId=GradingView&methodToCall=start" /></li> 
+  </ul>
  <!-- 
 
     <li><portal:portalLink displayTitle="true" title="Manage Hold Maintenance (New)" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.hold.dto.HoldInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
