@@ -115,6 +115,11 @@ public class CourseServiceImpl implements CourseService {
         try {
 
             return processCourseInfo(courseInfo, NodeOperation.UPDATE);
+            
+        }
+          catch (VersionMismatchException vme){
+             // Re-instantiate this exception with more descriptive error.
+            throw new VersionMismatchException("Course to be updated is not the current version.");
 
         } catch (AssemblyException e) {
             LOG.error("Error disassembling course", e);
