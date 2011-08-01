@@ -75,9 +75,15 @@ public class CommentTool implements HasReferenceId {
     private Map<String, String> referenceAttributes;
     private KSLabel proposalTitle = new KSLabel();
     private String title;
+    private HTML htmlLabel;
+    private SectionTitle leaveACommentTitle;
+    private HorizontalPanel commentSectionPanel;
+    private final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+    private final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+    
 
-    private enum EditMode {
-        ADD_COMMENT, UPDATE_COMMENT
+    public enum EditMode {
+        ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
     }
     
     public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey, String title) {
@@ -119,7 +125,7 @@ public class CommentTool implements HasReferenceId {
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
         title.addStyleName("ks-layout-header");
-        HTML htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
+        htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
         		"to reviewers after you submit the proposal.</b>");
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
@@ -128,7 +134,7 @@ public class CommentTool implements HasReferenceId {
         contentPanel.add(htmlLabel);
         
         // comments section title
-        SectionTitle leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
+        leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
         leaveACommentTitle.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
         leaveACommentTitle.getElement().getStyle().setProperty("marginTop", "2em");
         contentPanel.add(leaveACommentTitle);
@@ -247,7 +253,7 @@ public class CommentTool implements HasReferenceId {
             }
         });
         
-        HorizontalPanel commentSectionPanel = new HorizontalPanel();
+        commentSectionPanel = new HorizontalPanel();
         commentSectionPanel.add(loggedInLabelsPanel);
         commentSectionPanel.add(commentEditPanel);
         commentSectionPanel.add(notAuthorizedToAddComments);
@@ -356,9 +362,6 @@ public class CommentTool implements HasReferenceId {
                 commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
                 commentsTableLayout.setWidget(rowIndex, columnIndex, commentTextLabel);
                 columnIndex++;
-                
-                final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-                final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 editButton.getElement().getStyle().setPadding(5d, Style.Unit.PX);
                 editControlsCallbacks.add(new Callback<EditMode>() {
                     @Override
@@ -462,6 +465,13 @@ public class CommentTool implements HasReferenceId {
                         callback.exec(EditMode.ADD_COMMENT);
                     }
                 }
+                break;
+            case VIEW_COMMENT:
+                htmlLabel.setVisible(false);
+                leaveACommentTitle.setVisible(false);
+                commentSectionPanel.setVisible(false);
+                editButton.setVisible(false);
+                deleteButton.setVisible(false);
                 break;
         }
     }
