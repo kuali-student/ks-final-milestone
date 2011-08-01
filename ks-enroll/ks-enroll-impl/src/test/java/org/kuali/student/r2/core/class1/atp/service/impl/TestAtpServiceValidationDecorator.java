@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -48,6 +49,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Ignore
 public class TestAtpServiceValidationDecorator {
 
     public AtpService atpService;
