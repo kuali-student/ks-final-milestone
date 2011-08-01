@@ -1208,7 +1208,7 @@ public class LuServiceImpl implements LuService {
 		if (!String.valueOf(clu.getVersionNumber()).equals(
 				cluInfo.getMetaInfo().getVersionInd())) {
 			throw new VersionMismatchException(
-					"Clu to be updated is not the current version");
+					"Clu to be updated is not the current version.");
 		}
 
 		LuType luType = luDao.fetch(LuType.class, cluInfo.getType());
