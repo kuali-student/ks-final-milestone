@@ -314,6 +314,12 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                                     public void handleFailure(Throwable caught) {
                                         Window.alert("Create LO Category failed: " + caught.getMessage());
                                     }
+                                    
+                                    @Override
+                                    public void handleVersionMismatch(Throwable caught) {
+                                        super.handleVersionMismatch(caught);
+                                        KSBlockingProgressIndicator.removeTask(saving);
+                                    }
 
                                     @Override
                                     public void onSuccess(DataSaveResult result) {
