@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public interface AssemblerRpcService {
@@ -29,7 +30,7 @@ public interface AssemblerRpcService {
 	
 	public Metadata getMetadata(String id, Map<String,String> idAttributes) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data) throws OperationFailedException;
+	public DataSaveResult saveData(Data data) throws OperationFailedException, VersionMismatchClientException;
 	
 	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException;
 
