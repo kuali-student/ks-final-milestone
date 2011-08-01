@@ -10,6 +10,7 @@ import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -20,7 +21,7 @@ public interface DataService {
 	
 	public Metadata getMetadata(String id, Map<String, String> attributes) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException;
+	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException, VersionMismatchException;
 	
 	public List<ValidationResultInfo> validateData(Data data) throws OperationFailedException;
 	
