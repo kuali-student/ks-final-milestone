@@ -42,6 +42,8 @@
   <strong>KS Enroll -- Course Offering</strong>
   <ul class="chan">
   	  <li><portal:portalLink displayTitle="true" title="Create a Course Offering" url="${ConfigProperties.application.url}/spring/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li> 
+      <li><portal:portalLink displayTitle="true" title="Course Lookup" url="${ConfigProperties.application.url}/spring/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.lum.course.dto.CourseInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+ 
   </ul>
    
 
