@@ -1160,6 +1160,7 @@
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="cluIdentifierInfo.shortName-parent">
+         <property name="maxLength" value="24"/>
          <property name="caseConstraint">
             <bean parent="caseConstraintStateEquals">
           		<property name="fieldPath" value="proposal/workflowNode"/>
