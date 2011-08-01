@@ -306,36 +306,32 @@ public class ExportUtils {
         if (exportElements == null) {
             exportElements = new ArrayList<ExportElement>();
         }
-        if (!currentViewWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
-        if (currentViewWidget instanceof VerticalSectionView) {
-            Section widgetHasFields = (Section) currentViewWidget;
-            List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
-            for (FieldDescriptor field : widgetFields) {
-            	ExportElement exportItem = new ExportElement();
-				exportItem.setSectionName(sectionName + viewName);
-				exportItem.setViewName(sectionName + viewName);
-				exportItem.setFieldLabel(field.getFieldLabel());
-                Widget fieldWidget = field.getFieldElement().getFieldWidget();
+        if (currentViewWidget.getParent() == null || !currentViewWidget.getParent().getElement().getStyle().getDisplay().equals("none")) {
+            if (currentViewWidget instanceof VerticalSectionView) {
+                Section widgetHasFields = (Section) currentViewWidget;
+                List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
+                for (FieldDescriptor field : widgetFields) {
+                    ExportElement exportItem = new ExportElement();
+                    exportItem.setSectionName(sectionName + viewName);
+                    exportItem.setViewName(sectionName + viewName);
+                    exportItem.setFieldLabel(field.getFieldLabel());
+                    Widget fieldWidget = field.getFieldElement().getFieldWidget();
 
-                exportItem = getExportItemDetails(exportItem, fieldWidget, true, viewName, sectionName);
+                    exportItem = getExportItemDetails(exportItem, fieldWidget, true, viewName, sectionName);
 
-                exportElements.add(exportItem);
+                    exportElements.add(exportItem);
+                }
+                if ((currentViewWidget instanceof BaseSection) && (widgetHasFields.getFields().size() == 0)) {
+                    BaseSection bSection = (BaseSection) currentViewWidget;
+                    ExportElement exportItem = new ExportElement();
+                    exportItem.setSectionName(sectionName + viewName);
+                    exportItem.setViewName(sectionName + viewName);
+                    exportItem.setFieldLabel("???00");
+                    exportItem = getExportItemDetails(exportItem, bSection.getLayout(), true, viewName, sectionName);
+                    exportElements.add(exportItem);
+
+                }
             }
-            if ((currentViewWidget instanceof BaseSection) && (widgetHasFields.getFields().size() == 0)) {
-                BaseSection bSection = (BaseSection) currentViewWidget;
-                ExportElement exportItem = new ExportElement();
-				exportItem.setSectionName(sectionName + viewName);
-				exportItem.setViewName(sectionName + viewName);
-				exportItem.setFieldLabel("???00");
-                exportItem = getExportItemDetails(exportItem, bSection.getLayout(), true, viewName, sectionName);
-                exportElements.add(exportItem);
-
-            }
-            // } else { // Debugging
-            // System.out.println("ExportUtils.getExportElementsFromView is not implemented for your View, either implement it here or do "
-            // +
-            // "not call the ExportUtils.getExportElementsFromView but implement it directly on your view");
-        }
         }
         return exportElements;
     }
