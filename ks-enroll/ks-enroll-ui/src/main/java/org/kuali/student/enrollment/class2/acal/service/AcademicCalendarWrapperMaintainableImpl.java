@@ -149,7 +149,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends KualiMaintainableIm
                 }
         	}
         }catch (AlreadyExistsException aee){
-            
+            //re-throw it as Runtime exception
+        	//check how KEW handle exception --
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -269,7 +270,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends KualiMaintainableIm
         String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
         String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
         academicCalendarKey = academicCalendarKey.concat(credentialProgram+"."+yearOfStartDate+"-"+yearOfEndDate);
-        return academicCalendarKey;       
+        return academicCalendarKey.toLowerCase();       
         
     }
     
@@ -293,8 +294,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends KualiMaintainableIm
         }        
         String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
         String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
-        termKey = termKey.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
-        return termKey;       
+        termKey = termKey.concat(yearOfStartDate+"-"+yearOfEndDate+"."+theType);
+        return termKey.toLowerCase();       
         
     }
     
@@ -318,8 +319,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends KualiMaintainableIm
         	theKeyDateInfoType = theKeyDateInfoTypeKey;
         }        
 
-        keyDateInfoKey = keyDateInfoKey.concat("."+theKeyDateInfoType.toLowerCase()+"."+termKey.substring(6));
-        return keyDateInfoKey;       
+        keyDateInfoKey = keyDateInfoKey.concat(theKeyDateInfoType.toLowerCase()+"."+termKey.substring(6));
+        return keyDateInfoKey.toLowerCase();       
         
     }
 
