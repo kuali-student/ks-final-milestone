@@ -44,6 +44,7 @@
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>
   			    <value>classpath:TermWrapperMaintenance.xml</value> 
   			    <value>classpath:CourseOfferingInfoUI.xml</value>
+  			    <value>classpath:CourseInfoUI.xml</value>
 				
 				<!--
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	
