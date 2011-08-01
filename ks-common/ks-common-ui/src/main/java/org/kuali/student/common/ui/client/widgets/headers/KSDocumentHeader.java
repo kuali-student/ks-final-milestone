@@ -149,6 +149,9 @@ public class KSDocumentHeader extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 if (exportDialog != null) {
+                	//for firefox the roll over message was not being hidden when
+                	//export was clicked
+                	hoverPopup1.hide();
                     exportDialog.show();
                 }
 
