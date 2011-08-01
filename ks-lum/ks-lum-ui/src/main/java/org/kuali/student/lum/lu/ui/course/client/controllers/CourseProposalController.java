@@ -813,88 +813,82 @@ public class CourseProposalController extends MenuEditableSectionController impl
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	KSBlockingProgressIndicator.addTask(saving);
-        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
+        getCourseProposalRpcService().saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
 
-			@Override
-			public void exec(Throwable caught) {
-				 GWT.log("Save Failed.", caught);
-				 KSBlockingProgressIndicator.removeTask(saving);
-                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
-			}
+            @Override
+            public void handleFailure(Throwable caught) {
+                GWT.log("Save Failed.", caught);
+                KSBlockingProgressIndicator.removeTask(saving);
+                KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
+            }
+                
+            @Override
+            public void handleVersionMismatch(Throwable caught) {
+                super.handleVersionMismatch(caught);
+                KSBlockingProgressIndicator.removeTask(saving);
+            }
 
-        };
-        try {
-        	getCourseProposalRpcService().saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
-                @Override
-                public void handleFailure(Throwable caught) {
-                   saveFailedCallback.exec(caught);
-                }
+            public void onSuccess(DataSaveResult result) {
+                KSBlockingProgressIndicator.removeTask(saving);
 
-                public void onSuccess(DataSaveResult result) {
-                	KSBlockingProgressIndicator.removeTask(saving);
-
-					Application.getApplicationContext().clearValidationWarnings();
-					Application.getApplicationContext().addValidationWarnings(result.getValidationResults());
+				Application.getApplicationContext().clearValidationWarnings();
+				Application.getApplicationContext().addValidationWarnings(result.getValidationResults());
                 	
-					if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
-                		isValid(result.getValidationResults(), false, true);
-                	    saveActionEvent.setGotoNextView(false);
-                        saveActionEvent.doActionComplete();
-                        KSNotifier.show("Save Failed. There were validation errors.");
-                	}else{
+				if(ValidatorClientUtils.hasErrors(result.getValidationResults())){
+                	isValid(result.getValidationResults(), false, true);
+                    saveActionEvent.setGotoNextView(false);
+                    saveActionEvent.doActionComplete();
+                    KSNotifier.show("Save Failed. There were validation errors.");
+                }else{
                 		
-                		saveActionEvent.setSaveSuccessful(true);
-                		cluProposalModel.setRoot(result.getValue());
-                		String title = getProposalTitle();
-
-	    	            View currentView = getCurrentView();
-	    				if (currentView instanceof SectionView){
-	    					((SectionView)currentView).updateView(cluProposalModel);
-	    					((SectionView) currentView).resetDirtyFlags();
-	    	            }
-	                    saveActionEvent.doActionComplete();
+                	saveActionEvent.setSaveSuccessful(true);
+                	cluProposalModel.setRoot(result.getValue());
+                	String title = getProposalTitle();
+    	            View currentView = getCurrentView();
+    				if (currentView instanceof SectionView){
+    					((SectionView)currentView).updateView(cluProposalModel);
+    					((SectionView) currentView).resetDirtyFlags();
+    	            }
+                    saveActionEvent.doActionComplete();
 	                    
-	    				ViewContext context = CourseProposalController.this.getViewContext();
-	    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
-	    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
+    				ViewContext context = CourseProposalController.this.getViewContext();
+    				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
+    				context.setIdType(IdType.KS_KEW_OBJECT_ID);
+    				
+    				//Ensure workflow doc status gets updated from draft, only done on intial save
+    				//to reduce workflow rpc calls.
+    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
+    				if (INITIAL_SAVE_VERSION.equals(proposalVersion) && workflowUtil != null){
+    					workflowUtil.refresh();
+    				}
 	    				
-	    				//Ensure workflow doc status gets updated from draft, only done on intial save
-	    				//to reduce workflow rpc calls.
-	    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
-	    				if (INITIAL_SAVE_VERSION.equals(proposalVersion) && workflowUtil != null){
-	    					workflowUtil.refresh();
-	    				}
+    				setHeaderTitle();
+    				setLastUpdated();
+    				HistoryManager.logHistoryChange();
+               		if(isNew){
+               			RecentlyViewedHelper.addCurrentDocument(title);
+               		}
+               		else if(!currentTitle.equals(title)){
+               			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
+               		}
+               		isNew = false;
 	    				
-	    				setHeaderTitle();
-	    				setLastUpdated();
-	    				HistoryManager.logHistoryChange();
-                		if(isNew){
-                			RecentlyViewedHelper.addCurrentDocument(title);
-                		}
-                		else if(!currentTitle.equals(title)){
-                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
-                		}
-                		isNew = false;
+    				if(saveActionEvent.gotoNextView()){
+    					CourseProposalController.this.showNextViewOnMenu();
+    				}
 	    				
-	    				if(saveActionEvent.gotoNextView()){
-	    					CourseProposalController.this.showNextViewOnMenu();
-	    				}
-	    				
-	    				if (ValidatorClientUtils.hasWarnings(result.getValidationResults())){
-	    					if (!saveActionEvent.gotoNextView()){
-	    						//Need to display warnings when view has not changed.
-	    						isValid(result.getValidationResults(), false, true);
-	    					}
-	    					KSNotifier.show("Saved with Warnings");
-	    				} else {
-	    					KSNotifier.show("Save Successful");
-	    				}  				
-                	}
-                }
-            });
-        } catch (Exception e) {
-        	saveFailedCallback.exec(e);
-        }
+    				if (ValidatorClientUtils.hasWarnings(result.getValidationResults())){
+    					if (!saveActionEvent.gotoNextView()){
+    						//Need to display warnings when view has not changed.
+    						isValid(result.getValidationResults(), false, true);
+    					}
+    					KSNotifier.show("Saved with Warnings");
+    				} else {
+    					KSNotifier.show("Save Successful");
+    				}  				
+               	}
+            }
+        });
 
     }
 
