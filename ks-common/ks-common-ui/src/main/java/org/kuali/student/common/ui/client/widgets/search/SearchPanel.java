@@ -598,7 +598,7 @@ public class SearchPanel extends Composite{
             FieldElement fieldElement = new FieldElement(fieldName, widget);
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);
-            panel.addStyleName("clear");
+            panel.addStyleName("clearfix");
                                     
             this.initWidget(panel);
         }
