@@ -26,7 +26,7 @@ public class MajorProposalChangeImpactEditConfiguration extends AbstractSectionC
         // TODO: Move keys to ProgramConstants
         section = new VerticalSection(SectionTitle.generateH3Title("Change Impact"));  //TODO: get title from ProgramProperties
         configurer.addField(section, "proposal/relatedCourseChanges", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluRelatedCourseChangesType()));        
-        configurer.addField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType()));
+        //configurer.addField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType()));
         configurer.addField(section, "proposal/impactedUnits", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedUnitsType()));        
         configurer.addField(section, "proposal/impactedArticulationTransferPrograms", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedArticulationTransferProgramsType()));
         configurer.addField(section, "proposal/studentTransitionPlans", new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluStudentTransitionPlansType()));
