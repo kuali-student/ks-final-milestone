@@ -838,7 +838,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 	isValid(result.getValidationResults(), false, true);
                     saveActionEvent.setGotoNextView(false);
                     saveActionEvent.doActionComplete();
-                    KSNotifier.show("Save Failed. There were validation errors.");
+                    KSNotifier.add(new KSNotification("Save Failed. There were validation errors.", false, true, 5000));
                 }else{
                 		
                 	saveActionEvent.setSaveSuccessful(true);
