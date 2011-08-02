@@ -175,6 +175,14 @@
             <bean parent="TextControlDefinition" p:size="30"/>
         </property>
         <property name="validCharactersConstraint" ref="LineText" />
+        <property name="shortLabel" value="Name"/>
+        <property name="summary" value="A display name for this entity."/>
+        <property name="label" value="Nane"/>
+        <property name="description"> 
+            <value>
+A display name for this entity. 
+            </value>
+        </property>
     </bean>
 
     <bean id="BaseKuali.codeLoose" parent="BaseKuali.string" abstract="true">
@@ -213,9 +221,9 @@ The system assigned unique id used to identify this Object.
 Could be implemented as as sequence number or as a UUID.     
             </value>
         </property>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>   
+        </property>   -->
     </bean>
 
     <bean id="BaseKuali.typeKey" parent="BaseKuali.code" abstract="true">
@@ -464,9 +472,9 @@ Attempts to set or update should result in a ReadOnlyException
 being thrown.
             </value>
         </property>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>        
+        </property>        -->
     </bean>
 
     <bean id="BaseKuali.meta.createTime" parent="BaseKuali.dateTime" abstract="true">
@@ -476,9 +484,9 @@ being thrown.
         <property name="summary" value="The date/time stamp of when this was created"/>
         <property name="label" value="Date/Time created"/>
         <property name="description" value="The date/time stamp of when this was created"/>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>          
+        </property>          -->
     </bean>
 
     <bean id="BaseKuali.meta.updateTime" parent="BaseKuali.dateTime" abstract="true">
@@ -488,9 +496,9 @@ being thrown.
         <property name="summary" value="The date/time stamp of when this was last updated"/>
         <property name="label" value="Date/Time last updated"/>
         <property name="description" value="The date/time stamp of when this was last updated"/>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>          
+        </property>          -->
     </bean>
 
     <bean id="BaseKuali.meta.createId" parent="BaseKuali.principalId" abstract="true">
@@ -500,9 +508,9 @@ being thrown.
         <property name="summary" value="Principal ID of person who created this"/>
         <property name="label" value="Creator ID"/>
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>          
+        </property>          -->
     </bean>
 
     <bean id="BaseKuali.meta.updateId" parent="BaseKuali.principalId" abstract="true">
@@ -512,9 +520,9 @@ being thrown.
         <property name="summary" value="Principal ID of person who last updated this"/>
         <property name="label" value="Updater ID"/>
         <property name="description" value="ID assigned to the principal the user used to sign on to the system"/>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>          
+        </property>          -->
     </bean>
 
     <bean id="BaseKuali.meta.versionInd" parent="BaseKuali.codeLoose" abstract="true">
@@ -524,9 +532,9 @@ being thrown.
         <property name="summary" value="Optimistic Locking Flag"/>
         <property name="label" value="Version Ind"/>
         <property name="description" value="Field used to check optimistic locking, updated on each update"/>
-        <property name="attributeSecurity">
+<!--        <property name="attributeSecurity">
             <ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-        </property>          
+        </property>          -->
     </bean>
 
 
