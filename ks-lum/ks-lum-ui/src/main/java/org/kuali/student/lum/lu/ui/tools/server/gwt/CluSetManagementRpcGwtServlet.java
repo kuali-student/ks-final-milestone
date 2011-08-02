@@ -277,10 +277,11 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                 }
                 clusInRange.add(cluInformation);
             }
-            Collections.sort(result.getClus());
             result.setMembershipQueryInfo(membershipQueryInfo);
             result.setClusInRange(clusInRange);
         }
+        if(result.getClus()!=null)
+        	Collections.sort(result.getClus());
         return result;
     }
 	
