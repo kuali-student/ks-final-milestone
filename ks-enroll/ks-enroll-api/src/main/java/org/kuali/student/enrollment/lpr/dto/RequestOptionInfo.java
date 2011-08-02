@@ -28,49 +28,60 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpatnaik)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RequestOptionInfo", propOrder = {"optionValueType", "optionValue", "_futureElements"})
+@XmlType(name = "RequestOptionInfo", propOrder = {"id","optionKey", "optionValue", "_futureElements"})
 public class RequestOptionInfo implements RequestOption {
 
     @XmlElement
-    private String optionValueType;
+    private String id;
+
+    @XmlElement
+    private String optionKey;
 
     @XmlElement
     private String optionValue;
 
     @XmlAnyElement
     private List<Element> _futureElements;
-        
+
     public RequestOptionInfo() {
         this.optionValue = null;
-        this.optionValueType = null;
+        this.optionKey = null;
         this._futureElements = null;
     }
-    
+
     public RequestOptionInfo(RequestOption reqOp) {
-        if(null == reqOp) return;
-        
+        if (null == reqOp)
+            return;
+
         this.optionValue = reqOp.getOptionValue();
-        this.optionValueType = reqOp.getOptionValueType();
+        this.optionKey = reqOp.getOptionKey();
         this._futureElements = null;
-    }
-    
-    
-    public void setOptionValueType(String optionValueType) {
-        this.optionValueType = optionValueType;
     }
 
     public void setOptionValue(String optionValue) {
         this.optionValue = optionValue;
     }
 
+    public String getId() {
+        return id;
+    }
+
     @Override
-    public String getOptionValueType() {
-        return optionValueType;
+    public String getOptionKey() {
+        return optionKey;
     }
 
     @Override
     public String getOptionValue() {
         return optionValue;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setOptionKey(String optionKey) {
+        this.optionKey = optionKey;
     }
 
 }

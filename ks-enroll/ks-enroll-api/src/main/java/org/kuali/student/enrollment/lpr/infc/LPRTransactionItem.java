@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
+import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.infc.Entity;
 
 /**
@@ -13,6 +14,23 @@ import org.kuali.student.r2.common.infc.Entity;
  */
 
 public interface LPRTransactionItem extends Entity {
+    
+    
+    /**
+     * 
+     * The possible types of the LPR transaction item  e.g. ADD, UPDATE, DROP, SWAP
+     * 
+     * @see org.kuali.student.r2.common.infc.HasType#getTypeKey()
+     */
+    public String getTypeKey();
+    
+    /**
+     * 
+     * The possible states of the LPR transaction item e.g. DRAFT, SUBMITTED, FAILED etc
+     * 
+     * @see org.kuali.student.r2.common.infc.HasState#getStateKey()
+     */
+    public String getStateKey();
 
     /**
      * The person id for the relation request.
@@ -22,7 +40,7 @@ public interface LPRTransactionItem extends Entity {
     public String getPersonId();
 
     /**
-     * The  LUI id for a new relation request.
+     * The LUI id for a new relation request.
      * 
      * @return
      */
@@ -44,11 +62,17 @@ public interface LPRTransactionItem extends Entity {
     public List<? extends RequestOption> getRequestOptions();
 
     /**
-     * 
      * Returns the transaction item result for this transaction item.
      * 
      * @return
      */
-    public LprTransactionItemResult getLprTransactionItemResult(); 
-    
+    public LprTransactionItemResult getLprTransactionItemResult();
+
+    /**
+     * Specify the grading and credit options for the course.
+     * 
+     * @return
+     */
+    public List<? extends ResultOptionInfo> getResultOptions();
+
 }

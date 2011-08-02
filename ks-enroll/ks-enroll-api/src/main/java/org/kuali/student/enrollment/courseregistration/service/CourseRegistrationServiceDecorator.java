@@ -261,7 +261,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().createRegRequestFromExisting(existingRegRequestId, context);
     }

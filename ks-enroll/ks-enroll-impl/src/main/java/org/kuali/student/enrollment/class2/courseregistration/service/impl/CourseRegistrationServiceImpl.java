@@ -55,7 +55,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             DoesNotExistException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
-    }
+    } 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -246,7 +246,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

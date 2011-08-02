@@ -96,7 +96,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * This is not updatable once initialized.
      * 
      * @name Course Id
-     * @readOnly
+     * @readOnlyOnUpdate 
      * @required
      * @impl this maps the the version dependent id as the offering must point to one and only one version of the course. Maps to cluId in Lui.
      */

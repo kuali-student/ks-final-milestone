@@ -12,26 +12,37 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * okToWaitlist, okToHoldList, okToExceptionList which will help specify if the
  * student wants to go to a waitlist/holdlist in case there's no seat
  * availability for the course. A request to waitlist a course should always
- * have okToWaitlist set to true, same for hold or exception lists. 
+ * have okToWaitlist set to true, same for hold or exception lists.
  * <P>
- * ************POSSIBLE SCENARIOS*******************************
- * 
- * 1. Register for course - {@link RegRequestItem} Type is ADD ,
- *  newRegGroupId is the reg group to be registered for 
- *  
- * 2. Register for course but waitlist if seat not available OR
- * waitlist for course - same as above and okToWaitlist is true
- * 
- * 3. Swap between reg group within same course offering - Type is swap,
- * both new and existing reg group ids populated. new is to be the one 
- * replaced with the old one. Reg groups are in the same course offering.
- * 
- * 4.Save reg request - Type is UPDATE and newRegGroupId is populated 
- * 
+ * ************POSSIBLE SCENARIOS******************************* 1. Register for
+ * course - {@link RegRequestItem} Type is ADD , newRegGroupId is the reg group
+ * to be registered for 2. Register for course but waitlist if seat not
+ * available OR waitlist for course - same as above and okToWaitlist is true 3.
+ * Swap between reg group within same course offering - Type is swap, both new
+ * and existing reg group ids populated. new is to be the one replaced with the
+ * old one. Reg groups are in the same course offering. 4.Save reg request -
+ * Type is UPDATE and newRegGroupId is populated
  * 
  * @author Kuali Student Team (sambit)
  */
 public interface RegRequestItem extends IdEntity {
+
+    /**
+     * The possible types of RegRequestItem are ADD, DROP, SWAP or UPDATE. Those
+     * types represent adding (waitlisting, holdlisting), dropping courses or
+     * persisting an item from the reg cart with changes to it.
+     * 
+     * @see org.kuali.student.r2.common.infc.HasType#getTypeKey()
+     */
+    public String getTypeKey();
+
+    /**
+     * Represents the state of this request - NEW, DRAFT, SUBMITTED, FAILED etc
+     * 
+     * @see org.kuali.student.r2.common.infc.HasState#getStateKey()
+     */
+    public String getStateKey();
+
     /**
      * Returns the id of the RegGroup for this item. This is populated for ADD,
      * DROP, UPDATE and SWAP types of RegRequestItem
@@ -63,7 +74,6 @@ public interface RegRequestItem extends IdEntity {
      */
     public Boolean getOkToHoldList();
 
-   
     /**
      * Specify the preferred grading option for the course e.g. pass/fail since
      * the course allows to specify such options

@@ -18,6 +18,20 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface RegRequest extends IdEntity {
 
     /**
+     * The type of the overall registration request.
+     * 
+     * @see org.kuali.student.r2.common.infc.HasType#getTypeKey()
+     */
+    public String getTypeKey();
+
+    /**
+     * Represents the state of the overall registration request.
+     * 
+     * @see org.kuali.student.r2.common.infc.HasState#getStateKey()
+     */
+    public String getStateKey();
+
+    /**
      * Returns the id of the person who requested the course registration. Most
      * of the times it would be a student but it could also be an admin or
      * faculty making a request on behalf of the student
@@ -48,6 +62,5 @@ public interface RegRequest extends IdEntity {
      * @return
      */
     public List<? extends RegRequestItem> getRegRequestItems();
-
 
 }

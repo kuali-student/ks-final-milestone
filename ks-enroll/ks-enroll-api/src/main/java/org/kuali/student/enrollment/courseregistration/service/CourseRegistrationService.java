@@ -549,7 +549,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      */
     public RegRequestInfo createRegRequestFromExisting(
             @WebParam(name = "existingRegRequestId") String existingRegRequestId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "context") ContextInfo context) throws  InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
