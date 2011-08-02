@@ -30,7 +30,7 @@
  <bean id="course.startTerm" parent="uilookupconfig-parent">
   <property name="path" value="courseInfo.startTerm" />
   <property name="initialLookup"
-            ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+            ref="kuali.lu.lookup.course.startTerm.suggest" />
  </bean>
 
  <bean id="course.endTerm" parent="uilookupconfig-parent">
@@ -1993,7 +1993,7 @@
 		<property name="fieldPath" value="/proposal/prevStartTerm"/>
 	   </bean>
 	   <bean parent="param">
-		<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+		<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
 		<property name="caseSensitive" value="false" />
 		<property name="writeAccess" value="NEVER" />
 		<property name="dataType" value="STRING" />
@@ -2004,6 +2004,21 @@
 	 </property>
 	</bean>
 	<bean id="constraint.lookup.proposal.prevEndTerm" parent="constraint.lookup.proposal.prevEndTerm-parent"/>
+	 <!-- Constrain the start term to be after the previous version start term -->
+	 <bean id="kuali.lu.lookup.course.startTerm.suggest" parent="kuali.lu.lookup.firstexpectedoffering.suggest">
+		 <property name="params">
+		 	<list merge="true">
+		 		<bean parent="param">
+					<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
+					<property name="caseSensitive" value="false" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="fieldPath" value="/proposal/prevStartTerm"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
  
  <bean id="kuali.lu.lookup.course.endTerm.suggest" class="org.kuali.student.common.assembly.data.UILookupData"
        parent="constraint.lookup.course.endTerm">

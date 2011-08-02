@@ -231,14 +231,18 @@ public class WorkflowUtilities{
 	public void updateApproveFields(){
 		parentController.requestModel(new ModelRequestCallback<DataModel>(){
 			public void onModelReady(DataModel model) {
-				approveDialogView.updateView(model);
-				for (final FieldDescriptor fd:approveDialogView.getFields()){
-					updateCrossField(fd,dataModel);
+				if(approveDialogView!=null){
+					approveDialogView.updateView(model);
+					for (final FieldDescriptor fd:approveDialogView.getFields()){
+						updateCrossField(fd,dataModel);
+					}
 				}
-				blanketApproveDialogView.updateView(model);
-				for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
-					updateCrossField(fd,dataModel);
-				}	
+				if(blanketApproveDialogView!=null){
+					blanketApproveDialogView.updateView(model);
+					for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
+						updateCrossField(fd,dataModel);
+					}
+				}
 			}
 			public void onRequestFail(Throwable cause) {
 			}

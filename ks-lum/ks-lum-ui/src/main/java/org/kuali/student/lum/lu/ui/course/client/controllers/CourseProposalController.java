@@ -443,8 +443,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 									FieldDescriptor fd=workflowUtil.addApproveDialogField("proposal", "prevStartTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM), modelDefinition,true);
 									fd.getFieldWidget().setVisible(false);
 									fd.hideLabel();
-									workflowUtil.updateApproveFields();
 								}
+								workflowUtil.updateApproveFields();
 							}else{
 								//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
 								workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");
