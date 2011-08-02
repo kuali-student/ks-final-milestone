@@ -117,8 +117,8 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
 
     private AcademicCalendarInfo getDefaultAcademicCalendarInfo() {
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setKey("org.kuali.test.atp");
-        acal.setName("test atp");
+        acal.setKey("org.kuali.test.acal");
+        acal.setName("test acal");
         acal.setTypeKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
         acal.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
         acal.setStartDate(parseDate("2010-01-01"));
@@ -396,7 +396,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         acal = this.getDefaultAcademicCalendarInfo();
         context = getContext1();
         acal.setName(
-                "test atp                                                                                                                            "
+                "test acal                                                                                                                            "
                 + "                                                                                                                                    ");
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -426,7 +426,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
         context = getContext1();
-        acal.setDescr(new RichTextHelper().fromPlain("test atp description\n that is ok"));
+        acal.setDescr(new RichTextHelper().fromPlain("test acal description\n that is ok"));
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
             System.out.println(vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
@@ -452,7 +452,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
         context = getContext1();
-        acal.setDescr(new RichTextHelper().fromPlain("test atp description \nwith an invalid character tilde ~ in it"));
+        acal.setDescr(new RichTextHelper().fromPlain("test acal description \nwith an invalid character tilde ~ in it"));
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
             System.out.println(vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());

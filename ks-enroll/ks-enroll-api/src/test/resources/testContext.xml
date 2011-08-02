@@ -10,15 +10,18 @@
     <bean id="mockAcademicCalendarService" class= "org.kuali.student.enrollment.classII.acal.mock.AcademicCalendarServiceMockImpl">
         <property name="atpService" ref="mockAtpService"/>
     </bean>
-    
-     <bean id="testAcalInfoDictionaryLocation" class="java.lang.String">
+
+    <bean id="testAcalInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-test-AcademicCalendarInfo-dictionary.xml" />
     </bean>
-    
+    <bean id="testLuiInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-LuiInfo-dictionary.xml" />
+    </bean>  
     <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
-                <bean parent="testAcalInfoDictionaryLocation" />              
+                <bean parent="testAcalInfoDictionaryLocation" /> 
+                <bean parent="testLuiInfoDictionaryLocation" />   
             </list>
         </constructor-arg>
     </bean>
@@ -28,11 +31,9 @@
         <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
         <property name="dictionaryLocations" ref="testDictionaryFileLocations" />
     </bean>
-    
     <bean id="testValidator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
         <property name="riceDataDictionaryService" ref="testDataDictionaryServiceForAllUsedByRice" />
         <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
-    </bean>    
-    
+    </bean>       
     <bean id="mockAtpService" class="org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl"/>
 </beans>
