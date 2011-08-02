@@ -43,7 +43,7 @@ public interface RegistrationDateDerivationGroup {
      *
      * @return a term key
      * @name Registration Start Date Term Key
-     * @readOnly
+     * @readOnly on update
      */
     public String getRegistrationStartDateTermKey();
 

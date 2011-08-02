@@ -84,7 +84,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
     /**
      * Academic term of course offering
      * @name Term Key
-     * @readOnly
+     * @readOnly on updates
      * @required
      * @impl set during the #createCourseOfferingFromCanonical and then maps to the aptKey on the Lui
      */
@@ -96,7 +96,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * This is not updatable once initialized.
      * 
      * @name Course Id
-     * @readOnlyOnUpdate 
+     * @readOnly on updates 
      * @required
      * @impl this maps the the version dependent id as the offering must point to one and only one version of the course. Maps to cluId in Lui.
      */
@@ -108,7 +108,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * This is not updatable once initialized.
      * 
      * @name Format Ids
-     * @readOnly
+     * @readOnly on updates
      * @required
      * @impl this maps to the version dependent id of the format as this must point to one and only one version of the course. Maps to cluRelationIds in Lui  
      */
@@ -199,7 +199,6 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * Calculated based on sum of all the maximum seats of primary activity type offerings.
      * @name Maximum Enrollment
      * @impl maps to Lui.maximumEnrollment
-     * @readOnly
      */
     public Integer getMaximumEnrollment();
 
@@ -208,7 +207,6 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * Calculated based on sum of all the minimum seats of primary activity type offerings
      * @name Minimum  Enrollment
      * @impl maps to Lui.minimumEnrollment
-     * @readOnly
      */
     public Integer getMinimumEnrollment();
 
@@ -300,7 +298,7 @@ public interface CourseOffering extends HasId, TypeStateEntity {
      * This is typically an academic department.
      * 
      * @name Units Content Owner
-     * @readOnly
+     * @readOnly on updates
      * @impl this is never updatable so it should just be grabbed from the canonical course and then stored in lui.unitsContentOwner
      */
     public List<String> getUnitsContentOwner();

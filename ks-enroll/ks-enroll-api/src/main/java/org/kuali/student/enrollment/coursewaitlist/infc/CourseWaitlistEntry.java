@@ -33,13 +33,17 @@ public interface CourseWaitlistEntry extends Relationship {
 
 	/**
 	 * Returns the student id in waitlist entry waitlisted.
-     * @readOnly
+     * @readOnly on updates
 	 */
 	public String getStudentId();
 
 	/**
 	 * Returns the position of this entry in the waitlist for a particular
 	 * waitlist option.
+     * 
+     * This is not directly updatable on the data object, use service operations
+     * to change the student's position in the list
+     * 
      * @readOnly
 	 */
 	public Integer getPosition();
@@ -62,7 +66,7 @@ public interface CourseWaitlistEntry extends Relationship {
 	 * 
 	 * Course offering id that contains the 
 	 * 
-	 * @readOnly
+	 * @readOnly on updates
 	 */
 	public String getCourseOfferingId();
 }
