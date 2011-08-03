@@ -9,18 +9,18 @@ import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 
 @Entity
 @Table(name = "KSLP_LPR_TRANS_ATTR")
-public class LprTransactionAttributeEntity extends BaseAttributeEntity<LprTransactionEntity> {
+public class LprTransactionAttributeEntity extends BaseAttributeEntity<LprTransactionItemEntity> {
     @ManyToOne
     @JoinColumn(name = "OWNER")
-    private LprTransactionEntity owner;
+    private LprTransactionItemEntity owner;
 
     @Override
-    public LprTransactionEntity getOwner() {
+    public LprTransactionItemEntity getOwner() {
         return this.owner;
     }
 
     @Override
-    public void setOwner(LprTransactionEntity owner) {
+    public void setOwner(LprTransactionItemEntity owner) {
         this.owner = owner;
 
     }

@@ -13,20 +13,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.TimeAmount;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 
 @Entity
 @Table(name = "KSLP_LPR_ROSTER")
 public class LprRosterEntity {
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name = "KSLP_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "LPRROSTER_ID"))
-    private List<LprRosterLuiRelationEntity> associatedLuis ;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KSLP_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LPRROSTER_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_ID"))
+    private List<LuiEntity> associatedLuis;
 
     @Column(name = "MAX_CAPACITY")
-    private Integer maximumCapacity;
+    private int maximumCapacity;
 
     @Column(name = "CHECK_IN_REQ")
-    private Boolean checkInRequired;
+    private boolean checkInRequired;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "TYPE_ID")
@@ -40,11 +41,23 @@ public class LprRosterEntity {
     @Column(name = "CHECK_IN_FREQ")
     private TimeAmount checkInFrequency;
 
-    public Integer getMaximumCapacity() {
+    public List<LuiEntity> getAssociatedLuis() {
+        return associatedLuis;
+    }
+
+    public void setAssociatedLuis(List<LuiEntity> associatedLuis) {
+        this.associatedLuis = associatedLuis;
+    }
+
+    public void setCheckInRequired(boolean checkInRequired) {
+        this.checkInRequired = checkInRequired;
+    }
+
+    public int getMaximumCapacity() {
         return maximumCapacity;
     }
 
-    public void setMaximumCapacity(Integer maximumCapacity) {
+    public void setMaximumCapacity(int maximumCapacity) {
         this.maximumCapacity = maximumCapacity;
     }
 

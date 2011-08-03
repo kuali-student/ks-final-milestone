@@ -21,6 +21,8 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 @Table(name = "KSLP_LPR_STATE")
 public class LuiPersonRelationStateEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
 	
+    
+    @Column(name="NAME")
     private String name;
 
     @Column(name="DESCR")
@@ -39,7 +41,8 @@ public class LuiPersonRelationStateEntity extends MetaEntity implements Attribut
 //    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
 
-	public String getName() {
+
+    public String getName() {
         return name;
     }
 
