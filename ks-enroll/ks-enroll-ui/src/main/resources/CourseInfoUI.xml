@@ -27,6 +27,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="titleAttribute" value="code"/>
     <property name="attributes">
       <list>
+      	<ref bean="CourseInfo.id"/>
         <ref bean="CourseInfo.code"/>
         <ref bean="CourseInfo.courseTitle"/>
         <ref bean="CourseInfo.subjectArea"/>
@@ -35,11 +36,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
     <property name="primaryKeys">
       <list>
-        <value>code</value>
+        <value>id</value>
       </list>
     </property>
   </bean>
-  
+ 
+  <bean id="CourseInfo.id" parent="CourseInfo.id-parentBean"/>
+  <bean id="CourseInfo.id-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="id"/>
+    <property name="label" value="Course ID"/>
+    <property name="shortLabel" value="Course ID"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="maxLength" value="10"/>
+    <property name="validationPattern">
+      <bean parent="AnyCharacterValidationPattern"/>
+    </property>
+    <property name="validCharactersConstraint">
+      <bean parent="AnyCharacterPatternConstraint"/>
+    </property>
+    <property name="controlField">
+      <bean parent="TextControl" p:size="10"/>
+    </property>
+  </bean> 
+    
   <bean id="CourseInfo.code" parent="CourseInfo.code-parentBean"/>
   <bean id="CourseInfo.code-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="code"/>
@@ -115,10 +134,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="CourseInfo-LookupView" parent="LookupView">
     <property name="title" value="Course Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo" />
-<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseInfoLookupViewHelperServiceImpl" /> -->
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseInfoLookupViewHelperServiceImpl"/>
     <property name="additionalCssFiles" ref="ks-css"/>
     <property name="criteriaFields">
       <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="id" />      
         <bean parent="LookupCriteriaAttributeField" p:propertyName="code" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="courseTitle"/>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="subjectArea"/>        
@@ -126,6 +146,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
     <property name="resultFields">
       <list>
+        <bean parent="AttributeField" p:propertyName="id" />
 		<bean parent="AttributeField" p:propertyName="code" />
         <bean parent="AttributeField" p:propertyName="courseTitle" />
         <bean parent="AttributeField" p:propertyName="subjectArea" />
@@ -133,6 +154,4 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       </list>
     </property>
   </bean>  
-   
-    
-</beans>
+ </beans>
