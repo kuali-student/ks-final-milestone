@@ -4532,7 +4532,7 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="CD" size="255" type="VARCHAR"/>
-        <column name="DIV" size="255" type="VARCHAR"/>
+        <column name="DIVISION" size="255" type="VARCHAR"/>
         <column name="LNG_NAME" size="255" type="VARCHAR"/>
         <column name="SHRT_NAME" size="255" type="VARCHAR"/>
         <column name="ST" size="255" type="VARCHAR"/>
