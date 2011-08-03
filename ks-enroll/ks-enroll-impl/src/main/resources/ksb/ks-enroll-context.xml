@@ -58,6 +58,8 @@
 	<import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:enrollDao.xml"/>
+    <import resource="classpath:ksb/ks-lu-context.xml"/>
+    <import resource="classpath:statement-context.xml"/>
 
     <!-- JTA -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
@@ -100,7 +102,7 @@
     </bean>
 
 
-<bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+    <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	  	<property name="atpDao" ref="atpEnrDao"/>
 	  	<property name="atpTypeDao" ref="atpTypeDao"/>
 	  	<property name="atpStateDao" ref="atpStateDao"/>
@@ -115,13 +117,11 @@
     	<property name="stateService" ref="stateService"/>
     </bean>
  
-     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpEnrService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
     </bean>
-
-    <bean id="courseOfferingService" class="org.kuali.student.enrollment.classII.courseoffering.service.CourseOfferingServiceMockImpl"/>
 
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
@@ -136,7 +136,7 @@
            </bean>
        </property>
    </bean>
-       
+
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpEnrService"/>
     	<property name="relAssembler" ref="relAssembler" />
@@ -167,7 +167,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
     
-   <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
+    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
   <!--   
@@ -246,5 +246,90 @@
         </aop:aspect>
     </aop:config>
 
+    <!-- course offering beans -->
+
+    <bean id="coServiceValidation" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+		<property name="nextDecorator" ref="coService"/>
+		<property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />
+		<property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+		<property name="luiService" ref="luiService"/>
+		<property name="coAssembler" ref="coAssembler"/>
+		<property name="aoAssembler" ref="aoAssembler" />
+		<property name="rgAssembler" ref="rgAssembler" />
+		<property name="courseService" ref="courseServiceImpl"/>
+		<property name="acalService" ref="acalService"/>
+		<property name="stateService" ref="stateService"/>
+	</bean>
+
+    <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
+    	<property name="luiService" ref="luiService"/>
+    </bean>
+
+    <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
+    	<property name="luiService" ref="luiService"/>
+    </bean>
+
+    <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
+     	<property name="luiService" ref="luiService"/>
+    </bean>
+
+    <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+       <property name="serviceDefinition">
+           <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+               <property name="jaxWsService" value="true"/>
+               <property name="service" ref="coServiceValidation"/>
+               <property name="serviceInterface"
+                         value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService"/>
+               <property name="localServiceName" value="CourseOfferingService"/>
+               <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering"/>
+               <property name="busSecurity" value="${ks.lum.bus.security}"/>
+           </bean>
+       </property>
+    </bean>
+
+    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+	  	<property name="luiDao" ref="luiDao"/>
+	  	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+	  	<property name="luiTypeDao" ref="luiTypeDao"/>
+	  	<property name="luiRichTextDao" ref="luiRichTextDao"/>
+	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
+	  	<property name="stateService" ref="stateService"/>
+	  	<property name="atpService" ref="atpEnrService"/>
+	</bean>
+
+    <bean id="statementServiceImpl"
+		class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+		<property name="statementDao" ref="statementDao" />
+        <property name="searchManager" ref="statementSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService" />
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+        <property name="statementAssembler" ref="statementAssembler"/>
+		<property name="validatorFactory" ref="validatorFactory"/>
+	</bean>
+
+    <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
+	</bean>
+
+    <bean id="validatorFactory" class="org.kuali.student.common.validator.ValidatorFactory">
+  	    <property name="defaultValidator" ref="businessServiceValidator"/>
+  	</bean>
+
+    <bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.NoOpDefaultValidatorImpl"/>
+
+    <bean id="statementDao" class="org.kuali.student.core.statement.dao.impl.StatementDaoImpl">
+        <property name="em" ref="enrollEntityManager" />
+	</bean>
+
+    <bean id="statementSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
+	</bean>
+
+    <bean id="statementAssembler" class="org.kuali.student.core.statement.service.impl.StatementAssembler">
+        <property name="statementDao" ref="statementDao"/>
+    </bean>
 
 </beans>
