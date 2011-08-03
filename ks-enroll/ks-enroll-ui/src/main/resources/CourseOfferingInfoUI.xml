@@ -109,7 +109,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                <list>
                 <bean parent="AttributeField" p:propertyName="termKey">
 		            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-		            <property name="fieldLookup.fieldConversions" value="key:termKey"/>                
+		            <property name="fieldLookup.fieldConversions" value="key:termKey"/> 
+		         <!--    <property name="viewName" value=""/>       -->        
                  <!--
                     <property name="control">
               			<bean parent="SelectControl"/>
@@ -119,7 +120,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             		</property>
             	-->	
             	</bean>		                
-                <bean parent="AttributeField" p:propertyName="courseId"/>
+                <bean parent="AttributeField" p:propertyName="courseId">
+                	<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
+		            <property name="fieldLookup.fieldConversions">
+		              <map>
+		                <entry key="code" value="courseId"/>
+		              </map>
+		            </property> 
+		        </bean>
                </list>
              </property>             
           </bean>
