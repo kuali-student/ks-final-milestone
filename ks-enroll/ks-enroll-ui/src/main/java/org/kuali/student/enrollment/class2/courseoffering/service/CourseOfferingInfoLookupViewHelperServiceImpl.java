@@ -6,7 +6,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class CourseOfferingInfoLookupViewHelperServiceImpl extends LookupViewHel
 
     protected CourseOfferingService getCourseOfferingService() {
         if (courseOfferingService == null) {
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "CourseOfferingService"));
         }
 
         return courseOfferingService;
