@@ -20,9 +20,9 @@
 
     <!--<import resource="classpath:org.kuali.rice.kns.bo.datadictionary.DataDictionaryBaseTypes.xml"/>-->
     <import resource="classpath:ks-base-dictionary-validchars.xml"/>
-<!--    <import resource="classpath:ks-base-dictionary-controls.xml"/>-->
-
-
+    <import resource="classpath:org/kuali/rice/kns/uif/UifControlDefinitions.xml"/>
+    <import resource="classpath:org/kuali/rice/kns/uif/UifMiscDefinitions.xml"/>
+    
     <bean id="BaseKuali.readOnlyAttributeSecurity" parent="AttributeSecurity">
         <property name="readOnly" value="true" />      
     </bean>
@@ -33,8 +33,8 @@
         <property name="minLength" value="1" />
         <property name="maxLength" value="255" />
         <property name="forceUppercase" value="false"/>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="30"/>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="30"/>
         </property>
         <property name="validCharactersConstraint" ref="LineText" />
     </bean>
@@ -42,27 +42,22 @@
     <bean id="BaseKuali.complex" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="COMPLEX" />
         <property name="required" value="false"/>
-<!--        <property name="minOccurs" value="0" />
-        <property name="maxOccurs" value="1" />-->
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="100"/>
-        </property>
     </bean>
 
     <bean id="BaseKuali.stringLong" abstract="true" parent="BaseKuali.string">
         <property name="minLength" value="1" />
         <property name="maxLength" value="1999" />
-        <property name="control">
-            <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60" p:size="1999"/>
-        </property>
+        <property name="controlField">
+            <bean parent="TextAreaControl">
+                <property name="rows" value="3"/>
+                <property name="cols" value="40"/> 
+            </bean>
+        </property>        
         <property name="validCharactersConstraint" ref="MultiLineText" />
     </bean>
 
     <bean id="BaseKuali.stringReallyLong" abstract="true" parent="BaseKuali.stringLong">
         <property name="maxLength" value="14000" />
-        <property name="control">
-            <bean parent="TextareaControlDefinition" p:rows="5" p:cols="60" p:size="14000"/>
-        </property>
     </bean>
 
     <bean id="BaseKuali.integer" abstract="true" parent="AttributeDefinition">
@@ -72,8 +67,8 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="10"/>
         </property>
         <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Positive.integer" />
@@ -86,8 +81,8 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="10"/>
         </property>
         <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Positive.integer" />
@@ -98,8 +93,8 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="CurrencyControl"/>
         </property>
         <property name="validCharactersConstraint" ref="Numeric" />
     </bean>
@@ -109,8 +104,8 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="CurrencyControl"/>
         </property>
         <property name="validCharactersConstraint" ref="Numeric" />
     </bean>
@@ -120,8 +115,8 @@
         <property name="required" value="false"/>
         <property name="minLength" value="1" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="CurrencyControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="CurrencyControl"/>
         </property>
         <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Numeric" />
@@ -132,8 +127,8 @@
         <property name="required" value="false"/>
 <!--        <property name="minOccurs" value="0" />
         <property name="maxOccurs" value="1"> /-->
-        <property name="control">
-            <bean parent="CheckboxControlDefinition"/>
+        <property name="controlField">
+            <bean parent="CheckboxControl"/>
         </property>
     </bean>
 
@@ -144,8 +139,8 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="10" />
         <property name="maxLength" value="10" />
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="10"/>
+        <property name="controlField">
+            <bean parent="DateControl" />
         </property>
     </bean>
 
@@ -156,10 +151,8 @@
         <property name="maxOccurs" value="1" />-->
         <property name="minLength" value="19" />
         <property name="maxLength" value="19" />
-        <property name="control">
-            <!-- TODO: add a formatter to display the time portion -->
-            <!--ISO 8061 YYYY-MM-DDThh:mm:ss-->
-            <bean parent="TextControlDefinition" p:size="19"/>
+        <property name="controlField">
+            <bean parent="DateControl" />
         </property>
     </bean>
 
@@ -171,8 +164,8 @@
         <property name="minLength" value="1" />
         <property name="maxLength" value="255" />
         <property name="forceUppercase" value="false"/>
-        <property name="control">
-            <bean parent="TextControlDefinition" p:size="30"/>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="30"/>
         </property>
         <property name="validCharactersConstraint" ref="LineText" />
         <property name="shortLabel" value="Name"/>
