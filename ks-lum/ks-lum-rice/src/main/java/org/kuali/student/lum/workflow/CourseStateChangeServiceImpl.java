@@ -40,7 +40,16 @@ public class CourseStateChangeServiceImpl {
 		StatusInfo ret = new StatusInfo();
 		try {
 			if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-				activateCourse(courseInfo, prevEndTermAtpId);
+				if(courseInfo.isPilotCourse()){
+					//Pilot courses get Retired
+					//Add required fields for Retired State
+					courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
+					courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+					courseInfo.setState(DtoConstants.STATE_ACTIVE);
+					retireCourse(courseInfo);
+				}else{
+					activateCourse(courseInfo, prevEndTermAtpId);
+				}
 			} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
 				retireCourse(courseInfo);
 			}
@@ -88,7 +97,7 @@ public class CourseStateChangeServiceImpl {
 		
     	if (existingState.equals(DtoConstants.STATE_ACTIVE) || existingState.equals(DtoConstants.STATE_SUSPENDED)){
     		courseToRetire.setState(DtoConstants.STATE_RETIRED);
-
+    		
     		courseService.updateCourse(courseToRetire);
 			updateStatementTreeViewInfoState(courseToRetire);    		
     	}

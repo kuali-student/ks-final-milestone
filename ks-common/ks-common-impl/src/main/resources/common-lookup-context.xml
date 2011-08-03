@@ -1163,6 +1163,8 @@
 						<list>
 							<value>Active</value>
 							<value>Approved</value>
+							<value>Retired</value>
+							<value>Suspended</value>
 							<!-- do not show retired: <value>retired</value> -->
 						</list>
 					</property>
@@ -1346,6 +1348,8 @@
 						<list>
 							<value>Active</value>
 							<value>Approved</value>
+							<value>Retired</value>
+							<value>Suspended</value>
 							<!-- do not show retired: <value>retired</value> -->
 						</list>
 					</property>
@@ -1685,6 +1689,8 @@
 						<list>
 							<value>Approved</value>
 							<value>Active</value>
+							<value>Retired</value>
+							<value>Suspended</value>
 						</list>
 					</property>	
 					<property name="caseSensitive" value="true" />
@@ -1776,6 +1782,8 @@
 						<list>
 							<value>Approved</value>
 							<value>Active</value>
+							<value>Retired</value>
+							<value>Suspended</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
@@ -2068,10 +2076,10 @@
 					<property name="writeAccess" value="NEVER" />
 					<property name="defaultValueList">
 						<list>
-							<value>Draft</value>
-							<value>Submitted</value>
+							<value>Draft</value><!-- Why is draft here? -->
 							<value>Active</value>
 							<value>Approved</value>
+							<value>Retired</value>
 							<value>Suspended</value>
 							<!-- do not show retired or superseded-->
 						</list>
