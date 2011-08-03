@@ -30,7 +30,6 @@ import java.util.List;
 @Entity
 @Table(name = "KSEN_LUI")
 public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
-
     @Column(name = "NAME")
     private String name;
     

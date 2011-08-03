@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -33,53 +32,47 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
     private String luiId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT")
+	@Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RELATION_TYPE_ID")
+    @ManyToOne(cascade = CascadeType.ALL) 
+	@JoinColumn(name = "RELATION_TYPE_ID")
     private LuiPersonRelationTypeEntity personRelationType;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RELATION_STATE_ID")
+	@JoinColumn(name = "RELATION_STATE_ID")
     private LuiPersonRelationStateEntity personRelationState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
-    // @JoinColumn(name = "LPR_ATTR_ID")
-    // @JoinTable(name="LPR_ATTR_JOIN",
-    // joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
-    // inverseJoinColumns=@JoinColumn(name="ATTRIB_ID",
-    // referencedColumnName="ID"))
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch=FetchType.EAGER)
+//    @JoinColumn(name = "LPR_ATTR_ID")
+//    @JoinTable(name="LPR_ATTR_JOIN",
+//    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
+//    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
 
-    public LuiPersonRelationEntity() {}
-
+	public LuiPersonRelationEntity() {
+	}
+    
     public LuiPersonRelationEntity(LuiPersonRelation dto) {
-
-        this.setEffectiveDate(dto.getEffectiveDate());
-        this.setExpirationDate(dto.getExpirationDate());
-        this.setId(dto.getId());
-        this.setLuiId(dto.getLuiId());
-        this.setPersonId(dto.getPersonId());
-        // TODO - need to retrieve the LuiPersonRelationState based on the
-        // return of dto.getState()?
-        // this.setPersonRelationState(new
-        // LuiPersonRelationStateEntity(dto.getStateKey()));
-        // TODO - need to retrieve the LuiPersonRelationType based on the return
-        // of dto.getType()?
-        // this.setPersonRelationType(new
-        // LuiPersonRelationTypeEntity(dto.getTypeKey()));
-        this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
-        if (null != dto.getAttributes()) {
-            for (Attribute att : dto.getAttributes()) {
-                this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
-            }
-        }
+    	
+    	this.setEffectiveDate(dto.getEffectiveDate());
+    	this.setExpirationDate(dto.getExpirationDate());
+    	this.setId(dto.getId());
+    	this.setLuiId(dto.getLuiId());
+    	this.setPersonId(dto.getPersonId());
+    	// TODO - need to retrieve the LuiPersonRelationState based on the return of dto.getState()?
+    	// this.setPersonRelationState(new LuiPersonRelationStateEntity(dto.getStateKey()));
+    	// TODO - need to retrieve the LuiPersonRelationType based on the return of dto.getType()?
+    	// this.setPersonRelationType(new LuiPersonRelationTypeEntity(dto.getTypeKey()));
+    	this.setAttributes(new ArrayList<LuiPersonRelationAttributeEntity>());
+    	if (null != dto.getAttributes()) {
+	    	for (Attribute att : dto.getAttributes()) {
+	    		this.getAttributes().add(new LuiPersonRelationAttributeEntity(att));
+	    	}
+    	}
     }
 
     public String getPersonId() {
@@ -139,24 +132,24 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
-
+    
     public LuiPersonRelationInfo toDto() {
-        LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
-        lprInfo.setId(getId());
-        lprInfo.setLuiId(luiId);
-        lprInfo.setPersonId(personId);
-        lprInfo.setEffectiveDate(effectiveDate);
-        lprInfo.setExpirationDate(expirationDate);
-        lprInfo.setTypeKey(personRelationType.getId());
-        lprInfo.setStateKey(personRelationState.getId());
-        lprInfo.setMeta(super.toDTO());
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LuiPersonRelationAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
-        }
-        lprInfo.setAttributes(atts);
-
-        return lprInfo;
+    	LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+    	lprInfo.setId(getId());
+    	lprInfo.setLuiId(luiId);
+    	lprInfo.setPersonId(personId);
+    	lprInfo.setEffectiveDate(effectiveDate);
+    	lprInfo.setExpirationDate(expirationDate);
+    	lprInfo.setTypeKey(personRelationType.getId());
+    	lprInfo.setStateKey(personRelationState.getId());
+    	lprInfo.setMeta(super.toDTO());
+    	List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+    	for (LuiPersonRelationAttributeEntity att : getAttributes()) {
+    		AttributeInfo attInfo = att.toDto();
+    		atts.add(attInfo);
+    	}
+		lprInfo.setAttributes(atts);
+    	
+    	return lprInfo;
     }
 }
