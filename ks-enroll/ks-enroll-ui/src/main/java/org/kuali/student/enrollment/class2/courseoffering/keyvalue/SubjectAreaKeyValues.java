@@ -61,7 +61,7 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         for(EnumeratedValueInfo e : subjectAreas) {
-            keyValues.add(new ConcreteKeyValue(e.getEnumerationKey(), e.getValue()));
+            keyValues.add(new ConcreteKeyValue(e.getCode(), e.getValue()));
         }
         
         return keyValues;
