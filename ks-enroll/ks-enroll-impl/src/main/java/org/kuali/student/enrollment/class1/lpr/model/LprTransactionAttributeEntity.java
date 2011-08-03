@@ -13,18 +13,16 @@ public class LprTransactionAttributeEntity extends BaseAttributeEntity<LprTransa
     @ManyToOne
     @JoinColumn(name = "OWNER")
     private LprTransactionEntity owner;
- 
 
     @Override
     public LprTransactionEntity getOwner() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.owner;
     }
 
     @Override
     public void setOwner(LprTransactionEntity owner) {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        
+        this.owner = owner;
+
     }
 
 }
