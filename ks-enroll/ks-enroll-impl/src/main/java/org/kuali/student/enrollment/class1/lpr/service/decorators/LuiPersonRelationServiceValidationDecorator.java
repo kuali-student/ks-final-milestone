@@ -71,7 +71,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 
 	@Override
 	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
-			LuiPersonRelationInfo luiPersonRelationInfo,
+			LuiPersonRelationInfo luiPersonRelationInfo, 
 			ContextInfo context)
 			throws DoesNotExistException,
 			InvalidParameterException,

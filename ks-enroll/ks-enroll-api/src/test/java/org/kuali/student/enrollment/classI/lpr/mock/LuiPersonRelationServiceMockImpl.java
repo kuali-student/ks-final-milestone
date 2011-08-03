@@ -64,7 +64,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public LuiService getLuiService() {
         return luiService;
     }
-
+ 
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
     }
@@ -683,8 +683,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
     @Override
     public LPRTransactionInfo createLprTransaction(LPRTransactionInfo lprTransactionInfo,
-            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

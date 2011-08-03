@@ -973,7 +973,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     public LPRTransactionInfo createLprTransaction(
             @WebParam(name = "lprTransactionInfo") LPRTransactionInfo lprTransactionInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
-            AlreadyExistsException, DoesNotExistException, ReadOnlyException, InvalidParameterException,
+            AlreadyExistsException,  InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -1099,7 +1099,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      *             Authorization failure
      */
     public List<String> getLprTransactionIdsForPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "lprTypes") List<String> lprTypes, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "lprTransactionStates") List<String> lprTransactionStates, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
@@ -1163,7 +1163,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      *             Authorization failure
      */
     public List<LPRTransactionInfo> getLprTransactionsForPersonByAtp(@WebParam(name = "atpKey") String atpKey,
-            @WebParam(name = "personId") String personId, @WebParam(name = "lprTypes") List<String> lprTypes,
+            @WebParam(name = "personId") String personId, @WebParam(name = "lprTransactionStates") List<String> lprTransactionStates,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 

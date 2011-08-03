@@ -61,7 +61,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException { 
         List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LuiPersonRelationInfo> dtos = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : luiPersonRelations) {
@@ -467,8 +467,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public LPRTransactionInfo createLprTransaction(LPRTransactionInfo lprTransactionInfo,
-            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

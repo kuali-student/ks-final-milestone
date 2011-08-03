@@ -52,7 +52,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
+            throws OperationFailedException, MissingParameterException, PermissionDeniedException, 
             DoesNotExistException {
         return getNextDecorator().getDataDictionaryEntry(entryKey, context);
     }
@@ -262,7 +262,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, DoesNotExistException {
         return getNextDecorator().createRegRequestFromExisting(existingRegRequestId, context);
     }
 

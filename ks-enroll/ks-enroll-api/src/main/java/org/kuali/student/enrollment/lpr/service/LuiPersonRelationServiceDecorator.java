@@ -43,7 +43,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * The base decorator for the {@link LuiPersonRelationService}- Other sub
  * classes of this decorator only have to override the methods to which we want
  * to add additional functionality
- * 
+ *  
  * @author nwright
  */
 public class LuiPersonRelationServiceDecorator implements LuiPersonRelationService {
@@ -53,7 +53,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     public LuiPersonRelationService getNextDecorator() throws OperationFailedException {
         if (null == nextDecorator) {
             throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-        }
+        } 
         return nextDecorator;
     }
 
@@ -385,8 +385,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
 
     @Override
     public LPRTransactionInfo createLprTransaction(LPRTransactionInfo lprTransactionInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, ReadOnlyException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
     }
 

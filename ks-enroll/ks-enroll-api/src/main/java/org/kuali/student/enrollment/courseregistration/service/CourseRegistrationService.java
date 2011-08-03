@@ -362,13 +362,14 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * an exception.
      * <li>Create an id and persist the registration request.
      * <li>Return the updated registration request.
-     * <li>Throw an AlreadyExistsException when there is an existing request for
-     * same course by the student in the same term in DRAFT state.
+     * <li>Throw an AlreadyExistsException when there is an existing request by
+     *  the same requesting person for a term in DRAFT state.
      * 
      * @param regRequestInfo
      *            The registration request object to be created
      * @param context
      * @return
+     * @throws AlreadyExistsException
      * @throws DataValidationErrorException
      *             Invalid data in the create request
      * @throws InvalidParameterException
@@ -550,7 +551,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     public RegRequestInfo createRegRequestFromExisting(
             @WebParam(name = "existingRegRequestId") String existingRegRequestId,
             @WebParam(name = "context") ContextInfo context) throws  InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Fetches the {@link RegRequestInfo}, validates and checks eligibility

@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -231,9 +232,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public Integer getAvailableSeatsForStudentInRegGroup(String studentId, String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-                return null;
-      
-        
+        return null;
+
     }
 
     @Override
@@ -243,8 +243,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
-   
 
     @Override
     public RegRequestInfo updateRegRequest(String regRequestId, RegRequestInfo regRequestInfo, ContextInfo context)
@@ -284,37 +282,27 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LPRTransactionInfo newLprTransaction =null;
+
         LPRTransactionInfo lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
-      //  try {
-            
-            
-          //  newLprTransaction = lprService.getLprTransactionsForPersonByLui(regRequestInfo.getStudentId(),regRequestInfo.get  , context)
-//            if(existing == null) {
-//                created = lprService.createLprTransaction(academicCalendarKey, atp, context);
-//                if (created != null)
-//                    processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
-//            } else { 
-//                throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey + " already exists");
-//            }
-//        } catch (DoesNotExistException e1) {
-//            created = atpService.createAtp(academicCalendarKey, atp, context);
-//            if (created != null)
-//                processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
-//        }
-//       
-        return null;
+        LPRTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
+        RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        return createdRegRequestInfo;
     }
+
     @Override
     public RegRequestInfo createRegRequestFromExisting(String existingRegRequestId, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        LPRTransactionInfo newLprTransaction = lprService.createLprTransactionFromExisting(existingRegRequestId,
+                context);
+        RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        return createdRegRequestInfo;
     }
 
     @Override
@@ -343,8 +331,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
             List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<LPRTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsForPersonByAtp(termKey,
+                studentId, requestStates, context);
+        List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
+        for (LPRTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
+            regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
+        }
+
+        return regRequestInfos;
     }
 
     @Override
