@@ -40,6 +40,9 @@ else if(browser.indexOf("Chrome")> 0) {
 
 <html>
 <head>
+<% if(browser.indexOf("MSIE") > 0) { %>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<% } %>
 </head>
 
 <body>
