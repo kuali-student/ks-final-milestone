@@ -24,7 +24,7 @@
 
 
     <bean id="BaseKuali.readOnlyAttributeSecurity" parent="AttributeSecurity">
-        <property name="readOnly" value="true" />        
+        <property name="readOnly" value="true" />      
     </bean>
   
     <bean id="BaseKuali.string" abstract="true" parent="AttributeDefinition">
@@ -177,7 +177,7 @@
         <property name="validCharactersConstraint" ref="LineText" />
         <property name="shortLabel" value="Name"/>
         <property name="summary" value="A display name for this entity."/>
-        <property name="label" value="Nane"/>
+        <property name="label" value="Name"/>
         <property name="description"> 
             <value>
 A display name for this entity. 
