@@ -316,13 +316,13 @@ public class CategoryManagement extends Composite {
 
         List<ResultRow> bufferList = new ArrayList<ResultRow>();
         if(subjectCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("Subject"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.subject"));
         }
         if(skillCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("Skill"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.skillarea"));
         }
         if(accreditationCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("Accreditation"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
         }
         categoryManagementTable.redraw(bufferList);
 

@@ -57,6 +57,7 @@ public class CategoryManagementTable extends Composite {
     static String ID_COLUMN_KEY = "id";
     static String NAME_COLUMN_KEY = "name";
     static String TYPE_COLUMN_KEY = "type";
+    static String TYPE_NAME_COLUMN_KEY = "typeName";
     static String STATE_COLUMN_KEY = "state";
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();
     private DefaultTableModel model = new DefaultTableModel();	//Contains Category rows that go into 'Select Categories' KSLightBox [KSLAB-2091]
@@ -282,14 +283,14 @@ public class CategoryManagementTable extends Composite {
     	
     	Column type = new Column();
     	type.setName(TYPE_COLUMN_HEADER);
-    	type.setId(TYPE_COLUMN_KEY);
+    	type.setId(TYPE_NAME_COLUMN_KEY);
     	type.setSortable(false);
     	model.addColumn(type);
     	
         if (!isHideInactiveCategories()) {
         	Column state = new Column();
-        	state.setName(TYPE_COLUMN_HEADER);
-        	state.setId(TYPE_COLUMN_KEY);
+        	state.setName(STATE_COLUMN_HEADER);
+        	state.setId(STATE_COLUMN_KEY);
         	state.setSortable(false);
         	model.addColumn(state);          
         }
@@ -389,7 +390,7 @@ public class CategoryManagementTable extends Composite {
         resultRows.clear();
         
         HashSet<String> hashSet = new HashSet<String>();
-        String curCatID = null, curCatNAME= null, curCatTYPENAME= null, curCatSTATE=null;
+        String curCatID = null, curCatNAME= null, curCatTYPEID= null, curCatTYPENAME= null, curCatSTATE=null;
         String curSearchResultCellKEY= null;
         
         for(SearchResultRow curSearchResultRow: results.getRows()) {
@@ -400,10 +401,12 @@ public class CategoryManagementTable extends Composite {
         		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryName")){
         			curCatNAME= curSearchResultCell.getValue();
         		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryType")){
-        			curCatTYPENAME= curSearchResultCell.getValue();
-        		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryState")){	//From new bean in lo-search-config.xml
+        			curCatTYPEID= curSearchResultCell.getValue();
+        		}else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryTypeName")){
+        		    curCatTYPENAME= curSearchResultCell.getValue();
+                }else if(curSearchResultCellKEY.equals("lo.resultColumn.categoryState")){	//From new bean in lo-search-config.xml
         			curCatSTATE= curSearchResultCell.getValue();
-        		}
+                }
         	}
         	
             ResultRow resultRow = new ResultRow();
@@ -412,7 +415,8 @@ public class CategoryManagementTable extends Composite {
                 hashSet.add(curCatID);
                 resultRow.setValue(ID_COLUMN_KEY, curCatID);
                 resultRow.setValue(NAME_COLUMN_KEY, curCatNAME);
-                resultRow.setValue(TYPE_COLUMN_KEY, curCatTYPENAME);
+                resultRow.setValue(TYPE_COLUMN_KEY, curCatTYPEID);
+                resultRow.setValue(TYPE_NAME_COLUMN_KEY, curCatTYPENAME);
                 resultRow.setValue(STATE_COLUMN_KEY, curCatSTATE);
                 resultRows.add(resultRow);                
             }

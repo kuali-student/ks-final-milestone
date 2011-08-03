@@ -398,6 +398,7 @@
             <ref bean="lo.resultColumn.categoryId" />
             <ref bean="lo.resultColumn.categoryName" />
             <ref bean="lo.resultColumn.categoryType" />
+            <ref bean="lo.resultColumn.categoryTypeName" />
             <ref bean="lo.resultColumn.categoryNameAndType" />
             <ref bean="lo.resultColumn.categoryState" />	<!-- KSLAB-2091 -->
         </search:resultColumns>
@@ -485,6 +486,13 @@
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
+    <search:resultColumn id="lo.resultColumn.categoryTypeName" parent="lo.resultColumn.categoryTypeName-parent"/>
+	<search:resultColumn id="lo.resultColumn.categoryTypeName-parent"  abstract="true">
+        <search:name>Category</search:name>
+        <search:desc>Category type name for a category</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
     <search:resultColumn id="lo.resultColumn.categoryNameAndType" parent="lo.resultColumn.categoryNameAndType-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryNameAndType-parent"  abstract="true">
         <search:name>Category</search:name>
@@ -534,7 +542,7 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
 				<entry key="lo.search.loCategories">
-                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name, <!-- KSLAB-2091 -->cat.state<!-- CategoryType name for KSLAB-2091 --> FROM LoCategory cat </value>
+                    <value>SELECT cat.id, cat.name, cat.loCategoryType.id, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name, <!-- KSLAB-2091 -->cat.state <!-- CategoryType name for KSLAB-2091 --> FROM LoCategory cat </value>
                 </entry>
                 <entry key="lo.queryParam.loOptionalCategoryName">                    
                     <value>cat.name like :lo_queryParam_loOptionalCategoryName  </value>
