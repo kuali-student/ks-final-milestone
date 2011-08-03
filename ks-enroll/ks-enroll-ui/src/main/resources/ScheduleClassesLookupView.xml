@@ -34,9 +34,8 @@
 
         <property name="resultFields">
             <list>
-                <bean parent="AttributeField" p:propertyName="key" />
 		        <bean parent="AttributeField" p:propertyName="subjectArea" />
-		        <bean parent="AttributeField" p:propertyName="courseCode" />
+		        <bean parent="AttributeField" p:propertyName="termKey" />
 		        <bean parent="AttributeField" p:propertyName="courseTitle" />
               </list>
         </property>
