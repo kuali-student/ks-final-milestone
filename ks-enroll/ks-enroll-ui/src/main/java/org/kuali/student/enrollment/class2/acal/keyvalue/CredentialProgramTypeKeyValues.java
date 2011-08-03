@@ -31,6 +31,7 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
 
  
         try {
+        	//pull out data from KSLU_LUTYPE
            	List<LuTypeInfo> luTypeInfoList = getLuService().getLuTypes();
         	
         	if (luTypeInfoList == null){
@@ -52,7 +53,7 @@ public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Ser
         		}
         	}
         }catch (OperationFailedException ofe){
-        	
+        	return keyValues;
         }
        
         return keyValues;
