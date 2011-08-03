@@ -183,10 +183,11 @@ public class CourseProposalController extends MenuEditableSectionController impl
    		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 			@Override
 			public void onClick(ClickEvent event) {
-		    	if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-		    		getViewContext().setId((String)cluProposalModel.get(CreditCourseConstants.ID));
+			    if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+		    		getViewContext().setId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
 		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
 		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+		    		cluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
 		        }
 				HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL/COURSE_INFO", getViewContext());
 			}
