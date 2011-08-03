@@ -29,7 +29,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
     @Column(name = "LNG_NAME")
     private String longName;
 
-    @Column(name = "DIV")
+    @Column(name = "DIVISION")
     private String division;
 
     @Column(name = "VARTN")
