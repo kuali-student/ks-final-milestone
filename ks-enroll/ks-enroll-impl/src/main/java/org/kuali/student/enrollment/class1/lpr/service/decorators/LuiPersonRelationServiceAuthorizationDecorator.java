@@ -66,8 +66,8 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 	}
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return getNextDecorator().findLuiPersonRelationsForLui(luiId, context);
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getLuiPersonRelationsForLui(luiId, context);
     }
 
 	@Override

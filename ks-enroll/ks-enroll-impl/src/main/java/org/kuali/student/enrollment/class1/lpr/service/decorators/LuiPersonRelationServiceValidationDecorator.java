@@ -61,8 +61,8 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return getNextDecorator().findLuiPersonRelationsForLui(luiId, context);
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getLuiPersonRelationsForLui(luiId, context);
     }
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -128,7 +128,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 	                ReadOnlyException, OperationFailedException,
 	                PermissionDeniedException, VersionMismatchException {
         _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
-		LuiPersonRelationInfo orig = this.fetchLuiPersonRelation(luiPersonRelationId, context);
+		LuiPersonRelationInfo orig = this.getLuiPersonRelation(luiPersonRelationId, context);
 		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getTypeKey(), luiPersonRelationInfo.getTypeKey());

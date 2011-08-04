@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
+import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -41,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +53,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private LuiPersonRelationService lprService;
     private CourseOfferingService courseOfferingService;
     private RegRequestAssembler regRequestAssembler;
+    private CourseRegistrationAssembler courseregistrationAssembler;
+
     private StateService stateService;
     private DataDictionaryService dataDictionaryService;
 
@@ -442,24 +446,29 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return courseregistrationAssembler.assemble(lprService.getLuiPersonRelation(courseRegistrationId, context),
+                context);
+
     }
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        return courseregistrationAssembler.assembleList(
+                lprService.getLuiPersonRelationsByIdList(courseRegistrationIds, context), context);
+
     }
 
     @Override
     public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        CourseRegistrationInfo courseRegInfo = courseregistrationAssembler.assemble(lprService
+                .getLuiPersonRelationByState(studentId, courseOfferingId,
+                        LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY, context), context);
+        return courseRegInfo;
     }
 
     @Override
@@ -482,24 +491,27 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public RegRequestInfo getRegRequestForCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        RegRequestInfo regRequest = regRequestAssembler.assemble(
+                lprService.getLprTransactionForLpr(courseRegistrationId, context), context);
+
+        return regRequest;
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return regRequestAssembler
+                .assembleList(lprService.getLprTransactionsForLui(courseOfferingId, context), context);
+
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return regRequestAssembler.assembleList(
+                lprService.getLprTransactionsForPersonByLui(studentId, courseOfferingId, context), context);
     }
 
     @Override
@@ -649,8 +661,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        LPRTransactionInfo lprTransaction = lprService.getLprTransaction(regRequestId, context);
+        RegRequestInfo regRequest = regRequestAssembler.assemble(lprTransaction, context);
+        return regRequest;
     }
 
     @Override

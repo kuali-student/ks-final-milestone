@@ -43,7 +43,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * The base decorator for the {@link LuiPersonRelationService}- Other sub
  * classes of this decorator only have to override the methods to which we want
  * to add additional functionality
- *  
+ * 
  * @author nwright
  */
 public class LuiPersonRelationServiceDecorator implements LuiPersonRelationService {
@@ -53,15 +53,15 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     public LuiPersonRelationService getNextDecorator() throws OperationFailedException {
         if (null == nextDecorator) {
             throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-        } 
+        }
         return nextDecorator;
     }
 
     public void setNextDecorator(LuiPersonRelationService nextDecorator) {
         this.nextDecorator = nextDecorator;
-    }
+    } 
 
-    @Override
+    @Override 
     public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -91,58 +91,58 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<String> findPersonIdsRelatedToLui(String luiId, String luiPersonRelationTypeKey, String relationState,
+    public List<String> getPersonIdsRelatedToLui(String luiId, String luiPersonRelationTypeKey, String relationState,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findPersonIdsRelatedToLui(luiId, luiPersonRelationTypeKey, relationState, context);
+        return getNextDecorator().getPersonIdsRelatedToLui(luiId, luiPersonRelationTypeKey, relationState, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPerson(String personId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPerson(String personId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationsForPerson(personId, context);
+        return getNextDecorator().getLuiPersonRelationsForPerson(personId, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForLui(String luiId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationsForLui(luiId, context);
+        return getNextDecorator().getLuiPersonRelationsForLui(luiId, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsByIdList(List<String> luiPersonRelationIdList,
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsByIdList(List<String> luiPersonRelationIdList,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationsByIdList(luiPersonRelationIdList, context);
+        return getNextDecorator().getLuiPersonRelationsByIdList(luiPersonRelationIdList, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelations(String personId, String luiId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLuiPersonRelations(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelations(personId, luiId, context);
+        return getNextDecorator().getLuiPersonRelations(personId, luiId, context);
     }
 
     @Override
-    public List<String> findLuiPersonRelationIdsForLui(String luiId, ContextInfo context) throws DoesNotExistException,
+    public List<String> getLuiPersonRelationIdsForLui(String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationIdsForLui(luiId, context);
+        return getNextDecorator().getLuiPersonRelationIdsForLui(luiId, context);
     }
 
     @Override
-    public List<String> findLuiPersonRelationIds(String personId, String luiId, ContextInfo context)
+    public List<String> getLuiPersonRelationIds(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationIds(personId, luiId, context);
+        return getNextDecorator().getLuiPersonRelationIds(personId, luiId, context);
     }
 
     @Override
-    public List<String> findLuiIdsRelatedToPerson(String personId, String luiPersonRelationTypeKey,
+    public List<String> getLuiIdsRelatedToPerson(String personId, String luiPersonRelationTypeKey,
             String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiIdsRelatedToPerson(personId, luiPersonRelationTypeKey, relationState, context);
+        return getNextDecorator().getLuiIdsRelatedToPerson(personId, luiPersonRelationTypeKey, relationState, context);
     }
 
     @Override
@@ -267,24 +267,24 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LuiPersonRelationInfo fetchLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
+    public LuiPersonRelationInfo getLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().fetchLuiPersonRelation(luiPersonRelationId, context);
+        return getNextDecorator().getLuiPersonRelation(luiPersonRelationId, context);
     }
 
     @Override
-    public List<String> findLuiPersonRelationIdsForPerson(String personId, ContextInfo context)
+    public List<String> getLuiPersonRelationIdsForPerson(String personId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationIdsForPerson(personId, context);
+        return getNextDecorator().getLuiPersonRelationIdsForPerson(personId, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> findLuiPersonRelationsForPersonAndAtp(String personId, String atpId,
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtp(String personId, String atpId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().findLuiPersonRelationsForPersonAndAtp(personId, atpId, context);
+        return getNextDecorator().getLuiPersonRelationsForPersonAndAtp(personId, atpId, context);
     }
 
     @Override
@@ -385,7 +385,8 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
 
     @Override
     public LPRTransactionInfo createLprTransaction(LPRTransactionInfo lprTransactionInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
     }
 
@@ -432,17 +433,33 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LPRTransactionInfo> getLprTransactionsForLpr(String lprId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprTransactionsForLpr(lprId, context);
-    }
-
-    @Override
     public List<LPRTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId,
             List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsForPersonByAtp(atpKey, personId, lprTypes, context);
+    }
+
+    @Override
+    public LuiPersonRelationInfo getLuiPersonRelationByState(String personId, String luiId, String stateKey,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiPersonRelationByState(personId, luiId, stateKey, context);
+
+    }
+
+    @Override
+    public LPRTransactionInfo getLprTransactionForLpr(String lprId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionForLpr(lprId, context);
+
+    }
+
+    @Override
+    public List<LPRTransactionInfo> getLprTransactionsForLui(String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionsForLui(luiId, context);
+
     }
 
 }

@@ -72,7 +72,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     @Test
     public void testFetchLuiPersonRelation() {
         try {
-            LuiPersonRelationInfo lpr = lprService.fetchLuiPersonRelation("testLprId1", callContext);
+            LuiPersonRelationInfo lpr = lprService.getLuiPersonRelation("testLprId1", callContext);
             assertNotNull(lpr);
             assertEquals("testLuiId1", lpr.getLuiId());
             assertEquals("testPersonId1", lpr.getPersonId());
@@ -96,7 +96,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprId = lprService.createLuiPersonRelation(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
             assertNotNull(lprId);
-            lpr2 = lprService.fetchLuiPersonRelation(lprId, callContext);
+            lpr2 = lprService.getLuiPersonRelation(lprId, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -107,7 +107,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testFindLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> personRelationInfos = lprService.findLuiPersonRelationsForLui(LUIID1, ContextInfo.newInstance());
+        List<LuiPersonRelationInfo> personRelationInfos = lprService.getLuiPersonRelationsForLui(LUIID1, ContextInfo.newInstance());
         assertNotNull(personRelationInfos);
         assertEquals(personRelationInfos.size(), 1);
 

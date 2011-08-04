@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.assembler;
 
+import java.util.List;
+
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -18,5 +20,11 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+    
+    public List<CourseRegistrationInfo> assembleList(List<LuiPersonRelationInfo> baseDTOs, ContextInfo context) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 
 }
