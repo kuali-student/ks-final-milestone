@@ -42,6 +42,10 @@
     <bean id="BaseKuali.complex" abstract="true" parent="AttributeDefinition">
         <property name="dataType" value="COMPLEX" />
         <property name="required" value="false"/>
+<!--        TODO: remove this dummy control once https://jira.kuali.org/browse/KULRICE-5481 is fixed-->
+        <property name="controlField">
+            <bean parent="TextControl" p:size="30"/>
+        </property>        
     </bean>
 
     <bean id="BaseKuali.stringLong" abstract="true" parent="BaseKuali.string">
