@@ -1796,6 +1796,7 @@
   <property name="maxOccurs" value="0" />
   <property name="maxLength" value="250" />
   <property name="validChars" ref="multiLineText"/>
+  <property name="ignoreShowRequired" value="true"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="NOT_EQUAL"/>
