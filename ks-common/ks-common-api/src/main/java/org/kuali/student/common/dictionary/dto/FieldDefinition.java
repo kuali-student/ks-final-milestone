@@ -58,9 +58,6 @@ public class FieldDefinition extends Constraint {
 	@XmlElement
 	protected String maskFormatter;//Regex replace to do a mask
 	
-	@XmlElement
-    protected boolean ignoreShowRequired;
-	
 	public String getName() {
 		return name;
 	}
@@ -134,11 +131,4 @@ public class FieldDefinition extends Constraint {
 	public void setMaskFormatter(String maskFormatter) {
 		this.maskFormatter = maskFormatter;
 	}
-    public boolean getIgnoreShowRequired() {
-        return ignoreShowRequired;
-    }
-    public void setIgnoreShowRequired(boolean ignoreShowRequired) {
-        this.ignoreShowRequired = ignoreShowRequired;
-    }
-	
 }
