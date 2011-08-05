@@ -20,11 +20,19 @@ package org.kuali.student.common.rice.authorization;
  *
  */
 public enum PermissionType {
-	INITIATE("Initiate","KR-SYS","Initiate Document"),OPEN("View","KS-SYS","Open Document"),EDIT("Edit","KS-SYS","Edit Document"),
-	ADD_COMMENT("Comment","KS-SYS","Comment on Document"),ADD_ADHOC_REVIEWER("Add Reviewer","KS-SYS","Add Adhoc Reviewer"), WITHDRAW("Withdraw","KS-SYS","Withdraw Document"),
-	SECTION_MAINTENANCE("Section Maintenance","KS-SYS","Section Maintenance"), FIELD_ACCESS("Access Permission","KS-SYS","Access Permission"), SEARCH("Lookup",null,null),
-	REMOVE_ADHOC_REVIEWERS("Remove Reviewers","KS-SYS","Remove Reviewers"), BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
-	UPLOAD_DOCUMENTS("Upload","KS-SYS","Upload to Document"),KS_ADMIN_SCREEN("KS Admin Screen","KS-SYS","KS Admin Screens");
+	INITIATE("Initiate","KR-SYS","Initiate Document"),
+	OPEN("View","KS-SYS","Open Document"),
+	EDIT("Edit","KS-SYS","Edit Document"),
+	ADD_COMMENT("Comment","KS-SYS","Comment on Document"),
+	ADD_ADHOC_REVIEWER("Add Reviewer","KS-SYS","Add Adhoc Reviewer"), 
+	WITHDRAW("Withdraw","KS-SYS","Withdraw Document"),
+	SECTION_MAINTENANCE("Section Maintenance","KS-SYS","Section Maintenance"), 
+	FIELD_ACCESS("Access Permission","KS-SYS","Access Permission"), 
+	SEARCH("Lookup",null,null),
+	REMOVE_ADHOC_REVIEWERS("Remove Reviewers","KS-SYS","Remove Reviewers"), 
+	BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
+	UPLOAD_DOCUMENTS("Upload","KS-SYS","Upload to Document"),
+	KS_ADMIN_SCREEN("KS Admin Screen","KS-SYS","KS Admin Screens");
 
 	private String label = "";
 	private String permissionNamespace = "";
