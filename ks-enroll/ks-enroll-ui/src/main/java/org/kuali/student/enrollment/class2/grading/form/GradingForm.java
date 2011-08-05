@@ -17,13 +17,19 @@ package org.kuali.student.enrollment.class2.grading.form;
  */
 
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+
+import java.util.List;
 
 public class GradingForm extends UifFormBase{
 
+    private static final long serialVersionUID = -1054046347823986329L;
+
     private String selectedCourse;
-//    private List<StudentToGrade> studentToGradeList = new ArrayList();
+    private List<GradeStudent> students;
 
     public GradingForm(){
+        super();
     }
 
     public String getSelectedCourse() {
@@ -34,12 +40,12 @@ public class GradingForm extends UifFormBase{
         this.selectedCourse = selectedCourse;
     }
 
-//    public List<StudentToGrade> getStudentToGradeList() {
-//        return studentToGradeList;
-//    }
-//
-//    public void setStudentToGradeList(List<StudentToGrade> studentToGradeList) {
-//        this.studentToGradeList = studentToGradeList;
-//    }
+    public List<GradeStudent> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<GradeStudent> students) {
+        this.students = students;
+    }
 
 }

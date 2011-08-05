@@ -16,18 +16,28 @@ package org.kuali.student.enrollment.class2.grading.controller;
  * limitations under the License.
  */
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
-import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/grading")
@@ -38,30 +48,36 @@ public class GradingController extends UifControllerBase{
         return new GradingForm();
     }
 
-    @RequestMapping(params = "methodToCall=" + GradingConstants.LOAD_GRADES_ROSTER_METHOD)
-    public ModelAndView loadGradeRoster(@ModelAttribute("GradingForm") GradingForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=loadGradeRoster")
+    public ModelAndView loadGradeRoster(@ModelAttribute("KualiForm") GradingForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//        StudentToGrade student = new StudentToGrade();
-//        student.setFirstName("Mark");
-//        student.setLastName("Steve");
-//        student.setId("1000");
-//
-//        form.getStudentToGradeList().add(student);
-//
-//        student = new StudentToGrade();
-//        student.setFirstName("John");
-//        student.setLastName("Brito");
-//        student.setId("1002");
-//        form.getStudentToGradeList().add(student);
-//
-//        student = new StudentToGrade();
-//        student.setFirstName("Chris");
-//        student.setLastName("Aswr");
-//        student.setId("1004");
-//        form.getStudentToGradeList().add(student);
+        String selectedCourse = form.getSelectedCourse();
+
+        ContextInfo context = TestHelper.getContext1();
+
+       GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
+        List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse, context);
+        if (rosterInfos != null){
+            List<GradeStudent> students = new ArrayList();
+            for (GradeRosterInfo rosterInfo : rosterInfos){
+                List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
+                for (GradeRosterEntryInfo entryInfo : entryInfos){
+                    GradeStudent student = new GradeStudent();
+                    student.setStudentId(entryInfo.getStudentId());
+                    students.add(student);
+                }
+            }
+            form.setStudents(students);
+        }
 
         return getUIFModelAndView(form,form.getViewId(),"page2");
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
+	public ModelAndView save(@ModelAttribute("KualiForm") GradingForm uiTestForm, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) {
+         return getUIFModelAndView(uiTestForm, uiTestForm.getViewId(), "page1");
     }
 
 }

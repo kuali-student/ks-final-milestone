@@ -16,9 +16,20 @@ package org.kuali.student.enrollment.class2.grading.keyvalue;
  * limitations under the License.
  */
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.ConcreteKeyValue;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.kns.util.ErrorMessage;
+import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.classII.grading.service.GradingServiceMockImpl;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.test.utilities.TestHelper;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,28 +38,32 @@ public class CourseOfferingKeyValues extends KeyValuesBase {
     public List getKeyValues() {
         List keyValues = new ArrayList();
 
+        ContextInfo context = TestHelper.getContext1();
 
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
 
-        keyValues.add(new ConcreteKeyValue("", ""));
-        keyValues.add(new ConcreteKeyValue("PHYS121", "PHYS 121"));
-        keyValues.add(new ConcreteKeyValue("PHYS122", "PHYS 122"));
+        try {
+            List<GradeRosterInfo> gradeRosterInfoList = gradingService.getGradeRostersByGraderAndTerm("Grader1", "201108", context);
+            keyValues.add(new ConcreteKeyValue("", ""));
+            if (gradeRosterInfoList != null){
+                List courseOfferingList = new ArrayList();
+                for (GradeRosterInfo rosterInfo : gradeRosterInfoList){
+                    keyValues.add(new ConcreteKeyValue(rosterInfo.getCourseOfferingId(), rosterInfo.getName()));
+                }
+            }
+        } catch (DoesNotExistException e) {
+            keyValues.add(new ConcreteKeyValue("", ""));
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            GlobalVariables.getMessageList().add(new ErrorMessage("test",e.getMessage()));
+        }
 
         return keyValues;
     }
 
-   /* private void getCourseOffernings(){
-        CourseOfferingInfo courseOffering = new CourseOfferingInfo();
-        courseOffering.setCourseId("1");
-        courseOffering.setCourseNumberSuffix("T");
-        courseOffering.setCourseOfferingCode("MAT");
-        courseOffering.setCourseTitle("Maths");
-        courseOffering.setIsHonorsOffering(false);
-        RichTextInfo desc = new RichTextInfo();
-        desc.setPlain("Sample CourseOfferning");
-        courseOffering.setDescr(desc);
-        courseOffering.setHasFinalExam(true);
-
-        GradingServiceMockImpl c= new GradingServiceMockImpl();
-    }
-*/
 }

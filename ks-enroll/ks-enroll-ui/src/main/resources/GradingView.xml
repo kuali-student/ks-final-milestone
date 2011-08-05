@@ -25,7 +25,7 @@ limitations under the License.
 	  <property name="entryPageId" value="page1"/>
       <property name="items">
           <list>
-          	<bean parent="Page_Accordion" p:id="page1">
+          	<bean parent="Page" p:id="page1">
           		<property name="items">
                		<list>
           				<ref bean="GradingView-page1"/>
@@ -35,12 +35,22 @@ limitations under the License.
                     <ref bean="Footer_page1" />
                 </property>
  			</bean>
+            <bean parent="Page" p:id="page2">
+          		<property name="items">
+               		<list>
+          				<ref bean="GradingView-page2"/>
+ 					</list>
+ 				</property>
+               <property name="footer">
+                    <ref bean="Footer_SaveCloseCancel" />
+                </property>
+ 			</bean>
           </list>
       </property>
         <property name="additionalCssFiles" ref="ks-css"/>
        <property name="footer.render" value="false"/>
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.GradingForm" />
-      <!--<property name="defaultBindingObjectPath" value="academicCalendarInfo" />-->
+      <!--<property name="defaultBindingObjectPath" value="grade" />-->
    </bean>
    
    <bean id="GradingView-page1" parent="GroupGridLayout">
@@ -48,7 +58,7 @@ limitations under the License.
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Course" p:required="true" p:maxLength="50">
+          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Course" p:required="true" p:maxLength="50" p:fieldInquiry.render="false">
             <property name="control">
               <bean parent="SelectControl"/>
             </property>
@@ -61,16 +71,42 @@ limitations under the License.
    </bean>
 
     <bean id="GradingView-page2" parent="GroupGridLayout">
-      <property name="title" value="Select Course"/>
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Course" p:required="true" p:maxLength="50">
+          <ref bean="gradeStudentGroup"/>
+        </list>
+      </property>
+   </bean>
+
+    <bean id="gradeStudentGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
+      <property name="title" value="Grade Students"/>
+      <property name="accordion.render" value="false"/>
+      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent"/>
+      <property name="propertyName" value="students"/>
+      <property name="renderLineActions" value="false"/>
+      <property name="renderAddLine" value="false"/>
+      <property name="layoutManager.sequencePropertyName" value="studentId"/>
+      <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
+      <property name="bindingInfo.bindToForm" value="true"/>
+      <property name="items">
+        <list>
+          <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:conditionalReadOnly="true">
+              <property name="control">
+              <bean parent="TextControl" p:size="26" />
+            </property>
+          </bean>
+          <bean parent="AttributeField" p:propertyName="lastName" p:label="Last Name" p:conditionalReadOnly="true">
+              <property name="control">
+              <bean parent="TextControl" p:size="26" />
+            </property>
+          </bean>
+          <bean parent="AttributeField" p:propertyName="grade" p:required="true" p:label="Grade" p:fieldInquiry.render="false">
             <property name="control">
               <bean parent="SelectControl"/>
             </property>
             <property name="optionsFinder">
-              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.CourseOfferingKeyValues"/>
+              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.GradeKeyValues"/>
             </property>
           </bean>
         </list>
@@ -84,7 +120,6 @@ limitations under the License.
           <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
-
       </property>
   </bean>
 
