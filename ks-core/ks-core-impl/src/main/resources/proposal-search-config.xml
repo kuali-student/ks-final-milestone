@@ -115,6 +115,7 @@
             <ref bean="proposal.resultColumn.proposalId" />
             <ref bean="proposal.resultColumn.proposalOptionalName" />
             <ref bean="proposal.resultColumn.proposalOptionalType" />
+            <ref bean="proposal.resultColumn.proposalOptionalStatus" />
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -122,6 +123,13 @@
 	<search:resultColumn id="proposal.resultColumn.proposalId-parent"  abstract="true">
         <search:name>Proposal Identifier</search:name>
         <search:desc>Identifier of a Proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalStatus" parent="proposal.resultColumn.proposalOptionalStatus-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalStatus-parent"  abstract="true">
+        <search:name>Proposal Status</search:name>
+        <search:desc>Status of a Proposal</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
 
@@ -150,7 +158,7 @@
 		<property name="sourceMap">
 			<map>
                 <entry key="proposal.search.generic">
-                    <value>SELECT proposal.id, proposal.name, proposal.type.id FROM Proposal proposal</value>
+                    <value>SELECT proposal.id, proposal.name, proposal.type.id, proposal.state FROM Proposal proposal</value>
                 </entry>
                 <entry key="proposal.queryParam.proposalOptionalName">
                     <value>proposal.name</value>
