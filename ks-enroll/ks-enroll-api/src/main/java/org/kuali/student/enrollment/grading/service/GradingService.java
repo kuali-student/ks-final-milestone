@@ -41,6 +41,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
+import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
+
+
 /**
  * Version: DRAFT - NOT READY FOR RELEASE.
  * 
@@ -63,7 +66,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
  *
  * @author Kuali Student Team (Kamal)
  */
-@WebService(name = "GradingService")
+@WebService(name = "GradingService", serviceName ="GradingService", portName = "GradingService", targetNamespace = GradingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface GradingService extends DataDictionaryService {
 
