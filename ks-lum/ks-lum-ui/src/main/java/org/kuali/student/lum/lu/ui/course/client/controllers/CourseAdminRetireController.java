@@ -61,7 +61,7 @@ public class CourseAdminRetireController extends CourseAdminWithoutVersionContro
 	public KSButton getCancelButton(){
 		KSButton button = new KSButton("Cancel", new ClickHandler(){
             public void onClick(ClickEvent event) {       
-            	Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+            	Application.navigate(AppLocations.Locations.VIEW_COURSE.getLocation());
             }
         });
 	
