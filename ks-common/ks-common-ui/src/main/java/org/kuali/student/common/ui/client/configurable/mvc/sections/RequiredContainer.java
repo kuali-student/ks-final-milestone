@@ -33,6 +33,7 @@ public class RequiredContainer extends WarnContainer {
     private Anchor link;
 
     private List<Callback<Boolean>> callbacks = new ArrayList<Callback<Boolean>>();
+    private List<FieldDescriptor> excludedDescriptors = new ArrayList<FieldDescriptor>();
 
     public RequiredContainer() {
         super();
@@ -89,6 +90,10 @@ public class RequiredContainer extends WarnContainer {
 
     public List<Callback<Boolean>> getCallbacks() {
         return callbacks;
+    }
+    
+    public void registerExclusion(FieldDescriptor descriptor) {
+        excludedDescriptors.add(descriptor);
     }
 
     /**
@@ -164,13 +169,18 @@ public class RequiredContainer extends WarnContainer {
 
     /**
      * This method check if the component is required or not to set all non-required fields to the required visibility.
-     * Returns true if widget is required.
+     * Returns true if widget is displayed i.e. required or excluded.
      * 
      * @param descriptor
      * @param showAll
      * @return boolean
      */
     private boolean processFieldDescriptor(FieldDescriptor descriptor, boolean showAll) {
+        // Check if this field should be ignored, return true.
+        if (descriptor.getMetadata().isIgnoreShowRequired()){
+            return true;
+        }
+        // Check if field is required or not.
         if (!MetadataInterrogator.isRequired(descriptor.getMetadata()) && (!MetadataInterrogator.isRequiredForNextState(descriptor.getMetadata()))) {
             descriptor.getFieldElement().setVisible(showAll);
             return showAll;

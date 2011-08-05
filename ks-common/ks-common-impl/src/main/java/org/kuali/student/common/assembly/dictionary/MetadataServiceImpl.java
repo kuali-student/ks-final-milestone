@@ -215,6 +215,7 @@ public class MetadataServiceImpl {
                 metadata.setLabelKey(fd.getLabelKey());
                 metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));
                 metadata.setDefaultValuePath(fd.getDefaultValuePath());
+                metadata.setIgnoreShowRequired(fd.getIgnoreShowRequired());
                 
 	           	if (fd.isPartialMask()){
 	           		metadata.setPartialMaskFormatter(fd.getPartialMaskFormatter());

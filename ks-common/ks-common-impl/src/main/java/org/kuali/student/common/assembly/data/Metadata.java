@@ -45,6 +45,7 @@ public class Metadata implements Serializable {
 	protected String maskFormatter;//Regex replace to do a mask
 	
 	private boolean onChangeRefreshMetadata;
+	private boolean ignoreShowRequired = false;
 
     private Data.DataType dataType;
     
@@ -239,7 +240,6 @@ public class Metadata implements Serializable {
     public void setWriteAccess(WriteAccess writeAccess) {
         this.writeAccess = writeAccess;
     }
-
     
     public boolean isOnChangeRefreshMetadata() {
         return onChangeRefreshMetadata;
@@ -247,6 +247,14 @@ public class Metadata implements Serializable {
 
     public void setOnChangeRefreshMetadata(boolean onChangeRefereshMetadata) {
         this.onChangeRefreshMetadata = onChangeRefereshMetadata;
+    }
+    
+    public boolean isIgnoreShowRequired() {
+        return ignoreShowRequired;
+    }
+
+    public void setIgnoreShowRequired(boolean ignoreShowRequired) {
+        this.ignoreShowRequired = ignoreShowRequired;
     }
 
     public boolean isCanUnmask() {
