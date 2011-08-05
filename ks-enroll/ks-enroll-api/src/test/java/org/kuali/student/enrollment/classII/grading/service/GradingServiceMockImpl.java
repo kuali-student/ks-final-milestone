@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public class GradingServiceMockImpl implements GradingService {
@@ -32,6 +33,141 @@ public class GradingServiceMockImpl implements GradingService {
     public static Map<String, GradeRosterEntryInfo> gradeRosterEntriesCache = new HashMap<String, GradeRosterEntryInfo>();
 
     public static Map<String, List<String>> termCourseOfferingsCache = new HashMap<String, List<String>>();
+
+    private static Map<String, ResultValuesGroupInfo> validGradesCache = new HashMap<String, ResultValuesGroupInfo>();
+
+    public GradingServiceMockImpl(){
+        loadCaches();
+    }
+
+    public void loadCaches(){
+        GradeRosterEntryInfo gradeRosterEntryInfo1 = new GradeRosterEntryInfo();
+        gradeRosterEntryInfo1.setId("1");
+        gradeRosterEntryInfo1.setStudentId("1");
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo1.getId(),gradeRosterEntryInfo1);
+
+        GradeRosterEntryInfo gradeRosterEntryInfo2 = new GradeRosterEntryInfo();
+        gradeRosterEntryInfo2.setId("2");
+        gradeRosterEntryInfo2.setStudentId("2");
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo2.getId(),gradeRosterEntryInfo2);
+
+        GradeRosterEntryInfo gradeRosterEntryInfo3 = new GradeRosterEntryInfo();
+        gradeRosterEntryInfo3.setId("3");
+        gradeRosterEntryInfo3.setStudentId("3");
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo3.getId(),gradeRosterEntryInfo3);
+
+        GradeRosterEntryInfo gradeRosterEntryInfo4 = new GradeRosterEntryInfo();
+        gradeRosterEntryInfo4.setId("4");
+        gradeRosterEntryInfo4.setStudentId("4");
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo4.getId(),gradeRosterEntryInfo4);
+
+        GradeRosterInfo gradeRosterInfo1 = new GradeRosterInfo();
+        gradeRosterInfo1.setCourseOfferingId("PHYS121");
+        gradeRosterInfo1.setId("PHYS121");
+        List<String> gradeRosterEntryIds = new ArrayList();
+        gradeRosterEntryIds.add("1");
+        gradeRosterEntryIds.add("2");
+        gradeRosterEntryIds.add("3");
+
+        gradeRosterInfo1.setGradeRosterEntryIds(gradeRosterEntryIds);
+        gradeRosterInfo1.setName("Fundamentals of Physics I");
+        gradeRosterInfo1.setTypeKey("FINAL_TYPE_KEY");
+        List grader = new ArrayList();
+        grader.add("Grader1");
+        gradeRosterInfo1.setGraderIds(grader);
+        gradeRostersCache.put(gradeRosterInfo1.getId(),gradeRosterInfo1);
+
+        /*GradeRosterInfo gradeRosterInfo2 = new GradeRosterInfo();
+        gradeRosterInfo2 = new GradeRosterInfo();
+        gradeRosterInfo2.setCourseOfferingId("PHYS122");
+        gradeRosterInfo2.setId("PHYS122");
+        gradeRosterInfo2.setTypeKey("FINAL_TYPE_KEY");
+        gradeRosterInfo2.setName("Fundamentals of Physics II");*/
+
+        List<String> courseOfferings = new ArrayList();
+        courseOfferings.add("PHYS121");
+//      courseOfferings.add(gradeRosterInfo2.getCourseOfferingId());
+        termCourseOfferingsCache.put("201108",courseOfferings);
+
+        loadValidGradesCache();
+
+    }
+
+    private void loadValidGradesCache() {
+
+        List<String> letterGrades = new ArrayList<String>();
+        letterGrades.add("A+");
+        letterGrades.add("A");
+        letterGrades.add("A-");
+        letterGrades.add("B+");
+        letterGrades.add("B");
+        letterGrades.add("B-");
+        letterGrades.add("C+");
+        letterGrades.add("C");
+        letterGrades.add("C-");
+        letterGrades.add("D+");
+        letterGrades.add("D");
+        letterGrades.add("D-");
+        letterGrades.add("F");
+
+        List<String> completionNotationGrades = new ArrayList<String>();
+        completionNotationGrades.add("Completed");
+        completionNotationGrades.add("Not-Completed");
+        completionNotationGrades.add("In-Progress");
+
+        List<String> passFailGrades = new ArrayList<String>();
+        completionNotationGrades.add("Pass");
+        completionNotationGrades.add("Fail");
+
+        List<String> satisfactoryGrades = new ArrayList<String>();
+        satisfactoryGrades.add("Satisfactory");
+        satisfactoryGrades.add("Not-Satisfactory");
+
+
+
+        ResultValuesGroupInfo letterGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
+        letterGradesResultValuesGroupInfo.setResultValueIds(letterGrades);
+        letterGradesResultValuesGroupInfo.setResultValueRange(null);
+        letterGradesResultValuesGroupInfo.setEffectiveDate(null);
+        letterGradesResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValuesGroupInfo completionNotationGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
+        completionNotationGradesResultValuesGroupInfo.setResultValueIds(completionNotationGrades);
+        completionNotationGradesResultValuesGroupInfo.setResultValueRange(null);
+        completionNotationGradesResultValuesGroupInfo.setEffectiveDate(null);
+        completionNotationGradesResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValuesGroupInfo passFailGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
+        passFailGradesResultValuesGroupInfo.setResultValueIds(passFailGrades);
+        passFailGradesResultValuesGroupInfo.setResultValueRange(null);
+        passFailGradesResultValuesGroupInfo.setEffectiveDate(null);
+        passFailGradesResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValuesGroupInfo satisfactoryGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
+        satisfactoryGradesResultValuesGroupInfo.setResultValueIds(satisfactoryGrades);
+        satisfactoryGradesResultValuesGroupInfo.setResultValueRange(null);
+        satisfactoryGradesResultValuesGroupInfo.setEffectiveDate(null);
+        satisfactoryGradesResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
+        resultValueRangeInfo.setMaxValue(100F);
+        resultValueRangeInfo.setMinValue(0F);
+        resultValueRangeInfo.setIncrement(.01F);
+        resultValueRangeInfo.setEffectiveDate(null);
+        resultValueRangeInfo.setExpirationDate(null);
+        ResultValuesGroupInfo percentGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
+        percentGradesResultValuesGroupInfo.setResultValueIds(null);
+        percentGradesResultValuesGroupInfo.setResultValueRange(resultValueRangeInfo);
+        percentGradesResultValuesGroupInfo.setEffectiveDate(null);
+        percentGradesResultValuesGroupInfo.setExpirationDate(null);
+
+
+        validGradesCache.put("letter", letterGradesResultValuesGroupInfo);
+        validGradesCache.put("completionNotation", letterGradesResultValuesGroupInfo);
+        validGradesCache.put("passFail", letterGradesResultValuesGroupInfo);
+        validGradesCache.put("satisfactory", letterGradesResultValuesGroupInfo);
+        validGradesCache.put("percent", letterGradesResultValuesGroupInfo);
+    }
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -67,11 +203,8 @@ public class GradingServiceMockImpl implements GradingService {
 
         List<GradeRosterInfo> gradeRosters = new ArrayList<GradeRosterInfo>();
         for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
-
-            if (gradeRoster.getGraderIds().contains(graderId)
-                    && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
+            if (gradeRoster.getGraderIds().contains(graderId) && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
                 gradeRosters.add(gradeRoster);
-
             }
 
         }
@@ -128,8 +261,8 @@ public class GradingServiceMockImpl implements GradingService {
         for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
 
             for (String gradeRosterEntryId : gradeRoster.getGradeRosterEntryIds()) {
-                GradeRosterEntryInfo gradeRosterENtry = gradeRosterEntriesCache.get(gradeRosterEntryId);
-                if (gradeRosterENtry.getActivityOfferingId().equals(activityOfferingId)) {
+                GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntriesCache.get(gradeRosterEntryId);
+                if (gradeRosterEntry.getActivityOfferingId().equals(activityOfferingId)) {
 
                     allGradeRostersForActivty.add(gradeRoster);
                     break;
@@ -237,16 +370,21 @@ public class GradingServiceMockImpl implements GradingService {
     public List<ResultValuesGroupInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-       
+
             List<ResultValuesGroupInfo> rvgInfo =  new ArrayList<ResultValuesGroupInfo>();
-            List<GradeRosterEntryInfo>  gradeRosterEntries = getGradeRosterEntriesByRosterId(rosterId, context);
-            for(GradeRosterEntryInfo geInfo:gradeRosterEntries){
-               if( geInfo.getStudentId().equals(studentId))
-                   rvgInfo.add(new ResultValuesGroupInfo());
-               
-                   
+
+            if (studentId.equals("1")) {
+                rvgInfo.add(validGradesCache.get("letter"));
+            } else if (studentId.equals("2")) {
+                rvgInfo.add(validGradesCache.get("completionNotation"));
+            } else if (studentId.equals("3")) {
+                rvgInfo.add(validGradesCache.get("passFail"));
+            } else if (studentId.equals("4")) {
+                rvgInfo.add(validGradesCache.get("satisfactory"));
+            } else {
+                rvgInfo.add(validGradesCache.get("letter"));
             }
-            
+
             return rvgInfo;
     }
 
@@ -261,11 +399,11 @@ public class GradingServiceMockImpl implements GradingService {
     public GradeRosterEntryInfo addEntrytoInterimRoster(GradeRosterEntryInfo gradeRosterEntry, String gradeRosterId,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-      
+
         gradeRosterEntriesCache.put(gradeRosterEntry.getId(), gradeRosterEntry);
         GradeRosterInfo gInfo = gradeRostersCache.get(gradeRosterId);
         gInfo.getGradeRosterEntryIds().add(gradeRosterEntry.getId());
-        
+
         return gradeRosterEntry;
     }
 
@@ -273,12 +411,12 @@ public class GradingServiceMockImpl implements GradingService {
     public StatusInfo removeEntryFromInterimRoster(String gradeRosterEntryId, String gradeRosterId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-     
+
         gradeRosterEntriesCache.remove(gradeRosterEntryId);
         GradeRosterInfo gInfo = gradeRostersCache.get(gradeRosterId);
         gInfo.getGradeRosterEntryIds().remove(gradeRosterEntryId);
         return new StatusInfo();
-        
+
     }
 
     @Override
@@ -295,7 +433,7 @@ public class GradingServiceMockImpl implements GradingService {
     public CreditsEarnedInfo updateCredit(String gradeRosterEntryId, CreditsEarnedInfo assignedGrade,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-       
+
         GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.get(gradeRosterEntryId);
         geInfo.setCreditsEarned(assignedGrade);
         return assignedGrade;
