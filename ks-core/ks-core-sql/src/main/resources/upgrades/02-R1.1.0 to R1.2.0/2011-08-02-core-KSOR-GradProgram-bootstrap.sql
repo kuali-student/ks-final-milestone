@@ -103,4 +103,7 @@ insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('56e35576-6c98-4374-bbd1-7ec5729dd08d', '58', '64', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '4da22d23-ac8a-4d07-8ee2-31c55035cba3')
 /
+-- Add UNIV mapping to undergrad studies college
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('badcb3f5-2938-4015-9106-8ad618d8ee70', '223', '53', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '110cc4c7-153f-41ed-adda-f86c3d3959f5')
+/
 
