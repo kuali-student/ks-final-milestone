@@ -212,11 +212,66 @@
         OBJ_ID="48cc8048-aa6b-4f40-8e95-d7940ef758a9" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.one" UPDATEID="kr"
         UPDATETIME="20110413000000" VER_NBR="2"/>
+    <KSSC_SUBJ_CD CD="ANSC " CREATEID="kr" CREATETIME="20110413000000"
+        ID="54" NAME="Animal Science "
+        OBJ_ID="cd66b3e4-e0a3-4f6c-9550-b87c15a8cd8a" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="BEES " CREATEID="kr" CREATETIME="20110413000000"
+        ID="55" NAME="Behavior, Ecology, Evolution and Systematics "
+        OBJ_ID="c650a9be-c55c-4012-833c-762d9e6cc5dd" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="BIOE " CREATEID="kr" CREATETIME="20110413000000"
+        ID="56" NAME="Bioengineering "
+        OBJ_ID="9f049809-3b18-495f-973a-dc324e997d87" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="CBMG " CREATEID="kr" CREATETIME="20110413000000"
+        ID="57" NAME="Cell Biology &amp; Molecular Genetics "
+        OBJ_ID="39016f49-24d2-4989-8d9c-79cf5f52302d" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="ENTM " CREATEID="kr" CREATETIME="20110413000000"
+        ID="58" NAME="Entomology "
+        OBJ_ID="e261c824-69e8-4c3a-86bf-ab2d9955d89b" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="MEES " CREATEID="kr" CREATETIME="20110413000000"
+        ID="59" NAME="Marine-Estuarine-Environmental Sciences"
+        OBJ_ID="a9a901dc-bcda-4e07-bc7c-6ca5fef0d893" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
     <KSSC_SUBJ_CD CD="ARTH" CREATEID="kr" CREATETIME="20110413000000"
         ID="6" NAME="Art History"
         OBJ_ID="73c56e37-6273-4061-9069-668ffdb84908" STATE="Actual"
         TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
         UPDATETIME="20110413000000" VER_NBR="2"/>
+    <KSSC_SUBJ_CD CD="MOCB " CREATEID="kr" CREATETIME="20110506000000"
+        ID="60" NAME="Molecular and Cellular Biology "
+        OBJ_ID="43786357-b35c-4df0-9958-ea33e1a79f93" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="MUED " CREATEID="kr" CREATETIME="20110413000000"
+        ID="61" NAME="Music Education"
+        OBJ_ID="5ffbb7a2-8eee-4095-9a63-9b51fbe990e6" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="MUET " CREATEID="kr" CREATETIME="20110413000000"
+        ID="62" NAME="Ethnomusicology "
+        OBJ_ID="c37a0ec5-0a4c-42f1-bb38-2196bdfd2971" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="MUSP " CREATEID="kr" CREATETIME="20110413000000"
+        ID="63" NAME="Music Performance"
+        OBJ_ID="2de2348d-364f-469a-90be-4b97e094f4d0" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.all" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
+    <KSSC_SUBJ_CD CD="NACS " CREATEID="kr" CREATETIME="20110413000000"
+        ID="64" NAME="Neuroscience &amp; Cognitive Science"
+        OBJ_ID="3aab2a00-664c-4556-8dba-c50c638a6f61" STATE="Actual"
+        TYPE="ks.core.subjectcode.usage.one" UPDATEID="kr"
+        UPDATETIME="20110413000000" VER_NBR="0"/>
     <KSSC_SUBJ_CD CD="ARTS" CREATEID="kr" CREATETIME="20110414000000"
         ID="7" NAME="FineArts"
         OBJ_ID="22a76253-78db-4194-ae82-35f17918cbd9" STATE="Actual"
