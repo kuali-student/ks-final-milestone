@@ -77,3 +77,30 @@ insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NB
 /
 insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('64', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Neuroscience & Cognitive Science', 'Actual', 'NACS ', 'ks.core.subjectcode.usage.one', '3aab2a00-664c-4556-8dba-c50c638a6f61')
 /
+
+--Subject Codes Join Orgs
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('0b89706b-652f-43bb-bba7-0c45d28012df', '201', '54', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '69eadfbd-a53f-4a9e-b31c-595f59ca952c')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('f387067f-84d8-4fb2-a3e2-e5baa9cdce0d', '65', '55', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '5e02573a-69fc-439c-88dc-0717965eee6a')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('2305554e-c5fd-4bd2-8550-045bc900967e', '224', '56', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, 'dbf1be3f-f314-41c3-bde3-0e4b5b5fd625')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('b1af6447-f432-4c11-b672-6e7d180221ab', '65', '57', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '292eeb99-348f-4092-a9f9-15757a66ab3c')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('5810d120-3afe-48c3-8ea2-94795fb58f6d', '226', '58', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, 'c582202e-0b6b-4053-8478-f4bc79ddf623')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('1b7b48fa-6178-482c-9aa0-abcc7bf8a8bf', '65', '59', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '5c4733c3-c54e-4d04-a991-3b58c80b059a')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('1fef30a6-63a3-4c0e-93d6-98855386b298', '65', '60', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '3a8299bc-2875-4bf4-9e22-8fe31c7ff6ae')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('7ca4c949-d82b-433e-a43f-3157bd6f7ab6', '55', '61', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, 'ffc450a7-e3e2-4de4-a78e-34c13d7474b3')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('35ad514d-c286-43d8-b788-2544fdd5dc5e', '55', '62', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '05aaf74d-8103-4cbb-972c-744a85e65b91')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('dacf28ee-82ce-4ce1-ad29-52cc5636a6a7', '55', '63', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, 'e8c4bdbf-c666-4e98-a465-62593881634e')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('5f013bf8-6bdf-4baf-8701-012cf4782509', '65', '64', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '74eb929d-37d9-4327-afd6-418c2a006b43')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('56e35576-6c98-4374-bbd1-7ec5729dd08d', '58', '64', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '4da22d23-ac8a-4d07-8ee2-31c55035cba3')
+/
+
