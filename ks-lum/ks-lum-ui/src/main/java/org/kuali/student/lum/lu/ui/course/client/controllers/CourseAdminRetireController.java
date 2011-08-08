@@ -7,6 +7,7 @@ import org.kuali.student.common.ui.client.event.ActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -140,5 +141,14 @@ public class CourseAdminRetireController extends CourseAdminWithoutVersionContro
 	protected void progressiveEnableFields() {
 		//Does nothing, there are no progressive enabled fields on retire screens.
 	}
+	
+	/**
+	 * Override the getStateforSaveAction since the save action for retire course will change state to 
+	 * retired.  
+	 */
+	@Override
+    protected String getStateforSaveAction(DataModel model){
+    	return cfg.getState();
+    }
     
 }

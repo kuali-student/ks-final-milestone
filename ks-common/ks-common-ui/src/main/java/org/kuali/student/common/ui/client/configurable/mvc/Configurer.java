@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class Configurer {
     protected ModelDefinition modelDefinition;
     protected String type = "";
+    //FIXME: WJG: I think state should be removed from the configurer
     protected String state = "";
     protected String nextState = "";
     protected String groupName = "";

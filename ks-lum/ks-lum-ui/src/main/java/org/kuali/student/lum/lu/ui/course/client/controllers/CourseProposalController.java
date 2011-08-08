@@ -306,7 +306,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				@Override
 				public void onModelReady(DataModel model) {
 					
-					//Setup View Context
+					//Setup View Context & determine id type
 					String idType = null;
 		    		String viewContextId = "";
 		    		if(getViewContext().getIdType() != null){
@@ -317,10 +317,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		                }
 
 		    		}
-					HashMap<String, String> idAttributes = new HashMap<String, String>();
-		    		if(idType != null){
-		    			idAttributes.put(IdAttributes.ID_TYPE, idType);
-		    		}
+
+		    		//FIXME: Something looks odd in determining currentDocType
 		    		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("") && !LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(currentDocType)){
 		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
 		    		}
@@ -328,11 +326,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(cluProposalModel.get(cfg.getProposalPath()+"/type"))){
 		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN;
 		    		}
-		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);
-		    		idAttributes.put(DtoConstants.DTO_STATE, cfg.getState());		    		
-		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
-
+		    		
+		    		//Get the state for save action
+		    		String dtoState = getStateforSaveAction(cluProposalModel); 
+		    		
+		    		//Get the current workflow node for proposal
 		    		String workflowNode = cluProposalModel.get(cfg.getProposalPath()+"/workflowNode");
+		    		
+		    		//Add properties to an id attributes map so metadata service can get correct metadata
+					HashMap<String, String> idAttributes = new HashMap<String, String>();
+		    		if(idType != null){
+		    			idAttributes.put(IdAttributes.ID_TYPE, idType);
+		    		}
+		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);		    				    		
+		    		idAttributes.put(DtoConstants.DTO_STATE, dtoState);		    		
+		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
 		    		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
 
 		    		
@@ -475,7 +483,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		
 		if (pilotCourse != null && endTerm != null){
 	    	//Enable and require end term field based on pilot course value in model loaded		
-	        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE));
+	        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE)) 
+	        	|| DtoConstants.STATE_RETIRED.equalsIgnoreCase((String)cluProposalModel.get(CreditCourseConstants.STATE));
 			BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
 	    	
 	        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
@@ -1245,7 +1254,25 @@ public class CourseProposalController extends MenuEditableSectionController impl
             return false;
         }
             
-    }  
+    }
+    
+    /**
+     * This method is used to determine which state the dto will be when making the save call. The information
+     * is used by the metadata service (along with workflow node) to determine the appropriate required indicators
+     * for field elements.
+     */
+    protected String getStateforSaveAction(DataModel model){
+		//The state for existing course proposal will be the state set on existing course
+    	String state = (String)model.get(CreditCourseConstants.STATE);
+		
+    	//If null, this means it is a new course proposal, in which case we will default to configurer state
+    	//which should be DRAFT
+    	if (state == null){
+			state = cfg.getState();
+		}
+    	
+		return state;
+    }
     
     public String getMessage(String courseMessageKey) {
     	String msg = Application.getApplicationContext().getMessage(MSG_GROUP, courseMessageKey);

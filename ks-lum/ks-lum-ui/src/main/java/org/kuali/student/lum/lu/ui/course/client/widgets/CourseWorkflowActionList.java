@@ -99,14 +99,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	    	this.isCurrentVersion = true;
 	    	
 	    	// TODO: use messages
-               	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
-		
-					@Override
-					public void onClick(ClickEvent event) {
-						
-						checkAdminPermission("cluModifyItem", viewContext, modifyPath, model);
-					}
-				});
+           	modifyCourseActionItem = new KSMenuItemData(this.getMessage("cluModifyItem"), new ClickHandler(){
+	
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					checkAdminPermission("cluModifyItem", viewContext, modifyPath, model);
+				}
+			});
             
 	    	copyCourseActionItem = new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
 				@Override
@@ -119,6 +119,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					HistoryManager.navigate(modifyPath, viewContext);
 				}
 			});
+
 	    	activateCourseActionItem = new KSMenuItemData(this.getMessage("cluActivateItem"), new ClickHandler(){
 	
 				@Override
@@ -126,6 +127,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					showStateDialog(DtoConstants.STATE_ACTIVE);
 				}
 			});
+	    	
 	    	inactivateCourseActionItem = new KSMenuItemData(this.getMessage("cluInactivateItem") + " (Not Yet Implemented)", new ClickHandler(){
 	
 				@Override
@@ -133,6 +135,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 						// TODO: Inactivate
 				}
 			});
+	
 	    	retireCourseActionItem = new KSMenuItemData(this.getMessage("cluRetireItem"), new ClickHandler(){
 	
 				@Override
@@ -404,6 +407,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
     		items.add(retireCourseActionItem);
     	} else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
     		items.add(activateCourseActionItem);
+    	} else if (cluState.equals(DtoConstants.STATE_RETIRED)){
+    		items.add(modifyCourseActionItem);    		
     	}
     	
 		items.add(copyCourseActionItem);
