@@ -855,20 +855,20 @@
         SHRT_NAME="UndergraduateStudies" TYPE="kuali.org.Department"
         UPDATEID="admin" UPDATETIME="20000101000000" VER_NBR="1"/>
     <KSOR_ORG EFF_DT="20100701000000" ID="224"
-        LNG_NAME="Bioengineering Dept "
+        LNG_NAME="Bioengineering Dept"
         OBJ_ID="572084a6-06e9-43ef-bd79-b7fe50c40fcc"
         SHRT_NAME="Bioengineering" ST="Active"
         TYPE="kuali.org.Department" VER_NBR="0"/>
     <KSOR_ORG EFF_DT="20100701000000" ID="225"
-        LNG_NAME="Bioengineering Dept Curriculum Committee "
+        LNG_NAME="Bioengineering Dept Curriculum Committee"
         OBJ_ID="b3e8902a-6284-4a7d-b1e2-d6fe19719401"
         SHRT_NAME="BioengineeringCOC" ST="Active" TYPE="kuali.org.COC" VER_NBR="0"/>
     <KSOR_ORG EFF_DT="20100701000000" ID="226"
-        LNG_NAME="Entomology Dept "
+        LNG_NAME="Entomology Dept"
         OBJ_ID="64bf7d03-e592-42f2-aa2f-935937b93e05"
         SHRT_NAME="Entomology" ST="Active" TYPE="kuali.org.Department" VER_NBR="0"/>
     <KSOR_ORG EFF_DT="20100701000000" ID="227"
-        LNG_NAME="Entomology Dept Curriculum Committee "
+        LNG_NAME="Entomology Dept Curriculum Committee"
         OBJ_ID="c12a6b9f-2f01-420c-8826-c9684db174b4"
         SHRT_NAME="EntomologyCOC" ST="Active" TYPE="kuali.org.COC" VER_NBR="0"/>
     <KSOR_ORG CREATEID="TESTUSER" CREATETIME="20090122000000"
