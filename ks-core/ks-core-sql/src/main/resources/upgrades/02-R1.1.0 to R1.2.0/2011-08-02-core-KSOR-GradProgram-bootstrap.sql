@@ -3,13 +3,13 @@ update KSOR_ORG SET TYPE='kuali.org.College' WHERE ID='26'
 /
 
 -- Orgs
-insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('224', 0, 'Bioengineering Dept ', 'Bioengineering', 'Active', 'kuali.org.Department', '572084a6-06e9-43ef-bd79-b7fe50c40fcc', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
+insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('224', 0, 'Bioengineering Dept', 'Bioengineering', 'Active', 'kuali.org.Department', '572084a6-06e9-43ef-bd79-b7fe50c40fcc', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
 /
-insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('225', 0, 'Bioengineering Dept Curriculum Committee ', 'BioengineeringCOC', 'Active', 'kuali.org.COC', 'b3e8902a-6284-4a7d-b1e2-d6fe19719401', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
+insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('225', 0, 'Bioengineering Dept Curriculum Committee', 'BioengineeringCOC', 'Active', 'kuali.org.COC', 'b3e8902a-6284-4a7d-b1e2-d6fe19719401', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
 /
-insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('226', 0, 'Entomology Dept ', 'Entomology', 'Active', 'kuali.org.Department', '64bf7d03-e592-42f2-aa2f-935937b93e05', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
+insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('226', 0, 'Entomology Dept', 'Entomology', 'Active', 'kuali.org.Department', '64bf7d03-e592-42f2-aa2f-935937b93e05', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
 /
-insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('227', 0, 'Entomology Dept Curriculum Committee ', 'EntomologyCOC', 'Active', 'kuali.org.COC', 'c12a6b9f-2f01-420c-8826-c9684db174b4', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
+insert into KSOR_ORG (ID, VER_NBR, LNG_NAME, SHRT_NAME, ST, TYPE, OBJ_ID, EFF_DT) values ('227', 0, 'Entomology Dept Curriculum Committee', 'EntomologyCOC', 'Active', 'kuali.org.COC', 'c12a6b9f-2f01-420c-8826-c9684db174b4', TO_DATE( '20100701000000', 'YYYYMMDDHH24MISS' ))
 /
 
 -- Org Relationships
@@ -55,27 +55,27 @@ insert into KSOR_ORG_PERS_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME,
 /
 
 -- Subject Codes
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('54', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Animal Science ', 'Actual', 'ANSC ', 'ks.core.subjectcode.usage.all', 'cd66b3e4-e0a3-4f6c-9550-b87c15a8cd8a')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('54', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Animal Science', 'Actual', 'ANSC', 'ks.core.subjectcode.usage.all', 'cd66b3e4-e0a3-4f6c-9550-b87c15a8cd8a')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('55', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Behavior, Ecology, Evolution and Systematics ', 'Actual', 'BEES ', 'ks.core.subjectcode.usage.all', 'c650a9be-c55c-4012-833c-762d9e6cc5dd')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('55', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Behavior, Ecology, Evolution and Systematics', 'Actual', 'BEES', 'ks.core.subjectcode.usage.all', 'c650a9be-c55c-4012-833c-762d9e6cc5dd')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('56', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Bioengineering ', 'Actual', 'BIOE ', 'ks.core.subjectcode.usage.all', '9f049809-3b18-495f-973a-dc324e997d87')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('56', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Bioengineering', 'Actual', 'BIOE', 'ks.core.subjectcode.usage.all', '9f049809-3b18-495f-973a-dc324e997d87')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('57', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Cell Biology & Molecular Genetics ', 'Actual', 'CBMG ', 'ks.core.subjectcode.usage.all', '39016f49-24d2-4989-8d9c-79cf5f52302d')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('57', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Cell Biology & Molecular Genetics', 'Actual', 'CBMG', 'ks.core.subjectcode.usage.all', '39016f49-24d2-4989-8d9c-79cf5f52302d')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('58', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Entomology ', 'Actual', 'ENTM ', 'ks.core.subjectcode.usage.all', 'e261c824-69e8-4c3a-86bf-ab2d9955d89b')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('58', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Entomology', 'Actual', 'ENTM', 'ks.core.subjectcode.usage.all', 'e261c824-69e8-4c3a-86bf-ab2d9955d89b')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('59', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Marine-Estuarine-Environmental Sciences', 'Actual', 'MEES ', 'ks.core.subjectcode.usage.all', 'a9a901dc-bcda-4e07-bc7c-6ca5fef0d893')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('59', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Marine-Estuarine-Environmental Sciences', 'Actual', 'MEES', 'ks.core.subjectcode.usage.all', 'a9a901dc-bcda-4e07-bc7c-6ca5fef0d893')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('60', 'kr', to_date('2011-05-06', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Molecular and Cellular Biology ', 'Actual', 'MOCB ', 'ks.core.subjectcode.usage.all', '43786357-b35c-4df0-9958-ea33e1a79f93')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('60', 'kr', to_date('2011-05-06', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Molecular and Cellular Biology', 'Actual', 'MOCB', 'ks.core.subjectcode.usage.all', '43786357-b35c-4df0-9958-ea33e1a79f93')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('61', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Music Education', 'Actual', 'MUED ', 'ks.core.subjectcode.usage.all', '5ffbb7a2-8eee-4095-9a63-9b51fbe990e6')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('61', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Music Education', 'Actual', 'MUED', 'ks.core.subjectcode.usage.all', '5ffbb7a2-8eee-4095-9a63-9b51fbe990e6')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('62', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Ethnomusicology ', 'Actual', 'MUET ', 'ks.core.subjectcode.usage.all', 'c37a0ec5-0a4c-42f1-bb38-2196bdfd2971')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('62', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Ethnomusicology', 'Actual', 'MUET', 'ks.core.subjectcode.usage.all', 'c37a0ec5-0a4c-42f1-bb38-2196bdfd2971')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('63', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Music Performance', 'Actual', 'MUSP ', 'ks.core.subjectcode.usage.all', '2de2348d-364f-469a-90be-4b97e094f4d0')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('63', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Music Performance', 'Actual', 'MUSP', 'ks.core.subjectcode.usage.all', '2de2348d-364f-469a-90be-4b97e094f4d0')
 /
-insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('64', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Neuroscience & Cognitive Science', 'Actual', 'NACS ', 'ks.core.subjectcode.usage.one', '3aab2a00-664c-4556-8dba-c50c638a6f61')
+insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, NAME, STATE, CD, TYPE, OBJ_ID) values ('64', 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 'kr', to_date('2011-04-13', 'yyyy-mm-dd'), 0, 'Neuroscience & Cognitive Science', 'Actual', 'NACS', 'ks.core.subjectcode.usage.one', '3aab2a00-664c-4556-8dba-c50c638a6f61')
 /
 
 --Subject Codes Join Orgs
