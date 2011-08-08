@@ -45,7 +45,7 @@ public class GradeRosterInfo extends IdEntityInfo implements GradeRoster, Serial
 
     @Override
     public List<String> getGraderIds() {
-        return this.getGraderIds();
+        return this.graderIds;
     }
 
     public void setGraderIds(List<String> graderIds) {
