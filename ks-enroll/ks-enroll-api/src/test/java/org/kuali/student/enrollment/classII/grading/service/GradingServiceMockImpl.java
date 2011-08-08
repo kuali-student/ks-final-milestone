@@ -163,10 +163,10 @@ public class GradingServiceMockImpl implements GradingService {
 
 
         validGradesCache.put("letter", letterGradesResultValuesGroupInfo);
-        validGradesCache.put("completionNotation", letterGradesResultValuesGroupInfo);
-        validGradesCache.put("passFail", letterGradesResultValuesGroupInfo);
-        validGradesCache.put("satisfactory", letterGradesResultValuesGroupInfo);
-        validGradesCache.put("percent", letterGradesResultValuesGroupInfo);
+        validGradesCache.put("completionNotation", completionNotationGradesResultValuesGroupInfo);
+        validGradesCache.put("passFail", passFailGradesResultValuesGroupInfo);
+        validGradesCache.put("satisfactory", satisfactoryGradesResultValuesGroupInfo);
+        validGradesCache.put("percent", percentGradesResultValuesGroupInfo);
     }
 
     @Override
