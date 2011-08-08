@@ -635,7 +635,7 @@
 				</bean>
 				<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">
 	        		<property name="documentType" value="kuali.proposal.type.course.modify.admin"/>
-					<property name="defaultDocumentTitle" value="Modify: {courseTitle} (Admin Proposal)"/>	            	
+					<property name="defaultDocumentTitle" value="Modify: {courseTitle}"/>	            	
 					<property name="docContentFieldMap">					
 	           			<map>
 		                	<entry key="cluId" value="id"/>
