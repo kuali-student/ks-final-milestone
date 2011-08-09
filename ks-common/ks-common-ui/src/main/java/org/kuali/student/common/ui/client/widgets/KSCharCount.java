@@ -19,6 +19,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBoxBase;
@@ -48,8 +50,17 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
                 public void onKeyUp(KeyUpEvent event) {
                     countingLabel.setText(setLabel());
                 }
+            });
+
+            ((TextBoxBase) (this.inputWidget)).addValueChangeHandler(new ValueChangeHandler<String>() {
+
+                @Override
+                public void onValueChange(ValueChangeEvent<String> event) {
+                    countingLabel.setText(setLabel());
+                }
 
             });
+
         }
 
         countingLabel.setText(this.setLabel());

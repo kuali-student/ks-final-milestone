@@ -568,13 +568,13 @@
 
  <bean id="majorDisciplineInfo.catalogDescr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="formatted" />
-  <property name="maxLength" value="1000" />
+  <property name="maxLength" value="2500" />
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr.formatted" parent="majorDisciplineInfo.catalogDescr.formatted-parent" />
 
  <bean id="majorDisciplineInfo.catalogDescr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
   <property name="name" value="plain" />
-  <property name="maxLength" value="1000" />
+  <property name="maxLength" value="2500" />
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr.plain" parent="majorDisciplineInfo.catalogDescr.plain-parent" />
 
