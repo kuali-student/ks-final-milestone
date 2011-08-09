@@ -209,8 +209,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
 
     public LuiPersonRelationInfo getLuiPersonRelationByState(@WebParam(name = "personId") String personId,
             @WebParam(name = "luiId") String luiId, @WebParam(name = "stateKey") String stateKey,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, 
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves LUI Person Relation Ids
@@ -1033,7 +1033,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      *             authorization failure
      */
     public LPRTransactionInfo updateLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
-            @WebParam(name = "lprTransactionInfo") LPRTransactionItemInfo lprTransactionInfo,
+            @WebParam(name = "lprTransactionInfo") LPRTransactionInfo lprTransactionInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
@@ -1268,5 +1268,68 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     public LPRTransactionInfo submitLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method ...
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<LPRTransactionInfo> searchForLprTransactions(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForLprTransactionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<LprRosterInfo> searchForLprRosters(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * This method ...
+     * 
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForLprRosterIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

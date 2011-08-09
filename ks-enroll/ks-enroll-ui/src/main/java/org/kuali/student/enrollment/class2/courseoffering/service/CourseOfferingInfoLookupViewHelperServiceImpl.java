@@ -28,7 +28,7 @@ public class CourseOfferingInfoLookupViewHelperServiceImpl extends LookupViewHel
         List<CourseOfferingInfo> courseOfferings;
 
         try {
-            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsBySubjectArea(termKey, subjectArea, context);
+            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termKey, subjectArea, context);
             courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
 
             for(String coId : courseOfferingIds) {

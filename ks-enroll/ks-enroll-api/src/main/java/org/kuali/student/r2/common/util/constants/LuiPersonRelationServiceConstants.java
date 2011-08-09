@@ -1,17 +1,12 @@
 /*
- * Copyright 2011 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the
- * "License"); you may not use this file except in compliance with the
- * License.  You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.common.util.constants;
 
@@ -19,7 +14,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 
 /**
  * Constants used by for LuiPersonRelationService
- *
+ * 
  * @author nwright
  */
 public class LuiPersonRelationServiceConstants {
@@ -28,7 +23,8 @@ public class LuiPersonRelationServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "luiPersonRelation";
-    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/" + LuiPersonRelationInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/"
+            + LuiPersonRelationInfo.class.getSimpleName();
     /**
      * Types and knowns groups of types
      */
@@ -39,7 +35,20 @@ public class LuiPersonRelationServiceConstants {
     public static final String REGISTRANT_TYPE_KEY = "kuali.lpr.type.student";
     public static final String ENROLLEE_TYPE_KEY = "kuali.lpr.type.enrollee";
     public static final String ADVISOR_TYPE_KEY = "kuali.lpr.type.advisor";
-    public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY, INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
+    public static final String LPRTRANS_ITEM_UPDATE_TYPE_KEY = "kuali.lpr.trans.item.update";
+    public static final String LPRTRANS_ITEM_ADD_TYPE_KEY = "kuali.lpr.trans.item.add";
+    public static final String LPRTRANS_ITEM_DROP_TYPE_KEY = "kuali.lpr.trans.item.drop";
+    public static final String LPRTRANS_ITEM_SAVE_TYPE_KEY = "kuali.lpr.trans.item.save";
+
+    public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.new";
+    public static final String LPRTRANS_ITEM_DRAFT_STATE_KEY = "kuali.lpr.trans.item.draft";
+    public static final String LPRTRANS_ITEM_SUBMITTED_STATE_KEY = "kuali.lpr.trans.submitted";
+    public static final String LPRTRANS_ITEM_FAILED_STATE_KEY = "kuali.lpr.trans.failed";
+    public static final String LPRTRANS_ITEM_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.succeeded";
+    public static final String[] LPRTRANS_ITEM_TYPE_KEYS = {LPRTRANS_ITEM_UPDATE_TYPE_KEY, LPRTRANS_ITEM_ADD_TYPE_KEY,
+            LPRTRANS_ITEM_DROP_TYPE_KEY, LPRTRANS_ITEM_SAVE_TYPE_KEY};
+    public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
+            INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
     public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_TYPE_KEY};
     /**
      * Student states to courses
@@ -76,12 +85,14 @@ public class LuiPersonRelationServiceConstants {
      * States used for isntructors of courses
      */
     public static final String INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY = "kuali.lpr.process.instructor.course.assignment";
-    public static final String[] INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY, UNASSIGNED_STATE_KEY};
+    public static final String[] INSTRUCTOR_COURSE_ASSIGNMENT_STATE_KEYS = {TENATIVE_STATE_KEY, ASSIGNED_STATE_KEY,
+            UNASSIGNED_STATE_KEY};
     /**
-     * States  used for students in courses
+     * States used for students in courses
      */
     public static final String STUDENT_COURSE_REGISTRATION_PROCESS_KEY = "kuali.lpr.process.student.course.registration";
-    public static final String[] STUDENT_COURSE_REGISTRATION_STATE_KEYS = {PLANNED_STATE_KEY, REGISTERED_STATE_KEY, WAITLISTED_STATE_KEY, DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
+    public static final String[] STUDENT_COURSE_REGISTRATION_STATE_KEYS = {PLANNED_STATE_KEY, REGISTERED_STATE_KEY,
+            WAITLISTED_STATE_KEY, DROPPED_STATE_KEY, DROPPED_LATE_STATE_KEY};
     /**
      * States used for instructors of PROGRAMS
      */
@@ -91,9 +102,14 @@ public class LuiPersonRelationServiceConstants {
      * Types used for students in PROGRAMS
      */
     public static final String STUDENT_PROGRAM_ENROLLMENT_PROCESS_KEY = "kuali.lpr.process.student.program.enrollment";
-    public static final String[] STUDENT_PROGRAM_ENROLLMENT_STATE_KEYS = {PLANNED_STATE_KEY, INQUIRED_STATE_KEY, APPLIED_STATE_KEY, WAITLISTED_STATE_KEY, DENIED_STATE_KEY, CONFIRMED_STATE_KEY, CANCELED_STATE_KEY, DEFERED_STATE_KEY, ENROLLED_STATE_KEY, TEMPORARY_ABSENCE_STATE_KEY, WITHDRAWN_STATE_KEY, PROBATION_STATE_KEY};
+    public static final String[] STUDENT_PROGRAM_ENROLLMENT_STATE_KEYS = {PLANNED_STATE_KEY, INQUIRED_STATE_KEY,
+            APPLIED_STATE_KEY, WAITLISTED_STATE_KEY, DENIED_STATE_KEY, CONFIRMED_STATE_KEY, CANCELED_STATE_KEY,
+            DEFERED_STATE_KEY, ENROLLED_STATE_KEY, TEMPORARY_ABSENCE_STATE_KEY, WITHDRAWN_STATE_KEY,
+            PROBATION_STATE_KEY};
     /**
      * All process keys
      */
-    public static final String[] LPR_PROCESS_KEYS = {STUDENT_COURSE_REGISTRATION_PROCESS_KEY, INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY, STUDENT_PROGRAM_ENROLLMENT_PROCESS_KEY, PROGRAM_ADVISOR_ASSIGNMENT_PROCESS_KEY};
+    public static final String[] LPR_PROCESS_KEYS = {STUDENT_COURSE_REGISTRATION_PROCESS_KEY,
+            INSTRUCTOR_COURSE_ASSIGNMENT_PROCESS_KEY, STUDENT_PROGRAM_ENROLLMENT_PROCESS_KEY,
+            PROGRAM_ADVISOR_ASSIGNMENT_PROCESS_KEY};
 }

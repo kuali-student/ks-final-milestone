@@ -64,7 +64,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             OperationFailedException, PermissionDeniedException { 
         List<LuiPersonRelationEntity> luiPersonRelations = lprDao.getByLuiId(luiId);
         List<LuiPersonRelationInfo> dtos = new ArrayList<LuiPersonRelationInfo>();
-        for (LuiPersonRelationEntity entity : luiPersonRelations) {
+        for (LuiPersonRelationEntity entity : luiPersonRelations) { 
             dtos.add(entity.toDto());
         }
         return dtos;
@@ -506,15 +506,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return null;
     }
 
-    @Override
-    public LPRTransactionInfo updateLprTransaction(String lprTransactionId,
-            LPRTransactionItemInfo luiPersonRelationRequestInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
+   
     @Override
     public List<String> getLprTransactionIdsForPerson(String personId, List<String> lprTypes, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -558,6 +550,46 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LPRTransactionInfo> getLprTransactionsForLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public LPRTransactionInfo updateLprTransaction(String lprTransactionId, LPRTransactionInfo lprTransactionInfo,
+            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LPRTransactionInfo> searchForLprTransactions(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForLprTransactionIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LprRosterInfo> searchForLprRosters(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForLprRosterIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler;
@@ -13,6 +14,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -63,7 +65,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
 	}
-
+ 
 	public AcademicCalendarService getAcalService() {
 		return acalService;
 	}
@@ -151,7 +153,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public List<String> getCourseOfferingIdsBySubjectArea(String termKey,
+	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey,
 			String subjectArea, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -161,7 +163,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public List<String> getCourseOfferingIdsByUnitContentOwner(String termKey,
+	public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey,
 			String unitOwnerId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -861,5 +863,69 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getRegistrationGroupsByIdList not supported");
+    }
+
+    @Override
+    public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<ActivityOfferingInfo> searchForActivityOfferings(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForActivityOfferingIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }    
 }

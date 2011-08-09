@@ -363,7 +363,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * <li>Create an id and persist the registration request.
      * <li>Return the updated registration request.
      * <li>Throw an AlreadyExistsException when there is an existing request by
-     *  the same requesting person for a term in DRAFT state.
+     * the same requesting person for a term in DRAFT state.
      * 
      * @param regRequestInfo
      *            The registration request object to be created
@@ -496,7 +496,8 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      *             Not authorized to do this action
      */
-    public RegResponseInfo verifyRegRequest(@WebParam(name = "regRequestInfo") RegRequestInfo regRequestInfo,
+    public List<ValidationResultInfo> verifyRegRequest(
+            @WebParam(name = "regRequestInfo") RegRequestInfo regRequestInfo,
             @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -550,7 +551,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      */
     public RegRequestInfo createRegRequestFromExisting(
             @WebParam(name = "existingRegRequestId") String existingRegRequestId,
-            @WebParam(name = "context") ContextInfo context) throws  InvalidParameterException,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
@@ -585,10 +586,11 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      *             Unable to complete request
      * @throws PermissionDeniedException
      *             Not authorized to do this action
+     * @throws AlreadyExistsException 
      */
     public RegResponseInfo submitRegRequest(@WebParam(name = "regRequestId") String regRequestId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, AlreadyExistsException;
 
     /**
      * Bulk operation to drop all students from a reg group if it gets canceled.

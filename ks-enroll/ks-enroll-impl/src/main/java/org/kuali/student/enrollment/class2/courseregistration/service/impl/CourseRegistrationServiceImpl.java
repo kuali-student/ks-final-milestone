@@ -4,23 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
+import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.service.CourseService;
@@ -33,6 +38,7 @@ import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,9 +59,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private LuiPersonRelationService lprService;
     private CourseOfferingService courseOfferingService;
     private RegRequestAssembler regRequestAssembler;
+    private RegResponseAssembler regResponseAssembler;
     private CourseRegistrationAssembler courseregistrationAssembler;
 
-    private StateService stateService;
     private DataDictionaryService dataDictionaryService;
 
     public DataDictionaryService getDataDictionaryService() {
@@ -264,15 +270,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<org.kuali.student.r2.common.dto.ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo,
-            ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public RegResponseInfo verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
+    public List<ValidationResultInfo> verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -311,9 +317,68 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     @Override
     public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+        LPRTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
+
+        RegRequestInfo storedRegRequest = regRequestAssembler.assemble(storedLprTransaction, context);
+        try {
+            List<ValidationResultInfo> listValidationResult = validateRegRequest(storedRegRequest, context);
+            if (listValidationResult != null && listValidationResult.size() > 0) {
+                String message = "";
+                throw new OperationFailedException(message);
+            }
+            List<ValidationResultInfo> listVerificationResult = verifyRegRequest(storedRegRequest, context);
+        } catch (DataValidationErrorException dataValidException) {
+            throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+        }
+
+        List<RegRequestItemInfo> regRequestItems = storedRegRequest.getRegRequestItems();
+
+        List<LPRTransactionItemInfo> newTransactionItems = new ArrayList<LPRTransactionItemInfo>();
+
+        for (RegRequestItemInfo regRequestItem : regRequestItems) {
+            if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
+                    || regRequestItem.getTypeKey()
+                            .equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                String regGroupId = regRequestItem.getNewRegGroupId();
+                RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
+                List<LPRTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LPRTransactionItemInfo>();
+                for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
+                    LPRTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                            context);
+                    activtyItemInfo.setNewLuiId(activityOfferingId);
+                    activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+                    newTransactionItems.add(activtyItemInfo);
+
+                }
+
+                String courseOfferingId = courseOfferingService.getRegistrationGroup(regGroupId, context)
+                        .getCourseOfferingId();
+                LPRTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                        context);
+                courseOfferingItemInfo.setNewLuiId(courseOfferingId);
+                courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+                lprActivityTransactionItems.add(courseOfferingItemInfo);
+                newTransactionItems.add(courseOfferingItemInfo);
+
+                storedLprTransaction.getLprTransactionItems().addAll(newTransactionItems);
+            }
+
+        }
+        LPRTransactionInfo updatedLprTransaction = lprService.updateLprTransaction(storedLprTransaction.getId(),
+                storedLprTransaction, context);
+        LPRTransactionInfo submittedLprTransaction = lprService.submitLprTransaction(updatedLprTransaction.getId(),
+                context);
+
+        return regResponseAssembler.assemble(submittedLprTransaction, context);
+
+    }
+
+    private void processLprTransaction(LPRTransactionInfo submittedLprTransaction) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
     }
 
     @Override
