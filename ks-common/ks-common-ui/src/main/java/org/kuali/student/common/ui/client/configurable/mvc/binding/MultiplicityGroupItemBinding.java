@@ -49,23 +49,23 @@ public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<Mult
     	String itemRuntimePath = itemPath;
         Widget widget = multiplicityItem.getItemWidget();
         
-        boolean updateMetadata = false;
+        boolean multiplicityItemIsDirty = false;
         if (widget instanceof Section) {        	
         	if (((Section)widget).isDirty()){
         		//Only update model if multiplicity section is dirty.
 	        	itemPath = "";
 	            SectionBinding.INSTANCE.setModelValue((Section) widget, model, itemPath);
-	            updateMetadata = true;
+	            multiplicityItemIsDirty = true;
         	} 
         } else if (widget instanceof ModelWidgetBinding) {
             ((ModelWidgetBinding) widget).setModelValue(widget, model, path);
-            updateMetadata = true;
+            multiplicityItemIsDirty = true;
         } else {
             GWT.log(itemPath + " has no widget binding.", null);
         }
 
         // Multiplicity metadata?
-       if (updateMetadata){
+       if (multiplicityItemIsDirty || multiplicityItem.isDeleted()){
 	        QueryPath qPath;
 	        if (multiplicityItem.isCreated()) {
 	            qPath = QueryPath.parse(itemRuntimePath + QueryPath.getPathSeparator() + RT_CREATED);

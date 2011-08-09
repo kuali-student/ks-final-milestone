@@ -466,18 +466,22 @@ public class MultiplicityGroup extends Composite {
 
 	public boolean isDirty(){
         isDirty = false;
-		for (MultiplicityGroupItem item:items){
-			if (item.isDirty()){
-				isDirty = true;
-				break;
-			} else {
-				Widget itemWidget = item.getItemWidget();
-				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+        if (removed != null && !removed.isEmpty()){
+        	isDirty = true;
+        } else {
+			for (MultiplicityGroupItem item:items){
+				if (item.isDirty()){
 					isDirty = true;
 					break;
+				} else {
+					Widget itemWidget = item.getItemWidget();
+					if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+						isDirty = true;
+						break;
+					}
 				}
 			}
-		}
+        }
 		return isDirty;
 	}
 
