@@ -23,6 +23,8 @@ limitations under the License.
    	  <property name="id" value="GradingView"/>
       <property name="title" value="Grading" />
 	  <property name="entryPageId" value="page1"/>
+      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
+       
       <property name="items">
           <list>
           	<bean parent="Page" p:id="page1">
@@ -63,7 +65,7 @@ limitations under the License.
               <bean parent="SelectControl"/>
             </property>
             <property name="optionsFinder">
-              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.CourseOfferingKeyValues"/>
+              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.CourseOfferingForGradingKeyValues"/>
             </property>
           </bean>
         </list>
@@ -84,7 +86,7 @@ limitations under the License.
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent"/>
       <property name="propertyName" value="students"/>
-      <property name="renderLineActions" value="false"/>
+      <property name="renderLineActions" value="true"/>
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
@@ -101,16 +103,19 @@ limitations under the License.
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="grade" p:required="true" p:label="Grade" p:fieldInquiry.render="false">
+          <bean parent="AttributeField" p:propertyName="selectedGrade" p:required="true" p:label="Grade" p:fieldInquiry.render="false" p:finalizeMethodToCall="populateGradeOptions">
             <property name="control">
-              <bean parent="SelectControl"/>
-            </property>
-            <property name="optionsFinder">
-              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.GradeKeyValues"/>
+              <bean parent="SelectControl">
+              </bean>
             </property>
           </bean>
         </list>
       </property>
+        <property name="actionFields">
+              <list>
+                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="Unassign" p:title="Unassign Grade" />
+              </list>
+        </property>
    </bean>
 
    <bean id="Footer_page1" parent="Footer">
