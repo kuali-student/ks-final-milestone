@@ -15,7 +15,7 @@ import java.util.Map;
 public class CourseOfferingInfoLookupViewHelperServiceImpl extends LookupViewHelperServiceImpl {
 
     private transient CourseOfferingService courseOfferingService;
-    private static final String TERM_FIELD_NAME = "term";
+    private static final String TERM_FIELD_NAME = "termKey";
     private static final String SUBJECT_AREA_FIELD_NAME = "subjectArea";
 
     @Override
