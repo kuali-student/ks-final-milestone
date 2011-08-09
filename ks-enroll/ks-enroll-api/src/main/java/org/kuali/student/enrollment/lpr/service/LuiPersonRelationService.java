@@ -56,9 +56,6 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
  * 
  * @Author Kamal
  * @Since Tue Mar 01 15:53:51 PST 2011
- * @See <a
- *      href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service"
- *      >LuiPersonRelationService</>
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
