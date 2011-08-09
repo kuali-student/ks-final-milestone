@@ -162,7 +162,13 @@ public class LuiServiceImpl implements LuiService {
         if (null == lui) {
             throw new DoesNotExistException(luiId);
         }
-        return lui.toDto();
+
+        LuiInfo dto = lui.toDto();
+        if(lui.getOfficialIdentifier() != null) {
+            dto.setOfficialIdentifier(lui.getOfficialIdentifier().toDto());
+        }
+
+        return dto;
 	}
 
 	@Override
@@ -177,7 +183,19 @@ public class LuiServiceImpl implements LuiService {
     public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
 	    throws DoesNotExistException, InvalidParameterException, 
 		   MissingParameterException, OperationFailedException {
-	    return new ArrayList<String>();
+
+        // make sure the given type key is a valid lui type
+        findType(luiTypeKey);
+
+        List<LuiEntity> luis = luiDao.getLuisByType(luiTypeKey);
+
+        List<String> luiIds = new ArrayList<String>();
+
+        for(LuiEntity lui : luis) {
+            luiIds.add(lui.getId());
+        }
+
+        return luiIds;
 	}
 
 	@Override
@@ -266,6 +284,9 @@ public class LuiServiceImpl implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
+
+        // Ensure the lui id is valid
+        getLui(luiId, context);
 		
         List<LuiLuiRelationEntity> relEntities = luiLuiRelationDao.getLuiLuiRelationsByLui(luiId);
         List<LuiLuiRelationInfo> relInfos = new ArrayList<LuiLuiRelationInfo>();
@@ -276,10 +297,7 @@ public class LuiServiceImpl implements LuiService {
 	        }
         }
 
-        if(relInfos.isEmpty())
-        	throw new DoesNotExistException(luiId);
-        else
-        	return relInfos;
+       	return relInfos;
 	}
 
 	@Override
