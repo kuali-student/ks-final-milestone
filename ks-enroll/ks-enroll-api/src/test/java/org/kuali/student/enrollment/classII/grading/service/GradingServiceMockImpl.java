@@ -43,22 +43,22 @@ public class GradingServiceMockImpl implements GradingService {
     public void loadCaches(){
         GradeRosterEntryInfo gradeRosterEntryInfo1 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo1.setId("1");
-        gradeRosterEntryInfo1.setStudentId("1");
+        gradeRosterEntryInfo1.setStudentId("1100");
         gradeRosterEntriesCache.put(gradeRosterEntryInfo1.getId(),gradeRosterEntryInfo1);
 
         GradeRosterEntryInfo gradeRosterEntryInfo2 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo2.setId("2");
-        gradeRosterEntryInfo2.setStudentId("2");
+        gradeRosterEntryInfo2.setStudentId("1101");
         gradeRosterEntriesCache.put(gradeRosterEntryInfo2.getId(),gradeRosterEntryInfo2);
 
         GradeRosterEntryInfo gradeRosterEntryInfo3 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo3.setId("3");
-        gradeRosterEntryInfo3.setStudentId("3");
+        gradeRosterEntryInfo3.setStudentId("1102");
         gradeRosterEntriesCache.put(gradeRosterEntryInfo3.getId(),gradeRosterEntryInfo3);
 
         GradeRosterEntryInfo gradeRosterEntryInfo4 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo4.setId("4");
-        gradeRosterEntryInfo4.setStudentId("4");
+        gradeRosterEntryInfo4.setStudentId("1103");
         gradeRosterEntriesCache.put(gradeRosterEntryInfo4.getId(),gradeRosterEntryInfo4);
 
         GradeRosterInfo gradeRosterInfo1 = new GradeRosterInfo();
@@ -73,7 +73,7 @@ public class GradingServiceMockImpl implements GradingService {
         gradeRosterInfo1.setName("Fundamentals of Physics I");
         gradeRosterInfo1.setTypeKey("FINAL_TYPE_KEY");
         List grader = new ArrayList();
-        grader.add("Grader1");
+        grader.add("admin");
         gradeRosterInfo1.setGraderIds(grader);
         gradeRostersCache.put(gradeRosterInfo1.getId(),gradeRosterInfo1);
 
@@ -116,8 +116,8 @@ public class GradingServiceMockImpl implements GradingService {
         completionNotationGrades.add("In-Progress");
 
         List<String> passFailGrades = new ArrayList<String>();
-        completionNotationGrades.add("Pass");
-        completionNotationGrades.add("Fail");
+        passFailGrades.add("Pass");
+        passFailGrades.add("Fail");
 
         List<String> satisfactoryGrades = new ArrayList<String>();
         satisfactoryGrades.add("Satisfactory");
@@ -130,6 +130,18 @@ public class GradingServiceMockImpl implements GradingService {
         letterGradesResultValuesGroupInfo.setResultValueRange(null);
         letterGradesResultValuesGroupInfo.setEffectiveDate(null);
         letterGradesResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValuesGroupInfo completionNotationResultValuesGroupInfo = new ResultValuesGroupInfo();
+        completionNotationResultValuesGroupInfo.setResultValueIds(completionNotationGrades);
+        completionNotationResultValuesGroupInfo.setResultValueRange(null);
+        completionNotationResultValuesGroupInfo.setEffectiveDate(null);
+        completionNotationResultValuesGroupInfo.setExpirationDate(null);
+
+        ResultValuesGroupInfo passFailResultValuesGroupInfo = new ResultValuesGroupInfo();
+        passFailResultValuesGroupInfo.setResultValueIds(passFailGrades);
+        passFailResultValuesGroupInfo.setResultValueRange(null);
+        passFailResultValuesGroupInfo.setEffectiveDate(null);
+        passFailResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo completionNotationGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
         completionNotationGradesResultValuesGroupInfo.setResultValueIds(completionNotationGrades);
@@ -373,13 +385,13 @@ public class GradingServiceMockImpl implements GradingService {
 
             List<ResultValuesGroupInfo> rvgInfo =  new ArrayList<ResultValuesGroupInfo>();
 
-            if (studentId.equals("1")) {
+            if (studentId.equals("1100")) {
                 rvgInfo.add(validGradesCache.get("letter"));
-            } else if (studentId.equals("2")) {
+            } else if (studentId.equals("1101")) {
                 rvgInfo.add(validGradesCache.get("completionNotation"));
-            } else if (studentId.equals("3")) {
+            } else if (studentId.equals("1102")) {
                 rvgInfo.add(validGradesCache.get("passFail"));
-            } else if (studentId.equals("4")) {
+            } else if (studentId.equals("1103")) {
                 rvgInfo.add(validGradesCache.get("satisfactory"));
             } else {
                 rvgInfo.add(validGradesCache.get("letter"));

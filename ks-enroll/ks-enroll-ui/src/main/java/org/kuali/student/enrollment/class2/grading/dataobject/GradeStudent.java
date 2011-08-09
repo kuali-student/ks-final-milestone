@@ -17,13 +17,18 @@ package org.kuali.student.enrollment.class2.grading.dataobject;
  */
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GradeStudent implements Serializable {
 
     private String studentId;
-    private String grade;
     private String firstName;
     private String lastName;
+
+    private String selectedGrade;
+
+    private List<String> availabeGradingOptions;
 
     public GradeStudent(){
     }
@@ -34,14 +39,6 @@ public class GradeStudent implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
     }
 
     public String getLastName() {
@@ -58,5 +55,24 @@ public class GradeStudent implements Serializable {
 
     public void setStudentId(String studentId) {
         this.studentId = studentId;
+    }
+
+    public List<String> getAvailabeGradingOptions() {
+        if (availabeGradingOptions == null){
+            availabeGradingOptions = new ArrayList();
+        }
+        return availabeGradingOptions;
+    }
+
+    public void setAvailabeGradingOptions(List<String> availabeGradingOptions) {
+        this.availabeGradingOptions = availabeGradingOptions;
+    }
+
+    public String getSelectedGrade() {
+        return selectedGrade;
+    }
+
+    public void setSelectedGrade(String selectedGrade) {
+        this.selectedGrade = selectedGrade;
     }
 }

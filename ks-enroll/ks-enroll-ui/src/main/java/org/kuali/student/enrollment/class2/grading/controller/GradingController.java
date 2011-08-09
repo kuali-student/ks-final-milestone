@@ -16,15 +16,25 @@ package org.kuali.student.enrollment.class2.grading.controller;
  * limitations under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.entity.services.IdentityService;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
+import org.kuali.rice.kns.uif.UifParameters;
+import org.kuali.rice.kns.uif.container.CollectionGroup;
+import org.kuali.rice.kns.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
+import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
+import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -37,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -48,36 +59,39 @@ public class GradingController extends UifControllerBase{
         return new GradingForm();
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=loadGradeRoster")
-    public ModelAndView loadGradeRoster(@ModelAttribute("KualiForm") GradingForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.LOAD_GRADES_ROSTER_METHOD)
+    public ModelAndView loadGradeRoster(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String selectedCourse = form.getSelectedCourse();
+        String selectedCourse = gradingForm.getSelectedCourse();
+        List<GradeStudent> students = ((GradingViewHelperService)gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse);
+        gradingForm.setStudents(students);
 
-        ContextInfo context = TestHelper.getContext1();
-
-       GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
-        List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse, context);
-        if (rosterInfos != null){
-            List<GradeStudent> students = new ArrayList();
-            for (GradeRosterInfo rosterInfo : rosterInfos){
-                List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
-                for (GradeRosterEntryInfo entryInfo : entryInfos){
-                    GradeStudent student = new GradeStudent();
-                    student.setStudentId(entryInfo.getStudentId());
-                    students.add(student);
-                }
-            }
-            form.setStudents(students);
-        }
-
-        return getUIFModelAndView(form,form.getViewId(),"page2");
+        return getUIFModelAndView(gradingForm, gradingForm.getViewId(),"page2");
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
-	public ModelAndView save(@ModelAttribute("KualiForm") GradingForm uiTestForm, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=unassignGrade")
+	public ModelAndView unassignGrade(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) {
-         return getUIFModelAndView(uiTestForm, uiTestForm.getViewId(), "page1");
+
+        String selectedCollectionPath = gradingForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for unassign action, cannot unassign grade");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = gradingForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Selected line index was not set for delete unassign action, cannot unassign grade");
+        }
+
+        ((GradingViewHelperService)gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),gradingForm,selectedCollectionPath,selectedLineIndex);
+
+         return getUIFModelAndView(gradingForm, gradingForm.getViewId(),"page2");
     }
 
 }

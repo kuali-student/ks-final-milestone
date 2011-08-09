@@ -22,6 +22,7 @@ import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.rice.kns.util.ErrorMessage;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.classII.grading.service.GradingServiceMockImpl;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
@@ -33,17 +34,19 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseOfferingKeyValues extends KeyValuesBase {
+public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
 
     public List getKeyValues() {
         List keyValues = new ArrayList();
 
         ContextInfo context = TestHelper.getContext1();
 
-        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
+
+        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
 
         try {
-            List<GradeRosterInfo> gradeRosterInfoList = gradingService.getGradeRostersByGraderAndTerm("Grader1", "201108", context);
+            List<GradeRosterInfo> gradeRosterInfoList = gradingService.getGradeRostersByGraderAndTerm(currentUser, GradingConstants.CURRENT_TERM, context);
             keyValues.add(new ConcreteKeyValue("", ""));
             if (gradeRosterInfoList != null){
                 List courseOfferingList = new ArrayList();

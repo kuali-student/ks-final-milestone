@@ -19,5 +19,9 @@ package org.kuali.student.enrollment.class2.grading.util;
 public class GradingConstants {
 
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
+    public static final String GRADING_SERVICE_URL = "http://student.kuali.org/wsdl/grading";
+    public static final String GRADING_SERVICE_NAME = "GradingService";
+
+    public static final String CURRENT_TERM = "201108";
 
 }
