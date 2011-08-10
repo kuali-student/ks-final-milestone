@@ -32,6 +32,7 @@ import org.kuali.rice.kns.uif.util.ObjectPropertyUtils;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
@@ -102,6 +103,14 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     for (ResultValuesGroupInfo grade : grades){
                         student.getAvailabeGradingOptions().addAll(grade.getResultValueIds());
                     }
+
+                    String assignedGrade = null;
+                    AssignedGradeInfo assignedGrageInfo = entryInfo.getAssignedGrade();
+                    if (assignedGrageInfo != null) {
+                        assignedGrade = assignedGrageInfo.getGrade();
+                    }
+                    student.setSelectedGrade(assignedGrade);
+
                     students.add(student);
                 }
             }
