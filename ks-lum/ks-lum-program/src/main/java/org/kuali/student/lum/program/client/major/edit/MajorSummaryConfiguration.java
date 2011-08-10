@@ -24,7 +24,7 @@ public class MajorSummaryConfiguration extends AbstractControllerConfiguration {
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-    	MajorInformationViewConfiguration majorInfoViewConfig = MajorInformationViewConfiguration.createSpecial();
+    	MajorKeyProgramInfoViewConfiguration majorInfoViewConfig = MajorKeyProgramInfoViewConfiguration.createSpecial();
         configurationManager.registerConfiguration(majorInfoViewConfig);
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial());

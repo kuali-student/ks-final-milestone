@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.major.edit;
+package org.kuali.student.lum.program.client.major.proposal;
 
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;

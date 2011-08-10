@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.client.major.edit;
+package org.kuali.student.lum.program.client.major.proposal;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -9,7 +9,6 @@ import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorManager;
-import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.major.view.*;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
@@ -39,7 +38,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
     	
         // Initialize tabs on left of screen
-        MajorInformationViewConfiguration majorInfoViewConfig = MajorInformationViewConfiguration.createSpecial();
+        MajorKeyProgramInfoViewConfiguration majorInfoViewConfig = MajorKeyProgramInfoViewConfiguration.createSpecial();
         configurationManager.registerConfiguration(majorInfoViewConfig);
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial());

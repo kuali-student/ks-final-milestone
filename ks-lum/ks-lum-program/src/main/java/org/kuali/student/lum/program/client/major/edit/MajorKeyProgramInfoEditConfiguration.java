@@ -26,9 +26,9 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Igor
  */
-public class MajorInformationEditConfiguration extends AbstractSectionConfiguration {
+public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfiguration {
 
-    public MajorInformationEditConfiguration() {
+    public MajorKeyProgramInfoEditConfiguration() {
         rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
     }
 

@@ -21,7 +21,7 @@ public class ViewAllSectionConfiguration extends AbstractControllerConfiguration
     @Override
     protected void buildLayout() {
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
-        configurationManager.registerConfiguration(MajorInformationViewConfiguration.create());
+        configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create());
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.create());
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());

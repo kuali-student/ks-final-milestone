@@ -18,19 +18,19 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
 /**
  * @author Igor
  */
-public class MajorInformationViewConfiguration extends AbstractSectionConfiguration {
+public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfiguration {
 
-    public static MajorInformationViewConfiguration create() {
-        MajorInformationViewConfiguration instance = new MajorInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static MajorKeyProgramInfoViewConfiguration create() {
+        MajorKeyProgramInfoViewConfiguration instance = new MajorKeyProgramInfoViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID));
         return instance;
     }
 
-    public static MajorInformationViewConfiguration createSpecial() {
-        MajorInformationViewConfiguration instance = new MajorInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
+    public static MajorKeyProgramInfoViewConfiguration createSpecial() {
+        MajorKeyProgramInfoViewConfiguration instance = new MajorKeyProgramInfoViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_VIEW, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(ProgramProperties.get().program_menu_sections_programInformation(), ProgramSections.PROGRAM_DETAILS_EDIT)));
         return instance;
     }
 
-    private MajorInformationViewConfiguration(SectionView sectionView) {
+    private MajorKeyProgramInfoViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
         rootSection.addStyleName("programInformationView");
     }
