@@ -165,6 +165,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	obj.setName(name);
     	obj.setAtpKey(atpKey);
     	obj.setCluId(cluId);
+        if (null != officialIdentifier) {
+            obj.setOfficialIdentifier(officialIdentifier.toDto());
+        }
 
 	/*
 	 * decide if this this should be stored on the Lui or on a waitlist object?
