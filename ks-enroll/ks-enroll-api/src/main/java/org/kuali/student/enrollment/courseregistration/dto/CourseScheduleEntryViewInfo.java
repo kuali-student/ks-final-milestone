@@ -30,6 +30,18 @@ public class CourseScheduleEntryViewInfo {
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    public CourseScheduleEntryViewInfo() {}
+
+    public CourseScheduleEntryViewInfo(RegistrationGroupInfo registrationGroup, CourseOfferingInfo courseOffering,
+            List<ActivityOfferingInfo> activityOfferings, String courseRegistrationId, String creditCount) {
+        this.activityOfferings = activityOfferings;
+        this.courseOffering = courseOffering;
+        this.courseRegistrationId = courseRegistrationId;
+        this.creditCount = creditCount;
+        this.registrationGroup = registrationGroup;
+
+    }
+
     public String getCourseRegistrationId() {
         return courseRegistrationId;
     }

@@ -39,7 +39,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         }
         return nextDecorator;
     }
- 
+
     public void setNextDecorator(CourseRegistrationService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
@@ -464,10 +464,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(String courseRegistrationId,
+    public RegGroupRegistrationInfo getRegGroupRegistrationForCourseRegistration(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistrationsForCourseRegistration(courseRegistrationId, context);
+        return getNextDecorator().getRegGroupRegistrationForCourseRegistration(courseRegistrationId, context);
     }
 
     @Override

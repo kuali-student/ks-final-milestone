@@ -1259,7 +1259,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
 
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(
+    public RegGroupRegistrationInfo getRegGroupRegistrationForCourseRegistration(
             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;

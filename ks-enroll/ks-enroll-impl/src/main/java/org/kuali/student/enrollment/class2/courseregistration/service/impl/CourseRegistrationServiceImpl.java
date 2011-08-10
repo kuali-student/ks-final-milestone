@@ -3,14 +3,18 @@ package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.mapping.Array;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseScheduleEntryViewInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseScheduleViewInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
@@ -597,16 +601,41 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return courseRegInfoList;
     }
 
-    
     @Override
     public CourseScheduleViewInfo getRegisteredCoursesScheduleForStudentByTerm(String studentId, String termKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<CourseScheduleEntryViewInfo> courseScheduleEntryViewInfoList = new ArrayList<CourseScheduleEntryViewInfo>();
+        List<CourseRegistrationInfo> courseRegistrationsInfoList = getCourseRegistrationsForStudentByTerm(studentId,
+                termKey, context);
+
+        for (CourseRegistrationInfo courseRegistrationInfo : courseRegistrationsInfoList) {
+
+            CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(
+                    courseRegistrationInfo.getCourseOfferingId(), context);
+            RegGroupRegistrationInfo regGroupRegInfo = getRegGroupRegistrationForCourseRegistration(
+                    courseRegistrationInfo.getId(), context);
+            RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(
+                    regGroupRegInfo.getRegGroupId(), context);
+
+            List<ActivityRegistrationInfo> activityGroupRegInfo = getActivityRegistrationsForCourseRegistration(
+                    courseRegistrationInfo.getId(), context);
+            List<String> registeredActivityOfferingIds = new ArrayList<String>();
+            for (ActivityRegistrationInfo activityReg : activityGroupRegInfo) {
+                registeredActivityOfferingIds.add(activityReg.getActivityOfferingId());
+            }
+
+            List<ActivityOfferingInfo> registeredActivityOfferings = courseOfferingService
+                    .getActivityOfferingsByIdList(registeredActivityOfferingIds, context);
+            CourseScheduleEntryViewInfo courseScheduleEntryViewInfo = new CourseScheduleEntryViewInfo(regGroup,
+                    courseOfferingInfo, registeredActivityOfferings, courseRegistrationInfo.getId(),
+                    courseRegistrationInfo.getCreditCount());
+            courseScheduleEntryViewInfoList.add(courseScheduleEntryViewInfo);
+        }
+        return new CourseScheduleViewInfo(courseScheduleEntryViewInfoList, studentId);
     }
-    
-    
+
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -642,7 +671,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return regRequestAssembler.assembleList(
                 lprService.getLprTransactionsForPersonByLui(studentId, courseOfferingId, context), context);
     }
-
 
     @Override
     public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId,
@@ -693,7 +721,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsForCourseRegistration(String courseRegistrationId,
+    public RegGroupRegistrationInfo getRegGroupRegistrationForCourseRegistration(String courseRegistrationId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -819,6 +847,5 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
 
 }

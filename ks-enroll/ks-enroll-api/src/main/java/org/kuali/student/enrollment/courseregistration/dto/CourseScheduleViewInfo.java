@@ -13,7 +13,6 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseScheduleViewInfo", propOrder = {"studentId", "courseScheduleEntries", "_futureElements"})
-
 public class CourseScheduleViewInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +25,13 @@ public class CourseScheduleViewInfo implements Serializable {
 
     @XmlAnyElement
     private List<Element> _futureElements;
+
+    public CourseScheduleViewInfo() {}
+
+    public CourseScheduleViewInfo(List<CourseScheduleEntryViewInfo> courseScheduleEntries, String studentId) {
+        this.courseScheduleEntries = courseScheduleEntries;
+        this.studentId = studentId;
+    }
 
     public List<CourseScheduleEntryViewInfo> getCourseScheduleEntries() {
         return courseScheduleEntries;
