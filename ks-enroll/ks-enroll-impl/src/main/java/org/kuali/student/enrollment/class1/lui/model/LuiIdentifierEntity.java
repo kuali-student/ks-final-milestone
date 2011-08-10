@@ -85,6 +85,7 @@ public class LuiIdentifierEntity extends MetaEntity implements AttributeOwner<Lu
 		obj.setSuffixCode(suffixCode);
 		obj.setTypeKey(type);
 		obj.setVariation(variation);
+        obj.setMeta(super.toDTO());
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiIdentifierAttributeEntity att : getAttributes()) {
