@@ -404,10 +404,10 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LPRTransactionInfo createLprsFromLprTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createLprsFromLprTransaction(lprTransactionId, context);
+        return getNextDecorator().processLprTransaction(lprTransactionId, context);
     }
 
     @Override

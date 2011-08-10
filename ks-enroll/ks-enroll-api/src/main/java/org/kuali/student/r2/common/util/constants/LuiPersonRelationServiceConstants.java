@@ -37,8 +37,9 @@ public class LuiPersonRelationServiceConstants {
     public static final String ADVISOR_TYPE_KEY = "kuali.lpr.type.advisor";
     public static final String LPRTRANS_ITEM_UPDATE_TYPE_KEY = "kuali.lpr.trans.item.update";
     public static final String LPRTRANS_ITEM_ADD_TYPE_KEY = "kuali.lpr.trans.item.add";
+    public static final String LPRTRANS_ITEM_SWAP_TYPE_KEY = "kuali.lpr.trans.item.swap";
     public static final String LPRTRANS_ITEM_DROP_TYPE_KEY = "kuali.lpr.trans.item.drop";
-    public static final String LPRTRANS_ITEM_WAITLIST_TYPE_KEY = "kuali.lpr.trans.item.drop";
+    public static final String LPRTRANS_ITEM_WAITLIST_TYPE_KEY = "kuali.lpr.trans.item.waitlist";
     public static final String LPRTRANS_ITEM_SAVE_TYPE_KEY = "kuali.lpr.trans.item.save";
 
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.new";

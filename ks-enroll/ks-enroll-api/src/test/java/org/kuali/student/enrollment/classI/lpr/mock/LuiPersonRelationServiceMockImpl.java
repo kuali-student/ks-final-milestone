@@ -709,7 +709,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
   
 
     @Override
-    public LPRTransactionInfo createLprsFromLprTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;

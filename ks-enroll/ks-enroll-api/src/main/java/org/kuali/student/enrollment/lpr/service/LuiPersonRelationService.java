@@ -1265,7 +1265,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             Authorization failure
      */
-    public LPRTransactionInfo createLprsFromLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
+    public LPRTransactionInfo processLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 

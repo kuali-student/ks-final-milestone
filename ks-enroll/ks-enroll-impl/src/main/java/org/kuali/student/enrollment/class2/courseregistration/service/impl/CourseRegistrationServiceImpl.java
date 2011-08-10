@@ -429,7 +429,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         LPRTransactionInfo multpleItemsTransaction = createModifiedTransactionItems(storedLprTransaction,
                 storedRegRequest, context);
 
-        LPRTransactionInfo submittedLprTransaction = lprService.createLprsFromLprTransaction(
+        LPRTransactionInfo submittedLprTransaction = lprService.processLprTransaction(
                 multpleItemsTransaction.getId(), context);
 
         return regResponseAssembler.assemble(submittedLprTransaction, context);
