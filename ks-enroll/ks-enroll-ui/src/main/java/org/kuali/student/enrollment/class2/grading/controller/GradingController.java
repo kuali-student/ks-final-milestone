@@ -18,23 +18,18 @@ package org.kuali.student.enrollment.class2.grading.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.entity.services.IdentityService;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
 import org.kuali.rice.kns.uif.UifParameters;
-import org.kuali.rice.kns.uif.container.CollectionGroup;
-import org.kuali.rice.kns.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,9 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/grading")
@@ -94,4 +87,48 @@ public class GradingController extends UifControllerBase{
          return getUIFModelAndView(gradingForm, gradingForm.getViewId(),"page2");
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
+	public ModelAndView save(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String selectedCourse = gradingForm.getSelectedCourse();
+        ContextInfo context = TestHelper.getContext1(); // TODO replace
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
+
+        // Get the GradeRosterEntryInfo objects mapped by studentId
+        List<GradeRosterInfo> gradeRosterInfoList = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse, context);
+        Map<String, GradeRosterEntryInfo> gradeRosterEntryInfoMap = new HashMap<String, GradeRosterEntryInfo>();
+        if (gradeRosterInfoList != null){
+            for (GradeRosterInfo rosterInfo : gradeRosterInfoList){
+                List<GradeRosterEntryInfo> gradeRosterEntryInfoList = gradingService.getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
+                for (GradeRosterEntryInfo gradeRosterEntryInfo : gradeRosterEntryInfoList){
+                    String gradeRosterEntryStudentId = gradeRosterEntryInfo.getStudentId();
+                    gradeRosterEntryInfoMap.put(gradeRosterEntryStudentId, gradeRosterEntryInfo);
+                }
+            }
+        }
+
+        // Update the assigned grade for each student in form.
+        List<GradeStudent> gradeStudentList = gradingForm.getStudents();
+        for (GradeStudent gradeStudent: gradeStudentList) {
+            GradeRosterEntryInfo gradeRosterEntryInfo = gradeRosterEntryInfoMap.get(gradeStudent.getStudentId());
+            if (gradeRosterEntryInfo == null) {
+                // TODO Do we need to throw an error?
+            }
+
+            AssignedGradeInfo assignedGradeInfo = gradeRosterEntryInfo.getAssignedGrade();
+            if (assignedGradeInfo == null) {
+                // TODO not sure if this is how to get a new one.
+                assignedGradeInfo = new AssignedGradeInfo();
+            }
+            String grade = gradeStudent.getSelectedGrade();
+            String gradeRosterEntryId = gradeRosterEntryInfo.getId();
+
+            assignedGradeInfo.setGrade(grade);
+            gradingService.updateAssignedGrade(gradeRosterEntryId, assignedGradeInfo, context);
+
+        }
+
+        return close(gradingForm, result, request, response);
+    }
 }
