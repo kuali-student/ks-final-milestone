@@ -3342,6 +3342,7 @@ public class LuServiceImpl implements LuService {
 		return programSearchResults;
 	}
 
+	//TODO move all of these procedural custom searches to a new search manager
 	private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException, DoesNotExistException {
 
 		checkForMissingParameter(cluId, "cluId");
