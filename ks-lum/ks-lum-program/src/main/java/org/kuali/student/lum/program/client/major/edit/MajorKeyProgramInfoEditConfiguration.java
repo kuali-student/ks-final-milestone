@@ -36,7 +36,6 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
     protected void buildLayout() {
         HorizontalSection horizontalSection = new HorizontalSection();
         horizontalSection.addSection(createLeftSection());
-        //horizontalSection.addSection(createRightSection());
         rootSection.addSection(horizontalSection);
     }
 
@@ -49,26 +48,14 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
         return section;
     }
 
-    //KS-LAB : KSLAB-2175 required that this not be called from the build layout method anymore
-    private VerticalSection createRightSection() {
-        VerticalSection section = new VerticalSection();
-        section.addStyleName("readOnlySection");
-        section.addSection(createReadOnlySection());
-        return section;
-    }
-
-    private VerticalSection createKeyProgramInformationSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));
-        //KS-LAB : KSLAB-2175 - it makes this readOnlySelection box shift under the line drawn by this section heading... Nice  to have JIRA
-        VerticalSection s1 = new VerticalSection();
-        HorizontalSection s2 = new HorizontalSection();
-        
-        configurer.addField(s1, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addField(s1, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
-        configurer.addField(s1, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
-        s2.addSection(s1);
-        s2.addSection(createReadOnlySection());
-        section.addSection(s2);
+    protected VerticalSection createKeyProgramInformationSection() {
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));       
+        configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
+        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
+        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
+        configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
         return section;
     }
 
@@ -102,16 +89,6 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
         configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()), cip2010Picker);
         configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
         section.addSection(createAccreditingAgenciesSection());
-        return section;
-    }
-
-    private VerticalSection createReadOnlySection() {
-        VerticalSection section = new VerticalSection();
-        section.addStyleName("readOnlySection");
-        section.addStyleName("readOnlyNeedsToBeOnTheRight");
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         return section;
     }
 
