@@ -70,7 +70,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testFetchLuiPersonRelation() {
+    public void testGetLuiPersonRelation() {
         try {
             LuiPersonRelationInfo lpr = lprService.getLuiPersonRelation("testLprId1", callContext);
             assertNotNull(lpr);
@@ -106,7 +106,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testFindLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testGetLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> personRelationInfos = lprService.getLuiPersonRelationsForLui(LUIID1, ContextInfo.newInstance());
         assertNotNull(personRelationInfos);
         assertEquals(personRelationInfos.size(), 1);

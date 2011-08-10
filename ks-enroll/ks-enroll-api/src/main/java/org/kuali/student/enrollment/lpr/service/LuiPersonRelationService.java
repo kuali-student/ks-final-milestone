@@ -417,10 +417,10 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<String> findAllValidLuisForPerson(@WebParam(name = "personId") String personId,
-            @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
-            @WebParam(name = "relationState") String relationState, @WebParam(name = "atpId") String atpId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+    public List<String> getAllValidLuisForPerson(@WebParam(name = "personId") String personId,
+                                                 @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
+                                                 @WebParam(name = "relationState") String relationState, @WebParam(name = "atpId") String atpId,
+                                                 @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

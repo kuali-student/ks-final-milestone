@@ -127,8 +127,8 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> findAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
-            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+    public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
+                                                 String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> luiIds = new ArrayList();
         for (LuiPersonRelationInfo lpr : this.lprCache.values()) {

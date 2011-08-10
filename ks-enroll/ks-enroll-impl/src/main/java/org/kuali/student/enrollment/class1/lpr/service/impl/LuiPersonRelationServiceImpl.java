@@ -166,8 +166,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> findAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
-            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+    public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
+                                                 String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
