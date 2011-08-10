@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -1629,7 +1628,6 @@ public interface CourseOfferingService extends DataDictionaryService {
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * 
      * This method ...
      * 
      * @param criteria
@@ -1640,11 +1638,12 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(@WebParam(name = "criteria") QueryByCriteria criteria,
-            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(
+            @WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
     /**
-     * 
      * This method ...
      * 
      * @param criteria

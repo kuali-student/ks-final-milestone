@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseScheduleViewInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
@@ -38,7 +39,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         }
         return nextDecorator;
     }
-
+ 
     public void setNextDecorator(CourseRegistrationService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
@@ -219,7 +220,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public StatusInfo deleteRegRequest(String regRequestId, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         return getNextDecorator().deleteRegRequest(regRequestId, context);
     }
 
@@ -571,6 +572,13 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().moveStudentsBetweenRegGroups(sourceRegGroupId, destinationRegGroupId, context);
+    }
+
+    @Override
+    public CourseScheduleViewInfo getRegisteredCoursesScheduleForStudentByTerm(String studentId, String termKey,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRegisteredCoursesScheduleForStudentByTerm(studentId, termKey, context);
     }
 
 }

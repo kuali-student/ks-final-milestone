@@ -13,6 +13,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseScheduleViewInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
@@ -435,10 +436,11 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      *             Unable to complete request
      * @throws PermissionDeniedException
      *             Not authorized to do this action
+     * @throws DoesNotExistException
      */
     public StatusInfo deleteRegRequest(@WebParam(name = "regRequestId") String regRequestId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Validate a registration request to see that there are no conflicting or
@@ -586,11 +588,12 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      *             Unable to complete request
      * @throws PermissionDeniedException
      *             Not authorized to do this action
-     * @throws AlreadyExistsException 
+     * @throws AlreadyExistsException
      */
     public RegResponseInfo submitRegRequest(@WebParam(name = "regRequestId") String regRequestId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, AlreadyExistsException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, AlreadyExistsException;
 
     /**
      * Bulk operation to drop all students from a reg group if it gets canceled.
@@ -1049,6 +1052,24 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(
+            @WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Gets the {@link CourseScheduleViewInfo} for a student by term - a
+     * convenience operation added to avoid multiple calls to the service.
+     * 
+     * @param studentId
+     * @param termId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public CourseScheduleViewInfo getRegisteredCoursesScheduleForStudentByTerm(
             @WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;

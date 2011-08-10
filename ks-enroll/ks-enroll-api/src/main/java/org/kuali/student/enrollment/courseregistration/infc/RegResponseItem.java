@@ -23,7 +23,13 @@ public interface RegResponseItem {
      * @return
      */
     public OperationStatus getOperationStatus();
-    
+    /**
+     * 
+     * This method ...
+     * 
+     * @return
+     */
+    public String getRegRequestItemId();
     /**
      * 
      * Gets the course registration (if any) that resulted from this   registration transaction
@@ -38,4 +44,6 @@ public interface RegResponseItem {
      * @return
      */
     public String getCourseWaitlistEntryId();
+    
+    
 }

@@ -26,5 +26,10 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
         return null;
     }
 
+    public List<CourseRegistrationInfo> assembleList(List<String> luiPersonRelationIdsForLui) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 
 }

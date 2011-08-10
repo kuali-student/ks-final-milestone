@@ -14,12 +14,14 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CriteriaInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -145,7 +147,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
 
     @Override
     public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationTypeKey,
-                                                 String relationState, String atpId, ContextInfo context) throws DoesNotExistException,
+            String relationState, String atpId, ContextInfo context) throws DoesNotExistException,
             DisabledIdentifierException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getAllValidLuisForPerson(personId, luiPersonRelationTypeKey, relationState, atpId,
@@ -402,10 +404,10 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LPRTransactionInfo submitLprTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo createLprsFromLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().submitLprTransaction(lprTransactionId, context);
+        return getNextDecorator().createLprsFromLprTransaction(lprTransactionId, context);
     }
 
     @Override

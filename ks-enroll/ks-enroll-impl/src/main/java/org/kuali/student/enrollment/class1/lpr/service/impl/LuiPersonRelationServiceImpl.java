@@ -167,7 +167,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
-                                                 String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -499,7 +499,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public LPRTransactionInfo submitLprTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo createLprsFromLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

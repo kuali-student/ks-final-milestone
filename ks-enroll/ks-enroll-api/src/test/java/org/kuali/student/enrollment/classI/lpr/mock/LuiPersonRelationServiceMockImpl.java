@@ -128,7 +128,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
     @Override
     public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
-                                                 String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> luiIds = new ArrayList();
         for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
@@ -709,7 +709,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
   
 
     @Override
-    public LPRTransactionInfo submitLprTransaction(String lprTransactionId, ContextInfo context)
+    public LPRTransactionInfo createLprsFromLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;

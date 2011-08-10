@@ -14,15 +14,20 @@ import org.kuali.student.r2.common.dto.OperationStatusInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegResponseItemInfo", propOrder = {"courseRegistrationId", "courseWaitlistEntryId", "operationStatus",
+@XmlType(name = "RegResponseItemInfo", propOrder = {"regRequestItemId","courseRegistrationId", "courseWaitlistEntryId", "operationStatus",
         "_futureElements"})
 public class RegResponseItemInfo implements RegResponseItem, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
+    private String regRequestItemId;
+   
+
+    @XmlElement
     private String courseRegistrationId;
     @XmlElement
     private String courseWaitlistEntryId;
+    
     @XmlElement
     private OperationStatusInfo operationStatus;
     @XmlAnyElement
@@ -48,12 +53,19 @@ public class RegResponseItemInfo implements RegResponseItem, Serializable {
             this._futureElements = null;
         }
     }
+    @Override
+    public String getRegRequestItemId() {
+        return regRequestItemId;
+    }
 
+    public void setRegRequestItemId(String regRequestItemId) {
+        this.regRequestItemId = regRequestItemId;
+    }
     @Override
     public String getCourseRegistrationId() {
         return courseRegistrationId;
     }
-
+ 
     @Override
     public String getCourseWaitlistEntryId() {
         return courseWaitlistEntryId;

@@ -56,6 +56,9 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
  * 
  * @Author Kamal
  * @Since Tue Mar 01 15:53:51 PST 2011
+ * @See <a
+ *      href="https://wiki.kuali.org/display/KULSTU/LUI+Person+Relation+Service"
+ *      >LuiPersonRelationService</>
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -418,9 +421,9 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      *             authorization failure
      */
     public List<String> getAllValidLuisForPerson(@WebParam(name = "personId") String personId,
-                                                 @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
-                                                 @WebParam(name = "relationState") String relationState, @WebParam(name = "atpId") String atpId,
-                                                 @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+            @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
+            @WebParam(name = "relationState") String relationState, @WebParam(name = "atpId") String atpId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -1262,7 +1265,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             Authorization failure
      */
-    public LPRTransactionInfo submitLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
+    public LPRTransactionInfo createLprsFromLprTransaction(@WebParam(name = "lprTransactionId") String lprTransactionId,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
