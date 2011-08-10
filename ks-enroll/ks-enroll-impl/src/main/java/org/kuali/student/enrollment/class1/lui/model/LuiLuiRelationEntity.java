@@ -46,7 +46,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
-    private StateEntity luiluiRelationState;
+    private StateEntity luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -81,7 +81,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     	obj.setRelatedLuiId(relatedLui.getId());
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
-        obj.setStateKey(luiluiRelationState.getId());
+        obj.setStateKey(luiLuiRelationState.getId());
         obj.setTypeKey(luiLuiRelationType.getId());
         obj.setMeta(super.toDTO());
         
@@ -135,12 +135,12 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 		this.luiLuiRelationType = luiLuiRelationType;
 	}
 
-	public StateEntity getLuiluiRelationState() {
-		return luiluiRelationState;
+	public StateEntity getLuiLuiRelationState() {
+		return luiLuiRelationState;
 	}
 
-	public void setLuiluiRelationState(StateEntity luiluiRelationState) {
-		this.luiluiRelationState = luiluiRelationState;
+	public void setLuiLuiRelationState(StateEntity luiLuiRelationState) {
+		this.luiLuiRelationState = luiLuiRelationState;
 	}
 
 	public Date getEffectiveDate() {

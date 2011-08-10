@@ -502,7 +502,7 @@ public class LuiServiceImpl implements LuiService {
             entity.setId(UUIDHelper.genStringUUID());
 
             if (null != luiLuiRelationInfo.getStateKey()) {
-                entity.setLuiluiRelationState(findState(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, luiLuiRelationInfo.getStateKey(), context));
+                entity.setLuiLuiRelationState(findState(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, luiLuiRelationInfo.getStateKey(), context));
             }
             if (null != luiLuiRelationInfo.getTypeKey()) {
             	entity.setLuiLuiRelationType(findType(luiLuiRelationInfo.getTypeKey()));
