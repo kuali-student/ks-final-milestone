@@ -37,16 +37,16 @@ limitations under the License.
                     <ref bean="Footer_page1" />
                 </property>
  			</bean>
-            <bean parent="Page" p:id="page2">
-          		<property name="items">
-               		<list>
-          				<ref bean="GradingView-page2"/>
- 					</list>
- 				</property>
-               <property name="footer">
+              <bean parent="Page" p:id="page2">
+                    <property name="items">
+                         <list>
+                            <ref bean="GradingView-page2"/>
+                       </list>
+                   </property>
+                  <property name="footer">
                     <ref bean="Footer_SaveCloseCancel" />
-                </property>
- 			</bean>
+                  </property>
+               </bean>
           </list>
       </property>
         <property name="additionalCssFiles" ref="ks-css"/>
@@ -103,7 +103,7 @@ limitations under the License.
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="selectedGrade" p:required="true" p:label="Grade" p:fieldInquiry.render="false" p:finalizeMethodToCall="populateGradeOptions">
+          <bean parent="AttributeField" p:propertyName="selectedGrade" p:required="false" p:label="Grade" p:fieldInquiry.render="false" p:finalizeMethodToCall="populateGradeOptions">
             <property name="control">
               <bean parent="SelectControl">
               </bean>
@@ -118,14 +118,14 @@ limitations under the License.
         </property>
    </bean>
 
-   <bean id="Footer_page1" parent="Footer">
-      <property name="items">
+    <bean id="Footer_page1" parent="Footer">
+       <property name="items">
 
-        <list>
-          <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
-          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
-        </list>
-      </property>
-  </bean>
+         <list>
+           <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
+           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+         </list>
+       </property>
+   </bean>
 
 </beans>
