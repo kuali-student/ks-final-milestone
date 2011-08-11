@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
@@ -17,14 +18,13 @@ public interface ActivityRegistration extends Relationship {
      * 
      * @return
      */
-    public String getActivityOfferingId();
+    public ActivityOffering getActivityOffering();
 
     /**
-     * This method returns the student id for the Activity registration.
+     * Student id for this Activity Registration.
      * 
      * @return
      */
     public String getStudentId();
-
 
 }

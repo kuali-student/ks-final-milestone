@@ -6,7 +6,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CourseScheduleViewInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
@@ -22,7 +21,7 @@ import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException; 
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -421,12 +420,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return getNextDecorator().getRegRequestsForCourseOfferingByStudent(courseOfferingId, studentId, context);
     }
 
-    @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForCourseRegistration(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityRegistrationsForCourseRegistration(courseRegistrationId, context);
-    }
+  
 
     @Override
     public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo context)
@@ -463,12 +457,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return getNextDecorator().getRegGroupRegistration(regGroupRegistrationId, context);
     }
 
-    @Override
-    public RegGroupRegistrationInfo getRegGroupRegistrationForCourseRegistration(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistrationForCourseRegistration(courseRegistrationId, context);
-    }
+ 
 
     @Override
     public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(List<String> regGroupIds, ContextInfo context)
@@ -572,13 +561,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().moveStudentsBetweenRegGroups(sourceRegGroupId, destinationRegGroupId, context);
-    }
-
-    @Override
-    public CourseScheduleViewInfo getRegisteredCoursesScheduleForStudentByTerm(String studentId, String termKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegisteredCoursesScheduleForStudentByTerm(studentId, termKey, context);
     }
 
 }

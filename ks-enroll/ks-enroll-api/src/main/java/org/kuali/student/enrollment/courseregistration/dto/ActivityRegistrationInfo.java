@@ -10,19 +10,20 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.infc.ActivityRegistration;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
  
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "activityOfferingId", "studentId",
+@XmlType(name = "ActivityRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "activityOffering", "studentId",
         "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class ActivityRegistrationInfo extends RelationshipInfo implements ActivityRegistration, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String activityOfferingId;
+    private ActivityOfferingInfo activityOffering;
 
     @XmlElement
     private String studentId;
@@ -32,7 +33,7 @@ public class ActivityRegistrationInfo extends RelationshipInfo implements Activi
 
     public ActivityRegistrationInfo() {
         super();
-        this.activityOfferingId = null;
+        this.activityOffering= null;
         this.studentId = null;
         this._futureElements = null;
 
@@ -42,23 +43,16 @@ public class ActivityRegistrationInfo extends RelationshipInfo implements Activi
         super(activityRegistration);
 
         if (null != activityRegistration) {
-            this.activityOfferingId = activityRegistration.getActivityOfferingId();
+            this.activityOffering = new ActivityOfferingInfo( activityRegistration.getActivityOffering());
             this.studentId = activityRegistration.getStudentId();
             this._futureElements = null;
         }
     }
 
-    public void setActivityOfferingId(String activityOfferingId) {
-        this.activityOfferingId = activityOfferingId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
+  
     @Override
-    public String getActivityOfferingId() {
-        return activityOfferingId;
+    public ActivityOfferingInfo getActivityOffering() {
+        return activityOffering;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.Relationship;
 
@@ -18,7 +20,7 @@ public interface CourseRegistration extends Relationship{
      * 
      * @return
      */
-    public String getCourseOfferingId();
+    public CourseOffering getCourseOffering();
     
     /**
      * 
@@ -36,5 +38,21 @@ public interface CourseRegistration extends Relationship{
      * @return
      */
     public String getCreditCount();
+    
+    /**
+     * 
+     * Returns the grading option
+     * 
+     * @return
+     */
+    public String getGradingOption();
+    
+    /**
+     * 
+     * Returns the registration group associated with this course offering.
+     * 
+     * @return
+     */
+    public RegGroupRegistration getRegGroupRegistration();
     
 }
