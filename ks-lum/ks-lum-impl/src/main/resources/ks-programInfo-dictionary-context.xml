@@ -1175,6 +1175,7 @@
 
  <bean id="majorDisciplineInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsContentOwner"/>
+  <property name="customValidatorClass" value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1206,6 +1207,7 @@
 
  <bean id="majorDisciplineInfo.unitsStudentOversight-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsStudentOversight"/>
+  <property name="customValidatorClass" value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1237,7 +1239,8 @@
 
  <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsDeployment"/>
-    <property name="caseConstraint">
+  <property name="customValidatorClass" value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator"/>
+  <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="state"/>
@@ -1268,6 +1271,7 @@
 
  <bean id="majorDisciplineInfo.unitsFinancialResources-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsFinancialResources"/>
+  <property name="customValidatorClass" value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -1299,6 +1303,7 @@
 
  <bean id="majorDisciplineInfo.unitsFinancialControl-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsFinancialControl"/>
+  <property name="customValidatorClass" value="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
