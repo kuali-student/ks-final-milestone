@@ -720,7 +720,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         if (field.isVisible()){
 	        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
-	        addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        rationaleField.setIgnoreShowRequired(true);
 	        SwapSection swapSection = new SwapSection(picker);
 	        swapSection.addSection(finalExamRationale_group, "ALT");
 	        finalExam.addSection(finalExam_group);
