@@ -1,8 +1,10 @@
 package org.kuali.student.lum.program.client.major.proposal;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -19,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
@@ -88,6 +91,42 @@ public class MajorProposalController extends MajorController {
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
     }
+      
+    /**
+     *  Overriding this method from the proposal controller and using the newly 
+     *  defined reference type (referenceType.clu.proposal.program).  This will
+     *  ensure comments stay with the proposal as it moves through the workflow.
+     *  
+     *  See KSLAB-2070
+     */
+    @Override
+    public void requestModel(Class modelType, ModelRequestCallback callback) {
+        if (modelType == ReferenceModel.class) {
+            ReferenceModel referenceModel = new ReferenceModel();
+            
+            // Set the reference ID to the proposal ID (as opposed to the program ID)
+            // so that supporting documents and comments will be linked to proposal
+            // as opposed to being linked to the original program.
+            referenceModel.setReferenceId(ProgramUtils.getProposalId(programModel));
+           
+            // The referenceTypeKey maps to the KSCO_REFERENCE_TYPE table.   
+            // We are using the new value referenceType.clu.proposal.program (the new type added for program proposals)
+            referenceModel.setReferenceTypeKey(ProgramConstants.PROPOSAL_REFERENCE_TYPE_ID);
+            
+            // This maps to KSLU_LUTYPE table.
+            // Key value it is looking up is kuali.lu.type.MajorDiscipline
+            // We can keep this the same for both programs and proposals
+            referenceModel.setReferenceType(ProgramConstants.MAJOR_LU_TYPE_ID);
+           
+            Map<String, String> attributes = new HashMap<String, String>();
+            attributes.put("name", getStringProperty("name"));
+            referenceModel.setReferenceAttributes(attributes);
+            callback.onModelReady(referenceModel);
+        } else {
+            super.requestModel(modelType, callback);
+        }
+    }
+    
     
     /**
      * We need to override the method in MajorDisciplineController

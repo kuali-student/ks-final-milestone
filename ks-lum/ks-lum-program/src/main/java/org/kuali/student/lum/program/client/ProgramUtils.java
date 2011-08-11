@@ -145,6 +145,17 @@ public class ProgramUtils {
             }
         }
     }
+    
+    /**
+     * 
+     * This method will grab the proposal ID from the data model.
+     * 
+     * @param programModel XML data model
+     * @return
+     */
+    public static String getProposalId(DataModel programModel) {
+        return programModel.get(ProgramConstants.PROPOSAL_ID);
+    }
 
     public static String getProgramId(DataModel programModel) {
         return programModel.get(ProgramConstants.ID);

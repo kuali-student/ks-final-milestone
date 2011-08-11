@@ -40,6 +40,8 @@ public class ProgramConstants {
     public static final String PROGRAM_APPROVAL_DATE = "approvalDate";
 
     // Proposal Information
+    public static final String PROPOSAL_ID = "proposal/id";
+    public static final String PROPOSAL_REFERENCE_TYPE_ID = "referenceType.clu.proposal.program";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
     public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
