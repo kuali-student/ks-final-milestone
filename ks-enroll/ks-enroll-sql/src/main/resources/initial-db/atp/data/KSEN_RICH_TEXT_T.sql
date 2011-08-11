@@ -23,10 +23,16 @@ Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTE
 Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-108',null,0,'<p>Desc 108</p>','Desc 108')
 /
 
-Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-201',null,0,'<p>Desc 2</p>','Desc 2')
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-201',null,0,'<p>Fall 2011</p>','Fall 2011')
 /
 
-Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-301',null,0,'<p>Desc 3</p>','Desc 3')
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-202',null,0,'<p>Winter 2012</p>','Winter 2012')
+/
+
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-301',null,0,'<p>Spring 2012</p>','Spring 2012')
+/
+
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-401',null,0,'<p>Summer 2012</p>','Summer 2012')
 /
 
 Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-TRT-1',null,0,'<p>Desc term rich text 1</p>','Desc term rich text 1')
