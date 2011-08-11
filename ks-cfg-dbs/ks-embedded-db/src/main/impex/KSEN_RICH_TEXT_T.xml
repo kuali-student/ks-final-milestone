@@ -18,10 +18,14 @@
         ID="RICHTEXT-107" PLAIN="Desc 107" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Desc 108&lt;/p>"
         ID="RICHTEXT-108" PLAIN="Desc 108" VER_NBR="0"/>
-    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Desc 2&lt;/p>" ID="RICHTEXT-201"
-        PLAIN="Desc 2" VER_NBR="0"/>
-    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Desc 3&lt;/p>" ID="RICHTEXT-301"
-        PLAIN="Desc 3" VER_NBR="0"/>
+    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Fall 2011&lt;/p>"
+        ID="RICHTEXT-201" PLAIN="Fall 2011" VER_NBR="0"/>
+    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Winter 2012&lt;/p>"
+        ID="RICHTEXT-202" PLAIN="Winter 2012" VER_NBR="0"/>
+    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Spring 2012&lt;/p>"
+        ID="RICHTEXT-301" PLAIN="Spring 2012" VER_NBR="0"/>
+    <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Summer 2012&lt;/p>"
+        ID="RICHTEXT-401" PLAIN="Summer 2012" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T FORMATTED="&lt;p>Hold Desc 101&lt;/p>"
         ID="RICHTEXT-Hold-101" PLAIN="Hold Desc 101" VER_NBR="0"/>
     <KSEN_RICH_TEXT_T

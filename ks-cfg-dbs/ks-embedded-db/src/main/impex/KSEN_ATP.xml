@@ -42,12 +42,14 @@
         RT_DESCR_ID="RICHTEXT-TRT-9" START_DT="20310101000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.AcademicCalendar"
-        END_DT="20001231000000" ID="testAtpId1" NAME="testAtp1"
-        RT_DESCR_ID="RICHTEXT-101" START_DT="20000101000000" VER_NBR="0"/>
+        END_DT="20120908000000" ID="testAtpId1"
+        NAME="2011-2012 Academic Year" RT_DESCR_ID="RICHTEXT-101"
+        START_DT="20110909000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.CampusCalendar"
-        END_DT="20001231000000" ID="testAtpId2" NAME="testAtp2"
-        RT_DESCR_ID="RICHTEXT-102" START_DT="20000101000000" VER_NBR="0"/>
+        END_DT="20120908000000" ID="testAtpId2"
+        NAME="2011-2012 Campus Calendar" RT_DESCR_ID="RICHTEXT-102"
+        START_DT="20110909000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.CampusCalendar"
         END_DT="20001231000000" ID="testDeleteAtpId1"
@@ -59,11 +61,19 @@
         NAME="testDeleteAtp2" RT_DESCR_ID="RICHTEXT-104"
         START_DT="20000101000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.Fall" END_DT="20001231000000"
-        ID="testTermId1" NAME="testTerm1" RT_DESCR_ID="RICHTEXT-201"
-        START_DT="20000101000000" VER_NBR="0"/>
+        ATP_TYPE_ID="kuali.atp.type.Fall" END_DT="20111216000000"
+        ID="testTermId1" NAME="Fall 2011" RT_DESCR_ID="RICHTEXT-201"
+        START_DT="20110928000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.Spring" END_DT="20001231000000"
-        ID="testTermId2" NAME="testTerm2" RT_DESCR_ID="RICHTEXT-301"
-        START_DT="20000101000000" VER_NBR="0"/>
+        ATP_TYPE_ID="kuali.atp.type.Winter" END_DT="20120316000000"
+        ID="testTermId2" NAME="Winter 2012" RT_DESCR_ID="RICHTEXT-202"
+        START_DT="20120103000000" VER_NBR="0"/>
+    <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
+        ATP_TYPE_ID="kuali.atp.type.Spring" END_DT="20120608000000"
+        ID="testTermId3" NAME="Spring 2012" RT_DESCR_ID="RICHTEXT-301"
+        START_DT="20120326000000" VER_NBR="0"/>
+    <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
+        ATP_TYPE_ID="kuali.atp.type.Summer" END_DT="20120817000000"
+        ID="testTermId4" NAME="Summer 2012" RT_DESCR_ID="RICHTEXT-401"
+        START_DT="20120618000000" VER_NBR="0"/>
 </dataset>
