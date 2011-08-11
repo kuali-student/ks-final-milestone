@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -45,6 +46,57 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     private static Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionCache = new HashMap<String, SeatPoolDefinitionInfo>();
     
     private CourseService courseService;
+
+    public CourseOfferingServiceMockImpl(){
+        loadCaches();
+    }
+
+    private  void loadCaches(){
+        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+        courseOfferingInfo.setCourseId("101");
+        courseOfferingInfo.setId("PHYS121");
+        courseOfferingInfo.setCourseOfferingCode("PHYS121");
+        courseOfferingInfo.setCourseTitle("Fundamentals of Physics I");
+        org.kuali.student.r2.common.dto.RichTextInfo desc = new org.kuali.student.r2.common.dto.RichTextInfo();
+        desc.setPlain("Fundamentals of Physics");
+        courseOfferingInfo.setDescr(desc);
+        courseOfferingInfo.setCourseNumberSuffix("PHY");
+        courseOfferingInfo.setHasFinalExam(Boolean.TRUE);
+        courseOfferingInfo.setIsHonorsOffering(Boolean.TRUE);
+        courseOfferingInfo.setTermKey("201108");
+
+        courseOfferingCache.put(courseOfferingInfo.getId(),courseOfferingInfo);
+
+        CourseOfferingInfo courseOfferingInfo1 = new CourseOfferingInfo();
+        courseOfferingInfo1.setCourseId("102");
+        courseOfferingInfo1.setId("PHYS122");
+        courseOfferingInfo1.setCourseOfferingCode("PHYS122");
+        courseOfferingInfo1.setCourseTitle("Fundamentals of Physics II");
+        desc = new org.kuali.student.r2.common.dto.RichTextInfo();
+        desc.setPlain("Fundamentals of Physics");
+        courseOfferingInfo1.setDescr(desc);
+        courseOfferingInfo1.setCourseNumberSuffix("PHY");
+        courseOfferingInfo1.setHasFinalExam(Boolean.TRUE);
+        courseOfferingInfo1.setIsHonorsOffering(Boolean.TRUE);
+        courseOfferingInfo1.setTermKey("201108");
+
+        courseOfferingCache.put(courseOfferingInfo1.getId(),courseOfferingInfo1);
+
+        CourseOfferingInfo courseOfferingInfo2 = new CourseOfferingInfo();
+        courseOfferingInfo2.setCourseId("103");
+        courseOfferingInfo2.setId("PHYS123");
+        courseOfferingInfo2.setCourseOfferingCode("PHYS123");
+        courseOfferingInfo2.setCourseTitle("Advanced Physics I");
+        desc = new org.kuali.student.r2.common.dto.RichTextInfo();
+        desc.setPlain("Advanced Physics");
+        courseOfferingInfo2.setDescr(desc);
+        courseOfferingInfo2.setCourseNumberSuffix("PHY");
+        courseOfferingInfo2.setHasFinalExam(Boolean.TRUE);
+        courseOfferingInfo2.setIsHonorsOffering(Boolean.TRUE);
+        courseOfferingInfo2.setTermKey("201108");
+
+        courseOfferingCache.put(courseOfferingInfo2.getId(),courseOfferingInfo2);
+    }
 
     public CourseService getCourseService() {
         return courseService;

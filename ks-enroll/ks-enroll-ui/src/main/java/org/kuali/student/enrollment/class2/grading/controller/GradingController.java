@@ -60,10 +60,10 @@ public class GradingController extends UifControllerBase{
         List<GradeStudent> students = ((GradingViewHelperService)gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse);
         gradingForm.setStudents(students);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(),"page2");
+        return getUIFModelAndView(gradingForm, gradingForm.getViewId(),GradingConstants.GRADE_ROSTER_PAGE);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=unassignGrade")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.UNASSIGN_GRADE_METHOD)
 	public ModelAndView unassignGrade(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -82,9 +82,10 @@ public class GradingController extends UifControllerBase{
             throw new RuntimeException("Selected line index was not set for delete unassign action, cannot unassign grade");
         }
 
+        //TODO: Needs to be a client side method instead of handling at server side
         ((GradingViewHelperService)gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),gradingForm,selectedCollectionPath,selectedLineIndex);
 
-         return getUIFModelAndView(gradingForm, gradingForm.getViewId(),"page2");
+         return getUIFModelAndView(gradingForm, gradingForm.getViewId(),GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")

@@ -19,8 +19,14 @@ package org.kuali.student.enrollment.class2.grading.util;
 public class GradingConstants {
 
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
+    public static final String UNASSIGN_GRADE_METHOD = "unassignGrade";
     public static final String GRADING_SERVICE_URL = "http://student.kuali.org/wsdl/grading";
     public static final String GRADING_SERVICE_NAME = "GradingService";
+    public static final String IDENTITY_SERVICE_URL = "http://rice.kuali.org/wsdl/kim";
+    public static final String IDENTITY_SERVICE_NAME = "kimIdentityServiceSOAP";
+
+    public static final String SELECT_COURSE_OFFERING_PAGE = "page1";
+    public static final String GRADE_ROSTER_PAGE = "page2";
 
     public static final String CURRENT_TERM = "201108";
 

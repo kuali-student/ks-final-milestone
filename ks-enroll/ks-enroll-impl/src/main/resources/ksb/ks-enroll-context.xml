@@ -280,6 +280,24 @@
 		<property name="stateService" ref="stateService"/>
 	</bean>
 
+    <bean id="coMockService" class="org.kuali.student.enrollment.classII.courseoffering.service.CourseOfferingServiceMockImpl">
+		<property name="courseService" ref="courseServiceImpl"/>
+	</bean>
+
+    <bean id="ks.exp.courseOfferingMockService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+       <property name="serviceDefinition">
+           <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+               <property name="jaxWsService" value="true"/>
+               <property name="service" ref="coMockService"/>
+               <property name="serviceInterface"
+                         value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService"/>
+               <property name="localServiceName" value="CourseOfferingMockService"/>
+               <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering"/>
+               <property name="busSecurity" value="${ks.lum.bus.security}"/>
+           </bean>
+       </property>
+    </bean>
+
     <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
     	<property name="luiService" ref="luiService"/>
     </bean>

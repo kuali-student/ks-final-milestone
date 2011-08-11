@@ -81,7 +81,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
        ContextInfo context = TestHelper.getContext1();
 
        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
-       IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName("http://rice.kuali.org/wsdl/kim", "kimIdentityServiceSOAP"));
+       IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName(GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
 
         List<GradeStudent> students = new ArrayList();
         List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse, context);

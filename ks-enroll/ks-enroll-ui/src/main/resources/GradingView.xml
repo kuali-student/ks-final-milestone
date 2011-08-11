@@ -56,16 +56,25 @@ limitations under the License.
    </bean>
    
    <bean id="GradingView-page1" parent="GroupGridLayout">
-      <property name="title" value="Select Course"/>
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Course" p:required="true" p:maxLength="50" p:fieldInquiry.render="false">
-            <property name="control">
+          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Select course to grade" p:required="true" p:maxLength="50" p:defaultValue="PHYS121" >
+            <!--<property name="control">
               <bean parent="SelectControl"/>
             </property>
             <property name="optionsFinder">
               <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.CourseOfferingForGradingKeyValues"/>
+            </property>-->
+            <property name="control">
+              <bean parent="TextControl"/>
+            </property>
+            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+            <property name="fieldLookup.viewName" value="courseOfferingLookupForGrading"/>
+            <property name="fieldLookup.fieldConversions">
+              <map>
+                <entry key="id" value="selectedCourse"/>
+              </map>
             </property>
           </bean>
         </list>
@@ -82,11 +91,10 @@ limitations under the License.
    </bean>
 
     <bean id="gradeStudentGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
-      <property name="title" value="Grade Students"/>
+      <property name="title" value="Grade Roster"/>
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent"/>
       <property name="propertyName" value="students"/>
-      <property name="renderLineActions" value="true"/>
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
@@ -103,7 +111,7 @@ limitations under the License.
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="selectedGrade" p:required="false" p:label="Grade" p:fieldInquiry.render="false" p:finalizeMethodToCall="populateGradeOptions">
+          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions">
             <property name="control">
               <bean parent="SelectControl">
               </bean>
@@ -113,19 +121,19 @@ limitations under the License.
       </property>
         <property name="actionFields">
               <list>
-                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="Unassign" p:title="Unassign Grade" />
+                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade" />
               </list>
         </property>
    </bean>
 
-    <bean id="Footer_page1" parent="Footer">
-       <property name="items">
+   <bean id="Footer_page1" parent="Footer">
+      <property name="items">
 
-         <list>
-           <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
-           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
-         </list>
-       </property>
-   </bean>
+        <list>
+          <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
+          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+        </list>
+      </property>
+  </bean>
 
 </beans>

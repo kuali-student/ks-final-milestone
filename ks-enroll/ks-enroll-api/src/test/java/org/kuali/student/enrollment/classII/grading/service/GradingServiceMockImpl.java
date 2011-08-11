@@ -214,11 +214,13 @@ public class GradingServiceMockImpl implements GradingService {
             OperationFailedException, PermissionDeniedException {
 
         List<GradeRosterInfo> gradeRosters = new ArrayList<GradeRosterInfo>();
-        for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
-            if (gradeRoster.getGraderIds().contains(graderId) && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
-                gradeRosters.add(gradeRoster);
-            }
+        if (termCourseOfferingsCache.get(termKey) != null){
+            for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
+                if (gradeRoster.getGraderIds().contains(graderId) && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
+                    gradeRosters.add(gradeRoster);
+                }
 
+            }
         }
         return gradeRosters;
     }
