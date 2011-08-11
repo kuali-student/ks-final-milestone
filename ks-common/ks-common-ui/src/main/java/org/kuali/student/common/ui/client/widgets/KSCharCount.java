@@ -49,6 +49,7 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
                 @Override
                 public void onKeyUp(KeyUpEvent event) {
                     countingLabel.setText(setLabel());
+
                 }
             });
 
@@ -57,12 +58,13 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
                 @Override
                 public void onValueChange(ValueChangeEvent<String> event) {
                     countingLabel.setText(setLabel());
+
                 }
 
             });
-
         }
 
+        countingLabel.setStyleName("ks-form-module-elements-help-text");
         countingLabel.setText(this.setLabel());
         countingPanel.add(inputWidget);
         countingPanel.add(countingLabel);
@@ -94,7 +96,15 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
     }
 
     public String setLabel() {
-        return (getRemCount() + " " + Application.getApplicationContext().getUILabel("common", "remainingChars"));
+        int rem = getRemCount();
+
+        if ((rem <= (this.maxLength * 0.1)) || (rem <= 10)) {
+            countingLabel.getElement().setAttribute("style", "color: red;");
+        } else {
+            countingLabel.getElement().removeAttribute("style");
+        }
+
+        return (rem + " " + Application.getApplicationContext().getUILabel("common", "remainingChars"));
     }
 
     @Override
