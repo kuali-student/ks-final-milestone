@@ -187,6 +187,19 @@
                 
                 <!-- Program Contexts -->
 
+                <entry key="kuali.reqComponent.type.program.credits.advisor">
+                    <ref local="basicContext"/>                
+                </entry>   
+				<entry key="kuali.reqComponent.type.program.courses.advisor">
+                    <ref local="basicContext"/>                
+                </entry>   
+                <entry key="kuali.reqComponent.type.program.credits.theme">
+                    <ref local="basicContext"/>                
+                </entry>   
+				<entry key="kuali.reqComponent.type.program.courses.theme">
+                    <ref local="basicContext"/>                
+                </entry>   
+                
                 <entry key="kuali.reqComponent.type.programList.enroll.oneof">
 	                <ref local="luContext"/>
                 </entry>
