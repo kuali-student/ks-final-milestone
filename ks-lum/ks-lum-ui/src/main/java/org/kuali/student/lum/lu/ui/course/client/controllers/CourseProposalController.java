@@ -341,7 +341,10 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);		    				    		
 		    		idAttributes.put(DtoConstants.DTO_STATE, dtoState);		    		
 		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
-		    		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
+		    		if (LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equalsIgnoreCase(currentDocType) ||
+		    			LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){		    			
+		    			idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
+		    		}
 
 		    		
 		    		//Get metadata and complete initializing the screen
