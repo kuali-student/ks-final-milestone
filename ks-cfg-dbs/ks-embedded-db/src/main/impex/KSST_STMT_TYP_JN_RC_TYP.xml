@@ -248,6 +248,14 @@
         REQ_COM_TYPE_ID="kuali.reqComponent.type.course.courseset.gpa.min"
         SORT_ORDER="4"
         STMT_TYPE_ID="kuali.statement.type.program.completion" VER_NBR="0"/>
+    <KSST_STMT_TYP_JN_RC_TYP ID="PC-404"
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.advisor" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP ID="PC-405"
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.courses.advisor" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP ID="PC-406"
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.theme" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
+    <KSST_STMT_TYP_JN_RC_TYP ID="PC-407"
+        REQ_COM_TYPE_ID="kuali.reqComponent.type.program.courses.theme" STMT_TYPE_ID="kuali.statement.type.program.completion"/>
     <KSST_STMT_TYP_JN_RC_TYP ID="PC-5"
         REQ_COM_TYPE_ID="kuali.reqComponent.type.program.credits.min"
         SORT_ORDER="5"
