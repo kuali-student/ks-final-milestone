@@ -481,28 +481,39 @@ public class MajorEditController extends MajorController {
 
 	//Ensure that the managing bodies section view is updated before the user edits specializations
 	@Override
-	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChangeCallback){
-		if(LUMViews.VARIATION_EDIT.equals(viewChangingTo)){
-			getView(ProgramSections.MANAGE_BODIES_EDIT, new Callback<View>(){
-				@Override
-				public void exec(final View view) {
-					if(view!=null && view instanceof SectionView){
-						requestModel(new ModelRequestCallback<DataModel>(){
-							public void onModelReady(DataModel model) {
-								((SectionView)view).updateWidgetData(model);
-								okToChangeCallback.exec(true);
-							}
-							public void onRequestFail(Throwable cause) {
-								okToChangeCallback.exec(false);
-							}
-						});
-					}else{
-						okToChangeCallback.exec(true);
-					}
-				}});
-		}else{
-			okToChangeCallback.exec(true);
-		}
+	public void beforeViewChange(final Enum<?> viewChangingTo, final Callback<Boolean> okToChangeCallback){
+	    final Callback<Boolean> reallyOkToChange = new Callback<Boolean>() {
+
+            @Override
+            public void exec(Boolean result) {
+                if (result) {
+                    if (LUMViews.VARIATION_EDIT.equals(viewChangingTo)) {
+                        getView(ProgramSections.MANAGE_BODIES_EDIT, new Callback<View>() {
+                            @Override
+                            public void exec(final View view) {
+                                if (view != null && view instanceof SectionView) {
+                                    requestModel(new ModelRequestCallback<DataModel>() {
+                                        public void onModelReady(DataModel model) {
+                                            ((SectionView) view).updateWidgetData(model);
+                                            okToChangeCallback.exec(true);
+                                        }
+
+                                        public void onRequestFail(Throwable cause) {
+                                            okToChangeCallback.exec(false);
+                                        }
+                                    });
+                                } else {
+                                    okToChangeCallback.exec(true);
+                                }
+                            }
+                        });
+                    } else {
+                        okToChangeCallback.exec(true);
+                    }
+                }
+            }
+	    };
+	    super.beforeViewChange(viewChangingTo, reallyOkToChange);
 		this.showExport(isExportButtonActive());	// KSLAB-1916
 	}
 }
