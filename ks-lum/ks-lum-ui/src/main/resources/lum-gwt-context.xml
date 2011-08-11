@@ -633,7 +633,6 @@
     </bean>
 
     <bean id="coreCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.CoreCredentialProgramFilter">
-        <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
     </bean>
 
