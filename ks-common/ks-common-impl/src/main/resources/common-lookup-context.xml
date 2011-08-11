@@ -3,6 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+	<!--  TODO: This is a list of cleanup tasks that should take place
+		1) Lookups defined here should not have the word "suggest" in id name, that is a very UI specific term
+	 -->
+
 	<!-- This file defines common lookup definitions that are used on the service side to validate lookup values returned in the dataMap from the UI.
 		  These definitions are also inherited by the *-ui-lookup-context.xml  where ui lookups are defined. 
 		  Service side validations for lookups are performed in Validator.java 
@@ -834,14 +838,14 @@
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
 			<list>
-				<bean parent="param">   <!-- suggest box entry definition -->
+				<bean parent="param">
 					<property name="key" value="lu.queryParam.luOptionalCode" />
 					<property name="name" value="Code" />
 					<property name="desc" value="Program code." />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="usage" value="DEFAULT" />
 				</bean>
-				<bean parent="param">   <!-- limit search to programs for this UI context -->
+				<bean parent="param">
 					<property name="key" value="lu.queryParam.luOptionalType" />
 					<property name="name" value="Program Type" />
 					<property name="desc" value="Type of a program" />
@@ -861,6 +865,44 @@
 						 	<value>kuali.lu.type.CoreProgram</value>
 						 	<value>kuali.lu.type.Honors</value>
 						 	<value>kuali.lu.type.LivingLearning</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
+	<bean id="kuali.common.lookup.findCredentialProgram" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.findCredentialProgram" />
+		<property name="name" value="Program" />
+		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="desc" value="Search for programs" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param"> 
+					<property name="key" value="lu.queryParam.luOptionalCode" />
+					<property name="name" value="Code" />
+					<property name="desc" value="Program code." />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="usage" value="DEFAULT" />
+				</bean>
+				<bean parent="param">
+					<property name="key" value="lu.queryParam.luOptionalType" />
+					<property name="name" value="Program Type" />
+					<property name="desc" value="Type of a program" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+     					<list> <!-- this list is not complete -->
+							<value>kuali.lu.type.credential.Baccalaureate</value>
+							<value>kuali.lu.type.credential.Masters</value>
+						 	<value>kuali.lu.type.credential.Professional</value>
+						 	<value>kuali.lu.type.credential.Doctoral</value>
+						 	<value>kuali.lu.type.credential.UndergraduateCertificate</value>
+						 	<value>kuali.lu.type.credential.GraduateCertificate </value>
+						 	<value>kuali.lu.type.credential.ContinuingEd</value>
 						</list>
 					</property>
 					<property name="caseSensitive" value="true" />
