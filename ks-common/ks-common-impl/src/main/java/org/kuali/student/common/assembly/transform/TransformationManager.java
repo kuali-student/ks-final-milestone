@@ -121,6 +121,7 @@ public class TransformationManager {
 		for (TransformFilter filter:filterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
+					//FIXME: It might be more efficient to getMetadata outside of the for loop (unless metadata might be different)
 					Metadata metadata = getMetadata(dtoName, properties);
 					((AbstractDataFilter)filter).applyOutboundDataFilter((Data)value, metadata, properties);
 				} else {
