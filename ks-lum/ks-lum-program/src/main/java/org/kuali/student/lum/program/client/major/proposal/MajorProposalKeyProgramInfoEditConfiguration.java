@@ -12,8 +12,7 @@ public class MajorProposalKeyProgramInfoEditConfiguration extends MajorKeyProgra
 
     
 	/**
-	 * Override to configuration so institution, credential program, and level fields are not 
-	 * editable and contained in read only gray box.
+	 * Override to configuration so credential program field is editable. 
 	 */
 	@Override
 	protected VerticalSection createKeyProgramInformationSection() {

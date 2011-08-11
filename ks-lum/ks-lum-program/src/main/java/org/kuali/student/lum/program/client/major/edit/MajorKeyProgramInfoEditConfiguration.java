@@ -49,16 +49,30 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
     }
 
     protected VerticalSection createKeyProgramInformationSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));       
-        configurer.addField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
-        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
-        configurer.addField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
-        configurer.addField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
-        configurer.addField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));
+        //KSLAB-2175 - it makes this readOnlySelection box shift under the line drawn by this section heading... Nice  to have JIRA
+        VerticalSection s1 = new VerticalSection();
+        HorizontalSection s2 = new HorizontalSection();
+        
+        configurer.addField(s1, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
+        configurer.addField(s1, ProgramConstants.CREDENTIAL_PROGRAM_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
+        configurer.addField(s1, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
+        configurer.addField(s1, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
+        s2.addSection(s1);
+        s2.addSection(createReadOnlySection());
+        section.addSection(s2);
         return section;
     }
 
+    protected VerticalSection createReadOnlySection() {
+        VerticalSection section = new VerticalSection();
+        section.addStyleName("readOnlySection");
+        section.addStyleName("readOnlyNeedsToBeOnTheRight");
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        return section;
+    }
+    
     private VerticalSection createProgramTitleSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_programTitle()));
 
