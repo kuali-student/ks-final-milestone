@@ -12,6 +12,21 @@
         ATP_STATE_ID="kuali.atp.atp.relation.state.active"
         EFF_DT="20110101000000" EXPIR_DT="20000101000000"
         ID="ATPATPREL-2" RELATED_ATP_ID="testTermId1" VER_NBR="0"/>
+    <KSEN_ATPATP_RELTN ATP_ID="testAtpId1"
+        ATP_RELTN_TYPE_ID="kuali.atp.atp.relation.includes"
+        ATP_STATE_ID="kuali.atp.atp.relation.state.active"
+        EFF_DT="20110101000000" EXPIR_DT="20000101000000"
+        ID="ATPATPREL-21" RELATED_ATP_ID="testTermId2" VER_NBR="0"/>
+    <KSEN_ATPATP_RELTN ATP_ID="testAtpId1"
+        ATP_RELTN_TYPE_ID="kuali.atp.atp.relation.includes"
+        ATP_STATE_ID="kuali.atp.atp.relation.state.active"
+        EFF_DT="20110101000000" EXPIR_DT="20000101000000"
+        ID="ATPATPREL-22" RELATED_ATP_ID="testTermId3" VER_NBR="0"/>
+    <KSEN_ATPATP_RELTN ATP_ID="testAtpId1"
+        ATP_RELTN_TYPE_ID="kuali.atp.atp.relation.includes"
+        ATP_STATE_ID="kuali.atp.atp.relation.state.active"
+        EFF_DT="20110101000000" EXPIR_DT="20000101000000"
+        ID="ATPATPREL-23" RELATED_ATP_ID="testTermId4" VER_NBR="0"/>
     <KSEN_ATPATP_RELTN ATP_ID="testTermId1"
         ATP_RELTN_TYPE_ID="kuali.atp.atp.relation.includes"
         ATP_STATE_ID="kuali.atp.atp.relation.state.active"
