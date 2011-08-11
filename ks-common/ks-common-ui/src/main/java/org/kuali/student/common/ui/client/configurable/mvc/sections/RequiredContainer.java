@@ -177,9 +177,9 @@ public class RequiredContainer extends WarnContainer {
      */
     private boolean processFieldDescriptor(FieldDescriptor descriptor, boolean showAll) {
         // Check if this field should be ignored, return true.
-        //if (descriptor.getMetadata().isIgnoreShowRequired()){
-        //    return true;
-        //}
+        if (descriptor.isIgnoreShowRequired()){
+            return true;
+        }
         // Check if field is required or not.
         if (!MetadataInterrogator.isRequired(descriptor.getMetadata()) && (!MetadataInterrogator.isRequiredForNextState(descriptor.getMetadata()))) {
             descriptor.getFieldElement().setVisible(showAll);

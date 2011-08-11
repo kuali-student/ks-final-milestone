@@ -100,6 +100,7 @@ public class FieldDescriptor {
     private String modelId;
     private MessageKeyInfo messageKey;
     private boolean optional = false;
+    private boolean ignoreShowRequired = false; 
 
     /**
      * @param fieldKey - key for this field which matches a field in the overall model definition that this
@@ -399,4 +400,13 @@ public class FieldDescriptor {
 			getMetadata().getConstraints().get(0).setMinOccurs(0);
 		}
 	}
+
+    public boolean isIgnoreShowRequired() {
+        return ignoreShowRequired;
+    }
+
+    public void setIgnoreShowRequired(boolean ignoreShowRequired) {
+        this.ignoreShowRequired = ignoreShowRequired;
+    }
+	
 }
