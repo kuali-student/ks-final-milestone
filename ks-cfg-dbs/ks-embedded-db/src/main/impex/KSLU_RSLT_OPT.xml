@@ -1863,7 +1863,7 @@
     <KSLU_RSLT_OPT CREATETIME="20110810000000"
         ID="18e9b68e-ce21-425d-bc0b-d91aaa68ade9"
         OBJ_ID="d32b2bb5-b52c-4058-bdc3-c49e29ebbece"
-        RES_COMP_ID="kuali.resultcomponent.degree.phd"
+        RES_COMP_ID="kuali.resultComponent.degree.phd"
         RT_DESCR_ID="9ff798db-f26b-49c0-89f2-527362322d9e" ST="Active"
         UPDATETIME="20110810000000" VER_NBR="0"/>
     <KSLU_RSLT_OPT CREATETIME="20101210172115"
