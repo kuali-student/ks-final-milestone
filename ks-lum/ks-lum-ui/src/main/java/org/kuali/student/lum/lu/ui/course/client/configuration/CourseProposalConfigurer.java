@@ -97,7 +97,6 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourse
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseJointsConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
-import org.kuali.student.lum.program.client.ProgramConstants;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -478,7 +477,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         //addField(description, COURSE + "/" + DESCRIPTION, null);
         addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY));
         addField(description, "proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY),
-                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(ProgramConstants.PROPOSAL_RATIONALE_PATH))));
+                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse("proposal/rationale"))));
 
         return description;
     }
