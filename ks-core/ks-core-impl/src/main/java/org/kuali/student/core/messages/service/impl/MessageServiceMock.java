@@ -98,7 +98,7 @@ public class MessageServiceMock implements MessageService {
 		}
 		localeMessages.putMessage(messageInfo.getGroupName(), messageInfo
 				.getId(), messageInfo.getValue());
-
+		this.messages.put(messageInfo.getLocale(), localeMessages);
 		return messageInfo;
 	}
 
