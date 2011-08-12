@@ -177,7 +177,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-PHYSICS" DIV="GRE-SUBJ"
         ID="0791d3e2-6316-4ba0-af8e-31549c4ac438"
-        LNG_NAME="GRE Subject Test in Physics" LVL="GR"
+        LNG_NAME="GRE Subject Test in Physics"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="75bef052-126e-428e-a7ca-0efd49f7764f"
         SHRT_NAME="GRE Subject Test in Physics" ST="Active"
         SUFX_CD="PHYSICS" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -274,7 +275,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AP-US-HIST" DIV="AP"
         ID="0bf8a903-e109-4879-99f0-dfb8e916533c"
-        LNG_NAME="AP U.S. History" LVL="UG"
+        LNG_NAME="AP U.S. History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="7c39cd02-bdbe-48fa-ad4c-94db5ce06261"
         SHRT_NAME="AP U.S. History" ST="Active" SUFX_CD="US-HIST"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -313,12 +315,14 @@
         TYPE="kuali.lu.type.program.identifier.transcript" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-SCIENCE" DIV="ACT"
         ID="0ddf8ef3-e0dc-45ab-974e-83891709bd11" LNG_NAME="ACT Science"
-        LVL="UG" OBJ_ID="b4632f4e-75db-48bb-b050-4b1b5c2ced6a"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="b4632f4e-75db-48bb-b050-4b1b5c2ced6a"
         SHRT_NAME="ACT Science" ST="Active" SUFX_CD="SCIENCE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-WORLD-HIST" DIV="AP"
         ID="0e29208e-5413-489e-87ad-41dc51b965cc"
-        LNG_NAME="AP World History" LVL="UG"
+        LNG_NAME="AP World History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="5b42a0f4-604e-4e57-959b-d096ea81fb5b"
         SHRT_NAME="AP World History" ST="Active" SUFX_CD="WORLD-HIST"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -493,7 +497,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-WRITING" DIV="SAT"
         ID="11c868ae-5916-4243-9762-cb44f56f83c4" LNG_NAME="SAT Writing"
-        LVL="UG" OBJ_ID="1be7644e-c1b2-4982-8377-1cc0272d32a6"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="1be7644e-c1b2-4982-8377-1cc0272d32a6"
         SHRT_NAME="SAT Writing" ST="Active" SUFX_CD="WRITING"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI361" DIV="BSCI"
@@ -602,7 +607,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-PHYSICSC-MECH" DIV="AP"
         ID="16bde99d-43ce-48ce-9a4d-4b1788dd59ae"
-        LNG_NAME="AP Physics C: Mechanics" LVL="UG"
+        LNG_NAME="AP Physics C: Mechanics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="bb71da9e-07b7-4af3-9221-fa5ffb900eb1"
         SHRT_NAME="AP Physics C: Mechanics" ST="Active"
         SUFX_CD="PHYSICSC-MECH"
@@ -740,7 +746,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-US-GOV" DIV="AP"
         ID="1c207b64-47c6-4653-9100-c5c91badc16b"
-        LNG_NAME="AP U.S. Government &amp; Politics" LVL="UG"
+        LNG_NAME="AP U.S. Government &amp; Politics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="8844e5aa-949d-4c8d-913d-03fd10dc6809"
         SHRT_NAME="AP U.S. Government &amp; Politics" ST="Active"
         SUFX_CD="US-GOV" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -866,7 +873,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-WORLD-HISTORY" DIV="SAT-SUBJ"
         ID="2295ca5e-ac9e-46b4-99c2-7ee8903483e4"
-        LNG_NAME="SAT Subject Test in World History" LVL="UG"
+        LNG_NAME="SAT Subject Test in World History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="4834672f-53f0-4734-9798-e1442bec1f79"
         SHRT_NAME="SAT Subject Test in World History" ST="Active"
         SUFX_CD="WORLD-HISTORY"
@@ -979,7 +987,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-HISTORY" DIV="GRE-SUBJ"
         ID="25dd690c-e011-4267-823c-005618393e94"
-        LNG_NAME="GRE Subject Test in History" LVL="GR"
+        LNG_NAME="GRE Subject Test in History"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="2b1ac698-5eeb-496d-892c-bb474cd1af14"
         SHRT_NAME="GRE Subject Test in History" ST="Active"
         SUFX_CD="HISTORY" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -991,7 +1000,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-WRITING" DIV="GRE"
         ID="26535dee-ab6e-46ff-9170-283985c6bfd5"
-        LNG_NAME="GRE Analytical Writing" LVL="GR"
+        LNG_NAME="GRE Analytical Writing"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="056b8656-2820-4167-b7d1-247fb6f2ed1b"
         SHRT_NAME="GRE Analytical Writing" ST="Active" SUFX_CD="WRITING"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1221,7 +1231,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-CHEM" DIV="AP"
         ID="2e890738-5148-4a3f-bda5-5eb89a67bd0e"
-        LNG_NAME="AP Chemistry" LVL="UG"
+        LNG_NAME="AP Chemistry"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="b1294fa1-e896-4416-999e-799f3e8805db"
         SHRT_NAME="AP Chemistry" ST="Active" SUFX_CD="CHEM"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1257,7 +1268,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-ITALIAN" DIV="SAT-SUBJ"
         ID="2f8356b2-0d9a-40df-a1c8-df7d2971e405"
-        LNG_NAME="SAT Subject Test in Italian" LVL="UG"
+        LNG_NAME="SAT Subject Test in Italian"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="fd2940b7-722a-48e2-8c3a-b5bcf6c3828a"
         SHRT_NAME="SAT Subject Test in Italian" ST="Active"
         SUFX_CD="ITALIAN" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1275,7 +1287,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-MATH-REVISED" DIV="GRE-SUBJ"
         ID="2ff183d7-9d70-4d36-b095-6fc18eb17f2b"
-        LNG_NAME="GRE Subject Test in Math (revised)" LVL="GR"
+        LNG_NAME="GRE Subject Test in Math (revised)"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="05365966-82dd-4fee-a06d-079606f84ded"
         SHRT_NAME="GRE Subject Test in Math (revised)" ST="Active"
         SUFX_CD="MATH-REVISED"
@@ -1347,7 +1360,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-ENGLISH-LIT" DIV="GRE-SUBJ"
         ID="31d9d22c-80e2-4e16-806f-ec0bc09493c7"
-        LNG_NAME="GRE Subject Test in English Literature" LVL="GR"
+        LNG_NAME="GRE Subject Test in English Literature"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="a7a204f4-a69e-4c5e-9942-77ee69cec23a"
         SHRT_NAME="GRE Subject Test in English Literature" ST="Active"
         SUFX_CD="ENGLISH-LIT"
@@ -1504,7 +1518,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-ARTHIST" DIV="AP"
         ID="37d0921e-bfd0-4de0-9abe-38b63553bb4d"
-        LNG_NAME="AP Art History" LVL="UG"
+        LNG_NAME="AP Art History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="6c58d916-bdb6-4661-9212-f44fb00a37d5"
         SHRT_NAME="AP Art History" ST="Active" SUFX_CD="ARTHIST"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1557,13 +1572,15 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-COMPOSITE" DIV="ACT"
         ID="399d26c4-9d2f-4a53-80ac-20931a774319"
-        LNG_NAME="ACT Composite" LVL="UG"
+        LNG_NAME="ACT Composite"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="bd47c9b7-c3e8-43ae-bde4-1c675cc06ad9"
         SHRT_NAME="ACT Composite" ST="Active" SUFX_CD="COMPOSITE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-FRENCH" DIV="SAT-SUBJ"
         ID="39ee4458-262b-4fc0-aec1-fb053d6e5faf"
-        LNG_NAME="SAT Subject Test in French" LVL="UG"
+        LNG_NAME="SAT Subject Test in French"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="35c03104-2634-4fe1-9bd7-8ef76a408221"
         SHRT_NAME="SAT Subject Test in French" ST="Active"
         SUFX_CD="FRENCH" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1586,7 +1603,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-GEOGRAPHY" DIV="AP"
         ID="3aaff32a-d21c-45a7-a272-78c33705a369"
-        LNG_NAME="AP Human Geography" LVL="UG"
+        LNG_NAME="AP Human Geography"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="d4921115-e643-4426-984d-b03b9c174f3e"
         SHRT_NAME="AP Human Geography" ST="Active" SUFX_CD="GEOGRAPHY"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1653,7 +1671,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-MATH" DIV="SAT"
         ID="3c8f0275-4512-4260-a697-fbb0b08f4250" LNG_NAME="SAT Math"
-        LVL="UG" OBJ_ID="a638a848-20da-4c16-bb1d-cb2d6d8b5715"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="a638a848-20da-4c16-bb1d-cb2d6d8b5715"
         SHRT_NAME="SAT Math" ST="Active" SUFX_CD="MATH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AASP402" DIV="AASP"
@@ -1664,7 +1683,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-READING" DIV="ACT"
         ID="3ce5a1b1-3e5e-4679-a26f-3cce04e1360b" LNG_NAME="ACT Reading"
-        LVL="UG" OBJ_ID="f083551d-d7e0-4aa1-85d6-7a0251fe42d5"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="f083551d-d7e0-4aa1-85d6-7a0251fe42d5"
         SHRT_NAME="ACT Reading" ST="Active" SUFX_CD="READING"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENTM622" DIV="ENTM"
@@ -1710,7 +1730,7 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-COMPOSITE" DIV="GRE"
         ID="3fa78723-d580-4e02-830b-a9efa1d9ad64"
-        LNG_NAME="GRE Composite" LVL="GR"
+        LNG_NAME="GRE Composite" LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="845d1847-4c69-493e-9528-6b2c6bf6cf8f"
         SHRT_NAME="GRE Composite" ST="Active" SUFX_CD="COMPOSITE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -1907,7 +1927,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-MATHEMATICS-1" DIV="SAT-SUBJ"
         ID="444b2db5-04f0-4867-9aa4-3663be11bde0"
-        LNG_NAME="SAT Subject Test in Mathematics Level 1" LVL="UG"
+        LNG_NAME="SAT Subject Test in Mathematics Level 1"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="71ddca77-d628-4bd8-ab71-58d0ad45b39d"
         SHRT_NAME="SAT Subject Test in Mathematics Level 1" ST="Active"
         SUFX_CD="MATHEMATICS-1"
@@ -2225,7 +2246,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-STATS" DIV="AP"
         ID="4d00128e-3cb7-4143-8c68-88e832111711"
-        LNG_NAME="AP Statistics" LVL="UG"
+        LNG_NAME="AP Statistics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="8bb6d024-e3ed-40e6-be83-d0cb5796c1e1"
         SHRT_NAME="AP Statistics" ST="Active" SUFX_CD="STATS"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -2482,7 +2504,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-EURO-HIST" DIV="AP"
         ID="56d92a71-13d0-46b3-ab83-fa3957c9e2c5"
-        LNG_NAME="AP European History" LVL="UG"
+        LNG_NAME="AP European History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="dcb416c9-dbcf-4ea2-a826-e19fe325095a"
         SHRT_NAME="AP European History" ST="Active" SUFX_CD="EURO-HIST"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -2499,7 +2522,7 @@
         SHRT_NAME="ADV ORCHESTRATION" ST="Active" SUFX_CD="688"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="MAST" ID="5765f7e5-5341-4b78-9ad7-8a28c8685928"
-        LNG_NAME="Masters Program" LVL="GR"
+        LNG_NAME="Masters Program" LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="250a9719-fee9-4b8e-99c0-50f0fd84f0d4"
         SHRT_NAME="MASTERS" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
@@ -2569,7 +2592,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-MACRO-ECON" DIV="AP"
         ID="58cd8939-2dd0-4228-92d2-f0d4ce2b57f5"
-        LNG_NAME="AP Macroeconomics" LVL="UG"
+        LNG_NAME="AP Macroeconomics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="9ca6da0a-12da-4f73-a075-d080e4fc1534"
         SHRT_NAME="AP Macroeconomics" ST="Active" SUFX_CD="MACRO-ECON"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -2658,7 +2682,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-STUDIOART-3D" DIV="AP"
         ID="5e46b396-598c-4ecf-8669-8bc3e0c88d6b"
-        LNG_NAME="AP Studio Art 3-D" LVL="UG"
+        LNG_NAME="AP Studio Art 3-D"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="0199d12f-dd61-4299-9b54-32cb0c98b4d4"
         SHRT_NAME="AP Studio Art 3-D" ST="Active" SUFX_CD="STUDIOART-3D"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -2885,7 +2910,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-GERMAN-LISTENING" DIV="SAT-SUBJ"
         ID="66216560-d520-436d-9775-7b42c1312d1e"
-        LNG_NAME="SAT Subject Test in German with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in German with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="cfda0002-9e8c-487f-8a1a-db762d2b0a17"
         SHRT_NAME="SAT Subject Test in German with Listening"
         ST="Active" SUFX_CD="GERMAN-LISTENING"
@@ -2898,7 +2924,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-CHEMISTRY" DIV="GRE-SUBJ"
         ID="665ed731-60b1-46aa-8f5d-f201addafffb"
-        LNG_NAME="GRE Subject Test in Chemistry" LVL="GR"
+        LNG_NAME="GRE Subject Test in Chemistry"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="621f4d82-adf0-4c9f-a233-43667b9df62f"
         SHRT_NAME="GRE Subject Test in Chemistry" ST="Active"
         SUFX_CD="CHEMISTRY"
@@ -2934,7 +2961,8 @@
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-CALC-AB" DIV="AP"
         ID="6829ccdc-51fa-49e7-9a9c-a0df0d7a8fb3"
-        LNG_NAME="AP Calculus (AB)" LVL="UG"
+        LNG_NAME="AP Calculus (AB)"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="b5febf37-8acb-4f18-aead-4c21456aa7b9"
         SHRT_NAME="AP Calculus (AB)" ST="Active" SUFX_CD="CALC-AB"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -2970,7 +2998,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-QUANTITATIVE" DIV="GRE"
         ID="691598fa-ad65-4c32-badb-efc2e7851c85"
-        LNG_NAME="GRE Quantiative Reasoning" LVL="GR"
+        LNG_NAME="GRE Quantiative Reasoning"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="43fd5125-643c-443e-8c7e-810232dcf974"
         SHRT_NAME="GRE Quantiative Reasoning" ST="Active"
         SUFX_CD="QUANTITATIVE"
@@ -2989,7 +3018,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-GEOLOGY" DIV="GRE-SUBJ"
         ID="697b9678-14b0-4f6f-a6fb-2e8f54e39460"
-        LNG_NAME="GRE Subject Test in Geology" LVL="GR"
+        LNG_NAME="GRE Subject Test in Geology"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="ca71aadc-3fb6-4433-8d38-e8655a9516c8"
         SHRT_NAME="GRE Subject Test in Geology" ST="Active"
         SUFX_CD="GEOLOGY" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -3149,7 +3179,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-CHINESE" DIV="AP"
         ID="6f268018-9329-4b33-8c9a-2f9f496aadb2"
-        LNG_NAME="AP Chinese Language and Culture" LVL="UG"
+        LNG_NAME="AP Chinese Language and Culture"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="7b7967c5-55b0-4ee9-96bb-ab4de1f3b4ca"
         SHRT_NAME="AP Chinese Language and Culture" ST="Active"
         SUFX_CD="CHINESE" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -3264,7 +3295,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-FRENCH-LISTENING" DIV="SAT-SUBJ"
         ID="729ca9aa-1b86-4607-a616-8da7a053059d"
-        LNG_NAME="SAT Subject Test in French with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in French with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="8b7995da-a851-4b6a-803a-7a56264d0a8b"
         SHRT_NAME="SAT Subject Test in French with Listening"
         ST="Active" SUFX_CD="FRENCH-LISTENING"
@@ -3349,7 +3381,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AP-STUDIOART-DRAW" DIV="AP"
         ID="74606ead-3bab-4792-9d82-785cab0bc72d"
-        LNG_NAME="AP Studio Art Drawing" LVL="UG"
+        LNG_NAME="AP Studio Art Drawing"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="3813e324-7bb1-43d5-ab16-5e769e2c268a"
         SHRT_NAME="AP Studio Art Drawing" ST="Active"
         SUFX_CD="STUDIOART-DRAW"
@@ -3463,7 +3496,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-SPANISH-LIT" DIV="AP"
         ID="788a12b7-93a4-4cae-8b03-695779cccbdd"
-        LNG_NAME="AP Spanish Literature" LVL="UG"
+        LNG_NAME="AP Spanish Literature"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="7c8c053e-c2b0-497d-9301-c089f830179b"
         SHRT_NAME="AP Spanish Literature" ST="Active"
         SUFX_CD="SPANISH-LIT"
@@ -3489,7 +3523,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-PSYCHOLOGY" DIV="GRE-SUBJ"
         ID="78d5594c-59d6-49ed-b680-903245273052"
-        LNG_NAME="GRE Subject Test in Psychology" LVL="GR"
+        LNG_NAME="GRE Subject Test in Psychology"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="f60a90fa-fba0-46f4-805e-134e260a8f1f"
         SHRT_NAME="GRE Subject Test in Psychology" ST="Active"
         SUFX_CD="PSYCHOLOGY"
@@ -3556,7 +3591,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-ENVRONMENTAL" DIV="AP"
         ID="7acd6382-b913-4a98-965d-99a5b42066d0"
-        LNG_NAME="AP Environmental Science" LVL="UG"
+        LNG_NAME="AP Environmental Science"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="6ae81fc4-5202-4cb0-aff3-cbdcc1f3b50a"
         SHRT_NAME="AP Environmental Science" ST="Active"
         SUFX_CD="ENVRONMENTAL"
@@ -3581,7 +3617,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-BIO" DIV="AP"
         ID="7b9569c3-a281-49c8-bf34-3fba5d4eeb1d" LNG_NAME="AP Biology"
-        LVL="UG" OBJ_ID="770a9c39-af05-4dc8-9400-57e670c50d01"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="770a9c39-af05-4dc8-9400-57e670c50d01"
         SHRT_NAME="AP Biology" ST="Active" SUFX_CD="BIO"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI415" DIV="BSCI"
@@ -3592,7 +3629,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-GERMAN" DIV="SAT-SUBJ"
         ID="7c8614b4-8d7b-4448-899c-333e9488692c"
-        LNG_NAME="SAT Subject Test in German" LVL="UG"
+        LNG_NAME="SAT Subject Test in German"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="aaf38fbb-6472-4282-a1f3-4a7105259c13"
         SHRT_NAME="SAT Subject Test in German" ST="Active"
         SUFX_CD="GERMAN" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -3626,7 +3664,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-PSYCH" DIV="AP"
         ID="7d62b270-151e-40b3-ae5b-bb6a9b62c0e7"
-        LNG_NAME="AP Psychology" LVL="UG"
+        LNG_NAME="AP Psychology"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="a123e18d-4fac-47c1-956b-e98d9daa676d"
         SHRT_NAME="AP Psychology" ST="Active" SUFX_CD="PSYCH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -3638,7 +3677,8 @@
         SUFX_CD="493"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="DOCT" ID="7db93023-9279-41c6-9a75-a233a925b8d1"
-        LNG_NAME="Doctorate Program" LVL="GR"
+        LNG_NAME="Doctorate Program"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="3c6086da-af51-4413-8e3b-fcde49bf731c"
         SHRT_NAME="DOCTORAL" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
@@ -3689,7 +3729,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-MUSIC" DIV="GRE-SUBJ"
         ID="7efcea3c-c66e-4d7d-b2d2-d1d98ce3468a"
-        LNG_NAME="GRE Subject Test in Music" LVL="GR"
+        LNG_NAME="GRE Subject Test in Music"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="de1a1915-77dc-4fa1-ae29-a73ceb3b5ba1"
         SHRT_NAME="GRE Subject Test in Music" ST="Active"
         SUFX_CD="MUSIC" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -3941,14 +3982,16 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-CHINESE" DIV="SAT-SUBJ"
         ID="895ce738-70cb-40ff-8887-109a2e05eb53"
-        LNG_NAME="SAT Subject Test in Chinese with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in Chinese with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="40de45f2-cb51-484c-a4aa-9b2289b510ac"
         SHRT_NAME="SAT Subject Test in Chinese with Listening"
         ST="Active" SUFX_CD="CHINESE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="UW-DELNA" DIV="UW"
         ID="8992e5b0-83e5-4190-89e4-eef0a706001e"
-        LNG_NAME="DELNA Screening English Language Test" LVL="UG"
+        LNG_NAME="DELNA Screening English Language Test"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="7a4bde01-4aab-4f03-90f8-97da1d014f00"
         SHRT_NAME="DELNA Screening English Language Test" ST="Active"
         SUFX_CD="DELNA" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4070,7 +4113,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-MATHEMATICS" DIV="GRE-SUBJ"
         ID="8e50a7ff-e9e5-41b4-b8ec-a120b0a8d938"
-        LNG_NAME="GRE Subject Test in Mathematics" LVL="GR"
+        LNG_NAME="GRE Subject Test in Mathematics"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="5b0dc849-0803-40bd-8d54-fd7ba54b8c5f"
         SHRT_NAME="GRE Subject Test in Mathematics" ST="Active"
         SUFX_CD="MATHEMATICS"
@@ -4099,7 +4143,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.variation" VARTN="C" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-VERBAL" DIV="GRE"
         ID="8f5e4fed-0c5e-439c-91fb-b78abb69a3a1"
-        LNG_NAME="GRE Verbal Reasoning" LVL="GR"
+        LNG_NAME="GRE Verbal Reasoning"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="f78ab499-99d3-4092-889c-9022f5430252"
         SHRT_NAME="GRE Verbal Reasoning" ST="Active" SUFX_CD="VERBAL"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4170,7 +4215,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-MICRO-ECON" DIV="AP"
         ID="918d9d24-ffc8-4f94-b111-b82a8ae4081f"
-        LNG_NAME="AP Microeconomics" LVL="UG"
+        LNG_NAME="AP Microeconomics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="5a7f99cb-a2d5-48d7-ab12-6a3b1c91eee8"
         SHRT_NAME="AP Microeconomics" ST="Active" SUFX_CD="MICRO-ECON"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4230,7 +4276,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-MATHEMATICS-2" DIV="SAT-SUBJ"
         ID="93e6b26f-1fa7-41af-8115-ba035fbe04b9"
-        LNG_NAME="SAT Subject Test in Mathematics Level 2" LVL="UG"
+        LNG_NAME="SAT Subject Test in Mathematics Level 2"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="440eda60-a6e6-4ed5-9137-b8ad85f3380e"
         SHRT_NAME="SAT Subject Test in Mathematics Level 2" ST="Active"
         SUFX_CD="MATHEMATICS-2"
@@ -4249,7 +4296,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-SPANISH-LISTEN" DIV="SAT-SUBJ"
         ID="947c41f9-d37c-45f2-b0b6-cce08ea133b2"
-        LNG_NAME="SAT Subject Test in Spanish with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in Spanish with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="2c445917-07de-4d82-8e47-3384604a29d4"
         SHRT_NAME="SAT Subject Test in Spanish with Listening"
         ST="Active" SUFX_CD="SPANISH-LISTEN"
@@ -4333,7 +4381,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-POLI-SCI" DIV="GRE-SUBJ"
         ID="96be2825-9977-46b5-83c1-50f080d8996e"
-        LNG_NAME="GRE Subject Test in Political Science" LVL="GR"
+        LNG_NAME="GRE Subject Test in Political Science"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="d5bbcd7a-2fb6-4fc8-92f4-0dd7189ddaf2"
         SHRT_NAME="GRE Subject Test in Political Science" ST="Active"
         SUFX_CD="POLI-SCI" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4377,7 +4426,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-PHYSICSC-E-M" DIV="AP"
         ID="99594e17-0560-4f12-a8b9-ad68c6f677ee"
-        LNG_NAME="AP Physics C: Electricity and Magnetism" LVL="UG"
+        LNG_NAME="AP Physics C: Electricity and Magnetism"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="43855132-eac1-4c88-9ca2-9b191524d02b"
         SHRT_NAME="AP Physics C: Electricity and Magnetism" ST="Active"
         SUFX_CD="PHYSICSC-E-M"
@@ -4444,7 +4494,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-LITERATURE" DIV="SAT-SUBJ"
         ID="9b2234d0-7b14-4c86-a666-1a9a34fd8962"
-        LNG_NAME="SAT Subject Test in Literature" LVL="UG"
+        LNG_NAME="SAT Subject Test in Literature"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="cccb15c6-42be-431c-ada9-cfd9bdabd4b6"
         SHRT_NAME="SAT Subject Test in Literature" ST="Active"
         SUFX_CD="LITERATURE"
@@ -4473,7 +4524,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-ECONOMICS" DIV="GRE-SUBJ"
         ID="9d0c80d1-a038-47c7-835d-5902e75dd506"
-        LNG_NAME="GRE Subject Test in Enconomics" LVL="GR"
+        LNG_NAME="GRE Subject Test in Enconomics"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="f90348bd-f0b4-4a52-b399-d394e34df32d"
         SHRT_NAME="GRE Subject Test in Enconomics" ST="Active"
         SUFX_CD="ECONOMICS"
@@ -4548,7 +4600,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-BIOLOGY" DIV="GRE-SUBJ"
         ID="a0311d64-dd36-4613-ad0d-136c0594e7d5"
-        LNG_NAME="GRE Subject Test in Biology" LVL="GR"
+        LNG_NAME="GRE Subject Test in Biology"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="c273da51-d5b5-45f9-8f35-d53a3d07f8b1"
         SHRT_NAME="GRE Subject Test in Biology" ST="Active"
         SUFX_CD="BIOLOGY" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4578,14 +4631,16 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-ENG-LIT-COMP" DIV="AP"
         ID="a0e4d032-255b-489b-954c-0da72b305f6d"
-        LNG_NAME="AP English Literature &amp; Composition" LVL="UG"
+        LNG_NAME="AP English Literature &amp; Composition"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="a3f5f8a6-dfc0-4d39-9493-087ac021e675"
         SHRT_NAME="AP English Literature &amp; Composition" ST="Active"
         SUFX_CD="ENG-LIT-COMP"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-WRITING" DIV="ACT"
         ID="a1180054-8ec8-4cd6-8631-cef71183d02c" LNG_NAME="ACT Writing"
-        LVL="UG" OBJ_ID="18eb2b16-2a03-4cdb-996c-042184d7c7d6"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="18eb2b16-2a03-4cdb-996c-042184d7c7d6"
         SHRT_NAME="ACT Writing" ST="Active" SUFX_CD="WRITING"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GEOG399" DIV="GEOG"
@@ -4638,7 +4693,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-SPANISH-LANG" DIV="AP"
         ID="a2adeb23-8d71-434d-918e-8ab2cbac6c09"
-        LNG_NAME="AP Spanish Language" LVL="UG"
+        LNG_NAME="AP Spanish Language"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="1e019462-d5cd-497a-80ba-236a62af8d1b"
         SHRT_NAME="AP Spanish Language" ST="Active"
         SUFX_CD="SPANISH-LANG"
@@ -4730,7 +4786,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-COMP-SCI-A" DIV="AP"
         ID="a5b5b304-3523-4ffa-bacf-8fe4d6f340e1"
-        LNG_NAME="AP Computer Science A" LVL="UG"
+        LNG_NAME="AP Computer Science A"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="fa877653-744e-4685-a54c-26180faa5d1e"
         SHRT_NAME="AP Computer Science A" ST="Active"
         SUFX_CD="COMP-SCI-A"
@@ -4804,7 +4861,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-FRENCH" DIV="AP"
         ID="a8c46404-9e85-4406-b5f5-a9bffbd9e6db"
-        LNG_NAME="AP French Language" LVL="UG"
+        LNG_NAME="AP French Language"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="2142522a-d091-4afe-90d0-697ac96d868b"
         SHRT_NAME="AP French Language" ST="Active" SUFX_CD="FRENCH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4832,7 +4890,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-BIO-CHEM" DIV="GRE-SUBJ"
         ID="aa3838ad-8ff5-4824-957a-c5d367e68f9a"
-        LNG_NAME="GRE Subject Test in Biochemistry" LVL="GR"
+        LNG_NAME="GRE Subject Test in Biochemistry"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="bda63dca-5d4c-4055-97d9-9a6af54a169b"
         SHRT_NAME="GRE Subject Test in Biochemistry" ST="Active"
         SUFX_CD="BIO-CHEM" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -4847,7 +4906,8 @@
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-EDUCATION" DIV="GRE-SUBJ"
         ID="aa915916-69e0-401c-b912-320bc77804cf"
-        LNG_NAME="GRE Subject Test in Education" LVL="GR"
+        LNG_NAME="GRE Subject Test in Education"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="2d07c267-32d9-41fc-aa63-83b47779706b"
         SHRT_NAME="GRE Subject Test in Education" ST="Active"
         SUFX_CD="EDUCATION"
@@ -4998,7 +5058,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-SPANISH" DIV="SAT-SUBJ"
         ID="afb3837b-af53-451b-a28f-9dcc803e6cb9"
-        LNG_NAME="SAT Subject Test in Spanish" LVL="UG"
+        LNG_NAME="SAT Subject Test in Spanish"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="47a7b044-f91b-4192-adf5-96fc6e9b775e"
         SHRT_NAME="SAT Subject Test in Spanish" ST="Active"
         SUFX_CD="SPANISH" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5028,7 +5089,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-US-HISTORY" DIV="SAT-SUBJ"
         ID="b0787fa3-5370-4b07-a187-6b5b1aada858"
-        LNG_NAME="SAT Subject Test in United States History" LVL="UG"
+        LNG_NAME="SAT Subject Test in United States History"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="1293462f-5449-473c-8a35-e520aeda1e2d"
         SHRT_NAME="SAT Subject Test in United States History"
         ST="Active" SUFX_CD="US-HISTORY"
@@ -5131,7 +5193,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-COMPOSITE" DIV="SAT"
         ID="b2e3058a-225b-40ec-a9a9-b8f57e401f9a"
-        LNG_NAME="SAT Composite" LVL="UG"
+        LNG_NAME="SAT Composite"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="86ebf40e-a582-42a5-829e-3c468c30ba92"
         SHRT_NAME="SAT Composite" ST="Active" SUFX_CD="COMPOSITE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5160,7 +5223,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-CHEMISTRY" DIV="SAT-SUBJ"
         ID="b42d3ff4-1e6a-435b-8805-084000442615"
-        LNG_NAME="SAT Subject Test in Chemistry" LVL="UG"
+        LNG_NAME="SAT Subject Test in Chemistry"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="5da328c4-3fe4-401d-b729-b6ad56560938"
         SHRT_NAME="SAT Subject Test in Chemistry" ST="Active"
         SUFX_CD="CHEMISTRY"
@@ -5185,13 +5249,15 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-MUSIC-THEORY" DIV="AP"
         ID="b506d75c-4c8f-4f84-8eae-2145227c2812"
-        LNG_NAME="AP Music Theory" LVL="UG"
+        LNG_NAME="AP Music Theory"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="755da3bd-f284-4cb6-b711-eaaac3fc8207"
         SHRT_NAME="AP Music Theory" ST="Active" SUFX_CD="MUSIC-THEORY"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-RUSSIAN" DIV="AP"
         ID="b5675041-e9ce-4477-8bcc-935a6e338d6e"
-        LNG_NAME="AP Russian Language and Culture" LVL="UG"
+        LNG_NAME="AP Russian Language and Culture"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="d8c6fe2d-f7af-431c-acae-7fb00493d9fa"
         SHRT_NAME="AP Russian Language and Culture" ST="Active"
         SUFX_CD="RUSSIAN" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5245,7 +5311,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-ENGLISH" DIV="ACT"
         ID="b6bb7ae0-1dd4-4073-b058-5fa88c87911e" LNG_NAME="ACT English"
-        LVL="UG" OBJ_ID="9cb8d246-2142-4103-b05a-e845630a8a6c"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="9cb8d246-2142-4103-b05a-e845630a8a6c"
         SHRT_NAME="ACT English" ST="Active" SUFX_CD="ENGLISH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENGL241" DIV="ENGL"
@@ -5321,7 +5388,8 @@
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-JAPANESE" DIV="AP"
         ID="b95eb7e4-92d9-44dd-aaba-881547527760"
-        LNG_NAME="AP Japanese Language and Culture" LVL="UG"
+        LNG_NAME="AP Japanese Language and Culture"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="911c9ccf-a07d-4c50-9884-8267b05b4348"
         SHRT_NAME="AP Japanese Language and Culture" ST="Active"
         SUFX_CD="JAPANESE" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5403,7 +5471,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-GOV-POL" DIV="AP"
         ID="bd541d89-3fb4-40cb-9e6e-84507aae8c95"
-        LNG_NAME="AP Comparative Government &amp; Politics" LVL="UG"
+        LNG_NAME="AP Comparative Government &amp; Politics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="914832cb-85e5-4b52-a3fa-03ca37a08937"
         SHRT_NAME="AP Comparative Government &amp; Politics" ST="Active"
         SUFX_CD="GOV-POL" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5462,7 +5531,8 @@
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-MATH" DIV="ACT"
         ID="bf3ea5bd-e3a5-47fa-b40e-c9ecec10e6ef" LNG_NAME="ACT Math"
-        LVL="UG" OBJ_ID="5af5da2c-cf19-4b23-9b89-47217c8902b5"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="5af5da2c-cf19-4b23-9b89-47217c8902b5"
         SHRT_NAME="ACT Math" ST="Active" SUFX_CD="MATH"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="PHIL100" DIV="PHIL"
@@ -5532,7 +5602,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AP-STUDIOART-2D" DIV="AP"
         ID="c0c4d93b-44e1-4fea-8f14-8bf8098daaab"
-        LNG_NAME="AP Studio Art  2-D" LVL="UG"
+        LNG_NAME="AP Studio Art  2-D"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="30617f81-2974-4d83-a19d-463b769774ec"
         SHRT_NAME="AP Studio Art  2-D" ST="Active"
         SUFX_CD="STUDIOART-2D"
@@ -5577,7 +5648,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-GERMAN" DIV="AP"
         ID="c18e35ea-70d8-4cb8-9d95-59e23fca3b50"
-        LNG_NAME="AP German Language" LVL="UG"
+        LNG_NAME="AP German Language"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="53b8e8f0-34fb-46fb-a424-0eb29dd79751"
         SHRT_NAME="AP German Language" ST="Active" SUFX_CD="GERMAN"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -5689,7 +5761,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-ENG-LANG-COMP" DIV="AP"
         ID="c4b2d4b8-0bc4-495d-a20b-80ddf07543bb"
-        LNG_NAME="AP English Language &amp; Composition" LVL="UG"
+        LNG_NAME="AP English Language &amp; Composition"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="49ffc142-bb2a-49f2-9353-9ac500d82727"
         SHRT_NAME="AP English Language &amp; Composition" ST="Active"
         SUFX_CD="ENG-LANG-COMP"
@@ -5742,7 +5815,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ACT-ENG-WRITE-COMB" DIV="ACT"
         ID="c7449f9c-f7cb-4d22-8922-543f6647d9ac"
-        LNG_NAME="ACT Eng-Writing Combined" LVL="UG"
+        LNG_NAME="ACT Eng-Writing Combined"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="3b3903b9-8fbd-44f0-8dc1-922c176a65f1"
         SHRT_NAME="ACT Eng-Writing Combined" ST="Active"
         SUFX_CD="ENG-WRITE-COMB"
@@ -5774,7 +5848,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-CRITICAL-READING" DIV="SAT"
         ID="c88422c6-1e15-41bf-a5a8-5916d8c12bb9"
-        LNG_NAME="SAT Critical Reading" LVL="UG"
+        LNG_NAME="SAT Critical Reading"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="7feb57ef-0a3c-4c90-ad32-9a2642fd2f60"
         SHRT_NAME="SAT Critical Reading" ST="Active"
         SUFX_CD="CRITICAL-READING"
@@ -5991,7 +6066,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-JAPANESE" DIV="SAT-SUBJ"
         ID="d2185aaf-35cb-4d13-861b-417cc700f319"
-        LNG_NAME="SAT Subject Test in Japanese with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in Japanese with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="c6605e38-f5d9-45be-80b6-4c29e007f195"
         SHRT_NAME="SAT Subject Test in Japanese with Listening"
         ST="Active" SUFX_CD="JAPANESE"
@@ -6204,7 +6280,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-CALC-BC" DIV="AP"
         ID="d7e93693-fcd7-4be9-8887-809dcac8533e"
-        LNG_NAME="AP Calculus (BC)" LVL="UG"
+        LNG_NAME="AP Calculus (BC)"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="57674b7f-64b0-4e5e-933e-3450aca032f5"
         SHRT_NAME="AP Calculus (BC)" ST="Active" SUFX_CD="CALC-BC"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -6719,7 +6796,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-COMP-SCI" DIV="GRE-SUBJ"
         ID="e95fa45a-3731-4e5e-8c8b-aa21977d0628"
-        LNG_NAME="GRE Subject Test in Computer Science" LVL="GR"
+        LNG_NAME="GRE Subject Test in Computer Science"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="214c43f3-847e-49ac-884e-4fdff3c1c33f"
         SHRT_NAME="GRE Subject Test in Computer Science" ST="Active"
         SUFX_CD="COMP-SCI" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -6732,7 +6810,8 @@
     <KSLU_CLU_IDENT CD="SAT-SUBJ-BIOLOGY-M" DIV="SAT-SUBJ"
         ID="e9674ade-a32a-447b-8a21-be00afe81e46"
         LNG_NAME="SAT Subject Test in Biology-Molecular Oriented"
-        LVL="UG" OBJ_ID="d8adbf5c-3a7f-4650-9652-e6505d2fbaee"
+        LVL="kuali.lu.program.level.UnderGraduate"
+        OBJ_ID="d8adbf5c-3a7f-4650-9652-e6505d2fbaee"
         SHRT_NAME="SAT Subject Test in Biology-Molecular Oriented"
         ST="Active" SUFX_CD="BIOLOGY-M"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -6804,13 +6883,15 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="AP-LATIN" DIV="AP"
         ID="ec52bade-4b36-427c-a508-9788c40644de"
-        LNG_NAME="AP Latin: Vergil" LVL="UG"
+        LNG_NAME="AP Latin: Vergil"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="af60252d-a044-43c9-8a5f-0a6a8cb6623f"
         SHRT_NAME="AP Latin: Vergil" ST="Active" SUFX_CD="LATIN"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-HEBREW-MODERN" DIV="SAT-SUBJ"
         ID="ec714f6c-e6e5-4f9f-aca0-251857fe47d1"
-        LNG_NAME="SAT Subject Test in Modern Hebrew" LVL="UG"
+        LNG_NAME="SAT Subject Test in Modern Hebrew"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="eeb2bf53-2597-4eda-8beb-32fdf002a623"
         SHRT_NAME="SAT Subject Test in Modern Hebrew" ST="Active"
         SUFX_CD="HEBREW-MODERN"
@@ -6842,7 +6923,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-KOREAN" DIV="SAT-SUBJ"
         ID="ed403998-772d-48bd-9bd6-33cad8f1fdab"
-        LNG_NAME="SAT Subject Test in Korean with Listening" LVL="UG"
+        LNG_NAME="SAT Subject Test in Korean with Listening"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="ca323f8a-6ba8-4ef1-b261-441fb1df6fe8"
         SHRT_NAME="SAT Subject Test in Korean with Listening"
         ST="Active" SUFX_CD="KOREAN"
@@ -6903,7 +6985,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-ENGINEERING" DIV="GRE-SUBJ"
         ID="f01ad407-60bb-4472-83d4-0618a8c4b688"
-        LNG_NAME="GRE Subject Test in Engineering" LVL="GR"
+        LNG_NAME="GRE Subject Test in Engineering"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="b095fd08-7563-4e99-8084-fd929c322423"
         SHRT_NAME="GRE Subject Test in Engineering" ST="Active"
         SUFX_CD="ENGINEERING"
@@ -6934,7 +7017,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-PHYSICS-B" DIV="AP"
         ID="f13b2088-d4f7-4aa6-9660-7f1bfb56d094"
-        LNG_NAME="AP Physics B" LVL="UG"
+        LNG_NAME="AP Physics B"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="38ae0913-6f33-4d5a-b7d4-f3bcf48707d0"
         SHRT_NAME="AP Physics B" ST="Active" SUFX_CD="PHYSICS-B"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
@@ -6964,7 +7048,8 @@
         SUFX_CD="659"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BACC" ID="f243a1d7-b21b-432d-8c65-60bd17eb7d6f"
-        LNG_NAME="Baccalaureate Program" LVL="UG"
+        LNG_NAME="Baccalaureate Program"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="236c4d1c-0ef9-486a-9e0c-4f1144326d5f"
         SHRT_NAME="BACCALAUREATE" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
@@ -7107,7 +7192,8 @@
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-BIOLOGY-E" DIV="SAT-SUBJ"
         ID="f91529b6-9695-4979-a88e-450765eba9f2"
-        LNG_NAME="SAT Subject Test in Biology-Ecology Oriented" LVL="UG"
+        LNG_NAME="SAT Subject Test in Biology-Ecology Oriented"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="847d3a8b-3681-44b6-bab4-60b491b3bb82"
         SHRT_NAME="SAT Subject Test in Biology-Ecology Oriented"
         ST="Active" SUFX_CD="BIOLOGY-E"
@@ -7192,7 +7278,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GRE-SUBJ-SOCIOLOGY" DIV="GRE-SUBJ"
         ID="fcc16260-637a-44f0-bd75-ed111f15c05e"
-        LNG_NAME="GRE Subject Test in Sociology" LVL="GR"
+        LNG_NAME="GRE Subject Test in Sociology"
+        LVL="kuali.lu.program.level.Graduate"
         OBJ_ID="908ca553-a4a7-406f-9198-63e68a6938c1"
         SHRT_NAME="GRE Subject Test in Sociology" ST="Active"
         SUFX_CD="SOCIOLOGY"
@@ -7211,7 +7298,8 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-PHYSICS" DIV="SAT-SUBJ"
         ID="fdb1a018-01b5-4d87-bc77-b6ad64b0bf3d"
-        LNG_NAME="SAT Subject Test in Physics" LVL="UG"
+        LNG_NAME="SAT Subject Test in Physics"
+        LVL="kuali.lu.program.level.UnderGraduate"
         OBJ_ID="b8657bca-24fe-453e-9953-45d11353e2cb"
         SHRT_NAME="SAT Subject Test in Physics" ST="Active"
         SUFX_CD="PHYSICS" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
