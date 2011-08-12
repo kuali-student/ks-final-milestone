@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -241,8 +242,20 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 			queryMap.put("code", "*" + paramMap.get("subjectCode.queryParam.code") + "*");
 		}
 
+		//Use built in KNS lookup to perform the search
 		List<SubjectCode> subjectCodes = (List<SubjectCode>) getLookupService().findCollectionBySearchHelper(SubjectCode.class, queryMap, true);
-        
+
+		//Default sort by code
+		Collections.sort(subjectCodes,new Comparator<SubjectCode>(){
+			@Override
+			public int compare(SubjectCode o1, SubjectCode o2) {
+				if(o1==null && o2==null){
+					return 0;
+				}
+				return o1.getCode().compareTo(o2.getCode());
+		}});
+		
+		//Convert to a KS search result
         for(SubjectCode subjectCode:subjectCodes){
         	SearchResultRow row = new SearchResultRow();
         	row.addCell("subjectCode.resultColumn.id", subjectCode.getId());
