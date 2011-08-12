@@ -17,17 +17,20 @@ import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class KSCharCount extends Composite implements HasText, HasInputWidget {
+public class KSCharCount extends Composite implements HasText, HasInputWidget, HasBlurHandlers {
     VerticalPanel countingPanel;
     Widget inputWidget;
     KSLabel countingLabel;
@@ -80,6 +83,7 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
         } else {
             this.inputWidget = new KSTextBox();
         }
+
     }
 
     public int getRemCount() {
@@ -121,6 +125,11 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget {
     @Override
     public Widget getInputWidget() {
         return this.inputWidget;
+    }
+
+    @Override
+    public HandlerRegistration addBlurHandler(BlurHandler handler) {
+        return ((TextBoxBase) (this.inputWidget)).addBlurHandler(handler);
     }
 
 }
