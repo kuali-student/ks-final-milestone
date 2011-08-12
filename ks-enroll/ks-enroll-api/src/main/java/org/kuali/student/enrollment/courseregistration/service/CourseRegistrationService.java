@@ -1042,6 +1042,9 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
     /**
      * Gets the course registrations for a student by term.
      * 
+     * Note: not clear if gets the registrations in just the specified term or that term and all included terms.
+     * For example: if you ask for the "fall term" do you get registrations for the mini-mesters within that term.
+     * 
      * @param studentId
      * @param termId
      * @param context
