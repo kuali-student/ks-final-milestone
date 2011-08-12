@@ -29,6 +29,7 @@ public class LuiServiceConstants {
     public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();
     public static final String LUI_KEY_PREFIX = "kuali.lui";
+
     /**
      * Types
      */
@@ -36,8 +37,9 @@ public class LuiServiceConstants {
     public static final String COURSE_OFFERING_TYPE_KEY = "kuali.lui.type.course.offering";
     public static final String REGISTRATION_GROUP_TYPE_KEY = "kuali.lui.type.registration.group";
 //    public static final String COURSE_FORMAT_OFFERING_TYPE_KEY = "kuali.lui.type.course.format.offering";
+
     /**
-     * activity types
+     * Activity types
      */
     public static final String LECTURE_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lecture";
     public static final String LAB_ACTIVITY_OFFERING_TYPE_KEY = "kuali.lui.type.activity.offering.lab";
@@ -84,6 +86,7 @@ public class LuiServiceConstants {
         SELF_PACED_ACTIVITY_OFFERING_TYPE_KEY,
         COMP_BASED_ACTIVITY_OFFERING_TYPE_KEY,
         VIDEO_CONF_ACTIVITY_OFFERING_TYPE_KEY};
+
     /**
      * States
      */
@@ -105,12 +108,14 @@ public class LuiServiceConstants {
         LUI_CANCELED_STATE_KEY,
         LUI_SUSPENDED_STATE_KEY
     };
+
     /**
-     *  LUI LUI relation types
+     *  LUI LUI Relation types
      */
     public static final String ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY = "kuali.lui.lui.relation.associated";
+
     /**
-     * LUI LUI relation States
+     * LUI LUI Relation States
      */
     public static final String LUI_LUI_RELATION_PROCESS_KEY = "kuali.lui.lui.relationship.process";
     public static final String LUI_LUI_RELATION_ACTIVE_STATE_KEY = "kuali.lui.lui.relation.state.active";
@@ -119,28 +124,43 @@ public class LuiServiceConstants {
         LUI_LUI_RELATION_INACTIVE_STATE_KEY};
     
     /**
-     *  LUI CAPACITY types
+     *  LUI Capacity types
      */
-    public static final String SEATPOOL_LUI_CAPACITY_TYPE_KEY = "kuali.lui.capacity.seatpool";
+    public static final String SEATPOOL_LUI_CAPACITY_TYPE_KEY = "kuali.lui.capacity.type.seatpool";
     
     /**
-     * LUI capacity States
+     * LUI Capacity States
      */
     public static final String LUI_CAPACITY_PROCESS_KEY = "kuali.lui.capacity.process";
-    public static final String LUI_CAPACITY_ACTIVE_STATE_KEY = "kuali.lui.capacity.active";
-    public static final String LUI_CAPACITY_INACTIVE_STATE_KEY = "kuali.lui.capacity.inactive";
+    public static final String LUI_CAPACITY_ACTIVE_STATE_KEY = "kuali.lui.capacity.state.active";
+    public static final String LUI_CAPACITY_INACTIVE_STATE_KEY = "kuali.lui.capacity.state.inactive";
     public static final String[] LUI_CAPACITY_PROCESS_KEYS = {LUI_CAPACITY_ACTIVE_STATE_KEY,
         LUI_CAPACITY_INACTIVE_STATE_KEY};
+
+    /**
+     *  LUI Identifier types
+     */
+    public static final String LUI_IDENTIFIER_OFFICIAL_TYPE_KEY = "kuali.lui.identifier.type.official";
+    public static final String LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY = "kuali.lui.identifier.type.cross-listed";
+
+    /**
+     * LUI Identifier States
+     */
+    public static final String LUI_IDENTIFIER_PROCESS_KEY = "kuali.lui.identifier.process";
+    public static final String LUI_IDENTIFIER_ACTIVE_STATE_KEY = "kuali.lui.identifier.state.active";
+    public static final String LUI_IDENTIFIER_INACTIVE_STATE_KEY = "kuali.lui.identifier.state.inactive";
+    public static final String[] LUI_IDENTIFIER_PROCESS_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
+        LUI_IDENTIFIER_INACTIVE_STATE_KEY};
     
     /**
-     *  waitlist types
+     *  Waitlist types?
      */
     public static final String AUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.automatic";
     public static final String SEMIAUTOMATIC_WAITLIST_TYPE_KEY = "kuali.waitlist.type.semiautomatic";  
     public static final String MANUAL_WAITLIST_TYPE_KEY = "kuali.waitlist.type.manual";
     
     /**
-     *  registration ordering types
+     *  Registration ordering types?
      */
     public static final String ALL_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.all";
 //    public static final String SEQUENCED_REGISTRATION_ORDERING_TYPE_KEY = "kuali.registration.ordering.type.sequenced";    
