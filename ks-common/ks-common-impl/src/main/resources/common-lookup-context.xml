@@ -937,16 +937,17 @@
 		<property name="id" value="kuali.common.lookup.findCredentialProgram" />
 		<property name="name" value="Program" />
 		<property name="searchTypeId" value="lu.search.generic" />
-		<property name="desc" value="Search for programs" />
+		<property name="desc" value="Retreives latest (active) credential programs" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
 			<list>
 				<bean parent="param"> 
-					<property name="key" value="lu.queryParam.luOptionalCode" />
-					<property name="name" value="Code" />
-					<property name="desc" value="Program code." />
+					<property name="key" value="luOptionalState" />
+					<property name="name" value="Program State" />
+					<property name="desc" value="Program State." />
 					<property name="writeAccess" value="ALWAYS" />
 					<property name="usage" value="DEFAULT" />
+					<property name="defaultValueString" value="ACTIVE" />					
 				</bean>
 				<bean parent="param">
 					<property name="key" value="lu.queryParam.luOptionalType" />

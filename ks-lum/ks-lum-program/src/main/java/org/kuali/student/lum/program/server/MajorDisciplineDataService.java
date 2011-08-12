@@ -5,10 +5,8 @@ import java.util.Map;
 
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
@@ -21,7 +19,6 @@ public class MajorDisciplineDataService extends AbstractDataService {
     private static final long serialVersionUID = 1L;
     
     private ProgramService programService;
-    private LuService luService;
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -41,7 +38,6 @@ public class MajorDisciplineDataService extends AbstractDataService {
             returnDTO = new MajorDisciplineInfo();
             returnDTO.setType(ProgramClientConstants.MAJOR_PROGRAM);
             returnDTO.setState(DtoConstants.STATE_DRAFT);
-            returnDTO.setCredentialProgramId(getCredentialId());
         } else {
             returnDTO = programService.getMajorDiscipline(id);
         }
@@ -77,23 +73,8 @@ public class MajorDisciplineDataService extends AbstractDataService {
         return MajorDisciplineInfo.class;
     }
 
-    private String getCredentialId() throws Exception {
-
-            List<String> credIds = luService.getCluIdsByLuType(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM, DtoConstants.STATE_ACTIVE);
-            if (null == credIds || credIds.size() != 1) {
-                throw new OperationFailedException("A single credential program of type " + ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM + " is required; database contains " +
-                                                    (null == credIds ? "0" : credIds.size() +
-                                                    "."));
-            }
-            return credIds.get(0);
-    }
-
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
-    }
-
-    public void setLuService(LuService luService) {
-        this.luService = luService;
     }
 
 }
