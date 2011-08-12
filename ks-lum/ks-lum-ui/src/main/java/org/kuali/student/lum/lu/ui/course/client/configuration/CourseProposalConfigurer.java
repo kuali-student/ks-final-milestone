@@ -253,8 +253,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         
     	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
     	
-        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
-        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
+        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY))).setIgnoreShowRequired(true);
+        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY)).setIgnoreShowRequired(true);
 
         return section;
     }
