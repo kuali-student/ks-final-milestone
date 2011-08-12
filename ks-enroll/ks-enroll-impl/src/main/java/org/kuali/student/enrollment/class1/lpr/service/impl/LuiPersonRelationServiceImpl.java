@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -186,7 +187,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
@@ -227,11 +228,23 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
+
+        LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
+        if (null != lprEntity) {
+            lprDao.remove(lprEntity);
+        }
+        else {
+            throw new DoesNotExistException("LPR entity does not exist for id '" + luiPersonRelationId + "'; cannot delete");
+        }
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
@@ -649,6 +662,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
+    }
+
+
+    private void _checkForMissingParameter(Object param, String paramName)
+            throws MissingParameterException {
+        if (null == param) {
+            throw new MissingParameterException("Parameter '" + paramName + "' cannot be null");
+        }
     }
 
 }
