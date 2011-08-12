@@ -34,15 +34,12 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
-import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * This is a description of what this class does - Gary Struthers don't forget to fill this in. 
@@ -409,9 +406,13 @@ public class CategoryManagementTable extends Composite {
                 }
         	}
         	
+            if (isHideInactiveCategories() && curCatSTATE.equalsIgnoreCase("inactive")) {
+                continue;
+            }
+
             ResultRow resultRow = new ResultRow();
             
-            if(!hashSet.contains(curCatID)) {
+            if (!hashSet.contains(curCatID)) {
                 hashSet.add(curCatID);
                 resultRow.setValue(ID_COLUMN_KEY, curCatID);
                 resultRow.setValue(NAME_COLUMN_KEY, curCatNAME);
