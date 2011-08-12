@@ -8,6 +8,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -35,6 +36,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -332,6 +334,12 @@ public abstract class ProgramController extends MenuSectionController {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
         }
+        String currentDocType = programModel.get(configurer.getProposalPath()+"/type");
+        idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);                                      
+        if (LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equalsIgnoreCase(currentDocType)){
+            String workflowNode = programModel.get(configurer.getProposalPath()+"/workflowNode");
+            idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
+        }
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
             @Override
@@ -350,7 +358,8 @@ public abstract class ProgramController extends MenuSectionController {
             }
         });
     }
-
+    
+    
     protected void configureView() {
         addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());

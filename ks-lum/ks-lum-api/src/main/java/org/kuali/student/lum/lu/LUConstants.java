@@ -35,6 +35,7 @@ public class LUConstants {
     public final static String CLU_TYPE_CREDIT_COURSE = "kuali.lu.type.CreditCourse";
     public final static String PROGRAM_GROUP_NAME = "program";    
     public final static String PROPOSAL_TYPE_PROGRAM_CREATE = "kuali.proposal.type.program.create";
+    public final static String PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY = "kuali.proposal.type.majorDiscipline.modify";
     public final static String CLU_TYPE_CREDIT_PROGRAM = "kuali.lu.type.CreditProgram";    
     
 	// found this in https://test.kuali.org/confluence/display/KULSTU/LuConfig.Types.LuLuRelationType
