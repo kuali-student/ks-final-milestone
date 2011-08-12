@@ -514,11 +514,13 @@
 
  <bean id="majorDisciplineInfo.descr.formatted-parent" abstract="true" parent="richTextInfo.formatted-parent">
   <property name="name" value="formatted" />
+  <property name="maxLength" value="4000" />
  </bean>
  <bean id="majorDisciplineInfo.descr.formatted" parent="majorDisciplineInfo.descr.formatted-parent" />
 
  <bean id="majorDisciplineInfo.descr.plain-parent" abstract="true" parent="richTextInfo.plain-parent">
   <property name="name" value="plain" />
+  <property name="maxLength" value="4000" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
