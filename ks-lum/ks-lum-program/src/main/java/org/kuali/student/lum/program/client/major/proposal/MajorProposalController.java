@@ -55,7 +55,6 @@ import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
-import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
@@ -552,7 +551,7 @@ public class MajorProposalController extends MajorController {
             if (id == null) {
                 showView(ProgramSections.PROGRAM_DETAILS_EDIT);
             } else {
-                showView(ProgramSections.SUMMARY);
+                showView(ProgramSections.PROGRAM_PROPOSAL_EDIT);
             }
         }
 
