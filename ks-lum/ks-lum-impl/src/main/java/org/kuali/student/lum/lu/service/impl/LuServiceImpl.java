@@ -143,6 +143,7 @@ import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -3465,6 +3466,20 @@ public class LuServiceImpl implements LuService {
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyTypeName",statementTypeName);	
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyRootId",rootId);
 				resultRow.addCell("lu.resultColumn.luOptionalDependencyRequirementComponentIds",requirementComponentIds);
+				
+				try{
+					// If this is a variation, we need to find the parent program in order to properly create a url link
+					// so here we're finding the variation's parent
+					List<String> relatedClus = this.getCluIdsByRelation(clu.getId(), "kuali.lu.lu.relation.type.hasVariationProgram");				
+					for(String parentCluId: relatedClus){
+						resultRow.addCell("lu.resultColumn.parentCluId", parentCluId);
+					}
+				} catch(InvalidParameterException ex){
+					throw new RuntimeException("Error performing getCluIdsByRelation search", ex);//FIXME should be more checked service exceptions thrown
+				} catch (OperationFailedException e) {
+					throw new RuntimeException("Error performing getCluIdsByRelation search", e);//FIXME should be more checked service exceptions thrown
+				}
+				
 				
 				//Make a holder cell for the org names, to be populated later
 				SearchResultCell orgIdsCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeIds",null);

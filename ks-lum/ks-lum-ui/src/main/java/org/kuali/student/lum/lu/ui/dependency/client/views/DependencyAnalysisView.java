@@ -272,6 +272,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					String curriculumOversightNames = "";
 					String dependencySectionKey = "";
 					Boolean diffAdminOrg = false;
+					String parentCluId = "";
 					
 					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
@@ -305,7 +306,10 @@ public class DependencyAnalysisView extends ViewComposite{
 							curriculumOversightNames = searchResultCell.getValue();
 						} else if (searchResultCell.getKey().equals("lu.resultColumn.luOptionalDependencyRequirementDifferentAdminOrg")){
 							diffAdminOrg = ("true").equals(searchResultCell.getValue());
+						} else if (searchResultCell.getKey().equals("lu.resultColumn.parentCluId")){
+							parentCluId = searchResultCell.getValue();
 						}
+						
 							
 					}
 					
@@ -325,7 +329,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					}
 
 					//Add the dependency to the dependency section
-					typeSection.addDependencyItem(getDependencyLabel(dependencySectionKey, dependencyType, cluId, cluCode, cluName, cluType, diffAdminOrg), depDetails);
+					typeSection.addDependencyItem(getDependencyLabel(dependencySectionKey, dependencyType, cluId, cluCode, cluName, cluType, diffAdminOrg, parentCluId), depDetails);
 				}
 				
 				depResultPanel.finishLoad();
@@ -440,7 +444,7 @@ public class DependencyAnalysisView extends ViewComposite{
 	 * This generates the title for the actual dependency (eg. course, course set, program), which may include links to 
 	 * view the actual course, course set or program
 	 */
-	private SpanPanel getDependencyLabel(final String dependencySectionKey, String dependencyType, final String cluId,  String cluCode, String cluName, String cluType, boolean diffAdminOrg){
+	private SpanPanel getDependencyLabel(final String dependencySectionKey, String dependencyType, final String cluId,  String cluCode, String cluName, final String cluType, boolean diffAdminOrg, final String parentCluId){
 		
 		//Figure out the view hyperlink for course/program/course set screen based on dependencyType
 		Anchor viewLinkAnchor = null;
@@ -473,7 +477,12 @@ public class DependencyAnalysisView extends ViewComposite{
 				@Override
 				public void onClick(ClickEvent event) {
 					String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
-						"?view=" + viewLinkUrl + "&docId=" + cluId;
+						"?view=" + viewLinkUrl;
+					if("kuali.lu.type.Variation".equals(cluType)){
+						url += "&docId=" + parentCluId + "&variationId=" + cluId;
+					}else {
+						url += "&docId=" + cluId;
+					}
 					String features = "height=600,width=960,dependent=0,directories=1," +
 							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
 					Window.open(url, HTMLPanel.createUniqueId(), features);				
