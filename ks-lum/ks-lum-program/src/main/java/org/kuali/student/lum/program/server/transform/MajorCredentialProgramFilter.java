@@ -43,14 +43,16 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter implements 
     public void applyOutboundDataFilter(Data data, Metadata metadata,
                                         Map<String, Object> properties) throws Exception {
 
-        // Get CredentialProgram associated with this data
+        // Get CredentialProgram associated with this data    	
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);
-        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
-        // and convert to Data
-        Data credPgmData = mapper.convertFromBean(credPgm, null);
-
-        // Add the CredentialProgram to the data passed in
-        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
+        if (credentialProgramId != null && !credentialProgramId.isEmpty()){
+	        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
+	        // and convert to Data
+	        Data credPgmData = mapper.convertFromBean(credPgm, null);
+	
+	        // Add the CredentialProgram to the data passed in
+	        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
+        }
     }
 
     /**
