@@ -222,7 +222,18 @@ public class TestAtpServiceImplRemote {
             fail(e.getMessage());
         }
     }
-    
+
+    @Test
+    public void testGetAtpsByDate() throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(2011, 0, 1);
+        List<AtpInfo> atpInfos = atpServiceValidation.getAtpsByDate(new Date(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(4, atpInfos.size());
+    }
+
     @Test
     public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         MilestoneInfo milestone = new MilestoneInfo();
@@ -538,6 +549,7 @@ public class TestAtpServiceImplRemote {
             assertNull(fakeRelations);
         }
     }
+
     @Ignore
     @Test
     public void testGetAtpMilestoneRelationsByMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

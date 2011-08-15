@@ -220,8 +220,17 @@ public class TestAcademicCalendarServiceImpl{
                 fail("exception from service call :" + ex.getMessage());
             }
     }
-    
-	@Test 
+
+    @Test
+    public void testGetAcademicCalendarsByYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, AlreadyExistsException{
+
+        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByYear(2011, callContext);
+
+        assertEquals(1, acalInfos.size());
+    }
+
+	@Test
     public void testValidateTerm()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
        TermInfo term = new TermInfo();
@@ -272,8 +281,8 @@ public class TestAcademicCalendarServiceImpl{
             fail("exception from service call :" + ex.getMessage());
         }       
     }
-    
-    @Test 
+
+    @Test
     public void testAddTermToAcademicCalendar()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, AlreadyExistsException{
     	try{

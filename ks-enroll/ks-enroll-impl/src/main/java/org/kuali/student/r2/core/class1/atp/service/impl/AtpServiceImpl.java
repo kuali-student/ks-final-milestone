@@ -1,9 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.jws.WebService;
 
@@ -206,7 +203,15 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<AtpInfo> getAtpsByDate(Date searchDate, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return new ArrayList<AtpInfo>();
+        List<AtpEntity> atps = atpDao.getByDate(searchDate);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     @Override

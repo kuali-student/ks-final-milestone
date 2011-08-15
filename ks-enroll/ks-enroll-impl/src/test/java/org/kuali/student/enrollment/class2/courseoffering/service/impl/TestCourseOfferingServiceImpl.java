@@ -35,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //Note: un-ignore and test within eclipse because the data for courseservice are not working via command-line: mvn clean install
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-context.xml"})
 public class TestCourseOfferingServiceImpl {
@@ -62,6 +61,7 @@ public class TestCourseOfferingServiceImpl {
     }
 
     @Test
+    @Ignore
     public void testGetCourseOffering() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -89,6 +89,7 @@ public class TestCourseOfferingServiceImpl {
     }
 
     @Test
+    @Ignore
     public void testCreateCourseOfferingFromCanonical() throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -107,9 +108,9 @@ public class TestCourseOfferingServiceImpl {
     	assertEquals("testAtpId1", retrieved.getTermKey());
     	assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey()); 
-        //TODO: fix identifier
-//        assertEquals("CHEM123", retrieved.getCourseOfferingCode()); 
-//        assertEquals("Chemistry 123", retrieved.getCourseTitle()); 
+
+        assertEquals("CHEM123", retrieved.getCourseOfferingCode());
+        assertEquals("Chemistry 123", retrieved.getCourseTitle());
       
         //test update
         retrieved.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
@@ -133,6 +134,7 @@ public class TestCourseOfferingServiceImpl {
     }
     
     @Test
+    @Ignore
     public void testCreateAndGetActivityOffering() throws AlreadyExistsException, DataValidationErrorException,InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException{
     	List<String> courseOfferingIdList = new ArrayList<String>();
@@ -166,6 +168,7 @@ public class TestCourseOfferingServiceImpl {
     }
     
     @Test
+    @Ignore
 	public void testCreateAndGetRegistrationGroup() throws AlreadyExistsException, DoesNotExistException,DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,PermissionDeniedException {
     	String courseOfferingId = "Lui-1";

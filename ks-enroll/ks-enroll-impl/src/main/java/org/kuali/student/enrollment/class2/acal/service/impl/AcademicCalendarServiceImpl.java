@@ -1,9 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -13,6 +10,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
@@ -129,8 +127,27 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<AcademicCalendarInfo> getAcademicCalendarsByYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<AcademicCalendarInfo>();
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(Calendar.YEAR, year);
+
+
+        Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
+            @Override
+            public int compare(AtpInfo atpInfo1, AtpInfo atpInfo2) {
+                return atpInfo1.getKey().compareTo(atpInfo2.getKey());
+            }
+        });
+        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.DAY_OF_YEAR, -1);
+        atpInfos.addAll(atpService.getAtpsByDate(cal.getTime(), context));
+        List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
+        for (AtpInfo atpInfo : atpInfos) {
+            if (AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY.equals(atpInfo.getTypeKey())) {
+                acalInfos.add(acalAssembler.assemble(atpInfo, context));
+            }
+        }
+        return acalInfos;
     }
 
     @Override
@@ -1159,8 +1176,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<AcademicCalendarInfo>();
+
+        List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
+
+        return acalInfos;
     }
 
     @Override
@@ -1198,7 +1217,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+
         return new ArrayList<TermInfo>();
     }
 
