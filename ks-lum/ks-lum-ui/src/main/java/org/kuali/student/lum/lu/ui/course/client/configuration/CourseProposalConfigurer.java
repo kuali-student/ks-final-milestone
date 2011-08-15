@@ -718,14 +718,19 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         VerticalSection finalExam = initSection(getH3Title(LUUIConstants.FINAL_EXAM_LABEL_KEY), WITH_DIVIDER);
         GroupSection finalExam_group = new GroupSection();
         GroupSection finalExamRationale_group = new GroupSection();
+        GroupSection finalExamRationale_group2 = new GroupSection();
+
         FieldDescriptor field = addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM, generateMessageInfo(LUUIConstants.FINAL_EXAM_STATUS_LABEL_KEY));
 
         if (field.isVisible()){
 	        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
 	        FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
 	        rationaleField.setIgnoreShowRequired(true);
+	        FieldDescriptor rationaleField2 = addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        rationaleField2.setIgnoreShowRequired(true);
 	        SwapSection swapSection = new SwapSection(picker);
 	        swapSection.addSection(finalExamRationale_group, "ALT");
+	        swapSection.addSection(finalExamRationale_group2, "None");
 	        finalExam.addSection(finalExam_group);
 	       
 	        finalExam.addSection(swapSection);
