@@ -242,6 +242,7 @@
 
  <bean id="majorDisciplineInfo.resultOptions-parent" abstract="true" parent="baseStringRepeating">
   <property name="name" value="resultOptions"/>
+  <property name="lookupDefinition" ref="constraint.lookup.credential.degree.types"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -261,6 +262,7 @@
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="baseStringRepeating">
          <property name="minOccurs" value="1" />
+         <property name="lookupDefinition" ref="constraint.lookup.credential.degree.types"/>
         </bean>
        </property>
       </bean>
@@ -270,6 +272,11 @@
   </property>
  </bean>
  <bean id="majorDisciplineInfo.resultOptions" parent="majorDisciplineInfo.resultOptions-parent"/>
+
+    <bean id="constraint.lookup.credential.degree.types"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.credential.degree.types">
+    </bean>
 
  <bean id="majorDisciplineInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="stdDuration"/>

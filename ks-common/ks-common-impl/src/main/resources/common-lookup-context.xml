@@ -2568,6 +2568,42 @@
 		<property name="resultReturnKey" value="enumeration.resultColumn.code" />
 	</bean>
 
+    <bean id="kuali.common.lookup.credential.degree.types" parent="commonLookup-parent">
+    	<property name="id" value="kuali.common.lookup.credential.degree.types"/>
+		<property name="searchTypeId" value="lu.search.resultComponents"/>
+		<property name="name" value="Outcome"/>
+		<property name="desc" value="Search for program degree types"/>
+		<property name="resultReturnKey" value="lu.resultColumn.resultComponentId"/>
+		<property name="searchParamIdKey" value="lu.queryParam.resultComponentOptionalId"/>
+		<property name="params">
+            <list>
+                <bean parent="param">
+                    <property name="key" value="lu.queryParam.luOptionalId"/>
+                    <property name="name" value="Result Component"/>
+                    <property name="desc" value="Result Component Id"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="NEVER"/>
+                    <property name="fieldPath" value="/credentialProgramId"/>
+                </bean>
+                <bean parent="param">
+                    <property name="key" value="lu.queryParam.resultComponentOptionalType"/>
+                    <property name="name" value="Result Type"/>
+                    <property name="desc" value="Result Type"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="NEVER"/>
+                    <property name="defaultValueString" value="kuali.resultType.degree"/>
+                </bean>
+                <bean parent="param">
+                    <property name="key" value="lu.queryParam.resultComponentOptionalId"/>
+                    <property name="name" value="Result Component Id"/>
+                    <property name="desc" value="Result Component Id"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="ALWAYS"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="kuali.common.lookup.degree.types" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.degree.types"/>
 		<property name="searchTypeId" value="lrc.search.resultComponent"/>

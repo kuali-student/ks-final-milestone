@@ -3053,31 +3053,20 @@ public class LuServiceImpl implements LuService {
         }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
         	return doBrowseVersionsSearch(searchRequest);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
-        	String cluId = null;
-        	String cluResultType = null;
-    		for(SearchParam param:searchRequest.getParams()){
-    			if("lu.queryParam.luOptionalId".equals(param.getKey())){
-    				cluId = (String)param.getValue();
-    			}
-    			if("lu.queryParam.resultComponentOptionalType".equals(param.getKey())){
-    				cluResultType = (String)param.getValue();
-    			}
-    		}
-        	return doResultComponentTypesForCluSearch(cluId, cluResultType);
+        	return doResultComponentTypesForCluSearch(searchRequest);
         }
         return searchManager.search(searchRequest, luDao);
 	}
 
 	
-	private SearchResult doResultComponentTypesForCluSearch(String cluId, String cluResultType ) throws MissingParameterException {
-		//Set up the search params for
-		SearchRequest cluSearchRequest = new SearchRequest(SEARCH_KEY_LU_RESULT_COMPONENTS);
-		if(cluId!=null){
-			cluSearchRequest.addParam("lu.queryParam.luOptionalId", cluId);
-		}
-		if(cluResultType!=null){
-			cluSearchRequest.addParam("lu.queryParam.resultComponentOptionalType", cluResultType);
-		}
+	/**
+	 * Does a cross search to first get result componets from the lu search and then use an LRC search to get the result component names
+	 * @param cluSearchRequest
+	 * @return
+	 * @throws MissingParameterException
+	 */
+	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest) throws MissingParameterException {
+
 		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
 		
 		//Get the result Component Ids using a search

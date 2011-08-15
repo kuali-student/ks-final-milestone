@@ -121,6 +121,7 @@
 		<search:queryParams>
 			<ref bean="lu.queryParam.resultComponentOptionalType"/>
 			<ref bean="lu.queryParam.luOptionalId"/>
+			<ref bean="lu.queryParam.resultComponentOptionalId"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 	
@@ -129,6 +130,11 @@
 		<ref bean="field.cluInfo.id.fd"/>
 	</search:queryParam>
 	
+	<search:queryParam id="lu.queryParam.resultComponentOptionalId" parent="lu.queryParam.resultComponentOptionalId-parent"/>
+	<search:queryParam id="lu.queryParam.resultComponentOptionalId-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+
 	<search:searchResultTypeInfo id="lu.result.resultComponents" parent="lu.result.resultComponents-parent"/>
 	<search:searchResultTypeInfo id="lu.result.resultComponents-parent" abstract="true">
 		<search:name>ResultComponent Results</search:name>
@@ -1982,11 +1988,15 @@
                     </value>
                 </entry>
                 <entry key="lu.search.resultComponents">
-                	<value>SELECT options.resultComponentId FROM CluResult result JOIN result.clu clu, IN(result.resultOptions) options</value>
+                	<value>SELECT DISTINCT options.resultComponentId FROM CluResult result JOIN result.clu clu, IN(result.resultOptions) options</value>
                 </entry>
                 <entry key="lu.queryParam.resultComponentOptionalType">
                 	<value>result.cluResultType.id = :lu_queryParam_resultComponentOptionalType</value>
                 </entry>
+                <entry key="lu.queryParam.resultComponentOptionalId">
+                	<value>options.resultComponentId = :lu_queryParam_resultComponentOptionalId</value>
+                </entry>
+                
             </map>
 		</property>
 	</bean>
