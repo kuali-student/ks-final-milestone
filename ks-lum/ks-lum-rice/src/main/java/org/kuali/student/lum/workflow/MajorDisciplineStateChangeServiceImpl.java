@@ -60,10 +60,25 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      */
     public void changeState(String endEntryTerm, String endEnrollTerm, String majorDisciplineId, String newState) throws Exception {
 
-        // New state must not be null
-        if (newState == null)
-            throw new InvalidParameterException("new state cannot be null");
+        // A null state is valid in some cases!
+        // If rice work flow returned a code that LUM is not going to process, then
+        // our ProgramPostProcessorBase will return null 
+        // So, if we see a null, assume we are not supposed to process the code and simply return from
+        // the method without changing state
+        // 1. Blanket Approve Proposal
+        // 1.1 When blanket approved is selected, rice will change status through the following codes:
+        // 1.2 Workflow Status Code = R  ... Change LUM state to "Draft", create new version, update state of all objects
+        // 1.3 Workflow Status Code = A  ... Code 'A' is not processed.  Do not change state in LUM.
+        // 1.4 Workflow Status Code = P  ... Change LUM state to "Approved", do not create new version, update requirements and variations to state "Approved"
 
+        if (newState == null){
+            return;
+        }
+        
+        
+
+        
+           
         // The version selected in the UI
         MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId);
 
