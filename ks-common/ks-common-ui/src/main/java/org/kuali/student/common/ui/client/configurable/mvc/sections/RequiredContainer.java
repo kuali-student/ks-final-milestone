@@ -7,8 +7,11 @@ import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author SW Genis
  */
 public class RequiredContainer extends WarnContainer {
-    
+
     final static ApplicationContext context = Application.getApplicationContext();
 
     private boolean showAll = false;
@@ -39,10 +42,10 @@ public class RequiredContainer extends WarnContainer {
         super();
         label = new KSLabel(context.getMessage("showingRequiredFields"));
         link = new Anchor(context.getMessage("showAllFields"));
-        
+
         this.showWarningLayout(true);
         this.addHandler();
-        
+
         this.addWarnWidget(label);
         this.addWarnWidget(link);
     }
@@ -91,7 +94,7 @@ public class RequiredContainer extends WarnContainer {
     public List<Callback<Boolean>> getCallbacks() {
         return callbacks;
     }
-    
+
     public void registerExclusion(FieldDescriptor descriptor) {
         excludedDescriptors.add(descriptor);
     }
@@ -162,8 +165,17 @@ public class RequiredContainer extends WarnContainer {
      * @param visibility
      */
     private void setSectionVisibility(Section section, boolean visibility) {
-        if (section instanceof BaseSection) {
-            ((BaseSection) section).getLayout().setVisible(visibility);
+        if (section instanceof VerticalSection) {
+            FieldLayout layout = ((BaseSection) section).getLayout();
+            if (layout instanceof VerticalFieldLayout){
+                FlowPanel flowPanel = ((VerticalFieldLayout)layout).getVerticalLayout();
+                flowPanel.setVisible(visibility);
+            } else {
+                SectionTitle sectionTitle = layout.getLayoutTitle();
+                if (sectionTitle != null){
+                    sectionTitle.setVisible(visibility);
+                }
+            }
         }
     }
 
@@ -177,7 +189,7 @@ public class RequiredContainer extends WarnContainer {
      */
     private boolean processFieldDescriptor(FieldDescriptor descriptor, boolean showAll) {
         // Check if this field should be ignored, return true.
-        if (descriptor.isIgnoreShowRequired()){
+        if (descriptor.isIgnoreShowRequired()) {
             return true;
         }
         // Check if field is required or not.
@@ -198,12 +210,12 @@ public class RequiredContainer extends WarnContainer {
         public ShowAllLink(ClickHandler handler) {
             layout.addStyleName("ks-message-static-margin");
             add(new KSLabel(context.getMessage("requiredFields")));
-            
+
             // Link
             Anchor link = new Anchor(context.getMessage("allFields"));
-            link.addClickHandler(handler);   
+            link.addClickHandler(handler);
             add(link);
-            
+
             this.initWidget(layout);
         }
 
