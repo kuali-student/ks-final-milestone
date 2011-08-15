@@ -101,6 +101,43 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionEndDate" subSearchKey="recentclu" resultParam="lu.resultColumn.luOptionalVersionEndDate"/>
 	</search:crossSearchType>
 	
+
+	<!-- Result component search -->	
+	<search:searchType id="lu.search.resultComponents">
+        <search:name>Search for resultComponents for a specific Clu</search:name>
+        <search:desc>Search for resultComponents for a specific Clu</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.resultComponents" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.resultComponents" />
+        </search:searchCriteriaTypeInfo>
+	</search:searchType>
+	
+	<search:searchCriteriaTypeInfo id="lu.criteria.resultComponents" parent="lu.criteria.resultComponents-parent"/>
+	<search:searchCriteriaTypeInfo id="lu.criteria.resultComponents-parent" abstract="true">
+		<search:name>ResultComponent Criteria</search:name>
+		<search:desc>ResultComponent Criteria</search:desc>
+		<search:queryParams>
+			<ref bean="lu.queryParam.resultComponentOptionalType"/>
+			<ref bean="lu.queryParam.luOptionalId"/>
+		</search:queryParams>
+	</search:searchCriteriaTypeInfo>
+	
+	<search:queryParam id="lu.queryParam.resultComponentOptionalType" parent="lu.queryParam.resultComponentOptionalType-parent"/>
+	<search:queryParam id="lu.queryParam.resultComponentOptionalType-parent"  optional="true" abstract="true">
+		<ref bean="field.cluInfo.id.fd"/>
+	</search:queryParam>
+	
+	<search:searchResultTypeInfo id="lu.result.resultComponents" parent="lu.result.resultComponents-parent"/>
+	<search:searchResultTypeInfo id="lu.result.resultComponents-parent" abstract="true">
+		<search:name>ResultComponent Results</search:name>
+		<search:desc>ResultComponent Results</search:desc>
+		<search:resultColumns>
+            <ref bean="lu.resultColumn.resultComponentId" />
+		</search:resultColumns>
+	</search:searchResultTypeInfo>
+	
 	<!-- lu.search.isVersionable -->
 	<search:searchType id="lu.search.isVersionable">
         <search:name>Determine if the course version is versionable</search:name>
@@ -1943,6 +1980,12 @@
                 <entry key="lu.search.isVersionable">
                 	<value>SELECT COUNT(clu) FROM Clu clu WHERE clu.version.versionIndId = :lu_queryParam_versionIndId AND clu.version.sequenceNumber > :lu_queryParam_sequenceNumber
                     </value>
+                </entry>
+                <entry key="lu.search.resultComponents">
+                	<value>SELECT options.resultComponentId FROM CluResult result JOIN result.clu clu, IN(result.resultOptions) options</value>
+                </entry>
+                <entry key="lu.queryParam.resultComponentOptionalType">
+                	<value>result.cluResultType.id = :lu_queryParam_resultComponentOptionalType</value>
                 </entry>
             </map>
 		</property>

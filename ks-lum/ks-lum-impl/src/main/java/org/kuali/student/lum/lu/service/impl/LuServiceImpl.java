@@ -153,9 +153,10 @@ public class LuServiceImpl implements LuService {
 	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
 	private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
 	private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
-	private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
+	private static final String SEARCH_KEY_LRC_RESULT_COMPONENT = "lrc.search.resultComponent";
 	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
 	private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
+	private static final String SEARCH_KEY_LU_RESULT_COMPONENTS = "lu.search.resultComponents";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -3051,11 +3052,78 @@ public class LuServiceImpl implements LuService {
         	return doSearchProposalsByCourseCode(courseCode);
         }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
         	return doBrowseVersionsSearch(searchRequest);
+        }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
+        	String cluId = null;
+        	String cluResultType = null;
+    		for(SearchParam param:searchRequest.getParams()){
+    			if("lu.queryParam.luOptionalId".equals(param.getKey())){
+    				cluId = (String)param.getValue();
+    			}
+    			if("lu.queryParam.resultComponentOptionalType".equals(param.getKey())){
+    				cluResultType = (String)param.getValue();
+    			}
+    		}
+        	return doResultComponentTypesForCluSearch(cluId, cluResultType);
         }
         return searchManager.search(searchRequest, luDao);
 	}
 
 	
+	private SearchResult doResultComponentTypesForCluSearch(String cluId, String cluResultType ) throws MissingParameterException {
+		//Set up the search params for
+		SearchRequest cluSearchRequest = new SearchRequest(SEARCH_KEY_LU_RESULT_COMPONENTS);
+		if(cluId!=null){
+			cluSearchRequest.addParam("lu.queryParam.luOptionalId", cluId);
+		}
+		if(cluResultType!=null){
+			cluSearchRequest.addParam("lu.queryParam.resultComponentOptionalType", cluResultType);
+		}
+		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
+		
+		//Get the result Component Ids using a search
+		Map<String,List<SearchResultRow>> rcIdToRowMapping = new HashMap<String,List<SearchResultRow>>();
+		
+		//Get a mapping of ids to translate
+		for(SearchResultRow row:searchResult.getRows()){
+			for(SearchResultCell cell:row.getCells()){
+				if(cell.getValue()!=null &&
+						"lu.resultColumn.resultComponentId".equals(cell.getKey())) {
+					List<SearchResultRow> rows = rcIdToRowMapping.get(cell.getValue());
+					if(rows==null){
+						rows = new ArrayList<SearchResultRow>();
+						rcIdToRowMapping.put(cell.getValue(), rows);
+					}
+					rows.add(row);
+				}
+			}
+		}
+
+		//Get the LRC names to match the ids
+		SearchRequest lrcSearchRequest = new SearchRequest(SEARCH_KEY_LRC_RESULT_COMPONENT);
+		lrcSearchRequest.addParam("lrc.queryParam.resultComponent.idRestrictionList", new ArrayList<String>(rcIdToRowMapping.keySet()));
+		SearchResult lrcSearchResults = searchDispatcher.dispatchSearch(lrcSearchRequest);
+		
+		//map the names back to the original search results
+		for(SearchResultRow row:lrcSearchResults.getRows()){
+			String lrcId = null;
+			String lrcName = null;
+			for(SearchResultCell cell:row.getCells()){
+				if("lrc.resultColumn.resultComponent.id".equals(cell.getKey())){
+					lrcId = cell.getValue();
+				}else if("lrc.resultColumn.resultComponent.name".equals(cell.getKey())){
+					lrcName = cell.getValue();
+				}
+			}
+			if(lrcId!=null && rcIdToRowMapping.get(lrcId)!=null){
+				for(SearchResultRow resultRow : rcIdToRowMapping.get(lrcId)){
+					resultRow.addCell("lu.resultColumn.resultComponentName",lrcName);
+				}
+			}
+		}
+		
+		return searchResult;
+	}
+
 	/**
 	 * Looks up Atp descriptions and adds to search results
 	 * @param searchRequest
@@ -3135,7 +3203,7 @@ public class LuServiceImpl implements LuService {
 		
 		
 		//The result component types need to be mapped back as well
-		SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+		SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_LRC_RESULT_COMPONENT);
 		resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type", "kuali.resultComponentType.degree");
 		SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
 		
