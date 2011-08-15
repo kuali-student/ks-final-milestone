@@ -942,12 +942,16 @@
 		<property name="params">
 			<list>
 				<bean parent="param"> 
-					<property name="key" value="luOptionalState" />
+					<property name="key" value="lu.queryParam.luOptionalState" />
 					<property name="name" value="Program State" />
 					<property name="desc" value="Program State." />
-					<property name="writeAccess" value="ALWAYS" />
+					<property name="writeAccess" value="NEVER" />
 					<property name="usage" value="DEFAULT" />
-					<property name="defaultValueString" value="ACTIVE" />					
+					<property name="defaultValueList">
+     					<list> 
+							<value>Active</value>
+						</list>
+					</property>					
 				</bean>
 				<bean parent="param">
 					<property name="key" value="lu.queryParam.luOptionalType" />
