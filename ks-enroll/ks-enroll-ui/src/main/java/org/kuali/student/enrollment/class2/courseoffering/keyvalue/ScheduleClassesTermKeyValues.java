@@ -16,12 +16,29 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
  * limitations under the License.
  */
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.util.ConcreteKeyValue;
 import org.kuali.rice.core.util.KeyValue;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.student.common.exceptions.*;
+import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,15 +46,51 @@ public class ScheduleClassesTermKeyValues extends KeyValuesBase implements Seria
 
     private static final long serialVersionUID = 1L;
 
+    private AcademicCalendarService acalService;
+
+
     @Override
     public List<KeyValue> getKeyValues() {
+
+        List<AcademicCalendarInfo> acals;
+        ContextInfo context = ContextInfo.newInstance();
+
+
+        List<TermInfo> terms = new ArrayList<TermInfo>();
+        try {
+            Calendar nowCal = Calendar.getInstance();
+            nowCal.setTime(new Date());
+            int year = nowCal.get(Calendar.YEAR);
+
+            acals = getAcalService().getAcademicCalendarsByYear(year, context);
+            for (AcademicCalendarInfo acal : acals) {
+                terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
+            }
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        }
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Fall", "Fall" ));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Winter", "Winter"));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Spring", "Spring"));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Summer", "Summer"));
+        for(TermInfo term : terms) {
+            keyValues.add(new ConcreteKeyValue(term.getKey(), term.getName()));
+        }
+
         return keyValues;
     }
 
+    protected AcademicCalendarService getAcalService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
+        }
+        return this.acalService;
+    }
 }
