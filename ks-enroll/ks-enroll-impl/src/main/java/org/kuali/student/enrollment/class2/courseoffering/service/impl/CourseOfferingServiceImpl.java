@@ -1,10 +1,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
@@ -21,24 +20,14 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
@@ -65,7 +54,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public void setCourseService(CourseService courseService) {
 		this.courseService = courseService;
 	}
- 
+
 	public AcademicCalendarService getAcalService() {
 		return acalService;
 	}
@@ -153,13 +142,38 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
+    /**
+     * HACK HACK HACK
+     *
+     * This implementation is a HACK!!!  Please think of the poor wasted CPU cycles and use a more specific lui service method
+     * when one is made.
+     *
+     * This implementation is terrible inefficient, since it looks up ALL courseOffering and then filters the matching ones out.
+     *
+     * HACK HACK HACK
+     */
 	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey,
 			String subjectArea, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO UNHACK THIS HACK!!
+
+        TermInfo term = acalService.getTerm(termKey, context);
+
+        List<String> luiIds = luiService.getLuiIdsByType(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
+
+        List<String> results = new ArrayList<String>();
+
+        for(String luiId : luiIds) {
+            CourseOfferingInfo co = getCourseOffering(luiId, context);
+
+            if(StringUtils.equals(co.getSubjectArea(), subjectArea) && StringUtils.equals(co.getTermKey(), term.getKey())) {
+                results.add(co.getId());
+            }
+        }
+
+		return results;
 	}
 
 	@Override
