@@ -15,7 +15,7 @@ public interface SwapEventHandler {
      * 
      * @param key
      */
-    public void onShowSwappableSection(String key);
+    public void onShowSwappableSection(String key, Section section);
     
     /**
      * 
@@ -23,5 +23,5 @@ public interface SwapEventHandler {
      * 
      * @param key
      */
-    public void onRemoveSwappableSection(String key);
+    public void onRemoveSwappableSection(String key, Section section);
 }

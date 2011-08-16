@@ -156,7 +156,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 			}
 		}
 		if (swapEventHandler != null){
-		    swapEventHandler.onShowSwappableSection(key);
+		    swapEventHandler.onShowSwappableSection(key, section);
 		}
 	}
 	
@@ -173,7 +173,7 @@ public class SwapSection extends BaseSection implements HasSectionDeletion{
 
 		}
 		if (swapEventHandler != null){
-            swapEventHandler.onRemoveSwappableSection(key);
+            swapEventHandler.onRemoveSwappableSection(key, section);
         }
 	}
 	

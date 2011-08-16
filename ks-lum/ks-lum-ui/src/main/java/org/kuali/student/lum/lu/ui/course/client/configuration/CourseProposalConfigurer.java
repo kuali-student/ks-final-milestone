@@ -54,10 +54,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.Multipli
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeCondition;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCondition;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.GroupSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapEventHandler;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -724,13 +726,29 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         if (field.isVisible()){
 	        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
-	        FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        final FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
 	        rationaleField.setIgnoreShowRequired(true);
-	        FieldDescriptor rationaleField2 = addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+	        final FieldDescriptor rationaleField2 = addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
 	        rationaleField2.setIgnoreShowRequired(true);
+	        
+	        // Create SwapSection.
+	        final String altKey = "ALT";
+	        final String noneKey = "None";
 	        SwapSection swapSection = new SwapSection(picker);
-	        swapSection.addSection(finalExamRationale_group, "ALT");
-	        swapSection.addSection(finalExamRationale_group2, "None");
+	        swapSection.addSection(finalExamRationale_group, altKey);
+	        swapSection.addSection(finalExamRationale_group2, noneKey);
+	        swapSection.setSwapEventHandler(new SwapEventHandler() {
+                
+                @Override
+                public void onShowSwappableSection(String key, Section section) {
+                    progressiveEnableAndRequireSection(true, section);
+                }
+                
+                @Override
+                public void onRemoveSwappableSection(String key, Section section) {
+                    progressiveEnableAndRequireSection(false, section);
+                }
+            });
 	        finalExam.addSection(finalExam_group);
 	       
 	        finalExam.addSection(swapSection);
@@ -739,6 +757,15 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         	return new VerticalSection();
         }
 
+    }
+    
+    private void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
+        if (section != null){
+            List<FieldDescriptor> fields = section.getFields(); 
+            if ((fields != null) && (fields.size() > 0)){
+                BaseSection.progressiveEnableAndRequireFields(enableAndRequire, fields.toArray(new FieldDescriptor[fields.size()]));
+            }
+        }
     }
 
     protected VerticalSection generateInstructorsSection() {
