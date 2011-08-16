@@ -252,6 +252,10 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     }
 
     protected Section generateActiveDatesSection(Section section) {
+        //Add this field and hide it so it is available for cross field validation 
+    	FieldDescriptor fd = addField(section, PROPOSAL_PATH + "/" + PREV_START_TERM, generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
         
     	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
     	

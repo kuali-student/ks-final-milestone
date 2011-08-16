@@ -143,23 +143,6 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
     }
     
     /**
-     * Override the active dates section to change behavior of pilot and end term fields found in CourseConfigurer  
-     */
-    @Override
-    protected Section generateActiveDatesSection(Section section) {
-        FieldDescriptor fd = addField(section, PROPOSAL_PATH + "/" + PREV_START_TERM, generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM));
-        fd.getFieldWidget().setVisible(false);
-        fd.hideLabel();
-    	
-    	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
-    	
-        addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY)));
-        addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY));
-       
-        return section;
-    }
-        
-    /**
      * Gets the requisite view associated with the CourseAdminConfigurer
      * 
      * @param layout

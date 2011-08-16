@@ -450,12 +450,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							//Only display if this is a modification
 							String versionedFromId = model.get("versionInfo/versionedFromId");
 							if(versionedFromId!=null && !versionedFromId.isEmpty()){
-								if(workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition,false)!=null){
-									//Add the previous start term since we need it as a widget so it can act as a cross field constraint
-									FieldDescriptor fd=workflowUtil.addApproveDialogField("proposal", "prevStartTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM), modelDefinition,true);
-									fd.getFieldWidget().setVisible(false);
-									fd.hideLabel();
-								}
+								//Add the previous start term since we need it as a widget so it can act as a cross field constraint
+								workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition,false);
 								workflowUtil.updateApproveFields();
 							}else{
 								//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)

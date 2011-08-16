@@ -260,26 +260,28 @@ public class WorkflowUtilities{
 	 * @param fd the field with cross constraints that needs updating
 	 * @param dataModel
 	 */
-	public static void updateCrossField(final FieldDescriptor fd, DataModel dataModel){
+	public static void updateCrossField(final FieldDescriptor fd, final DataModel dataModel){
 		//Update the widgets of any cross constraints so the values are there and can be reprocessed.
 		if(fd.getFieldWidget() instanceof HasCrossConstraints){
 			HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
 			if(constraints!=null){
 				for(String path:constraints){
-					String finalPath = SearchUtils.resolvePath(path);
-					FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
+					final String finalPath = SearchUtils.resolvePath(path);
+					final FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
 					if(crossField!=null){
-						ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
+						final ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
 						if(mwb!=null){
-							mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
 							//This insanity is needed because setting a widget value can be asynchronous.
 							//Adds a callback and reprocesses constraints after the value has actually been set
 							if(crossField.getFieldWidget() instanceof KSPicker && ((KSPicker)crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract){
 								((KSSelectItemWidgetAbstract)((KSPicker)crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>(){
 									public void exec(Widget result) {
+										mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
 										((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
 									}
 								});
+							}else{
+								mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);	
 							}
 						}
 					}
