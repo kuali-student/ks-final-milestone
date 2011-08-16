@@ -70,7 +70,7 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
              */
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_APPROVED);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else {
