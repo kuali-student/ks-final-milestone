@@ -48,7 +48,8 @@
   </ul>
   <strong>KS Enroll -- Grading</strong>
   <ul class="chan">
-     <li><portal:portalLink displayTitle="true" title="Grading" url="${ConfigProperties.application.url}/spring/grading?viewId=GradingView&methodToCall=start" /></li> 
+     <li><portal:portalLink displayTitle="true" title="Grading" url="${ConfigProperties.application.url}/spring/grading?viewId=GradingView&methodToCall=start" /></li>
+     <li><portal:portalLink displayTitle="true" title="View Term Grades" url="${ConfigProperties.application.url}/spring/grading?viewId=StudentGradeView&methodToCall=start" /></li>
   </ul>
  <!-- 
 

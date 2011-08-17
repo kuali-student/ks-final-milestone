@@ -20,6 +20,7 @@ public class GradingConstants {
 
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
     public static final String UNASSIGN_GRADE_METHOD = "unassignGrade";
+    public static final String VIEW_GRADES = "viewGrades";
     public static final String GRADING_SERVICE_URL = "http://student.kuali.org/wsdl/grading";
     public static final String GRADING_SERVICE_NAME = "GradingService";
     public static final String IDENTITY_SERVICE_URL = "http://rice.kuali.org/wsdl/kim";

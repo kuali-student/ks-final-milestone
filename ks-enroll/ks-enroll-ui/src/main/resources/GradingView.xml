@@ -34,7 +34,7 @@ limitations under the License.
  					</list>
  				</property>
                 <property name="footer">
-                    <ref bean="Footer_page1" />
+                    <ref bean="Grading_Footer_page1" />
                 </property>
  			</bean>
               <bean parent="Page" p:id="page2">
@@ -52,7 +52,6 @@ limitations under the License.
         <property name="additionalCssFiles" ref="ks-css"/>
        <property name="footer.render" value="false"/>
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.GradingForm" />
-      <!--<property name="defaultBindingObjectPath" value="grade" />-->
    </bean>
    
    <bean id="GradingView-page1" parent="GroupGridLayout">
@@ -60,12 +59,6 @@ limitations under the License.
       <property name="items">
         <list>
           <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Select course to grade" p:required="true" p:maxLength="50" p:defaultValue="PHYS121" >
-            <!--<property name="control">
-              <bean parent="SelectControl"/>
-            </property>
-            <property name="optionsFinder">
-              <bean class="org.kuali.student.enrollment.class2.grading.keyvalue.CourseOfferingForGradingKeyValues"/>
-            </property>-->
             <property name="control">
               <bean parent="TextControl"/>
             </property>
@@ -126,7 +119,7 @@ limitations under the License.
         </property>
    </bean>
 
-   <bean id="Footer_page1" parent="Footer">
+   <bean id="Grading_Footer_page1" parent="Footer">
       <property name="items">
 
         <list>

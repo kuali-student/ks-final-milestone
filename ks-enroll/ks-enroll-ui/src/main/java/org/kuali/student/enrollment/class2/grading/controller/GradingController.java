@@ -22,7 +22,9 @@ import org.kuali.rice.kns.uif.UifParameters;
 import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
+import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
@@ -49,7 +51,11 @@ public class GradingController extends UifControllerBase{
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
-        return new GradingForm();
+        if (StringUtils.equals(httpServletRequest.getParameter("viewId"),"StudentGradeView")){
+            return new StudentGradeForm();
+        }else{
+            return new GradingForm();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.LOAD_GRADES_ROSTER_METHOD)
@@ -132,4 +138,40 @@ public class GradingController extends UifControllerBase{
 
         return close(gradingForm, result, request, response);
     }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.VIEW_GRADES)
+	public ModelAndView viewGrades(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        List creditList = studentGradeForm.getCreditList();
+        if (creditList.isEmpty()){
+            StudentCredit credit = new StudentCredit();
+            credit.setCourseId("PHY121");
+            credit.setCourseName("Fundamentals of Physics I");
+            credit.setGrade("A");
+            credit.setCredits("3.0");
+            creditList.add(credit);
+
+            StudentCredit credit1 = new StudentCredit();
+            credit1.setCourseId("MUSIC200");
+            credit1.setCourseName("Music, Children and Family");
+            credit1.setGrade("A-");
+            credit1.setCredits("2.0");
+            creditList.add(credit1);
+
+            StudentCredit credit2 = new StudentCredit();
+            credit2.setCourseId("ENG222");
+            credit2.setCourseName("English I");
+            credit2.setGrade("B+");
+            credit2.setCredits("2.0");
+            creditList.add(credit2);
+
+            studentGradeForm.setBirthDate("September 1, 1992");
+            studentGradeForm.setName("Mary");
+            studentGradeForm.setFirstTerm("Fall, 2011");
+        }
+
+        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(),"page2");
+    }
+
 }
