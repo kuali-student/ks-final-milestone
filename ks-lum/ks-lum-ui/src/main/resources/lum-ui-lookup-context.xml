@@ -424,7 +424,8 @@
 	</property>		
  </bean>
  
- <bean id="kuali.lu.browseProgram.filter.credential" class="org.kuali.student.common.assembly.data.UILookupData">
+ <bean id="kuali.lu.browseProgram.filter.credential" class="org.kuali.student.common.assembly.data.UILookupData" 
+ 	parent="kuali.common.lookup.findCredentialProgram">
     <property name="id" value="lu.resultColumn.credentialCluId" />
 	<property name="title" value="Credential"/>
   	<property name="widget" value="CHECKBOX_LIST" />	
@@ -432,24 +433,8 @@
 	<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
 	<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	<property name="usage" value="DEFAULT" />
-	<property name="searchTypeId" value="lu.search.generic" />
-	<property name="params">
-	  <bean parent="param">
-	  	<property name="key" value="lu.queryParam.luOptionalType" />
-	    <property name="writeAccess" value="NEVER" />
-	    <property name="dataType" value="STRING" />
-	    <property name="optional" value="true" />
-	    <property name="name" value="Clu Type" />
-	    <property name="desc" value="Clu Type" />
-	    <property name="caseSensitive" value="true" />
-	    <property name="defaultValueList">
-		    <list>
-		    	<value>kuali.lu.type.credential.Baccalaureate</value>
-		    </list>
-	    </property>
-	  </bean>
-	</property>		
  </bean>
+
  <!-- Dependency Analysis Filters -->
  <bean id="dependency.filter" parent="uilookupconfig-parent">
   <property name="path" value="dependency.filter" />
