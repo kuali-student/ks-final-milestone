@@ -1040,10 +1040,10 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets the course registrations for a student by term.
-     * 
-     * Note: not clear if gets the registrations in just the specified term or that term and all included terms.
-     * For example: if you ask for the "fall term" do you get registrations for the mini-mesters within that term.
+     * Gets the course registrations for a student by term. Note: not clear if
+     * gets the registrations in just the specified term or that term and all
+     * included terms. For example: if you ask for the "fall term" do you get
+     * registrations for the mini-mesters within that term.
      * 
      * @param studentId
      * @param termId
@@ -1059,7 +1059,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
     /**
      * Get course registrations by course offering id. Gets all student
      * registrations for the course.
@@ -1130,144 +1129,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get the activity registration by id.
-     * 
-     * @param activityRegistrationId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public ActivityRegistrationInfo getActivityRegistration(
-            @WebParam(name = "activityRegistrationId") String activityRegistrationId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get the activity resgistrations by the list of identifiers.
-     * 
-     * @param activityRegistrationIds
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public ActivityRegistrationInfo getActivityRegistrationsByIdList(
-            @WebParam(name = "activityRegistrationIds") List<String> activityRegistrationIds,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get the activity registrations for this course registration. A course
-     * registration results in one-many activity registrations depending on the
-     * reg group the student registered for.
-     * 
-     * @param courseRegistrationId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForActivityOffering(
-            @WebParam(name = "courseRegistrationId") String courseRegistrationId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get all activity registrations by student for a certain term.
-     * 
-     * @param courseRegistrationId
-     * @param termId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForStudentByTerm(
-            @WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get reg group registration by id.
-     * 
-     * @param regGroupRegistrationId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public RegGroupRegistrationInfo getRegGroupRegistration(
-            @WebParam(name = "regGroupRegistrationId") String regGroupRegistrationId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-  
-    /**
-     * Get reg group registrations by id id of reg groups.
-     * 
-     * @param regGroupIds
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(
-            @WebParam(name = "courseRegistrationId") List<String> regGroupIds,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * This method get reg group registration by reg group id. Returns the reg
-     * group registration for a reg group id
-     * 
-     * @param courseRegistrationId
-     * @param context
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByRegGroupId(
-            @WebParam(name = "regGroupId") String regGroupId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Get the registration group registration for a student in a particular
-     * term.
-     * 
-     * @param studentId
-     * @param termId
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public RegGroupRegistrationInfo getRegGroupRegistrationsForStudentByTerm(
-            @WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for course registrations based on the criteria, returns a list

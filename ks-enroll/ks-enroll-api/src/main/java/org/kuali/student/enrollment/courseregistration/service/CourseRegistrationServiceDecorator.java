@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException; 
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -418,66 +418,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getRegRequestsForCourseOfferingByStudent(courseOfferingId, studentId, context);
-    }
-
-  
-
-    @Override
-    public ActivityRegistrationInfo getActivityRegistration(String activityRegistrationId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityRegistration(activityRegistrationId, context);
-    }
-
-    @Override
-    public ActivityRegistrationInfo getActivityRegistrationsByIdList(List<String> activityRegistrationIds,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityRegistrationsByIdList(activityRegistrationIds, context);
-    }
-
-    @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForActivityOffering(String courseRegistrationId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityRegistrationsForActivityOffering(courseRegistrationId, context);
-    }
-
-    @Override
-    public List<ActivityRegistrationInfo> getActivityRegistrationsForStudentByTerm(String studentId, String termId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityRegistrationsForStudentByTerm(studentId, termId, context);
-    }
-
-    @Override
-    public RegGroupRegistrationInfo getRegGroupRegistration(String regGroupRegistrationId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistration(regGroupRegistrationId, context);
-    }
-
- 
-
-    @Override
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByIdList(List<String> regGroupIds, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistrationsByIdList(regGroupIds, context);
-    }
-
-    @Override
-    public List<RegGroupRegistrationInfo> getRegGroupRegistrationsByRegGroupId(String regGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistrationsByRegGroupId(regGroupId, context);
-    }
-
-    @Override
-    public RegGroupRegistrationInfo getRegGroupRegistrationsForStudentByTerm(String studentId, String termId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegGroupRegistrationsForStudentByTerm(studentId, termId, context);
     }
 
     @Override

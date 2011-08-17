@@ -672,4 +672,28 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         }
     }
 
+    @Override
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByType(String personId, String atpKey,
+            String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByLuiType(String personId, String atpKey,
+            String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByPersonType(String personId, String atpKey,
+            String personTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 }

@@ -59,6 +59,14 @@ public class RegGroupRegistrationInfo extends RelationshipInfo implements RegGro
         this.studentId = studentId;
     }
 
+    public void setRegistrationGroup(RegistrationGroupInfo registrationGroup) {
+        this.registrationGroup = registrationGroup;
+    }
+
+    public void setActivityRegistrations(List<ActivityRegistrationInfo> activityRegistrations) {
+        this.activityRegistrations = activityRegistrations;
+    }
+
     @Override
     public String getStudentId() {
         return studentId;
