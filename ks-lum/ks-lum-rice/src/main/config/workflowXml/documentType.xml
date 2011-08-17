@@ -73,6 +73,22 @@
         </attribute>
       </attributes>
     </documentType>
+
+    <documentType>
+      <name>CluMajorDisciplineParentDocument</name>
+      <parent>KualiStudentDocument</parent>
+      <description>Kuali Student Major Discipline Parent Document</description>
+      <label>Kuali Student Major Discipline Parent Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <active>true</active>
+      <attributes>
+        <attribute>
+        	<!--  Is this attribute correct for program proposals? -->
+            <name>CluCreditCourse.OrgSearchAttribute</name>
+        </attribute>
+      </attributes>
+    </documentType>
+    
     <documentType>
       <name>kuali.proposal.type.course.retire</name>
       <parent>CluCreditCourseParentDocument</parent>
@@ -268,7 +284,7 @@
 <!-- Program Documents -->
     <documentType>
       <name>kuali.proposal.type.majorDiscipline.create</name>
-      <parent>CluCreditCourseParentDocument</parent>
+      <parent>CluMajorDisciplineParentDocument</parent>
       <description>Create Major Discipline Proposal</description>
       <label>Create Major Discipline Proposal</label>
       <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
@@ -295,7 +311,7 @@
     </documentType>
     <documentType>
       <name>kuali.proposal.type.majorDiscipline.modify</name>
-      <parent>CluCreditCourseParentDocument</parent>
+      <parent>CluMajorDisciplineParentDocument</parent>
       <description>Modify Major Discipline Proposal</description>
       <label>Modify Major Discipline Proposal</label>
       <postProcessorName>org.kuali.student.lum.workflow.ProgramPostProcessorBase</postProcessorName>
