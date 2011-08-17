@@ -59,3 +59,13 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.lui.relation.state.inactive',null,0,null,null,null,null,'The relationship between the two LUIs is in-active ',null,null,'Inactive','kuali.lui.lui.relationship.process')
 /
 
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.scheduled',null,0,null,null,null,null,'Approved and ready to be scheduled',null,null,'Scheduled','kuali.course.offering.process')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.deleted',null,0,null,null,null,null,'Logically deleted before ever having been offered',null,null,'Deleted','kuali.course.offering.process')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.offered',null,0,null,null,null,null,'Offered so it shows up in list of classes so student may register for the course ',null,null,'Offered','kuali.course.offering.process')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.suspended',null,0,null,null,null,null,'Suspends registration in the course but allows students who had already registered to stay in the course',null,null,'Suspended','kuali.course.offering.process')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.canceled',null,0,null,null,null,null,'Once offered but now canceled',null,null,'Canceled','kuali.course.offering.process')
+/
