@@ -18,6 +18,7 @@
     <ref bean="freestanding.search.findCourseProposal" />
     <ref bean="freestanding.search.findProgramProposal" />
     <ref bean="freestanding.search.findMajor" />
+    <ref bean="freestanding.search.findCredentialProgram" />
 
     <!--Not sure these are actually used-->
     <ref bean="freestanding.search.approvedCourses" />
@@ -73,6 +74,11 @@
   <property name="name" value="findMajor" />
  </bean>
  <bean id="freestanding.search.findMajor" parent="freestanding.search.findMajor-parent" />
+
+ <bean id="freestanding.search.findCredentialProgram-parent" abstract="true" parent="baseKualiCluId">
+  <property name="name" value="findCredentialProgram" />
+ </bean>
+ <bean id="freestanding.search.findCredentialProgram" parent="freestanding.search.findCredentialProgram-parent" />
 
  <bean id="freestanding.search.approvedCourses-parent" abstract="true" parent="baseKualiProposalId">
   <property name="name" value="approvedCourses" />

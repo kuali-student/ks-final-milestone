@@ -61,7 +61,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -85,8 +84,10 @@ public class SearchPanel extends Composite{
 
     private String actionLabel = getMessage("search");  //set default action label
     private boolean resultsSelected = false;
+    private boolean hasSearchParams = false;			//indicates if there are any user supplied search parameters
+    													//if false will auto default search and not display modify search link.
     
-    //Search data
+	//Search data
     private List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     private boolean multiSelect = false;
     private boolean resultsShown = false;    
@@ -118,13 +119,11 @@ public class SearchPanel extends Composite{
 
     public SearchPanel(LookupMetadata meta){
         lookups.add(meta);
-   //     setupSearch();
         this.initWidget(layout);
     }
 
     public SearchPanel(List<LookupMetadata> metas){
         lookups = metas;       
-   //     setupSearch();
         this.initWidget(layout);
     }
 
@@ -187,12 +186,18 @@ public class SearchPanel extends Composite{
         searchSelectorPanel.setWidget(searchParamPanel);
         layout.add(searchSelectorPanel);
         
-        //create layout for results screen
-        enteredCriteriaHeading.addStyleName("ks-form-module-single-line-margin");
-        enteredCriteriaHeading.addStyleName("KS-Advanced-Search-Search-Criteria-Label");
-        resultsTablePanel.add(enteredCriteriaHeading);
-        resultsTablePanel.add(enteredCriteriaString);
-        resultsTablePanel.setVisible(false);        
+        //Create layout for results screen
+        
+        //Entered criteria section
+        if (hasSearchParams){
+	        enteredCriteriaHeading.addStyleName("ks-form-module-single-line-margin");
+	        enteredCriteriaHeading.addStyleName("KS-Advanced-Search-Search-Criteria-Label");
+	        resultsTablePanel.add(enteredCriteriaHeading);
+	        resultsTablePanel.add(enteredCriteriaString);
+	        resultsTablePanel.setVisible(false);
+        }
+        
+        //Search Results table
         table = new SearchResultsTable();
         table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
@@ -218,6 +223,11 @@ public class SearchPanel extends Composite{
         
         resultsSelected = false;
         actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+        
+        //Execute the search and display the results of there are no user supplied search parameters defined
+        if (!hasSearchParams){
+        	getActionCompleteCallback().exec(true);
+        }
     }
 
     private Widget createSearchParamPanel(LookupMetadata meta){
@@ -229,6 +239,8 @@ public class SearchPanel extends Composite{
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
         for(LookupParamMetadata metaParam: meta.getParams()){
             if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
+            	hasSearchParams = true;
+            	
                 final CustomizedSearch customizedSearch = new CustomizedSearch(meta, listItems);
                 KSButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);
                 button.addClickHandler(new ClickHandler(){
@@ -802,6 +814,7 @@ public class SearchPanel extends Composite{
         lookupChangedCallbacks.add(callback);
     }
     
+    //FIXME: Is an action complete callback really necessary here, couldn't this simply be a method to perform the seach action.
     public Callback<Boolean> getActionCompleteCallback() {
         return new Callback<Boolean>() {
             
@@ -843,21 +856,24 @@ public class SearchPanel extends Composite{
                 }
                 showCriteriaChosen(userCriteria);
 
-                if(!resultsShown){
-                    searchSelectorPanel.removeFromParent();
-                    modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
-                    modifySearchPanel.getLabel().addClickHandler(new ClickHandler(){
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            resultsTablePanel.setVisible(false);
-                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
-                            resultsSelected = false;
-                        }});
-                    SearchPanel.this.layout.insert(modifySearchPanel, 0);
-                    
-                }
-                else{
-                    modifySearchPanel.close();
+                if (hasSearchParams){
+                	//Only display modify link if there are search parametes available.
+	                if(!resultsShown){
+	                    searchSelectorPanel.removeFromParent();
+	                    modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
+	                    modifySearchPanel.getLabel().addClickHandler(new ClickHandler(){
+	                        @Override
+	                        public void onClick(ClickEvent event) {
+	                            resultsTablePanel.setVisible(false);
+	                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+	                            resultsSelected = false;
+	                        }});
+	                    SearchPanel.this.layout.insert(modifySearchPanel, 0);
+	                    
+	                }
+	                else{
+	                    modifySearchPanel.close();
+	                }
                 }
                 resultsShown = true; 
                 
@@ -904,6 +920,5 @@ public class SearchPanel extends Composite{
             this.actionLabel = actionLabel;
         }
     }
-
 
 }

@@ -1,7 +1,9 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -18,6 +20,10 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.common.ui.client.widgets.filter.FilterEvent;
+import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
+import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
+import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -26,7 +32,7 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
-import org.kuali.student.lum.program.client.ProgramClientConstants;
+import org.kuali.student.lum.lu.ui.tools.client.widgets.BrowsePanel;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
@@ -114,18 +120,39 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     }
 
 	private Widget getFindCredentialProgramWidget() {
-        Anchor anchor = createNavigationWidget(getMessage(FIND_CREDENTIALS));
-        anchor.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                ProgramRegistry.setCreateNew(true);
-                ViewContext baccViewContext = new ViewContext();
-                baccViewContext.setId(ProgramClientConstants.CREDENTIAL_BACCALAUREATE_PROGRAM);
-                Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), baccViewContext);
+        final Widget searchWidget;
+        if (searchMetadata != null) {
+            Metadata metadata = searchMetadata.getProperties().get("findCredentialProgram");
+            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+            if (panel != null) {
+                panel.setMutipleSelect(false);
             }
-        });
-        return anchor;
-    }
+            ((KSPicker) searchWidget).setAdvancedSearchCallback(new Callback<List<SelectedResults>>() {
+
+                @Override
+                public void exec(List<SelectedResults> result) {
+                    SelectedResults value = result.get(0);
+                    ViewContext viewContext = new ViewContext();
+                    viewContext.setId(value.getResultRow().getId());
+                    String cluType = value.getResultRow().getValue("lu.resultColumn.luOptionalType");
+                    if (cluType != null) {
+                        viewContext.setAttribute(ProgramConstants.TYPE, cluType);
+                    }
+                    viewContext.setIdType(IdType.OBJECT_ID);
+                    ProgramRegistry.setCreateNew(true);
+                    Application.navigate(AppLocations.Locations.VIEW_BACC_PROGRAM.getLocation(), viewContext);
+                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                }
+            });
+
+        } else {
+            searchWidget = new Label(getMessage(FIND_CREDENTIALS));
+            searchWidget.setStyleName("contentBlock-navLink-disabled");
+        }
+        searchWidget.setStyleName("contentBlock-navLink");
+        return searchWidget;
+	}
 
     private Widget getFindCoreProgramWidget() {
         Anchor anchor = createNavigationWidget(getMessage(FIND_CORES));
