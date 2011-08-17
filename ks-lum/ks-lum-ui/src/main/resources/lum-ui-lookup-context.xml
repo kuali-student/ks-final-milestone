@@ -382,7 +382,7 @@
    <bean id="kuali.lu.browseProgram.filter.level" parent="kuali.lu.filter.enumeration-parent">
     <property name="id" value="lu.resultColumn.cluOfficialIdentifier.level" />
 	<property name="title" value="Level"/>
-	<property name="resultReturnKey" value="enumeration.resultColumn.abbrevValue"/>
+	<property name="resultReturnKey" value="enumeration.resultColumn.code"/>
 	<property name="params">
 		<list>
 			<bean parent="filterParam-parent">

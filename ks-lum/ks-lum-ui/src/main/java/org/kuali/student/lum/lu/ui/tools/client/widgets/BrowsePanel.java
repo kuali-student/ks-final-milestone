@@ -203,7 +203,7 @@ public class BrowsePanel extends Composite {
 					 * Ex:Campus Location is "NO</br>SO"
 					 */
 
-					while(columnValue.indexOf("<br/>")!=-1)
+					while(columnValue!=null&&columnValue.indexOf("<br/>")!=-1)
 					{
 						int f=columnValue.indexOf("<br/>");
 						if(!filterCount.containsKey(columnValue.substring(0,f)))
