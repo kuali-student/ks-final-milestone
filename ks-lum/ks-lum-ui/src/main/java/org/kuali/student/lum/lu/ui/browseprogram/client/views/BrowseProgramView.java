@@ -2,7 +2,6 @@ package org.kuali.student.lum.lu.ui.browseprogram.client.views;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.BrowsePanel;
 
 import com.google.gwt.core.client.GWT;
@@ -58,7 +58,7 @@ public class BrowseProgramView extends ViewComposite {
 		Metadata metaData;
 		
 		KSDocumentHeader header = new KSDocumentHeader();
-        header.setTitle("Browse Majors and Specializations");
+        header.setTitle(Application.getApplicationContext().getMessage(CurriculumHomeConstants.BROWSE_PROGRAM));
         
         container.setTitleWidget(header);
         
