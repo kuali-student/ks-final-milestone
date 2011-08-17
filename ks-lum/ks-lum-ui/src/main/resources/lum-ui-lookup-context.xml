@@ -545,7 +545,7 @@
   <property name="path" value="search.findCourse" />
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
-    <property name="name" value="Find Courses" />
+    <property name="name" value="Find a Course" />
     <property name="desc" value="Search for courses" />
     <property name="widget" value="NO_WIDGET"/>
    </bean>
@@ -577,7 +577,7 @@
   <property name="initialLookup">
    <!--  define configuration for a suggest box -->
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
-    <property name="name" value="Find Course Proposals" />
+    <property name="name" value="Find a Course Proposal" />
     <property name="desc" value="Search for Course Proposals" />
     <property name="widget" value="NO_WIDGET"/>
    </bean>
@@ -6951,7 +6951,7 @@
  <bean id="kuali.lu.lookup.findMajor.advanced"	class="org.kuali.student.common.assembly.data.UILookupData" >
   <property name="id" value="kuali.lu.lookup.findMajor.advanced"/>
   <property name="searchTypeId" value="lu.search.union.majors"/>
-  <property name="name" value="Find Academic Programs"/>
+  <property name="name" value="Find an Academic Program"/>
   <property name="desc" value="Search for Major Disciplines"/>
   <property name="title" value="Find Academic Programs"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>

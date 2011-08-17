@@ -1,9 +1,7 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -20,10 +18,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.common.ui.client.widgets.filter.FilterEvent;
-import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
-import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
-import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
 import org.kuali.student.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
@@ -32,7 +26,6 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
-import org.kuali.student.lum.lu.ui.tools.client.widgets.BrowsePanel;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
@@ -50,12 +43,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
-	private static final String EVENT_ON_VALUE_CHANGE = "onValueChange";
-	private static final String EVENT_ONCLICK = "onClick";
 	protected Metadata searchMetadata;
-	private boolean hasAdminAccess = false;
-	final KSCheckBox adminOptionCheckbox = new KSCheckBox(
-			getMessage("useCurriculumReview"));
+	protected final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 
     public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
@@ -86,10 +75,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         viewModify.add(programs);
         viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
         viewModify.add(getFindMajorsWidget());
-        viewModify.add(getFindCoreProgramWidget());
-        viewModify.add(getFindCredentialProgramWidget());
         viewModify.add(getFindProgramProposalsWidget());
-
+        viewModify.add(getViewCoreProgramWidget());
+        viewModify.add(getViewCredentialProgramWidget());
+        
         //RecentlyViewed
         RecentlyViewedBlock recent = new RecentlyViewedBlock(
                 getMessage(RECENTLY_VIEWED),
@@ -104,12 +93,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
         tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
         
-        //Coming soon
-        Label learningObjectives = new Label(getMessage(LOS));
-        learningObjectives.setTitle("Coming Soon");
-        learningObjectives.setStyleName("contentBlock-navLink-disabled");
-        tools.add(learningObjectives);
-
         //Add all blocks
         layout.addContentBlock(create);
         layout.addContentBlock(viewModify);
@@ -119,7 +102,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return layout;
     }
 
-	private Widget getFindCredentialProgramWidget() {
+	private Widget getViewCredentialProgramWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCredentialProgram");
@@ -154,7 +137,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         return searchWidget;
 	}
 
-    private Widget getFindCoreProgramWidget() {
+    private Widget getViewCoreProgramWidget() {
         final Widget searchWidget;
         if (searchMetadata != null) {
             Metadata metadata = searchMetadata.getProperties().get("findCoreProgram");
