@@ -976,6 +976,43 @@
 		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
 	</bean>
 
+	<bean id="kuali.common.lookup.findCoreProgram" parent="commonLookup-parent">
+		<property name="id" value="kuali.common.lookup.findCoreProgram" />
+		<property name="name" value="Program" />
+		<property name="searchTypeId" value="lu.search.generic" />
+		<property name="desc" value="Retreives latest (active) core programs" />
+		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
+		<property name="params">
+			<list>
+				<bean parent="param"> 
+					<property name="key" value="lu.queryParam.luOptionalState" />
+					<property name="name" value="Program State" />
+					<property name="desc" value="Program State." />
+					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
+					<property name="defaultValueList">
+     					<list> 
+							<value>Active</value>
+						</list>
+					</property>					
+				</bean>
+				<bean parent="param">
+					<property name="key" value="lu.queryParam.luOptionalType" />
+					<property name="name" value="Program Type" />
+					<property name="desc" value="Type of a program" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="defaultValueList">
+     					<list>
+						 	<value>kuali.lu.type.CoreProgram</value>
+						</list>
+					</property>
+					<property name="caseSensitive" value="true" />
+				</bean>
+			</list>
+		</property>
+		<property name="resultReturnKey" value="lu.resultColumn.cluId" />
+	</bean>
+
 	<bean id="kuali.common.lookup.findTest.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.findTest.suggest" />
 		<property name="name" value="Program" />

@@ -155,15 +155,38 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	}
 
     private Widget getFindCoreProgramWidget() {
-        Anchor anchor = createNavigationWidget(getMessage(FIND_CORES));
-        anchor.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                ProgramRegistry.setCreateNew(true);
-                Application.navigate(AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation());
+        final Widget searchWidget;
+        if (searchMetadata != null) {
+            Metadata metadata = searchMetadata.getProperties().get("findCoreProgram");
+            searchWidget = new KSPicker(metadata.getInitialLookup(), metadata.getAdditionalLookups());
+            SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
+            if (panel != null) {
+                panel.setMutipleSelect(false);
             }
-        });
-        return anchor;
+            ((KSPicker) searchWidget).setAdvancedSearchCallback(new Callback<List<SelectedResults>>() {
+
+                @Override
+                public void exec(List<SelectedResults> result) {
+                    SelectedResults value = result.get(0);
+                    ViewContext viewContext = new ViewContext();
+                    viewContext.setId(value.getResultRow().getId());
+                    String cluType = value.getResultRow().getValue("lu.resultColumn.luOptionalType");
+                    if (cluType != null) {
+                        viewContext.setAttribute(ProgramConstants.TYPE, cluType);
+                    }
+                    viewContext.setIdType(IdType.OBJECT_ID);
+                    ProgramRegistry.setCreateNew(true);
+                    Application.navigate(AppLocations.Locations.VIEW_CORE_PROGRAM.getLocation(), viewContext);
+                    ((KSPicker) searchWidget).getSearchWindow().hide();
+                }
+            });
+
+        } else {
+            searchWidget = new Label(getMessage(FIND_CORES));
+            searchWidget.setStyleName("contentBlock-navLink-disabled");
+        }
+        searchWidget.setStyleName("contentBlock-navLink");
+        return searchWidget;
     }
 
     
