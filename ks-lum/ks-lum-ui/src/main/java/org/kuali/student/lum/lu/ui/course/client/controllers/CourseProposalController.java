@@ -706,6 +706,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				//Add in a blank proposal placeholder
 		        Data proposalData = new Data();
 		        cluProposalModel.getRoot().set(new Data.StringKey("proposal"), proposalData);
+		        if (cfg.getNextState() == null || cfg.getNextState().isEmpty()){
+		            proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+		        }
 		        
 		        isNew = true;
 				setHeaderTitle();
