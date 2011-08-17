@@ -2,8 +2,8 @@ package org.kuali.student.enrollment.class2.courseregistration.service.assembler
 
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.infc.DTOAssembler;
 
 public class CourseWaitlistEntryAssembler implements DTOAssembler<CourseWaitlistEntryInfo, LprRosterEntryInfo> {
 

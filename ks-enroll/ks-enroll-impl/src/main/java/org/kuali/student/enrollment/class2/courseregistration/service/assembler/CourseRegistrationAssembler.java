@@ -9,16 +9,16 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.infc.RegGroupRegistration;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.r2.common.assembler.CommonRelationshipDTOAssembler;
+import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
+import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.infc.DTOAssembler;
 
 public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrationInfo, LuiPersonRelationInfo> {
 
     @Override
     public CourseRegistrationInfo assemble(LuiPersonRelationInfo baseDTO, ContextInfo context) {
         CourseRegistrationInfo courseRegInfo = new CourseRegistrationInfo();
-        CommonRelationshipDTOAssembler<LuiPersonRelationInfo, CourseRegistrationInfo> commonAssembler = new CommonRelationshipDTOAssembler<LuiPersonRelationInfo, CourseRegistrationInfo>();
+        RelationshipDTOAssembler<LuiPersonRelationInfo, CourseRegistrationInfo> commonAssembler = new RelationshipDTOAssembler<LuiPersonRelationInfo, CourseRegistrationInfo>();
         courseRegInfo = commonAssembler.assemble(baseDTO, courseRegInfo, context);
 
         courseRegInfo.setStudentId(baseDTO.getPersonId());
@@ -57,7 +57,7 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
             List<LuiPersonRelationInfo> activityRegLPRs, ContextInfo context) {
 
         RegGroupRegistrationInfo regGroupRegistrationInfo = new RegGroupRegistrationInfo();
-        CommonRelationshipDTOAssembler<LuiPersonRelationInfo, RegGroupRegistrationInfo> commonAssembler = new CommonRelationshipDTOAssembler<LuiPersonRelationInfo, RegGroupRegistrationInfo>();
+        RelationshipDTOAssembler<LuiPersonRelationInfo, RegGroupRegistrationInfo> commonAssembler = new RelationshipDTOAssembler<LuiPersonRelationInfo, RegGroupRegistrationInfo>();
         regGroupRegistrationInfo = commonAssembler.assemble(regGroupRegLPR, regGroupRegistrationInfo, context);
         regGroupRegistrationInfo.setStudentId(regGroupRegLPR.getPersonId());
         regGroupRegistrationInfo.setActivityRegistrations(assembleActivityRegistrations(activityRegLPRs, context));
@@ -70,7 +70,7 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
         List<ActivityRegistrationInfo> activityRegistrations = new ArrayList<ActivityRegistrationInfo>();
         for (LuiPersonRelationInfo activtyRegLpr : activtyRegLprs) {
             ActivityRegistrationInfo activityRegistrationInfo = new ActivityRegistrationInfo();
-            CommonRelationshipDTOAssembler<LuiPersonRelationInfo, ActivityRegistrationInfo> commonAssembler = new CommonRelationshipDTOAssembler<LuiPersonRelationInfo, ActivityRegistrationInfo>();
+            RelationshipDTOAssembler<LuiPersonRelationInfo, ActivityRegistrationInfo> commonAssembler = new RelationshipDTOAssembler<LuiPersonRelationInfo, ActivityRegistrationInfo>();
             activityRegistrationInfo = commonAssembler.assemble(activtyRegLpr, activityRegistrationInfo, context);
             activityRegistrations.add(activityRegistrationInfo);
 

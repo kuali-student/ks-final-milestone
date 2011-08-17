@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.infc;
+package org.kuali.student.r2.common.assembler;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 
