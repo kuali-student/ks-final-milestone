@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -369,6 +369,8 @@ public class MajorProposalController extends MajorController {
         ViewContext viewContext = getViewContext();
         if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
             createNewVersionAndLoadModel(callback, viewContext);
+        } else if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
+        	loadProgramModelFromWorkflowId(callback); 
         } else {
             super.loadModel(callback);
         }
@@ -403,6 +405,21 @@ public class MajorProposalController extends MajorController {
 
     }
 
+    protected void loadProgramModelFromWorkflowId(final ModelRequestCallback<DataModel> callback){
+        workflowUtil.getDataIdFromWorkflowId(getViewContext().getId(), new KSAsyncCallback<String>(){
+			@Override
+			public void handleFailure(Throwable caught) {
+                Window.alert("Error loading Proposal from Workflow Document: "+caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(String proposalId) {
+				getViewContext().setId(proposalId);
+				MajorProposalController.super.loadModel(callback);
+			}
+        });    	
+    }
+    
     private void doSave(final Callback<Boolean> okCallback) {
         requestModel(new ModelRequestCallback<DataModel>() {
             @Override
