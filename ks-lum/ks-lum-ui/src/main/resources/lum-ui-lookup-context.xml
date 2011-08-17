@@ -594,7 +594,7 @@
   <property name="initialLookup">
    <!--  define configuration for a suggest box -->
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
-    <property name="name" value="Find Program Proposals" />
+    <property name="name" value="Find a Program Proposal" />
     <property name="desc" value="Search for Program Proposals" />
     <property name="widget" value="NO_WIDGET"/>
    </bean>
@@ -6910,9 +6910,9 @@
  <bean id="kuali.lu.lookup.findMajor.advanced"	class="org.kuali.student.common.assembly.data.UILookupData" >
   <property name="id" value="kuali.lu.lookup.findMajor.advanced"/>
   <property name="searchTypeId" value="lu.search.union.majors"/>
-  <property name="name" value="Find Undergrad Programs"/>
+  <property name="name" value="Find Academic Programs"/>
   <property name="desc" value="Search for Major Disciplines"/>
-  <property name="title" value="Undergraduate Major"/>
+  <property name="title" value="Find Academic Programs"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>
   <property name="params">
    <list>
@@ -7025,7 +7025,7 @@
   <property name="path" value="search.findMajor" />
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
-    <property name="name" value="Find Undergrad Programs" />
+    <property name="name" value="Find Academic Programs" />
     <property name="desc" value="Search for Major Disciplines" />
     <property name="widget" value="NO_WIDGET"/>
    </bean>
