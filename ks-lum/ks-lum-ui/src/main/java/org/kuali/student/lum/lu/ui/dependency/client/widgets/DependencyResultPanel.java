@@ -242,11 +242,16 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         @Override
         public List<ExportElement> getExportElementSubset(ExportElement parent) {
             ArrayList<ExportElement> linkElementSubItems = new ArrayList<ExportElement>();
+        	if (this.isOpen) {  // If the panel is not open, then don't look further...
+			
             for (CollapsablePanel depItem : dependencyItems) {
-                ExportElement linkElement = new ExportElement();
+            	
+            	ExportElement linkElement = new ExportElement();
                 linkElement.setSectionName(parent.getSectionName());
                 linkElement.setViewName(parent.getViewName());
                 linkElement.setFieldValue(depItem.getExportFieldValue());
+            	System.out.println("collapsablePanel " + linkElement.getFieldValue() + " is open " + depItem.isOpen());
+                
                 linkElement.setSubset(depItem.getExportElementSubset(parent));
                 
                 String fieldValue = linkElement.getFieldValue();
@@ -270,6 +275,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 
                 linkElementSubItems.add(linkElement);
             }
+        	}
             return linkElementSubItems;
         }
 
