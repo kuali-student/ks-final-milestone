@@ -242,10 +242,12 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         @Override
         public List<ExportElement> getExportElementSubset(ExportElement parent) {
             ArrayList<ExportElement> linkElementSubItems = new ArrayList<ExportElement>();
-        	if (this.isOpen) {  // If the panel is not open, then don't look further...
+        	if (this.isVisible()) {  // If the panel is not open, then don't look further...
 			
             for (CollapsablePanel depItem : dependencyItems) {
-            	
+            	if (depItem.isVisible()) {
+					
+				
             	ExportElement linkElement = new ExportElement();
                 linkElement.setSectionName(parent.getSectionName());
                 linkElement.setViewName(parent.getViewName());
@@ -274,6 +276,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 linkElement.setFieldValue(fieldValue);
                 
                 linkElementSubItems.add(linkElement);
+            	}
             }
         	}
             return linkElementSubItems;
@@ -352,9 +355,9 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         }
         //
         for (DependencySection section : this.dependencySections.values()) {
-        	if (!section.getElement().getStyle().getDisplay().equals("none")){
+        	
             returnItems.addAll(ExportUtils.getDetailsForWidget(section, parent.getViewName(), parent.getSectionName()));
-        	}}
+        	}
         return returnItems;
     }
 
