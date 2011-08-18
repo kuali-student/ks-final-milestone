@@ -15,7 +15,7 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    private ProgramController programController;
+    protected ProgramController programController;
 
     protected ConfigurationManager programSectionConfigManager;
 
