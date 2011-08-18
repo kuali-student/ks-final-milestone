@@ -427,8 +427,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			String activityTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+//        TypeInfo activityType = luiService.getType(activityTypeKey, context);    
+        
+    	return luiService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
 	}
 
 	@Override
@@ -522,7 +523,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
 		for (String courseOfferingId : courseOfferingIdList) {
-			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.IsDeliveredVia", context);
+			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.type.deliveredvia", context);
 		}
 			
 	}
@@ -737,11 +738,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
 			MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.RegisteredForVia", context);
+			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.type.registeredforvia", context);
 			
 			if(registrationGroupInfo.getActivityOfferingIds() != null && !registrationGroupInfo.getActivityOfferingIds().isEmpty()){
 				for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()){
-					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, "kuali.lui.lui.relation.RegisteredForVia", context);
+					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, "kuali.lui.lui.relation.type.registeredforvia", context);
 				}
 			}	
 	}
