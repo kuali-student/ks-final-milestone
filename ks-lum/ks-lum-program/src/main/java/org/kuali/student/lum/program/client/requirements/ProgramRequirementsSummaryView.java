@@ -127,7 +127,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     	//Added blocking progress indicator while requirements are loaded.
     	final BlockingTask ruleBlockingTask = new BlockingTask("Retrieving requirements");
     	KSBlockingProgressIndicator.addTask(ruleBlockingTask);
-        rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
+        rules.retrieveProgramRequirements(parentController, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 if (result) {
@@ -353,7 +353,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
-    protected Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+    static public Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
@@ -364,7 +364,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         return widgetList;
     }
 
-    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+    private static void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
 
         List<StatementTreeViewInfo> statements = rule.getStatements();
         List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();
