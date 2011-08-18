@@ -24,6 +24,9 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.TypeEntity;
+import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -37,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,7 +147,37 @@ public class LuiServiceImpl implements LuiService {
 			String relatedRefObjectURI, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-	    return new ArrayList<TypeInfo>();
+		
+        if ( ! relatedRefObjectURI.startsWith(LuiServiceConstants.NAMESPACE) ) {
+            throw new DoesNotExistException("This method does not know how to handle object type:"
+                    + relatedRefObjectURI);
+        }
+
+        // get the TypeTypeRelations
+        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
+                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+        
+//        System.out.println(">>> in LuiServiceImpl.getAllowedTypesForType,find typeTypeRelations.size() = "+typeTypeRelations.size()+
+//        		" for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+        
+        // create a List of the related Types' IDs
+        List<String> ids = new ArrayList<String>();
+        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+            ids.add(entity.getRelatedTypeId());
+        }
+
+        // now get the List of the related Types based on those IDs
+        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+       	typeEntities.addAll(luiTypeDao.findByIds(ids));
+
+        // convert them to DTOs and return them
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
+            typeInfos.add(entity.toDto());
+        }
+        
+        return typeInfos;
 	}
 
 	@Override
