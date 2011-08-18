@@ -92,8 +92,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             	  p:allowWhitespace="false" />
     	</property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="60"/>
-    	</property> 
+      		<bean parent="SelectControl"/>
+    	</property>
+        <property name="optionsFinder">
+          	<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ScheduleClassesTermKeyValues"/>
+        </property>
     </bean>   
 
     <bean id="CourseOfferingInfoUI.subjectArea" parent="CourseOfferingInfo.subjectArea-parent">
