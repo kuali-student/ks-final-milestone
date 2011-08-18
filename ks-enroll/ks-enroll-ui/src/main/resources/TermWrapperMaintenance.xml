@@ -68,7 +68,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>   
 -->
   <!-- LookupView -->
-  <bean id="TermWrapper-LookupView" parent="LookupView">
+  <bean id="TermWrapper-LookupView" parent="KSLookupView">
     <property name="title" value="Term Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper" />
 <!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> -->
@@ -90,7 +90,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
   
   <!-- InquiryView -->
-  <bean id="TermWrapper-InquiryView" parent="InquiryView">
+  <bean id="TermWrapper-InquiryView" parent="KSInquiryView">
      <property name="title" value="Term with Key Dates Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
 <!--      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperInquiryViewHelperServiceImpl" />-->
@@ -132,11 +132,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
  
    
-  <bean id="TermWrapper-MaintenanceView" parent="MaintenanceView">
+  <bean id="TermWrapper-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="Term Wrapper Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl" />
-     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="items">
        <list merge="true">
           <bean parent="MaintenanceGroupSectionGridLayout">

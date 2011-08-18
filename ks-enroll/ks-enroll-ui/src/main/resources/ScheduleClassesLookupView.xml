@@ -3,7 +3,7 @@
    xsi:schemaLocation="http://www.springframework.org/schema/beans  
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 >
-	<bean id="ScheduleClasses-LookupView" parent="LookupView">
+	<bean id="ScheduleClasses-LookupView" parent="KSLookupView">
 	    <property name="title" value="Schedule Classes Lookup" />
 	    <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
 	    <property name="viewName" value="scheduleClassesLookup"/>
@@ -26,7 +26,7 @@
           			<bean parent="SelectControl"/>
         		</property>
         		<property name="optionsFinder">
-          			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ScheduleClassesTermKeyValues"/>
+          			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TermKeyValues"/>
         		</property>
             </bean>
 	      </list>

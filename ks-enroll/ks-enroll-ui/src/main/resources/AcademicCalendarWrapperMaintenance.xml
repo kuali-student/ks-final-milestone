@@ -19,7 +19,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
 
-  <bean id="AcademicCalendarWrapper-LookupView" parent="LookupView">
+  <bean id="AcademicCalendarWrapper-LookupView" parent="KSLookupView">
     <property name="title" value="Academic Calendar Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper" />
 <!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupViewHelperServiceImpl" /> -->
@@ -119,11 +119,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   
   
     
-  <bean id="AcademicCalendarWrapper-MaintenanceView" parent="MaintenanceView">
+  <bean id="AcademicCalendarWrapper-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="Academic Calendar Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl" />
-     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="items">
        <list merge="true">
           <bean parent="MaintenanceGroupSectionGridLayout">

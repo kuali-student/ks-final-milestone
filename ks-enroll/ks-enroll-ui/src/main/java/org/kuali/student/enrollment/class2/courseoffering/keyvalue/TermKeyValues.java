@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ScheduleClassesTermKeyValues extends KeyValuesBase implements Serializable {
+public class TermKeyValues extends KeyValuesBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

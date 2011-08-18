@@ -131,11 +131,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>  
 
-  <bean id="CourseInfo-LookupView" parent="LookupView">
+  <bean id="CourseInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Course Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseInfoLookupViewHelperServiceImpl"/>
-    <property name="additionalCssFiles" ref="ks-css"/>
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="id" />      

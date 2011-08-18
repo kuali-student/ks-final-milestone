@@ -91,7 +91,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
 
-  <bean id="TermInfo-LookupView" parent="LookupView">
+  <bean id="TermInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Term Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
@@ -112,7 +112,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>
 
-  <bean id="TermInfo-InquiryView" parent="InquiryView">
+  <bean id="TermInfo-InquiryView" parent="KSInquiryView">
      <property name="title" value="Term Info Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoInquiryViewHelperServiceImpl" />
@@ -135,7 +135,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      </property>
   </bean>
     
-  <bean id="TermInfo-MaintenanceView" parent="MaintenanceView">
+  <bean id="TermInfo-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="TermInfo Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl" />

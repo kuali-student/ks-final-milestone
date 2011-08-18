@@ -95,7 +95,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="SelectControl"/>
     	</property>
         <property name="optionsFinder">
-          	<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ScheduleClassesTermKeyValues"/>
+          	<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TermKeyValues"/>
         </property>
     </bean>   
 
@@ -112,11 +112,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property>
     </bean>
 
-    <bean id="CourseOfferingInfo-MaintenanceView" parent="MaintenanceView">
+    <bean id="CourseOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="Course Offering Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl" />
-     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="items">
        <list merge="true">
           <bean parent="MaintenanceGroupSectionGridLayout">

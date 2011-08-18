@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-   <bean id="AcademicCalendarView" parent="FormView">
+   <bean id="AcademicCalendarView" parent="KSFormView">
    	  <property name="id" value="AcademicCalendarView"/>
       <property name="title" value="Academic Calendar" />
 	  <property name="entryPageId" value="page1"/>
@@ -39,8 +39,7 @@ limitations under the License.
      
       <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm" />
       <property name="defaultBindingObjectPath" value="AcademicCalendarInfo" />
-<!--       <property name="additionalCssFiles" ref="ks-css" /> -->
-        
+
 	  <property name="footer">
          <ref bean="AcademicCalendar-Footer" />
       </property>

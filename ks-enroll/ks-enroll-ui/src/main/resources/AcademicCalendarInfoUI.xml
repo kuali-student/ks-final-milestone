@@ -94,11 +94,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         -->	
     </bean>
     
-    <bean id="AcademicCalendarInfo-LookupView" parent="LookupView">
+    <bean id="AcademicCalendarInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Academic Calendar Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" /> 
-    <property name="additionalCssFiles" ref="ks-css"/>
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
@@ -118,7 +117,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarInfo-LookupView2" parent="AcademicCalendarInfo-LookupView">
     <property name="title" value="Academic Calendar Info Lookup (General) -- general search won't work unless you provide a valid value in the Key field." />
     <property name="viewName" value="AcademicCalendarInfo-LookupView2"/>
-	<property name="additionalCssFiles" ref="ks-css"/>
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
@@ -138,11 +136,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
 
 
-  <bean id="AcademicCalendarInfo-LookupView3" parent="LookupView">
+  <bean id="AcademicCalendarInfo-LookupView3" parent="KSLookupView">
     <property name="title" value="Academic Calendar Info Lookup 3" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />    
     <property name="viewName" value="Acal-LookupView3"/> 
-    <property name="additionalCssFiles" ref="ks-css"/>
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
@@ -159,11 +156,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
   </bean>
 
-  <bean id="AcademicCalendarInfo-InquiryView" parent="InquiryView">
+  <bean id="AcademicCalendarInfo-InquiryView" parent="KSInquiryView">
      <property name="title" value="Academic Calendar Info Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoInquiryViewHelperServiceImpl" />
-     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="Items">
          <list>
            <bean parent="GroupSectionGridLayout">
@@ -182,11 +178,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      </property>
   </bean>
 
-  <bean id="AcademicCalendarInfo-MaintenanceView" parent="MaintenanceView">
+  <bean id="AcademicCalendarInfo-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="Academic Calendar Info Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
-     <property name="additionalCssFiles" ref="ks-css"/>
      <property name="items">
        <list merge="true">
           <bean parent="MaintenanceGroupSectionGridLayout">

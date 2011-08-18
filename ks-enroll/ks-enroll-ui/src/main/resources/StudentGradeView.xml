@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-   <bean id="studentGradeView" parent="FormView">
+   <bean id="studentGradeView" parent="KSFormView">
    	  <property name="id" value="StudentGradeView"/>
       <property name="title" value="Term Record" />
 	  <property name="entryPageId" value="page1"/>
@@ -49,7 +49,6 @@ limitations under the License.
                </bean>
           </list>
       </property>
-        <property name="additionalCssFiles" ref="ks-css"/>
        <property name="footer.render" value="false"/>
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.StudentGradeForm" />
    </bean>
