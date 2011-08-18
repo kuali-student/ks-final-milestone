@@ -2,16 +2,21 @@ package org.kuali.student.lum.program.client.major.proposal;
 
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.major.MajorManager;
-import org.kuali.student.lum.program.client.major.view.*;
+import org.kuali.student.lum.program.client.major.view.CatalogInformationViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.LearningObjectivesViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.MajorKeyProgramInfoViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ManagingBodiesViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.SpecializationsViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.SummaryActionPanel;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -52,7 +57,17 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         if (controller instanceof MajorProposalController){
             
             // Grab the work flow utilities widget we initialized in the controller
-            WorkflowUtilities workflowUtilities = ((MajorProposalController)controller).getWfUtilities();
+            WorkflowUtilities workflowUtilities = ((MajorProposalController) controller).getWfUtilities();
+            workflowUtilities.addSubmitCallback(new Callback<Boolean>() {
+
+                @Override
+                public void exec(Boolean result) {
+                    if (result) {
+                        ((MajorProposalController) controller).setStatus();
+                    }
+
+                }
+            });
             
             // Get a reference to the widget so we can add it to the root section of the screen
             Widget widget = workflowUtilities.getWorkflowActionsWidget();

@@ -191,7 +191,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
    * 
    * @return translated "Status: {0}"
    */
-  @DefaultMessage("Status: {0}")
+    @DefaultMessage("Program status: {0}")
   @Key("common.status")
   String common_status(String arg0);
 

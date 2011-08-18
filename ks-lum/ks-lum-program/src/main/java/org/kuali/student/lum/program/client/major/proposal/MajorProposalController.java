@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -32,6 +32,9 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
+import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
@@ -74,7 +77,7 @@ public class MajorProposalController extends MajorController {
     private final Set<String> existingVariationIds = new TreeSet<String>();
     protected String proposalPath = "";
     protected WorkflowUtilities workflowUtil; 
-
+    private final ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
  
     /**
      * Constructor.
@@ -265,8 +268,7 @@ public class MajorProposalController extends MajorController {
 
 						
 					}
-            		
-            	});                
+                        });
             }
         });
 
@@ -372,8 +374,9 @@ public class MajorProposalController extends MajorController {
         } else if(getViewContext().getIdType() == IdType.DOCUMENT_ID){
         	loadProgramModelFromWorkflowId(callback); 
         } else {
-            super.loadModel(callback);
+        super.loadModel(callback);
         }
+
     }
 
     protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
@@ -582,7 +585,7 @@ public class MajorProposalController extends MajorController {
 		}
 		//Clear the parent path again
 		Application.getApplicationContext().setParentPath("");
-		super.beforeShow(onReadyCallback);						
+        super.beforeShow(onReadyCallback);
 	}
 
 	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
@@ -639,4 +642,24 @@ public class MajorProposalController extends MajorController {
         super.beforeViewChange(viewChangingTo, reallyOkToChange);
         this.showExport(isExportButtonActive()); // KSLAB-1916
 	}
+
+    protected void setStatus() {
+        String modelProposalId = programModel.get(QueryPath.parse(proposalPath + "/id"));
+
+        if (modelProposalId != null && !modelProposalId.isEmpty()) {
+            String workflowId = programModel.get(QueryPath.parse(proposalPath + "/workflowId"));
+            proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
+                @Override
+                public void handleFailure(Throwable caught) {
+                    statusLabel.setText("Proposal status: Unknown");
+                }
+
+                @Override
+                public void onSuccess(ProposalInfo result) {
+                    statusLabel.setText("Proposal status: " + result.getState());
+                }
+            });
+        }
+    }
+
 }
