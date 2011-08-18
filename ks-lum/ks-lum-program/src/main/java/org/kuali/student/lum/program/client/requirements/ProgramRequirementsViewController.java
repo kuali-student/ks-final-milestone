@@ -100,7 +100,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
                 //moving from other page to PREVIEW page
                 if (viewChangingTo.name().equals(ProgramRequirementsViews.PREVIEW.name())) {
-                    preview.getRules().setupRules(ProgramRequirementsViewController.this, new Callback<Boolean>() {
+                    preview.getRules().setupRules(ProgramRequirementsViewController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
                         @Override
                         public void exec(Boolean result) {
                             okToChange.exec(result);
