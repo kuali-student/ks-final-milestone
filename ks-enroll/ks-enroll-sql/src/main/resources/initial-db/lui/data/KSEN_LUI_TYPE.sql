@@ -14,5 +14,5 @@ Insert into KSEN_LUI_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 Insert into KSEN_LUI_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relation.associated',null,0,'The first LUI is associated with the second LUI',null,null,'Associated')
 /
 
-Insert into KSEN_LUI_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relation.type.deliveredvia',null,0,'The first LUI is delivered via the the second LUI',null,null,'DeliveredVia')
+Insert into KSEN_LUI_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relation.type.deliveredvia',null,0,'The first LUI is delivered via the the second LUI',null,null,'Delivered Via')
 /
