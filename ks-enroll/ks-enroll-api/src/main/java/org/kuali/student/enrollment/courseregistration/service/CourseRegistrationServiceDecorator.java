@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationI
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
+import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -52,7 +53,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
+            DoesNotExistException { 
         return getNextDecorator().getDataDictionaryEntry(entryKey, context);
     }
 
@@ -115,7 +116,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
             OperationFailedException {
         return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
     }
@@ -162,14 +163,14 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public String calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
+    public LoadInfo calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
     }
 
     @Override
-    public String calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
+    public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().calculateCreditLoadForRegRequest(studentId, regRequestInfo, context);

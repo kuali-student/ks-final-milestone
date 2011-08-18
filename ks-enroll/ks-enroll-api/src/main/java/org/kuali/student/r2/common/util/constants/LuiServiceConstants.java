@@ -112,8 +112,9 @@ public class LuiServiceConstants {
     /**
      *  LUI LUI Relation types
      */
-    public static final String ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY = "kuali.lui.lui.relation.associated";
-
+    public static final String LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY = "kuali.lui.lui.relation.associated";
+    public static final String LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY = "kuali.lui.lui.relation.type.registeredforvia";
+    public static final String LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY = "kuali.lui.lui.relation.type.deliveredvia";
     /**
      * LUI LUI Relation States
      */

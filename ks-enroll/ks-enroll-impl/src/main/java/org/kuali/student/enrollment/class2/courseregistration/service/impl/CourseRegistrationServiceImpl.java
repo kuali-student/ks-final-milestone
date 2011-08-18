@@ -7,8 +7,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
@@ -20,6 +18,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
+import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -53,7 +52,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private CourseOfferingService courseOfferingService;
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
-    private CourseRegistrationAssembler courseregistrationAssembler;
+    private CourseRegistrationAssembler courseRegistrationAssembler;
 
     private DataDictionaryService dataDictionaryService;
 
@@ -89,7 +88,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         String courseOfferingId = regGroup.getCourseOfferingId();
                         LPRTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
                                 regRequestItem, context);
-                        courseOfferingItemInfo.setNewLuiId(courseOfferingId);
+                        courseOfferingItemInfo.setNewLuiId(courseOfferingId); 
                         courseOfferingItemInfo
                                 .setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                         lprActivityTransactionItems.add(courseOfferingItemInfo);
@@ -283,7 +282,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public String calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
+    public LoadInfo calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -291,7 +290,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public String calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
+    public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -564,7 +563,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public CourseRegistrationInfo getCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return courseregistrationAssembler.assemble(lprService.getLuiPersonRelation(courseRegistrationId, context),
+        return courseRegistrationAssembler.assemble(lprService.getLuiPersonRelation(courseRegistrationId, context),
                 context);
 
     }
@@ -574,7 +573,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        return courseregistrationAssembler.assembleList(
+        return courseRegistrationAssembler.assembleList(
                 lprService.getLuiPersonRelationsByIdList(courseRegistrationIds, context), context);
 
     }
@@ -614,7 +613,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     registeredActivityOfferingId, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY, context));
         }
 
-        CourseRegistrationInfo courseRegInfo = courseregistrationAssembler.assemble(courseOfferingLpr,
+        CourseRegistrationInfo courseRegInfo = courseRegistrationAssembler.assemble(courseOfferingLpr,
                 registeredActivityOfferingLprs, registeredRegGroupLpr, context);
 
         return courseRegInfo;
@@ -643,7 +642,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<CourseRegistrationInfo> courseRegInfoList = courseregistrationAssembler.assembleList(
+        List<CourseRegistrationInfo> courseRegInfoList = courseRegistrationAssembler.assembleList(
                 lprService.getLuiPersonRelationsForLui(courseOfferingId, context), context);
         return courseRegInfoList;
     }

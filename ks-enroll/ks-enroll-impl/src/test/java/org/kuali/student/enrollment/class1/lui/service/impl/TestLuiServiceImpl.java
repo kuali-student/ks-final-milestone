@@ -218,13 +218,13 @@ public class TestLuiServiceImpl {
             rel.setLuiId("Lui-1");
             rel.setRelatedLuiId(newLui.getId());
             rel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
-            rel.setTypeKey(LuiServiceConstants.ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY);
+            rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
             rel.setEffectiveDate(Calendar.getInstance().getTime());
-            created = luiServiceValidation.createLuiLuiRelation("Lui-1", newLui.getId(), LuiServiceConstants.ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY, rel, callContext);
+            created = luiServiceValidation.createLuiLuiRelation("Lui-1", newLui.getId(), LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, rel, callContext);
 
             assertNotNull(created);
             assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, created.getStateKey());
-            assertEquals(LuiServiceConstants.ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY, created.getTypeKey());
+            assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, created.getTypeKey());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
@@ -233,7 +233,7 @@ public class TestLuiServiceImpl {
             LuiLuiRelationInfo retrieved = luiServiceValidation.getLuiLuiRelation(created.getId(), callContext);
             assertNotNull(retrieved);
             assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, retrieved.getStateKey());
-            assertEquals(LuiServiceConstants.ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY, retrieved.getTypeKey());
+            assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
 
             List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-1", callContext);
             assertNotNull(objs);

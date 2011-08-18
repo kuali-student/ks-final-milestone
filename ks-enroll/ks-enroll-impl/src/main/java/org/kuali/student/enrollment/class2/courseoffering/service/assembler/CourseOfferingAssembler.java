@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
+import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
+import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
+import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,13 +39,9 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
 		if(lui != null){
 			CourseOfferingInfo co = new CourseOfferingInfo();
+            EntityDTOAssembler<LuiInfo, CourseOfferingInfo> commonAssembler = new EntityDTOAssembler<LuiInfo, CourseOfferingInfo>();
+            co = commonAssembler.assemble(lui, co, context);
 			co.setId(lui.getId());
-			co.setMeta(lui.getMeta());
-			co.setStateKey(lui.getStateKey());
-			co.setTypeKey(lui.getTypeKey());
-			co.setDescr(lui.getDescr());
-			co.setAttributes(lui.getAttributes());
-
 			co.setMaximumEnrollment(lui.getMaximumEnrollment());
 			co.setMinimumEnrollment(lui.getMinimumEnrollment());
 
@@ -91,7 +91,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			if(rels != null && !rels.isEmpty()){                  
                 for(LuiLuiRelationInfo rel : rels){
                 	if(rel.getLuiId().equals(luiId)){
-                		if(rel.getTypeKey().equals(LuiServiceConstants.ASSOCIATED_LUI_LUI_RELATION_TYPE_KEY)){
+                		if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY)){
                 			LuiInfo lui1 = luiService.getLui(rel.getRelatedLuiId(), context);
                 			if(lui1 != null && lui1.getTypeKey().equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY) && !jointOfferingIds.contains(rel.getRelatedLuiId())){
                 				jointOfferingIds.add(rel.getRelatedLuiId());

@@ -37,7 +37,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
 
     @XmlElement
     private String gradingOption;
-
+ 
     @XmlAnyElement
     private List<Element> _futureElements;
 

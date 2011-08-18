@@ -11,6 +11,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
@@ -23,7 +24,7 @@ import org.kuali.student.r2.lum.lu.infc.Fee;
  * @author Kamal
  */
 
-public interface CourseOffering extends HasId, TypeStateEntity {
+public interface CourseOffering extends IdEntity {
 
     
     /**
