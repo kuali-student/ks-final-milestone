@@ -5,6 +5,9 @@
     <KSEN_LUI_TYPE NAME="Associated"
         TYPE_DESC="The first LUI is associated with the second LUI"
         TYPE_KEY="kuali.lui.lui.relation.associated" VER_NBR="0"/>
+    <KSEN_LUI_TYPE NAME="DeliveredVia"
+        TYPE_DESC="The first LUI is delivered via the the second LUI"
+        TYPE_KEY="kuali.lui.lui.relation.type.deliveredvia" VER_NBR="0"/>
     <KSEN_LUI_TYPE NAME="Lab"
         TYPE_DESC="Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance"
         TYPE_KEY="kuali.lui.type.activity.offering.lab" VER_NBR="0"/>
