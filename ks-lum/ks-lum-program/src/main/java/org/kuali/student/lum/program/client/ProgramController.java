@@ -73,7 +73,7 @@ public abstract class ProgramController extends MenuSectionController {
 
     private boolean needToLoadOldModel = false;
 
-    private ProgramStatus lastLoadedStatus;
+    protected ProgramStatus lastLoadedStatus;
 
     protected boolean reloadMetadata = false;
 
@@ -358,8 +358,7 @@ public abstract class ProgramController extends MenuSectionController {
             }
         });
     }
-    
-    
+
     protected void configureView() {
         addStyleName("programController");
         configurer.setModelDefinition(programModel.getDefinition());
