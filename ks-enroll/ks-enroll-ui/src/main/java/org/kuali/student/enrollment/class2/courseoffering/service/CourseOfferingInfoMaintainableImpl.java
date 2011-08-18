@@ -103,8 +103,7 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
     	List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
     	//for each instructor, set personId to Id field.
     	for (OfferingInstructorInfo instructor : instructors){
-    		OfferingInstructorInfo oii = new OfferingInstructorInfo();
-    		instructor.setId(instructor.getPersonId());    		
+     		instructor.setId(instructor.getPersonId());    		
     	}
     	//set the list of instructors to the CourseOfferingInfo coi
     	if (coi != null){
@@ -149,13 +148,17 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
     			if(activityOfferingTypes.size()>1){
     				System.out.println(">>for core slice, it should be 1-to-1 mapping. so only take the first one -- "+activityOfferingTypes.get(0).getKey());
     			}
+    			
+    			//for Core Slice -- if the mapping between Canonical Activity to Activity Offering is not 1-to-1, 
+    			//(see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Types)
+    			//only take the first one.
     			activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
     			activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
     			activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, ContextInfo.newInstance());
         		activityOfferingInfoList.add(activityOfferingInfo);
         		activityOfferingIdList.add(activityOfferingInfo.getId());
         		
-            	//create a RegiistrationGroup
+            	//create a RegiistrationGroup after successfully create all activityOfferingInfos
             	RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
             	registrationGroupInfo.setCourseOfferingId(coi.getId());
             	registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
