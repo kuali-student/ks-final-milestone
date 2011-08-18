@@ -59,8 +59,8 @@ public class ProgramRequirementsDataModel {
     }
 
     //find out whether we need to reset rules based on whether we have a new program ID or not
-    public void setupRules(Controller parentController, final Callback<Boolean> onReadyCallback) {
-        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+    public void setupRules(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
+        parentController.requestModel(modelId, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -93,9 +93,9 @@ public class ProgramRequirementsDataModel {
     }
 
     //retrieve rules based on IDs stored in this program
-    public void retrieveProgramRequirements(Controller parentController, final Callback<Boolean> onReadyCallback) {
+    public void retrieveProgramRequirements(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
         
-        setupRules(parentController, new Callback<Boolean>() {
+        setupRules(parentController, modelId, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 Data program = ((DataModel)model).getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
