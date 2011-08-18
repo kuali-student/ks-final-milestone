@@ -1,21 +1,27 @@
 package org.kuali.student.lum.program.client.major.edit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -49,6 +55,7 @@ import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
@@ -67,7 +74,12 @@ public class MajorEditController extends MajorController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
 
- 
+	protected final DataModel comparisonModel = new DataModel("Original Program");
+	private String comparisonModelId = "ComparisonModel";
+	 
+    private ProgramRequirementsDataModel reqDataModel;
+    private ProgramRequirementsDataModel reqDataModelComp;
+
     /**
      * Constructor.
      *
@@ -75,9 +87,14 @@ public class MajorEditController extends MajorController {
      */
     public MajorEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
+        programModel.setModelName("Proposal");
+        initializeComparisonModel();
         configurer = GWT.create(MajorEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
+
+        reqDataModel = new ProgramRequirementsDataModel(eventBus);
+        reqDataModelComp = new ProgramRequirementsDataModel(eventBus);
     }
 
     @Override
@@ -250,6 +267,11 @@ public class MajorEditController extends MajorController {
                     programRequirements.add(id);
                 }
                 doSave();
+                
+                reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {}
+                });                    
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
@@ -258,16 +280,126 @@ public class MajorEditController extends MajorController {
                 showView(event.getViewToken());
             }
         });
+        
+        super.registerModel("ComparisonModel", new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+            	if(comparisonModel.getRoot() != null && comparisonModel.getRoot().size() != 0){
+            		callback.onModelReady(comparisonModel);            		
+            	}
+            	else{
+            		callback.onModelReady(null);
+            	}
+                
+            }
+        });
+    }
+
+    /**
+     * Initialized comparison model of the controller.
+     */
+    private void initializeComparisonModel() {
+        super.registerModel(comparisonModelId, new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+            	if(comparisonModel.getRoot() != null && comparisonModel.getRoot().size() != 0){
+            		callback.onModelReady(comparisonModel);            		
+            	}
+            	else{
+            		callback.onModelReady(null);
+            	}                
+             }
+        });
     }
 
     @Override
-    protected void loadModel(ModelRequestCallback<DataModel> callback) {
+    protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
+        Map<String, String> idAttributes = new HashMap<String, String>();
         ViewContext viewContext = getViewContext();
-        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
-            createNewVersionAndLoadModel(callback, viewContext);
-        } else {
-            super.loadModel(callback);
+        IdType idType = viewContext.getIdType();
+        String viewContextId = null;
+        if (idType != null) {
+            idAttributes.put(IdAttributes.ID_TYPE, idType.toString());
+            viewContextId = viewContext.getId();
+            if (idType == IdType.COPY_OF_OBJECT_ID) {
+                viewContextId = null;
+            }
         }
+        if (programModel.getRoot() != null) {
+            ProgramStatus programStatus = ProgramStatus.of(programModel);
+            idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
+            if (programStatus.getNextStatus() != null) {
+                idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
+            }
+        }
+        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
+
+            @Override
+            public void onSuccess(Metadata result) {
+                super.onSuccess(result);
+                DataModelDefinition def = new DataModelDefinition(result);
+                programModel.setDefinition(def);
+                comparisonModel.setDefinition(def);
+                lastLoadedStatus = ProgramStatus.of(programModel);
+                afterMetadataLoaded(onReadyCallback);
+            }
+
+            @Override
+            public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                onReadyCallback.exec(false);
+            }
+        });
+    }
+
+    @Override
+    protected void loadModel(final ModelRequestCallback<DataModel> callback) {    	
+    	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
+			@Override
+			public void onModelReady(DataModel model) {
+                programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        super.onFailure(caught);
+                        callback.onRequestFail(caught);
+                    }
+
+                    @Override
+                    public void onSuccess(Data result) {
+                        super.onSuccess(result);
+                        comparisonModel.setRoot(result);
+//                      callback.onModelReady(comparisonModel);
+                        reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                            @Override
+                            public void exec(Boolean result) {
+                                if (result) {
+                                	reqDataModelComp.retrieveProgramRequirements(MajorEditController.this, comparisonModelId, new Callback<Boolean>() {
+                                        @Override
+                                        public void exec(Boolean result) {
+                                            if (result) {
+                                                callback.onModelReady(comparisonModel);
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });                    
+                    }
+                });
+    		}
+
+			@Override
+			public void onRequestFail(Throwable cause) {
+                GWT.log("Unable to retrieve comparison model", cause);
+			}
+    	};	
+
+    	ViewContext viewContext = getViewContext();
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) 
+         	createNewVersionAndLoadModel(comparisonModelCallback, viewContext);
+        else 
+            super.loadModel(comparisonModelCallback);	
     }
 
     protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
@@ -516,4 +648,12 @@ public class MajorEditController extends MajorController {
 	    super.beforeViewChange(viewChangingTo, reallyOkToChange);
 		this.showExport(isExportButtonActive());	// KSLAB-1916
 	}
+		
+    public ProgramRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
+    }
+
+    public ProgramRequirementsDataModel getReqDataModelComp() {
+        return reqDataModelComp;
+    }
 }
