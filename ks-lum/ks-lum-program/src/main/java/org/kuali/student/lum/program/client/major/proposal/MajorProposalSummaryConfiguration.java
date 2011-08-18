@@ -43,14 +43,14 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
     	
         // Initialize tabs on left of screen
-        MajorKeyProgramInfoViewConfiguration majorInfoViewConfig = MajorKeyProgramInfoViewConfiguration.createSpecial();
+        MajorKeyProgramInfoViewConfiguration majorInfoViewConfig = MajorKeyProgramInfoViewConfiguration.createSpecial(controller);
         configurationManager.registerConfiguration(majorInfoViewConfig);
-        configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(true,true));
-        configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller));
+        configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(controller));
 
         // Add the work flow utilities to the screen light box to the screen
         // Instance of check ensures we only do this for majors
