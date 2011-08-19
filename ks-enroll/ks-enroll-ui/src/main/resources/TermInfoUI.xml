@@ -20,6 +20,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 -->
     <!-- TermInfo-->
     <import resource="classpath:ks-TermInfo-dictionary.xml"/>
+    <import resource="classpath:UifKSDefinitions.xml"/>
     
     <bean id="TermInfoUI" parent="TermInfo-parent">
        	<property name="objectLabel" value="Term Info"/>
