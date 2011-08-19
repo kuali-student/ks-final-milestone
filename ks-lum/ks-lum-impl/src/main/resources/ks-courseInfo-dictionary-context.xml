@@ -1568,6 +1568,7 @@
  <bean id="activityInfo.activityType-parent" abstract="true"
        parent="baseString">
   <property name="name" value="activityType" />
+  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActivityTypeValidator"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
