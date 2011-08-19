@@ -40,7 +40,7 @@
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="2680" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="2840"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="5"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="6"/>
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="2995" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="AdHoc" RTE_NODE_ID="2898"
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
@@ -318,23 +318,23 @@
         RTE_NODE_ID="3114" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3068" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3116"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3068" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
-        RTE_NODE_ID="3117" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+        RTE_NODE_ID="3117" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3068" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
         RTE_NODE_ID="3118" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3069" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3120"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3069" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Document Organization Review"
         RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
-        RTE_NODE_ID="3121" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+        RTE_NODE_ID="3121" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3069" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Publication Decision Review"
         RTE_MTHD_CD="RM"
@@ -362,11 +362,11 @@
         RTE_NODE_ID="3127" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3070" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3129"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3070" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
-        RTE_NODE_ID="3130" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+        RTE_NODE_ID="3130" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3070" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Division Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
@@ -385,17 +385,17 @@
         RTE_NODE_ID="3134" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3071" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3136"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3072" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3138"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3073" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3140"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3073" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
-        RTE_NODE_ID="3141" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+        RTE_NODE_ID="3141" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3074" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3143"
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="2"/>
@@ -405,11 +405,11 @@
         RTE_NODE_ID="3144" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3075" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3146"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="3"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3075" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
-        RTE_NODE_ID="3147" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+        RTE_NODE_ID="3147" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3075" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="Division Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
@@ -439,4 +439,120 @@
         MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
         RTE_NODE_ID="3154" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3094" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3233"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3094" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3234" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3094" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3235" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3237"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Document Organization Review"
+        RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3238" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Publication Decision Review"
+        RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3239" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3240" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Division Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3241" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="College Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3242" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Senate Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3243" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3095" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3244" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3246"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3247" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Division Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3248" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="College Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3249" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Senate Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3250" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3096" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3251" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3097" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3253"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3098" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3255"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3099" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3257"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3099" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3258" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="3260"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Department Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3261" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Division Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3262" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="College Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3263" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Curriculum Admin Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3264" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Senate Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3265" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Presidents Office Review"
+        RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3266" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="System Office Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3267" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3100" FNL_APRVR_IND="0"
+        MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
+        RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
+        RTE_NODE_ID="3268" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
 </dataset>
