@@ -15,7 +15,7 @@
 		<band/>
 	</pageHeader>
 	<detail>
-		<band height="15">
+		<band height="18">
 			<printWhenExpression><![CDATA[$F{sub}==false && (!$F{value}.equals( "" ))]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
 				<reportElement positionType="Float" x="0" y="0" width="510" height="15">
