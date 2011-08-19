@@ -13,7 +13,7 @@ package org.kuali.student.enrollment.lpr.service;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -295,7 +295,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LqrTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context)
+    public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransaction(lprTransactionId, context);
@@ -369,21 +369,21 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LqrTransactionInfo createLprTransaction(LqrTransactionInfo lprTransactionInfo, ContextInfo context)
+    public LprTransactionInfo createLprTransaction(LprTransactionInfo lprTransactionInfo, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
     }
 
     @Override
-    public LqrTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo context)
+    public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().createLprTransactionFromExisting(lprTransactionId, context);
     }
 
     @Override
-    public List<LqrTransactionInfo> getLprTransactionsForPersonByLui(String personId, String luiId, ContextInfo context)
+    public List<LprTransactionInfo> getLprTransactionsForPersonByLui(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsForPersonByLui(personId, luiId, context);
@@ -397,7 +397,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LqrTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context)
+    public LprTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().processLprTransaction(lprTransactionId, context);
@@ -411,14 +411,14 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LqrTransactionInfo> getLprTransactionsByIdList(List<String> lprIds, ContextInfo context)
+    public List<LprTransactionInfo> getLprTransactionsByIdList(List<String> lprIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsByIdList(lprIds, context);
     }
 
     @Override
-    public List<LqrTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId,
+    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId,
             List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsForPersonByAtp(atpKey, personId, lprTypes, context);
@@ -427,14 +427,14 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
    
 
     @Override
-    public LqrTransactionInfo getLprTransactionForLpr(String lprId, ContextInfo context) throws DoesNotExistException,
+    public LprTransactionInfo getLprTransactionForLpr(String lprId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionForLpr(lprId, context);
 
     }
 
     @Override
-    public List<LqrTransactionInfo> getLprTransactionsForLui(String luiId, ContextInfo context)
+    public List<LprTransactionInfo> getLprTransactionsForLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprTransactionsForLui(luiId, context);
@@ -442,7 +442,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public LqrTransactionInfo updateLprTransaction(String lprTransactionId, LqrTransactionInfo lprTransactionInfo,
+    public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -450,7 +450,7 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LqrTransactionInfo> searchForLprTransactions(QueryByCriteria criteria, ContextInfo context)
+    public List<LprTransactionInfo> searchForLprTransactions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().searchForLprTransactions(criteria, context);

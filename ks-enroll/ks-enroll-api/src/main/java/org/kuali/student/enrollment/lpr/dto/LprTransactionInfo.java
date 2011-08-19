@@ -18,9 +18,9 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LqrTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+@XmlType(name = "LprTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "requestingPersonId", "descr", "lprTransactionItems", "meta", "attributes", "_futureElements"})
-public class LqrTransactionInfo extends IdEntityInfo implements LprTransaction,
+public class LprTransactionInfo extends IdEntityInfo implements LprTransaction,
         Serializable {
 
     private static final long serialVersionUID = 1L;
