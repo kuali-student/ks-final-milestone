@@ -38,6 +38,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+				<value>classpath:UifKSDefinitions.xml</value>
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
 				<value>classpath:TermInfoUI.xml</value>
 				<value>classpath:KeyDateInfoUI.xml</value>
@@ -49,8 +50,7 @@
                 <value>classpath:ScheduleClassesLookupView.xml</value>
                 <value>classpath:CourseOfferingGradingLookup.xml</value>
                 <value>classpath:StudentGradeView.xml</value>
-                <value>classpath:UifKSDefinitions.xml</value>
-
+                
 				<!--
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	
  				<value>classpath:HoldInfo.xml</value>
