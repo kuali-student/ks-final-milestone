@@ -835,6 +835,9 @@
     <KSLU_RICH_TEXT_T ID="090a7af9-e486-4245-ab39-e96412595654"
         OBJ_ID="fe3633bd-61f5-4258-bbb7-8484b5639982"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="090edbbd-77d9-4b6f-a9f0-2a6a981f4607"
+        OBJ_ID="cdd7c5d3-2ec8-48b9-b14d-2b8e638abbb3"
+        PLAIN="Required Courses In four areas:  Behavior, Ecology, Evolution, &amp; Systematics." VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="Introduction to neuromuscular electrophysiology. Topics include theoretical modeling of electrical properties of the cell, experimental approaches to cell electrophysiology, and details on the biological basis for cell electrical function."
         ID="0914f710-1a14-4afe-ab66-5ce6e2f5b339"
@@ -4191,6 +4194,9 @@
     <KSLU_RICH_TEXT_T ID="2cd4847b-cf6a-4a79-9c76-ff7275ee7f0c"
         OBJ_ID="edb8431f-7080-49e0-9b95-5e2faa6f9923"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="2cdaf182-8b5b-45a5-a109-2fbb29d734a1"
+        OBJ_ID="7d9db185-979a-4830-ace0-452060f66275"
+        PLAIN="Dissertation Work" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="2cf219c1-7150-4b4f-b04e-701b6ae32184"
         OBJ_ID="0b60ec51-453f-427f-8135-050b61d8b611"
         PLAIN="Grading options" VER_NBR="0"/>
@@ -4200,6 +4206,9 @@
     <KSLU_RICH_TEXT_T ID="2cf4e17a-caa5-4d48-9a3f-db41931f9c03"
         OBJ_ID="eb7ea944-641d-4fcc-95ce-d4ac766639c2"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="2cf6a334-8824-4156-86e1-0d10c432dfea"
+        OBJ_ID="f2e5e6b7-b78a-4c14-bb01-5371489e3a93"
+        PLAIN="Elective Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="Set that holds just the one standardized test AP Macroeconomics"
         ID="2cff70aa-91ec-4651-a1de-c0a2e6f301c4"
@@ -4753,6 +4762,9 @@
     <KSLU_RICH_TEXT_T ID="33ede3da-9c9d-4902-8a47-9fe4873ce976"
         OBJ_ID="d55e3986-8534-4dcb-b497-b0996d38c003"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="33f19d08-fa85-46d6-8c60-87f488d67154"
+        OBJ_ID="9900642b-2460-46a6-b036-ab65f1b333c4"
+        PLAIN="Disseration" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="33ff97fd-b69c-477f-ab59-72dffb680e76"
         OBJ_ID="ed622d06-2018-4d9e-a78d-11a931a39a0a"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -7539,6 +7551,9 @@
     <KSLU_RICH_TEXT_T ID="5072481a-c919-4903-a70f-ad9045b726b2"
         OBJ_ID="dbf0c54c-a658-4457-a953-7d966e1b6def"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="5074dc1f-fb45-472b-862d-c8b83c7085cf"
+        OBJ_ID="2451f30d-0d08-45da-b25d-7964d24a8caf"
+        PLAIN="Required Courses and Seminars" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="507e1566-c222-40ca-b6b6-ebf2d40904a2"
         OBJ_ID="0c3d6420-099a-43a1-aff2-4ad06909d9e1"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -8477,6 +8492,9 @@
     <KSLU_RICH_TEXT_T ID="5ab33cd0-6c83-4e07-b3d8-b7b0a5cea7d9"
         OBJ_ID="44498f68-da36-4dab-8c60-de02b96a618e"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="5abd13b0-a70c-46ce-827c-654ff6cff791"
+        OBJ_ID="b7dd2ef2-1310-4871-b318-bcb1cc6c1c5c"
+        PLAIN="Required Courses and Seminars" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="5ac581d0-8f9c-4690-b80a-1646c99b0217"
         OBJ_ID="c4a67756-6ed5-4fb5-bf35-495f58a68eef"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -9568,6 +9586,9 @@
     <KSLU_RICH_TEXT_T ID="66e544f9-fbde-4bbb-be25-76db1aaf7e68"
         OBJ_ID="9ed0fe87-116b-4424-9c6f-465bdc9c54ff"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="66ea2e5e-603a-48e5-a5d1-fb951d753931"
+        OBJ_ID="ef5187fb-c37e-4fdb-9006-e31abc314250"
+        PLAIN="Statistics course" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="66ea9dcb-da45-4f38-8a08-d8e37841e6b1"
         OBJ_ID="5afef8ca-3ed8-4663-abae-2646c761471d"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -11003,6 +11024,9 @@
         ID="755f3afa-a6a3-4b44-a4b7-76748869bf72"
         OBJ_ID="a0899099-3016-4f1e-b266-bf0ca8cbece6"
         PLAIN="The doctoral program is the composition of academic program requirements and general Graduate School requirements that results in the awarding of a doctoral degree." VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="755fdccb-713a-4b76-aa5c-87c4e9cc823f"
+        OBJ_ID="a1a65aea-6b5d-45e0-94d4-1b4cba56be23"
+        PLAIN="Background Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="7567807d-cc4b-4290-8a60-62c08336f073"
         OBJ_ID="3cfd61af-1b0c-4074-ad89-494e4bf91a80"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -12465,6 +12489,9 @@
         ID="851e346d-2b2e-4426-b6e3-b17c0a6e65c5"
         OBJ_ID="a3c34f84-5565-4db7-aa6f-0ee0469c14c8"
         PLAIN="An advanced course for students desiring to focus on specific concerns in the study of private security organizations; business intelligence and espionage; vulnerability and criticality analyses in physical security; transportation, banking, hospital and military security problems; uniformed security forces; national defense information; and others." VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="852a37b0-30df-4a4d-9ee9-614785139357"
+        OBJ_ID="0cfe3378-b1df-49e4-aa13-7b5d044ea4e1"
+        PLAIN="Required Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="852b0ead-14b2-495a-a4d9-5abc88ac1f9d"
         OBJ_ID="67519e28-6cd0-43fc-997f-e772181d7ad3"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -13222,6 +13249,9 @@
     <KSLU_RICH_TEXT_T ID="8d9ee8e7-f7a3-4495-b698-a8d3ae09b592"
         OBJ_ID="67113d9d-8157-4e38-a09f-c0ee4b90059d"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="8da0f423-213a-456c-a263-5fd639dc676e"
+        OBJ_ID="e62ffde4-6df7-4983-a7d0-4571fdff4016"
+        PLAIN="Elective Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="8da2900d-613f-487a-824a-efe734eed772"
         OBJ_ID="b57e345d-33d7-493e-9d7e-9d3e02681bb5"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -13490,6 +13520,9 @@
     <KSLU_RICH_TEXT_T ID="908a3533-9aaf-4351-8e26-1bb7fbd9e4db"
         OBJ_ID="5f9bbd97-1f64-4467-ba36-0377652102e6"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="90b8280c-6cf9-447c-9073-a199424ed049"
+        OBJ_ID="998746a8-5a3e-4291-a0e1-a639cbcc4b94"
+        PLAIN="Elective Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="90c02946-76ca-4435-b0be-25ff8ff7f957"
         OBJ_ID="da76e009-0c3a-4465-ab04-8decf005ff16"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -13739,6 +13772,9 @@
     <KSLU_RICH_TEXT_T ID="9335ebb4-134c-4a82-a71e-709694be7373"
         OBJ_ID="aad4d599-5d30-4591-a80c-f8b244464378"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="93391189-4840-447d-b0b2-33069a4967ff"
+        OBJ_ID="a6e0ae96-a441-4362-8ce6-ea7543d40df0"
+        PLAIN="Required Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="933a3b83-57b4-4834-8663-6a3708338701"
         OBJ_ID="e9ca8d8f-b382-4529-9360-7e4a07fd19a7"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -16579,6 +16615,9 @@
     <KSLU_RICH_TEXT_T ID="b27c75aa-de91-44f8-ae6b-ff0f4f139201"
         OBJ_ID="f794bb0c-a2d6-4936-a663-1c4196b3992e"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="b28f9759-442f-49ee-8cce-59acce8969c9"
+        OBJ_ID="12704fee-2d6f-44b7-b5c7-86d33163a226"
+        PLAIN="Elective Course" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="The application of methods of research to problems in the fields of music and music education. The preparation of bibliographies and the written exposition of research projects in the area of the student's major interest."
         ID="b2a139a4-71a4-4992-a880-3e17dd1f66af"
@@ -17541,6 +17580,8 @@
         ID="bdc4e7ae-3a08-4533-84f6-027b19da088e"
         OBJ_ID="d91069bb-ef26-4c02-a093-b72924219477"
         PLAIN="A study of plants important to humans that have medicinal or poisonous properties. Emphasis on plant source, plant description, the active agent and its beneficial or detrimental physiological action and effects." VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="bdcb1994-d285-4ac1-b53f-c4de56f91ddc"
+        OBJ_ID="c9aeba99-2441-4768-a2be-81fa0c8be540" PLAIN="Thesis" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="Impact of humans through ideas and technology on the evolution of geographic landscapes. Major themes in the relationships between cultures and environments."
         ID="bde16443-cdd7-4494-9691-d28bf00f2e0e"
@@ -17790,6 +17831,9 @@
     <KSLU_RICH_TEXT_T ID="c07d810b-47a4-48db-8ebe-5be9db3d16b4"
         OBJ_ID="2d4c9f5e-835f-4270-8cf8-8529df553323"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="c085ea6f-6813-44c2-b2db-667ba45ac473"
+        OBJ_ID="a1200cd0-082b-4a2c-8dde-91a647b29909"
+        PLAIN="Method courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="c09d930e-a6b5-46c3-8047-8a9a2cb633a7"
         OBJ_ID="a3cadc30-53d6-489e-9a0e-3769115a5006"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -17891,6 +17935,9 @@
     <KSLU_RICH_TEXT_T ID="c198d4af-701e-417c-9247-b3679ab33e73"
         OBJ_ID="56eca764-e7f2-4227-8d20-31b51e9054b9"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="c1a8e2e8-d72c-431f-9eea-a3b31ba29eb0"
+        OBJ_ID="33b4b3ff-2339-4bb6-ac1f-2c4a2f222ab7"
+        PLAIN="Elective Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="c1a933ac-4be3-4baa-a664-fbba0ba80602"
         OBJ_ID="a3cb381d-c811-41a8-92ad-898aad62d84f"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -18273,6 +18320,9 @@
     <KSLU_RICH_TEXT_T ID="c51e7771-ac46-4906-8684-af2a55eda673"
         OBJ_ID="5468fbcf-ebef-4a00-ba50-0d30f58110e0"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="c522ec56-af51-4eb0-80db-750e42275ffa"
+        OBJ_ID="710bd23d-e152-475f-b23c-f3b1e73cf265"
+        PLAIN="Seminar courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="Use of evolutionary theory to study life history and social behavior in animals and humans."
         ID="c529c9ac-58d7-4913-b3ee-4f67b6cf315d"
@@ -18284,6 +18334,9 @@
     <KSLU_RICH_TEXT_T ID="c52e5627-82c8-4cb2-b243-60555917bc20"
         OBJ_ID="39c25574-7897-4424-921a-0da9ab05ea0c"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="c53119cd-33d8-41ff-8498-04c6d71998ce"
+        OBJ_ID="37948013-812b-4c73-981b-d5cc4dd6b947"
+        PLAIN="Dissertation Work" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="c5354443-92d8-4dd5-8748-1c71cae16633"
         OBJ_ID="61cc8bb1-5b37-4d7a-b1ec-08cb083dc2b7"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -19003,6 +19056,9 @@
     <KSLU_RICH_TEXT_T ID="cc1e4c16-c5dd-4b93-9eb7-b29cece06d68"
         OBJ_ID="7f6a79b5-94e5-405e-8844-30deb6a2f3fa"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="cc2323ae-b4f7-48d4-9a1f-d9b7f7619699"
+        OBJ_ID="8c22ed1d-c049-47d4-b5ac-8f35a881c01c"
+        PLAIN="Required Courses" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="cc2c151e-cf19-46a3-9eb7-b05e045a6828"
         OBJ_ID="4a85a7da-2022-4ec0-bebe-0f13f2486019"
         PLAIN="Grading option" VER_NBR="0"/>
@@ -20199,6 +20255,9 @@
     <KSLU_RICH_TEXT_T ID="d9391827-d658-49e1-b586-fd98be194cfa"
         OBJ_ID="f80d2b4d-cc70-4148-aac5-4076c5400120"
         PLAIN="Grading option" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="d93e4d6a-6aab-4092-a821-927f6b917f2a"
+        OBJ_ID="4c4469a3-467a-4b23-9319-8fe8bc8c59bb"
+        PLAIN="Advanced statistic course" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T ID="d946c16e-7487-43b3-af29-3b963940fe35"
         OBJ_ID="86676ccd-834b-4d9f-96ac-c8c93265dd57"
         PLAIN="Grading options" VER_NBR="0"/>
@@ -21887,6 +21946,9 @@
     <KSLU_RICH_TEXT_T ID="ea96153e-bc57-41e9-a6f9-ed448f64add8"
         OBJ_ID="711bf8dd-4903-431b-b879-0ba3183b5cde"
         PLAIN="Grading options" VER_NBR="0"/>
+    <KSLU_RICH_TEXT_T ID="eaa84f7b-1b5a-4122-a794-a054f8f81ebc"
+        OBJ_ID="8cae0935-45b3-45ce-b039-4dab6c626088"
+        PLAIN="Disseration" VER_NBR="0"/>
     <KSLU_RICH_TEXT_T
         FORMATTED="An introductory course in expository writing."
         ID="eaaad8f0-bbd3-4771-b960-6d884e29f955"
