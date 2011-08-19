@@ -20,6 +20,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 -->
 	<!-- Overwrite some AcademicCalendarInfo attributes for UI -->
     <import resource="classpath:ks-AcademicCalendarInfo-dictionary.xml"/>
+    <import resource="classpath:UifKSDefinitions.xml"/>
     
 	<bean id="AcademicCalendarInfoUI" parent="AcademicCalendarInfo-parent">
         <property name="objectLabel" value="Academic Calendar"/>
