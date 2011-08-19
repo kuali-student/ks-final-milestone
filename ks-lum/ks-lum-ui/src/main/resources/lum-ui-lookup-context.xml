@@ -6938,7 +6938,7 @@
   <property name="searchTypeId" value="lu.search.union.majors"/>
   <property name="name" value="Find an Academic Program"/>
   <property name="desc" value="Search for Major Disciplines"/>
-  <property name="title" value="Find Academic Programs"/>
+  <property name="title" value="Find an Academic Program"/>
   <property name="widget" value="ADVANCED_LIGHTBOX"/>
   <property name="params">
    <list>
