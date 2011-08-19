@@ -381,10 +381,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
+    public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        return getNextDecorator().getCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
+        return getNextDecorator().getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override
@@ -395,10 +395,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
+    public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
+        return getNextDecorator().getActiveCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
     }
 
     @Override
@@ -503,6 +503,20 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().moveStudentsBetweenRegGroups(sourceRegGroupId, destinationRegGroupId, context);
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(String studentId,
+            String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+        return getNextDecorator().getCourseRegistrationsForStudentByCourseOffering(studentId, courseOfferingId, context);
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(String courseOfferingId,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getDroppedCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
     }
 
 }

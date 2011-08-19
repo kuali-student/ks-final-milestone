@@ -1036,12 +1036,32 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      * @throws DisabledIdentifierException 
      */
-    public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(
+    public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(
             @WebParam(name = "studentId") String studentId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
 
+   
+    /**
+     * This method ...
+     * 
+     * @param studentId
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DisabledIdentifierException 
+     */
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(
+            @WebParam(name = "studentId") String studentId,
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
     /**
      * Gets the course registrations for a student by term. Note: not clear if
      * gets the registrations in just the specified term or that term and all
@@ -1076,11 +1096,27 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      */
 
-    public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(
+    public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * Get course registrations by course offering id. Gets all student
+     * registrations for the course.
+     * 
+     * @param courseOfferingId
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
 
+    public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * Get the request that resulted in this course registration.
      * 

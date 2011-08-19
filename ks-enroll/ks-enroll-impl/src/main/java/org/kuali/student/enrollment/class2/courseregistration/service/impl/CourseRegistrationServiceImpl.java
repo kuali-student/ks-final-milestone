@@ -590,7 +590,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
+    public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
@@ -601,7 +601,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         List<RegistrationGroupInfo> regGroupsInEnrolledCourse = courseOfferingService.getRegGroupsForCourseOffering(
                 courseOfferingId, context);
 
-        List<LuiPersonRelationInfo> regGroupLprsForTerm = lprService.getLprsByPersonByAtpAndLuiType(studentId,
+        List<LuiPersonRelationInfo> regGroupLprsForTerm = lprService.getLprsByPersonForAtpAndLuiType(studentId,
                 courseOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
 
         LuiPersonRelationInfo registeredRegGroupLpr = null;
@@ -639,14 +639,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        List<LuiPersonRelationInfo> courseLprList = lprService.getLprsByPersonByAtpAndLuiType(studentId, termKey,
+        List<LuiPersonRelationInfo> courseLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey,
                 LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
 
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
         for (LuiPersonRelationInfo courseLpr : courseLprList) {
 
-            courseRegistrationList.add(getCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getId(),
+            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getId(),
                     context));
 
         }
@@ -655,7 +655,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsByCourseOfferingId(String courseOfferingId,
+    public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<CourseRegistrationInfo> courseRegInfoList = courseRegistrationAssembler.assembleList(
@@ -780,6 +780,22 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     @Override
     public RegResponseInfo moveStudentsBetweenRegGroups(String sourceRegGroupId, String destinationRegGroupId,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(String studentId,
+            String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

@@ -786,7 +786,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonByAtpAndLuiType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpKey,
             String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

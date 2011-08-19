@@ -264,7 +264,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<LuiPersonRelationInfo> getLprsByPersonByAtpAndLuiType(@WebParam(name = "personId") String personId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(@WebParam(name = "personId") String personId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method ...
