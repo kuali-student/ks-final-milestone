@@ -257,7 +257,14 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
         cluCodeLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                String url = "http://" + Window.Location.getHost() + Window.Location.getPath() + "?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID + "&docId=" + clu.getVerIndependentId();
+                String url =  "http://" + Window.Location.getHost() + Window.Location.getPath();
+                if("kuali.lu.type.Variation".equals(clu.getType())){
+                    url += "?view=" + AppLocations.Locations.VIEW_VARIATION + "&idType=" + IdType.OBJECT_ID;
+                    url += "&docId=" + clu.getParentCluId() + "&variationId=" + clu.getVerIndependentId();
+                }else {
+                    url += "?view=" + AppLocations.Locations.VIEW_COURSE + "&idType=" + IdType.OBJECT_ID;
+                    url += "&docId=" + clu.getVerIndependentId();
+                }
                 String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
                 Window.open(url, HTMLPanel.createUniqueId(), features);
             }
