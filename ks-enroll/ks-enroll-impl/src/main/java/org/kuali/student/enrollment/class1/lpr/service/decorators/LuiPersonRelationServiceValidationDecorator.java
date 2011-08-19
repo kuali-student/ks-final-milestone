@@ -61,8 +61,8 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return getNextDecorator().getLuiPersonRelationsForLui(luiId, context);
+    public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getLprsByLui(luiId, context);
     }
     @Override
     public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -70,7 +70,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
 	@Override
-	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
+	public List<ValidationResultInfo> validateLpr(String validationType,
 			LuiPersonRelationInfo luiPersonRelationInfo, 
 			ContextInfo context)
 			throws DoesNotExistException,
@@ -82,7 +82,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         try {
             errors = _validateInfo(validationType, luiPersonRelationInfo, context);
             List<ValidationResultInfo> nextDecoratorErrors =
-                    getNextDecorator().validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+                    getNextDecorator().validateLpr(validationType, luiPersonRelationInfo, context);
             if (null != nextDecoratorErrors) {
                 errors.addAll(nextDecoratorErrors);
             }
@@ -94,7 +94,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 	}
 
 	@Override
-	public String createLuiPersonRelation(  String personId,
+	public String createLpr(  String personId,
                                             String luiId,
 			                                String luiPersonRelationType,
 			                                LuiPersonRelationInfo luiPersonRelationInfo,
@@ -116,11 +116,11 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 		}
 
         _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
-		return getNextDecorator().createLuiPersonRelation(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
+		return getNextDecorator().createLpr(personId, luiId, luiPersonRelationType, luiPersonRelationInfo, context);
 	}
 
 	@Override
-	public LuiPersonRelationInfo updateLuiPersonRelation(   String luiPersonRelationId,
+	public LuiPersonRelationInfo updateLpr(   String luiPersonRelationId,
 			                                                LuiPersonRelationInfo luiPersonRelationInfo,
 			                                                ContextInfo context)
 	        throws  DataValidationErrorException, DoesNotExistException,
@@ -128,7 +128,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 	                ReadOnlyException, OperationFailedException,
 	                PermissionDeniedException, VersionMismatchException {
         _luiPersonRelationFullValidation(luiPersonRelationInfo, context);
-		LuiPersonRelationInfo orig = this.getLuiPersonRelation(luiPersonRelationId, context);
+		LuiPersonRelationInfo orig = this.getLpr(luiPersonRelationId, context);
 		
 		checkReadOnly("id", orig.getId(), luiPersonRelationInfo.getId());
 		checkReadOnly("type", orig.getTypeKey(), luiPersonRelationInfo.getTypeKey());
@@ -140,7 +140,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
 			checkReadOnly("updateTime", orig.getMeta().getUpdateTime(), luiPersonRelationInfo.getMeta().getUpdateTime());
 		}
 
-		return getNextDecorator().updateLuiPersonRelation(luiPersonRelationId, luiPersonRelationInfo, context);
+		return getNextDecorator().updateLpr(luiPersonRelationId, luiPersonRelationInfo, context);
 	}
 
     private void _luiPersonRelationFullValidation(LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
@@ -149,7 +149,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
                     OperationFailedException, PermissionDeniedException {
 		try {
 		    List<ValidationResultInfo> errors =
-                    this.validateLuiPersonRelation(
+                    this.validateLpr(
                             DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             luiPersonRelationInfo, context);
 		    if (!errors.isEmpty()) {

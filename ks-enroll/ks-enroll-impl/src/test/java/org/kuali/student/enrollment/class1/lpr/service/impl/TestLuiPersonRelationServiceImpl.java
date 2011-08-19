@@ -67,7 +67,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     @Test
     public void testGetLuiPersonRelation() {
         try {
-            LuiPersonRelationInfo lpr = lprService.getLuiPersonRelation(LPRID1, callContext);
+            LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
             assertNotNull(lpr);
             assertEquals(LUIID1, lpr.getLuiId());
             assertEquals(PERSONID1, lpr.getPersonId());
@@ -89,9 +89,9 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         String lprId = null;
         LuiPersonRelationInfo lpr2 = null;
         try {
-            lprId = lprService.createLuiPersonRelation(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
             assertNotNull(lprId);
-            lpr2 = lprService.getLuiPersonRelation(lprId, callContext);
+            lpr2 = lprService.getLpr(lprId, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -105,7 +105,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprInfoList =
-                lprService.getLuiPersonRelationsForLui(LUIID1, ContextInfo.newInstance());
+                lprService.getLprsByLui(LUIID1, ContextInfo.newInstance());
         assertNotNull(lprInfoList);
         assertEquals(1, lprInfoList.size());
 
@@ -146,34 +146,27 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     public void testDeleteLuiPersonRelation()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        LuiPersonRelationInfo lpr = lprService.getLuiPersonRelation(LPRID1, callContext);
+        LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '"+LPRID1+"' does not exist; cannot delete", lpr);
 
         try {
-            lprService.deleteLuiPersonRelation(LPRID1, callContext);
+            lprService.deleteLpr(LPRID1, callContext);
         }
         catch (Exception ex) {
             fail("Exception from service call: " + ex.getMessage());
         }
 
-        lpr = lprService.getLuiPersonRelation(LPRID1, callContext);
+        lpr = lprService.getLpr(LPRID1, callContext);
         assertNull("LPR entity '"+LPRID1+"' was not deleted", lpr);
     }
 
-    // TODO implement @Test
-    public void testGetAllValidLuisForPerson()
-            throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> luiIds = lprService.getAllValidLuisForPerson(
-                PERSONID1, "kuali.lpr.type.registrant" , "kuali.lpr.state.registered", "atpId", callContext);
-        fail("Test method not implemented yet");
-    }
+
 
     // TODO implement @Test
     public void testGetLuiPersonRelations()
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprList = lprService.getLuiPersonRelations(PERSONID1, LUIID1, callContext);
+        List<LuiPersonRelationInfo> lprList = lprService.getLprsByLuiAndPerson(PERSONID1, LUIID1, callContext);
         assertNotNull("Method LuiPersonRelationServiceImpl.getLuiPersonRelations() is not implemented yet", lprList);
         assertEquals(1, lprList.size());
         // add asserts
@@ -199,7 +192,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        LuiPersonRelationInfo lpr = lprService.getLuiPersonRelation(LPRID1, callContext);
+        LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '"+LPRID1+"' does not exist; cannot update", lpr);
         Float commitmentPercent = lpr.getCommitmentPercent();
         Date expirationDate = lpr.getExpirationDate();
@@ -207,13 +200,13 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         //lpr.setCommitmentPercent(commitmentPercent + .05F);
         lpr.setExpirationDate(new Date());
         try {
-            lprService.updateLuiPersonRelation(LPRID1, lpr, callContext);
+            lprService.updateLpr(LPRID1, lpr, callContext);
         }
         catch (Exception ex) {
             fail("Exception from service call: " + ex.getMessage());
         }
 
-        lpr = lprService.getLuiPersonRelation(LPRID1, callContext);
+        lpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '"+LPRID1+"' does not exist after being updated", lpr);
         assertFalse("'commitmentPercent' property was not updated", commitmentPercent == lpr.getCommitmentPercent());
         assertFalse("'expirationDate' property was not updated", expirationDate == lpr.getExpirationDate());

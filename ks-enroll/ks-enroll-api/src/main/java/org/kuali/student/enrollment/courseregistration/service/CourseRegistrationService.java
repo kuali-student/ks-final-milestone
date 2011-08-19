@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -1033,12 +1034,13 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
+     * @throws DisabledIdentifierException 
      */
     public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(
             @WebParam(name = "studentId") String studentId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
 
     /**
      * Gets the course registrations for a student by term. Note: not clear if
@@ -1054,11 +1056,12 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
+     * @throws DisabledIdentifierException 
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(
             @WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
 
     /**
      * Get course registrations by course offering id. Gets all student

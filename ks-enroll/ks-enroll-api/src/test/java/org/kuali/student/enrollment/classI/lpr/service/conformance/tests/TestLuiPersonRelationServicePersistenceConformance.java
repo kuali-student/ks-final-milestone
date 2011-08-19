@@ -163,7 +163,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		Date beforeCreate = new Date();
 		String lprId = null;
 		try {
-			lprId = getService().createLuiPersonRelation(personId, luiId,
+			lprId = getService().createLpr(personId, luiId,
 					luiPersonRelationType, orig, context);
 		} catch (DataValidationErrorException ex) {
 			System.out.println(ex.getValidationResults().size()
@@ -178,7 +178,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		assertNotNull(lprId);
 
 		// fetch
-		LuiPersonRelationInfo fetched = getService().getLuiPersonRelation(
+		LuiPersonRelationInfo fetched = getService().getLpr(
 				lprId, context);
 		assertNotSame(orig, fetched);
 		assertEquals(lprId, fetched.getId());
@@ -240,7 +240,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		context = TestHelper.getContext2();
 
 		Date beforeUpdate = new Date();
-		LuiPersonRelationInfo updated = getService().updateLuiPersonRelation(
+		LuiPersonRelationInfo updated = getService().updateLpr(
 				lpri.getId(), lpri, context);
 		Date afterUpdate = new Date();
 		assertNotSame(lpri, updated);
@@ -285,12 +285,12 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		}
 
 		StatusInfo status = getService()
-				.deleteLuiPersonRelation(lprId, context);
+				.deleteLpr(lprId, context);
 		assertEquals(Boolean.TRUE, status.getIsSuccess());
 
 		// fetch
 		try {
-			fetched = getService().getLuiPersonRelation(lprId, context);
+			fetched = getService().getLpr(lprId, context);
 			if (fetched == null) {
 				fail("returned null from fetch when it should have thrown DoesNotExistException");
 			}

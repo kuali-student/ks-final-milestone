@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -382,14 +383,14 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     @Override
     public CourseRegistrationInfo getCourseRegistrationForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         return getNextDecorator().getCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
     }
 

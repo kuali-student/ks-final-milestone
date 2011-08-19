@@ -81,14 +81,14 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo(luiPersonRelationInfo);
             lprInfo.setLuiId(luiId);
 
-            String lprId = this.createLuiPersonRelation(personId, luiId, luiPersonRelationType, lprInfo, context);
+            String lprId = this.createLpr(personId, luiId, luiPersonRelationType, lprInfo, context);
             lprIds.add(lprId);
         }
         return lprIds;
     }
 
     @Override
-    public String createLuiPersonRelation(String personId, String luiId, String luiPersonRelationType,
+    public String createLpr(String personId, String luiId, String luiPersonRelationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -104,7 +104,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public StatusInfo deleteLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
+    public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         if (this.lprCache.remove(luiPersonRelationId) == null) {
@@ -116,7 +116,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public LuiPersonRelationInfo getLuiPersonRelation(String luiPersonRelationId, ContextInfo context)
+    public LuiPersonRelationInfo getLpr(String luiPersonRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LuiPersonRelationInfo bean = this.lprCache.get(luiPersonRelationId);
@@ -126,29 +126,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         return bean;
     }
 
-    @Override
-    public List<String> getAllValidLuisForPerson(String personId, String luiPersonRelationType, String relationState,
-            String atpId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> luiIds = new ArrayList();
-        for (LuiPersonRelationInfo lpr : this.lprCache.values()) {
-            if (!personId.equals(lpr.getPersonId())) {
-                continue;
-            }
-            if (!luiPersonRelationType.equals(lpr.getTypeKey())) {
-                continue;
-            }
-            if (!relationState.equals(lpr.getStateKey())) {
-                continue;
-            }
-            LuiInfo lui = luiService.getLui(lpr.getLuiId(), context);
-            if (!atpId.equals(lui.getAtpKey())) {
-                continue;
-            }
-            luiIds.add(lpr.getLuiId());
-        }
-        return luiIds;
-    }
+   
 
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
@@ -214,7 +192,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> getLuiIdsRelatedToPerson(String personId, String luiPersonRelationType, String relationState,
+    public List<String> getLuiIdsByPerson(String personId, String luiPersonRelationType, String relationState,
             ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> luiIds = new ArrayList();
@@ -235,7 +213,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> getLuiPersonRelationIds(String personId, String luiId, ContextInfo context)
+    public List<String> getLprIdsByLuiAndPerson(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> lprIds = new ArrayList();
@@ -252,7 +230,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> getLuiPersonRelationIdsForLui(String luiId, ContextInfo context) throws DoesNotExistException,
+    public List<String> getLprIdsByLui(String luiId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> lprIds = new ArrayList();
         for (LuiPersonRelationInfo bean : this.lprCache.values()) {
@@ -265,7 +243,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> getLuiPersonRelationIdsForPerson(String personId, ContextInfo context)
+    public List<String> getLprIdsByPerson(String personId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> lprIds = new ArrayList();
@@ -289,7 +267,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelations(String personId, String luiId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLprsByLuiAndPerson(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprs = new ArrayList();
@@ -306,35 +284,35 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsByIdList(List<String> luiPersonRelationIdList,
+    public List<LuiPersonRelationInfo> getLprsByIdList(List<String> luiPersonRelationIdList,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprs = new ArrayList();
         for (String id : luiPersonRelationIdList) {
-            LuiPersonRelationInfo bean = this.getLuiPersonRelation(id, context);
+            LuiPersonRelationInfo bean = this.getLpr(id, context);
             lprs.add(bean);
         }
         return lprs;
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<String> ids = this.getLuiPersonRelationIdsForLui(luiId, context);
-        return this.getLuiPersonRelationsByIdList(ids, context);
+        List<String> ids = this.getLprIdsByLui(luiId, context);
+        return this.getLprsByIdList(ids, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPerson(String personId, ContextInfo context)
+    public List<LuiPersonRelationInfo> getLprsByPerson(String personId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> ids = this.getLuiPersonRelationIdsForPerson(personId, context);
-        return this.getLuiPersonRelationsByIdList(ids, context);
+        List<String> ids = this.getLprIdsByPerson(personId, context);
+        return this.getLprsByIdList(ids, context);
     }
 
     @Override
-    public LuiPersonRelationInfo updateLuiPersonRelation(String luiPersonRelationId,
+    public LuiPersonRelationInfo updateLpr(String luiPersonRelationId,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
@@ -363,7 +341,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * this is just mock
      */
-    public List<String> searchForLuiPersonRelationIds(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForLprIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -512,7 +490,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<String> getPersonIdsRelatedToLui(String luiId, String luiPersonRelationTypeKey, String relationState,
+    public List<String> getPersonIdsByLui(String luiId, String luiPersonRelationTypeKey, String relationState,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
@@ -520,7 +498,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
+    public List<ValidationResultInfo> validateLpr(String validationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Auto-generated method stub
@@ -538,7 +516,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> searchForLuiPersonRelations(QueryByCriteria criteria, ContextInfo context)
+    public List<LuiPersonRelationInfo> searchForLprs(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -575,11 +553,11 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLuiPersonRelationsForPersonAndAtp(java.lang.String,
+     * @see org.kuali.student.enrollment.lpr.service.LuiPersonRelationService#getLprsByPersonForAtp(java.lang.String,
      *      java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtp(String personId, String atpId,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtp(String personId, String atpId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
@@ -742,13 +720,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         return null;
     }
 
-    @Override
-    public LuiPersonRelationInfo getLuiPersonRelationByState(String personId, String luiId, String stateKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+   
 
     @Override
     public LPRTransactionInfo getLprTransactionForLpr(String lprId, ContextInfo context) throws DoesNotExistException,
@@ -806,7 +778,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpKey,
             String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -814,7 +786,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByLuiType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonByAtpAndLuiType(String personId, String atpKey,
             String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -822,7 +794,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForPersonAndAtpByPersonType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpKey,
             String personTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

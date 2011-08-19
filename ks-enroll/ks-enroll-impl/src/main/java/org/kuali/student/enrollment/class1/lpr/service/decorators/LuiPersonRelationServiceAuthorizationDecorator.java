@@ -66,12 +66,12 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 	}
 
     @Override
-    public List<LuiPersonRelationInfo> getLuiPersonRelationsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return getNextDecorator().getLuiPersonRelationsForLui(luiId, context);
+    public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    	return getNextDecorator().getLprsByLui(luiId, context);
     }
 
 	@Override
-	public List<ValidationResultInfo> validateLuiPersonRelation(String validationType,
+	public List<ValidationResultInfo> validateLpr(String validationType,
 			LuiPersonRelationInfo luiPersonRelationInfo,
 			ContextInfo context)
 			throws DoesNotExistException,
@@ -79,7 +79,7 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
 			OperationFailedException,
 			PermissionDeniedException, 
 			InvalidParameterException {
-		return getNextDecorator().validateLuiPersonRelation(validationType, luiPersonRelationInfo, context);
+		return getNextDecorator().validateLpr(validationType, luiPersonRelationInfo, context);
 	}
 
 	  /**
