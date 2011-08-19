@@ -19,11 +19,10 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
-
-import org.kuali.student.r2.lum.lu.infc.LuCode;
+import org.kuali.student.r2.common.infc.MeetingSchedule;
 import org.kuali.student.r2.lum.lu.infc.Expenditure;
 import org.kuali.student.r2.lum.lu.infc.Fee;
+import org.kuali.student.r2.lum.lu.infc.LuCode;
 import org.kuali.student.r2.lum.lu.infc.Revenue;
 
 /**
@@ -152,4 +151,12 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * @name Expenditure
      */
     public Expenditure getExpenditure();
+
+
+    /**
+     * Meeting schedules for the Lui
+     * 
+     * @name Meeting Schedule
+     */
+    public List<? extends MeetingSchedule> getMeetingSchedules();
 }

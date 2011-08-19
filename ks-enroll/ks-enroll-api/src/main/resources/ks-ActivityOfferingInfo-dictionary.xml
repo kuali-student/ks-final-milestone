@@ -72,13 +72,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamBuilding" parent="ActivityOfferingInfo.finalExamBuilding-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamBuilding-parent" abstract="true" parent="ActivityOfferingInfo.finalExamBuilding-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamRoom" parent="ActivityOfferingInfo.finalExamRoom-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamRoom-parent" abstract="true" parent="ActivityOfferingInfo.finalExamRoom-generated">
+	<bean id="ActivityOfferingInfo.finalExamSpaceCode" parent="ActivityOfferingInfo.finalExamSpaceCode-parent"/>
+	<bean id="ActivityOfferingInfo.finalExamSpaceCode-parent" abstract="true" parent="ActivityOfferingInfo.finalExamSpaceCode-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

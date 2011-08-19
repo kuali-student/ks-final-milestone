@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.MeetingSchedule;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
 
@@ -142,16 +143,10 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     public Date getFinalExamEndTime();
     
     /**
-     * Building code where final exam will be conducted
-     * @name Final Exam Building
+     * Space code where final exam will be conducted
+     * @name Final Exam Space Code
      */
-    public String getFinalExamBuilding();
-    
-    /**
-     * Room number where final exam will be conducted
-     * @name Final Exam Room
-     */
-    public String getFinalExamRoom();
+    public String getFinalExamSpaceCode();
 
 
     /********************* Delivery Logistics ************************/
@@ -193,4 +188,13 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
      * @impl maps to Lui.minimumEnrollment
      */
     public Integer getMinimumEnrollment();    
+
+
+    /**************************** Meeting Time and Space *****************/
+    
+    /**
+     * @name Meeting Schedules
+     * @impl maps to Lui.meetingSchedules
+     */
+    public List<? extends MeetingSchedule> getMeetingSchedules();    
 }
