@@ -212,6 +212,11 @@
         OBJ_ID="e07e700a-97c2-419f-a875-f22e127f983d"
         SHRT_NAME="INTERN POLI RELATIONS" ST="Active" SUFX_CD="200"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="08db7a81-1501-4893-a089-2093c4948c76"
+        LNG_NAME="Academic Course"
+        OBJ_ID="287f947c-f1c9-499d-b0c5-f3b782517f1f"
+        SHRT_NAME="Academic Course" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI223" DIV="BSCI"
         ID="099b37ff-c932-4ceb-b403-8980cfd183b0"
         LNG_NAME="General Microbiology" LVL="200"
@@ -319,6 +324,11 @@
         OBJ_ID="b4632f4e-75db-48bb-b050-4b1b5c2ced6a"
         SHRT_NAME="ACT Science" ST="Active" SUFX_CD="SCIENCE"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="0e0a1d4f-8e68-4498-999f-9d169e97e87d"
+        LNG_NAME="Statistics"
+        OBJ_ID="5e7e7bf8-34db-45ad-8dbd-f8fb512c081a"
+        SHRT_NAME="Statistics" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="AP-WORLD-HIST" DIV="AP"
         ID="0e29208e-5413-489e-87ad-41dc51b965cc"
         LNG_NAME="AP World History"
@@ -761,6 +771,11 @@
         OBJ_ID="2b9780d0-bed5-44c3-af19-bc40aa0cea8c"
         SHRT_NAME="BIO SCI" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="1c400fe8-bd24-4c27-a408-337131829645"
+        LNG_NAME="Required Courses"
+        OBJ_ID="647890b1-1325-42ca-89c8-f6b38078f3f1"
+        SHRT_NAME="Required Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="MATH130" DIV="MATH"
         ID="1c4c3afc-f6ad-4546-b05f-861eefccd6e7"
         LNG_NAME="Calculus I for the Life Sciences" LVL="100"
@@ -1082,6 +1097,11 @@
         OBJ_ID="0f26ae09-428a-4660-a382-fabb921277b5"
         SHRT_NAME="INSECT PATHOLOGY" ST="Active" SUFX_CD="662"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="28360ec5-c8ae-4202-9062-cc8054aca060"
+        LNG_NAME="Electives"
+        OBJ_ID="368ec298-db1a-481f-bff3-4378f7130527"
+        SHRT_NAME="Electives" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="7"/>
     <KSLU_CLU_IDENT CD="HIST233" DIV="HIST"
         ID="28895ad7-898a-4452-ac20-80843f672b09"
         LNG_NAME="Empire! The British Imperial Experience 1558-1997"
@@ -1192,6 +1212,11 @@
         OBJ_ID="1177103f-ce44-4d7e-bbde-4f70443f6d97"
         SHRT_NAME="DOCTORAL" ST="Active"
         TYPE="kuali.lu.type.program.identifier.transcript" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="2cdaac71-2c02-4eef-87dc-ad2b44569fe2"
+        LNG_NAME="Required Courses/Seminars"
+        OBJ_ID="d5ad441d-c18a-437f-b22b-20584c1d878f"
+        SHRT_NAME="Required Courses/Seminars" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="CCJS657" DIV="CCJS"
         ID="2d337231-0b99-401d-b199-525ce5803a61"
         LNG_NAME="Comparative Criminology and Criminal Justice Systems"
@@ -1758,6 +1783,10 @@
         OBJ_ID="28ab364a-b965-4837-8c95-3c89ab39e33f"
         SHRT_NAME="INTRO TO CRIM" ST="Active" SUFX_CD="105"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="407dc588-dfdd-4796-b561-c13dcf1276b6"
+        LNG_NAME="Methods" OBJ_ID="c5228d38-394e-4008-9ffc-965c3e9bf85f"
+        SHRT_NAME="Methods" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="MOCB630" DIV="MOCB"
         ID="4088a517-1278-4f0b-857d-cc87d364a7a6"
         LNG_NAME="Eukaryote Molecular Genetics" LVL="600"
@@ -2100,6 +2129,11 @@
         OBJ_ID="68379a18-56b1-4419-b990-0d80852994c0"
         SHRT_NAME="HIST BRITAIN -1485" ST="Active" SUFX_CD="234"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="48be95cf-d841-4bcd-bace-0ec330fe02c1"
+        LNG_NAME="Required Courses"
+        OBJ_ID="ab56c8c3-4a12-4f14-8e09-aaba7b5a7a0f"
+        SHRT_NAME="Required Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="HIST224" DIV="HIST"
         ID="48c5d992-c246-4628-997f-d37aedbaaaf6"
         LNG_NAME="Modern Military History, 1494-1815" LVL="200"
@@ -2275,6 +2309,11 @@
         OBJ_ID="1a315a22-218c-4ffe-8291-d0d8ccf50a74"
         SHRT_NAME="CONTEMP CRIM ISSUES" ST="Superseded" SUFX_CD="330"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="4e162a39-46ab-4bfa-93bc-cf1e742557bd"
+        LNG_NAME="Core Required Courses"
+        OBJ_ID="04d07498-c013-4389-8038-4c203724e9b9"
+        SHRT_NAME="Core Required Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GEOG386" DIV="GEOG"
         ID="4e23960d-a5e1-4914-be89-694a79826e8c"
         LNG_NAME="Experiential Learning" LVL="300"
@@ -2368,6 +2407,11 @@
         OBJ_ID="80574f85-297a-4faa-be01-63fb0e21addf"
         SHRT_NAME="INST CONDUCT" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="50d4800a-5831-463c-a072-357ab385b562"
+        LNG_NAME="Program Research Areas"
+        OBJ_ID="944ddafb-0a75-4614-a8bd-aab9a2e7b908"
+        SHRT_NAME="Program Research Areas" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="CCJS359" DIV="CCJS"
         ID="515482e8-0c19-4e19-af15-198d18b81dd9"
         LNG_NAME="Field Training in Criminology and Corrections"
@@ -2948,6 +2992,11 @@
         OBJ_ID="ac41d97b-83bd-4592-a1c5-561f0c62d13b"
         SHRT_NAME="JAZZ THEN + NOW" ST="Active" SUFX_CD="436"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="679ac500-da2f-404b-9852-6f26717d824b"
+        LNG_NAME="Studies in area"
+        OBJ_ID="9b4d59ae-041b-48c7-8787-756f4a2cb9f5"
+        SHRT_NAME="Studies in area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GVPT404" DIV="GVPT"
         ID="67dfec19-410e-42fe-b22b-989d59600cad"
         LNG_NAME="Private International Law" LVL="400"
@@ -3141,6 +3190,11 @@
         OBJ_ID="2b358ab7-c9b4-45d2-9b29-98bec2569d34"
         SHRT_NAME="CONTEMP MORAL ISSUES" ST="Active" SUFX_CD="140"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="6d222e6c-b363-4991-80df-36eacb9ce90b"
+        LNG_NAME="Studies in Area"
+        OBJ_ID="3ee3375d-0deb-4d6b-a76b-395513990ac5"
+        SHRT_NAME="Studies in Area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GEOG679" DIV="GEOG"
         ID="6d786ab4-bd13-4b57-85aa-20fd4c66a54d"
         LNG_NAME="Seminar in Urban Geography" LVL="600"
@@ -3160,6 +3214,11 @@
         OBJ_ID="1420e7f3-8a92-4a3a-8349-a1fbba19a4e6"
         SHRT_NAME="ADVANCED GEOMORPHOLOGY" ST="Active" SUFX_CD="440"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT ID="6e3b4ccf-94ea-47d6-8549-f672e0c9ec8d"
+        LNG_NAME="Academic Course"
+        OBJ_ID="a85010a7-cf89-4485-aefe-f20b9082e96f"
+        SHRT_NAME="Academic Course" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="CBMG789" DIV="CBMG"
         ID="6e480930-7747-4e1e-bba1-d228141febf1"
         LNG_NAME="Seminar in Cell Biology and Molecular Genetics"
@@ -3202,6 +3261,11 @@
         OBJ_ID="50896168-a018-4b2b-ba1e-6acd83c1bb32"
         SHRT_NAME="CONDUCTING II" ST="Active" SUFX_CD="491"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="7016aee7-f884-44c2-b9dd-32bf5e79e9f5"
+        LNG_NAME="Dissertation"
+        OBJ_ID="ed0a167b-2791-4d30-b0bc-78cb63a5531e"
+        SHRT_NAME="Dissertation" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GEOG600" DIV="GEOG"
         ID="702566cf-e297-4293-b76e-fdd00950ec1f"
         LNG_NAME="Introduction to Human Geography" LVL="600"
@@ -3464,6 +3528,11 @@
         OBJ_ID="a4f68ac6-78c2-4f0e-b80d-c4102efc4b05"
         SHRT_NAME="SPEC CRIM PROBLEMS" ST="Active" SUFX_CD="699"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="776ebf4a-d17f-4369-8646-9935404e0843"
+        LNG_NAME="Studies in area"
+        OBJ_ID="810e4cf6-1847-45ba-aa03-7acede2181c3"
+        SHRT_NAME="Studies in area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GEOG677" DIV="GEOG"
         ID="779a6069-6aaf-4927-b317-8166f54e0097"
         LNG_NAME="Internet GIS" LVL="600"
@@ -3476,6 +3545,11 @@
         OBJ_ID="1123a834-85a1-459d-be0a-f0afa3aa965a"
         SHRT_NAME="INTRO TO LOGIC" ST="Active" SUFX_CD="170"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="77f4988d-5854-4c9f-93b4-cccb6591c357"
+        LNG_NAME="Background"
+        OBJ_ID="03c48600-6e80-4b85-8b02-fc43469d06e5"
+        SHRT_NAME="Background" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI205" DIV="BSCI"
         ID="78068212-be9d-4a89-9a74-0b2a99a204f4"
         LNG_NAME="Environmental Science" LVL="200"
@@ -3837,6 +3911,11 @@
         OBJ_ID="8174372c-fc1d-49f5-b02b-0efd2e990131"
         SHRT_NAME="DOCTRL DISSRT RSRCH" ST="Active" SUFX_CD="899"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="82d413f1-edf5-46f0-97ff-596a153dda0d"
+        LNG_NAME="Academic Course"
+        OBJ_ID="ec3dfbf7-63dd-4fff-bca6-37a1a614509c"
+        SHRT_NAME="Academic Course" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GEOG345" DIV="GEOG"
         ID="83949161-440b-47fa-9367-0dc69fa494d2"
         LNG_NAME="Introduction to Climatology" LVL="300"
@@ -4213,6 +4292,11 @@
         OBJ_ID="9ed481b3-32e6-4b5b-8143-61887a6d64cd"
         SHRT_NAME="BIOL HONORS SEMINAR" ST="Active" SUFX_CD="398"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT ID="915c1752-4af0-43ec-b6d4-fb99b9d11fe3"
+        LNG_NAME="Studies in area"
+        OBJ_ID="65841919-14cc-4f26-a36d-b34b01287b4e"
+        SHRT_NAME="Studies in area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AP-MICRO-ECON" DIV="AP"
         ID="918d9d24-ffc8-4f94-b111-b82a8ae4081f"
         LNG_NAME="AP Microeconomics"
@@ -4386,6 +4470,11 @@
         OBJ_ID="d5bbcd7a-2fb6-4fc8-92f4-0dd7189ddaf2"
         SHRT_NAME="GRE Subject Test in Political Science" ST="Active"
         SUFX_CD="POLI-SCI" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="96d87b34-5c57-49fb-bc61-cbcdb3499c2b"
+        LNG_NAME="Seminars"
+        OBJ_ID="e2874081-9b56-4bf1-af96-52619c33ab5d"
+        SHRT_NAME="Seminars" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="MATH110" DIV="MATH"
         ID="96e741fb-1ae2-429e-90a5-351da7aed62e"
         LNG_NAME="Elementary Mathematical Models" LVL="100"
@@ -4592,6 +4681,11 @@
         OBJ_ID="1fd6807e-e2f4-4d08-8fa9-3a1a29fe70b9"
         SHRT_NAME="BIO SCI" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="9fc8d0e3-b667-4b94-b920-2eedf6f96330"
+        LNG_NAME="Dissertation"
+        OBJ_ID="8227e46e-026d-4a83-85db-1a7cbf76537f"
+        SHRT_NAME="Dissertation" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="GEOG475" DIV="GEOG"
         ID="a009213a-11a5-469a-8e99-cfedd0f22384"
         LNG_NAME="Computer Cartography" LVL="400"
@@ -4605,6 +4699,11 @@
         OBJ_ID="c273da51-d5b5-45f9-8f35-d53a3d07f8b1"
         SHRT_NAME="GRE Subject Test in Biology" ST="Active"
         SUFX_CD="BIOLOGY" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="a03fb9e2-c3f1-457f-8b45-9471572e9f1c"
+        LNG_NAME="Required Courses"
+        OBJ_ID="f465f969-bda0-4788-9f5c-f57b4df32b89"
+        SHRT_NAME="Required Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CCJS398" DIV="CCJS"
         ID="a048c263-bf12-4053-b95f-bba4c9c03294"
         LNG_NAME="Law Enforcement Field Training" LVL="300"
@@ -4966,6 +5065,11 @@
         OBJ_ID="c04b57ac-737e-4c53-a40e-48814e820e7a"
         SHRT_NAME="INSECT POP GENETICS" ST="Active" SUFX_CD="623"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="ac3df889-480c-4285-b94c-1c38858ca76e"
+        LNG_NAME="Studies in area"
+        OBJ_ID="4c39d7b4-ed44-4930-b9f1-ca1ed5ee0a91"
+        SHRT_NAME="Studies in area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GEOG472" DIV="GEOG"
         ID="ac8bd436-fd6c-40b9-b4ea-9bafe3a3f090"
         LNG_NAME="Remote Sensing: Digital Processing and Analysis"
@@ -5087,6 +5191,10 @@
         OBJ_ID="6b6604a7-658c-4191-bddf-11e48c852ff4"
         SHRT_NAME="BIOCHEMISTRY III" ST="Active" SUFX_CD="465"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="b04eb670-446a-4464-8545-d1b4e3baefe1"
+        LNG_NAME="Thesis" OBJ_ID="1aa634e3-5adc-4c12-8901-f952743c3ee3"
+        SHRT_NAME="Thesis" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SAT-SUBJ-US-HISTORY" DIV="SAT-SUBJ"
         ID="b0787fa3-5370-4b07-a187-6b5b1aada858"
         LNG_NAME="SAT Subject Test in United States History"
@@ -5621,6 +5729,11 @@
         OBJ_ID="dfd4d299-4963-43f8-943d-ad53e7008261"
         SHRT_NAME="CONTEMP CRIM THEORY" ST="Active" SUFX_CD="454"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT ID="c0ef6334-13a8-4c4e-a7d7-3c4f81a1e26a"
+        LNG_NAME="Electives"
+        OBJ_ID="de6b4bb0-aaa7-4a43-8884-c3c2c80007e1"
+        SHRT_NAME="Electives" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="MUSC640" DIV="MUSC"
         ID="c106026e-8763-4fee-8c65-16d5d4908b0f"
         LNG_NAME="Performance Practice I" LVL="600"
@@ -5834,6 +5947,11 @@
         SHRT_NAME="TPC:BEHV,ECLGY,EVOL&amp;SYS" ST="Active"
         SUFX_CD="609"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="c8066eaa-5bb3-4301-8f16-d6e325b1bd33"
+        LNG_NAME="Required Courses"
+        OBJ_ID="cf182df3-7add-4cb5-9cad-eaca30ff57eb"
+        SHRT_NAME="Required Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="HIST219" DIV="HIST"
         ID="c83e4bfc-b2b1-470e-ad7f-6d457c496caa"
         LNG_NAME="Special Topics in History: Asian American History"
@@ -6217,6 +6335,11 @@
         SHRT_NAME="ECOL MARSH&amp;DUNE VEGETATN" ST="Superseded"
         SUFX_CD="362"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="d6904c3e-c236-4f46-973e-1177cbddca51"
+        LNG_NAME="Advanced Statistics"
+        OBJ_ID="8f180d93-1e0a-479c-909b-ae2568a85e60"
+        SHRT_NAME="Advanced Statistics" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI330" DIV="BSCI"
         ID="d6bff594-b201-4077-b92e-d05a9191be62"
         LNG_NAME="Cell Biology and Physiology" LVL="300"
@@ -6241,6 +6364,11 @@
         OBJ_ID="5ad23869-8eea-44fd-9c43-d675c0915faa"
         SHRT_NAME="MYTHOLOGIES" ST="Active" SUFX_CD="277"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="d6ec1eae-b915-48c9-880e-cd03866b0add"
+        LNG_NAME="Academic Courses"
+        OBJ_ID="85d5bdb8-2492-446b-bd8f-b47f77171cfa"
+        SHRT_NAME="Academic Courses" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI480" DIV="BSCI"
         ID="d71da9d0-58e6-4adf-8899-7a14d8ccb79a"
         LNG_NAME="Arthropod Form and Function" LVL="400"
@@ -6306,6 +6434,11 @@
         OBJ_ID="224556f6-71d3-44a0-9819-165a230736c3"
         SHRT_NAME="INTRO TO PROBABILITY" ST="Active" SUFX_CD="111"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="d918a699-5bc6-48bd-b2ea-4d08bac701d8"
+        LNG_NAME="Disseration"
+        OBJ_ID="badd419e-aee8-459d-9e4d-09d089d9235a"
+        SHRT_NAME="Disseration" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="CHEM242" DIV="CHEM"
         ID="d94b1024-39ba-4b57-8382-f6fbe64b8efa"
         LNG_NAME="Organic Chemistry Laboratory II" LVL="200"
@@ -6347,6 +6480,11 @@
         OBJ_ID="ee43c0b2-db63-4e9c-be0f-d6dd31f727a3"
         SHRT_NAME="Primary GEOG Courses" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="dac0e68a-1616-4786-8de5-34d360eea68f"
+        LNG_NAME="Electives"
+        OBJ_ID="4979a221-1391-441f-bb81-8b9aa82c0aa0"
+        SHRT_NAME="Electives" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GEOG437" DIV="GEOG"
         ID="dac9a4f7-50b0-4b39-9618-502ca97851ab"
         LNG_NAME="Political Geography" LVL="400"
@@ -6426,6 +6564,11 @@
         OBJ_ID="49e1e467-9c00-4afc-98b3-5a955dc98cdc"
         SHRT_NAME="INSECT DIVERS &amp; CLASS" ST="Active" SUFX_CD="481"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="ddf5fdba-1207-4e7b-8e0a-2f89ac71a725"
+        LNG_NAME="Academic Course"
+        OBJ_ID="6d078dd8-1918-4749-9c0a-a879183a0963"
+        SHRT_NAME="Academic Course" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="GEOG212" DIV="GEOG"
         ID="ddf7c6cd-3329-406f-8013-872fd9ad27f8"
         LNG_NAME="Introduction to Human Geography Laboratory" LVL="200"
@@ -6718,6 +6861,11 @@
         OBJ_ID="89b41420-9189-4a1f-98f4-a41bbe24c24c"
         SHRT_NAME="EXTINCT ANIMALS LAB" ST="Active" SUFX_CD="393"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="e6ea0bba-e86a-493e-9dfd-16b86502b731"
+        LNG_NAME="Electives"
+        OBJ_ID="eb4c56f2-3858-4439-990f-eb76a000d487"
+        SHRT_NAME="Electives" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI224" DIV="BSCI"
         ID="e753d988-79bf-4457-8e70-df3ee92ec7a8"
         LNG_NAME="Animal Diversity" LVL="200"
@@ -6935,6 +7083,11 @@
         LVL="700" OBJ_ID="6e902d7c-3d02-4d6d-a5e6-3152c2f1b25d"
         SHRT_NAME="ADV TOPICS MOCB" ST="Active" SUFX_CD="708"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="edd2fa73-e059-4a51-99cc-8b4ec5db9be3"
+        LNG_NAME="Academic Course"
+        OBJ_ID="164b6716-0957-470e-b7eb-5b3580ce1c3f"
+        SHRT_NAME="Academic Course" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="MEES708" DIV="MEES"
         ID="edf34e22-bdcb-4368-b4d1-148d3754aeb9"
         LNG_NAME="Advanced Topics in Marine-Estuarine-Environmental Science"
@@ -7102,6 +7255,11 @@
         LVL="700" OBJ_ID="11bdba8f-e6f7-473f-b46a-1177cf893753"
         SHRT_NAME="ADV TPCS IN BEES" ST="Active" SUFX_CD="708"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="f4edc724-e58e-410e-baaa-11bc7f37beaf"
+        LNG_NAME="Studies in area"
+        OBJ_ID="fc0032e5-6363-48a2-bd70-69ab898344bf"
+        SHRT_NAME="Studies in area" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CBMG899" DIV="CBMG"
         ID="f5976028-4012-42b8-b453-b8ac4e793c31"
         LNG_NAME="Doctoral Dissertation Research" LVL="800"
@@ -7138,6 +7296,11 @@
         OBJ_ID="5b3c97cc-90fb-4e3a-95de-47ff5f994695"
         SHRT_NAME="SEM: MUSIC TRANSCRIPTION" ST="Active" SUFX_CD="630"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="f6e8d11b-98db-4c55-924e-2e59212ebe04"
+        LNG_NAME="Required Courses/Seminars"
+        OBJ_ID="6975db23-a0cb-44b8-8882-ee7b06efa608"
+        SHRT_NAME="Required Courses/Seminars" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="MUSP899" DIV="MUSP"
         ID="f6f44851-74b6-4c63-8964-b7bc6f907ef6"
         LNG_NAME="Doctoral Dissertation Research" LVL="800"
@@ -7174,6 +7337,11 @@
         OBJ_ID="4cc20821-8a57-4c05-aaa3-1e97fff4c158"
         SHRT_NAME="LEARNING THEORY IN MUSIC" ST="Active" SUFX_CD="694"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="f8723b56-8db1-441b-a3ac-547bc0ca87e1"
+        LNG_NAME="Electives"
+        OBJ_ID="75935d8b-f7a2-4478-bb86-1c22be379a1a"
+        SHRT_NAME="Electives" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="SOCY203" DIV="SOCY"
         ID="f8868afe-1bd2-4f20-a676-64182589a9e6"
         LNG_NAME="Sociological Theory" LVL="200"
@@ -7303,12 +7471,22 @@
         OBJ_ID="b8657bca-24fe-453e-9953-45d11353e2cb"
         SHRT_NAME="SAT Subject Test in Physics" ST="Active"
         SUFX_CD="PHYSICS" TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="fdc4297c-014e-4f3d-86bd-047e45c9f6b3"
+        LNG_NAME="Program Research Areas"
+        OBJ_ID="6038fd59-d127-46b8-8156-bffde9ee5854"
+        SHRT_NAME="Program Research Areas" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="GEOG670" DIV="GEOG"
         ID="fdc56c55-e5e0-4acd-bdf6-97d1a91c1d7c"
         LNG_NAME="Theory and Method in Urban Geography" LVL="600"
         OBJ_ID="91c81636-cae7-4108-b37e-49f01df45835"
         SHRT_NAME="THRY+METH URB GEOG" ST="Active" SUFX_CD="670"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="fe6c763a-f80b-43f3-8ffe-ffd4a9856c82"
+        LNG_NAME="Disseration"
+        OBJ_ID="eb250f2a-57bd-4c35-a386-47e02b9631ba"
+        SHRT_NAME="Disseration" ST="Active"
+        TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="SOCY709" DIV="SOCY"
         ID="feb5d222-ac86-404f-a277-cf47dfb1a80b"
         LNG_NAME="Advanced Special Topics in Data Analysis" LVL="700"
