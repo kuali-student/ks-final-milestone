@@ -56,6 +56,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseId("101");
         courseOfferingInfo.setId("PHYS121");
         courseOfferingInfo.setCourseOfferingCode("PHYS121");
+        courseOfferingInfo.setSubjectArea("PHYS");
         courseOfferingInfo.setCourseTitle("Fundamentals of Physics I");
         org.kuali.student.r2.common.dto.RichTextInfo desc = new org.kuali.student.r2.common.dto.RichTextInfo();
         desc.setPlain("Fundamentals of Physics");
@@ -71,6 +72,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo1.setCourseId("102");
         courseOfferingInfo1.setId("PHYS122");
         courseOfferingInfo1.setCourseOfferingCode("PHYS122");
+        courseOfferingInfo.setSubjectArea("PHYS");
         courseOfferingInfo1.setCourseTitle("Fundamentals of Physics II");
         desc = new org.kuali.student.r2.common.dto.RichTextInfo();
         desc.setPlain("Fundamentals of Physics");
@@ -86,6 +88,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo2.setCourseId("103");
         courseOfferingInfo2.setId("PHYS123");
         courseOfferingInfo2.setCourseOfferingCode("PHYS123");
+        courseOfferingInfo.setSubjectArea("PHYS");
         courseOfferingInfo2.setCourseTitle("Advanced Physics I");
         desc = new org.kuali.student.r2.common.dto.RichTextInfo();
         desc.setPlain("Advanced Physics");
