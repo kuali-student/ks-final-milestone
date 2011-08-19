@@ -4,36 +4,36 @@ import java.util.List;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
-public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LPRTransactionInfo> {
+public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LqrTransactionInfo> {
 
     @Override
-    public RegRequestInfo assemble(LPRTransactionInfo baseDTO, ContextInfo context) {
+    public RegRequestInfo assemble(LqrTransactionInfo baseDTO, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public LPRTransactionInfo disassemble(RegRequestInfo businessDTO, ContextInfo context) {
+    public LqrTransactionInfo disassemble(RegRequestInfo businessDTO, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
-    public List<LPRTransactionInfo> disassembleList(List<RegRequestInfo> businessDTOs, ContextInfo context) {
+    public List<LqrTransactionInfo> disassembleList(List<RegRequestInfo> businessDTOs, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     
-    public List<RegRequestInfo> assembleList(List<LPRTransactionInfo> businessDTOs, ContextInfo context) {
+    public List<RegRequestInfo> assembleList(List<LqrTransactionInfo> businessDTOs, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
-    public LPRTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, ContextInfo context) {
+    public LqrTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

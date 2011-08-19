@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.lpr.infc.LPRTransaction;
+import org.kuali.student.enrollment.lpr.infc.LqrTransaction;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
@@ -18,9 +18,9 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LPRTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+@XmlType(name = "LqrTransactionInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "requestingPersonId", "descr", "lprTransactionItems", "meta", "attributes", "_futureElements"})
-public class LPRTransactionInfo extends IdEntityInfo implements LPRTransaction,
+public class LqrTransactionInfo extends IdEntityInfo implements LqrTransaction,
         Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,17 +29,17 @@ public class LPRTransactionInfo extends IdEntityInfo implements LPRTransaction,
     private String requestingPersonId;
 
     @XmlElement
-    private List<LPRTransactionItemInfo> lprTransactionItems;
+    private List<LqrTransactionItemInfo> lprTransactionItems;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     @Override
-    public List<LPRTransactionItemInfo> getLprTransactionItems() {
+    public List<LqrTransactionItemInfo> getLprTransactionItems() {
         return lprTransactionItems;
     }
 
-    public void setLprTransactionItems(List<LPRTransactionItemInfo> lprTransactionItems) {
+    public void setLprTransactionItems(List<LqrTransactionItemInfo> lprTransactionItems) {
         this.lprTransactionItems = lprTransactionItems;
     }
 

@@ -17,10 +17,10 @@ import org.kuali.student.r2.common.dto.EntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LPRTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptions",
+@XmlType(name = "LqrTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptions",
         "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes",
         "_futureElements"})
-public class LPRTransactionItemInfo extends EntityInfo implements LPRTransactionItem, Serializable {
+public class LqrTransactionItemInfo extends EntityInfo implements LPRTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class LPRTransactionItemInfo extends EntityInfo implements LPRTransaction
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public LPRTransactionItemInfo() {
+    public LqrTransactionItemInfo() {
         super();
         this.personId = null;
         this.newLuiId = null;
@@ -54,7 +54,7 @@ public class LPRTransactionItemInfo extends EntityInfo implements LPRTransaction
         this._futureElements = null;
     }
 
-    public LPRTransactionItemInfo(LPRTransactionItem lprTransactionItem) {
+    public LqrTransactionItemInfo(LPRTransactionItem lprTransactionItem) {
 
         super(lprTransactionItem);
         if (null != lprTransactionItem) {

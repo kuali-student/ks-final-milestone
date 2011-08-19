@@ -19,8 +19,8 @@ import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.enrollment.lpr.dto.LPRTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LPRTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -57,11 +57,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     private DataDictionaryService dataDictionaryService;
 
-    private LPRTransactionInfo createModifiedTransactionItems(LPRTransactionInfo storedLprTransaction,
+    private LqrTransactionInfo createModifiedTransactionItems(LqrTransactionInfo storedLprTransaction,
             RegRequestInfo storedRegRequest, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException {
-        List<LPRTransactionItemInfo> newTransactionItems = new ArrayList<LPRTransactionItemInfo>();
+        List<LqrTransactionItemInfo> newTransactionItems = new ArrayList<LqrTransactionItemInfo>();
         List<RegRequestItemInfo> regRequestItems = storedRegRequest.getRegRequestItems();
         boolean isTransactionModified = false;
         for (RegRequestItemInfo regRequestItem : regRequestItems) {
@@ -76,9 +76,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
 
                     if (getAvailableSeatsForStudentInRegGroup(storedRegRequest.getStudentId(), regGroupId, context) > 0) {
-                        List<LPRTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LPRTransactionItemInfo>();
+                        List<LqrTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LqrTransactionItemInfo>();
                         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
-                            LPRTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(
+                            LqrTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(
                                     regRequestItem, context);
                             activtyItemInfo.setNewLuiId(activityOfferingId);
                             activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
@@ -87,7 +87,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         }
 
                         String courseOfferingId = regGroup.getCourseOfferingId();
-                        LPRTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
+                        LqrTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
                                 regRequestItem, context);
                         courseOfferingItemInfo.setNewLuiId(courseOfferingId);
                         courseOfferingItemInfo
@@ -96,7 +96,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         newTransactionItems.add(courseOfferingItemInfo);
 
                     } else {
-                        LPRTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem,
+                        LqrTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem,
                                 context);
                         lprTransactionItem
                                 .setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY);
@@ -109,9 +109,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                     String regGroupId = regRequestItem.getExistingRegGroupId();
                     RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
-                    List<LPRTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LPRTransactionItemInfo>();
+                    List<LqrTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LqrTransactionItemInfo>();
                     for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
-                        LPRTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                        LqrTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
                                 context);
                         activtyItemInfo.setExistingLuiId(activityOfferingId);
                         activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
@@ -120,7 +120,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     }
 
                     String courseOfferingId = regGroup.getCourseOfferingId();
-                    LPRTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                    LqrTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
                             context);
                     courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
                     courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
@@ -335,7 +335,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        LPRTransactionInfo lprTransactionInfo = regRequestAssembler.disassemble(regRequestInfo, context);
+        LqrTransactionInfo lprTransactionInfo = regRequestAssembler.disassemble(regRequestInfo, context);
         return regRequestAssembler.assemble(lprService.updateLprTransaction(regRequestId, lprTransactionInfo, context),
                 context);
     }
@@ -375,8 +375,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LPRTransactionInfo lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
-        LPRTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
+        LqrTransactionInfo lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
+        LqrTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
         RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
         return createdRegRequestInfo;
     }
@@ -386,7 +386,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        LPRTransactionInfo newLprTransaction = lprService.createLprTransactionFromExisting(existingRegRequestId,
+        LqrTransactionInfo newLprTransaction = lprService.createLprTransactionFromExisting(existingRegRequestId,
                 context);
         RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
         return createdRegRequestInfo;
@@ -396,7 +396,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-        LPRTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
+        LqrTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
 
         RegRequestInfo storedRegRequest = regRequestAssembler.assemble(storedLprTransaction, context);
         try {
@@ -424,10 +424,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
         }
 
-        LPRTransactionInfo multpleItemsTransaction = createModifiedTransactionItems(storedLprTransaction,
+        LqrTransactionInfo multpleItemsTransaction = createModifiedTransactionItems(storedLprTransaction,
                 storedRegRequest, context);
 
-        LPRTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multpleItemsTransaction.getId(),
+        LqrTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multpleItemsTransaction.getId(),
                 context);
 
         return regResponseAssembler.assemble(submittedLprTransaction, context);
@@ -453,10 +453,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
             List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LPRTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsForPersonByAtp(termKey,
+        List<LqrTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsForPersonByAtp(termKey,
                 studentId, requestStates, context);
         List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
-        for (LPRTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
+        for (LqrTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
             regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
         }
 
@@ -757,7 +757,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LPRTransactionInfo lprTransaction = lprService.getLprTransaction(regRequestId, context);
+        LqrTransactionInfo lprTransaction = lprService.getLprTransaction(regRequestId, context);
         RegRequestInfo regRequest = regRequestAssembler.assemble(lprTransaction, context);
         return regRequest;
     }
