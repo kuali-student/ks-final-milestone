@@ -24,7 +24,7 @@
 				<ref bean="proposalInfo.rationale" />
 				<ref bean="proposalInfo.state" />
 				<ref bean="proposalInfo.type" />
-				
+				<!-- TODO: These are course specific. Need to move them to CourseProposalInfo  -->
 				<ref bean="proposalInfo.prevStartTerm" />
 				<ref bean="proposalInfo.prevEndTerm" />
 				
