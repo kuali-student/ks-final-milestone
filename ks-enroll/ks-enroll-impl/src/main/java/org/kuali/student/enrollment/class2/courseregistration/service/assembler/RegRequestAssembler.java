@@ -5,7 +5,7 @@ import java.util.List;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
@@ -33,7 +33,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LqrTran
         return null;
     }
 
-    public LqrTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, ContextInfo context) {
+    public LprTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

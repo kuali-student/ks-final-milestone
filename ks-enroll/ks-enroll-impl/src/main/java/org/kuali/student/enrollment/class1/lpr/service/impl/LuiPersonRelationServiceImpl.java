@@ -21,7 +21,7 @@ import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprStateDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -81,7 +81,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return lpr;
     }
 
-    private String createLprFromLprTransactionItem(LqrTransactionItemInfo lprTransactionItemInfo, ContextInfo context)
+    private String createLprFromLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LuiPersonRelationInfo luiPersonRelation = new LuiPersonRelationInfo();
@@ -555,7 +555,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             OperationFailedException, PermissionDeniedException {
         LqrTransactionInfo lprTransaction = getLprTransaction(lprTransactionId, context);
 
-        for (LqrTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
+        for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
             LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
             if (lprTransactionItemInfo.getTypeKey()
                     .equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {

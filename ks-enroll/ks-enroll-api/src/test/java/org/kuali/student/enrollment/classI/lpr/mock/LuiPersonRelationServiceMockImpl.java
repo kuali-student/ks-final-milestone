@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;

@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -61,7 +61,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             RegRequestInfo storedRegRequest, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException {
-        List<LqrTransactionItemInfo> newTransactionItems = new ArrayList<LqrTransactionItemInfo>();
+        List<LprTransactionItemInfo> newTransactionItems = new ArrayList<LprTransactionItemInfo>();
         List<RegRequestItemInfo> regRequestItems = storedRegRequest.getRegRequestItems();
         boolean isTransactionModified = false;
         for (RegRequestItemInfo regRequestItem : regRequestItems) {
@@ -76,9 +76,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
 
                     if (getAvailableSeatsForStudentInRegGroup(storedRegRequest.getStudentId(), regGroupId, context) > 0) {
-                        List<LqrTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LqrTransactionItemInfo>();
+                        List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
                         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
-                            LqrTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(
+                            LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(
                                     regRequestItem, context);
                             activtyItemInfo.setNewLuiId(activityOfferingId);
                             activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
@@ -87,7 +87,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         }
 
                         String courseOfferingId = regGroup.getCourseOfferingId();
-                        LqrTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
+                        LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
                                 regRequestItem, context);
                         courseOfferingItemInfo.setNewLuiId(courseOfferingId);
                         courseOfferingItemInfo
@@ -96,7 +96,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         newTransactionItems.add(courseOfferingItemInfo);
 
                     } else {
-                        LqrTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem,
+                        LprTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem,
                                 context);
                         lprTransactionItem
                                 .setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY);
@@ -109,9 +109,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                     String regGroupId = regRequestItem.getExistingRegGroupId();
                     RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
-                    List<LqrTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LqrTransactionItemInfo>();
+                    List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
                     for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
-                        LqrTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                        LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
                                 context);
                         activtyItemInfo.setExistingLuiId(activityOfferingId);
                         activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
@@ -120,7 +120,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     }
 
                     String courseOfferingId = regGroup.getCourseOfferingId();
-                    LqrTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
+                    LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
                             context);
                     courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
                     courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);

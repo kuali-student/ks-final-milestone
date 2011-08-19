@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;

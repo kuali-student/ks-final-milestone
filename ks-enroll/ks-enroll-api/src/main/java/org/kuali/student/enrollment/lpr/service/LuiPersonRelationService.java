@@ -17,7 +17,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.dto.LqrTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LqrTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -648,7 +648,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     /**
      * Creates a new {@link LqrTransactionInfo} from an existing LPR transaction id.
      * 
-     * @param lprTransactionId LqrTransaction identifier
+     * @param lprTransactionId LprTransaction identifier
      * @param context
      * @return
      * @throws DataValidationErrorException LqrTransactionInfo is not valid
@@ -662,7 +662,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     public LqrTransactionInfo createLprTransactionFromExisting(@WebParam(name = "lprTransactionId") String lprTransactionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method persists an updated LPR Transaction; it validates the {@link LqrTransactionItemInfo} object before
+     * This method persists an updated LPR Transaction; it validates the {@link LprTransactionItemInfo} object before
      * persisting.
      * 
      * @param lprTransactionId The transaction identifier
