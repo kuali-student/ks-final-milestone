@@ -78,10 +78,5 @@
                 <version>${project.version}</version>
                 <type>test-jar</type>
             </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
     </dependencies>
 </project>
