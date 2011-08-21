@@ -448,61 +448,111 @@ public class MajorProposalController extends MajorController {
 
     @Override
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {    	
-    	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
-			@Override
-			public void onModelReady(DataModel model) {
-                programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        super.onFailure(caught);
-                        callback.onRequestFail(caught);
-                    }
-
-                    @Override
-                    public void onSuccess(Data result) {
-                        super.onSuccess(result);
-                        comparisonModel.setRoot(result);
-//                      setHeaderTitle();
-//                      callback.onModelReady(comparisonModel);
-                        reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                            @Override
-                            public void exec(Boolean result) {
-                                if (result) {
-                                	reqDataModelComp.retrieveProgramRequirements(MajorProposalController.this, comparisonModelId, new Callback<Boolean>() {
-                                        @Override
-                                        public void exec(Boolean result) {
-                                            if (result) {
-                                                callback.onModelReady(comparisonModel);
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });                    
-                    }
-                });
-    		}
-
-			@Override
-			public void onRequestFail(Throwable cause) {
-                GWT.log("Unable to retrieve comparison model", cause);
-			}
-    	};	
-
-    	ViewContext viewContext = getViewContext();
+    	final ViewContext viewContext = getViewContext();
         if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) 
-         	createNewVersionAndLoadModel(comparisonModelCallback, viewContext);
-        else if (viewContext.getIdType() == IdType.DOCUMENT_ID)
-        	loadProgramModelFromWorkflowId(comparisonModelCallback); 
-        else 
-            super.loadModel(comparisonModelCallback);	
+        {
+        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
+    			@Override
+    			public void onModelReady(DataModel model) {
+   			        Data data = new Data();
+    			        			        
+   			        Data versionData = new Data();
+   			        versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
+   			        versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
+   			        data.set(new Data.StringKey("versionInfo"), versionData);
+
+   			        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+   			            @Override
+   			            public void onSuccess(DataSaveResult result) {
+   			                super.onSuccess(result);
+   			                if (result != null) {
+   			                	comparisonModel.setRoot(result.getValue());
+   			               }
+   			                viewContext.setId(ProgramUtils.getProgramId(programModel));
+   			                viewContext.setIdType(IdType.OBJECT_ID);                
+                            reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                    	reqDataModelComp.retrieveProgramRequirements(MajorProposalController.this, comparisonModelId, new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    callback.onModelReady(comparisonModel);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });                    
+   			            }
+
+   			            @Override
+   			            public void onFailure(Throwable caught) {
+   			                super.onFailure(caught);
+   			                callback.onRequestFail(caught);
+   			            }
+   			        });					
+        		}
+
+    			@Override
+    			public void onRequestFail(Throwable cause) {
+                    GWT.log("Unable to retrieve comparison model", cause);
+    			}
+        	};	
+
+   			createNewVersionAndLoadModel(comparisonModelCallback, viewContext);
+        }	
+        else
+        {
+        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
+    			@Override
+    			public void onModelReady(DataModel model) {
+                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                        @Override
+                        public void onSuccess(Data result) {
+                            super.onSuccess(result);
+                            comparisonModel.setRoot(result);
+                            reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                    	reqDataModelComp.retrieveProgramRequirements(MajorProposalController.this, comparisonModelId, new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    callback.onModelReady(comparisonModel);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });                    
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            super.onFailure(caught);
+                            callback.onRequestFail(caught);
+                        }
+                    });
+        		}
+
+    			@Override
+    			public void onRequestFail(Throwable cause) {
+                    GWT.log("Unable to retrieve comparison model", cause);
+    			}
+        	};	
+
+        	if (viewContext.getIdType() == IdType.DOCUMENT_ID)
+        		loadProgramModelFromWorkflowId(comparisonModelCallback); 
+        	else 
+        		super.loadModel(comparisonModelCallback);
+        }	
     }
 
     protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
-        Data data = new Data();
-        
-        
+        Data data = new Data();                
         Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
@@ -513,8 +563,6 @@ public class MajorProposalController extends MajorController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 refreshModelAndView(result);
-                viewContext.setId(ProgramUtils.getProgramId(programModel));
-                viewContext.setIdType(IdType.OBJECT_ID);                
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
