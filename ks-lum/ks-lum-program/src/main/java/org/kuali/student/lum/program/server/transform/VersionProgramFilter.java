@@ -17,8 +17,12 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
- * When program is activated this filter sets the previous version to superseded and updates the end program
- * entry and and enroll terms. 
+ * Generating metadata and populating data model values for previous end term and enroll term
+ * fields to be displayed on activate dialog.  These values do not exist in the MajorDiscipline
+ * object. 
+ * so we need to g
+ * 
+ * 
  * 
  * @author Will
  *
