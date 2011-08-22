@@ -680,7 +680,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		if(rels != null && !rels.isEmpty()){                  
             for(LuiLuiRelationInfo rel : rels){
             	if(rel.getRelatedLuiId().equals(courseOfferingId)){
-            		if(rel.getTypeKey().equals("kuali.lui.lui.relation.RegisteredForVia")){
+            		if(rel.getTypeKey().equals("kuali.lui.lui.relation.type.registeredforvia")){
             			String luiId = rel.getLuiId();
             			LuiInfo lui = luiService.getLui(luiId, context);
             			if(lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)){
