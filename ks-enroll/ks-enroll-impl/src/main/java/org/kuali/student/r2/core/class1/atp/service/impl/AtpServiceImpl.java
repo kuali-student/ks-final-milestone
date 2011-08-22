@@ -133,7 +133,7 @@ public class AtpServiceImpl implements AtpService {
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -218,7 +218,15 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<AtpInfo>();
+        List<AtpEntity> atps = atpDao.getByDates(startDate, endDate);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     @Override
@@ -430,13 +438,13 @@ public class AtpServiceImpl implements AtpService {
             throw new AlreadyExistsException();
         }
         atpDao.persist(atp);
-        
+
 		AtpEntity retrived = atpDao.find(atpKey);
 		AtpInfo info = null;
 		if(retrived != null){
 			info = retrived.toDto();
 		}
-		
+
         return info;
     }
 
@@ -644,7 +652,7 @@ public class AtpServiceImpl implements AtpService {
         if (!checkRelationExistence(atpAtpRelationInfo)) {
             AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
             atpRel.setId(UUIDHelper.genStringUUID());
-            
+
             if (null != atpAtpRelationInfo.getStateKey()) {
                 atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
             }
@@ -685,7 +693,7 @@ public class AtpServiceImpl implements AtpService {
                 modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             if (atpAtpRelationInfo.getStateKey() != null)
                 modifiedAtpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
-            
+
             atpRelDao.merge(modifiedAtpRel);
             return atpRelDao.find(modifiedAtpRel.getId()).toDto();
         } else
@@ -918,7 +926,7 @@ public class AtpServiceImpl implements AtpService {
         }
         return aaRelInfos;
     }
-    
+
     // TypeService methods
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,

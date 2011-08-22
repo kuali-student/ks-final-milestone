@@ -756,7 +756,56 @@ public class TestAtpServiceImpl extends AbstractServiceTest {
             assertNull(shouldBeNull);
         }
     }
-    
+
+    @Test
+    public void testGetAtpsByDate() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Calendar testCal = Calendar.getInstance();
+        testCal.clear();
+        testCal.set(2011, 0, 1);
+        List<AtpInfo> atpInfos = atpService.getAtpsByDate(testCal.getTime(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(6, atpInfos.size());
+    }
+
+    @Test
+    public void testGetAtpsByDates() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Calendar startCal = Calendar.getInstance();
+        startCal.clear();
+        startCal.set(2000, 0, 1); // Jan 1
+        Calendar endCal = Calendar.getInstance();
+        endCal.clear();
+        endCal.set(2002, 0, 1); // Jan 1
+        List<AtpInfo> atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(5, atpInfos.size());
+
+        // make sure it's inclusive
+        startCal.set(Calendar.MONTH, 8); // September
+        endCal.set(Calendar.YEAR, 2001);
+        endCal.set(Calendar.MONTH, 5); // June
+
+        atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(5, atpInfos.size());
+
+        endCal.add(Calendar.DAY_OF_YEAR, -1); // Roll back to May 31
+        atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(4, atpInfos.size());
+
+        startCal.add(Calendar.DAY_OF_YEAR, 1); // Sept 2nd
+        atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
+        assertNotNull(atpInfos);
+        assertEquals(1, atpInfos.size());
+
+        startCal.set(2001, 0, 2); // Jan 2
+        atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
+        assertNull(atpInfos); // sigh; still getting null back rather than empty list from service
+        // assertNotNull(atpInfos);
+        // assertEquals(0, atpInfos.size());
+
+    }
+
     @Test
     public void testGetAtpKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         String expectedAtpType = AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;

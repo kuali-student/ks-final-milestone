@@ -20,4 +20,9 @@ public class AtpDao extends GenericEntityDao<AtpEntity>{
     public List<AtpEntity> getByDate(Date searchDate) {
         return em.createQuery("from AtpEntity a where :searchDate between a.startDate and a.endDate").setParameter("searchDate", searchDate, DATE).getResultList();
     }
+
+    public List<AtpEntity> getByDates(Date startDate, Date endDate) {
+        return em.createQuery("from AtpEntity a where a.startDate >= :startDate and a.endDate <= :endDate")
+                            .setParameter("startDate", startDate, DATE).setParameter("endDate", endDate).getResultList();
+    }
 }

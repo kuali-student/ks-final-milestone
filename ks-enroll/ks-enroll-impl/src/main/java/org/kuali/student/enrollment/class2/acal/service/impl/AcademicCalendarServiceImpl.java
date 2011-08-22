@@ -129,7 +129,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             PermissionDeniedException {
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(Calendar.YEAR, year);
+        cal.set(year, 0, 1); // Jan 1 of the specified year
 
 
         Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
@@ -138,8 +138,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
                 return atpInfo1.getKey().compareTo(atpInfo2.getKey());
             }
         });
+        // get ATPs that include the start of the specified year
+        atpInfos.addAll(atpService.getAtpsByDate(cal.getTime(), context));
+
+        // and all the ATPs that include the end of the specified year
+        // (since we're looking for academic calendars that overlap that year)
         cal.add(Calendar.YEAR, 1);
-        cal.add(Calendar.DAY_OF_YEAR, -1);
+        cal.add(Calendar.DAY_OF_YEAR, -1); // Dec 31st of the specified year
         atpInfos.addAll(atpService.getAtpsByDate(cal.getTime(), context));
         List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
         for (AtpInfo atpInfo : atpInfos) {
