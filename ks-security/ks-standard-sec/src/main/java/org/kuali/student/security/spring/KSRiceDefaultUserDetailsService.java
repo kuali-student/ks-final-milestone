@@ -91,8 +91,40 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         
         // if property was not set in a config file then 
         // it will be null and it falls through to the identityService code.
+        // -----------------
+        // Here starts a new comment
+        // ------------------
+        // J.Jacobus Roos -- I changed this since the return of a valid principal ID is crucial 4 workflow
+        // thus I use the getPrincipalByPrincipalName which doesn't require me 2 know the password. 
+        // by changing the  ks.ignore.rice.login 2 false this step will be skipped and the proper soap method
+        // will be called which include the username and password.
+        // PS: the previous comment is not true anymore since I do not let it fall thru. I populate it with
+        // all the values from Rice. The fact that it fell thru in the past was a quick way to allowing people
+        // to login without knowing the password. This was good for testing, but that service did not include
+        // the functionality 2 load the correct details(principalId) of the logged in person... thus that service return
+        // principalId and principalName as the same value... which breaks workflow. 
+        
+        // So it is funny since now the people had 2 change the principalIds in the db to the same as the principalname 
+        // What a crude workaround... please communicate people... 
+
+       
         if(Boolean.valueOf(ksIgnoreRiceLogin) == true){
-            return null;
+        	KimPrincipalInfo kimPrincipalInfo;
+        	kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+            String userId;
+            if (null != kimPrincipalInfo) {
+                username = kimPrincipalInfo.getPrincipalName();
+                userId = kimPrincipalInfo.getPrincipalId();
+            } else {
+            // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
+            // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
+            // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
+                //System.out.println("kimPrincipalInfo is null ");
+                throw new KimUserNotFoundException("Invalid username or password");  
+            }
+            ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, authorities);
+            ksuser.setUserId(userId);
+            return ksuser;
         }
         
         password = (String)authentication.getCredentials();

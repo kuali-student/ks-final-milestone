@@ -15,12 +15,17 @@
 
 package org.kuali.student.security.spring;
 
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.student.common.util.security.UserWithId;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.security.util.AuthorityUtils;
+import org.kuali.student.common.util.security.UserWithId;
+
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -30,11 +35,13 @@ import org.springframework.security.util.AuthorityUtils;
  */
 public class KSDefaultUserDetailsService implements UserDetailsService{
 
-    private User ksuser = null;
+    private UserWithId ksuser = null;
     private String password = "";
    
     private boolean enabled = true;
     private boolean nonlocked = true;
+    private IdentityService identityService = null; // This is added so we can get the correct principal ID
+    
     
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
@@ -48,7 +55,34 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
         }
         password = username;
         
-        ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
+        //ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
+        
+        KimPrincipalInfo kimPrincipalInfo = null;
+        try {
+        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
+        }catch(Exception e)
+        {
+        	System.out.println("This is the error" + e.getMessage());
+        			return new User(username, password, enabled, true, true, nonlocked, authorities);
+        }
+        
+        
+        String userId;
+        if (null != kimPrincipalInfo) {
+            username = kimPrincipalInfo.getPrincipalName();
+            userId = kimPrincipalInfo.getPrincipalId();
+        } else {
+        // When a UsernameNotFoundException is thrown, spring security will proceed to the next AuthenticationProvider on the list.
+        // When Rice is running and username is not found in KIM, we want authentication to stop and allow the user to enter the correct username.
+        // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
+            //System.out.println("kimPrincipalInfo is null ");
+            throw new KimUserNotFoundException("Invalid username or password");  
+        }
+        ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, authorities);
+        ksuser.setUserId(userId);
+        
+        
+        
         
         return ksuser;
     }
