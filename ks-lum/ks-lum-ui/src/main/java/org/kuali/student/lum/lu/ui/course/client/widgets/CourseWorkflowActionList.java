@@ -390,28 +390,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
 	private void doUpdateCourseActionItems(DataModel cluModel) {
 		
-    	String cluState = cluModel.get("state");
+    	final String cluState = cluModel.get("state");
     	courseId = cluModel.get(CreditCourseConstants.ID);
     	
     	items.clear();      
     	
-    	if (cluState.equals(DtoConstants.STATE_APPROVED)) {
-    		items.add(modifyCourseActionItem);
-    		items.add(activateCourseActionItem);
-    		if (isCurrentVersion) {
-    			items.add(retireCourseActionItem);
-    		}
-    	} else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
-    		items.add(modifyCourseActionItem);
-    		items.add(inactivateCourseActionItem);
-    		items.add(retireCourseActionItem);
-    	} else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
-    		items.add(activateCourseActionItem);
-    	} else if (cluState.equals(DtoConstants.STATE_RETIRED)){
-    		items.add(modifyCourseActionItem);    		
-    	}
-    	
-		items.add(copyCourseActionItem);
 		String principalId = Application.getApplicationContext().getUserId();
 		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
 
@@ -420,18 +403,17 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					public void handleFailure(Throwable caught) {
 						// Assume no admin access on failure
 						//doModifyActionItem(viewContext, modifyPath, model);
+					    setItems(getNonAdminItems(cluState));
 					}
 
 					@Override
 					public void onSuccess(Boolean result) {
 						
-						if (!result) 
-						{
-							items.remove(retireCourseActionItem);
-							
+						if (!result){
+						    setItems(getNonAdminItems(cluState));
+						} else {
+						    setItems(getAdminItems(cluState));
 						}
-						
-				    	setItems(items);
 						
 				    	CourseWorkflowActionList.this.setEnabled(true);
 						if(CourseWorkflowActionList.this.isEmpty()) {
@@ -442,9 +424,44 @@ public class CourseWorkflowActionList extends StylishDropDown {
 						}
 					}
 				});		
-		
-		
-
+	}
+	
+	private List<KSMenuItemData> getNonAdminItems(String cluState){
+	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {
+            items.add(modifyCourseActionItem);
+            items.add(activateCourseActionItem);
+        } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
+            items.add(modifyCourseActionItem);
+            items.add(inactivateCourseActionItem);
+        } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
+            items.add(activateCourseActionItem);
+        } else if (cluState.equals(DtoConstants.STATE_RETIRED)){
+            items.add(modifyCourseActionItem);          
+        }
+        items.add(copyCourseActionItem);
+        return items;
+    }
+	
+	private List<KSMenuItemData> getAdminItems(String cluState){
+	    if (cluState.equals(DtoConstants.STATE_APPROVED)) {
+            items.add(modifyCourseActionItem);
+            items.add(activateCourseActionItem);
+            if (isCurrentVersion){
+                items.add(retireCourseActionItem);
+            }
+        } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
+            items.add(modifyCourseActionItem);
+            items.add(inactivateCourseActionItem);
+            items.add(retireCourseActionItem);
+        } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
+            items.add(activateCourseActionItem);
+        } else if (cluState.equals(DtoConstants.STATE_RETIRED)){
+            items.add(modifyCourseActionItem);          
+        } else if(cluState.equals(DtoConstants.STATE_SUPERSEDED)) {
+            items.add(modifyCourseActionItem);
+        }
+	    items.add(copyCourseActionItem);
+	    return items;
 	}
 	
     public boolean isEmpty() {

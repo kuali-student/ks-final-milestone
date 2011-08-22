@@ -1,7 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -13,7 +12,6 @@ import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
