@@ -2,6 +2,10 @@
   INSERT INTO KRIM_PERM_TMPL_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,PERM_TMPL_ID,VER_NBR)
   VALUES ('Y','3002','KS Admin Screens','KS-SYS','eb16081a-49e3-430c-9851-1c3e50806058','4001',1)
 /
+-- Create the attribute def link with the Kim-type
+INSERT INTO KRIM_TYP_ATTR_T (ACTV_IND,KIM_ATTR_DEFN_ID,KIM_TYP_ATTR_ID,KIM_TYP_ID,OBJ_ID,SORT_CD,VER_NBR)
+  VALUES ('Y','115','5001','3002','1f93dffc-d880-49c8-8116-a791793b368d','a',1)
+/
  -- Create the new permission 
   INSERT INTO KRIM_PERM_T (ACTV_IND,NMSPC_CD,OBJ_ID,PERM_ID,PERM_TMPL_ID,VER_NBR,NM, desc_txt)
   VALUES ('Y','KS-SYS','068ab713-372d-4bff-94e2-8806bb54b003','3201','4001',1,'KS Admin Screens','Determine availability of admin screens')
