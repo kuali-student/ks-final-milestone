@@ -444,8 +444,8 @@ public class WorkflowUtilities{
 	private void updateWorkflowActionsWidget(){
 		items.clear();
 
-		//Display all workflow actions if workflowWidgetsEnabled, otherwise just display
-		//the cancel option.
+		//When workflow widgets enabled display all available actions, otherwise only
+		//display Cancel, Acknowledge, FYI and Withdraw actions.
 		if (workflowWidgetsEnabled){
         	//Get the workflowNode from the proposal
 			String workflowNode = null;
@@ -489,10 +489,16 @@ public class WorkflowUtilities{
             if(workflowActions.contains("W")){
                 items.add(wfWithdrawItem);
             }
-		} else {
+		} else {			
             if(workflowActions.contains("C")){
                 items.add(wfCancelWorkflowItem);
             }
+			if(workflowActions.contains("K")){
+				items.add(wfAcknowledgeItem);
+			}
+			if(workflowActions.contains("F")){
+				items.add(wfFYIWorkflowItem);
+			}            
             if(workflowActions.contains("W")){
                 items.add(wfWithdrawItem);
             }
