@@ -27,6 +27,8 @@ import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -53,8 +55,8 @@ public class SearchBackedTable extends Composite {
 	protected PagingScrollTable<ResultRow> pagingScrollTable;
 	private VerticalPanel layout = new VerticalPanel();
 
-	private CachingSearchService searchRpcServiceAsync = CachingSearchService
-			.getSearchService();
+	private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
+	
 	private int defaultHeight = 200;
 
 	private SelectionPolicy selectionPolicy = SelectionPolicy.MULTI_ROW;
@@ -83,7 +85,7 @@ public class SearchBackedTable extends Composite {
 		}
 		this.redraw();
 	}
-
+	
 	public void performSearch(SearchRequest searchRequest,
 			List<LookupResultMetadata> listResultMetadata, String resultIdKey,
 			final Callback<Boolean> callback) {
@@ -96,7 +98,7 @@ public class SearchBackedTable extends Composite {
 			pagingScrollTable.setEmptyTableWidget(new Label(
 					"Processing Search..."));
 		}
-
+		
 		// Window.alert ("About to invoke asynch search...");
 		searchRpcServiceAsync.search(searchRequest,
 				new KSAsyncCallback<SearchResult>() {
@@ -132,7 +134,7 @@ public class SearchBackedTable extends Composite {
 
 				});
 	}
-
+	
 	private void initializeTable(List<LookupResultMetadata> listResultMetadata,
 			String resultIdKey) {
 		clearTable();
