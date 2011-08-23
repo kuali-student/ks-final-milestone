@@ -19,45 +19,47 @@ import org.kuali.student.r2.common.infc.MeetingSchedule;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MeetingScheduleInfo", propOrder = {"spaceCode", "time"})
+@XmlType(name = "MeetingScheduleInfo", propOrder = {"spaceId", "timePeriods"})
 public class MeetingScheduleInfo  implements MeetingSchedule, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String spaceCode;
+    private String spaceId;
 
     @XmlElement
-    private String time;
+    private String timePeriods;
 
     public MeetingScheduleInfo() {
         super();
-        spaceCode = null;
-        time = null;
+        spaceId = null;
+        timePeriods = null;
     }
 
     public MeetingScheduleInfo(MeetingSchedule entity) {
         if (null != entity) {
-            this.spaceCode = entity.getSpaceCode();
-            this.time = entity.getTime();
+            this.spaceId = entity.getSpaceId();
+            this.timePeriods = entity.getTimePeriods();
         }
     }
 
     @Override
-    public String getSpaceCode() {
-        return spaceCode;
+    public String getSpaceId() {
+        return spaceId;
     }
 
     @Override
-    public String getTime() {
-        return time;
+    public String getTimePeriods() {
+        return timePeriods;
     }
 
-    public void setSpaceCode(String spaceCode) {
-        this.spaceCode = spaceCode;
+    public void setSpaceId(String spaceId) {
+        this.spaceId = spaceId;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimePeriods(String timePeriods) {
+        this.timePeriods = timePeriods;
     }
+
+
 }

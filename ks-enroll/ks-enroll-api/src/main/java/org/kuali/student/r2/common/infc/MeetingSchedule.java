@@ -26,7 +26,7 @@ public interface MeetingSchedule {
      * Space code where the meeting is going to take place
      * @name Space Code
      */
-    public String getSpaceCode();
+    public String getSpaceId();
     
     /**
      * Date and Time
@@ -39,6 +39,6 @@ public interface MeetingSchedule {
      * The values for time duration or periods of time for all vCalendar properties are formatted as a string conformant with the ISO 8601 basic representation for duration of time. A given duration of a period of time is represented by a character string consisting of the designator "P", optionally including the number of years followed by the designator "Y", optionally including the number of months followed by the designator "M", optionally including the number of weeks followed by the designator "W", optionally including the number of days followed by the designator "D". The sequence can also contain a time component preceded by the designator "T", optionally including the number of hours followed by the designator "H", optionally including the number of minutes followed by the designator "M", optionally including the number of seconds followed by the designator "S". For example: P6W A period of six weeks; PT15M A period of 15 minutes; PT1H30M A period of 1 hour and thirty minutes; or P2Y10M15DT10H30M20S A period of 2 years, 10 months, 15 days, 10 hours, 30 minutes, and 20 seconds. 
      * @name Time
      */
-    public String getTime();
+    public String getTimePeriods();
     
 }
