@@ -598,11 +598,27 @@ public class DataModelValidator {
             String basePath = path.toString();
             if (meta.getProperties() != null) {
                 Object[] keys = meta.getProperties().keySet().toArray();
+                parentElementLoop:
                 for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
                     String element = (String) keys[keyIndex];
                     if (!element.contains("runtimeData")) {
                         QueryPath childPath = QueryPath.concat(basePath, element);
-                        //System.out.println(childPath.toString());
+                        Map<QueryPath, Object> childValues = model.query(childPath);
+                        if (!childValues.isEmpty()) {
+                            Object[] childKeys = childValues.keySet().toArray();
+                            for (int childKeyIndex = 0; childKeyIndex < childKeys.length; childKeyIndex++) {
+                                QueryPath childElement = (QueryPath) childKeys[childKeyIndex];
+                                QueryPath childElementDeletePath = QueryPath.parse(childElement.toString() + QueryPath.getPathSeparator() + RUNTIME_DELETED_KEY);
+                                try {
+                                    Boolean childDeletedObject = model.get(childElementDeletePath);
+                                    if (childDeletedObject != null && childDeletedObject) {
+                                        continue parentElementLoop;
+                                    }
+                                } catch (Exception e) {
+                                    //ignore exception
+                                }
+                            }
+                        }
                         doValidate(model, meta.getProperties().get(element), childPath, results);
                     }
                 }
