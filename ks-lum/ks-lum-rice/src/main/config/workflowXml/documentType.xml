@@ -61,11 +61,10 @@
 <!-- END TEST DOCUMENT FOR HIERARCHY ROUTING -->
 <!-- BEGIN CREDIT COURSE DOCUMENTS -->
     <documentType>
-      <name>CluCreditCourseParentDocument</name>
+      <name>CluParentDocument</name>
       <parent>KualiStudentDocument</parent>
-      <description>Kuali Student Credit Course Parent Document</description>
-      <label>Kuali Student Credit Course Parent Document</label>
-      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <description>Kuali Student Clu Parent Document</description>
+      <label>Kuali Student Clu Parent Document</label>
       <active>true</active>
       <attributes>
         <attribute>
@@ -75,18 +74,21 @@
     </documentType>
 
     <documentType>
+      <name>CluCreditCourseParentDocument</name>
+      <parent>CluParentDocument</parent>
+      <description>Kuali Student Credit Course Parent Document</description>
+      <label>Kuali Student Credit Course Parent Document</label>
+      <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&amp;idType=documentNumber</docHandler>
+      <active>true</active>
+    </documentType>
+
+    <documentType>
       <name>CluMajorDisciplineParentDocument</name>
-      <parent>KualiStudentDocument</parent>
+      <parent>CluParentDocument</parent>
       <description>Kuali Student Major Discipline Parent Document</description>
       <label>Kuali Student Major Discipline Parent Document</label>
       <docHandler>${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&amp;idType=documentNumber</docHandler>
       <active>true</active>
-      <attributes>
-        <attribute>
-        	<!--  Is this attribute correct for program proposals? -->
-            <name>CluCreditCourse.OrgSearchAttribute</name>
-        </attribute>
-      </attributes>
     </documentType>
     
     <documentType>
