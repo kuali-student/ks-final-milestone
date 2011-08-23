@@ -108,6 +108,15 @@ limitations under the License.
               <bean parent="SelectControl">
               </bean>
             </property>
+              <property name="propertyReplacers">
+             <list>
+                <bean parent="PropertyReplacer" p:propertyName="control" p:condition="#line.percentGrade eq false">
+                    <property name="replacement">
+                    <bean parent="TextControl" p:size="26"/>
+              </property>
+                </bean>
+             </list>
+          </property>
           </bean>
         </list>
       </property>

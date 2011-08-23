@@ -390,7 +390,7 @@ public class GradingServiceMockImpl implements GradingService {
             if (studentId.equals("1100")) {
                 rvgInfo.add(validGradesCache.get("letter"));
             } else if (studentId.equals("1101")) {
-                rvgInfo.add(validGradesCache.get("completionNotation"));
+                rvgInfo.add(validGradesCache.get("percent"));
             } else if (studentId.equals("1102")) {
                 rvgInfo.add(validGradesCache.get("passFail"));
             } else if (studentId.equals("1103")) {

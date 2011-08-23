@@ -16,6 +16,8 @@ package org.kuali.student.enrollment.class2.grading.dataobject;
  * limitations under the License.
  */
 
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,11 @@ public class GradeStudent implements Serializable {
 
     private String selectedGrade;
 
+    private boolean percentGrade;
+
     private List<String> availabeGradingOptions;
+
+    private List<ResultValuesGroupInfo> resultValuesGroupInfoList;
 
     public GradeStudent(){
     }
@@ -74,5 +80,21 @@ public class GradeStudent implements Serializable {
 
     public void setSelectedGrade(String selectedGrade) {
         this.selectedGrade = selectedGrade;
+    }
+
+     public boolean isPercentGrade() {
+        return percentGrade;
+    }
+
+    public void setPercentGrade(boolean percentGrade) {
+        this.percentGrade = percentGrade;
+    }
+
+    public List<ResultValuesGroupInfo> getResultValuesGroupInfoList() {
+        return resultValuesGroupInfoList;
+    }
+
+    public void setResultValuesGroupInfoList(List<ResultValuesGroupInfo> resultValuesGroupInfoList) {
+        this.resultValuesGroupInfoList = resultValuesGroupInfoList;
     }
 }
