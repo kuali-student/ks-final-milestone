@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  Constraints for Table KSLP_LPR
+--  Constraints for Table KSEN_LPR
 --------------------------------------------------------
 
   ALTER TABLE "KSEN_LPR" MODIFY ("ID" NOT NULL ENABLE)
