@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
@@ -48,6 +49,8 @@ import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -135,6 +138,16 @@ public abstract class ProgramController extends MenuSectionController {
                                             HistoryManager.logHistoryChange();  
                                             break;
                                     }
+                                }
+                            });
+                            dialog.addCloseLinkClickHandler(new ClickHandler() {
+                                
+                                @Override
+                                public void onClick(ClickEvent event) {
+                                    okToChange.exec(false);
+                                    dialog.hide();
+                                    // Because this event fires after the history change event we need to "undo" the history events. 
+                                    HistoryManager.logHistoryChange();  
                                 }
                             });
                             dialog.show();

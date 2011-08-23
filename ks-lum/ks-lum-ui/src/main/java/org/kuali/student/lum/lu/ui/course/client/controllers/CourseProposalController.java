@@ -1136,6 +1136,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
 								}
 							}
 						});
+						dialog.addCloseLinkClickHandler(new ClickHandler() {
+                            
+                            @Override
+                            public void onClick(ClickEvent event) {
+                                okToChange.exec(false);
+                                dialog.hide();
+                                // Because this event fires after the history change event we need to "undo" the history events. 
+                                HistoryManager.logHistoryChange();  
+                            }
+                        });
 						dialog.show();
 					}
 					else{

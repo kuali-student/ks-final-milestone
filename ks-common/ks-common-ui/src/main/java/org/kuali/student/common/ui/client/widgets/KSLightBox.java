@@ -285,6 +285,10 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
     public void removeCloseLink(){
         closeLink.setVisible(false);
     }
+    
+    public HandlerRegistration addCloseLinkClickHandler(ClickHandler clickHandler) {
+        return closeLink.addClickHandler(clickHandler);
+    }
 //    public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
   //      return handlers.addHandler(CloseEvent.getType(), handler);
    // }
