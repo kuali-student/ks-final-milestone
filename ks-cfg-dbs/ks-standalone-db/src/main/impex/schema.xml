@@ -1043,6 +1043,66 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LPR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="LUIID" size="255" type="VARCHAR"/>
+        <column name="PERSONID" size="255" type="VARCHAR"/>
+        <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
+        <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LPR_STATE" name="FK1BE1597B61E975F6">
+            <reference foreign="ID" local="RELATION_STATE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FK1BE1597B1D2EFA44">
+            <reference foreign="TYPE_KEY" local="RELATION_TYPE_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LPR_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FKDF4BE635A8427FA">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR" name="FKDF4BE635DC3CD520">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR_STATE" name="FKDF4BE635EA869E3D">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LPR_STATE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="DESCR" size="255" type="VARCHAR"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LPR_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
     <table name="KSEN_LUI">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -1681,66 +1741,6 @@
         <column name="PLAIN" size="2000" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
-    </table>
-    <table name="KSEN_LPR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="LUIID" size="255" type="VARCHAR"/>
-        <column name="PERSONID" size="255" type="VARCHAR"/>
-        <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
-        <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_STATE" name="FK1BE1597B61E975F6">
-            <reference foreign="ID" local="RELATION_STATE_ID"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FK1BE1597B1D2EFA44">
-            <reference foreign="TYPE_KEY" local="RELATION_TYPE_ID"/>
-        </foreign-key>
-    </table>
-    <table name="KSEN_LPR_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
-        <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_TYPE" name="FKDF4BE635A8427FA">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_LPR" name="FKDF4BE635DC3CD520">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_LPR_STATE" name="FKDF4BE635EA869E3D">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-    </table>
-    <table name="KSEN_LPR_STATE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="DESCR" size="255" type="VARCHAR"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_LPR_TYPE">
-        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
     </table>
     <table name="KSLR_RESCOMP">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
