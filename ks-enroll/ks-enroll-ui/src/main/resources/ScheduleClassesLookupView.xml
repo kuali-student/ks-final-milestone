@@ -5,14 +5,14 @@
 >
 	<bean id="ScheduleClasses-LookupView" parent="KSLookupView">
 	    <property name="title" value="Schedule Classes Lookup" />
-	    <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
+	    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
 	    <property name="viewName" value="scheduleClassesLookup"/>
 	 <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
-	    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoLookupViewHelperServiceImpl" />
+	    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupWrapperLookupViewHelperServiceImpl" />
 	    
 	    <property name="criteriaFields">
 	      <list>
-            <bean parent="LookupCriteriaAttributeField" p:propertyName="subjectArea">
+            <bean parent="LookupCriteriaAttributeField" p:propertyName="courseOffering.subjectArea">
                 <property name="control">
           			<bean parent="SelectControl"/>
         		</property>
@@ -21,7 +21,7 @@
         		</property>
             </bean>
 
-            <bean parent="LookupCriteriaAttributeField" p:propertyName="termKey">
+            <bean parent="LookupCriteriaAttributeField" p:propertyName="courseOffering.termKey">
                 <property name="control">
           			<bean parent="SelectControl"/>
         		</property>
@@ -34,9 +34,11 @@
 
         <property name="resultFields">
             <list>
-		        <bean parent="AttributeField" p:propertyName="subjectArea" />
-		        <bean parent="AttributeField" p:propertyName="termKey" />
-		        <bean parent="AttributeField" p:propertyName="courseTitle" />
+		        <bean parent="AttributeField" p:propertyName="courseOffering.subjectArea" />
+                <bean parent="AttributeField" p:propertyName="courseOffering.courseOfferingCode" />
+		        <bean parent="AttributeField" p:propertyName="courseOffering.termKey" />
+                <bean parent="AttributeField" p:propertyName="registrationGroup.maximumEnrollment" />
+		        <bean parent="AttributeField" p:propertyName="courseOffering.courseTitle" />
               </list>
         </property>
 
