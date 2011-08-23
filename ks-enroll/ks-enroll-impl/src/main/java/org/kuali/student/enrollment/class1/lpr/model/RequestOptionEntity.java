@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
-public class RequestOptionEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
+public class RequestOptionEntity extends MetaEntity  {
 
 
     @Column(name="OPTION_KEY")
@@ -16,16 +16,22 @@ public class RequestOptionEntity extends MetaEntity implements AttributeOwner<Lu
     @Column(name="OPTION_VALUE")
     private String optionValue;
 
-    @Override
-    public void setAttributes(List<LuiPersonRelationAttributeEntity> attributes) {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-
+    public String getOptionKey() {
+        return optionKey;
     }
 
-    @Override
-    public List<LuiPersonRelationAttributeEntity> getAttributes() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public void setOptionKey(String optionKey) {
+        this.optionKey = optionKey;
     }
 
+    public String getOptionValue() {
+        return optionValue;
+    }
+
+    public void setOptionValue(String optionValue) {
+        this.optionValue = optionValue;
+    }
+
+
+  
 }

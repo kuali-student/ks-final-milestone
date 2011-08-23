@@ -9,7 +9,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
@@ -1034,7 +1033,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
-     * @throws DisabledIdentifierException 
+     * @throws DisabledIdentifierException
      */
     public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(
             @WebParam(name = "studentId") String studentId,
@@ -1042,7 +1041,6 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
 
-   
     /**
      * This method ...
      * 
@@ -1055,13 +1053,14 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
-     * @throws DisabledIdentifierException 
+     * @throws DisabledIdentifierException
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(
             @WebParam(name = "studentId") String studentId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
+
     /**
      * Gets the course registrations for a student by term. Note: not clear if
      * gets the registrations in just the specified term or that term and all
@@ -1076,7 +1075,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
-     * @throws DisabledIdentifierException 
+     * @throws DisabledIdentifierException
      */
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(
             @WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
@@ -1100,6 +1099,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Get course registrations by course offering id. Gets all student
      * registrations for the course.
@@ -1117,6 +1117,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Get the request that resulted in this course registration.
      * 

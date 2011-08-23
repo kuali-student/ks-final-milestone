@@ -1,8 +1,11 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,13 +14,15 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.enrollment.lpr.dto.RequestOptionInfo;
+import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 
-@Entity
-@Table(name = "KSLP_LPR_TRANS")
-public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransactionAttributeEntity> {
+@Embeddable
+public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransItemAttributeEntity> {
 
     @Column(name = "PERSON_ID")
     private String personId;
@@ -35,14 +40,31 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
     private LuiPersonRelationStateEntity lprTransactionState;
-    
+
     // TODO - In LRR impl ?
     // @ManyToOne(optional = false)
-    //private List<ResultOptionEntity> resultOptions;
+    // private List<ResultOptionEntity> resultOptions;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<LprTransItemAttributeEntity> attributes = new ArrayList<LprTransItemAttributeEntity>();
+
+    public LprTransactionItemEntity() {
+
+    }
+
+    public LprTransactionItemEntity(LPRTransactionItem lprTransactionItem) {
+        super(lprTransactionItem);
     
-    @OneToMany
-    @JoinColumn(name = "ID")
-    private List<RequestOptionEntity> requestOptions;
+        this.newLuiId = lprTransactionItem.getNewLuiId();
+        this.existingLuiId = lprTransactionItem.getExistingLuiId();
+        this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
+        if (null != lprTransactionItem.getAttributes()) {
+            for (Attribute att : lprTransactionItem.getAttributes()) {
+                LprTransItemAttributeEntity attEntity = new LprTransItemAttributeEntity(att);
+                this.getAttributes().add(attEntity);
+            }
+        }
+    }
 
     public String getPersonId() {
         return personId;
@@ -85,14 +107,13 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     }
 
     @Override
-    public void setAttributes(List<LprTransactionAttributeEntity> attributes) {
+    public void setAttributes(List<LprTransItemAttributeEntity> attributes) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
 
     }
 
     @Override
-    public List<LprTransactionAttributeEntity> getAttributes() {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+    public List<LprTransItemAttributeEntity> getAttributes() {
         return null;
     }
 
