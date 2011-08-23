@@ -16,11 +16,11 @@ import org.kuali.student.common.entity.TimeAmount;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 
 @Entity
-@Table(name = "KSLP_LPR_ROSTER")
+@Table(name = "KSEN_LPR_ROSTER")
 public class LprRosterEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSLP_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LPRROSTER_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_ID"))
+    @JoinTable(name = "KSEN_LPRROSTER_LUI_RELTN", joinColumns = @JoinColumn(name = "LPRROSTER_ID"), inverseJoinColumns = @JoinColumn(name = "LUI_ID"))
     private List<LuiEntity> associatedLuis;
 
     @Column(name = "MAX_CAPACITY")

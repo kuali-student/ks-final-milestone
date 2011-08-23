@@ -6,20 +6,14 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.enrollment.lpr.dto.RequestOptionInfo;
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 
 @Embeddable
 public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransItemAttributeEntity> {
@@ -46,7 +40,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     // private List<ResultOptionEntity> resultOptions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<LprTransItemAttributeEntity> attributes = new ArrayList<LprTransItemAttributeEntity>();
+    private final List<LprTransItemAttributeEntity> attributes = new ArrayList<LprTransItemAttributeEntity>();
 
     public LprTransactionItemEntity() {
 
@@ -54,7 +48,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     public LprTransactionItemEntity(LPRTransactionItem lprTransactionItem) {
         super(lprTransactionItem);
-    
+
         this.newLuiId = lprTransactionItem.getNewLuiId();
         this.existingLuiId = lprTransactionItem.getExistingLuiId();
         this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());

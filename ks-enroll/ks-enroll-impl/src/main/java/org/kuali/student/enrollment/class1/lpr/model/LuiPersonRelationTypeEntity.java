@@ -10,7 +10,7 @@ import org.kuali.student.r2.common.entity.TypeEntity;
  * @author sambit
  */
 @Entity
-@Table(name = "KSLP_LPR_TYPE")
+@Table(name = "KSEN_LPR_TYPE")
 public class LuiPersonRelationTypeEntity extends TypeEntity<LuiPersonRelationAttributeEntity> {
 
     @Column(name = "REF_OBJECT_URI")

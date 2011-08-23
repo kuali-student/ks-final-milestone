@@ -1,19 +1,15 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 
-import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
-public class RequestOptionEntity extends MetaEntity  {
+public class RequestOptionEntity extends MetaEntity {
 
-
-    @Column(name="OPTION_KEY")
+    @Column(name = "OPTION_KEY")
     private String optionKey;
 
-    @Column(name="OPTION_VALUE")
+    @Column(name = "OPTION_VALUE")
     private String optionValue;
 
     public String getOptionKey() {
@@ -32,6 +28,4 @@ public class RequestOptionEntity extends MetaEntity  {
         this.optionValue = optionValue;
     }
 
-
-  
 }

@@ -18,29 +18,29 @@ import org.kuali.student.r2.common.entity.MetaEntity;
  * @author Igor
  */
 @Entity
-@Table(name = "KSLP_LPR_STATE")
-public class LuiPersonRelationStateEntity extends MetaEntity implements AttributeOwner<LuiPersonRelationAttributeEntity> {
-	
-    
-    @Column(name="NAME")
+@Table(name = "KSEN_LPR_STATE")
+public class LuiPersonRelationStateEntity extends MetaEntity implements
+        AttributeOwner<LuiPersonRelationAttributeEntity> {
+
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name="DESCR")
+    @Column(name = "DESCR")
     private String description;
 
-	@Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
 
-	@Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     // @JoinColumn(name = "person_relation_state_id")
-//    @JoinTable(name="LPR_ATTR_JOIN",
-//    			joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
-//    			inverseJoinColumns=@JoinColumn(name="ATTRIB_ID", referencedColumnName="ID"))
+    // @JoinTable(name="LPR_ATTR_JOIN",
+    // joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
+    // inverseJoinColumns=@JoinColumn(name="ATTRIB_ID",
+    // referencedColumnName="ID"))
     private List<LuiPersonRelationAttributeEntity> attributes;
-
 
     public String getName() {
         return name;

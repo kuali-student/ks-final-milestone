@@ -1,14 +1,14 @@
 -----------------------------------------------------------------------------
--- KSLP_LPR
+-- KSEN_LPR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLP_LPR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLP_LPR CASCADE CONSTRAINTS PURGE'; END IF;
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
-CREATE TABLE KSLP_LPR 
+CREATE TABLE KSEN_LPR 
    (	ID VARCHAR2(255), 
 			OBJ_ID VARCHAR2(36), 
 			VER_NBR NUMBER(19,0), 
@@ -26,16 +26,16 @@ CREATE TABLE KSLP_LPR
 /
 
 -----------------------------------------------------------------------------
--- KSLP_LPR_ATTR
+-- KSEN_LPR_ATTR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLP_LPR_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLP_LPR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
-CREATE TABLE KSLP_LPR_ATTR 
+CREATE TABLE KSEN_LPR_ATTR 
    (	ID VARCHAR2(255), 
 			OBJ_ID VARCHAR2(36), 
 			ATTR_KEY VARCHAR2(255), 
@@ -45,16 +45,16 @@ CREATE TABLE KSLP_LPR_ATTR
 /
 
 -----------------------------------------------------------------------------
--- KSLP_LPR_STATE
+-- KSEN_LPR_STATE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLP_LPR_STATE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLP_LPR_STATE CASCADE CONSTRAINTS PURGE'; END IF;
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_STATE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_STATE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
-CREATE TABLE KSLP_LPR_STATE 
+CREATE TABLE KSEN_LPR_STATE 
    (	ID VARCHAR2(255), 
 			OBJ_ID VARCHAR2(36), 
 			VER_NBR NUMBER(19,0), 
@@ -70,16 +70,16 @@ CREATE TABLE KSLP_LPR_STATE
 /
 
 -----------------------------------------------------------------------------
--- KSLP_LPR_TYPE
+-- KSEN_LPR_TYPE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSLP_LPR_TYPE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSLP_LPR_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
-CREATE TABLE KSLP_LPR_TYPE 
+CREATE TABLE KSEN_LPR_TYPE 
    (	TYPE_KEY VARCHAR2(255), 
 			OBJ_ID VARCHAR2(36), 
 			VER_NBR NUMBER(19,0), 

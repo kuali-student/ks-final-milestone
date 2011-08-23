@@ -9,8 +9,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
@@ -19,6 +21,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
+@Entity
+@Table(name = "KSEN_LPR_TRANS")
 public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransAttributeEntity> {
 
     @Column(name = "REQ_PERSON_ID")
