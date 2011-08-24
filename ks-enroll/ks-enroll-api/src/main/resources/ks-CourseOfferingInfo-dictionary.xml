@@ -20,6 +20,70 @@
   <bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent" />
   <bean id="CourseOfferingInfo-parent" abstract="true" parent="CourseOfferingInfo-generated">
     <!-- insert any overrides to the generated object definitions here -->
+        		<property name="attributes">
+			<list>
+				<ref bean="CourseOfferingInfo.id"/>
+				<ref bean="CourseOfferingInfo.typeKey"/>
+				<ref bean="CourseOfferingInfo.stateKey"/>
+				<ref bean="CourseOfferingInfo.descr.plain"/>
+				<ref bean="CourseOfferingInfo.descr.formatted"/>
+				<ref bean="CourseOfferingInfo.courseId"/>
+				<ref bean="CourseOfferingInfo.termKey"/>
+				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
+				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
+				<ref bean="CourseOfferingInfo.courseTitle"/>
+				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
+				<ref bean="CourseOfferingInfo.subjectArea"/>
+				<ref bean="CourseOfferingInfo.hasFinalExam"/>
+				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
+				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
+				<ref bean="CourseOfferingInfo.creditOptions.id"/>
+				<ref bean="CourseOfferingInfo.creditOptions.typeKey"/>
+				<ref bean="CourseOfferingInfo.creditOptions.stateKey"/>
+				<ref bean="CourseOfferingInfo.creditOptions.name"/>
+				<ref bean="CourseOfferingInfo.creditOptions.descr.plain"/>
+				<ref bean="CourseOfferingInfo.creditOptions.descr.formatted"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.id"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.minValue"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.maxValue"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.increment"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.versionInd"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createTime"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createId"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateTime"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateId"/>
+				<ref bean="CourseOfferingInfo.creditOptions.effectiveDate"/>
+				<ref bean="CourseOfferingInfo.creditOptions.expirationDate"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.versionInd"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.createTime"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.createId"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.updateTime"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.updateId"/>
+				<ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey"/>
+				<ref bean="CourseOfferingInfo.hasWaitlist"/>
+				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
+				<ref bean="CourseOfferingInfo.waitlistMaximum"/>
+				<ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
+				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
+				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.timeQuantity"/>
+				<ref bean="CourseOfferingInfo.fundingSource"/>
+<!--				<ref bean="CourseOfferingInfo.expenditure.id"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.versionInd"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.createTime"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.createId"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.updateTime"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.updateId"/>-->
+				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
+				<ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
+				<ref bean="CourseOfferingInfo.meta.versionInd"/>
+				<ref bean="CourseOfferingInfo.meta.createTime"/>
+				<ref bean="CourseOfferingInfo.meta.createId"/>
+				<ref bean="CourseOfferingInfo.meta.updateTime"/>
+				<ref bean="CourseOfferingInfo.meta.updateId"/>
+			</list>
+		</property>    
   </bean>
 
   <bean id="CourseOfferingInfo.id" parent="CourseOfferingInfo.id-parent" />
@@ -189,6 +253,7 @@
   <bean id="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate-parent" abstract="true"
     parent="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate-generated">
     <!-- insert any overrides to the generated attribute definitions here -->
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate" parent="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate-parent" />
@@ -237,6 +302,7 @@
   <bean id="CourseOfferingInfo.creditOptions.effectiveDate-parent" abstract="true"
     parent="CourseOfferingInfo.creditOptions.effectiveDate-generated">
     <!-- insert any overrides to the generated attribute definitions here -->
+    <property name="required" value="false"/>
   </bean>
 
   <bean id="CourseOfferingInfo.creditOptions.expirationDate" parent="CourseOfferingInfo.creditOptions.expirationDate-parent" />
