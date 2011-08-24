@@ -137,7 +137,9 @@ public abstract class MetaEntity extends BaseVersionEntity{
 		miInfo.setCreateTime(getCreateTime());
 		miInfo.setUpdateId(getUpdateId());
 		miInfo.setUpdateTime(getUpdateTime());
-		miInfo.setVersionInd(getVersionNumber().toString());
+		if(null != getVersionNumber()){
+			miInfo.setVersionInd(new Long(getVersionNumber()).toString());
+		}
 		return miInfo;
 	}
 }
