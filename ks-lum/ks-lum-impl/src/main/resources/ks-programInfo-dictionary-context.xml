@@ -1889,10 +1889,8 @@
  </bean>
  <bean id="programVariationInfo.referenceURL" parent="programVariationInfo.referenceURL-parent"/>
 
- <bean id="programVariationInfo.resultOptions-parent" abstract="true"
-       parent="majorDisciplineInfo.resultOptions-parent">
+ <bean id="programVariationInfo.resultOptions-parent" abstract="true"  parent="majorDisciplineInfo.resultOptions-parent">
   <property name="name" value="resultOptions"/>
-  <property name="maxOccurs" value="1"/>
   <property name="lookupDefinition" ref="kuali.common.lookup.programVariation.degree.types"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
