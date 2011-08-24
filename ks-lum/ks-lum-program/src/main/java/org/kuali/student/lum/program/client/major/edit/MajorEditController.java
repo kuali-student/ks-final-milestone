@@ -356,7 +356,48 @@ public class MajorEditController extends MajorController {
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {    	
     	ViewContext viewContext = getViewContext();
         if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) 
-        	createNewVersionAndLoadModel(callback, viewContext);
+        {	
+        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
+    			@Override
+    			public void onModelReady(DataModel model) {
+    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                        @Override
+                        public void onSuccess(Data result) {
+                            super.onSuccess(result);
+                            comparisonModel.setRoot(result);
+                            reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                    	reqDataModelComp.retrieveProgramRequirements(MajorEditController.this, comparisonModelId, new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    callback.onModelReady(comparisonModel);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });                    
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            super.onFailure(caught);
+                            callback.onRequestFail(caught);
+                        }
+                    });
+        		}
+
+    			@Override
+    			public void onRequestFail(Throwable cause) {
+                    GWT.log("Unable to retrieve comparison model", cause);
+    			}
+        	};	
+        	
+   			createNewVersionAndLoadModel(comparisonModelCallback, viewContext);   			
+        }	
         else 
         {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
@@ -418,25 +459,8 @@ public class MajorEditController extends MajorController {
                 refreshModelAndView(result);
                 viewContext.setId(ProgramUtils.getProgramId(programModel));
                 viewContext.setIdType(IdType.OBJECT_ID);                
-                if (result != null) {
-                	comparisonModel.setRoot(result.getValue());
-                }
-                reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                   @Override
-                   public void exec(Boolean result) {
-                      if (result) {
-                        	reqDataModelComp.retrieveProgramRequirements(MajorEditController.this, comparisonModelId, new Callback<Boolean>() {
-                               @Override
-                               public void exec(Boolean result) {
-                                  if (result) {
-                                      callback.onModelReady(programModel);
-                                      eventBus.fireEvent(new ModelLoadedEvent(programModel));
-                                  }
-                               }
-                           });
-                       }
-                   }
-               });                    
+                callback.onModelReady(programModel);
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
 
             @Override
