@@ -26,7 +26,7 @@
           			<bean parent="SelectControl"/>
         		</property>
         		<property name="optionsFinder">
-          			<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TermKeyValues"/>
+          			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
         		</property>
             </bean>
 	      </list>
