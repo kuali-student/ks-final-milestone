@@ -62,6 +62,8 @@
     
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>
-	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param> 
+	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param>
+
+    <param name="javascript.files" override="true">${javascript.files},ks-enroll/scripts/schedule-plugin.js</param>
     
 </config>
