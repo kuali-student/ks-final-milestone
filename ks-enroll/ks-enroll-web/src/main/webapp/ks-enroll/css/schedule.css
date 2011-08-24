@@ -1,0 +1,62 @@
+.schedule{
+	font-size: .9em;
+	border-collapse:collapse;
+}
+
+.schedule th{
+	border: 1px solid black;
+	font-weight: normal;
+	text-align: center;
+}
+
+.schedule td{
+	vertical-align: top;
+	border: 1px solid black;
+	padding: 0px;
+}
+
+.schedule .timeBlock{
+	position: absolute;
+	top: 0px;
+	text-align: center;
+	color: white;
+	font-weight: bold;	
+}
+
+.schedule .dayRow th{
+	vertical-align: bottom;
+	width:80px;
+}
+
+.schedule .timeRow{
+	line-height: normal;
+	padding: 0px;
+}
+
+.schedule .timeRow th{
+}
+
+.scheduleKey .keyBlock{
+	float: right; 
+	width: 1.1em;
+	text-align: center; 
+	height: 1em;
+	color: white;
+	font-weight: bold;
+	vertical-align: center;
+	padding-bottom: .3em; 
+}
+
+.scheduleKey{
+	font-size: .9em;
+	border-collapse:collapse;
+}
+
+.previewTimeBlock{
+	background-color: gray;
+	opacity: .5;
+}
+
+.timeHighlight{
+	border: 2px dotted yellow;
+}
