@@ -34,6 +34,7 @@
                 <ref bean="ks_studentFacing_registrationView_section1"/>
                 <ref bean="ks_studentFacing_registrationView_section2"/>
                 <ref bean="ks_studentFacing_registrationView_nosection_group1"/>
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
@@ -63,7 +64,12 @@
     <bean id="ks_studentFacing_registrationView_section1_group1" parent="GroupGridLayout">
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:propertyName="programs" p:label="By Programs/Departments 2"
+                <bean parent="AttributeField_Form" p:propertyName="termKey">
+                    <property name="control">
+                        <bean parent="HiddenControl"/>
+                    </property>
+                </bean>
+                <bean parent="AttributeField_Form" p:propertyName="subjectArea" p:label="By Programs/Departments 2"
                       p:readOnly="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="SelectControl"/>
@@ -111,5 +117,60 @@
             </list>
         </property>
     </bean>
+
+
+
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
+        <property name="title"
+            value="Click a class to show/hide detail" />
+        <property name="accordion.render" value="true" />
+        <property name="collectionObjectClass"
+            value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper" />
+        <property name="propertyName" value="courseOfferings" />
+        <property name="layoutManager.summaryFields">
+            <list>
+                <value>courseOffering.courseTitle</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+<!--
+                <bean parent="AttributeField" p:propertyName="courseOffering.courseTitle" p:label="Course" />
+                <bean parent="AttributeField" p:propertyName="field2" p:label="Field 2"
+                    p:required="true" />
+                <bean parent="AttributeField" p:propertyName="field3" p:label="Field 3"
+                    p:required="true" />
+                <bean parent="AttributeField" p:propertyName="field4" p:label="Field 4"
+                    p:required="true" />
+-->
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup">
+        <property name="accordion.render" value="false" />
+        <property name="collectionObjectClass"
+            value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupInfoWrapper" />
+        <property name="propertyName" value="registrationGroupInfoWrappers" />
+        <property name="items">
+            <list>
+                <bean parent="AttributeField" p:propertyName="registrationGroupInfo.registrationCode" p:label="Registration Code" />
+<!--
+                <bean parent="AttributeField" p:propertyName="field2" p:label="SubField 2"
+                    p:required="true" />
+                <bean parent="AttributeField" p:propertyName="field3" p:label="SubField 3"
+                    p:required="true" />
+                <bean parent="AttributeField" p:propertyName="field4" p:label="SubField 4"
+                    p:required="true" />
+-->
+            </list>
+        </property>
+    </bean>
+
 
 </beans>

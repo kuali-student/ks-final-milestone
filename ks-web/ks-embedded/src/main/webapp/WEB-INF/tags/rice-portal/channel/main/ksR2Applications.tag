@@ -48,7 +48,7 @@
   </ul>
   <strong>KS Enroll -- Registration</strong>
   <ul class="chan">
-      <li><portal:portalLink displayTitle="true" title="Register for Classes" url="${ConfigProperties.application.url}/spring/registration?methodToCall=start&viewId=studentRegistrationView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+      <li><portal:portalLink displayTitle="true" title="Register for Fall 2011 Classes" url="${ConfigProperties.application.url}/spring/registration?methodToCall=start&viewId=studentRegistrationView&termKey=testTermId1&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
   </ul>
   <strong>KS Enroll -- Grading</strong>
   <ul class="chan">

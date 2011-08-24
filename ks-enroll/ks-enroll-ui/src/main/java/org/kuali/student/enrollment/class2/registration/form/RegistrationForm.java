@@ -17,7 +17,10 @@ package org.kuali.student.enrollment.class2.registration.form;
  */
 
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.lum.course.dto.ActivityInfo;
 
 import java.util.List;
 
@@ -25,12 +28,29 @@ public class RegistrationForm extends UifFormBase {
 
     private static final long serialVersionUID = 2554632701931313545L;
 
-    private String programs;
+    private String termKey;
+    private String subjectArea;
     private String courseNameOrNumber;
-    private List<CourseOfferingInfo> courseOfferings;
+    private List<CourseOfferingInfoWrapper> courseOfferings;
 
     public RegistrationForm(){
         super();
+    }
+
+    public String getTermKey() {
+        return termKey;
+    }
+
+    public void setTermKey(String termKey) {
+        this.termKey = termKey;
+    }
+
+    public String getSubjectArea() {
+        return subjectArea;
+    }
+
+    public void setSubjectArea(String subjectArea) {
+        this.subjectArea = subjectArea;
     }
 
     public String getCourseNameOrNumber() {
@@ -41,11 +61,12 @@ public class RegistrationForm extends UifFormBase {
         this.courseNameOrNumber = courseNameOrNumber;
     }
 
-    public String getPrograms() {
-        return programs;
+    public List<CourseOfferingInfoWrapper> getCourseOfferings() {
+        return courseOfferings;
     }
 
-    public void setPrograms(String programs) {
-        this.programs = programs;
+    public void setCourseOfferings(List<CourseOfferingInfoWrapper> courseOfferings) {
+        this.courseOfferings = courseOfferings;
     }
+
 }

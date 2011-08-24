@@ -49,10 +49,14 @@
 				<value>classpath:GradingView.xml</value>
                 <value>classpath:ScheduleClassesLookupView.xml</value>
                 <value>classpath:CourseOfferingGradingLookup.xml</value>
-                <!-- <value>classpath:RegistrationGroupInfoUI.xml</value>
+<!--
+                <value>classpath:RegistrationGroupInfoUI.xml</value>
                 <value>classpath:ActivityOfferingInfoUI.xml</value>
-                <value>classpath:RegistrationGroupWrapperMaintenance.xml</value> -->
+                <value>classpath:RegistrationGroupWrapperMaintenance.xml</value>
+-->
                 <value>classpath:StudentGradeView.xml</value>
+
+                <value>classpath:RegistrationUI.xml</value>
 
 				<!--
 				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	

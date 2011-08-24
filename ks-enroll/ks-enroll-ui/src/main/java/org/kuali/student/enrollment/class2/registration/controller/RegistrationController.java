@@ -15,9 +15,20 @@
  */
 package org.kuali.student.enrollment.class2.registration.controller;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
 import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoLookupViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupInfoWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,10 +38,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/registration")
 public class RegistrationController extends UifControllerBase {
+
+    private transient CourseOfferingService courseOfferingService;
 
     public UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new RegistrationForm();
@@ -41,10 +57,63 @@ public class RegistrationController extends UifControllerBase {
      * the view for rendering
      */
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(formBase);
+    }
+
+    /**
+     * Method used to search for course offerings based on criteria entered
+     */
+    @RequestMapping(params = "methodToCall=searchCourseOfferings")
+    public ModelAndView searchCourseOfferings(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        RegistrationForm registrationForm = (RegistrationForm) formBase;
+        ContextInfo context = ContextInfo.newInstance();
+
+//        List<CourseOfferingInfoWrapper> courseOfferingInfoWrappers;
+
+        try {
+            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+            registrationForm.setCourseOfferings(new ArrayList<CourseOfferingInfoWrapper>(courseOfferingIds.size()));
+
+            for(String coId : courseOfferingIds) {
+                CourseOfferingInfoWrapper courseOfferingInfoWrapper = new CourseOfferingInfoWrapper();
+                courseOfferingInfoWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
+                List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
+
+                List<RegistrationGroupInfoWrapper> registrationGroupInfoWrappers = new ArrayList<RegistrationGroupInfoWrapper>(regGroups.size());
+                for(RegistrationGroupInfo regGroup : regGroups) {
+                    RegistrationGroupInfoWrapper registrationGroupInfoWrapper = new RegistrationGroupInfoWrapper();
+                    registrationGroupInfoWrapper.setRegistrationGroupInfo(regGroup);
+
+                    // TODO right now getOfferingsByIdList throws a not supported exception
+//                    registrationGroupInfoWrapper.setActivityOfferingInfos(getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context));
+
+                    for(String activityId : regGroup.getActivityOfferingIds()) {
+                        registrationGroupInfoWrapper.getActivityOfferingInfos().add(getCourseOfferingService().getActivityOffering(activityId, context));
+                    }
+                    registrationGroupInfoWrappers.add(registrationGroupInfoWrapper);
+
+                }
+                courseOfferingInfoWrapper.setRegistrationGroupInfoWrappers(registrationGroupInfoWrappers);
+                registrationForm.getCourseOfferings().add(courseOfferingInfoWrapper);
+            }
+
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(registrationForm);
     }
 
     /**
@@ -55,5 +124,14 @@ public class RegistrationController extends UifControllerBase {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         RegistrationForm registrationForm = (RegistrationForm) formBase;
         return getUIFModelAndView(registrationForm);
+    }
+
+
+    protected CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "CourseOfferingService"));
+        }
+
+        return courseOfferingService;
     }
 }
