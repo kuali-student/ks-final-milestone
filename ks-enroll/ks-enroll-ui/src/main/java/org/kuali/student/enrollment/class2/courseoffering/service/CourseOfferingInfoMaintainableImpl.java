@@ -50,8 +50,6 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
     	String courseId = courseOfferingInfo.getCourseId();
     	
     	CourseInfo course = null;
-    	
-		//get formatIdList
     	try {
     		course = getCourseService().getCourse(courseId);
     	}catch(org.kuali.student.common.exceptions.OperationFailedException ofe){
@@ -66,8 +64,7 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
     		System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  "+mpe.toString());
     	}
     	
-    	
-
+		//form the formatIdList
      	List<String> formatIdList = new ArrayList<String>();
      	/*
            	       	List<FormatInfo> formatList = course.getFormats();
@@ -75,9 +72,12 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
            	       		formatIdList.add(format.getId());
            	       	}
      	 */       	
+     	FormatInfo firstFormat = null;
      	// only pick the first format based on Larry's suggestion to simplify core slice development
-     	FormatInfo firstFormat = course.getFormats().get(0);
-     	formatIdList.add(firstFormat.getId());
+     	if (course != null) {
+     		firstFormat = course.getFormats().get(0);
+     		formatIdList.add(firstFormat.getId());
+     	}
      	
      	CourseOfferingInfo coi = null;        
      	try{
@@ -109,26 +109,26 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
     	if (coi != null){
     		coi.setInstructors(instructors);
     		coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+     	
+    		//update the CourseOfferingInfo coi in DB with instructors info
+    		try{
+    			getCourseOfferingService().updateCourseOffering(coi.getId(), coi, ContextInfo.newInstance());
+        	}catch (OperationFailedException ofe){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get OperationFailedException:  "+ofe.toString()); 	
+        	}catch (InvalidParameterException ipe){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get InvalidParameterException:  "+ipe.toString());
+        	}catch (DoesNotExistException dnee){    		
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get DoesNotExistException:  "+dnee.toString());
+        	}catch (PermissionDeniedException pde){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get PermissionDeniedException:  "+pde.toString());
+        	}catch (MissingParameterException mpe){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get MissingParameterException:  "+mpe.toString());
+         	}catch (VersionMismatchException vme){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get VersionMismatchException:  "+vme.toString());
+        	}catch (DataValidationErrorException dvee){
+        		System.out.println("call courseOfferingService.updateCourseOffering() method, and get DataValidationErrorException:  "+dvee.toString());
+         	}
     	}
-    	
-    	try{
-        	//update the CourseOfferingInfo coi in DB with instructors info
-        	getCourseOfferingService().updateCourseOffering(coi.getId(), coi, ContextInfo.newInstance());
-    	}catch (OperationFailedException ofe){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get OperationFailedException:  "+ofe.toString()); 	
-    	}catch (InvalidParameterException ipe){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get InvalidParameterException:  "+ipe.toString());
-    	}catch (DoesNotExistException dnee){    		
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get DoesNotExistException:  "+dnee.toString());
-    	}catch (PermissionDeniedException pde){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get PermissionDeniedException:  "+pde.toString());
-    	}catch (MissingParameterException mpe){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get MissingParameterException:  "+mpe.toString());
-     	}catch (VersionMismatchException vme){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get VersionMismatchException:  "+vme.toString());
-    	}catch (DataValidationErrorException dvee){
-    		System.out.println("call courseOfferingService.updateCourseOffering() method, and get DataValidationErrorException:  "+dvee.toString());
-     	}
 
     	//create a list of ActivityOfferingInfo based on activities defined in the format of the course
     	List<String> courseOfferingIdList = new ArrayList<String>();
@@ -136,71 +136,71 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
 
     	List<ActivityOfferingInfo> activityOfferingInfoList = new ArrayList <ActivityOfferingInfo>(); 
     	List<String> activityOfferingIdList = new ArrayList<String>();
-    	List<ActivityInfo> activities = firstFormat.getActivities();
-    	for (ActivityInfo activity : activities){
-    		//It looks like termKey and activityId are required field to create an ActivityOfferingInfo data entry
-    		ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
-    		activityOfferingInfo.setInstructors(instructors);
-    		activityOfferingInfo.setTermKey(termKey);
-    		activityOfferingInfo.setActivityId(activity.getId());
-    		try {
-    			List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), ContextInfo.newInstance());
-    			if(activityOfferingTypes.size()>1){
-    				System.out.println(">>for core slice, it should be 1-to-1 mapping. so only take the first one -- "+activityOfferingTypes.get(0).getKey());
+    	if (firstFormat != null){
+    		List<ActivityInfo> activities = firstFormat.getActivities();
+    		for (ActivityInfo activity : activities){
+    			ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+    			activityOfferingInfo.setInstructors(instructors);
+    			//It looks like termKey and activityId are required fields to create an ActivityOfferingInfo data entry
+    			activityOfferingInfo.setTermKey(termKey);
+    			activityOfferingInfo.setActivityId(activity.getId());
+    			try {
+    				List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), ContextInfo.newInstance());
+    				if(activityOfferingTypes.size()>1){
+    					System.out.println(">>for core slice, it should be 1-to-1 mapping. so only take the first one -- "+activityOfferingTypes.get(0).getKey());
+    				}
+
+    				//for Core Slice -- if the mapping between Canonical Activity to Activity Offering is not 1-to-1, 
+    				//(see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Types)
+    				//only take the first one.
+    				activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
+    				activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+    				activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, ContextInfo.newInstance());
+    				activityOfferingInfoList.add(activityOfferingInfo);
+    				activityOfferingIdList.add(activityOfferingInfo.getId());
+
+    				//create a RegiistrationGroup after successfully create all activityOfferingInfos
+    				RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
+    				registrationGroupInfo.setCourseOfferingId(coi.getId());
+    				registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
+    				registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+    				registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+    				try {
+    					getCourseOfferingService().createRegistrationGroup(coi.getId(), registrationGroupInfo, ContextInfo.newInstance());
+    				}catch (OperationFailedException ofe){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get OperationFailedException:  "+ofe.toString()); 	
+    				}catch (InvalidParameterException ipe){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get InvalidParameterException:  "+ipe.toString());
+    				}catch (DoesNotExistException dnee){    		
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DoesNotExistException:  "+dnee.toString());
+    				}catch (PermissionDeniedException pde){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get PermissionDeniedException:  "+pde.toString());
+    				}catch (MissingParameterException mpe){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get MissingParameterException:  "+mpe.toString());
+    				}catch (AlreadyExistsException aee){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get AlreadyExistsException:  "+aee.toString());
+    				}catch (DataValidationErrorException dvee){
+    					System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DataValidationErrorException:  "+dvee.toString());
+    				}
+
+    			}catch (OperationFailedException ofe){
+    				System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get OperationFailedException:  "+ofe.toString()); 	
+    			}catch (InvalidParameterException ipe){
+    				System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get InvalidParameterException:  "+ipe.toString());
+    			}catch (PermissionDeniedException pde){
+    				System.out.println("call courseOfferingService.createActivityOffering() method, and get PermissionDeniedException:  "+pde.toString());
+    			}catch (MissingParameterException mpe){
+    				System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get MissingParameterException:  "+mpe.toString());
+    			}catch (AlreadyExistsException aee){
+    				System.out.println("call courseOfferingService.createActivityOffering() method, and get AlreadyExistsException:  "+aee.toString());
+    			}catch (DataValidationErrorException dvee){
+    				System.out.println("call courseOfferingService.createActivityOffering() method, and get DataValidationErrorException:  "+dvee.toString());
+    			}catch (DoesNotExistException dnee){    		
+    				System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() method, and get DoesNotExistException:  "+dnee.toString());
     			}
-    			
-    			//for Core Slice -- if the mapping between Canonical Activity to Activity Offering is not 1-to-1, 
-    			//(see https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Types)
-    			//only take the first one.
-    			activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
-    			activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
-    			activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, ContextInfo.newInstance());
-        		activityOfferingInfoList.add(activityOfferingInfo);
-        		activityOfferingIdList.add(activityOfferingInfo.getId());
-        		
-            	//create a RegiistrationGroup after successfully create all activityOfferingInfos
-            	RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
-            	registrationGroupInfo.setCourseOfferingId(coi.getId());
-            	registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
-            	registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
-            	registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
-            	try {
-            		getCourseOfferingService().createRegistrationGroup(coi.getId(), registrationGroupInfo, ContextInfo.newInstance());
-            	}catch (OperationFailedException ofe){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get OperationFailedException:  "+ofe.toString()); 	
-            	}catch (InvalidParameterException ipe){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get InvalidParameterException:  "+ipe.toString());
-            	}catch (DoesNotExistException dnee){    		
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DoesNotExistException:  "+dnee.toString());
-            	}catch (PermissionDeniedException pde){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get PermissionDeniedException:  "+pde.toString());
-            	}catch (MissingParameterException mpe){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get MissingParameterException:  "+mpe.toString());
-            	}catch (AlreadyExistsException aee){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get AlreadyExistsException:  "+aee.toString());
-            	}catch (DataValidationErrorException dvee){
-            		System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DataValidationErrorException:  "+dvee.toString());
-            	}
-            	
-        	}catch (OperationFailedException ofe){
-        		System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get OperationFailedException:  "+ofe.toString()); 	
-        	}catch (InvalidParameterException ipe){
-        		System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get InvalidParameterException:  "+ipe.toString());
-        	}catch (PermissionDeniedException pde){
-        		System.out.println("call courseOfferingService.createActivityOffering() method, and get PermissionDeniedException:  "+pde.toString());
-        	}catch (MissingParameterException mpe){
-        		System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get MissingParameterException:  "+mpe.toString());
-        	}catch (AlreadyExistsException aee){
-        		System.out.println("call courseOfferingService.createActivityOffering() method, and get AlreadyExistsException:  "+aee.toString());
-        	}catch (DataValidationErrorException dvee){
-        		System.out.println("call courseOfferingService.createActivityOffering() method, and get DataValidationErrorException:  "+dvee.toString());
-        	}catch (DoesNotExistException dnee){    		
-        		System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() method, and get DoesNotExistException:  "+dnee.toString());
-        	}
 
+    		}
     	}
-
-
 		
     }
     
