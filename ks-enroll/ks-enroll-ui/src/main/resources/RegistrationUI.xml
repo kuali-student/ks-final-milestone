@@ -23,16 +23,17 @@
         <property name="id" value="studentRegistrationView"/>
         <property name="title" value="Registration"/>
         <property name="singlePageView" value="true" />
+        <property name="page">
+            <bean parent="Page" />
+        </property>
+        <property name="footer">
+          <bean parent="Footer"/>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Page_Accordion" p:id="page1">
-                    <property name="items">
-                        <list>
-                            <ref bean="ks_studentFacing_registrationView_section1"/>
-                            <ref bean="ks_studentFacing_registrationView_section2"/>
-                        </list>
-                    </property>
-                </bean>
+                <ref bean="ks_studentFacing_registrationView_section1"/>
+                <ref bean="ks_studentFacing_registrationView_section2"/>
+                <ref bean="ks_studentFacing_registrationView_nosection_group1"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
@@ -60,11 +61,10 @@
     </bean>
 
     <bean id="ks_studentFacing_registrationView_section1_group1" parent="GroupGridLayout">
-        <property name="title" value="By Programs/Departments"/>
         <property name="items">
             <list>
                 <bean parent="AttributeField_Form" p:propertyName="programs" p:label="By Programs/Departments 2"
-                      p:readOnly="false">
+                      p:readOnly="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="SelectControl"/>
                     </property>
@@ -85,11 +85,10 @@
     </bean>
 
     <bean id="ks_studentFacing_registrationView_section2_group1" parent="GroupGridLayout">
-        <property name="title" value="Enter the Course Name or Number"/>
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber" p:label="Enter the Course Name or Number 2"
-                      p:readOnly="false">
+                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber" p:label="Enter the Course Name or Number"
+                      p:readOnly="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
                     </property>
@@ -100,6 +99,15 @@
                               value="edu.sampleu.travel.bo.TravelAccountType"/>
 -->
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_nosection_group1" parent="GroupGridLayout">
+        <property name="items">
+            <list>
+                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"/>
+                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"/>
             </list>
         </property>
     </bean>
