@@ -45,8 +45,10 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "LPR_STATE_ID")
     private LuiPersonRelationStateEntity lprTransState;
 
+    public LprTransactionEntity() {}
+
     public LprTransactionEntity(LprTransaction lprTransaction) {
-        super();
+        super(lprTransaction);
         this.requestingPersonId = lprTransaction.getRequestingPersonId();
         this.lprTransactionItems = new HashSet<LprTransactionItemEntity>();
         for (LPRTransactionItem lprTransItem : lprTransaction.getLprTransactionItems()) {

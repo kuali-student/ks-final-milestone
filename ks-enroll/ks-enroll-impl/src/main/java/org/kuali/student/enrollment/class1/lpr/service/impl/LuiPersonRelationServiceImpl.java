@@ -403,8 +403,19 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambitpatnaik - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+
+        LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
+        if (null != lprTrans) {
+
+            lprTransDao.remove(lprTrans);
+            status.setSuccess(Boolean.TRUE);
+
+        } else
+            status.setSuccess(Boolean.FALSE);
+
+        return status;
     }
 
     /**
@@ -546,8 +557,31 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        LprTransactionEntity existingLprTransactionEntity = lprTransDao.find(lprTransactionId);
+        LprTransactionEntity newLprTransactionEntity = new LprTransactionEntity();
+        if (existingLprTransactionEntity != null) {
+            newLprTransactionEntity.setId(String.valueOf(Math.random()));
+            newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
+            newLprTransactionEntity.setDescr(existingLprTransactionEntity.getDescr());
+            newLprTransactionEntity.setLprTransactionItems(existingLprTransactionEntity.getLprTransactionItems());
+            newLprTransactionEntity.setLprTransState(lprStateDao
+                    .find(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY));
+            newLprTransactionEntity.setLprTransType(existingLprTransactionEntity.getLprTransType());
+            newLprTransactionEntity.setRequestingPersonId(existingLprTransactionEntity.getRequestingPersonId());
+            lprTransDao.persist(newLprTransactionEntity);
+
+        } else {
+            throw new DoesNotExistException("Could not find any LPR Transaction for id : " + lprTransactionId);
+        }
+        LprTransactionEntity retrived = lprTransDao.find(newLprTransactionEntity.getId());
+        LprTransactionInfo info = null;
+        if (retrived != null) {
+            info = retrived.toDto();
+        } else {
+            throw new OperationFailedException("");
+        }
+        return info;
     }
 
     @Override
@@ -650,8 +684,21 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
+
+        if (null != lprTrans) {
+            LprTransactionEntity modifiedLprTrans = new LprTransactionEntity(lprTransactionInfo);
+            if (lprTransactionInfo.getStateKey() != null)
+                modifiedLprTrans.setLprTransState(lprStateDao.find(lprTransactionInfo.getStateKey()));
+            if (lprTransactionInfo.getTypeKey() != null)
+                modifiedLprTrans.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
+            lprTransDao.merge(modifiedLprTrans);
+
+            return lprTransDao.find(modifiedLprTrans.getId()).toDto();
+
+        } else
+
+            throw new DoesNotExistException(lprTransactionId);
     }
 
     @Override
