@@ -33,6 +33,7 @@ public interface OfferingInstructor extends HasAttributesAndMeta, HasId {
     /**
      * Unique identifier for a person record.
      * @name Person Id
+     * @impl lpr.personId
      */
     public String getPersonId();
 
@@ -44,8 +45,9 @@ public interface OfferingInstructor extends HasAttributesAndMeta, HasId {
     public String getPersonInfoOverride();
     
     /**
-     * Percentage involvement of the instructor in the Lui
+     * Percentage involvement of the instructor in the 
      * @name Percentage Effort
+     * @impl maps to lpr.commitmentPercent
      */
     public Float getPercentageEffort();
 }
