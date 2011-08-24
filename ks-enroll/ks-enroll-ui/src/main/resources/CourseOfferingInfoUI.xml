@@ -95,7 +95,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="SelectControl"/>
     	</property>
         <property name="optionsFinder">
-          	<bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TermKeyValues"/>
+          	<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
         </property>
     </bean>   
 
@@ -112,7 +112,28 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property>
     </bean>
 
-    <bean id="CourseOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
+  <!-- Lookup View 
+  <bean id="CourseOfferingInfo-LookupView" parent="KSLookupView">
+    <property name="title" value="Course Offering Info Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
+  
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="typeKey"/> 
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="key" />
+        <bean parent="AttributeField" p:propertyName="termKey" /> 		
+        <bean parent="AttributeField" p:propertyName="courseId" />
+      </list>
+    </property>
+  </bean>
+ --> 
+  <bean id="CourseOfferingInfo-MaintenanceView" parent="KSMaintenanceView">
      <property name="title" value="Course Offering Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl" />
@@ -125,15 +146,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="AttributeField" p:propertyName="termKey">
 		            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
 		            <property name="fieldLookup.fieldConversions" value="key:termKey"/> 
-		         <!--    <property name="viewName" value=""/>       -->        
-                 <!--
-                    <property name="control">
+		     <!--   <property name="viewName" value=""/>           
+                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
             		<property name="optionsFinder">
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
             		</property>
-            	-->	
+              --> 	
             	</bean>		                
                 <bean parent="AttributeField" p:propertyName="courseId">
                 	<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
