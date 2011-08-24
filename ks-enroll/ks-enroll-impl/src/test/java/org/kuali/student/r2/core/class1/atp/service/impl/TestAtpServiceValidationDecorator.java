@@ -49,7 +49,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-//s@Ignore
+@Ignore
 public class TestAtpServiceValidationDecorator {
 
     public AtpService atpService;
