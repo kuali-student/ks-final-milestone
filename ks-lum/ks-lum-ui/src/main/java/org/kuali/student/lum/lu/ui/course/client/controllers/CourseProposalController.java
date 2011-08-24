@@ -66,6 +66,7 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
@@ -176,7 +177,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	cfg = GWT.create(CourseProposalConfigurer.class);
    		proposalPath = cfg.getProposalPath();
    		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions",
-   				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"Required Fields", cfg.getModelId());//TODO make msg
+   				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
    		cfg.setState(DtoConstants.STATE_DRAFT);
    		
    		//Add an extra menu item to copy the proposal to a new proposal.
@@ -449,10 +450,17 @@ public class CourseProposalController extends MenuEditableSectionController impl
 						public void onModelReady(DataModel model) {
 							//Only display if this is a modification
 							String versionedFromId = model.get("versionInfo/versionedFromId");
-							if(versionedFromId!=null && !versionedFromId.isEmpty()){
-								//Add the previous start term since we need it as a widget so it can act as a cross field constraint
-								workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition,false);
-								workflowUtil.updateApproveFields();
+							if(versionedFromId!=null && !versionedFromId.isEmpty()){	
+							    KSLabel descLabel = new KSLabel();
+							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
+							    if (workflowUtil.getApproveDialogue() != null) {
+							        workflowUtil.getApproveDialogue().addWidget(descLabel);
+							    }
+							    workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
+							    workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
+                                
+							    workflowUtil.updateApproveFields();							    
+							    workflowUtil.progressiveEnableFields();							    
 							}else{
 								//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
 								workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");

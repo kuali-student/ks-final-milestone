@@ -126,6 +126,8 @@ public class LUUIConstants {
     
     public static final String PROPOSAL_PREV_START_TERM = "previousStartTerm";
     public static final String PROPOSAL_PREV_END_TERM = "previousEndTerm";
+    public static final String FINAL_APPROVAL_DIALOG = "finalApprovalProposalStartTermDialogue";
+    public static final String PROPOSAL_START_TERM = "proposalStartTerm";
     
     
     //Logistics labels

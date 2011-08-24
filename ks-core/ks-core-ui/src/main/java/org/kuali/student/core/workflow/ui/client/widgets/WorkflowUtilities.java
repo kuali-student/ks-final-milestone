@@ -27,6 +27,7 @@ import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
@@ -46,17 +47,19 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.AcknowledgeCancelEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmApprovalCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.RejectCancelEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmApprovalCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -74,8 +77,11 @@ import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -97,6 +103,8 @@ public class WorkflowUtilities{
 
         private String type = "";
         private String label = "";
+        
+        
 
         private DecisionRationaleDetail(String type, String label) {
             this.type = type;
@@ -123,6 +131,8 @@ public class WorkflowUtilities{
     }
 
 	DataModel dataModel=null;
+	
+
 	
 	boolean loaded=false;
     
@@ -171,6 +181,8 @@ public class WorkflowUtilities{
 
 	private String dropDownLabel = "Workflow Actions";
 	
+	ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL); 
+	
 	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
 		this.parentController = parentController;
 		this.proposalPath = proposalPath;
@@ -200,17 +212,41 @@ public class WorkflowUtilities{
 		setupWFButtons();
 		setupDialog();
 	}
-
+	
+	public void addApproveDialogMsg(String messageText) {
+	    KSLabel textArea = new KSLabel();
+	    textArea.setText(messageText);
+	    
+	    approveDialogView.addWidget(textArea);
+	}
+	
 	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd){
+	    return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, false, null);
+
+	}
+	
+	   public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly){
+	        return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, readOnly, null);
+
+	    }
+
+	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly, Widget widget){
 
 		QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
         
+        FieldDescriptor blanketApproveFd;
+        FieldDescriptor approveFd;
+        
         //Always add to blanket approve 
         if(blanketApproveDialogView != null){
-        	FieldDescriptor fd1 = new FieldDescriptor(path.toString(), messageKey, meta);
-        	fd1.setHasHadFocus(true);
-        	blanketApproveDialogView.addField(fd1);
+            if(!readOnly){
+                blanketApproveFd = new FieldDescriptor(path.toString(), messageKey, meta);
+            } else {
+                blanketApproveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+            }
+            blanketApproveFd.setHasHadFocus(true);
+        	blanketApproveDialogView.addField(blanketApproveFd);
         }
         
 		//Add a new field to the workflow widget
@@ -219,10 +255,14 @@ public class WorkflowUtilities{
 	        		(meta.isCanEdit() && 
 	        				(MetadataInterrogator.isRequiredForNextState(meta) || 
 	        						(meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
-	        	FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
-	            fd.setHasHadFocus(true);
-	    	    approveDialogView.addField(fd);
-	            return fd;
+	            if(!readOnly){
+	                approveFd = new FieldDescriptor(path.toString(), messageKey, meta);
+	            } else {
+	                approveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+	            }
+	            approveFd.setHasHadFocus(true);
+	    	    approveDialogView.addField(approveFd);
+	            return approveFd;
 	        }
 		}
 		return null;
@@ -261,35 +301,37 @@ public class WorkflowUtilities{
 	 * @param dataModel
 	 */
 	public static void updateCrossField(final FieldDescriptor fd, final DataModel dataModel){
-		//Update the widgets of any cross constraints so the values are there and can be reprocessed.
-		if(fd.getFieldWidget() instanceof HasCrossConstraints){
-			HashSet<String> constraints = ((HasCrossConstraints)fd.getFieldWidget()).getCrossConstraints();
-			if(constraints!=null){
-				for(String path:constraints){
-					final String finalPath = SearchUtils.resolvePath(path);
-					final FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
-					if(crossField!=null){
-						final ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
-						if(mwb!=null){
-							//This insanity is needed because setting a widget value can be asynchronous.
-							//Adds a callback and reprocesses constraints after the value has actually been set
-							if(crossField.getFieldWidget() instanceof KSPicker && ((KSPicker)crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract){
-								((KSSelectItemWidgetAbstract)((KSPicker)crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>(){
-									public void exec(Widget result) {
-										mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
-										((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
-									}
-								});
-							}else{
-								mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);	
-							}
-						}
-					}
-				}
-			}
-			((HasCrossConstraints)fd.getFieldWidget()).reprocessWithUpdatedConstraints();
-		}
-	}
+        // Update the widgets of any cross constraints so the values are there and can be reprocessed.
+        if (fd.getFieldWidget() instanceof KSPicker && ((KSPicker) fd.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract) {
+            if (fd.getFieldWidget() instanceof HasCrossConstraints) {
+                HashSet<String> constraints = ((HasCrossConstraints) fd.getFieldWidget()).getCrossConstraints();
+                if (constraints != null) {
+                    for (String path : constraints) {
+                        final String finalPath = SearchUtils.resolvePath(path);
+                        final FieldDescriptor crossField = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
+                        if (crossField != null) {
+                            final ModelWidgetBinding mwb = crossField.getModelWidgetBinding();
+                            if (mwb != null) {
+                                // This insanity is needed because setting a widget value can be asynchronous.
+                                // Adds a callback and reprocesses constraints after the value has actually been set
+                                if (crossField.getFieldWidget() instanceof KSPicker && ((KSPicker) crossField.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract) {
+                                    ((KSSelectItemWidgetAbstract) ((KSPicker) crossField.getFieldWidget()).getInputWidget()).addWidgetReadyCallback(new Callback<Widget>() {
+                                        public void exec(Widget result) {
+                                            mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
+                                            ((HasCrossConstraints) fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+                                        }
+                                    });
+                                } else {
+                                    mwb.setWidgetValue(crossField.getFieldWidget(), dataModel, finalPath);
+                                }
+                            }
+                        }
+                    }
+                }
+                ((HasCrossConstraints) fd.getFieldWidget()).reprocessWithUpdatedConstraints();
+            }
+        }
+    }
 	public void requestAndSetupModel() {
 		
 		if(null==dataModel){
@@ -330,7 +372,7 @@ public class WorkflowUtilities{
 	private void setupSubmitSuccessDialog(){
 		if(submitSuccessDialog==null){
 			submitSuccessDialog= new KSLightBox();
-			submitSuccessDialog.setSize(580, 400);
+			submitSuccessDialog.setSize(580, 480);
 			dialogPanel = new VerticalPanel();
 			submitSuccessDialog.setWidget(dialogPanel);
 			
@@ -557,7 +599,7 @@ public class WorkflowUtilities{
 	        public void onClick(ClickEvent event) {
 	        	setupSubmitSuccessDialog();
 				final KSRichEditor rationaleEditor = new KSRichEditor();
-				AcknowledgeCancelGroup approvalButton = new AcknowledgeCancelGroup(new Callback<AcknowledgeCancelEnum>(){
+				final AcknowledgeCancelGroup approvalButton = new AcknowledgeCancelGroup(new Callback<AcknowledgeCancelEnum>(){
 
 					@Override
 					public void exec(AcknowledgeCancelEnum result) {
@@ -590,6 +632,21 @@ public class WorkflowUtilities{
 					}
 				});
 				
+				approvalButton.getButton(ButtonEnumerations.AcknowledgeCancelEnum.ACKNOWLEDGE).setEnabled(false);
+                
+                rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty()){
+                            approvalButton.getButton(ButtonEnumerations.AcknowledgeCancelEnum.ACKNOWLEDGE).setEnabled(true);
+                        } else {
+                            approvalButton.getButton(ButtonEnumerations.AcknowledgeCancelEnum.ACKNOWLEDGE).setEnabled(false);
+                        }                            
+                    }
+                    
+                });
+				
 				SectionTitle headerTitle = SectionTitle.generateH3Title("Acknowledge Proposal");
 				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are acknowledging the " + proposalName +" proposal");
 				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
@@ -612,7 +669,8 @@ public class WorkflowUtilities{
 	        public void onClick(ClickEvent event) {   
 	        	setupSubmitSuccessDialog();
 				final KSRichEditor rationaleEditor = new KSRichEditor();
-				RejectCancelGroup disapprovalButton = new RejectCancelGroup(new Callback<RejectCancelEnum>(){
+				
+				final RejectCancelGroup disapprovalButton = new RejectCancelGroup(new Callback<RejectCancelEnum>(){
 
 					@Override
 					public void exec(RejectCancelEnum result) {
@@ -650,6 +708,22 @@ public class WorkflowUtilities{
 					}
 					}
 				});
+				
+				disapprovalButton.getButton(ButtonEnumerations.RejectCancelEnum.REJECT).setEnabled(false);
+				
+                rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty()){
+                            disapprovalButton.getButton(ButtonEnumerations.RejectCancelEnum.REJECT).setEnabled(true);
+                        } else {
+                            disapprovalButton.getButton(ButtonEnumerations.RejectCancelEnum.REJECT).setEnabled(false);
+                        }                            
+                    }
+                    
+                });
+				
 				SectionTitle headerTitle = SectionTitle.generateH3Title("Reject Proposal");
 				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are rejecting the " + proposalName +" proposal");
 				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
@@ -675,111 +749,163 @@ public class WorkflowUtilities{
 
 	private KSMenuItemData getApproveItem() {
 		KSMenuItemData wfApproveItem;
-
+		
 		wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				setupSubmitSuccessDialog();
 				final KSRichEditor rationaleEditor = new KSRichEditor();
-				ConfirmApprovalCancelGroup approvalButton = new ConfirmApprovalCancelGroup(new Callback<ConfirmApprovalCancelEnum>(){
+				
+//				final ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL);  				
+				                  
+				approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+				
+				approveCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+                    @Override
+                    public void exec(ButtonEnumerations.ButtonEnum result) {
+                        if (result != ButtonEnumerations.ApproveCancelEnum.CANCEL) {
+                            if (rationaleEditor.getText().trim().equals("")) {
+                                required.setText("Please enter the decision rationale");
+                            } else {
+                                if (approveDialogView != null) {
+                                    // Validate all the fields on the current section (the additional required fields)
+                                    parentController.requestModel(new ModelRequestCallback<DataModel>() {
 
-					@Override
-					public void exec(ConfirmApprovalCancelEnum result) {
-						if(!result.name().equals("CANCEL")){
-							if(rationaleEditor.getText().trim().equals("")){
-								required.setText("Please enter the decision rationale");
-							}
-							else{
-								if(approveDialogView!=null){
-									//Validate all the fields on the current section (the additional required fields)
-									parentController.requestModel(new ModelRequestCallback<DataModel>(){
+                                        @Override
+                                        public void onModelReady(DataModel model) {
+                                            approveDialogView.updateModel();
+                                            model.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                                                @Override
+                                                public void exec(List<ValidationResultInfo> results) {
+                                                    // Process the results on the additional fields view
+                                                    if (ErrorLevel.OK.equals(approveDialogView.processValidationResults(results))) {
+                                                        // Save first and then do the workflow actions later
+                                                        SaveActionEvent saveActionEvent = new SaveActionEvent();
+                                                        saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback() {
+                                                            public void onActionComplete(ActionEvent action) {
+                                                                doWorkflowApprove();
+                                                            }
+                                                        });
+                                                        parentController.fireApplicationEvent(saveActionEvent);
+                                                    } else {
+                                                        KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+                                                    }
+                                                }
+                                            });
+                                        }
 
-										@Override
-										public void onModelReady(DataModel model) {
-											approveDialogView.updateModel();
-											model.validateNextState(new Callback<List<ValidationResultInfo>>() {
-							                    @Override
-							                    public void exec(List<ValidationResultInfo> results) {
-							                    	//Process the results on the additional fields view
-							                    	if(ErrorLevel.OK.equals(approveDialogView.processValidationResults(results))){
-														//Save first and then do the workflow actions later
-														SaveActionEvent saveActionEvent = new SaveActionEvent();
-										                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-										                    public void onActionComplete(ActionEvent action) {
-										                    	doWorkflowApprove();
-										                    }
-										                });
-										                parentController.fireApplicationEvent(saveActionEvent);
-							                    	}else{
-							                    		KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
-							                    	}
-							                    }
-											});
-										}
+                                        @Override
+                                        public void onRequestFail(Throwable cause) {
+                                            KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
+                                        }
 
-										@Override
-										public void onRequestFail(
-												Throwable cause) {
-											KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
-										}
-										
-									});
+                                    });
 
-								}else{
-									doWorkflowApprove();
-								}
+                                } else {
+                                    doWorkflowApprove();
+                                }
 
-							}
+                            }
 
-						}
-						else{
-							submitSuccessDialog.hide();
-						}
-					}
+                        } else {
+                            submitSuccessDialog.hide();
+                        }
+                    }
 
-					private void doWorkflowApprove() {
-						addRationale(rationaleEditor,DecisionRationaleDetail.APPROVE.getType());
-						
-						workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-							@Override
+                    private void doWorkflowApprove() {
+                        addRationale(rationaleEditor, DecisionRationaleDetail.APPROVE.getType());
+
+                        workflowRpcServiceAsync.approveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                            @Override
                             public void handleFailure(Throwable caught) {
-								submitSuccessDialog.hide();
-								Window.alert("Error approving Proposal");
-							}
-							public void onSuccess(Boolean result) {
-								submitSuccessDialog.hide();
-								if (result){
-									updateWorkflow(dataModel);
-									if(submitCallback != null){
-										submitCallback.exec(result);
-									}
-									//Notify the user that the document was approved
-									KSNotifier.add(new KSNotification("Proposal was approved", false));
-								} else {
-									Window.alert("Error approving Proposal");
-								}
-							}
-						});
-						
-					}
-				});
+                                submitSuccessDialog.hide();
+                                Window.alert("Error approving Proposal");
+                            }
+
+                            public void onSuccess(Boolean result) {
+                                submitSuccessDialog.hide();
+                                if (result) {
+                                    updateWorkflow(dataModel);
+                                    if (submitCallback != null) {
+                                        submitCallback.exec(result);
+                                    }
+                                    // Notify the user that the document was approved
+                                    KSNotifier.add(new KSNotification("Proposal was approved", false));
+                                } else {
+                                    Window.alert("Error approving Proposal");
+                                }
+                            }
+                        });
+
+                    }
+                });		                
+
+                if(approveDialogView.getField("proposal/prevEndTerm") != null){                    
+                    
+                    approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);                    
+                    rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                        @Override
+                        public void onKeyUp(KeyUpEvent event) {
+                            if(!rationaleEditor.getText().trim().isEmpty() && !(((KSPicker) (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget())).getDisplayValue() == "") ){
+                                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
+                            } else {
+                                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+                            }                            
+                        }
+                        
+                    });     
+                    
+                    if (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget() instanceof KSPicker) {
+                            ((KSPicker) (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget())).addSelectionChangeHandler(new SelectionChangeHandler(){
+
+                            @Override
+                            public void onSelectionChange(SelectionChangeEvent event) {
+                                if(!rationaleEditor.getText().trim().isEmpty() && !(((KSPicker) (approveDialogView.getField("proposal/prevEndTerm").getFieldWidget())).getDisplayValue() == "")  ){
+                                    approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
+                                } else {
+                                    approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+                                }
+                            }
+
+                        });
+                    }
+                } else {
+                    
+                    rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                        @Override
+                        public void onKeyUp(KeyUpEvent event) {
+                            if(!rationaleEditor.getText().trim().isEmpty()){
+                                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
+                            } else {
+                                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+                            }                            
+                        }
+                        
+                    }); 
+                    
+                }
 				
 				SectionTitle headerTitle = SectionTitle.generateH3Title("Approve Proposal");
 				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are approving the " + proposalName +" proposal");
-				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
+				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");				
 				required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
-				required.setVisible(true);
+				required.setVisible(true);				
+                HorizontalPanel rationalePanel = new HorizontalPanel();                
+                rationalePanel.add(fieldLabel);
+                rationalePanel.add(required);				
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
 				dialogPanel.clear();
 				dialogPanel.add(headerTitle);	
 				dialogPanel.add(dialogLabel);
-				dialogPanel.add(fieldLabel);
-				dialogPanel.add(required);
+				dialogPanel.add(rationalePanel);
 				dialogPanel.add(rationaleEditor);
                 if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
                 	dialogPanel.add(approveDialogView.asWidget());
                 }
-				dialogPanel.add(approvalButton);
-				dialogPanel.setSize("680px", "400px");
+				dialogPanel.add(approveCancelButtons);
+				dialogPanel.setSize("580px", "450px");
+				
 //				submitSuccessDialog.setWidget(dialogPanel);
 				submitSuccessDialog.show();
 			}        
@@ -794,7 +920,7 @@ public class WorkflowUtilities{
             public void onClick(ClickEvent event) {
                 setupSubmitSuccessDialog();
                 final KSRichEditor rationaleEditor = new KSRichEditor();
-                ConfirmCancelGroup withdrawButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
+                final ConfirmCancelGroup withdrawButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
 
                     @Override
                     public void exec(ConfirmCancelEnum result) {
@@ -832,6 +958,22 @@ public class WorkflowUtilities{
                         }
                     }
                 });
+                
+                withdrawButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                
+                rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty()){
+                            withdrawButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(true);
+                        } else {
+                            withdrawButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                        }                            
+                    }
+                    
+                });      
+                
 
                 SectionTitle headerTitle = SectionTitle.generateH3Title("Withdraw Proposal");
                 SectionTitle dialogLabel = SectionTitle.generateH4Title("You are withdrawing the " + proposalName + " proposal");
@@ -861,7 +1003,7 @@ public class WorkflowUtilities{
             public void onClick(ClickEvent event) {
                 setupSubmitSuccessDialog();
                 final KSRichEditor rationaleEditor = new KSRichEditor();
-                ConfirmCancelGroup blanketApprovalButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
+                final ConfirmCancelGroup blanketApprovalButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
 
                     @Override
                     public void exec(ConfirmCancelEnum result) {
@@ -967,6 +1109,21 @@ public class WorkflowUtilities{
                         }); 
 					}
                 });
+                
+                blanketApprovalButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                
+                rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty()){
+                            blanketApprovalButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(true);
+                        } else {
+                            blanketApprovalButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                        }                            
+                    }
+                    
+                }); 
 
                 SectionTitle headerTitle = SectionTitle.generateH3Title("Blanket Approve Proposal");
                 SectionTitle dialogLabel = SectionTitle.generateH4Title("You are blanket approving the " + proposalName + " proposal");
@@ -1058,7 +1215,7 @@ public class WorkflowUtilities{
                 setupSubmitSuccessDialog();
                 final KSRichEditor rationaleEditor = new KSRichEditor();
                 final KSDropDown nodeNameDropDown = setUpReturnToPreviousDropDown(workflowId);
-                ConfirmCancelGroup returnButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
+                final ConfirmCancelGroup returnButton = new ConfirmCancelGroup(new Callback<ConfirmCancelEnum>() {
 
                     @Override
                     public void exec(ConfirmCancelEnum result) {
@@ -1100,6 +1257,34 @@ public class WorkflowUtilities{
                         }
                     }
                 });
+                
+                returnButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                
+                rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
+
+                    @Override
+                    public void onKeyUp(KeyUpEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty() && !(nodeNameDropDown.getSelectedItem() == null)){
+                            returnButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(true);
+                        } else {
+                            returnButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                        }                            
+                    }
+                    
+                }); 
+                
+                nodeNameDropDown.addSelectionChangeHandler(new SelectionChangeHandler(){
+
+                    @Override
+                    public void onSelectionChange(SelectionChangeEvent event) {
+                        if(!rationaleEditor.getText().trim().isEmpty() && !(nodeNameDropDown.getSelectedItem() == null)){
+                            returnButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(true);
+                        } else {
+                            returnButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
+                        }                              
+                    }
+                    
+                }); 
 
                 SectionTitle headerTitle = SectionTitle.generateH3Title("Return Proposal to Previous Node");
                 SectionTitle dialogLabel = SectionTitle.generateH4Title("You are returning the " + proposalName + " proposal to a previous node");
@@ -1305,4 +1490,23 @@ public class WorkflowUtilities{
 	public void addIgnoreDialogField(String string) {
 		ignoredApproveDialogFields.add(string);
 	}
+	
+	public VerticalSectionView getApproveDialogue() {
+	    return approveDialogView;
+	}
+	
+	public void progressiveEnableFields() {
+	    FieldDescriptor prevEndTerm = approveDialogView.getField("proposal/prevEndTerm");
+	    
+	    if(prevEndTerm != null){
+	        approveDialogView.getWidget(0).setVisible(true);
+	        approveDialogView.getField("proposal/prevEndTerm").getMetadata().getConstraints().get(0).setMinOccurs(1);
+	        approveDialogView.getField("proposal/prevEndTerm").getFieldElement().setRequiredString("requiredMarker", "ks-form-module-elements-required");
+	        approveDialogView.getField("startTerm").getFieldWidget().setVisible(true);
+	    } else {
+	        approveDialogView.getWidget(0).setVisible(false);   
+	        approveDialogView.getField("startTerm").getFieldWidget().setVisible(false);
+	    }
+	}
+    
 }
