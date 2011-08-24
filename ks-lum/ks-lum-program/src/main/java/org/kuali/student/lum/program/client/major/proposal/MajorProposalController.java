@@ -68,6 +68,7 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsData
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcServiceAsync;
+import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
@@ -95,6 +96,8 @@ public class MajorProposalController extends MajorController {
     private ProgramRequirementsDataModel reqDataModel;
     private ProgramRequirementsDataModel reqDataModelComp;
 
+    protected MajorDisciplineRpcServiceAsync majorDisciplineService;
+
     /**
      * Constructor.
      *
@@ -102,6 +105,7 @@ public class MajorProposalController extends MajorController {
      */
     public MajorProposalController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus); 
+        majorDisciplineService = createMajorDisciplineService();
         programModel.setModelName("Proposal");
         initializeComparisonModel();
         configurer = GWT.create(MajorProposalConfigurer.class);
@@ -158,6 +162,13 @@ public class MajorProposalController extends MajorController {
     @Override
     protected MajorDisciplineRpcServiceAsync createProgramRemoteService() {
         return GWT.create(MajorDisciplineProposalRpcService.class);
+    }
+
+    /**
+     * Create a ProgramRpcServiceAsync appropriate for this Controller
+     */
+    protected MajorDisciplineRpcServiceAsync createMajorDisciplineService() {
+        return GWT.create(MajorDisciplineRpcService.class);
     }
 
     @Override
@@ -450,7 +461,48 @@ public class MajorProposalController extends MajorController {
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {    	
     	ViewContext viewContext = getViewContext();
         if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) 
-   			createNewVersionAndLoadModel(callback, viewContext);
+        {	
+        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
+    			@Override
+    			public void onModelReady(DataModel model) {
+    				majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                        @Override
+                        public void onSuccess(Data result) {
+                            super.onSuccess(result);
+                            comparisonModel.setRoot(result);
+                            reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                    	reqDataModelComp.retrieveProgramRequirements(MajorProposalController.this, comparisonModelId, new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    callback.onModelReady(comparisonModel);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });                    
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            super.onFailure(caught);
+                            callback.onRequestFail(caught);
+                        }
+                    });
+        		}
+
+    			@Override
+    			public void onRequestFail(Throwable cause) {
+                    GWT.log("Unable to retrieve comparison model", cause);
+    			}
+        	};	
+        	
+   			createNewVersionAndLoadModel(comparisonModelCallback, viewContext);   			
+        }	
         else
         {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
@@ -512,26 +564,9 @@ public class MajorProposalController extends MajorController {
                 super.onSuccess(result);
                 refreshModelAndView(result);
                 viewContext.setId(ProgramUtils.getProgramId(programModel));
-                viewContext.setIdType(IdType.OBJECT_ID);                
-                if (result != null) {
-                	comparisonModel.setRoot(result.getValue());
-                }
-                reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {
-                        if (result) {
-                        	reqDataModelComp.retrieveProgramRequirements(MajorProposalController.this, comparisonModelId, new Callback<Boolean>() {
-                                @Override
-                                public void exec(Boolean result) {
-                                    if (result) {
-                                        callback.onModelReady(programModel);
-                                        eventBus.fireEvent(new ModelLoadedEvent(programModel));
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });                    
+                viewContext.setIdType(IdType.OBJECT_ID);
+                callback.onModelReady(programModel);
+                eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
 
             @Override
