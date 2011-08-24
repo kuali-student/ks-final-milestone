@@ -35,4 +35,17 @@ limitations under the License.
         <property name="additionalCssFiles" ref="ks-css" />
     </bean>
 
+    <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
+    <bean id="ScheduleControl-parentBean" abstract="true" class="org.kuali.student.enrollment.uif.control.ScheduleControl" scope="prototype">
+          <property name="template" value="/ks-enroll/WEB-INF/jsp/schedule.jsp"/>
+          <property name="sundayFirst" value="false"/>
+          <property name="startTime" value="5"/>
+          <property name="endTime" value="20"/>
+          <property name="dayType" value="ONE_LETTER"/>
+          <property name="useLetterKeys" value="false"/>
+          <property name="omitWeekend" value="false"/>
+          <property name="omitAMPMSuffix" value="false"/>
+          <property name="militaryTime" value="false"/>
+    </bean>
+
 </beans>

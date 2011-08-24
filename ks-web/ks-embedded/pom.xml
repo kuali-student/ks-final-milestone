@@ -198,6 +198,13 @@
 		<artifactId>ks-enroll-ui</artifactId>
 		<version>${project.version}</version>
 	</dependency>
+    <dependency>
+		<groupId>org.kuali.student.enroll</groupId>
+		<artifactId>ks-enroll-web</artifactId>
+		<version>${project.version}</version>
+        <type>war</type>
+        <scope>runtime</scope>
+	</dependency>
 
     <!--  Sources for GWT Compile -->
     <dependency>
