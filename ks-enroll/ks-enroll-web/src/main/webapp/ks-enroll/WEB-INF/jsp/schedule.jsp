@@ -20,7 +20,7 @@
 <tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
 
 <div id="${control.id}">
-    <table class=".schedule">
+    <table class="schedule">
         <tr class="dayRow">
             <c:forEach var="day" items="${control.days}">
                 <th>${day}</th>
@@ -28,16 +28,24 @@
         </tr>
         <c:forEach var="time" items="${control.times}">
             <tr class="timeRow">
-                <th>${time}</th>
-                <c:forEach var="day" items="${control.days}">
-                    <td class="${day}">
-                        <div style="position:relative"></div>
-                    </td>
+
+                <c:forEach var="day" items="${control.days}" varStatus="status">
+                    <c:choose>
+                        <c:when test="${status.first}">
+                            <th>${time}</th>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="${day}">
+                                <div style="position:relative"></div>
+                            </td>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
+
             </tr>
         </c:forEach>
     </table>
-    <table class=".scheduleKey">
+    <table class="scheduleKey">
         <tr>
             <th>Key</th>
             <th style="text-align: left">Name</th>
