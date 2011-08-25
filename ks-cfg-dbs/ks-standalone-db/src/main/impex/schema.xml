@@ -4215,9 +4215,7 @@
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
     <sequence name="KREW_EDL_FLD_DMP_S" nextval="5000"/>
     <sequence name="KREW_EDL_S" nextval="2020"/>
-    <sequence name="KREW_HLP_S" nextval="100"/>
     <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
-    <sequence name="KREW_RIA_DOCTYPE_MAP_ID_S" nextval="1000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
     <sequence name="KREW_RTE_NODE_CFG_PARM_S" nextval="2621"/>
     <sequence name="KREW_RTE_NODE_S" nextval="2964"/>
@@ -4273,6 +4271,7 @@
     <sequence name="KRMS_CNTXT_VLD_EVENT_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_RULE_S" nextval="10000"/>
+    <sequence name="KRMS_CTGRY_S" nextval="1"/>
     <sequence name="KRMS_FUNC_PARM_S" nextval="10000"/>
     <sequence name="KRMS_FUNC_S" nextval="10000"/>
     <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
