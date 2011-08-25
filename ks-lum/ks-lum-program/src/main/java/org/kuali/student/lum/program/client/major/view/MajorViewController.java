@@ -256,10 +256,10 @@ public class MajorViewController extends MajorController {
         layout.add(radioOptionModifyNoVersion);
  
         // the curriculum review check box implements "modify by proposal"
-        // a user can only check the box when the program state is active, retired, or approved (it must be the latest version when in approved state)
+        // a user can only check the box when the program state is active, retired, or approved (it must be the latest version when in these states)
         // See https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
-  
-        if(isCurrentVersion){
+        ProgramStatus status = ProgramStatus.of(programModel);
+        if(isCurrentVersion && (status == ProgramStatus.ACTIVE || status == ProgramStatus.APPROVED || status == ProgramStatus.ACTIVE)){
             layout.add(radioOptionModifyWithVersion);
             layout.add(curriculumReviewOption);
         }
@@ -319,27 +319,29 @@ public class MajorViewController extends MajorController {
  			}        	
         });
     	
-    	// Make a call to the server to determine if we are working with a proposal
-    	// If so, we need to hide the action box when viewing it.  This will
-    	// prevent users from trying to submit a proposal into work flow a second time
-    	
+   	
     	// Get the reference ID of the proposal from the XML model
     	// Note: the filter puts in in the model, see ProposalWorkflowFilter.applyOutboundDataFilter
     	String referenceId = programModel.getRoot().get("id");
     	
-    	// Call server to check if this is a proposal we are editing (as opposed to a program) 
+    	// When the program being viewed is in DRAFT state, check to see if it exists as part of program proposal instead of admin modify. 
+    	// If its part of a program proposal then we don't want to display the program actions drop down since user is not allowed to take
+    	// any actions on a DRAFT program proposal outside of proposal process.
     	// TODO PLEASE REVIEW.  If this async call runs slow, will the box remain visible? Is this an issue?
-        programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
-            public void onSuccess(Boolean isProposal) {
-             
-                // If this is a proposal then we cannot take any actions on it
-                // So hide the action box
-                if (isProposal){
-                    actionBox.setVisible(false);
-                }
-              
-            }           
-        });  
+    	//      Answer: Yes, it might be an issue, possible solution might to block user action w/progress bar until finished.    	
+        if (status == ProgramStatus.DRAFT){
+	    	programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
+	            public void onSuccess(Boolean isProposal) {
+	             
+	                // If this is a proposal then we cannot take any actions on it
+	                // So hide the action box
+	                if (isProposal){
+	                    actionBox.setVisible(false);
+	                }
+	              
+	            }           
+	        });
+        }
     } 
   
     private void showVariationView() {
