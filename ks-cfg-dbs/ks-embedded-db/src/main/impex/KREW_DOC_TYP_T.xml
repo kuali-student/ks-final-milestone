@@ -10,7 +10,7 @@
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fdocumenttype.htm"
         LBL="Workflow Maintenance Document Type Document"
         OBJ_ID="6166CBA1BA5D644DE0404F8189D86C09" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
         DOC_HDLR_URL="${kr.url}/maintenance.do?methodToCall=docHandler"
@@ -19,7 +19,7 @@
         DOC_TYP_VER_NBR="0" GRP_ID="1"
         LBL="Rule Maintenance Document Type Document"
         OBJ_ID="6166CBA1BA5E644DE0404F8189D86C09" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
         DOC_HDLR_URL="${ken.url}/DetailView.form"
@@ -45,7 +45,7 @@
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fnamespace.htm"
         LBL="Namespace" OBJ_ID="6166CBA1BA71644DE0404F8189D86C09"
         PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
         DOC_HDLR_URL="${kr.url}/maintenance.do?methodToCall=docHandler"
@@ -55,7 +55,7 @@
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fparametertype.htm"
         LBL="Parameter Type Maintenance Document"
         OBJ_ID="6166CBA1BA72644DE0404F8189D86C09" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
         DOC_HDLR_URL="${kr.url}/maintenance.do?methodToCall=docHandler"
@@ -66,7 +66,7 @@
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fparametercomponent.htm"
         LBL="Parameter Detail Type Maintenance Document"
         OBJ_ID="6166CBA1BA73644DE0404F8189D86C09" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
         DOC_HDLR_URL="${kr.url}/maintenance.do?methodToCall=docHandler"
@@ -76,13 +76,13 @@
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fparameter.htm"
         LBL="Parameter Maintenance Document"
         OBJ_ID="6166CBA1BA74644DE0404F8189D86C09" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="KualiDocument" DOC_TYP_ID="2680"
         DOC_TYP_NM="KualiDocument" DOC_TYP_VER_NBR="0"
         LBL="KualiDocument" OBJ_ID="6166CBA1BA81644DE0404F8189D86C09"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_TYP_DESC="Parent Document Type for all Rice Documents"
@@ -95,7 +95,7 @@
         DOC_TYP_NM="RoutingRuleDelegationMaintenanceDocument"
         DOC_TYP_VER_NBR="0" LBL="Routing Rule Delegation"
         OBJ_ID="A6DC8753-AF90-7A01-0EF7-E6D446529668" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="0"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         DOC_HDLR_URL="${kr.url}/maintenance.do?methodToCall=docHandler"
@@ -228,7 +228,7 @@
         DOC_TYP_VER_NBR="0"
         LBL="Kuali Student Admin Maintenance Document"
         OBJ_ID="2F5FDC52-1BEC-E2D5-97B1-15C46D50A563" PARNT_ID="2681"
-        POST_PRCSR="org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor"
+        POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="10"/>
     <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1" DOC_TYP_ID="3010"
         DOC_TYP_NM="AcademicTimePeriodMaintenanceDocument"
