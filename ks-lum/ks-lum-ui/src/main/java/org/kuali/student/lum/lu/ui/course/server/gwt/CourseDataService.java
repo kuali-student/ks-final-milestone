@@ -86,7 +86,7 @@ public class CourseDataService extends AbstractDataService {
 			    	
 			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
 			    } else {
-			        throw new OperationFailedException("Create new version failed, current version is not the latest for this course.");
+			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
 			    }
 			}else{
 				courseInfo = courseService.updateCourse(courseInfo);

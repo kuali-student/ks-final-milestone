@@ -276,37 +276,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					viewContext.setIdType(IdType.OBJECT_ID);
 					Application.navigate(AppLocations.Locations.COURSE_ADMIN_NO_VERSION.getLocation(), viewContext);
 				} else if (radioOptionModifyWithVersion.getValue()){
-				    
-				    String courseVerIndId = getCourseVersionIndId(model);
-			        Long courseVersionSequence = getCourseVersionSequenceNumber(model);
-				    
-				    courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
-				        
-		                public void onFailure(Throwable caught) {
-		                    KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
-		                }
-		                
-		                public void onSuccess(Boolean result) {
-		                    if (result){
-		                        if (curriculumReviewOption.getValue()){
-		                            doModifyActionItem(viewContext, modifyPath, model);
-		                        } else {
-		                            if(hasCourseId(viewContext)){
-		                                viewContext.setId(getCourseVersionIndId(model));
-		                                viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-		                                // FIXME: This needs to use a new workflow document type for admin modify with version
-		                                viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
-		                            }
-
-		                            Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-		                        }
-		                    } else {
-		                        isCurrentVersion = false;
-		                        doUpdateCourseActionItems(model);
-		                        KSNotifier.add(new KSNotification("Error creating new version for course, this course is currently under modification.", false, 5000));
-		                    }
-		                }
-		            });				    
+				    checkLatestVersion(viewContext, modifyPath, model, curriculumReviewOption.getValue());			    
 				    
 				}
 		    	modifyDialog.hide();
@@ -322,6 +292,48 @@ public class CourseWorkflowActionList extends StylishDropDown {
         }
         modifyDialog.setWidget(layout);
         modifyDialog.show();
+    }
+    
+    /**
+     * Do a latest version check, if successful, call the modify action else display an error message that the current
+     * version of the selected course is under modification. 
+     * 
+     * @param viewContext
+     * @param modifyPath
+     * @param model
+     * @param reviewOption
+     */
+    private void checkLatestVersion(final ViewContext viewContext, final String modifyPath, final DataModel model, final boolean reviewOption){
+        String courseVerIndId = getCourseVersionIndId(model);
+        Long courseVersionSequence = getCourseVersionSequenceNumber(model);
+    
+        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+        
+            public void onFailure(Throwable caught) {
+                KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
+            }
+        
+            public void onSuccess(Boolean result) {
+                if (result){
+                    if (reviewOption){
+                        doModifyActionItem(viewContext, modifyPath, model);
+                    } else {
+                        if(hasCourseId(viewContext)){
+                            viewContext.setId(getCourseVersionIndId(model));
+                            viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
+                            // FIXME: This needs to use a new workflow document type for admin modify with version
+                            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
+                        }
+
+                        Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
+                    }
+                } else {
+                    isCurrentVersion = false;
+                    doUpdateCourseActionItems(model);
+                    KSNotifier.add(new KSNotification("Error creating new version for course, this course is currently under modification.", false, 5000));
+                }
+            }
+        });
     }
     
     // TODO: add Retire and Inactivate Dialogs
@@ -521,23 +533,19 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					@Override
 					public void onSuccess(Boolean result) {
 						hasAdminAccess = result;
-//			            if ("admin".equals(Application.getApplicationContext().getUserId())){
    	            	    if (hasAdminAccess){
 					    	//Admin users have the option to make modifications to the course administratively or via the
 			            	//curriculum review process. Clicking on the "Modify Course" item will present the user with
 			            	//a modify dialog to allow them to choose the method of modification.
-							    	buildModifyDialog(viewContext, modifyPath, model);
+					    	buildModifyDialog(viewContext, modifyPath, model);
 			            } else {
 			            	//Non-admin users are only allowed to make modifications via proposal curriculum review process.
 			            	//Clicking the "Modify Course" item will simply navigate user directly to modify course proposal screen.
-//					    	modifyCourseActionItem = new KSMenuItemData(CourseWorkflowActionList.this.getMessage("cluModifyItem"), new ClickHandler(){
-									doModifyActionItem(viewContext, modifyPath, model);
+			                checkLatestVersion(viewContext, modifyPath, model, true);
 			            }
 
 
 					}
 				});
-//		System.out.println(principalId + " access for " + screenComponent
-//				+ " is : " + hasAdminAccess);
 	}
 }
