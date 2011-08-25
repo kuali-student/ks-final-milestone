@@ -1,3 +1,7 @@
+-- Create a new KRIM Type that is linked to the Java service documentTypeAndNodeOrStatePermissionTypeService  
+  INSERT INTO KRIM_TYP_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,SRVC_NM,VER_NBR)
+  VALUES ('Y','3002','KS Permission','KS-SYS','addedc8-ddd6-4a38-b6d2-c75637677810','permissionPermissionTypeService',1)
+/
 -- Create a new Permission template that is linked to the new Kim Typ that is specific to KS-SYS
   INSERT INTO KRIM_PERM_TMPL_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,PERM_TMPL_ID,VER_NBR)
   VALUES ('Y','3002','KS Admin Screens','KS-SYS','eb16081a-49e3-430c-9851-1c3e50806058','4001',1)
@@ -39,14 +43,6 @@ INSERT INTO KRIM_ROLE_MBR_T (MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NB
 INSERT INTO KRIM_ROLE_PERM_T (ACTV_IND,OBJ_ID,PERM_ID,ROLE_ID,ROLE_PERM_ID,VER_NBR)
   VALUES ('Y','cd698882-8b60-4fb5-8141-5a974d0fc91d','3202','7001','6002',1)
 /
--- Create a new KRIM Type that is linked to the Java service documentTypeAndNodeOrStatePermissionTypeService  
-  INSERT INTO KRIM_TYP_T (ACTV_IND,KIM_TYP_ID,NM,NMSPC_CD,OBJ_ID,SRVC_NM,VER_NBR)
-  VALUES ('Y','3002','KS Permission','KS-SYS','addedc8-ddd6-4a38-b6d2-c75637677810','permissionPermissionTypeService',1)
-/
---Add attribute definition
-insert into KRIM_ATTR_DEFN_T (KIM_ATTR_DEFN_ID, OBJ_ID, VER_NBR, NM, LBL, ACTV_IND, NMSPC_CD, CMPNT_NM) values ('2000', '05c1ece3-5d04-44d3-885c-2a90de623ba8', 1, 'routeStatusCode', null, 'Y', 'KS-SYS', 'org.kuali.rice.kim.bo.impl.KimAttributes')
-/
-
 --Create an NEW Permission which will be applicable only when the document is in the processed state on workflow
 INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) VALUES ('3203', '700c05ff-fdb7-4cfc-9fdc-4cffff6dcaed', '1', '4001', 'KS-SYS', 'Open Document - Processed', 'Open Document, with status PROCESSED', 'Y')
 /
