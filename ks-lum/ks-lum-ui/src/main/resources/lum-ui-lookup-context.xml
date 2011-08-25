@@ -447,6 +447,17 @@
 	<property name="usage" value="DEFAULT" />
  </bean>
 
+<bean id="kuali.lu.browse.credential" class="org.kuali.student.common.assembly.data.UILookupData" 
+ 	parent="kuali.common.lookup.findCredentialProgram">
+    <property name="id" value="lu.resultColumn.credentialCluId" />
+	<property name="title" value="Credential"/>
+  	<property name="widget" value="DROP_DOWN" />	
+	<property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
+	<property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+	<property name="resultReturnKey" value="lu.resultColumn.luOptionalCode" />
+	<property name="usage" value="DEFAULT" />
+ </bean>
+
  <!-- Dependency Analysis Filters -->
  <bean id="dependency.filter" parent="uilookupconfig-parent">
   <property name="path" value="dependency.filter" />
@@ -6999,6 +7010,18 @@
           <!-- Hack to get the correct SQL generated in AbstractSearchableCrudDaoImpl -->
            <property name="defaultValueString" value="1"/>
        </bean>
+	<bean parent="param">
+		<property name="key" value="lu.queryParam.luOptionalCredentials" />
+		<property name="name" value="Credential" />
+		<property name="desc" value="CLU Credentials" />
+		<property name="dataType" value="STRING" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="optional" value="true" />
+		<property name="caseSensitive" value="false" />
+		<property name="usage" value="CUSTOM" />
+		<property name="childLookup" ref="kuali.lu.browse.credential" />
+		<property name="widget" value="DROPDOWN_LIST" />
+	</bean>
    </list>
   </property>
   <property name="resultReturnKey" value="lu.resultColumn.cluId"/>
@@ -7054,6 +7077,13 @@
      <property name="desc" value="Type of this CLU"/>
      <property name="dataType" value="STRING"/>
      <property name="hidden" value="true"/>
+    </bean>
+    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.resultColumn.luOptionalShortName"/>
+     <property name="name" value="Credentials"/>
+     <property name="desc" value="Credentials for the course."/>
+     <property name="dataType" value="STRING"/>
+     <property name="hidden" value="false"/>
     </bean>
    </list>
   </property>
@@ -7137,6 +7167,23 @@
                     <property name="optional" value="true" />
                     <property name="usage" value="DEFAULT" />
                     <property name="caseSensitive" value="true" />
+                </bean>
+                <bean parent="param">
+	                <property name="key" value="enumeration.queryParam.enumerationCode" />
+					<property name="name" value="Context Value" />
+					<property name="desc" value="The enumeration code to lookup" />
+					<property name="writeAccess" value="NEVER" />
+					<property name="dataType" value="STRING" />
+					<property name="optional" value="true" />
+					<property name="caseSensitive" value="true" />
+					<property name="defaultValueList">
+						<list>
+							<value>Active</value>
+							<value>Approved</value>
+							<value>Retired</value>
+							<value>Suspended</value>
+		               </list>
+	               </property>
                 </bean>
             </list>
         </property>

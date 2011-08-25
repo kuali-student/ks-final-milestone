@@ -1318,12 +1318,14 @@
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
 	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentVersion" subSearchParam="lu.queryParam.luOptionalCurrentVersion"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCredentials" subSearchParam="lu.queryParam.luOptionalCredentials"/>
         </search:subSearch>
         <search:subSearch searchkey="lu.search.luVariationsByName" key="var">
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalLongName" subSearchParam="lu.queryParam.luOptionalLongName"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCode" subSearchParam="lu.queryParam.luOptionalCode"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalSingleState" subSearchParam="lu.queryParam.luOptionalSingleState"/>
             <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCurrentVersion" subSearchParam="lu.queryParam.luOptionalCurrentVersion"/>
+	        <search:subSearchParamMappings crossSearchParam="lu.queryParam.luOptionalCredentials" subSearchParam="lu.queryParam.luOptionalCredentials"/>
         </search:subSearch>
 		<search:joinCriteria type="AND">
 			<!--<empty join criteria to make the cross search manager perform a db union">-->
@@ -1335,6 +1337,7 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalMajorName" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalMajorName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalVariationName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalType" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalType"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalShortName" subSearchKey="pgm" resultParam="lu.resultColumn.luOptionalShortName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="var" resultParam="lu.resultColumn.cluId"/>
         <search:joinResultMapping subSearchResultParam="lu.resultColumn.variationId" subSearchKey="var" resultParam="lu.resultColumn.variationId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalCode" subSearchKey="var" resultParam="lu.resultColumn.luOptionalCode"/>
@@ -1342,6 +1345,7 @@
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalMajorName" subSearchKey="var" resultParam="lu.resultColumn.luOptionalMajorName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalLongName" subSearchKey="var" resultParam="lu.resultColumn.luOptionalVariationName"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalType" subSearchKey="var" resultParam="lu.resultColumn.luOptionalType"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalShortName" subSearchKey="var" resultParam="lu.resultColumn.luOptionalShortName"/>
 	</search:crossSearchType>
 
     <search:searchResultTypeInfo id="lu.result.union.majors" parent="lu.result.union.majors-parent"/>
@@ -1356,6 +1360,7 @@
             <ref bean="lu.resultColumn.luOptionalMajorName"/>
             <ref bean="lu.resultColumn.luOptionalVariationName"/>
             <ref bean="lu.resultColumn.luOptionalType"/>
+            <ref bean="lu.resultColumn.luOptionalShortName"/>
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -1388,6 +1393,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
             <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
+            <ref bean="lu.queryParam.luOptionalCredentials"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1398,6 +1404,10 @@
     <search:queryParam id="lu.queryParam.luOptionalCurrentVersion" parent="lu.queryParam.luOptionalCurrentVersion-parent"/>
 	<search:queryParam id="lu.queryParam.luOptionalCurrentVersion-parent"  optional="true" abstract="true">
 		<ref bean="field.cluInfo.state.fd"/>
+	</search:queryParam>
+	<search:queryParam id="lu.queryParam.luOptionalCredentials" parent="lu.queryParam.luOptionalCredentials-parent"/>
+	<search:queryParam id="lu.queryParam.luOptionalCredentials-parent" optional="true" abstract="true">
+		<ref bean="field.cluInfo.officialIdentifier.id.fd"/>
 	</search:queryParam>
 
     <search:searchType id="lu.search.luProgramsByName" parent="lu.search.luProgramsByName-parent"/>
@@ -1423,6 +1433,7 @@
             <ref bean="lu.queryParam.luOptionalLongName"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
             <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
+            <ref bean="lu.queryParam.luOptionalCredentials"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1443,6 +1454,7 @@
             <ref bean="lu.resultColumn.luOptionalType"/>
             <ref bean="lu.resultColumn.luOptionalMajorName"/>
             <ref bean="lu.resultColumn.luOptionalLongName"/>
+            <ref bean="lu.resultColumn.luOptionalShortName"/>
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -1468,6 +1480,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalSingleState"/>
             <ref bean="lu.queryParam.luOptionalCurrentVersion"/>
+            <ref bean="lu.queryParam.luOptionalCredentials"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -1483,6 +1496,7 @@
             <ref bean="lu.resultColumn.luOptionalType"/>
             <ref bean="lu.resultColumn.luOptionalMajorName"/>
             <ref bean="lu.resultColumn.luOptionalLongName"/>
+            <ref bean="lu.resultColumn.luOptionalShortName"/>
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
@@ -1849,6 +1863,9 @@
                         AND '1'=:lu_queryParam_luOptionalCurrentVersion)
                     </value>
 				</entry>
+                <entry key="lu.queryParam.luOptionalCredentials">
+					<value>credident.code = :lu_queryParam_luOptionalCredentials</value>
+				</entry>
 				<entry key="cluset.queryParam.optionalId">
 					<value>cluset.id = :cluset_queryParam_optionalId</value>
 				</entry>
@@ -1927,21 +1944,29 @@
 				</entry>
                 <entry key="lu.search.luProgramsByName">
                      <value>
-                         SELECT clu.id,' ', ident1.code, clu.state, clu.luType.id, ident1.longName, 'N/A'
-                         FROM Clu clu, CluIdentifier ident1
+                         SELECT clu.id,' ', ident1.code, clu.state, clu.luType.id, ident1.longName, 'N/A', credident.shortName
+                         FROM Clu clu, CluIdentifier ident1, Clu credential, CluIdentifier credident, CluCluRelation relation
                          WHERE clu.officialIdentifier.id = ident1.id
                           AND clu.luType.id = 'kuali.lu.type.MajorDiscipline'
+                          AND clu.id = relation.relatedClu.id
+                          AND relation.clu.id = credential.id
+                          AND credential.officialIdentifier.id = credident.id
+                          AND relation.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasMajorProgram'
                      </value>
                  </entry>
                 <entry key="lu.search.luVariationsByName">
                      <value>
-                         SELECT clu2.id, clu.id,  ident1.code, clu.state,  clu.luType.id, ident2.longName, ident1.longName
-                         FROM Clu clu, CluIdentifier ident1, Clu clu2, CluIdentifier ident2, CluCluRelation rel
+                         SELECT clu2.id, clu.id,  ident1.code, clu.state,  clu.luType.id, ident2.longName, ident1.longName, credident.shortName
+                         FROM Clu clu, CluIdentifier ident1, Clu clu2, CluIdentifier ident2, CluCluRelation rel, Clu credential ,CluIdentifier credident , CluCluRelation rel2
                          WHERE clu.id = rel.relatedClu.id    and  rel.clu.id = clu2.id
                          and  clu.officialIdentifier.id = ident1.id
                          and  clu2.officialIdentifier.id = ident2.id
                          AND rel.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasVariationProgram'
                          AND clu.luType.id = 'kuali.lu.type.Variation'
+                         AND clu2.id = rel2.relatedClu.id
+                         AND rel2.clu.id = credential.id
+                         AND credential.officialIdentifier.id = credident.id
+                         AND rel2.luLuRelationType.id = 'kuali.lu.lu.relation.type.hasMajorProgram'
                      </value>
                  </entry>
                 <entry key="lu.search.luByRelation">
