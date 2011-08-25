@@ -17,13 +17,7 @@ package org.kuali.student.enrollment.class2.grading.keyvalue;
  */
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
-import org.kuali.rice.kns.util.ErrorMessage;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
-import org.kuali.student.enrollment.classII.grading.service.GradingServiceMockImpl;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -33,9 +27,14 @@ import org.kuali.student.test.utilities.TestHelper;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
 
+    @Override
     public List getKeyValues() {
         List keyValues = new ArrayList();
 
@@ -63,7 +62,7 @@ public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
-            GlobalVariables.getMessageList().add(new ErrorMessage("test",e.getMessage()));
+            GlobalVariables.getMessageMap().putError ("test",e.getMessage());
         }
 
         return keyValues;

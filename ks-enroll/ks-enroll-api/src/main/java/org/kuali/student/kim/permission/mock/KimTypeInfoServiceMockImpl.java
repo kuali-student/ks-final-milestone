@@ -21,9 +21,8 @@ import java.util.Map;
 
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
-import org.kuali.rice.kim.framework.type.KimRoleTypeService;
-import org.kuali.rice.kim.service.support.KimTypeService;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.framework.role.RoleTypeService;
+import org.kuali.rice.kim.framework.type.KimTypeService;
 import org.kuali.rice.kim.service.support.impl.PrincipalDerivedRoleTypeServiceImpl;
 
 /**
@@ -34,7 +33,7 @@ import org.kuali.rice.kim.service.support.impl.PrincipalDerivedRoleTypeServiceIm
 public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
 
     private Map<String, KimType> kimTypeInfoCache = new HashMap<String, KimType>();
-    private Map<String, KimRoleTypeService> kimRoleTypeServiceCache = new HashMap <String, KimRoleTypeService> ();
+    private Map<String, RoleTypeService> kimRoleTypeServiceCache = new HashMap <String, RoleTypeService> ();
     {
         KimType.Builder info = KimType.Builder.create();
         info.setId("2");
@@ -67,25 +66,30 @@ public class KimTypeInfoServiceMockImpl implements KimTypeInfoService {
         return null;
     }
 
-    public KimRoleTypeService getRoleTypeService(KimType typeInfo) {
-        String serviceName = typeInfo.getServiceName();
-        if (serviceName == null) {
-            return null;
-        }
+    // no usages no longer remotable from rice
+    public RoleTypeService getRoleTypeService(KimType typeInfo) {
+        return null;
 
-        try {
-            KimTypeService service = this.kimRoleTypeServiceCache.get(serviceName);
-            if (service != null && service instanceof KimRoleTypeService) {
-                return (KimRoleTypeService) service;
-            } else {
-//                return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
-                return new KimDerivedRoleTypeServiceBase ();
-            }
-        } catch (Exception ex) {
-//            LOG.error("Unable to find role type service with name: " + serviceName);
-//            LOG.error(ex.getClass().getName() + " : " + ex.getMessage());
-//            return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
-            return new KimDerivedRoleTypeServiceBase ();
-        }
+//        String serviceName = typeInfo.getServiceName();
+//        if (serviceName == null) {
+//            return null;
+//        }
+//
+//        try {
+//            KimTypeService service = this.kimRoleTypeServiceCache.get(serviceName);
+//            if (service != null && service instanceof RoleTypeService) {
+//                return (RoleTypeService) service;
+//            } else {
+////                return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
+////                return new KimDerivedRoleTypeServiceBase ();
+//                return null; // remove once above is fixed
+//            }
+//        } catch (Exception ex) {
+////            LOG.error("Unable to find role type service with name: " + serviceName);
+////            LOG.error(ex.getClass().getName() + " : " + ex.getMessage());
+////            return (KimRoleTypeService) KIMServiceLocatorWeb.getService("kimNoMembersRoleTypeService");
+////            return new KimDerivedRoleTypeServiceBase ();
+//            return null; // remove once above is fixed
+//        }
     }
 }

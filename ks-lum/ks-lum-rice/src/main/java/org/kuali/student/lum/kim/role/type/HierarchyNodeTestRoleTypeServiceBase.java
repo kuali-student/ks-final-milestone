@@ -12,17 +12,16 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.lum.kim.role.type;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import java.util.Map;
 
 /**
  * Dummy class to test Hierarchy Node Test
@@ -30,34 +29,34 @@ import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
  * @author delyea
  *
  */
-public class HierarchyNodeTestRoleTypeServiceBase extends KimDerivedRoleTypeServiceBase {
+public class HierarchyNodeTestRoleTypeServiceBase extends DerivedRoleTypeServiceBase {
 
-	/* (non-Javadoc)
-	 * @see org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
-	 */
-	@Override
-	public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet qualification) {
-		List<RoleMembershipInfo> roleMembers = new ArrayList<RoleMembershipInfo>();
-		roleMembers.add(new RoleMembershipInfo(null,null,"eric",Role.PRINCIPAL_MEMBER_TYPE,null));
-		roleMembers.add(new RoleMembershipInfo(null,null,"fran",Role.PRINCIPAL_MEMBER_TYPE,null));
-		roleMembers.add(new RoleMembershipInfo(null,null,"user1",Role.PRINCIPAL_MEMBER_TYPE,null));
-		roleMembers.add(new RoleMembershipInfo(null,null,"user4",Role.PRINCIPAL_MEMBER_TYPE,null));
-		return roleMembers;
-	}
+    /* (non-Javadoc)
+     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+     */
+    @Override
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) {
+        List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
+        roleMembers.add(RoleMembership.Builder.create(null, null, "eric", Role.PRINCIPAL_MEMBER_TYPE, null).build());
+        roleMembers.add(RoleMembership.Builder.create(null, null, "fran", Role.PRINCIPAL_MEMBER_TYPE, null).build());
+        roleMembers.add(RoleMembership.Builder.create(null, null, "user1", Role.PRINCIPAL_MEMBER_TYPE, null).build());
+        roleMembers.add(RoleMembership.Builder.create(null, null, "user4", Role.PRINCIPAL_MEMBER_TYPE, null).build());
+        return roleMembers;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#sortRoleMembers(java.util.List)
-	 */
-	@Override
-	public List<RoleMembershipInfo> sortRoleMembers(List<RoleMembershipInfo> roleMembers) {
-		List<RoleMembershipInfo> sortedRoleMembers = new ArrayList<RoleMembershipInfo>();
+    /* (non-Javadoc)
+     * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#sortRoleMembers(java.util.List)
+     */
+    @Override
+    public List<RoleMembership> sortRoleMembers(List<RoleMembership> roleMembers) {
+        List<RoleMembership> sortedRoleMembers = new ArrayList<RoleMembership>();
         int group = 0; // counter for the group number to add to the roleSortingCode
-		for (RoleMembershipInfo roleMembershipInfo : roleMembers) {
-			roleMembershipInfo.setRoleSortingCode( StringUtils.leftPad(Integer.toString(group), 3, '0') );
-			sortedRoleMembers.add(roleMembershipInfo);
-			group++;
-		}
-		return sortedRoleMembers;
-	}
-
+        for (RoleMembership roleMembership : roleMembers) {
+            RoleMembership.Builder bldr = RoleMembership.Builder.create(roleMembership);
+            bldr.setRoleSortingCode(StringUtils.leftPad(Integer.toString(group), 3, '0'));
+            sortedRoleMembers.add(bldr.build());
+            group++;
+        }
+        return sortedRoleMembers;
+    }
 }

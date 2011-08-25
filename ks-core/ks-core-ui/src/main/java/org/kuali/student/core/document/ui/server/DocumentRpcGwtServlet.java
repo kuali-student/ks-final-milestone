@@ -15,9 +15,10 @@
 
 package org.kuali.student.core.document.ui.server;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -59,9 +60,10 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
     public Boolean isAuthorizedUploadDocuments(String id, String referenceTypeKey) {
 		if (id != null && (!"".equals(id.trim()))) {
 			String user = getCurrentUser();
-            AttributeSet permissionDetails = new AttributeSet(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
+            Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
+            permissionDetails.put(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
 	        if (getPermissionService().isPermissionDefinedForTemplateName(PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails)) {
-	            AttributeSet roleQuals = new AttributeSet();
+	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 	            roleQuals.put(referenceTypeKey, id);
 	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(user, PermissionType.UPLOAD_DOCUMENTS.getPermissionNamespace(), PermissionType.UPLOAD_DOCUMENTS.getPermissionTemplateName(), permissionDetails, roleQuals));
 	        }

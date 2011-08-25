@@ -16,10 +16,10 @@ package org.kuali.student.enrollment.class2.grading.form;
  * limitations under the License.
  */
 
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 
 import java.util.List;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 public class GradingForm extends UifFormBase{
 

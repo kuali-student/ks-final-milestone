@@ -7,7 +7,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestEnum;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -307,15 +307,15 @@ public class CollaboratorSectionView extends SectionView {
 	private void refreshActionRequestListItems(){
 		actionRequestListItems.clear();
 		if (isDocumentPreRoute()){
-            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(),ActionRequestEnum.FYI.getActionRequestLabel());
 		} else {
-            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(),ActionRequestType.APPROVE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(),ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(),ActionRequestType.FYI.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.APPROVE.getActionRequestCode(),ActionRequestEnum.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.ACKNOWLEDGE.getActionRequestCode(),ActionRequestEnum.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(),ActionRequestEnum.FYI.getActionRequestLabel());
 
 		}
 		actionRequestList.setListItems(actionRequestListItems);
-		refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
+		refreshPermissionList(ActionRequestEnum.FYI.getActionRequestCode());
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class CollaboratorSectionView extends SectionView {
 	private void refreshPermissionList(String selectedAction){
 		permissionListItems.clear();
 		// SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
-		if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
+		if (selectedAction != null && selectedAction.equals(ActionRequestEnum.APPROVE.getActionRequestCode()) || isDocumentPreRoute()){
             permissionListItems.addItem(PermissionType.EDIT.getCode(),"Edit, Comment, View");
 		}
 
@@ -468,7 +468,7 @@ public class CollaboratorSectionView extends SectionView {
     	List<Widget> rowWidgets = new ArrayList<Widget>();
 		rowWidgets.add(new KSLabel(personName + (isAuthor!=null && isAuthor?" (Author)":"")));
 		rowWidgets.add(new KSLabel(translatePermissionCode((String)personData.query("permission"))));
-		rowWidgets.add(new KSLabel(ActionRequestType.getByCode((String)personData.query("action")).getActionRequestLabel()));
+		rowWidgets.add(new KSLabel(ActionRequestEnum.getByCode((String)personData.query("action")).getActionRequestLabel()));
 		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
 
 		if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {

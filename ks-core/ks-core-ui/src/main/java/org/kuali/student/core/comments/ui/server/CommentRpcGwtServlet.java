@@ -15,12 +15,14 @@
 
 package org.kuali.student.core.comments.ui.server;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
+
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
@@ -33,13 +35,13 @@ import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
 	private static final long serialVersionUID = 1L;
-	private IdentityManagementService identityService;
+	private IdentityService identityService;
 	
-	public IdentityManagementService getIdentityService() {
+	public IdentityService getIdentityService() {
         return identityService;
     }
 
-    public void setIdentityService(IdentityManagementService identityService) {
+    public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
 
@@ -81,9 +83,10 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	@Override
     public Boolean isAuthorizedAddComment(String id, String referenceTypeKey) {
 		if (id != null && (!"".equals(id.trim()))) {
-			AttributeSet permissionDetails = new AttributeSet(StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
+			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
+                        permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);
 			if (getPermissionService().isPermissionDefinedForTemplateName(PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails)) {
-	            AttributeSet roleQuals = new AttributeSet();
+	            Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 	            roleQuals.put(referenceTypeKey, id);
 	            return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(getCurrentUser(), PermissionType.ADD_COMMENT.getPermissionNamespace(), PermissionType.ADD_COMMENT.getPermissionTemplateName(), permissionDetails, roleQuals));
 			}
@@ -97,8 +100,8 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 
     @Override
     public String getUserRealName(String userId) {
-        KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalId(userId);
-        KimEntityNameInfo kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        Entity kimEntityInfo = identityService.getEntityByPrincipalId(userId);
+        EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
         StringBuilder name = new StringBuilder(); 
         if (kimEntityNameInfo != null) {
             if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {

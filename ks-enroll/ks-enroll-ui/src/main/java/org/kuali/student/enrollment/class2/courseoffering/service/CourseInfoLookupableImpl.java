@@ -1,34 +1,27 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.student.common.search.dto.*;
+import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
+
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
-
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultCell;
-
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-
-public class CourseInfoLookupViewHelperServiceImpl extends LookupViewHelperServiceImpl {
+public class CourseInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = 1L;	
 	
     private transient LuService luService;
     private transient CourseService courseService;
     
 	 @Override
-	 protected List<?> getSearchResultsWithBounding(Map<String, String> fieldValues, boolean unbounded) {
+	 protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
 		 	List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 		    String courseId = null;
 	        List<SearchParam> searchParams = new ArrayList<SearchParam>();

@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
 
+import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -18,14 +18,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
-public class AcademicCalendarInfoLookupViewHelperServiceImpl  extends LookupViewHelperServiceImpl {
+public class AcademicCalendarInfoLookupableImpl extends LookupableImpl {
 	    public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "credentialProgramTypeKey";
 	    public final static String ACADEMIC_CALENDAR_KEY = "key";
 	 	private transient AcademicCalendarService academicCalendarService;
 	 	
 
 	    @Override
-	    protected List<?> getSearchResultsWithBounding(Map<String, String> fieldValues, boolean unbounded) {
+	    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
 	    	/*
 	    	String credentialProgramTypeKey = fieldValues.get(CREDENTIAL_PROGRAM_TYPE_KEY);
 	    	ContextInfo context = ContextInfo.newInstance();

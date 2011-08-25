@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <!-- HoldInfo-->
     <bean id="HoldInfo" parent="HoldInfo-parent"/>
     <bean id="HoldInfo-parent" abstract="true" parent="DataObjectEntry">
-    	<property name="objectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+    	<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
         <property name="objectLabel" value="Hold Info"/>
         <property name="titleAttribute" value="id"/>
         <!-- 

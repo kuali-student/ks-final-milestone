@@ -1,12 +1,12 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
@@ -37,7 +37,7 @@ public abstract class AbstractDataService implements DataService{
 
 	private TransformationManager transformationManager;
 	
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
 
     //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
@@ -138,7 +138,7 @@ public abstract class AbstractDataService implements DataService{
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
 			
-			AttributeSet roleQuals = new AttributeSet();
+			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			if (attributes != null) {				
 				if (proposalService != null){
 					ProposalInfo proposalInfo = null;
@@ -215,11 +215,11 @@ public abstract class AbstractDataService implements DataService{
 		this.transformationManager = transformationManager;
 	}
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 	

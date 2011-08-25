@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <!-- AcademicCalendarInfo-->
     <bean id="IssueInfo" parent="IssueInfo-parent"/>
     <bean id="IssueInfo-parent" abstract="true" parent="DataObjectEntry">
-    	<property name="objectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
+    	<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
         <property name="objectLabel" value="Issue"/>
         <property name="titleAttribute" value="id"/>
         <!-- 

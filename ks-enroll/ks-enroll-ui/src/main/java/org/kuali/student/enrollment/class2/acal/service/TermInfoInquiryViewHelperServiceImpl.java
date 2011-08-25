@@ -23,7 +23,7 @@ public class TermInfoInquiryViewHelperServiceImpl extends KualiInquirableImpl {
  	private transient AcademicCalendarService academicCalendarService;
 	
 	 @Override
-	 public TermInfo getDataObject(Map fieldValues) {
+	 public TermInfo retrieveDataObject(Map fieldValues) {
 	    	TermInfo termInfo = null;
 	    		    	
 	    	String termKey = (String)fieldValues.get(TERM_KEY);

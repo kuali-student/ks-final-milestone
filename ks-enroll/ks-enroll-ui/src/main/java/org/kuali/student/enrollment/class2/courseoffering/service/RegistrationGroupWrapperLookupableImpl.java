@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class RegistrationGroupWrapperLookupViewHelperServiceImpl extends LookupViewHelperServiceImpl {
+public class RegistrationGroupWrapperLookupableImpl extends LookupableImpl {
 
     private transient CourseOfferingService courseOfferingService;
     private static final String TERM_FIELD_NAME = "courseOffering.termKey";
     private static final String SUBJECT_AREA_FIELD_NAME = "courseOffering.subjectArea";
 
     @Override
-    protected List<?> getSearchResultsWithBounding(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
 
         ContextInfo context = ContextInfo.newInstance();
         String termKey = fieldValues.get(TERM_FIELD_NAME);
@@ -75,11 +75,6 @@ public class RegistrationGroupWrapperLookupViewHelperServiceImpl extends LookupV
         }
 
         return courseOfferingService;
-    }
-
-    @Override
-    protected String getActionUrls(Object dataObject, List<String> pkNames, BusinessObjectRestrictions dataObjectRestrictions) {
-        return "";
     }
 }
 

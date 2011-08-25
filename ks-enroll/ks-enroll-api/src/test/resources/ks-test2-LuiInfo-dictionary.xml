@@ -28,7 +28,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- LuiInfo-->
     <bean id="LuiInfo-generated" abstract="true" parent="DataObjectEntry">
         <property name="name" value="luiInfo"/>
-        <property name="objectClass" value="org.kuali.student.enrollment.lui.dto.LuiInfo"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiInfo"/>
         <property name="objectLabel" value="Lui"/>
         <property name="objectDescription" value="Detailed information about a single LUI."/>
         <property name="titleAttribute" value="name"/>
@@ -107,7 +107,7 @@ The LUI identifier.
 	<!-- LuiIdentifierInfo.officialIdentifier-->
     <bean id="LuiInfo.officialIdentifier-LuiIdentifierInfo-generated" abstract="true" parent="DataObjectEntry">
         <property name="name" value="LuiIdentifierInfo.officialIdentifier"/>
-        <property name="objectClass" value="org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo"/>
         <property name="objectLabel" value="Lui Official Identifier"/>
         <property name="objectDescription" value="Detailed information about a single LUI offical identifier."/>
         <property name="titleAttribute" value="name"/>

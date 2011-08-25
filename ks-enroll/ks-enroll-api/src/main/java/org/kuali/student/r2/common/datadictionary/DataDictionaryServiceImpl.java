@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -65,9 +65,9 @@ public class DataDictionaryServiceImpl implements DataDictionaryService, RiceDat
             Map<String, DataObjectEntry> beansOfType =
                     (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
             for (DataObjectEntry entry : beansOfType.values()) {
-                log.debug(entry.getObjectClass());
+                log.debug(entry.getDataObjectClass());
                 riceMap.put(entry.getFullClassName(), entry);
-                studMap.put(calcRefObjectURI (entry.getObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
+                studMap.put(calcRefObjectURI (entry.getDataObjectClass()), new Rice2StudentDictionaryEntryConverter().convert(entry));
             }
         }
     }

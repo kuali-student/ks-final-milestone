@@ -10,7 +10,9 @@
     <bean id="mockAcademicCalendarService" class= "org.kuali.student.enrollment.classII.acal.mock.AcademicCalendarServiceMockImpl">
         <property name="atpService" ref="mockAtpService"/>
     </bean>
-
+    <bean id="testAtpInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-AtpInfo-dictionary.xml" />
+    </bean>
     <bean id="testAcalInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-test-AcademicCalendarInfo-dictionary.xml" />
     </bean>
@@ -20,6 +22,7 @@
     <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="testAtpInfoDictionaryLocation" />                 
                 <bean parent="testAcalInfoDictionaryLocation" /> 
                 <bean parent="testLuiInfoDictionaryLocation" />   
             </list>

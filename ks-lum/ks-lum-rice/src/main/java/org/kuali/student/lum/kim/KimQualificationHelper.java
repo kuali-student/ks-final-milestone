@@ -31,12 +31,13 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.AttributeSet;
+//import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kim.service.support.impl.KimTypeAttributeValidationException;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
@@ -56,11 +57,11 @@ public class KimQualificationHelper {
 	    // translationMap.put("referenceType.clu.proposal", "kuali.proposal.type.course.create");
 	}
 
-	protected static WorkflowUtility getWorkflowUtility() {
-		return KEWServiceLocator.getWorkflowUtilityService();
+	protected static WorkflowDocumentService getWorkflowDocumentService() {
+		return KewApiServiceLocator.getWorkflowDocumentService();
 	}
 
-    public static void validateRequiredAttributesAgainstReceived(Set<List<String>> requiredAttributes, AttributeSet receivedAttributes, boolean checkRequiredAttributes, String commaSeparatorString) {
+    public static void validateRequiredAttributesAgainstReceived(Set<List<String>> requiredAttributes, Map<String,String> receivedAttributes, boolean checkRequiredAttributes, String commaSeparatorString) {
 		// abort if type does not want the qualifiers to be checked
 		if ( !checkRequiredAttributes ) {
 			return;
@@ -106,10 +107,10 @@ public class KimQualificationHelper {
             }
         }
 		LOG.info("Found missing attributes: " + errorMessage.toString());
-        throw new KimTypeAttributeValidationException(errorMessage.toString());
+        throw new RuntimeException (errorMessage.toString());
     }
 
-    protected static String getProposalId(AttributeSet qualification) {
+    protected static String getProposalId(Map<String,String> qualification) {
         for (String proposalReferenceType : StudentIdentityConstants.QUALIFICATION_PROPOSAL_ID_REF_TYPES) {
             if (qualification.containsKey(proposalReferenceType)) {
                 return qualification.get(proposalReferenceType);
@@ -118,9 +119,9 @@ public class KimQualificationHelper {
         return null;
     }
 
-    public static AttributeSet translateInputAttributeSet(AttributeSet qualification) {
+    public static Map<String,String> translateInputAttributeSet(Map<String,String> qualification) {
 		try {
-			DocumentDetailDTO docDetail = null;
+			DocumentDetail docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
 			String documentNumber = qualification.get(KimConstants.AttributeConstants.DOCUMENT_NUMBER);
 			String proposalId = getProposalId(qualification);
@@ -133,7 +134,7 @@ public class KimQualificationHelper {
 			}
 			if (StringUtils.isNotBlank(documentNumber)) {
 				// document id exists so look up KEW document instance using it
-				docDetail = getWorkflowUtility().getDocumentDetail(documentNumber);
+				docDetail = getWorkflowDocumentService().getDocumentDetail(documentNumber);
 			}
 			else {
 				// document id does not exist so attempt lookup by Document Type Name and Application ID
@@ -150,7 +151,9 @@ public class KimQualificationHelper {
 					// check for a valid Document Type Name
 					if (StringUtils.isNotBlank(documentTypeName)) {
 						// found valid Application ID and Document Type Name so KEW Document instance can be retrieved
-						docDetail = getWorkflowUtility().getDocumentDetailFromAppId(documentTypeName, appId);
+
+
+                        docDetail = getWorkflowDocumentService().getDocumentDetailByAppId(documentTypeName, appId);
 					}
 					else {
 						// if neither Document Type Name nor KS object type is found then KEW document instance cannot be retrieved
@@ -171,11 +174,11 @@ public class KimQualificationHelper {
 		}
 	}
 
-	protected static void translateQualifications(DocumentDetailDTO docDetail, String proposalId, AttributeSet qualifications) {
+	protected static void translateQualifications(DocumentDetail docDetail, String proposalId, Map<String,String> qualifications) {
 		if (docDetail != null) {
 			// add document id if necessary
 			if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
-				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getDocumentId());
+				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getDocument().getDocumentId());
 			}
 			// add KS proposal id if possible
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID) && StringUtils.isNotBlank(proposalId)) {
@@ -183,9 +186,10 @@ public class KimQualificationHelper {
 			}
 			// add KS object id if necessary
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID)) {
-				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, docDetail.getAppDocId());
+				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, docDetail.getDocument().getApplicationDocumentId());
 			}
-			DocumentTypeDTO docType = KEWServiceLocator.getDocumentTypeService().getDocumentTypeVO(docDetail.getDocTypeId());
+                        DocumentType docType = KEWServiceLocator.getDocumentTypeService().findById(docDetail.getDocument().getDocumentTypeId());
+//			DocumentType docType = KEWServiceLocator.getDocumentTypeService().getDocumentType(docDetail.getDocTypeId());
 			if (docType != null) {
 				String documentTypeName = docType.getName();
 				// add document type name if necessary
@@ -198,7 +202,7 @@ public class KimQualificationHelper {
 				}
 			}
 			else {
-				String errorMsg = "Could not find valid KEW document type for document id " + docDetail.getDocumentId(); 
+				String errorMsg = "Could not find valid KEW document type for document id " + docDetail.getDocument().getDocumentId();
 				LOG.error(errorMsg);
 				throw new RuntimeException(errorMsg);
 			}

@@ -15,40 +15,36 @@
 
 package org.kuali.student.lum.kim.role.type;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.ActionRequestStatus;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
+
+import java.util.*;
 
 /**
  *
  */
-public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected final Logger LOG = Logger.getLogger(getClass());
 	
 	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT = "Approve";
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
-
+        private static final String ACTION_REQUEST_INITIALIZED = ActionRequestStatus.INITIALIZED.getCode();
+        private static final String ACTION_REQUEST_ACTIVATED = ActionRequestStatus.ACTIVATED.getCode();
+        private static final String ACTION_REQUEST_DONE_STATE = ActionRequestStatus.DONE.getCode();
+        
     protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
 
 	protected enum REQUESTS_TYPES_TO_CHECK {
@@ -56,8 +52,9 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	}
 
 	protected enum REQUESTS_STATUS_TO_CHECK {
-		INITIALIZED(KEWConstants.ACTION_REQUEST_INITIALIZED), ACTIVE(KEWConstants.ACTION_REQUEST_ACTIVATED), 
-		DONE(KEWConstants.ACTION_REQUEST_DONE_STATE);
+		INITIALIZED(ACTION_REQUEST_INITIALIZED), 
+                ACTIVE(ACTION_REQUEST_ACTIVATED), 
+		DONE(ACTION_REQUEST_DONE_STATE);
 
 		private String kewActionRequestStatusCode;
 
@@ -76,7 +73,6 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	}
 
 	{
-		checkRequiredAttributes = true;
         // add document number as one required attribute set
 		List<String> listOne = new ArrayList<String>();
 		listOne.add( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
@@ -102,27 +98,27 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	/** 
 	 * The part about where the receivedAttributes list being empty does not return errors is copied from Rice base class.
 	 * 
-	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dtoMap<String,String>)
 	 **/
 	@Override
-	protected void validateRequiredAttributesAgainstReceived(AttributeSet receivedAttributes){
+	protected void validateRequiredAttributesAgainstReceived(Map<String,String> receivedAttributes){
 		KimQualificationHelper.validateRequiredAttributesAgainstReceived(newRequiredAttributes, receivedAttributes, isCheckRequiredAttributes(), COMMA_SEPARATOR);
 		super.validateRequiredAttributesAgainstReceived(receivedAttributes);
 	}
 
     @Override
-    public AttributeSet translateInputAttributeSet(AttributeSet qualification) {
-        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributeSet(qualification));
+    public Map<String,String> translateInputAttributes(Map<String,String> qualification) {
+        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(translateInputAttributes(qualification)));
     }
 
-	protected String getDocumentNumber(AttributeSet qualification) throws WorkflowException {
+	protected String getDocumentNumber(Map<String,String> qualification) throws WorkflowException {
 		// first check for a valid document id passed in
 		String documentId = qualification.get( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
         if (StringUtils.isNotEmpty(documentId)) {
             return documentId;
         } else {
             LOG.warn("Could not find workflow document id in qualification list:");
-            LOG.warn(qualification.formattedDump(20));
+            LOG.warn(qualification);
             return null;
         }
 //		if (StringUtils.isNotEmpty(documentId)) {
@@ -147,32 +143,33 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 //		return docDetail.getDocumentId();
 	}
 
-	protected void addMember(Map<String,List<ActionRequestDTO>> requestsByPrincipalId, String principalId, ActionRequestDTO actionRequest) {
+	protected void addMember(Map<String,List<ActionRequest>> requestsByPrincipalId, String principalId, ActionRequest actionRequest) {
 		if (!requestsByPrincipalId.containsKey(principalId)) {
-			requestsByPrincipalId.put(principalId, new ArrayList<ActionRequestDTO>());
+			requestsByPrincipalId.put(principalId, new ArrayList<ActionRequest>());
 		}
 		requestsByPrincipalId.get(principalId).add(actionRequest);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(
-			String namespaceCode, String roleName, AttributeSet paramQualification) {
+	public List<RoleMembership> getRoleMembersFromApplicationRole(
+			String namespaceCode, String roleName, Map<String,String> paramQualification) {
 		// validate required attributes
 		validateRequiredAttributesAgainstReceived(paramQualification);
-		AttributeSet qualification = translateInputAttributeSet(paramQualification);
-		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+		Map<String,String> qualification = translateInputAttributes(paramQualification);
+		List<RoleMembership> members = new ArrayList<RoleMembership>();
 		try {
 			// check for valid qualification data to check
 			String documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				// get all action requests for the document id given
-				ActionRequestDTO[] actionRequests = getWorkflowUtility().getAllActionRequests(documentNumber);
-				Map<String,List<ActionRequestDTO>> requestsByPrincipalId = new HashMap<String, List<ActionRequestDTO>>();
+                            // TODO: RICE=M7 UPGRADE deal with WorkflowUtility being deprecated
+				List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(documentNumber);
+				Map<String,List<ActionRequest>> requestsByPrincipalId = new HashMap<String, List<ActionRequest>>();
 				// build a map by principal id of action requests for the document
-	            for (ActionRequestDTO actionRequest: actionRequests) {
+	            for (ActionRequest actionRequest: actionRequests) {
 	            	// if the request has a principal id
 	            	if (actionRequest.getPrincipalId() != null) {
 	            		addMember(requestsByPrincipalId, actionRequest.getPrincipalId(), actionRequest);
@@ -184,9 +181,9 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 						}
 	            	}
 	            }
-	            for (Map.Entry<String, List<ActionRequestDTO>> mapEntry : requestsByPrincipalId.entrySet()) {
-					if (containsActivatedRequest(roleName, mapEntry.getValue().toArray(new ActionRequestDTO[]{}))) {
-		                members.add( new RoleMembershipInfo(null/*roleId*/, null, mapEntry.getKey(), Role.PRINCIPAL_MEMBER_TYPE, null) );
+	            for (Map.Entry<String, List<ActionRequest>> mapEntry : requestsByPrincipalId.entrySet()) {
+					if (containsActivatedRequest(roleName, mapEntry.getValue())) {
+		                members.add(RoleMembership.Builder.create(null/*roleId*/, null, mapEntry.getKey(), Role.PRINCIPAL_MEMBER_TYPE, null).build() );
 					}
 				}
 			}
@@ -198,18 +195,18 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
 	public boolean hasApplicationRole(String principalId,
 			List<String> groupIds, String namespaceCode, String roleName,
-			AttributeSet paramQualification) {
+			Map<String,String> paramQualification) {
         validateRequiredAttributesAgainstReceived(paramQualification);
-        AttributeSet qualification = translateInputAttributeSet(paramQualification);
+        Map<String,String> qualification = translateInputAttributes(paramQualification);
 		try {
 			String documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
-				ActionRequestDTO[] actionRequests = getWorkflowUtility().getActionRequests(documentNumber, null, principalId);
+				List<ActionRequest> actionRequests = getWorkflowDocumentService().getActionRequests(documentNumber, null, principalId);
 				return containsActivatedRequest(roleName, actionRequests);
 			}
 			return false;
@@ -219,23 +216,23 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		}
 	}
 
-	protected boolean containsActivatedRequest(String roleName, ActionRequestDTO[] actionRequests) {
+	protected boolean containsActivatedRequest(String roleName, List<ActionRequest> actionRequests) {
 		if (StringUtils.containsIgnoreCase(roleName, APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT)) {
-			for ( ActionRequestDTO ar : actionRequests ) {
+			for ( ActionRequest ar : actionRequests ) {
 				if ( ar.isApprovalRequest() && verifyActionRequest(ar)) {
 					return true;
 				}
 			}
 		}
 		else if (StringUtils.containsIgnoreCase(roleName, ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT)) {
-			for ( ActionRequestDTO ar : actionRequests ) {
+			for ( ActionRequest ar : actionRequests ) {
 				if ( ar.isAcknowledgeRequest() && verifyActionRequest(ar)) {
 					return true;
 				}
 			}
 		}
 		else if (StringUtils.containsIgnoreCase(roleName, FYI_REQUEST_RECIPIENT_ROLE_CONTENT)) {
-			for ( ActionRequestDTO ar : actionRequests ) {
+			for ( ActionRequest ar : actionRequests ) {
 				if ( ar.isFyiRequest() && verifyActionRequest(ar)) {
 					return true;
 				}
@@ -244,8 +241,8 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		return false;
 	}
 
-	protected boolean verifyActionRequest(ActionRequestDTO ar) {
-		REQUESTS_STATUS_TO_CHECK statusEnum = REQUESTS_STATUS_TO_CHECK.getByCode(ar.getStatus());
+	protected boolean verifyActionRequest(ActionRequest ar) {
+		REQUESTS_STATUS_TO_CHECK statusEnum = REQUESTS_STATUS_TO_CHECK.getByCode(ar.getStatus().getCode());
 		if (getRequestStatusesToCheck().contains(statusEnum)) {
 			if (ar.isAdHocRequest()) {
 				return getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.BOTH) || getRequestTypesToCheck().equals(REQUESTS_TYPES_TO_CHECK.ADHOC_ONLY);
@@ -275,7 +272,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends KimDerivedRoleTyp
 		return Collections.singletonList(REQUESTS_STATUS_TO_CHECK.ACTIVE);
 	}
 
-	protected WorkflowUtility getWorkflowUtility() {
-		return KEWServiceLocator.getWorkflowUtilityService();
+	protected WorkflowDocumentService getWorkflowDocumentService() {
+		return KewApiServiceLocator.getWorkflowDocumentService();
 	}
 }

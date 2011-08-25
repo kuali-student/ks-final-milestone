@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.rice.core.api.uif.DataType;
 
-import org.kuali.rice.kns.datadictionary.validation.DataType;
 import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -202,13 +202,13 @@ public class CriteriaValidatorParser {
             case DOUBLE:
             case LONG:
                 break;
-            case COMPLEX:
-                if (! operator.equals("=") && !operator.equals("!=")) {
-                    throw new InvalidParameterException("The " + i + "th comparison's operator " + operator + " is a comparison operator that does not apply to the field's complex data type");
-                }
-                if (values.get(0) == null) {
-                    throw new InvalidParameterException("The " + i + "th comparison's value is not null but attribute type is complex. Complex can only be checked to see if it is null or not null");
-                }
+//            case COMPLEX:
+//                if (! operator.equals("=") && !operator.equals("!=")) {
+//                    throw new InvalidParameterException("The " + i + "th comparison's operator " + operator + " is a comparison operator that does not apply to the field's complex data type");
+//                }
+//                if (values.get(0) == null) {
+//                    throw new InvalidParameterException("The " + i + "th comparison's value is not null but attribute type is complex. Complex can only be checked to see if it is null or not null");
+//                }
         }
         parsedValues.add(parseValues(i, ad.getDataType(), comparison.getValues(), comparison.getIsIgnoreCase()));
     }
@@ -247,8 +247,8 @@ public class CriteriaValidatorParser {
                 return parseDouble(i, value);
             case LONG:
                 return parseLong(i, value);
-            case COMPLEX:
-                throw new InvalidParameterException("The " + i + "th comparison's value is not null but attribute type is complex. Complex can only be checked to see if it is null or not null");
+//            case COMPLEX:
+//                throw new InvalidParameterException("The " + i + "th comparison's value is not null but attribute type is complex. Complex can only be checked to see if it is null or not null");
             default:
                 throw new IllegalArgumentException("Unknown/unhandled datatype " + dataType);
         }

@@ -18,17 +18,17 @@ package org.kuali.student.core.authorization.ui.server.gwt;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.authorization.ui.client.service.AuthorizationRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.LinkedHashMap;
+import org.kuali.rice.kim.api.permission.PermissionService;
 
 public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements AuthorizationRpcService{
 
 	private static final long serialVersionUID = 8568346881191827247L;
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
 
 	@Override
 	public Boolean isAuthorizedForPermission(String namespace, String permissionTemplateName) {
@@ -44,13 +44,13 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 		if (StringUtils.isBlank(currentUser)) {
 			throw new RuntimeException("Unable to find current user or backdoor user.");
 		}
-		AttributeSet roleQuals = null;
+		Map<String,String> roleQuals = null;
 		if (roleQualifications != null) {
-			roleQuals = new AttributeSet(roleQualifications);
+			roleQuals = new LinkedHashMap<String,String>(roleQualifications);
 		}
-		AttributeSet permDetails = null;
+		Map<String,String> permDetails = null;
 		if (permissionDetails != null) {
-			permDetails = new AttributeSet(permissionDetails);
+			permDetails = new LinkedHashMap<String,String>(permissionDetails);
 		}
 		return  Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, namespace, permissionTemplateName, permDetails, roleQuals));
 	}
@@ -64,7 +64,7 @@ public class AuthorizationRpcGwtServlet extends RemoteServiceServlet implements 
 		return username;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 

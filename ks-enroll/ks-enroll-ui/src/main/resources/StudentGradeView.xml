@@ -82,17 +82,17 @@ limitations under the License.
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="name" p:label="Name" p:conditionalReadOnly="true">
+          <bean parent="AttributeField_Form" p:propertyName="name" p:label="Name" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="50"/>
             </property>
           </bean>
-          <bean parent="AttributeField_Form" p:propertyName="birthDate" p:label="Birthdate" p:conditionalReadOnly="true">
+          <bean parent="AttributeField_Form" p:propertyName="birthDate" p:label="Birthdate" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="50"/>
             </property>
           </bean>
-          <bean parent="AttributeField_Form" p:propertyName="firstTerm" p:label="First Term" p:conditionalReadOnly="true">
+          <bean parent="AttributeField_Form" p:propertyName="firstTerm" p:label="First Term" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="50"/>
             </property>
@@ -113,17 +113,17 @@ limitations under the License.
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField" p:propertyName="courseName" p:label="Course Name" p:conditionalReadOnly="true">
+          <bean parent="AttributeField" p:propertyName="courseName" p:label="Course Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="credits" p:label="Credits" p:conditionalReadOnly="true">
+          <bean parent="AttributeField" p:propertyName="credits" p:label="Credits" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="grade" p:label="Grade" p:conditionalReadOnly="true">
+          <bean parent="AttributeField" p:propertyName="grade" p:label="Grade" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="26" >
               </bean>

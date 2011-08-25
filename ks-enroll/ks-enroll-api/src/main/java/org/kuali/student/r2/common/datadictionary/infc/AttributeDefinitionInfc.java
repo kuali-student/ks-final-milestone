@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary.infc;
 
-import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.rice.core.api.uif.DataType;
 
 /**
  * Dictionary data for Attributes (or fields) that exist on an object.

@@ -18,8 +18,8 @@ package org.kuali.student.enrollment.class2.acal.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,7 +35,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
   
     /**
-     * @see org.kuali.rice.kns.web.spring.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.krad.web.controller.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {

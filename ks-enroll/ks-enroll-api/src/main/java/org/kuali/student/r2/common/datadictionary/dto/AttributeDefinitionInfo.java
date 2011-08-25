@@ -19,7 +19,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.rice.core.api.uif.DataType;
 import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.ValidCharactersConstraintInfc;
 

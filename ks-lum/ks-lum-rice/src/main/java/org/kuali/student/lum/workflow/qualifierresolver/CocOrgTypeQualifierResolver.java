@@ -6,6 +6,7 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
@@ -13,8 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.util.xml.XmlJotter;
-import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
@@ -85,8 +85,8 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
               attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
         }
@@ -164,9 +164,9 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         }
     }
 
-    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
+    protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
         
-        List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
+        List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
         List<OrgInfo> orgsForRouting = null;
         if (orgId != null) {
             try {

@@ -8,7 +8,7 @@
 	    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
 	    <property name="viewName" value="scheduleClassesLookup"/>
 	 <!--   <property name="viewHelperServiceBeanId" value="courseInfoDtoLookupViewHelperService" /> -->
-	    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupWrapperLookupViewHelperServiceImpl" />
+	    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupWrapperLookupableImpl" />
 	    
 	    <property name="criteriaFields">
 	      <list>

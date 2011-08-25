@@ -16,8 +16,8 @@
 package org.kuali.student.r2.common.datadictionary;
 
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
-import org.kuali.rice.kns.service.DictionaryValidationService;
+import org.kuali.rice.krad.service.DictionaryValidationService;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;

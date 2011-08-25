@@ -8,10 +8,9 @@ import java.io.Serializable;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.common.exceptions.OperationFailedException;

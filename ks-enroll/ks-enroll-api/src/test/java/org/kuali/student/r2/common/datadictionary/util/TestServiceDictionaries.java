@@ -16,12 +16,11 @@
 package org.kuali.student.r2.common.datadictionary.util;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;

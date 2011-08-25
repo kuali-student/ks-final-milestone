@@ -4,7 +4,8 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import org.kuali.rice.core.util.AttributeSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.kuali.rice.kim.api.group.Group;
 
 /**
@@ -13,11 +14,11 @@ import org.kuali.rice.kim.api.group.Group;
  */
 public class MockHelper {
 
-    public AttributeSet copy(AttributeSet info) {
+    public Map<String,String> copy(Map<String,String> info) {
         if (info == null) {
             return null;
         }
-        AttributeSet copy = new AttributeSet(info);
+        Map<String,String> copy = new LinkedHashMap<String,String>(info);
         return copy;
     }
 

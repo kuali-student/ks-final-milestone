@@ -23,7 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.core.bo.KsBusinessObjectBase;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 
@@ -67,7 +67,7 @@ public class MessageEntity extends KsBusinessObjectBase {
         criteria.put("enumerationId", enumerationId);
         criteria.put("code", enumerationCode);
         
-        return (EnumeratedValue) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
+        return (EnumeratedValue) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
     }
     
     

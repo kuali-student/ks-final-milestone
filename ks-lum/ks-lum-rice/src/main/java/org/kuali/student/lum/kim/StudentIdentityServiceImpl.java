@@ -22,13 +22,13 @@ import java.security.GeneralSecurityException;
 
 import javax.jws.WebService;
 
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.encryption.EncryptionService;
-import org.kuali.rice.core.api.services.CoreApiServiceLocator;
-import org.kuali.rice.kim.api.entity.principal.Principal;
-import org.kuali.rice.kim.api.entity.services.IdentityService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.service.impl.IdentityServiceImpl;
 import org.kuali.rice.kim.util.KIMWebServiceConstants;
-import org.kuali.rice.kns.service.impl.DocumentServiceImpl;
+import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 
 /**
  * This service override is used to facilitate a fix to the encrypted passwords in the

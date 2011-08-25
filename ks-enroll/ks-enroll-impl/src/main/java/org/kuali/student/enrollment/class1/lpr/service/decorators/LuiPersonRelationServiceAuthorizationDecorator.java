@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class1.lpr.service.decorators;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
-import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.kim.service.PermissionService;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -18,12 +16,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 /**
@@ -92,8 +87,8 @@ public class LuiPersonRelationServiceAuthorizationDecorator extends LuiPersonRel
      */
 
 	protected boolean isAuthorized(String principal, String permissionName, String qualifier) {
-		AttributeSet permissionDetails = null;
-		AttributeSet qualifierDetails = new AttributeSet();
+		Map<String, String> permissionDetails = null;
+		Map<String, String> qualifierDetails = new HashMap<String,String>();
 		qualifierDetails.put("qualifierKey", qualifier);
 		return this.permissionService.isAuthorized(principal,
 				ENRLLMENT_NAMESPACE,

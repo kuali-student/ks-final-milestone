@@ -185,9 +185,10 @@
     </bean>
 	
 	<!-- Kim identity service client -->
+    <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
     <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.services.IdentityManagementService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityServiceSoap"/>
     </bean>
 
 

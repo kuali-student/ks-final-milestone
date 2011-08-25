@@ -16,16 +16,12 @@
 package org.kuali.student.enrollment.class2.registration.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
-import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoLookupViewHelperServiceImpl;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupInfoWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;

@@ -69,18 +69,19 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
+        <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.services.IdentityManagementService" />
-		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP" />
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService" />
+		<property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionServiceSoap " />
 	</bean>
     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.services.IdentityManagementService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityServiceSoap"/>
     </bean>
-    
+
     <bean id="identityServiceClientNonCached" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.entity.services.IdentityService" />
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityServiceSoap" />
     </bean>
 
 	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -93,7 +94,7 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
     
-	<bean id="transactionManager" class="org.kuali.rice.kns.config.GlobalResourceLoaderServiceFactoryBean">
+	<bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
 		<property name="serviceName" value="transactionManager" />
 	</bean>
 

@@ -15,10 +15,9 @@
 
 package org.kuali.rice.student.bo;
 
-import java.util.LinkedHashMap;
 
 import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Data Dictionary entries for Kuali Student attributes needed by KIM

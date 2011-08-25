@@ -19,7 +19,6 @@ import org.kuali.rice.kew.actionitem.ActionItem;
 import org.kuali.rice.kew.actionlist.CustomActionListAttribute;
 import org.kuali.rice.kew.actionlist.DisplayParameters;
 import org.kuali.rice.kew.actions.ActionSet;
-import org.kuali.rice.kns.UserSession;
 
 public class CollaboratorRequestCustomActionListAttribute implements
 		CustomActionListAttribute {

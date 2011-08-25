@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import org.kuali.rice.kns.datadictionary.DataDictionary;
+import org.kuali.rice.krad.datadictionary.DataDictionary;
 
 /**
  * Class that can be init'd directly by spring instead of by the KNS configurer

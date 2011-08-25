@@ -1,75 +1,75 @@
 package org.kuali.student.core.rice.authorization;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.ActionRequestDTO;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.api.action.*;
+import org.kuali.rice.kew.api.doctype.DocumentType;
+import org.kuali.rice.kew.api.doctype.DocumentTypeService;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.service.RoleUpdateService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.name.EntityName;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.StudentWorkflowConstants;
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
 
+import java.io.Serializable;
+import java.util.*;
+
 public class CollaboratorHelper implements Serializable {
-	protected IdentityManagementService identityService;
-	protected RoleUpdateService roleUpdateService;
-	private SimpleDocumentActionsWebService simpleDocService;
-    private WorkflowUtility workflowUtilityService;
-	private IdentityManagementService permissionService;
+	protected IdentityService identityService;
+	protected RoleService roleService;
+	private WorkflowDocumentActionsService workflowDocumentActionsService;
+    private WorkflowDocumentService workflowDocumentService;
+    private DocumentTypeService documentTypeService;
+	private PermissionService permissionService;
 	
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CollaboratorHelper.class);
 	
     public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
-        if(getSimpleDocService()==null){
+        if(getWorkflowDocumentActionsService()==null){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
 		//get a user name
         String currentUserPrincipalId = SecurityUtils.getCurrentUserId();
 
-        ActionRequestType actionRequestType = ActionRequestType.getByCode(actionRequestTypeCode);
-        if (actionRequestType == null) {
+        // TODO: combine actionRequestEnum and ActionRequestType.  Too similar.  Only thing we need the enum for is human readable exceptions
+        StudentWorkflowConstants.ActionRequestEnum actionRequestEnum = StudentWorkflowConstants.ActionRequestEnum.getByCode(actionRequestTypeCode);
+        if (actionRequestEnum == null) {
         	throw new OperationFailedException("No valid action request type found for code: " + actionRequestTypeCode);
         }
-        StandardResponse stdResp = null;
-        if (ActionRequestType.APPROVE.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(docId, currentUserPrincipalId, recipientPrincipalId, "");
+
+        DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
+        ActionRequestType actionRequestType = ActionRequestType.fromCode(actionRequestTypeCode);
+        AdHocToPrincipal.Builder ahtpBuilder = AdHocToPrincipal.Builder.create(actionRequestType, null, recipientPrincipalId);
+        ahtpBuilder.setForceAction(true);
+
+        DocumentActionResult stdResp = null;
+        if (StudentWorkflowConstants.ActionRequestEnum.APPROVE.equals(actionRequestEnum)) {
+            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
+            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
-        else if (ActionRequestType.ACKNOWLEDGE.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocAckToPrincipal(docId,currentUserPrincipalId, recipientPrincipalId, "");
+        else if (StudentWorkflowConstants.ActionRequestEnum.ACKNOWLEDGE.equals(actionRequestEnum)) {
+            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
-        else if (ActionRequestType.FYI.equals(actionRequestType)) {
-            stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(docId,currentUserPrincipalId, recipientPrincipalId, "");
+        else if (StudentWorkflowConstants.ActionRequestEnum.FYI.equals(actionRequestType)) {
+            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
         else {
-        	throw new OperationFailedException("Invalid action request type '" + actionRequestType.getActionRequestLabel() + "'");
+        	throw new OperationFailedException("Invalid action request type '" + actionRequestEnum.getActionRequestLabel() + "'");
         }
-        if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-            if(stdResp==null){
-            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + ")");
-            }else{
-            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
-            }
-        }
+
 
         PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);
         if (selectedPermType == null) {
@@ -100,21 +100,20 @@ public class CollaboratorHelper implements Serializable {
 
         try {
             String recipientPrincipalId = null;
-            ActionRequestDTO[] actionRequests = getWorkflowUtilityService().getAllActionRequests(docId);
-            for (ActionRequestDTO actionRequestDTO : actionRequests) {
-                if (StringUtils.equals(actionRequestId, actionRequestDTO.getActionRequestId().toString())) {
-                    recipientPrincipalId = actionRequestDTO.getPrincipalId();
+            List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(docId);
+            for (ActionRequest actionRequest : actionRequests) {
+                if (actionRequestId.equals(actionRequest.getId().toString())) {
+                    recipientPrincipalId = actionRequest.getPrincipalId();
                     break;
                 }
             }
             if (recipientPrincipalId == null) {
                 throw new OperationFailedException("Unable to find Principal ID for action request id: " + actionRequestId);
             }
-            StandardResponse stdResp = getSimpleDocService().revokeAdHocRequestsByActionRequestId(docId, currentUserPrincipalId, null, null, actionRequestId, "");
-            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
-                throw new OperationFailedException("Error found trying to remove collaborator");
-            }
-            // remove principal from edit permission
+            DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
+            DocumentActionResult stdResp = getWorkflowDocumentActionsService().revokeAdHocRequestById(docActionParams, actionRequestId);
+
+             // remove principal from edit permission
             removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             // remove principal from comment permission
             removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
@@ -129,42 +128,42 @@ public class CollaboratorHelper implements Serializable {
 		try{
 			LOG.info("Getting collaborators for docId: "+docId);
 
-	        if(getWorkflowUtilityService()==null){
+	        if(getWorkflowDocumentService()==null){
 	        	LOG.error("No workflow Utility Service is available.");
 	        	throw new OperationFailedException("Workflow Service is unavailable");
 	        }
 			
 			List<WorkflowPersonInfo> people = new ArrayList<WorkflowPersonInfo>();
 			
-			AttributeSet qualification = new AttributeSet();
+			Map<String,String> qualification = new LinkedHashMap<String,String>();
 			qualification.put("documentNumber", docId);
-	
-			ActionRequestDTO[] items = getWorkflowUtilityService().getAllActionRequests(docId);
-	        if(items!=null){
-	        	for(ActionRequestDTO item:items){
-	        		if (item.isAdHocRequest()) {
+			List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(docId);
+	        if(actionRequests!=null){
+	        	for(ActionRequest actionRequest :actionRequests){
+	        		if (actionRequest.isAdHocRequest()) {
 	                    // if action request is complete and action taken was a 'revoke action' we do not want to show the person
-	                    if (item.isDone() && (item.getActionTaken() != null) && (StringUtils.equals(KEWConstants.ACTION_TAKEN_ADHOC_REVOKED_CD,item.getActionTaken().getActionTaken()))) {
+	                    if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && KEWConstants.ACTION_TAKEN_ADHOC_REVOKED_CD.equals(actionRequest.getActionTaken().getActionTaken())) {
 	                        continue;
 	                    }
-	                    
+
 	        			WorkflowPersonInfo person = new WorkflowPersonInfo();
-	        			person.setPrincipalId(item.getPrincipalId());
-	        			
-	        			KimEntityDefaultInfo info =  getIdentityService().getEntityDefaultInfoByPrincipalId(item.getPrincipalId());
-	        			
-	        			if(info != null && info.getDefaultName() != null){
-	        				person.setFirstName(info.getDefaultName().getFirstName());
-	        				person.setLastName(info.getDefaultName().getLastName());
+	        			person.setPrincipalId(actionRequest.getPrincipalId());
+
+	        			EntityDefault info =  getIdentityService().getEntityDefaultByPrincipalId(actionRequest.getPrincipalId());
+
+                        EntityName name = info.getName();
+	        			if(info != null && name != null){
+	        				person.setFirstName(name.getFirstName());
+	        				person.setLastName(name.getLastName());
 	        			}
-	        			
-	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
+
+	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
 	        					PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
+	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
 	        					PermissionType.OPEN.getPermissionTemplateName(), null, qualification));
-	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(item.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
+	        			boolean commentAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.ADD_COMMENT.getPermissionNamespace(),
 	        					PermissionType.ADD_COMMENT.getPermissionTemplateName(), null, qualification));
-	        			
+
 	        			if(editAuthorized){
 	        				person.setPermission(PermissionType.EDIT.getCode());
 	        			} else if (commentAuthorized){
@@ -172,14 +171,14 @@ public class CollaboratorHelper implements Serializable {
 	        			} else if (openAuthorized){
 	        				person.setPermission(PermissionType.OPEN.getCode());
 	        			}
-	        			
-        				String request = item.getActionRequested();
-	        			person.setAction(request);
-	        			
-	        			person.setActionRequestStatus(getActionRequestStatusLabel(item.getStatus()));
-	        			person.setActionRequestId(item.getActionRequestId().toString());
-	        			
-	        			if (!item.isDone()) {
+
+        				ActionRequestType requestType = actionRequest.getActionRequested();
+	        			person.setAction(requestType.getCode());
+
+	        			person.setActionRequestStatus(actionRequest.getStatus().getLabel());
+	        			person.setActionRequestId(actionRequest.getId());
+
+	        			if (!actionRequest.isDone()) {
 	        				person.setCanRevokeRequest(true);
 	        			}
 	        			people.add(person);
@@ -197,34 +196,34 @@ public class CollaboratorHelper implements Serializable {
     
     private String getActionRequestStatusLabel(String key) {
         Map<String,String> newArStatusLabels = new HashMap<String,String>();
-        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_ACTIVATED, "Active");
-        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_INITIALIZED, "Pending");
-        newArStatusLabels.put(KEWConstants.ACTION_REQUEST_DONE_STATE, "Completed");
+        newArStatusLabels.put(ActionRequestStatus.ACTIVATED.getCode(), "Active");
+        newArStatusLabels.put(ActionRequestStatus.INITIALIZED.getCode(), "Pending");
+        newArStatusLabels.put(ActionRequestStatus.DONE.getCode(), "Completed");
         return newArStatusLabels.get(key);
     }
 	
 	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
-    	DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(docId);
-    	DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
-    	AttributeSet roleMemberQuals = new AttributeSet();
+    	DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
+    	DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
+    	Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
     	roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
     	roleMemberQuals.put(StudentIdentityConstants.QUALIFICATION_DATA_ID,dataId);
-    	getRoleUpdateService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
+    	getRoleService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
 	}
 
 	private void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
-        DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(docId);
-        DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
-        AttributeSet roleMemberQuals = new AttributeSet();
+        DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
+        DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
+        Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
         roleMemberQuals.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
         roleMemberQuals.put(StudentIdentityConstants.QUALIFICATION_DATA_ID,dataId);
-	    getRoleUpdateService().removePrincipalFromRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
+	    getRoleService().removePrincipalFromRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
 	}
 
 	public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException {
 		if (docId != null && (!"".equals(docId.trim()))) {
-			AttributeSet permissionDetails = new AttributeSet();
-			AttributeSet roleQuals = new AttributeSet();
+			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
+			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
 			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
 					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
@@ -232,58 +231,71 @@ public class CollaboratorHelper implements Serializable {
 		return Boolean.FALSE;
     }
 	
-	public IdentityManagementService getIdentityService() throws OperationFailedException {
+	public IdentityService getIdentityService() throws OperationFailedException {
 	    if (identityService == null) {
 	        throw new OperationFailedException("unable to find valid identityService");
 	    }
 		return identityService;
 	}
 
-	public void setIdentityService(IdentityManagementService identityService) {
+	public void setIdentityService(IdentityService identityService) {
 		this.identityService = identityService;
 	}
 	
-	public RoleUpdateService getRoleUpdateService() throws OperationFailedException {
-        if (roleUpdateService == null) {
-            throw new OperationFailedException("unable to find valid roleUpdateService");
+	public RoleService getRoleService() throws OperationFailedException {
+        if (roleService == null) {
+            throw new OperationFailedException("unable to find valid roleService");
         }
-    	return roleUpdateService;
+    	return roleService;
     }
 
-	public void setRoleUpdateService(RoleUpdateService roleUpdateService) {
-    	this.roleUpdateService = roleUpdateService;
+	public void setRoleService(RoleService roleService) {
+    	this.roleService = roleService;
     }
 
-	public SimpleDocumentActionsWebService getSimpleDocService() throws OperationFailedException {
-        if (simpleDocService == null) {
-            throw new OperationFailedException("unable to find valid simpleDocService");
+	public WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException {
+        if (workflowDocumentActionsService == null) {
+            throw new OperationFailedException("unable to find valid workflowDocumentActionsService");
         }
-		return simpleDocService;
+		return workflowDocumentActionsService;
 	}
 
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
-		this.simpleDocService = simpleDocService;
+	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
+		this.workflowDocumentActionsService = workflowDocumentActionsService;
 	}
 
-	public WorkflowUtility getWorkflowUtilityService() throws OperationFailedException {
-        if (workflowUtilityService == null) {
-            throw new OperationFailedException("unable to find valid workflowUtilityService");
+
+	public WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
+        if (workflowDocumentService == null) {
+            throw new OperationFailedException("unable to find valid workflowDocumentService");
         }
-		return workflowUtilityService;
+		return workflowDocumentService;
 	}
 
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
+	public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+		this.workflowDocumentService = workflowDocumentService;
 	}
 
-	public IdentityManagementService getPermissionService() throws OperationFailedException {
+
+    public DocumentTypeService getDocumentTypeService() throws OperationFailedException {
+        if (documentTypeService == null) {
+            throw new OperationFailedException("unable to find valid documentTypeService");
+        }
+		return documentTypeService;
+	}
+
+	public void setDocumentTypeService(DocumentTypeService documentTypeService) {
+		this.documentTypeService = documentTypeService;
+	}
+
+	public PermissionService getPermissionService() throws OperationFailedException {
         if (permissionService == null) {
             throw new OperationFailedException("unable to find valid permissionService");
         }
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 }

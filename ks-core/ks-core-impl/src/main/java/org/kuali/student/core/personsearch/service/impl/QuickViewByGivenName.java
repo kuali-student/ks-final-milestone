@@ -21,9 +21,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
 
-import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -56,7 +56,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     final static private String KIM_PERSON_LAST_NAME = "names.lastName";
     
     
-    private List<Person> findPersons(final IdentityManagementService identityService, final SearchRequest searchRequest) {
+    private List<Person> findPersons(final IdentityService identityService, final SearchRequest searchRequest) {
         String nameSearch = null;
         String affilSearch = null;
         String idSearch = null;
@@ -135,7 +135,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     }
 
     @Override
-    public SearchResult search(final IdentityManagementService identityService, final SearchRequest searchRequest) {
+    public SearchResult search(final IdentityService identityService, final SearchRequest searchRequest) {
         final SearchResult result = new SearchResult();
 
         List<Person> persons = findPersons(identityService, searchRequest);

@@ -39,9 +39,9 @@
     <bean id="HiddenControlDefinition"
           class="org.kuali.rice.kns.datadictionary.control.HiddenControlDefinition"
           abstract="true" />
-    <bean id="ApcSelectControlDefinition"
+    <!--bean id="ApcSelectControlDefinition"
           class="org.kuali.rice.kns.datadictionary.control.ApcSelectControlDefinition"
-          abstract="true" />
+          abstract="true" /-->
     <bean id="CurrencyControlDefinition"
           class="org.kuali.rice.kns.datadictionary.control.CurrencyControlDefinition"
           abstract="true" />

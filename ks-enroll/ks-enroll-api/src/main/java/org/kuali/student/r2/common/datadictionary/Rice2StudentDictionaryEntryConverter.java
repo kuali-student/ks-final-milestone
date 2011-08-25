@@ -17,8 +17,8 @@ package org.kuali.student.r2.common.datadictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.AttributeDefinition;
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.AttributeDefinition;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.r2.common.datadictionary.dto.AttributeDefinitionInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 

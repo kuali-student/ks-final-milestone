@@ -1,34 +1,29 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
+import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 
-public class AcademicCalendarWrapperLookupViewHelperServiceImpl extends	LookupViewHelperServiceImpl {
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+//import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
+
+public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "credentialProgramTypeKey";
     public final static String ACADEMIC_CALENDAR_KEY = "key";
  	private transient AcademicCalendarService academicCalendarService;
  	
 
     @Override
-    protected List<?> getSearchResultsWithBounding(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
     	List<AcademicCalendarWrapper> academicCalendarWrapperList = new ArrayList<AcademicCalendarWrapper>();
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
     	List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();    

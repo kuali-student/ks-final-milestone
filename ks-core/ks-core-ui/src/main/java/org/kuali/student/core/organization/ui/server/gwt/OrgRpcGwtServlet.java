@@ -29,8 +29,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityNamePrincipalNameInfo;
-import org.kuali.rice.kim.api.entity.services.IdentityService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.StatusInfo;
@@ -473,13 +473,13 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
-        Map<String, KimEntityNamePrincipalNameInfo> kimIdentities = identityServiceNonCached.getDefaultNamesForPrincipalIds(personIds);
+        Map<String, EntityNamePrincipalName> kimIdentities = identityServiceNonCached.getDefaultNamesForPrincipalIds(personIds);
         Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
         for(String pId:personIds ){
-            KimEntityNamePrincipalNameInfo kimEntity = kimIdentities.get(pId);
+            EntityNamePrincipalName kimEntity = kimIdentities.get(pId);
             MembershipInfo memeberEntity = new MembershipInfo();
-            memeberEntity.setFirstName(kimEntity.getDefaultEntityName().getFirstName());
-            memeberEntity.setLastName(kimEntity.getDefaultEntityName().getLastName());
+            memeberEntity.setFirstName(kimEntity.getDefaultName().getFirstName());
+            memeberEntity.setLastName(kimEntity.getDefaultName().getLastName());
             identities.put(pId, memeberEntity);
         }
         

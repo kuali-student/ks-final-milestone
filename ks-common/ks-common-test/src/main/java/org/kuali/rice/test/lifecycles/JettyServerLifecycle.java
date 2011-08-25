@@ -24,7 +24,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
-import org.kuali.rice.core.util.RiceUtilities;
+import org.kuali.rice.core.api.util.RiceUtilities;
 import org.kuali.rice.core.web.jetty.JettyServer;
 
 

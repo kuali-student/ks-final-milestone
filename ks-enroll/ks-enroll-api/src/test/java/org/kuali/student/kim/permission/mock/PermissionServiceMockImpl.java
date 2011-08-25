@@ -19,13 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
 
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
 import org.kuali.rice.kim.bo.role.dto.KimPermissionTemplateInfo;
-import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.bo.role.dto.PermissionAssigneeInfo;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
 import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.service.PermissionUpdateService;
 
@@ -37,9 +36,9 @@ public class PermissionServiceMockImpl implements PermissionService,
 {
 
     private transient Map<String, KimPermissionTemplateInfo> permissionTemplateCache = new HashMap<String, KimPermissionTemplateInfo>();
-    private transient Map<String, KimPermissionInfo> permissionCache = new HashMap<String, KimPermissionInfo>();
-    private transient Map<String, KimRoleInfo> roleCache = new HashMap<String, KimRoleInfo>();
-    private transient Map<String, RoleMembershipInfo> roleMembershipCache = new HashMap<String, RoleMembershipInfo>();
+    private transient Map<String, Permission> permissionCache = new HashMap<String, Permission>();
+    private transient Map<String, Role> roleCache = new HashMap<String, Role>();
+    private transient Map<String, RoleMembership> roleMembershipCache = new HashMap<String, RoleMembership>();
 
     @Override
     public List<KimPermissionTemplateInfo> getAllTemplates() {
@@ -47,13 +46,13 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<KimPermissionInfo> getAuthorizedPermissions(String principalId,
+    public List<Permission> getAuthorizedPermissions(String principalId,
             String namespaceCode,
             String permissionName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
-        List<KimPermissionInfo> list = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
+        List<Permission> list = new ArrayList<Permission>();
+        for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
                     if (matchesPermissionDetails(permission, permissionDetails)) {
@@ -69,29 +68,29 @@ public class PermissionServiceMockImpl implements PermissionService,
         return list;
     }
 
-    private boolean matchesPermissionDetails(KimPermissionInfo permission, AttributeSet permissionDetails) {
+    private boolean matchesPermissionDetails(Permission permission, Map<String,String> permissionDetails) {
 //        TODO: implement this check
         return true;
     }
 
-    private boolean matchesQualification(KimPermissionInfo permission, AttributeSet qualification) {
+    private boolean matchesQualification(Permission permission, Map<String,String> qualification) {
 //        TODO: implement this check
         return true;
     }
 
-    private boolean matchesPrincipalId(KimPermissionInfo permission, String principalId) {
+    private boolean matchesPrincipalId(Permission permission, String principalId) {
 //        TODO: implement this check
         return true;
     }
 
     @Override
-    public List<KimPermissionInfo> getAuthorizedPermissionsByTemplateName(String principalId,
+    public List<Permission> getAuthorizedPermissionsByTemplateName(String principalId,
             String namespaceCode,
             String permissionTemplateName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
-        List<KimPermissionInfo> list = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
+        List<Permission> list = new ArrayList<Permission>();
+        for (Permission permission : this.permissionCache.values()) {
             if (permission.getTemplate() != null) {
                 if (namespaceCode.equals(permission.getTemplate().getNamespaceCode())) {
                     if (permissionTemplateName.equals(permission.getTemplate().getName())) {
@@ -110,17 +109,17 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public KimPermissionInfo getPermission(String permissionId) {
+    public Permission getPermission(String permissionId) {
         return this.permissionCache.get(permissionId);
     }
 
     @Override
     public List<PermissionAssigneeInfo> getPermissionAssignees(String namespaceCode,
             String permissionName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
         List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+        for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
                     if (matchesPermissionDetails(permission, permissionDetails)) {
@@ -134,7 +133,7 @@ public class PermissionServiceMockImpl implements PermissionService,
         return list;
     }
 
-    private List<PermissionAssigneeInfo> getPermissionAssignees(KimPermissionInfo permission) {
+    private List<PermissionAssigneeInfo> getPermissionAssignees(Permission permission) {
         List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
 //        TODO: Implement this
         return list;
@@ -143,10 +142,10 @@ public class PermissionServiceMockImpl implements PermissionService,
     @Override
     public List<PermissionAssigneeInfo> getPermissionAssigneesForTemplateName(String namespaceCode,
             String permissionTemplateName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
         List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+        for (Permission permission : this.permissionCache.values()) {
             if (permission.getTemplate() != null) {
                 if (namespaceCode.equals(permission.getTemplate().getNamespaceCode())) {
                     if (permissionTemplateName.equals(permission.getTemplate().getName())) {
@@ -188,10 +187,9 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<KimPermissionInfo> getPermissionsByName(String namespaceCode,
-            String permissionName) {
-        List<KimPermissionInfo> list = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+    public Permission getPermissionsByName(String namespaceCode, String permissionName) {
+         List<Permission> list = new ArrayList<Permission>();
+        for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
                     if (permission.isActive()) {
@@ -200,28 +198,36 @@ public class PermissionServiceMockImpl implements PermissionService,
                 }
             }
         }
-        return list;
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
+    
+   
 
     @Override
-    public List<KimPermissionInfo> getPermissionsByNameIncludingInactive(String namespaceCode,
-            String permissionName) {
-        List<KimPermissionInfo> list = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+    public Permission getPermissionsByNameIncludingInactive(String namespaceCode, String permissionName) {
+        List<Permission> list = new ArrayList<Permission>();
+        for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
                     list.add(permission);
                 }
             }
         }
-        return list;
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
+    
     @Override
-    public List<KimPermissionInfo> getPermissionsByTemplateName(String namespaceCode,
+    public List<Permission> getPermissionsByTemplateName(String namespaceCode,
             String permissionTemplateName) {
-        List<KimPermissionInfo> list = new ArrayList<KimPermissionInfo>();
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+        List<Permission> list = new ArrayList<Permission>();
+        for (Permission permission : this.permissionCache.values()) {
             if (permission.getTemplate() != null) {
                 if (namespaceCode.equals(permission.getTemplate().getNamespaceCode())) {
                     if (permissionTemplateName.equals(permission.getTemplate().getName())) {
@@ -236,7 +242,7 @@ public class PermissionServiceMockImpl implements PermissionService,
     @Override
     public List<String> getRoleIdsForPermission(String namespaceCode,
             String permissionName,
-            AttributeSet permissionDetails) {
+            Map<String,String> permissionDetails) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -246,14 +252,14 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<String> getRoleIdsForPermissions(List<KimPermissionInfo> permissions) {
+    public List<String> getRoleIdsForPermissions(List<Permission> permissions) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean hasPermission(String principalId, String namespaceCode,
             String permissionName,
-            AttributeSet permissionDetails) {
+            Map<String,String> permissionDetails) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -261,15 +267,15 @@ public class PermissionServiceMockImpl implements PermissionService,
     public boolean hasPermissionByTemplateName(String principalId,
             String namespaceCode,
             String permissionTemplateName,
-            AttributeSet permissionDetails) {
+            Map<String,String> permissionDetails) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean isAuthorized(String principalId, String namespaceCode,
             String permissionName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -277,15 +283,15 @@ public class PermissionServiceMockImpl implements PermissionService,
     public boolean isAuthorizedByTemplateName(String principalId,
             String namespaceCode,
             String permissionTemplateName,
-            AttributeSet permissionDetails,
-            AttributeSet qualification) {
+            Map<String,String> permissionDetails,
+            Map<String,String> qualification) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean isPermissionDefined(String namespaceCode, String permissionName,
-            AttributeSet permissionDetails) {
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+            Map<String,String> permissionDetails) {
+        for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
                     if (matchesPermissionDetails(permission, permissionDetails)) {
@@ -301,8 +307,8 @@ public class PermissionServiceMockImpl implements PermissionService,
     @Override
     public boolean isPermissionDefinedForTemplateName(String namespaceCode,
             String permissionTemplateName,
-            AttributeSet permissionDetails) {
-        for (KimPermissionInfo permission : this.permissionCache.values()) {
+            Map<String,String> permissionDetails) {
+        for (Permission permission : this.permissionCache.values()) {
             if (permission.getTemplate() != null) {
                 if (namespaceCode.equals(permission.getTemplate().getNamespaceCode())) {
                     if (permissionTemplateName.equals(permission.getTemplate().getName())) {
@@ -317,7 +323,7 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<KimPermissionInfo> lookupPermissions(Map<String, String> searchCriteria,
+    public List<Permission> lookupPermissions(Map<String, String> searchCriteria,
             boolean unbounded) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -331,7 +337,7 @@ public class PermissionServiceMockImpl implements PermissionService,
     public void savePermission(String permissionId, String permissionTemplateId,
             String namespaceCode, String name,
             String description, boolean active,
-            AttributeSet permissionDetails) {
+            Map<String,String> permissionDetails) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

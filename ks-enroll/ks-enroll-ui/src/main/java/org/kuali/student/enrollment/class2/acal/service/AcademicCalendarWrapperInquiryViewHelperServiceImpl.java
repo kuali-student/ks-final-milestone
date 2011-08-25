@@ -27,7 +27,7 @@ public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends KualiIn
 	 private transient AcademicCalendarService academicCalendarService;
 	 
 	@Override
-    public AcademicCalendarWrapper getDataObject(Map fieldValues) {
+    public AcademicCalendarWrapper retrieveDataObject(Map fieldValues) {
     	ContextInfo context = ContextInfo.newInstance();
     	academicCalendarService = getAcademicCalendarService();
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();

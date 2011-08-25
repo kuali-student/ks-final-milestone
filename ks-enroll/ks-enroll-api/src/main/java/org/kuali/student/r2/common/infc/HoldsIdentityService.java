@@ -14,7 +14,7 @@
  */
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.rice.kim.api.entity.services.IdentityService;
+import org.kuali.rice.kim.api.identity.IdentityService;
 
 /**
  *

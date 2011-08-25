@@ -6,9 +6,8 @@ import java.util.Date;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -86,8 +85,8 @@ public class TermWrapperMaintainableImpl extends KualiMaintainableImpl{
 		ContextInfo context = ContextInfo.newInstance();
 	
         try{
-        	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {          		
+        	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
+                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {          		
         		academicCalendarService.createTerm(termKey, termInfo, context);
         		academicCalendarService.createKeyDateForTerm(termKey, classesMeetDatesKey, classesMeetDates, context);
         		academicCalendarService.createKeyDateForTerm(termKey, registrationPeriodKey, registrationPeriod, context);

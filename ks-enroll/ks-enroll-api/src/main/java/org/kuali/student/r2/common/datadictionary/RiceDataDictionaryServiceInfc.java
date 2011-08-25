@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import org.kuali.rice.kns.datadictionary.DataObjectEntry;
+import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 
 /**
  * RICE Data dictionary service

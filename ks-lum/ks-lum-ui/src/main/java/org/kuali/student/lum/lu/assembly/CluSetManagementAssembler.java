@@ -16,10 +16,11 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -48,6 +49,7 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
+@Deprecated
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //  TODO Split out CluInfo assembly to its own class
 
@@ -530,9 +532,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	}
 
 	@Override
-	protected AttributeSet getQualification(String idType, String id) {   //FIXME
+	protected Map<String,String> getQualification(String idType, String id) {   //FIXME
 		String DOCUMENT_TYPE_NAME = "documentTypeName";
-		AttributeSet qualification = new AttributeSet();
+		Map<String,String> qualification = new LinkedHashMap<String,String>();
 		qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
 		/*
 		 *	This commented out for permission changes

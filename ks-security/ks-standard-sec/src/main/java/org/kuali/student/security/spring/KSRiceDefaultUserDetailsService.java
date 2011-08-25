@@ -19,8 +19,8 @@ import java.util.List;
 
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.entity.principal.Principal;
-import org.kuali.rice.kim.api.entity.services.IdentityService;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.common.util.security.UserWithId;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -51,6 +51,7 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     private List<GrantedAuthority> authorities = 
         AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_KS_ADMIN, ROLE_KS_USER");
     
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");

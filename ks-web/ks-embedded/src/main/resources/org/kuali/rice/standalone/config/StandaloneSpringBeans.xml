@@ -87,8 +87,9 @@
 
 	<import resource="classpath:ksb/ks-core-context.xml"/>
     <import resource="classpath:ksb/ks-lu-context.xml"/>   
-    <import resource="classpath:ksb/ks-enroll-context.xml"/> 
-    <import resource="classpath:ks-embedded-admin-context.xml"/>
+    <import resource="classpath:ksb/ks-enroll-context.xml"/>
+    <!-- TODO: RICE-M7 UPGRADE fix ks-admin
+    <import resource="classpath:ks-embedded-admin-context.xml"/-->
     
     <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
 

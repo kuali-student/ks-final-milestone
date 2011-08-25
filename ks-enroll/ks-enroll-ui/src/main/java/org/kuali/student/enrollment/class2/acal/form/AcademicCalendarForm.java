@@ -14,10 +14,10 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
 import java.util.Date;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 
 public class AcademicCalendarForm extends UifFormBase {

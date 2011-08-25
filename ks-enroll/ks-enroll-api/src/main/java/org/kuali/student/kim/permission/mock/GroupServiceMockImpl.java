@@ -21,20 +21,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+
 
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupMember;
+import org.kuali.rice.kim.api.group.GroupMemberQueryResults;
+import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
-import org.kuali.rice.kim.api.group.GroupUpdateService;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.core.api.mo.common.Attributes;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.kim.api.role.Role;
 
 /**
  * @author nwright
  */
-public class GroupServiceMockImpl implements GroupService,
-        GroupUpdateService {
+public class GroupServiceMockImpl implements GroupService {
 
     private transient Map<String, Group> groupCache = new HashMap<String, Group>();
     private transient Map<String, GroupMember> groupMembershipCache = new HashMap<String, GroupMember>();
@@ -91,11 +92,30 @@ public class GroupServiceMockImpl implements GroupService,
         return members;
     }
 
+
     @Override
-    public Attributes getAttributes (String groupId) throws RiceIllegalArgumentException {
-        return this.getGroup(groupId).getAttributes();
+    public GroupMemberQueryResults findGroupMembers(QueryByCriteria queryByCriteria) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public Map<String, String> getAttributes(String groupId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+     
+
+    @Override
+    public List<Group> getGroups(Collection<String> groupIds) {
+        List<Group> groups = new ArrayList<Group>();
+        for (String groupId : groupIds) {
+            Group info = this.getGroup(groupId);
+            groups.add(info);
+        }
+        return groups;
+    }
+
+    
+    
     @Override
     public List<String> getGroupIdsForPrincipal(String principalId) {
         List<String> allGroups = new ArrayList<String>();
@@ -131,15 +151,7 @@ public class GroupServiceMockImpl implements GroupService,
         return null;
     }
 
-    @Override
-    public Map<String, Group> getGroups(Collection<String> groupIds) {
-        Map<String, Group> groups = new HashMap<String, Group>();
-        for (String groupId : groupIds) {
-            Group info = this.getGroup(groupId);
-            groups.put(groupId, info);
-        }
-        return groups;
-    }
+  
 
     @Override
     public List<GroupMember> getMembers(List<String> groupIds) {
@@ -268,14 +280,16 @@ public class GroupServiceMockImpl implements GroupService,
     }
 
     @Override
-    public List<String> lookupGroupIds(Map<String, String> searchCriteria) {
+    public List<String> findGroupIds(QueryByCriteria queryByCriteria) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<? extends Group> lookupGroups(Map<String, String> searchCriteria) {
+    public GroupQueryResults findGroups(QueryByCriteria queryByCriteria) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    
 
     @Override
     public boolean addGroupToGroup(String childId, String parentId)

@@ -16,11 +16,9 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
  * limitations under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.student.enrollment.class2.grading.service.GradeCourseOfferringLookupHelperService;
+import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -34,10 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GradeCourseOfferringLookupHelperServiceImpl extends LookupViewHelperServiceImpl implements GradeCourseOfferringLookupHelperService {
+public class GradeCourseOfferringLookupableImpl extends LookupableImpl {
 
     @Override
-    protected List<?> getSearchResultsWithBounding(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
 
         ContextInfo context = ContextInfo.newInstance();
 

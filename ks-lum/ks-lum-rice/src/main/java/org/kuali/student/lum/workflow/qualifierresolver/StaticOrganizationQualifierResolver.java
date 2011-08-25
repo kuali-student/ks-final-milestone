@@ -5,7 +5,9 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,7 +16,6 @@ import javax.xml.xpath.XPathConstants;
 
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.core.util.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.DOMException;
@@ -51,8 +52,8 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         XPath xPath = XPathHelper.newXPath();
         NodeList organizationElements;
         try {
@@ -74,7 +75,7 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 orgId = "";
                 orgId = organizationElement.getTextContent();
                 OrgInfo orgInfo = getOrganizationService().getOrganization(orgId);
-                AttributeSet attrSet = new AttributeSet();
+                Map<String,String> attrSet = new LinkedHashMap<String,String>();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
                 attributeSets.add(attrSet);
             }

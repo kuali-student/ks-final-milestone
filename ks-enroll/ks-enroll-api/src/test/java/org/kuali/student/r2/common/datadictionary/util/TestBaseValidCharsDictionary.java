@@ -15,15 +15,15 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
+import org.kuali.rice.krad.datadictionary.validation.AttributeValueReader;
+import org.kuali.rice.krad.datadictionary.validation.ErrorLevel;
+import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint;
+import org.kuali.rice.krad.datadictionary.validation.processor.ValidCharactersConstraintProcessor;
+import org.kuali.rice.krad.datadictionary.validation.result.ConstraintValidationResult;
+import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
+import org.kuali.rice.krad.datadictionary.validation.result.ProcessorResult;
 import java.util.Map;
 import org.junit.Test;
-import org.kuali.rice.kns.datadictionary.validation.AttributeValueReader;
-import org.kuali.rice.kns.datadictionary.validation.ErrorLevel;
-import org.kuali.rice.kns.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.rice.kns.datadictionary.validation.processor.ValidCharactersConstraintProcessor;
-import org.kuali.rice.kns.datadictionary.validation.result.ConstraintValidationResult;
-import org.kuali.rice.kns.datadictionary.validation.result.DictionaryValidationResult;
-import org.kuali.rice.kns.datadictionary.validation.result.ProcessorResult;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;

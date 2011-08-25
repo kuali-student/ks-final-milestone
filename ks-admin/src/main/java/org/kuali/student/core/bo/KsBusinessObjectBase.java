@@ -1,14 +1,11 @@
 package org.kuali.student.core.bo;
 
-import java.util.LinkedHashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass

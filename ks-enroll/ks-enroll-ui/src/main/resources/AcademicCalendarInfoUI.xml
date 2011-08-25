@@ -98,7 +98,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendarInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Academic Calendar Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupViewHelperServiceImpl" /> 
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupableImpl" />
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
@@ -211,7 +211,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
     <property name="documentTypeName" value="AcademicCalendarInfoMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
         <value>key</value>

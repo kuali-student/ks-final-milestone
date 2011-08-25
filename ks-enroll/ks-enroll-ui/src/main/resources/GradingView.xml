@@ -93,12 +93,12 @@ limitations under the License.
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:conditionalReadOnly="true">
+          <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="lastName" p:label="Last Name" p:conditionalReadOnly="true">
+          <bean parent="AttributeField" p:propertyName="lastName" p:label="Last Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>

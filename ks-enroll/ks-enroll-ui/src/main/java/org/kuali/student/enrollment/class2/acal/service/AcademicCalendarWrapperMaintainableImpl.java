@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
@@ -53,8 +53,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends KualiMaintainableIm
 
          
         try{
-        	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) { 
+        	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
+                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) { 
             	
             	//First prepare and persist AcademicCalendarInfo
             	AcademicCalendarInfo academicCalendarInfo = academicCalendarWrapper.getAcademicCalendarInfo();

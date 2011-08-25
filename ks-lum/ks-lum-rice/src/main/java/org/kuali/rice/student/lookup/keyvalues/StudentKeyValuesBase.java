@@ -22,9 +22,9 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
-import org.kuali.rice.core.util.KeyValue;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.core.organization.service.OrganizationService;
 
 /**

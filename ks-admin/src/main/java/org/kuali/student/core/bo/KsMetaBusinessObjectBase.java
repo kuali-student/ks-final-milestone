@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.core.api.services.CoreApiServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements KsMetaBusinessObject {
 

@@ -25,8 +25,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
-import org.kuali.rice.kew.exception.WorkflowRuntimeException;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.test.BaselineTestCase;
 import org.kuali.rice.test.SQLDataLoader;
@@ -68,8 +68,11 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 	
 	public class ClearCacheLifecycle extends BaseLifecycle {
 		public void stop() throws Exception {
-			KimApiServiceLocator.getIdentityManagementService().flushAllCaches();
-			KimApiServiceLocator.getRoleManagementService().flushRoleCaches();
+                    // TODO: RICE-R2.0 UPGRADE - caching currently removed from rice.  Will likely be added in
+//			KimApiServiceLocator.getIdentityService().flushAllCaches();
+                    // TODO: RICE-R2.0 UPGRADE - not sure flushInternalRoleCache is really the replacmenet for flushRoleCache - see previous TODO
+//                        KimApiServiceLocator.getRoleService().flushInternalRoleCache();
+//			KimApiServiceLocator.getRoleService().flushRoleCaches();
 			super.stop();
 		}
 	}

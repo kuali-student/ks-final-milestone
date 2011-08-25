@@ -17,9 +17,9 @@ package org.kuali.student.r2.common.datadictionary.util;
 
 
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.exception.AttributeValidationException;
-import org.kuali.rice.kns.datadictionary.validation.AttributeValueReader;
-import org.kuali.rice.kns.datadictionary.validation.capability.Constrainable;
+import org.kuali.rice.krad.datadictionary.exception.AttributeValidationException;
+import org.kuali.rice.krad.datadictionary.validation.AttributeValueReader;
+import org.kuali.rice.krad.datadictionary.validation.capability.Constrainable;
 
 public class MockAttributeValueReader implements AttributeValueReader
 {

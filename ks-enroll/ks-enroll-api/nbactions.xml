@@ -21,4 +21,14 @@
                 <test>${className}</test>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-install no tests debug</actionName>
+            <displayName>install no tests debug</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+        </action>
     </actions>

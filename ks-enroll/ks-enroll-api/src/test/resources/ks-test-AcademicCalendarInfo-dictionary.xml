@@ -152,7 +152,7 @@ Campus calendar keys
 	<!-- TestAcademicCalendarInfo-->
 	<bean id="TestAcademicCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="academicCalendarInfo"/>
-		<property name="objectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
 		<property name="objectLabel" value="Academic Calendar"/>
 		<property name="objectDescription" value="Information about an Academic Calendar."/>
 		<property name="titleAttribute" value="name"/>

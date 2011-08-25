@@ -18,9 +18,6 @@ package org.kuali.student.enrollment.class2.grading.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.uif.UifParameters;
-import org.kuali.rice.kns.web.spring.controller.UifControllerBase;
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
@@ -44,6 +41,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.*;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 @Controller
 @RequestMapping(value = "/grading")

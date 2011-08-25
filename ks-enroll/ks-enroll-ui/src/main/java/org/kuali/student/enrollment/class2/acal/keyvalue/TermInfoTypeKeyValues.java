@@ -7,22 +7,15 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
-import org.kuali.rice.core.util.KeyValue;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class TermInfoTypeKeyValues extends KeyValuesBase implements Serializable{
 	public static final String FALL_TERM_TYPE_KEY = "kuali.atp.type.Fall";

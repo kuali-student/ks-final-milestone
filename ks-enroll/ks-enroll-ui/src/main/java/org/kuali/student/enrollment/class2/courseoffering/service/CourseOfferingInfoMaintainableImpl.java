@@ -9,6 +9,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.kns.util.KNSConstants;
 
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -209,7 +210,7 @@ public class CourseOfferingInfoMaintainableImpl extends KualiMaintainableImpl {
      */
     @Override
     public void prepareForSave() {
-        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+        if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
         	CourseOfferingInfo newCourseOffering = (CourseOfferingInfo)getDataObject();   	
         	newCourseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         	newCourseOffering.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);

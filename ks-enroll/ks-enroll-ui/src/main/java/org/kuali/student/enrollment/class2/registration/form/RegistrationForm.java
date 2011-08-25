@@ -16,11 +16,8 @@ package org.kuali.student.enrollment.class2.registration.form;
  * limitations under the License.
  */
 
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
 
 import java.util.List;
 

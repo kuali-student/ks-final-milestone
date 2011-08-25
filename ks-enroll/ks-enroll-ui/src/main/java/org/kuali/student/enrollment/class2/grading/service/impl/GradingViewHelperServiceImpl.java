@@ -17,19 +17,8 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
  */
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.ConcreteKeyValue;
-import org.kuali.rice.kim.api.entity.services.IdentityService;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
-import org.kuali.rice.kns.uif.UifConstants;
-import org.kuali.rice.kns.uif.container.CollectionGroup;
-import org.kuali.rice.kns.uif.container.View;
-import org.kuali.rice.kns.uif.control.SelectControl;
-import org.kuali.rice.kns.uif.core.Component;
-import org.kuali.rice.kns.uif.field.AttributeField;
-import org.kuali.rice.kns.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.kns.uif.util.ObjectPropertyUtils;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
@@ -44,17 +33,28 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
+import org.kuali.rice.kim.api.identity.name.EntityName;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.View;
+import org.kuali.rice.krad.uif.control.SelectControl;
+import org.kuali.rice.krad.uif.core.Component;
+import org.kuali.rice.krad.uif.field.AttributeField;
+import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 
 public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implements GradingViewHelperService{
 
-    public void populateGradeOptions(Component component){
-
-        AttributeField field = (AttributeField)component;
+    @Override
+    public void populateGradeOptions(AttributeField field, GradingForm gradingForm){
         List keyValues = new ArrayList();
         keyValues.add(new ConcreteKeyValue("", ""));
 
-        if (component.getContext().get(UifConstants.ContextVariableNames.LINE) != null && field.getControl() instanceof  SelectControl){
-            GradeStudent student = (GradeStudent)component.getContext().get(UifConstants.ContextVariableNames.LINE);
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) != null && field.getControl() instanceof  SelectControl){
+            GradeStudent student = (GradeStudent)field.getContext().get(UifConstants.ContextVariableNames.LINE);
             for (String option : student.getAvailabeGradingOptions()){
                 keyValues.add(new ConcreteKeyValue(option,option));
             }
@@ -63,6 +63,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     }
 
+    @Override
     public void unAssignGrade(View view,Object model,String selectedCollectionPath, Integer selectedLine ){
          CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
 
@@ -75,6 +76,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         student.setSelectedGrade("");
     }
 
+    @Override
     public List<GradeStudent> loadStudents(String selectedCourse)
     throws  Exception {
 
@@ -96,9 +98,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     }
                     i++;
                     student.setStudentId(entryInfo.getStudentId());
-                    KimEntityInfo entityInfo = identityService.getEntityInfo(entryInfo.getStudentId());
-                    List<KimEntityNameInfo> entityNameInfos = entityInfo.getNames();
-                    for (KimEntityNameInfo entityNameInfo : entityNameInfos){
+                    Entity entityInfo = identityService.getEntity(entryInfo.getStudentId());
+                    List<EntityName> entityNameInfos = entityInfo.getNames();
+                    for (EntityName entityNameInfo : entityNameInfos){
                         if (entityNameInfo.isDefaultValue()){
                             student.setFirstName(entityNameInfo.getFirstNameUnmasked());
                             student.setLastName(entityNameInfo.getLastNameUnmasked());

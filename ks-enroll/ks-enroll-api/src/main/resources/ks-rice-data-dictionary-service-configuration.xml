@@ -14,14 +14,14 @@
     -->
     <!--
     THIIS COMMENTED OUT BECAUSE WE DON'T NEED THE CONFIGURATION SERVICE
-    <bean id="kualiConfigurationService" class="org.kuali.rice.kns.service.impl.KualiConfigurationServiceImpl" />
+    <bean id="kualiConfigurationService" class="org.kuali.rice.krad.service.impl.KualiConfigurationServiceImpl" />
     -->
-    <bean id="kualiModuleService" class="org.kuali.rice.kns.service.impl.KualiModuleServiceImpl" />
-    <bean id="riceDataDictionaryService" class="org.kuali.rice.kns.service.impl.DataDictionaryServiceImpl">
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
         <constructor-arg>
             <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionary" init-method="init">
                 <property name="dataDictionaryMapper">
-                    <bean class="org.kuali.rice.kns.datadictionary.DataDictionaryIndexMapper"/>
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
                 </property>
             </bean>
         </constructor-arg>

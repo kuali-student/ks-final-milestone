@@ -16,14 +16,13 @@ package org.kuali.student.enrollment.class2.grading.form;
  * limitations under the License.
  */
 
-import org.kuali.rice.kns.web.spring.form.UifFormBase;
-import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentGradeForm extends UifFormBase{
+public class StudentGradeForm extends UifFormBase {
 
     private static final long serialVersionUID = -1054046347823982329L;
 

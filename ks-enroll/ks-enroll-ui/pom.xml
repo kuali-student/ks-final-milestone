@@ -27,6 +27,16 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>         
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-core-api</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>        
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
             <version>${kuali.rice.version}</version>
         </dependency>
@@ -57,15 +67,15 @@
                                 <inputFile>TermInfoUI.xml</inputFile>
                             </inputFiles>
                             <supportFiles>
-                                <supportFile>org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/bo/datadictionary/AttributeReferenceDummy.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifControlDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifMiscDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifFieldDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifGroupDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifHeaderFooterDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifLayoutManagerDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/kns/uif/UifViewPageDefinitions.xml</supportFile>    
+                                <supportFile>org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifControlDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifMiscDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifFieldDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifGroupDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifLayoutManagerDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifViewPageDefinitions.xml</supportFile>
                             </supportFiles>
                         </configuration>                                    
                     </execution>                       

@@ -5,7 +5,9 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -15,8 +17,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.xml.XmlJotter;
-import org.kuali.rice.core.util.AttributeSet;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.role.QualifierResolver;
@@ -147,11 +148,11 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     /*
      *  Add attributes for derived role and adhoc routing participants to the results
      */
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
-        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
+    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
+        List<Map<String,String>> returnAttrSetList = new ArrayList<Map<String,String>>();
         if (results != null) {
             for (SearchResultRow result : results) {
-                AttributeSet attributeSet = new AttributeSet();
+                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 String resolvedOrgId = "";
                 String resolvedOrgShortName = "";
                 for (SearchResultCell resultCell : result.getCells()) {

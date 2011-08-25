@@ -35,8 +35,8 @@
         </executions>
         <configuration>
           <modules>
-            <!-- module>${ks.gwt.module.org}</module>
-            <module>${ks.gwt.module.lum}</module -->
+            <!--module>${ks.gwt.module.org}</module>
+            <module>${ks.gwt.module.lum}</module-->
           </modules>
         </configuration>
       </plugin>
@@ -129,15 +129,22 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kns</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
       <artifactId>rice-edl-impl</artifactId>
       <version>${kuali.rice.version}</version>
     </dependency>
 
+
+    <!-- TODO: RICE-M7 UPGRADE -fix ks-admin
     <dependency>
       <groupId>org.kuali.student.admin</groupId>
       <artifactId>ks-admin</artifactId>
       <version>${project.version}</version>
-    </dependency>
+    </dependency -->
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-rice</artifactId>

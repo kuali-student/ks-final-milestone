@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,15 +14,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.api.services.IdentityManagementService;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
+import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.dictionary.MockDictionaryService;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
-import org.kuali.student.common.assembly.transform.AuthorizationFilter.Permission;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter.PermissionEnum;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.common.rice.StudentWorkflowConstants;
@@ -34,7 +35,7 @@ public class TestAuthorizationFilter {
 	
 	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");
 	Map<String, Object> methodReturnMap;
-	IdentityManagementService mockPermissionService;
+	PermissionService mockPermissionService;
 	MetadataServiceImpl metadataService;
 	Map<String, Object> authzFilterProperties;
 	AuthorizationFilter authzFilter;
@@ -43,7 +44,7 @@ public class TestAuthorizationFilter {
 	public void setup() throws Exception{
 		//Setup mock permission service
 		methodReturnMap = new HashMap<String, Object>();
-		mockPermissionService = (IdentityManagementService)MockProxy.newInstance(methodReturnMap, IdentityManagementService.class);
+		mockPermissionService = (PermissionService)MockProxy.newInstance(methodReturnMap, PermissionService.class);
 		
 		//Setup metadata service
 		MockDictionaryService mockDictionaryService = new MockDictionaryService();
@@ -123,7 +124,7 @@ public class TestAuthorizationFilter {
 		
 		//Check to see partial unmask permission applied correctly
 		methodReturnMap.put("isAuthorizedByTemplateName", new Boolean(true));		
-		methodReturnMap.put("getAuthorizedPermissionsByTemplateName", getSsnMaskPermission(Permission.PARTIAL_UNMASK));
+		methodReturnMap.put("getAuthorizedPermissionsByTemplateName", getSsnMaskPermission(PermissionEnum.PARTIAL_UNMASK));
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT);
 		authzFilter.applyMetadataFilter(SIMPLE_STUDENT, metadata, authzFilterProperties);
 
@@ -133,27 +134,38 @@ public class TestAuthorizationFilter {
 		
 	}
 	
-	public List<KimPermissionInfo> getDobEditPermission(){
-		List<KimPermissionInfo> permList = new ArrayList<KimPermissionInfo>();
-		
-		KimPermissionInfo dobEditPerm = new KimPermissionInfo();
-		dobEditPerm.setDetails(new AttributeSet());
-		dobEditPerm.getDetails().put("dtoFieldKey", "dob");
-		dobEditPerm.getDetails().put("fieldAccessLevel", Permission.EDIT.toString());
-		
-		permList.add(dobEditPerm);
+	public List<Permission> getDobEditPermission(){
+		List<Permission> permList = new ArrayList<Permission>();
+		String namespaceCode = "test-namespace";
+                String permissionName = "test-permission-name";
+                String templateName = "test-templateName";
+                String kimTypeId = "test-kimTypeId";
+                       
+                Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
+		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName, template);
+                Map<String,String> attrs = new LinkedHashMap <String,String> ();
+		attrs.put("dtoFieldKey", "dob");
+		attrs.put("fieldAccessLevel", PermissionEnum.EDIT.toString());                
+		dobEditPerm.setAttributes(attrs);		
+		permList.add(dobEditPerm.build());
 		return permList;
 	}
 
-	public List<KimPermissionInfo> getSsnMaskPermission(Permission perm){
-		List<KimPermissionInfo> permList = new ArrayList<KimPermissionInfo>();
-		
-		KimPermissionInfo dobEditPerm = new KimPermissionInfo();
-		dobEditPerm.setDetails(new AttributeSet());
-		dobEditPerm.getDetails().put("dtoFieldKey", "ssn");
-		dobEditPerm.getDetails().put("fieldAccessLevel", perm.toString());
-		
-		permList.add(dobEditPerm);
+	public List<Permission> getSsnMaskPermission(PermissionEnum perm){
+		List<Permission> permList = new ArrayList<Permission>();
+
+		String namespaceCode = "test-namespace";
+                String permissionName = "test-permission-name";
+                String templateName = "test-templateName";
+                String kimTypeId = "test-kimTypeId";
+                
+                Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
+		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName, template);
+                Map<String,String> attrs = new LinkedHashMap <String,String> ();               
+		attrs.put("dtoFieldKey", "ssn");
+		attrs.put("fieldAccessLevel", perm.toString());
+		dobEditPerm.setAttributes(attrs);		
+		permList.add(dobEditPerm.build());
 		return permList;
 	}
 

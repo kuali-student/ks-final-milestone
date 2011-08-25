@@ -15,23 +15,19 @@
 
 package org.kuali.student.lum.kim.role.type;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.AttributeSet;
-import org.kuali.rice.kim.bo.Role;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 
-public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
+import javax.xml.namespace.QName;
+import java.util.*;
+
+public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 	
 	private static final org.apache.log4j.Logger LOG = 
 			org.apache.log4j.Logger.getLogger(OrgDerivedRoleTypeServiceImpl.class);
@@ -46,20 +42,20 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 	 * use the org service to find person-org relations (getPersonIdsForOrgByRelationType)
 	 * return the members.
 	 * 
-	 * See KimDerivedRoleTypeServiceBase
+	 * See DerivedRoleTypeServiceBase
 	 */
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
+	 * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(
-			String namespaceCode, String roleName, AttributeSet qualification) {
+	public List<RoleMembership> getRoleMembersFromApplicationRole(
+			String namespaceCode, String roleName, Map<String,String> qualification) {
 		if (null == orgService) {
 		   	orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 		}
 		
 		validateRequiredAttributesAgainstReceived(qualification);
-		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
+		List<RoleMembership> members = new ArrayList<RoleMembership>();
 		
 		String orgId = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 //		String org = qualification.get(KualiStudentKimAttributes.QUALIFICATION_ORG);
@@ -72,7 +68,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 		    throw new RuntimeException("No valid qualifier value found for key: " + KualiStudentKimAttributes.QUALIFICATION_ORG_ID);
 		}
 		//Put the org name into the attribute set
-		AttributeSet attributes = new AttributeSet();
+		Map<String,String> attributes = new LinkedHashMap<String,String>();
 //		attributes.put(KualiStudentKimAttributes.QUALIFICATION_ORG, org);
 
 		try {
@@ -81,7 +77,7 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
 					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
 					for(String principalId:principalIds){
-						RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, attributes);
+						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
 						members.add(member);
 					}
 				}
@@ -95,12 +91,12 @@ public class OrgDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
 					    if(relation.getExpirationDate()!=null){
 					        if(relation.getExpirationDate().compareTo(now)>=0){
-					            RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
+					            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
 					            members.add(member);
 					        }
 					    }
 					    else{
-                            RoleMembershipInfo member = new RoleMembershipInfo(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes);
+                            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
                             members.add(member);
 					    }
 					}

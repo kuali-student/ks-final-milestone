@@ -21,7 +21,7 @@ public class AcademicCalendarInfoInquiryViewHelperServiceImpl extends KualiInqui
 	 private transient AcademicCalendarService academicCalendarService;
 	 
     @Override
-    public AcademicCalendarInfo getDataObject(Map fieldValues) {
+    public AcademicCalendarInfo retrieveDataObject(Map fieldValues) {
     	AcademicCalendarInfo academicCalendarInfo = null;
     	
     	String academicCalendarKey = (String)fieldValues.get(ACADEMIC_CALENDAR_KEY);

@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary.infc;
 
-import org.kuali.rice.kns.datadictionary.validation.constraint.Constraint;
+import org.kuali.rice.krad.datadictionary.validation.constraint.Constraint;
 
 /**
  * Base constriant

@@ -15,7 +15,7 @@
 package org.kuali.student.kim.identity.mock;
 
 import java.util.List;
-import org.kuali.rice.kns.datadictionary.validation.DataType;
+import org.kuali.rice.core.api.uif.DataType;
 
 /**
  * Provides values to compare

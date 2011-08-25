@@ -95,7 +95,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="TermInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Term Info Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupViewHelperServiceImpl" /> 
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
     
     <property name="criteriaFields">
       <list>
@@ -188,7 +188,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="businessObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermInfoMaintainableImpl"/>
     <property name="documentTypeName" value="TermInfoMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
         <value>key</value>

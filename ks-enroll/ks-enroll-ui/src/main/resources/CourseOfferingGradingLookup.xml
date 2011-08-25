@@ -21,7 +21,7 @@
   <bean id="CourseOffering-LookupView" parent="KSLookupView">
     <property name="title" value="Course Offering Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo" />
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradeCourseOfferringLookupHelperServiceImpl" />
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradeCourseOfferringLookupableImpl" />
      <property name="viewName" value="courseOfferingLookupForGrading"/>
 
     <property name="criteriaFields">

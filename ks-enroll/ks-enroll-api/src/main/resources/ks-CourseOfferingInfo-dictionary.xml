@@ -91,11 +91,6 @@
     <!-- insert any overrides to the generated attribute definitions here -->
   </bean>
 
-  <bean id="CourseOfferingInfo.name" parent="CourseOfferingInfo.name-parent" />
-  <bean id="CourseOfferingInfo.name-parent" abstract="true" parent="CourseOfferingInfo.name-generated">
-    <!-- insert any overrides to the generated attribute definitions here -->
-  </bean>
-
   <bean id="CourseOfferingInfo.typeKey" parent="CourseOfferingInfo.typeKey-parent" />
   <bean id="CourseOfferingInfo.typeKey-parent" abstract="true" parent="CourseOfferingInfo.typeKey-generated">
     <!-- insert any overrides to the generated attribute definitions here -->

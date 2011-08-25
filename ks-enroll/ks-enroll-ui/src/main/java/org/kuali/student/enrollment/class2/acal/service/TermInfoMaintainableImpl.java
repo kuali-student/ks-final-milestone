@@ -7,9 +7,9 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -42,8 +42,8 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
 
         try{
-        	if(getMaintenanceAction().equals(KNSConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {   
+        	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
+                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
         		getAcademicCalendarService().createTerm(termKey, termInfo, ContextInfo.newInstance());
         	}
         	else {
@@ -68,7 +68,7 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
         }       
         
     }
-    
+
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
     	ContextInfo context = ContextInfo.newInstance();
@@ -104,7 +104,7 @@ public class TermInfoMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void prepareForSave() {
     	System.out.println (">>> in prepareForSave ");
-        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION)) {
+        if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
         	TermInfo newTerm = (TermInfo)getDataObject();   	
         	newTerm.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         }
