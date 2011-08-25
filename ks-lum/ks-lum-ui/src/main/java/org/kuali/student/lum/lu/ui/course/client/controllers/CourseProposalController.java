@@ -136,7 +136,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	private static final String UPDATED_KEY = "metaInfo/updateTime";
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
-	public static final String INITIAL_SAVE_VERSION = "1";
     private static final String MSG_GROUP = "course";
 	
 	protected String currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
@@ -875,12 +874,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     				context.setId((String)cluProposalModel.get(proposalPath+"/id"));
     				context.setIdType(IdType.KS_KEW_OBJECT_ID);
     				
-    				//Ensure workflow doc status gets updated from draft, only done on intial save
-    				//to reduce workflow rpc calls.
-    				String proposalVersion = cluProposalModel.get(proposalPath+"/metaInfo/versionInd");
-    				if (INITIAL_SAVE_VERSION.equals(proposalVersion) && workflowUtil != null){
-    					workflowUtil.refresh();
-    				}
+    				//Always update the status after a save.
+    				workflowUtil.refresh();
 	    				
     				setHeaderTitle();
     				setLastUpdated();
