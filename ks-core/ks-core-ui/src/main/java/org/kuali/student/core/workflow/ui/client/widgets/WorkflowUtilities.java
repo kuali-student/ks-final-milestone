@@ -1495,18 +1495,21 @@ public class WorkflowUtilities{
 	    return approveDialogView;
 	}
 	
-	public void progressiveEnableFields() {
-	    FieldDescriptor prevEndTerm = approveDialogView.getField("proposal/prevEndTerm");
-	    
-	    if(prevEndTerm != null){
-	        approveDialogView.getWidget(0).setVisible(true);
-	        approveDialogView.getField("proposal/prevEndTerm").getMetadata().getConstraints().get(0).setMinOccurs(1);
-	        approveDialogView.getField("proposal/prevEndTerm").getFieldElement().setRequiredString("requiredMarker", "ks-form-module-elements-required");
-	        approveDialogView.getField("startTerm").getFieldWidget().setVisible(true);
-	    } else {
-	        approveDialogView.getWidget(0).setVisible(false);   
-	        approveDialogView.getField("startTerm").getFieldWidget().setVisible(false);
-	    }
-	}
+    public void progressiveEnableFields() {
+        if (getApproveDialogue() != null) {
+            
+            FieldDescriptor prevEndTerm = approveDialogView.getField("proposal/prevEndTerm");
+
+            if (prevEndTerm != null) {
+                approveDialogView.getWidget(0).setVisible(true);
+                approveDialogView.getField("proposal/prevEndTerm").getMetadata().getConstraints().get(0).setMinOccurs(1);
+                approveDialogView.getField("proposal/prevEndTerm").getFieldElement().setRequiredString("requiredMarker", "ks-form-module-elements-required");
+                approveDialogView.getField("startTerm").getFieldWidget().setVisible(true);
+            } else {
+                approveDialogView.getWidget(0).setVisible(false);
+                approveDialogView.getField("startTerm").getFieldWidget().setVisible(false);
+            }
+        }
+    }
     
 }
