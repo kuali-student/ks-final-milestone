@@ -1,0 +1,237 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- HoldInfo-->
+	<bean id="HoldInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="holdInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+		<property name="objectLabel" value="Hold"/>
+		<property name="objectDescription" value="Information about a Hold."/>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="HoldInfo.id"/>
+				<ref bean="HoldInfo.typeKey"/>
+				<ref bean="HoldInfo.stateKey"/>
+				<ref bean="HoldInfo.name"/>
+				<ref bean="HoldInfo.descr.plain"/>
+				<ref bean="HoldInfo.descr.formatted"/>
+				<ref bean="HoldInfo.issueId"/>
+				<ref bean="HoldInfo.personId"/>
+				<ref bean="HoldInfo.isWarning"/>
+				<ref bean="HoldInfo.isOverridable"/>
+				<ref bean="HoldInfo.effectiveDate"/>
+				<ref bean="HoldInfo.releasedDate"/>
+				<ref bean="HoldInfo.meta.versionInd"/>
+				<ref bean="HoldInfo.meta.createTime"/>
+				<ref bean="HoldInfo.meta.createId"/>
+				<ref bean="HoldInfo.meta.updateTime"/>
+				<ref bean="HoldInfo.meta.updateId"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+		<property name="childEntryName" value="id"/>
+	</bean>
+
+	<bean id="HoldInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+		<property name="childEntryName" value="typeKey"/>
+	</bean>
+
+	<bean id="HoldInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+		<property name="childEntryName" value="stateKey"/>
+	</bean>
+
+	<bean id="HoldInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+		<property name="childEntryName" value="name"/>
+	</bean>
+
+	<bean id="HoldInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+		<property name="name" value="descr"/>
+		<property name="childEntryName" value="descr"/>
+	</bean>
+
+	<bean id="HoldInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="descr.plain"/>
+		<property name="childEntryName" value="plain"/>
+	</bean>
+
+	<bean id="HoldInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="descr.formatted"/>
+		<property name="childEntryName" value="formatted"/>
+	</bean>
+
+	<bean id="HoldInfo.issueId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="issueId"/>
+		<property name="childEntryName" value="issueId"/>
+		<property name="required" value="true"/>
+		<property name="shortLabel" value="Issue Id"/>
+		<property name="summary">
+			<value>
+The Issue Id.
+			</value>
+		</property>
+		<property name="label" value="Issue Id"/>
+		<property name="description">
+			<value>
+The Issue Id.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="personId"/>
+		<property name="childEntryName" value="personId"/>
+		<property name="required" value="true"/>
+		<property name="shortLabel" value="Person Id"/>
+		<property name="summary">
+			<value>
+The Id of the Person.
+			</value>
+		</property>
+		<property name="label" value="Person Id"/>
+		<property name="description">
+			<value>
+The Id of the Person.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.isWarning-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isWarning"/>
+		<property name="childEntryName" value="isWarning"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Is Warning"/>
+		<property name="summary">
+			<value>
+Indicates whether this hold is a warning or should result in a
+block.
+			</value>
+		</property>
+		<property name="label" value="is Warning"/>
+		<property name="description">
+			<value>
+Indicates whether this hold is a warning or should result in a
+block.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.isOverridable-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isOverridable"/>
+		<property name="childEntryName" value="isOverridable"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Is Overridable"/>
+		<property name="summary">
+			<value>
+Indicates whether an exception can override this hold.
+			</value>
+		</property>
+		<property name="label" value="Is Overridable"/>
+		<property name="description">
+			<value>
+Indicates whether an exception can override this hold.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+		<property name="name" value="effectiveDate"/>
+		<property name="childEntryName" value="effectiveDate"/>
+	</bean>
+
+	<bean id="HoldInfo.releasedDate-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="releasedDate"/>
+		<property name="childEntryName" value="releasedDate"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Released Date"/>
+		<property name="summary">
+			<value>
+The date this hold was released, of null if not yet released.
+			</value>
+		</property>
+		<property name="label" value="Released Date"/>
+		<property name="description">
+			<value>
+The date this hold was released, of null if not yet released.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="HoldInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+		<property name="name" value="meta"/>
+		<property name="childEntryName" value="meta"/>
+	</bean>
+
+	<bean id="HoldInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="meta.versionInd"/>
+		<property name="childEntryName" value="versionInd"/>
+	</bean>
+
+	<bean id="HoldInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="meta.createTime"/>
+		<property name="childEntryName" value="createTime"/>
+	</bean>
+
+	<bean id="HoldInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="meta.createId"/>
+		<property name="childEntryName" value="createId"/>
+	</bean>
+
+	<bean id="HoldInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="meta.updateTime"/>
+		<property name="childEntryName" value="updateTime"/>
+	</bean>
+
+	<bean id="HoldInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="meta.updateId"/>
+		<property name="childEntryName" value="updateId"/>
+	</bean>
+</beans>

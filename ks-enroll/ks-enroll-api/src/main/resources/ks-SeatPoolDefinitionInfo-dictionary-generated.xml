@@ -1,0 +1,214 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- SeatPoolDefinitionInfo-->
+	<bean id="SeatPoolDefinitionInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="seatPoolDefinitionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo"/>
+		<property name="objectLabel" value="Seat Pool Definition"/>
+		<property name="objectDescription" value="Information about a single seat pool that can be associated with either a course offering or registration group. Seat
+pools provides a handle for statements that will be used to created enrollment restrictions based on capacity. Seat pools
+are ordered using rank to enable the most restrictive pools to be filled first."/>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="SeatPoolDefinitionInfo.courseOfferingId"/>
+				<ref bean="SeatPoolDefinitionInfo.maximumSeatCount"/>
+				<ref bean="SeatPoolDefinitionInfo.processingPriority"/>
+				<ref bean="SeatPoolDefinitionInfo.id"/>
+				<ref bean="SeatPoolDefinitionInfo.typeKey"/>
+				<ref bean="SeatPoolDefinitionInfo.stateKey"/>
+				<ref bean="SeatPoolDefinitionInfo.name"/>
+				<ref bean="SeatPoolDefinitionInfo.descr.plain"/>
+				<ref bean="SeatPoolDefinitionInfo.descr.formatted"/>
+				<ref bean="SeatPoolDefinitionInfo.meta.versionInd"/>
+				<ref bean="SeatPoolDefinitionInfo.meta.createTime"/>
+				<ref bean="SeatPoolDefinitionInfo.meta.createId"/>
+				<ref bean="SeatPoolDefinitionInfo.meta.updateTime"/>
+				<ref bean="SeatPoolDefinitionInfo.meta.updateId"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingId"/>
+		<property name="childEntryName" value="courseOfferingId"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Course Offering Id"/>
+		<property name="summary">
+			<value>
+Course offering Id to which the seat pool is linked to. 
+			</value>
+		</property>
+		<property name="label" value="Course Offering Id"/>
+		<property name="description">
+			<value>
+Course offering Id to which the seat pool is linked to. Course Offering Id should be set only if the seat 
+pool applies across all the registration group in the course offering.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.maximumSeatCount-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maximumSeatCount"/>
+		<property name="childEntryName" value="maximumSeatCount"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Maximum Seat Count"/>
+		<property name="summary">
+			<value>
+Count Maximum seats available through this seat pool.
+			</value>
+		</property>
+		<property name="label" value="Maximum Seat"/>
+		<property name="description">
+			<value>
+Count Maximum seats available through this seat pool.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.processingPriority-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="processingPriority"/>
+		<property name="childEntryName" value="processingPriority"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Processing Priority"/>
+		<property name="summary">
+			<value>
+Indicates the order in which this seat pool will be processed during registration. 
+			</value>
+		</property>
+		<property name="label" value="Processing Priority"/>
+		<property name="description">
+			<value>
+Indicates the order in which this seat pool will be processed during registration. During registration
+students should be assigned to a seat pool with the lowest possible rank to which he or she meets the restriction
+requirements.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.capacityRestrictionRule-generated" abstract="true" parent="BaseKuali.complex">
+		<property name="name" value="capacityRestrictionRule"/>
+		<property name="childEntryName" value="capacityRestrictionRule"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Capacity Restriction Rule"/>
+		<property name="summary">
+			<value>
+Statement that defines the capacity restriction that apply to this seat pool
+			</value>
+		</property>
+		<property name="label" value="Capacity Restriction Rule"/>
+		<property name="description">
+			<value>
+Statement that defines the capacity restriction that apply to this seat pool
+			</value>
+		</property>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+		<property name="childEntryName" value="id"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+		<property name="childEntryName" value="typeKey"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+		<property name="childEntryName" value="stateKey"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+		<property name="childEntryName" value="name"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+		<property name="name" value="descr"/>
+		<property name="childEntryName" value="descr"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="descr.plain"/>
+		<property name="childEntryName" value="plain"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="descr.formatted"/>
+		<property name="childEntryName" value="formatted"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+		<property name="name" value="meta"/>
+		<property name="childEntryName" value="meta"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="meta.versionInd"/>
+		<property name="childEntryName" value="versionInd"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="meta.createTime"/>
+		<property name="childEntryName" value="createTime"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="meta.createId"/>
+		<property name="childEntryName" value="createId"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="meta.updateTime"/>
+		<property name="childEntryName" value="updateTime"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="meta.updateId"/>
+		<property name="childEntryName" value="updateId"/>
+	</bean>
+</beans>

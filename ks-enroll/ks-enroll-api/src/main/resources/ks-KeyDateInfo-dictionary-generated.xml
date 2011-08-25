@@ -1,0 +1,218 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- KeyDateInfo-->
+	<bean id="KeyDateInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="keyDateInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.KeyDateInfo"/>
+		<property name="objectLabel" value="Key Date"/>
+		<property name="objectDescription" value="Information about a key date. A key date may represent a single
+point in time or a range depending on the value of isDateRange()."/>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>key</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="KeyDateInfo.key"/>
+				<ref bean="KeyDateInfo.typeKey"/>
+				<ref bean="KeyDateInfo.stateKey"/>
+				<ref bean="KeyDateInfo.name"/>
+				<ref bean="KeyDateInfo.descr.plain"/>
+				<ref bean="KeyDateInfo.descr.formatted"/>
+				<ref bean="KeyDateInfo.isAllDay"/>
+				<ref bean="KeyDateInfo.isDateRange"/>
+				<ref bean="KeyDateInfo.startDate"/>
+				<ref bean="KeyDateInfo.endDate"/>
+				<ref bean="KeyDateInfo.meta.versionInd"/>
+				<ref bean="KeyDateInfo.meta.createTime"/>
+				<ref bean="KeyDateInfo.meta.createId"/>
+				<ref bean="KeyDateInfo.meta.updateTime"/>
+				<ref bean="KeyDateInfo.meta.updateId"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="KeyDateInfo.key-generated" abstract="true" parent="BaseKuali.key">
+		<property name="name" value="key"/>
+		<property name="childEntryName" value="key"/>
+	</bean>
+
+	<bean id="KeyDateInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+		<property name="childEntryName" value="typeKey"/>
+	</bean>
+
+	<bean id="KeyDateInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+		<property name="childEntryName" value="stateKey"/>
+	</bean>
+
+	<bean id="KeyDateInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+		<property name="childEntryName" value="name"/>
+	</bean>
+
+	<bean id="KeyDateInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+		<property name="name" value="descr"/>
+		<property name="childEntryName" value="descr"/>
+	</bean>
+
+	<bean id="KeyDateInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="descr.plain"/>
+		<property name="childEntryName" value="plain"/>
+	</bean>
+
+	<bean id="KeyDateInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="descr.formatted"/>
+		<property name="childEntryName" value="formatted"/>
+	</bean>
+
+	<bean id="KeyDateInfo.isAllDay-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isAllDay"/>
+		<property name="childEntryName" value="isAllDay"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Is All Day"/>
+		<property name="summary">
+			<value>
+Tests if this key date is an all day event. 
+			</value>
+		</property>
+		<property name="label" value="Is All Day"/>
+		<property name="description">
+			<value>
+Tests if this key date is an all day event. An all-day event
+does not have a meaningful time component in the date.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="KeyDateInfo.isDateRange-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isDateRange"/>
+		<property name="childEntryName" value="isDateRange"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Is Date Range"/>
+		<property name="summary">
+			<value>
+Tests if this key date has a date range. 
+
+
+			</value>
+		</property>
+		<property name="label" value="Is Date Range"/>
+		<property name="description">
+			<value>
+Tests if this key date has a date range. 
+
+Should return true if the end date is different than the start date,
+        false if the start end end date are the same
+			</value>
+		</property>
+	</bean>
+
+	<bean id="KeyDateInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+		<property name="name" value="startDate"/>
+		<property name="childEntryName" value="startDate"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Start Date"/>
+		<property name="summary">
+			<value>
+The start date and time of the key date.
+			</value>
+		</property>
+		<property name="label" value="Start Date"/>
+		<property name="description">
+			<value>
+The start date and time of the key date.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="KeyDateInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+		<property name="name" value="endDate"/>
+		<property name="childEntryName" value="endDate"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="End Date"/>
+		<property name="summary">
+			<value>
+The end date and time of the key date. 
+			</value>
+		</property>
+		<property name="label" value="End Date"/>
+		<property name="description">
+			<value>
+The end date and time of the key date. The end
+date must be equal to or greater that the start.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="KeyDateInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+		<property name="name" value="meta"/>
+		<property name="childEntryName" value="meta"/>
+	</bean>
+
+	<bean id="KeyDateInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="meta.versionInd"/>
+		<property name="childEntryName" value="versionInd"/>
+	</bean>
+
+	<bean id="KeyDateInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="meta.createTime"/>
+		<property name="childEntryName" value="createTime"/>
+	</bean>
+
+	<bean id="KeyDateInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="meta.createId"/>
+		<property name="childEntryName" value="createId"/>
+	</bean>
+
+	<bean id="KeyDateInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="meta.updateTime"/>
+		<property name="childEntryName" value="updateTime"/>
+	</bean>
+
+	<bean id="KeyDateInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="meta.updateId"/>
+		<property name="childEntryName" value="updateId"/>
+	</bean>
+</beans>

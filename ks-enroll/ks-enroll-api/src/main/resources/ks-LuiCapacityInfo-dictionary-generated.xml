@@ -1,0 +1,190 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- LuiCapacityInfo-->
+	<bean id="LuiCapacityInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="luiCapacityInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiCapacityInfo"/>
+		<property name="objectLabel" value="Lui Capacity"/>
+		<property name="objectDescription" value="Detailed information about a single LUI."/>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="LuiCapacityInfo.id"/>
+				<ref bean="LuiCapacityInfo.typeKey"/>
+				<ref bean="LuiCapacityInfo.stateKey"/>
+				<ref bean="LuiCapacityInfo.name"/>
+				<ref bean="LuiCapacityInfo.descr.plain"/>
+				<ref bean="LuiCapacityInfo.descr.formatted"/>
+				<ref bean="LuiCapacityInfo.maximumSeatCount"/>
+				<ref bean="LuiCapacityInfo.processingOrder"/>
+				<ref bean="LuiCapacityInfo.effectiveDate"/>
+				<ref bean="LuiCapacityInfo.expirationDate"/>
+				<ref bean="LuiCapacityInfo.meta.versionInd"/>
+				<ref bean="LuiCapacityInfo.meta.createTime"/>
+				<ref bean="LuiCapacityInfo.meta.createId"/>
+				<ref bean="LuiCapacityInfo.meta.updateTime"/>
+				<ref bean="LuiCapacityInfo.meta.updateId"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="LuiCapacityInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+		<property name="childEntryName" value="id"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+		<property name="childEntryName" value="typeKey"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+		<property name="childEntryName" value="stateKey"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+		<property name="childEntryName" value="name"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+		<property name="name" value="descr"/>
+		<property name="childEntryName" value="descr"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="descr.plain"/>
+		<property name="childEntryName" value="plain"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="descr.formatted"/>
+		<property name="childEntryName" value="formatted"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.maximumSeatCount-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maximumSeatCount"/>
+		<property name="childEntryName" value="maximumSeatCount"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Maximum Seat Count"/>
+		<property name="summary">
+			<value>
+Maximum number of &quot;seats&quot; that the LUI will hold for
+registration.
+			</value>
+		</property>
+		<property name="label" value="Maximum Seat Count"/>
+		<property name="description">
+			<value>
+Maximum number of &quot;seats&quot; that the LUI will hold for
+registration.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="LuiCapacityInfo.processingOrder-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="processingOrder"/>
+		<property name="childEntryName" value="processingOrder"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Processing Order"/>
+		<property name="summary">
+			<value>
+The order in which this capacity definition should be applied
+when there are multiple capacity definitions for the primary
+LUI.
+			</value>
+		</property>
+		<property name="label" value="Processing Order"/>
+		<property name="description">
+			<value>
+The order in which this capacity definition should be applied
+when there are multiple capacity definitions for the primary
+LUI.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="LuiCapacityInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+		<property name="name" value="effectiveDate"/>
+		<property name="childEntryName" value="effectiveDate"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+		<property name="name" value="expirationDate"/>
+		<property name="childEntryName" value="expirationDate"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+		<property name="name" value="meta"/>
+		<property name="childEntryName" value="meta"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="meta.versionInd"/>
+		<property name="childEntryName" value="versionInd"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="meta.createTime"/>
+		<property name="childEntryName" value="createTime"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="meta.createId"/>
+		<property name="childEntryName" value="createId"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="meta.updateTime"/>
+		<property name="childEntryName" value="updateTime"/>
+	</bean>
+
+	<bean id="LuiCapacityInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="meta.updateId"/>
+		<property name="childEntryName" value="updateId"/>
+	</bean>
+</beans>
