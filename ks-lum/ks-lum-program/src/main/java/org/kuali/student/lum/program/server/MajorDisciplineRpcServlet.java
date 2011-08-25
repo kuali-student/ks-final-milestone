@@ -58,10 +58,12 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
       	    Data previousVersionInfo = data.query(PREVIOUS_VERSION_INFO);
       	    String endEntryTerm = null;
       	    String endEnrollTerm = null;
+      	    String endInstAdmitTerm = null;
      	    if (previousVersionInfo != null) {
-     	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
+       	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
               endEnrollTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-              stateChangeService.changeState(endEntryTerm, endEnrollTerm,  programId, state);
+              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+              stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
      	    }
      	    else{
      	       // previousVersionInfo is null if this is the first version 

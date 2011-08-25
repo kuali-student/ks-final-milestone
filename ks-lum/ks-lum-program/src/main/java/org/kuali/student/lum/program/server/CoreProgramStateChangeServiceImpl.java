@@ -42,7 +42,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
     public void changeState(String coreProgramId, String newState) throws Exception {
         // This method will be called from workflow.
         // Since we cannot activate a program from the workflow we do not need to add endEntryTerm and endEnrollTerm
-        changeState(null, null, coreProgramId, newState);
+        changeState(null, null, null, coreProgramId, newState);
     }
 
     /**
@@ -56,7 +56,7 @@ public class CoreProgramStateChangeServiceImpl  implements StateChangeService {
      * @return
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String coreProgramId, String newState) throws Exception {
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String coreProgramId, String newState) throws Exception {
 
         // New state must not be null
         if (newState == null)

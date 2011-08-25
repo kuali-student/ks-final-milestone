@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.credential.edit;
 
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -52,6 +53,10 @@ public class CredentialInformationEditConfiguration extends AbstractSectionConfi
 
     private VerticalSection createDatesSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_dates()));
+        //Add this field and hide it so it is available for cross field validation 
+        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PROPOSAL_PREV_START_TERM_PATH, new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevStartTerm()));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
         configurer.addField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
         configurer.addField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));

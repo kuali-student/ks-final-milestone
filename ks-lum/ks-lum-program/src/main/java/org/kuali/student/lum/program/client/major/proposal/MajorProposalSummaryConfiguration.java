@@ -1,12 +1,17 @@
 package org.kuali.student.lum.program.client.major.proposal;
 
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.view.CatalogInformationViewConfiguration;
@@ -57,7 +62,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         if (controller instanceof MajorProposalController){
             
             // Grab the work flow utilities widget we initialized in the controller
-            WorkflowUtilities workflowUtilities = ((MajorProposalController) controller).getWfUtilities();
+            final WorkflowUtilities workflowUtilities = ((MajorProposalController) controller).getWfUtilities();
             workflowUtilities.addSubmitCallback(new Callback<Boolean>() {
 
                 @Override
@@ -68,6 +73,28 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 
                 }
             });
+            //Add fields to workflow utils screens
+            if(workflowUtilities!=null){
+            	controller.requestModel(new ModelRequestCallback<DataModel>(){
+					public void onModelReady(DataModel model) {
+						//Only display if this is a modification
+						String versionedFromId = model.get("versionInfo/versionedFromId");
+						if(versionedFromId!=null && !versionedFromId.isEmpty()){
+							//Add the previous start term since we need it as a widget so it can act as a cross field constraint
+							workflowUtilities.addApproveDialogField("", "startTerm",  new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
+						    workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndProgramEntryTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndInstAdmitTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							workflowUtilities.updateApproveFields();
+						}else{
+							//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
+							workflowUtilities.addIgnoreDialogField("proposal/prevEndTerm");
+						}
+					}
+					public void onRequestFail(Throwable cause) {
+					}
+            	});
+            }
             
             // Get a reference to the widget so we can add it to the root section of the screen
             Widget widget = workflowUtilities.getWorkflowActionsWidget();

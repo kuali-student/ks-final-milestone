@@ -10,6 +10,7 @@ import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.util.KEWConstants;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
@@ -40,7 +41,10 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         // update the program state based on the route status
     	// Mainly used to approve a proposal
         String programId = getProgramId(proposalInfo);
-        getStateChangeService().changeState(programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()));
+        String endEntryTerm = proposalInfo.getAttributes().get("prevEndProgramEntryTerm");
+        String endEnrollTerm = proposalInfo.getAttributes().get("prevEndTerm");
+        String endInstAdmitTerm = proposalInfo.getAttributes().get("prevEndInstAdmitTerm");
+        getStateChangeService().changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, getCluStateForRouteStatus("",statusChangeEvent.getNewRouteStatus()));
         return true;
     }
 
@@ -98,11 +102,13 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         return this.programService;
     }
     
+    
     protected StateChangeService getStateChangeService() {
         if (this.stateChangeService == null) {
         	MajorDisciplineStateChangeServiceImpl stateChangeService = new MajorDisciplineStateChangeServiceImpl();
             stateChangeService.setProgramService(getProgramService());
-        	this.stateChangeService = stateChangeService;
+            stateChangeService.setAtpService((AtpService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/atp","AtpService")));
+            this.stateChangeService = stateChangeService;
         }
         
         return this.stateChangeService;

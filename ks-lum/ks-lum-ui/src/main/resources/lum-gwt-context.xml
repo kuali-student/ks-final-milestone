@@ -270,6 +270,7 @@
 	
 	<bean id="majorDisciplineStateChangeService" class="org.kuali.student.lum.program.server.MajorDisciplineStateChangeServiceImpl">
 		<property name="programService" ref="programClient"/>
+		<property name="atpService" ref="atpClient"/>
 	</bean>
 	<bean id="coreProgramStateChangeService" class="org.kuali.student.lum.program.server.CoreProgramStateChangeServiceImpl">
 		<property name="programService" ref="programClient"/>
@@ -540,7 +541,7 @@
 		<property name="metadataService" ref="metadataServiceImpl"/>
 		<property name="collaboratorHelper" ref="collaboratorHelper"/>		
 		<property name="proposalService" ref="proposalClient"/>
-		<property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
+		<property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.CourseProposalInfo"/>
 	</bean>
 
 	<bean id="programCollaboratorFilter" class = "org.kuali.student.core.assembly.transform.CollaboratorsFilter">
@@ -560,6 +561,7 @@
     <bean id="courseProposalWorkflowFilter" parent="parentProposalWorkflowFilter">
         <property name="proposalReferenceType" value="kuali.proposal.referenceType.clu"/>
         <property name="defaultDocType" value="kuali.proposal.type.course.create"/>
+        <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.CourseProposalInfo"/>
         <property name="docTypeConfigs">
 	        <list>
 	        	<bean class="org.kuali.student.common.assembly.transform.DocumentTypeConfiguration">

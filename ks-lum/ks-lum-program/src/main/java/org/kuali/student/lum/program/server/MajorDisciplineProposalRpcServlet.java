@@ -57,14 +57,16 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
       	    Data previousVersionInfo = data.query(PREVIOUS_VERSION_INFO);
       	    String endEntryTerm = null;
       	    String endEnrollTerm = null;
+      	    String endInstAdmitTerm = null;
      	    if (previousVersionInfo != null) {
      	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
               endEnrollTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-              stateChangeService.changeState(endEntryTerm, endEnrollTerm,  programId, state);
+              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+              stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
      	    }
      	    else{
      	       // previousVersionInfo is null if this is the first version 
-     	       stateChangeService.changeState( programId, state);  
+     	       stateChangeService.changeState(programId, state);  
      	    }
           
     

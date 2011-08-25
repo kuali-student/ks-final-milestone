@@ -1,11 +1,16 @@
 package org.kuali.student.lum.workflow;
 
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -32,6 +37,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * The program service - injected by spring.
      */
     private ProgramService programService;
+    private AtpService atpService;
 
     /**
      * This method is called by workflow when the state changes.
@@ -44,7 +50,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     public void changeState(String majorDisciplineId, String newState) throws Exception {
         // This method will be called from workflow.
         // Since we cannot activate a program from the workflow we do not need to add endEntryTerm and endEnrollTerm
-        changeState(null, null, majorDisciplineId, newState);
+        changeState(null, null, null, majorDisciplineId, newState);
     }
 
     /**
@@ -58,7 +64,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * @return
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String majorDisciplineId, String newState) throws Exception {
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String majorDisciplineId, String newState) throws Exception {
 
         // A null state is valid in some cases!
         // If rice work flow returned a code that LUM is not going to process, then
@@ -92,7 +98,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             if (previousVersion != null) {
 
                 // Set end terms on previous version
-                setEndTerms(previousVersion, endEntryTerm, endEnrollTerm);
+                setEndTerms(previousVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
 
                 // Mark previous version as superseded and update state on all associated objects
                 updateMajorDisciplineInfoState(previousVersion, DtoConstants.STATE_SUPERSEDED);
@@ -122,10 +128,65 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * @param majorDisciplineInfo
      * @param endEntryTerm
      * @param endEnrollTerm
+     * @param endInstAdmitTerm 
+     * @throws OperationFailedException 
+     * @throws MissingParameterException 
+     * @throws InvalidParameterException 
+     * @throws DoesNotExistException 
      */
-    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm) {
-        majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
+    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+        
+    	//Set the end terms on the major discipline
+    	majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
+        majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+        
+        //Check if there are variations to process
+        if(!majorDisciplineInfo.getVariations().isEmpty()){
+        	
+        	//Find the major's end term atps and obtain their date information
+   			AtpInfo majorEndEntryTermAtp = atpService.getAtp(endEntryTerm);
+   			Date majorEndEntryTermEndDate = majorEndEntryTermAtp.getEndDate();
+   			AtpInfo majorEndEnrollTermAtp = atpService.getAtp(endEnrollTerm);
+   			Date majorEndEnrollTermEndDate = majorEndEnrollTermAtp.getEndDate();
+       		AtpInfo majorEndInstAdmitTermAtp = atpService.getAtp(endInstAdmitTerm);
+       		Date majorEndInstAdmitTermEndDate = majorEndInstAdmitTermAtp.getEndDate();
+    
+       		//Loop through the variations
+	        for(ProgramVariationInfo variation:majorDisciplineInfo.getVariations()){
+	        	//compare dates to get the older of the two end terms
+	    		if(variation.getEndProgramEntryTerm() != null){
+	    			AtpInfo variationEndEntryTermAtp = atpService.getAtp(variation.getEndProgramEntryTerm());
+	    			Date variationEndEntryTermEndDate = variationEndEntryTermAtp.getEndDate();
+	    			if(majorEndEnrollTermEndDate.compareTo(variationEndEntryTermEndDate)<=0){
+		    			variation.setEndProgramEntryTerm(endEntryTerm);
+	    			}
+	    		}else{
+	    			variation.setEndProgramEntryTerm(endEntryTerm);
+	    		}
+	    		//compare dates to get the older of the two end terms
+	    		if(variation.getEndTerm() != null){
+	    			AtpInfo variationEndTermAtp = atpService.getAtp(variation.getEndTerm());
+	    			Date variationEndTermEndDate = variationEndTermAtp.getEndDate();
+	    			if(majorEndEntryTermEndDate.compareTo(variationEndTermEndDate)<=0){
+		    			variation.setEndTerm(endEnrollTerm);
+	    			}
+	    		}else{
+	    			variation.setEndTerm(endEnrollTerm);
+	    		}
+	    		//compare dates to get the older of the two end terms
+	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
+	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
+	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
+	    				variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+	    			}
+	    		}else{
+	    			variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+	    		}
+	    		
+	        }
+        }
     }
 
     /**
@@ -276,5 +337,9 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     public void setProgramService(ProgramService programService) {
         this.programService = programService;
     }
+
+    public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
 
 }

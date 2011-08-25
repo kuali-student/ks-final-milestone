@@ -24,16 +24,25 @@
 				<ref bean="proposalInfo.rationale" />
 				<ref bean="proposalInfo.state" />
 				<ref bean="proposalInfo.type" />
-				<!-- TODO: These are course specific. Need to move them to CourseProposalInfo  -->
-				<ref bean="proposalInfo.prevStartTerm" />
-				<ref bean="proposalInfo.prevEndTerm" />
-				
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
 	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo"
 		parent="org.kuali.student.core.proposal.dto.ProposalInfo-parent" />
+
+	<!-- Proposal definition for Course Proposal. NOTE: There is no java class called CourseProposalInfo -->
+	<bean id="org.kuali.student.core.proposal.definition.CourseProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.CourseProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="courseProposalInfo.prevStartTerm" />
+				<ref bean="courseProposalInfo.prevEndTerm" />
+			</list>
+		</property>	
+	</bean>
 
 	<!-- Proposal definition for Program Proposal. NOTE: There is no java class called ProgramProposalInfo -->
 	<bean id="org.kuali.student.core.proposal.definition.ProgramProposalInfo"
@@ -48,7 +57,10 @@
 				<ref bean="programProposalInfo.relatedCourseChanges" />
 				<ref bean="programProposalInfo.impactedArticulationTransferPrograms" />
 				<ref bean="programProposalInfo.studentTransitionPlans" />
-							
+				<ref bean="programProposalInfo.prevStartTerm" />
+				<ref bean="programProposalInfo.prevEndTerm" />
+				<ref bean="programProposalInfo.prevEndInstAdmitTerm" />	
+				<ref bean="programProposalInfo.prevEndProgramEntryTerm" />				
 			</list>
 		</property>	
 	</bean>
@@ -77,8 +89,9 @@
 		<property name="lookupDefinition" ref="constraint.lookup.atp"/>
 		<property name="dynamic" value="true"/>
 	</bean>
-	<bean id="proposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
-
+	<bean id="courseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
+	<bean id="programProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
+	
 	<bean id="proposalInfo.prevEndTerm-parent" abstract="true"
 		parent="baseKualiType">
 		<property name="name" value="prevEndTerm" />
@@ -130,7 +143,15 @@
 		   </bean>
 	  </property>
 	</bean>
-	<bean id="proposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+   	<bean id="courseProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+	<bean id="programProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+    <bean id="programProposalInfo.prevEndInstAdmitTerm" parent="proposalInfo.prevEndTerm-parent" >
+    	<property name="name" value="prevEndInstAdmitTerm"/>
+    </bean>
+    <bean id="programProposalInfo.prevEndProgramEntryTerm" parent="proposalInfo.prevEndTerm-parent" >
+    	<property name="name" value="prevEndProgramEntryTerm"/>
+    </bean>
+    
     
     <bean id="constraint.lookup.proposal.prevEndTerm-parent" parent="constraint.lookup.atp">
 	 <property name="params">

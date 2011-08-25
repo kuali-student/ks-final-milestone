@@ -70,7 +70,7 @@ public abstract class ProgramController extends MenuSectionController {
 
     protected HandlerManager eventBus;
 
-    protected Label statusLabel = new Label();
+	protected Label statusLabel = new Label();
 
     protected ProgramSideBar sideBar;
 
@@ -558,4 +558,5 @@ public abstract class ProgramController extends MenuSectionController {
         return null;
     
     }
+    
 }

@@ -33,5 +33,5 @@ public interface StateChangeService {
      * @param newState
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String programId, String newState) throws Exception;
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String programId, String newState) throws Exception;
 }

@@ -57,8 +57,20 @@
   <property name="initialLookup" ref="kuali.lu.lookup.academicYear" />
  </bean>
 
- <bean id="proposalInfo.prevEndTerm" parent="uilookupconfig-parent">
-  <property name="path" value="proposalInfo.prevEndTerm" />
+ <bean id="courseProposalInfo.prevEndTerm" parent="uilookupconfig-parent">
+  <property name="path" value="courseProposalInfo.prevEndTerm" />
+  <property name="initialLookup" ref="kuali.lu.lookup.proposal.prevEndTerm.suggest" />
+ </bean>
+ <bean id="programProposalInfo.prevEndTerm" parent="uilookupconfig-parent">
+  <property name="path" value="programProposalInfo.prevEndTerm" />
+  <property name="initialLookup" ref="kuali.lu.lookup.proposal.prevEndTerm.suggest" />
+ </bean>
+ <bean id="programProposalInfo.prevEndInstAdmitTerm" parent="uilookupconfig-parent">
+  <property name="path" value="programProposalInfo.prevEndInstAdmitTerm" />
+  <property name="initialLookup" ref="kuali.lu.lookup.proposal.prevEndTerm.suggest" />
+ </bean>
+ <bean id="programProposalInfo.prevEndProgramEntryTerm" parent="uilookupconfig-parent">
+  <property name="path" value="programProposalInfo.prevEndProgramEntryTerm" />
   <property name="initialLookup" ref="kuali.lu.lookup.proposal.prevEndTerm.suggest" />
  </bean>
 
@@ -5353,19 +5365,19 @@
     <bean id="majorDisciplineInfo.startTerm" parent="uilookupconfig-parent">
           <property name="path" value="majorDisciplineInfo.startTerm" />
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.course.startTerm.suggest" />
    </bean>
 
      <bean id="credentialProgramInfo.startTerm" parent="uilookupconfig-parent">
           <property name="path" value="credentialProgramInfo.startTerm" />
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.course.startTerm.suggest" />
    </bean>
 
     <bean id="coreProgramInfo.startTerm" parent="uilookupconfig-parent">
           <property name="path" value="coreProgramInfo.startTerm" />
           <property name="initialLookup"
-              ref="kuali.lu.lookup.firstexpectedoffering.suggest" />
+              ref="kuali.lu.lookup.course.startTerm.suggest" />
 
    </bean>
 

@@ -9,15 +9,18 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.event.SaveActionEvent;
+import org.kuali.student.common.ui.client.event.SaveActionHandler;
+import org.kuali.student.common.ui.client.mvc.ApplicationEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
@@ -33,7 +36,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -61,13 +63,11 @@ import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.major.MajorManager;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
-import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -83,7 +83,7 @@ import com.google.gwt.user.client.Window;
  */
 public class MajorProposalController extends MajorController {
 
-    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
+	private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
     protected String proposalPath = "";
@@ -110,8 +110,9 @@ public class MajorProposalController extends MajorController {
         initializeComparisonModel();
         configurer = GWT.create(MajorProposalConfigurer.class);
         proposalPath = configurer.getProposalPath();
-        workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions");//TODO make msg
-        
+        workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
+   				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID);
+
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
         
@@ -395,11 +396,37 @@ public class MajorProposalController extends MajorController {
 			public void onEvent(ModelLoadedEvent event) {
 				if (workflowUtil != null){
 					workflowUtil.requestAndSetupModel();
+					
 				}
 			}        	
         });
+        
+        addApplicationEventHandler(SaveActionEvent.TYPE, new SaveActionHandler(){
+			@Override
+			public void doSave(final SaveActionEvent saveAction) {
+				MajorProposalController.this.doSave(new Callback<Boolean>(){
+					@Override
+					public void exec(Boolean result) {
+						saveAction.doActionComplete();
+					}
+				});
+			}
+        });
    }
 
+    /* (non-Javadoc)
+     * @see org.kuali.student.common.ui.client.mvc.Controller#fireApplicationEvent(org.kuali.student.common.ui.client.mvc.ApplicationEvent)
+     */
+    @Override
+	public void fireApplicationEvent(ApplicationEvent event) {
+    	//Fire this event from the event bus
+		if(event instanceof SaveActionEvent){
+			eventBus.fireEvent(event);
+		}
+		super.fireApplicationEvent(event);
+	}
+
+    
     /**
      * Initialized comparison model of the controller.
      */
@@ -435,6 +462,11 @@ public class MajorProposalController extends MajorController {
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
             if (programStatus.getNextStatus() != null) {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
+            }
+            
+            String workflowNode = programModel.get("proposal/workflowNode");
+            if(workflowNode!=null){
+            	idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
             }
         }
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {

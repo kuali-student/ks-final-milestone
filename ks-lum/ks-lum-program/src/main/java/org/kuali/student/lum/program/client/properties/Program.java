@@ -367,6 +367,43 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_studentOversightUnit();
 
   /**
+   * Translated "Previous Program Entry End Term".
+   * 
+   * @return translated "Previous Program Entry End Term"
+   */
+  @DefaultMessage("Previous Program Entry End Term")
+  @Key("majorDiscipline.prevEndProgramEntryTerm")
+  String majorDiscipline_prevEndProgramEntryTerm();
+  
+  /**
+   * Translated "Previous Program Start Term".
+   * 
+   * @return translated "Previous Program Start Term"
+   */
+  @DefaultMessage("Previous Program Start Term")
+  @Key("majorDiscipline.prevStartTerm")
+  String majorDiscipline_prevStartTerm();
+  
+  /**
+   * Translated "Previous End Inst Admit Term".
+   * 
+   * @return translated "Previous End Inst Admit Term"
+   */
+  @DefaultMessage("Previous End Inst Admit Term")
+  @Key("majorDiscipline.prevEndInstAdmitTerm")
+  String majorDiscipline_prevEndInstAdmitTerm();
+  
+  /**
+   * Translated "Previous End Term".
+   * 
+   * @return translated "Previous End Term"
+   */
+  @DefaultMessage("Previous End Term")
+  @Key("majorDiscipline.prevEndTerm")
+  String majorDiscipline_prevEndTerm();
+  
+  
+  /**
    * Translated "Actions".
    * 
    * @return translated "Actions"

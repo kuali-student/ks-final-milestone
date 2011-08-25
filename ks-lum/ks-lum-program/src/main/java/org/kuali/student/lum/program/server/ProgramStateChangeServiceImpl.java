@@ -8,10 +8,9 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +46,7 @@ public class ProgramStateChangeServiceImpl {
     public void changeState( String majorDisciplineId, String newState) throws Exception {
         // This method will be called from workflow.
         // Since we cannot activate a program from the workflow we do not need to add endEntryTerm and endEnrollTerm
-        changeState(null, null, majorDisciplineId, newState);
+        changeState(null, null, null, majorDisciplineId, newState);
     }
 
     /**
@@ -61,7 +60,7 @@ public class ProgramStateChangeServiceImpl {
      * @return
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String majorDisciplineId, String newState) throws Exception {
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm,  String majorDisciplineId, String newState) throws Exception {
 
         // New state must not be null
         if (newState == null)
@@ -80,7 +79,7 @@ public class ProgramStateChangeServiceImpl {
             if (previousVersion != null) {
 
                 // Set end terms on previous version
-                setEndTerms(previousVersion, endEntryTerm, endEnrollTerm);
+                setEndTerms(previousVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
 
                 // Mark previous version as superseded and update state on all associated objects
                 updateMajorDisciplineInfoState(previousVersion, DtoConstants.STATE_SUPERSEDED);
@@ -109,10 +108,12 @@ public class ProgramStateChangeServiceImpl {
      * @param majorDisciplineInfo
      * @param endEntryTerm
      * @param endEnrollTerm
+     * @param endInstAdmitTerm 
      */
-    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm) {
+    private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) {
         majorDisciplineInfo.setEndProgramEntryTerm(endEntryTerm);
         majorDisciplineInfo.setEndTerm(endEnrollTerm);
+        majorDisciplineInfo.getAttributes().put(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, endInstAdmitTerm);
     }
 
     /**

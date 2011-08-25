@@ -74,7 +74,6 @@ public class CourseDataService extends AbstractDataService {
 			if(courseInfo.getId() == null){
 			    
 			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId())){
-			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
 			    	//Save the start and end terms from the old version and put into filter properties
 			    	String startTerm = courseInfo.getStartTerm();
 			    	String endTerm = courseInfo.getEndTerm();
@@ -85,6 +84,8 @@ public class CourseDataService extends AbstractDataService {
 			    		proposalAttributes.put("prevEndTerm",endTerm);
 			    	
 			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
+			    	
+			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment());
 			    } else {
 			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
 			    }

@@ -33,7 +33,8 @@ public enum ProgramSections {
     VIEW_ALL,
     SUMMARY,
     COMMENTS,
-    EMPTY;
+    EMPTY,
+    WF_APPROVE_DIALOG;
 
     private static HashMap<Enum<?>, Enum<?>> sectionMap = new HashMap<Enum<?>, Enum<?>>();
 

@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.server;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,10 +9,14 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
+import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
 /**
  * @author Igor
@@ -53,7 +58,29 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
         if (dto instanceof MajorDisciplineInfo) {
             MajorDisciplineInfo mdInfo = (MajorDisciplineInfo) dto;
             if (mdInfo.getId() == null && mdInfo.getVersionInfo() != null) {
+            	
             	String majorVersionIndId = mdInfo.getVersionInfo().getVersionIndId();
+            	
+            	//Get the current Major Dicipline from the service
+            	VersionDisplayInfo mdVersionInfo = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorVersionIndId);
+            	mdInfo = programService.getMajorDiscipline(mdVersionInfo.getId());
+            	
+            	//Save the start and end terms from the old version and put into filter properties
+		    	String startTerm = mdInfo.getStartTerm();
+		    	String endTerm = mdInfo.getEndTerm();
+		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
+		    	String endInstAdmitTerm = mdInfo.getAttributes().get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+		    	Map<String,String> proposalAttributes = new HashMap<String,String>();
+		    	if(startTerm!=null)
+		    		proposalAttributes.put("prevStartTerm",startTerm);
+		    	if(endTerm!=null)
+		    		proposalAttributes.put("prevEndTerm",endTerm);
+		    	if(endProgramEntryTerm!=null)
+		    		proposalAttributes.put("prevEndProgramEntryTerm",endProgramEntryTerm);
+		    	if(endInstAdmitTerm!=null)
+		    		proposalAttributes.put("prevEndInstAdmitTerm",endInstAdmitTerm);
+		    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
+            	
             	mdInfo = programService.createNewMajorDisciplineVersion(majorVersionIndId, "New major discipline version");
             } else if (mdInfo.getId() == null){
                 mdInfo = programService.createMajorDiscipline(mdInfo);

@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
@@ -17,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -87,6 +89,11 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
 
     private VerticalSection createDatesSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_dates()));
+        //Add this field and hide it so it is available for cross field validation 
+        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PROPOSAL_PREV_START_TERM_PATH, new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevStartTerm()));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
+        
         configurer.addField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addField(section, ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
         configurer.addField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));

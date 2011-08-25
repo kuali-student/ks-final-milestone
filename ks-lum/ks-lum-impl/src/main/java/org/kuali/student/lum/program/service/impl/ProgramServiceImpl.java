@@ -354,7 +354,13 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws CircularRelationshipException 
      */
     private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException {
-		//Clear Los
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+    	majorDiscipline.setStartTerm(null);
+    	majorDiscipline.setEndTerm(null);
+    	majorDiscipline.setEndProgramEntryTerm(null);
+    	majorDiscipline.getAttributes().remove("endInstAdmitTerm");
+    	
+    	//Clear Los
 		for(LoDisplayInfo lo:majorDiscipline.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
@@ -370,6 +376,12 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		//Clear Variations
 		for(ProgramVariationInfo variation:majorDiscipline.getVariations()){
+			//Clear Terms (needs to be set on new version anyway so this forces the issue)
+	    	variation.setStartTerm(null);
+	    	variation.setEndTerm(null);
+	    	variation.setEndProgramEntryTerm(null);
+	    	variation.getAttributes().remove("endInstAdmitTerm");
+	    	
 			//Create new variation version
 			String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
 			CluInfo newVariationClu = luService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber());	
