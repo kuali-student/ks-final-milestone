@@ -106,4 +106,9 @@ insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_
 -- Add UNIV mapping to undergrad studies college
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('badcb3f5-2938-4015-9106-8ad618d8ee70', '223', '53', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '110cc4c7-153f-41ed-adda-f86c3d3959f5')
 /
-
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('72aa6312-1714-49cc-9b55-d320e3dadfde', '210', '2', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '6609A090-C099-4C88-2318-15469FCE5D72')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('5deb76ea-4435-4815-a418-c4b199ffc1e9', '223', '28', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, '18B5FF11-A6AA-9942-DE94-466B006B4B1A')
+/
+insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('fa54da63-3932-4b27-912f-0246cd6c8b91', '223', '33', 0, to_date('2011-04-13', 'yyyy-mm-dd'), null, 'BFB40B98-DA64-2A91-FD92-7EB09DD10838')
+/
