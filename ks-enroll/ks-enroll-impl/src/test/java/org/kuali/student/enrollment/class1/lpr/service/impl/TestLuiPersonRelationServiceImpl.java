@@ -33,20 +33,11 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 
 /**
  * @Author sambit
  */
-@Ignore
 @Daos({@Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql"),
         @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprStateDao"),
         @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao")})
@@ -146,7 +137,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testDeleteLuiPersonRelation() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, AlreadyExistsException, DisabledIdentifierException, ReadOnlyException {
         LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '" + LPRID1 + "' does not exist; cannot delete", lpr);
 
@@ -156,8 +147,10 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             fail("Exception from service call: " + ex.getMessage());
         }
 
-        lpr = lprService.getLpr(LPRID1, callContext);
-        assertNull("LPR entity '" + LPRID1 + "' was not deleted", lpr);
+        LuiPersonRelationInfo deletedLpr = lprService.getLpr(LPRID1, callContext);
+        assertNull("LPR entity '" + LPRID1 + "' was not deleted", deletedLpr);
+        // put it back for later test(s)
+        lprService.createLpr(lpr.getPersonId(), lpr.getLuiId(), lpr.getTypeKey(), lpr, callContext);
     }
 
     // TODO implement @Test
@@ -210,6 +203,18 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     public void testValidateLuiPersonRelation() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         fail("Test method not implemented yet");
+    }
+
+    @Test
+    public void testGetLprIdsByLuiAndPerson() {
+        List<String> lprIds = null;
+        try {
+            lprIds = lprService.getLprIdsByLuiAndPerson("testPersonId1", "testLuiId1", callContext);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        assertNotNull(lprIds);
+        assertEquals(1, lprIds.size());
     }
 
 }

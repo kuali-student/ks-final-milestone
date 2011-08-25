@@ -182,8 +182,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<String> getLprIdsByLuiAndPerson(String personId, String luiId, ContextInfo context)
             throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> returnVals = new ArrayList<String>();
+
+        returnVals.addAll(lprDao.getLprIdsByLuiAndPerson(personId, luiId));
+        return returnVals;
     }
 
     @Override
