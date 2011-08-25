@@ -105,7 +105,11 @@ public class MajorManager {
         variationModel.setDefinition(definition);
         variationModel.setRoot(ProgramRegistry.getData());
         ProgramUtils.unregisterUnusedHandlers(eventBus);
-        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, majorEditController);
+        MajorController theController = (MajorController)majorEditController;
+        if (variationModel != null && variationModel.get("isProposal") != null){
+            theController = majorProposalController;
+        }    
+        variationEditController = new VariationEditController(variationModel, viewContext, eventBus, theController);
         return variationEditController;
     }
 

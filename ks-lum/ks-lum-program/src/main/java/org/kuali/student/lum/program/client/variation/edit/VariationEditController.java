@@ -26,6 +26,7 @@ import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
 import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
 import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
+import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
@@ -47,7 +48,7 @@ public class VariationEditController extends VariationController {
 
     private String currentId;
 
-    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
+    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
         super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
