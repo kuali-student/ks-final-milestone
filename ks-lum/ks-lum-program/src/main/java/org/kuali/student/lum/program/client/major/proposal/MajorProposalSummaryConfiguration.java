@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class MajorProposalSummaryConfiguration extends AbstractControllerConfiguration {
 
     public MajorProposalSummaryConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().program_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
+        rootSection = new VerticalSectionView(ProgramSections.SUMMARY, ProgramProperties.get().proposal_menu_sections_summary(), ProgramConstants.PROGRAM_MODEL_ID, true);
     }
 
     /**
