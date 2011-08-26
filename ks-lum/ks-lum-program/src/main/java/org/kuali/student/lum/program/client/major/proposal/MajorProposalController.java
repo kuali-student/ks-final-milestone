@@ -351,10 +351,15 @@ public class MajorProposalController extends MajorController {
             public void onEvent(AddSpecializationEvent event) {
                 String id = getStringProperty(ProgramConstants.ID);
                 ProgramRegistry.setRow((getDataProperty(ProgramConstants.VARIATIONS)).size());
-                ProgramRegistry.setData(ProgramUtils.createNewSpecializationBasedOnMajor(programModel));
+                Data variationData = ProgramUtils.createNewSpecializationBasedOnMajor(programModel);
+                ProgramRegistry.setData(variationData);
                 ViewContext viewContext = new ViewContext();
                 viewContext.setId(id);
                 viewContext.setIdType(IdAttributes.IdType.OBJECT_ID);
+                if(programModel.get("proposal/id") != null){
+                    // It is a proposal
+                    variationData.set("isProposal", true);
+                }
                 HistoryManager.navigate(AppLocations.Locations.EDIT_VARIATION.getLocation(), viewContext);
 
             }
