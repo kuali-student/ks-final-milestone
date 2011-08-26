@@ -427,6 +427,11 @@ public class ProgramServiceImpl implements ProgramService {
 
 	private void processCopy(CredentialProgramInfo originaCredentialProgram,
 			String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+		originaCredentialProgram.setStartTerm(null);
+		originaCredentialProgram.setEndTerm(null);
+		originaCredentialProgram.setEndProgramEntryTerm(null);
+		
 		//Clear Los
 		if (originaCredentialProgram.getLearningObjectives() != null){
 			for(LoDisplayInfo lo:originaCredentialProgram.getLearningObjectives()){
@@ -449,7 +454,12 @@ public class ProgramServiceImpl implements ProgramService {
 	}
     
     private void processCopy(CoreProgramInfo originalCoreProgram, String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-		//Clear Los
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+    	originalCoreProgram.setStartTerm(null);
+    	originalCoreProgram.setEndTerm(null);
+    	originalCoreProgram.setEndProgramEntryTerm(null);
+		
+    	//Clear Los
 		for(LoDisplayInfo lo:originalCoreProgram.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}

@@ -86,9 +86,12 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndProgramEntryTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevEndInstAdmitTerm()), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
 							workflowUtilities.updateApproveFields();
+							workflowUtilities.progressiveEnableFields();	
 						}else{
 							//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
 							workflowUtilities.addIgnoreDialogField("proposal/prevEndTerm");
+							workflowUtilities.addIgnoreDialogField("proposal/prevEndProgramEntryTerm");
+							workflowUtilities.addIgnoreDialogField("proposal/prevEndInstAdmitTerm");
 						}
 					}
 					public void onRequestFail(Throwable cause) {

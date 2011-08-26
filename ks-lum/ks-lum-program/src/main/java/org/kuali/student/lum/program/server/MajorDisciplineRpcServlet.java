@@ -32,7 +32,7 @@ import org.kuali.student.lum.program.service.ProgramService;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
-    public static final String PREVIOUS_VERSION_INFO = "previousVersionInfo";
+    public static final String PREVIOUS_VERSION_INFO = "proposal";
     
     final Logger LOG = Logger.getLogger(MajorDisciplineRpcServlet.class);
     
@@ -62,9 +62,9 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
       	    String endEnrollTerm = null;
       	    String endInstAdmitTerm = null;
      	    if (previousVersionInfo != null) {
-       	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
-              endEnrollTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
+       	      endEntryTerm = previousVersionInfo.get(ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM); 
+              endEnrollTerm = previousVersionInfo.get(ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM);
+              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.PREV_END_INST_ADMIN_TERM);
               stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
      	    }
      	    else{

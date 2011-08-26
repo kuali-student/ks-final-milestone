@@ -3,6 +3,10 @@ package org.kuali.student.lum.program.client;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.lum.program.client.major.proposal.MajorProposalSummaryConfiguration;
+import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
 
 /**
  * @author Igor
@@ -108,9 +112,10 @@ public class ProgramConstants {
     public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
     public static final String VERSION_SEQUENCE_NUMBER = "versionInfo/sequenceNumber";
 
-    public static final String PREV_END_PROGRAM_ENTRY_TERM = "previousVersionInfo/endProgramEntryTerm";
-    public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";
-    public static final String PREV_STATE = "previousVersionInfo/state";
+    public static final String PREV_END_PROGRAM_ENTRY_TERM = "prevEndProgramEntryTerm";
+    public static final String PREV_END_PROGRAM_ENROLL_TERM = "prevEndTerm";
+    public static final String PREV_END_INST_ADMIN_TERM = "prevEndInstAdmitTerm";
+    public static final String PREV_START_TERM = "prevStartTerm";
 
     //Compound constants
     public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = CREDENTIAL_PROGRAM + "/" + INSTITUTION + "/" + RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;

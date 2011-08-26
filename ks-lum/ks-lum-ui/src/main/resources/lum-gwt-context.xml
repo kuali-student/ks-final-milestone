@@ -641,14 +641,20 @@
 
     <bean id="versionProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionProgramFilter">
         <property name="programService" ref="programClient"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
     </bean>
 
     <bean id="versionCoreProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCoreProgramFilter">
         <property name="programService" ref="programClient"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
     </bean>
 
     <bean id="versionCredentialProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCredentialProgramFilter">
         <property name="programService" ref="programClient"/>
+        <property name="metadataService" ref="metadataServiceImpl"/>
+        <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
     </bean>
 
     <bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.MetadataServiceImpl">

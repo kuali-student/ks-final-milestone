@@ -13,10 +13,13 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -98,6 +101,10 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
 
     private TableSection createDatesSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_dates()));
+        //Add this field and hide it so it is available for cross field validation 
+        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PREV_START_TERM, new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevStartTerm()));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
         configurer.addReadOnlyField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
@@ -119,10 +126,18 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
     }
 
     public VerticalSection createActivateProgramSection(){
-        VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(ProgramProperties.get().programInformation_activateProgram()));
+        final VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(ProgramProperties.get().programInformation_activateProgram()));
         section.setInstructions("<br>" + ProgramProperties.get().programInformation_activateInstructions() + "<br><br>");
-        configurer.addField(section, ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
-        configurer.addField(section, ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        controller.requestModel(new ModelRequestCallback<DataModel>(){
+			public void onModelReady(final DataModel model) {
+				//Add previous end dates and update cross constraints
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm())), model);
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm())), model);
+				WorkflowUtilities.updateCrossField(configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_INST_ADMIN_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm())), model);
+			}
+			public void onRequestFail(Throwable cause) {
+			}
+        });
         return section;
     }
 

@@ -13,6 +13,7 @@ import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -42,6 +43,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
@@ -80,7 +82,7 @@ import com.google.gwt.user.client.Window;
 /**
  * @author Igor
  */
-public class MajorProposalController extends MajorController {
+public class MajorProposalController extends MajorController implements WorkflowEnhancedNavController {
 
 	private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
@@ -892,4 +894,37 @@ public class MajorProposalController extends MajorController {
     public ProgramRequirementsDataModel getReqDataModelComp() {
         return reqDataModelComp;
     }
+
+	@Override
+	public void getMetadataForFinalState(final KSAsyncCallback<Metadata> callback) {
+		//Setup View Context
+		String idType = null;
+		String viewContextId = "";
+		if(getViewContext().getIdType() != null){
+            idType = getViewContext().getIdType().toString();
+            viewContextId = getViewContext().getId();
+            if(getViewContext().getIdType()==IdAttributes.IdType.COPY_OF_OBJECT_ID){
+            	viewContextId = null;
+            }
+		}
+		HashMap<String, String> idAttributes = new HashMap<String, String>();
+		if(idType != null){
+			idAttributes.put(IdAttributes.ID_TYPE, idType);
+		}
+
+		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.majorDiscipline.modify");
+		idAttributes.put(DtoConstants.DTO_STATE, "Draft");		    		
+		idAttributes.put(DtoConstants.DTO_NEXT_STATE, "Active");
+		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, "Publication Review");
+		
+		//Get metadata and complete initializing the screen
+		programRemoteService.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+			@Override
+			public void onSuccess(Metadata metadata) {
+				//This is not being used on screens so removing from validation
+				metadata.getProperties().remove("orgCoreProgram"); 
+				callback.onSuccess(metadata);
+			}
+		});
+	}
 }

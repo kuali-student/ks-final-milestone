@@ -68,6 +68,11 @@ public class CoreInformationViewConfiguration extends AbstractSectionConfigurati
 
     private TableSection createDatesSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_dates()));
+        //Add this field and hide it so it is available for cross field validation 
+        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PREV_START_TERM, new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevStartTerm()));
+        fd.getFieldWidget().setVisible(false);
+        fd.hideLabel();
+
         configurer.addReadOnlyField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
         configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
@@ -78,8 +83,8 @@ public class CoreInformationViewConfiguration extends AbstractSectionConfigurati
     public VerticalSection createActivateProgramSection() {
         VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(ProgramProperties.get().programInformation_activateProgram()));
         section.setInstructions("<br>" + ProgramProperties.get().programInformation_activateInstructions() + "<br><br>");
-        configurer.addField(section, ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
-        configurer.addField(section, ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
+        configurer.addField(section, "proposal/"+ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
         return section;
     }
 

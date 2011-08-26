@@ -58,7 +58,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
      * @return
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String credentialProgramId, String endInstAdmitTerm, String newState) throws Exception {
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String credentialProgramId, String newState) throws Exception {
 
         // New state must not be null
         if (newState == null)

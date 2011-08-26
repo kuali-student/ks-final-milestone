@@ -383,6 +383,10 @@ public class CourseServiceImpl implements CourseService {
 	        //Integrate changes into the original course. (should this just be just the id?)
 			courseAssembler.assemble(newVersionClu, originalCourse, true);
 
+			//Clear dates since they need to be set anyway
+			originalCourse.setStartTerm(null);
+			originalCourse.setEndTerm(null);
+			
 			//Disassemble the new course
 			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
 

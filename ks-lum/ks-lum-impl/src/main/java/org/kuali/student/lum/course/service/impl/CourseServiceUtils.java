@@ -37,9 +37,6 @@ import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 public class CourseServiceUtils {
 	public static void resetIds(CourseInfo course) {
-		//Clear dates since they need to be set anyway
-		course.setStartTerm(null);
-		course.setEndTerm(null);
 		
 		//Clear/Reset Joint info ids
 		for(CourseJointInfo joint:course.getJoints()){

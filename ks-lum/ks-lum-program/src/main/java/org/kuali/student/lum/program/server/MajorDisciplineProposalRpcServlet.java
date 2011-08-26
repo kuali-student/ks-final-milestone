@@ -22,7 +22,6 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfo
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
@@ -50,38 +49,9 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
      * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#updateStatus(org.kuali.student.common.assembly.data.Data, java.lang.String)
      */
 	public DataSaveResult updateState(Data data, String state ) throws Exception {
- 	    try {
-    	    // Pull program ID from model
-    	    String programId = data.get(ProgramConstants.ID);
-    	    
-    	    // Pull endEntryTerm and endEnrollTerm from model
-    	    // These are set using drop downs when a program is activated
-      	    Data previousVersionInfo = data.query(PREVIOUS_VERSION_INFO);
-      	    String endEntryTerm = null;
-      	    String endEnrollTerm = null;
-      	    String endInstAdmitTerm = null;
-     	    if (previousVersionInfo != null) {
-     	      endEntryTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
-              endEnrollTerm = previousVersionInfo.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-              endInstAdmitTerm = previousVersionInfo.get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
-              stateChangeService.changeState(endEntryTerm, endEnrollTerm, endInstAdmitTerm, programId, state);
-     	    }
-     	    else{
-     	       // previousVersionInfo is null if this is the first version 
-     	       stateChangeService.changeState(programId, state);  
-     	    }
-          
-    
-    	    // Return updates to view
-    		DataSaveResult result = new DataSaveResult();
-    		result.setValue(data);
-    		return result;
- 	    } catch(Exception e){
- 	        e.printStackTrace(); // needed or exception will be swallowed
- 	        throw e;
- 	    }
-	         
+		throw new UnsupportedOperationException("Proposals can not update state explicitly");	         
 	}
+	
     public List<ProgramRequirementInfo> getProgramRequirements(List<String> programRequirementIds) throws Exception {
 
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
