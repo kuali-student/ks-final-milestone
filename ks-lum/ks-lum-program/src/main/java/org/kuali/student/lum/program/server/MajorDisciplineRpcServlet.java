@@ -10,9 +10,10 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -21,13 +22,13 @@ import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
+import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
 public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDisciplineRpcService {
 
@@ -41,6 +42,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     private ProgramService programService;
     private StatementService statementService;
     protected StateChangeService stateChangeService;
+    private LuService luService;
  
     /**
      * 
@@ -200,12 +202,22 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
     @Override
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
-    	VersionDisplayInfo versionDisplayInfo = programService.getLatestVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, versionIndId);
-    	Long latestSequenceNumber = versionDisplayInfo.getSequenceNumber();
-    	boolean isLatest = latestSequenceNumber.equals(versionSequenceNumber); 
+    	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
+    	//We don't want to version if there are
+    	SearchRequest request = new SearchRequest("lu.search.isVersionable");
+    	request.addParam("lu.queryParam.versionIndId", versionIndId);
+    	request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
+    	List<String> states = new ArrayList<String>();
+    	states.add("Approved");
+    	states.add("Active");
+    	states.add("Draft");
+    	states.add("Superseded");
+    	request.addParam("lu.queryParam.luOptionalState", states);
+    	SearchResult result = luService.search(request);
     	
-    	return isLatest;
-	}
+    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
+    	return "0".equals(resultString);	    	
+ 	}
 
 	public void setProgramService(ProgramService programService) {
         this.programService = programService;
@@ -253,6 +265,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         }
       
     }
+    
     /**
      * 
      * Proposal service is injected by spring in the lum-gwt-context.xml file
@@ -265,6 +278,12 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
     public void setProposalService(ProposalService proposalService) {
         this.proposalService = proposalService;
+
     }
+    
+	public void setLuService(LuService luService) {
+		this.luService = luService;
+	}
  
+
 }
