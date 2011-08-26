@@ -875,7 +875,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     				context.setIdType(IdType.KS_KEW_OBJECT_ID);
     				
     				//Always update the status after a save.
-    				workflowUtil.refresh();
+    				if(workflowUtil != null){
+    					workflowUtil.refresh();
+    				}
 	    				
     				setHeaderTitle();
     				setLastUpdated();
