@@ -63,7 +63,6 @@ import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
@@ -383,11 +382,6 @@ public class MajorProposalController extends MajorController {
                     programRequirements.add(id);
                 }
                 doSave();
-
-                reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {}
-                });                                
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
@@ -700,7 +694,6 @@ public class MajorProposalController extends MajorController {
                     
                     okCallback.exec(false);
                 } else {
-                    refreshModelAndView(result);
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();
@@ -726,8 +719,31 @@ public class MajorProposalController extends MajorController {
                     RecentlyViewedHelper.addDocument(getProgramName(),
                             HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
                    
-                    okCallback.exec(true);
-                    processCurrentView();
+                    majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            super.onFailure(caught);
+                            okCallback.exec(false);
+                        }
+
+                        @Override
+                        public void onSuccess(Data result) {
+                            super.onSuccess(result);
+                            if (result != null) {
+                                programModel.setRoot(result);
+                            }
+                            setHeaderTitle();
+                            setStatus();
+                            reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    okCallback.exec(true);
+                                    processCurrentView();                                	
+                                }
+                            });                    
+                        }
+                    });
                 }
             }
         });
