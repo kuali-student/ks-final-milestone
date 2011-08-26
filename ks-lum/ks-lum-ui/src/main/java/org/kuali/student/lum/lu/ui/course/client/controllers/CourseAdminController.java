@@ -98,26 +98,23 @@ public class CourseAdminController extends CourseProposalController{
 	public KSButton getCancelButton(){
 		KSButton cancelButton = new KSButton("Cancel Proposal", new ClickHandler(){
             public void onClick(ClickEvent event) {
-            	//Cancel the proposal and navigate the user back to curriculum home if cancel was successful.
-            	workflowUtil.cancel(new Callback<Boolean>(){
-					@Override
-					public void exec(Boolean result) {
-						if (result){
-							Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());							
-						}						
-					}
-            		
-            	});
+                if (isNew) {
+                    Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+                } else {
+                    //Cancel the proposal and navigate the user back to curriculum home if cancel was successful.
+                    workflowUtil.cancel(new Callback<Boolean>() {
+                        @Override
+                        public void exec(Boolean result) {
+                            if (result) {
+                                Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+                            }
+                        }
+
+                    });
+                }
             }
         });
 	
-		if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN.equals(currentDocType) || 
-				LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(currentDocType)){
-			//For new admin proposal, disable the cancel button intially since proposal doesn't exist
-			//until they click save.
-			cancelButton.setEnabled(false);
-		}
-		
 		cancelButton.addStyleName("ks-button-spacing");
 		cancelButtons.add(cancelButton);
 		return cancelButton;
