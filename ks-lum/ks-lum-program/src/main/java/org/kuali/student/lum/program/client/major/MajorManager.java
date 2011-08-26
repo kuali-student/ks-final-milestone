@@ -149,9 +149,8 @@ public class MajorManager {
     }
 
     private MajorViewController getMajorViewController() {
-        if (majorViewController == null) {
-            majorViewController = new MajorViewController(programModel, viewContext, eventBus);
-        }
+        majorViewController = new MajorViewController(programModel, viewContext, eventBus);
+
         return majorViewController;
     }
 
