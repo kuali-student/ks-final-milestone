@@ -544,6 +544,9 @@ public class WorkflowUtilities{
             if(workflowActions.contains("W")){
                 items.add(wfWithdrawItem);
             }
+            if(workflowActions.contains("A")){
+                items.add(wfDisApproveItem);               
+            }
 		}
 
 		//Add in any other custom items you want in this dropdown.
