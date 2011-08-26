@@ -508,6 +508,15 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_summary();
 
   /**
+   * Translated "Program Summary".
+   * 
+   * @return translated "Program Summary"
+   */
+  @DefaultMessage("Proposal Summary")
+  @Key("proposal.menu.sections.summary")
+  String proposal_menu_sections_summary();
+
+  /**
    * Translated "Authors and Collaborators".
    * 
    * @return translated "Collaborators"
