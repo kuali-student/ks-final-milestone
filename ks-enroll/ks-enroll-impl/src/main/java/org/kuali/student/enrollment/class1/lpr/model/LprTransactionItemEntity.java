@@ -5,17 +5,21 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
+import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
-@Embeddable
+@Entity
+@Table(name = "KSEN_LPR_TRANS_ITEMS")
 public class LprTransactionItemEntity extends MetaEntity implements AttributeOwner<LprTransItemAttributeEntity> {
 
     @Column(name = "PERSON_ID")
@@ -28,6 +32,9 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     private String existingLuiId;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "LPR_TRANS_ID")
+    private LprTransactionEntity lprTransactionEntity;
+
     @JoinColumn(name = "TYPE_ID")
     private LuiPersonRelationTypeEntity lprTransactionType;
 
@@ -35,22 +42,28 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @JoinColumn(name = "STATE_ID")
     private LuiPersonRelationStateEntity lprTransactionState;
 
-    // TODO - In LRR impl ?
-    // @ManyToOne(optional = false)
-    // private List<ResultOptionEntity> resultOptions;
+    @Embedded
+    private List<ResultOptionEntity> resultOptions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private final List<LprTransItemAttributeEntity> attributes = new ArrayList<LprTransItemAttributeEntity>();
 
-    public LprTransactionItemEntity() {
-
-    }
+    public LprTransactionItemEntity() {}
 
     public LprTransactionItemEntity(LPRTransactionItem lprTransactionItem) {
-        super(lprTransactionItem);
 
+        super(lprTransactionItem);
         this.newLuiId = lprTransactionItem.getNewLuiId();
         this.existingLuiId = lprTransactionItem.getExistingLuiId();
+
+        if (null != lprTransactionItem.getResultOptions()) {
+            for (ResultOptionInfo resultOption : lprTransactionItem.getResultOptions()) {
+                ResultOptionEntity resultOptionEntity = new ResultOptionEntity(resultOption);
+                this.getResultOptions().add(resultOptionEntity);
+            }
+        }
+
+
         this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
         if (null != lprTransactionItem.getAttributes()) {
             for (Attribute att : lprTransactionItem.getAttributes()) {
@@ -58,6 +71,19 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
                 this.getAttributes().add(attEntity);
             }
         }
+
+    }
+
+    public List<ResultOptionEntity> getResultOptions() {
+        return resultOptions;
+    }
+
+    public void setResultOptions(List<ResultOptionEntity> resultOptions) {
+        this.resultOptions = resultOptions;
+    }
+
+    public LprTransactionEntity getLprTransactionEntity() {
+        return lprTransactionEntity;
     }
 
     public String getPersonId() {
@@ -102,8 +128,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     @Override
     public void setAttributes(List<LprTransItemAttributeEntity> attributes) {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
 
+    }
+
+    public void setLprTransactionEntity(LprTransactionEntity lprTransactionEntity) {
+        this.lprTransactionEntity = lprTransactionEntity;
     }
 
     @Override

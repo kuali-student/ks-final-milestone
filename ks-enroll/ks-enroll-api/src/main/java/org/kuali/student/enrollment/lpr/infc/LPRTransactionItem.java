@@ -14,22 +14,23 @@ import org.kuali.student.r2.common.infc.Entity;
  */
 
 public interface LPRTransactionItem extends Entity {
-    
-    
+
     /**
-     * 
-     * The possible types of the LPR transaction item  e.g. ADD, UPDATE, DROP, SWAP
+     * The possible types of the LPR transaction item e.g. ADD, UPDATE, DROP,
+     * SWAP
      * 
      * @see org.kuali.student.r2.common.infc.HasType#getTypeKey()
      */
+    @Override
     public String getTypeKey();
-    
+
     /**
-     * 
-     * The possible states of the LPR transaction item e.g. DRAFT, SUBMITTED, FAILED etc
+     * The possible states of the LPR transaction item e.g. DRAFT, SUBMITTED,
+     * FAILED etc
      * 
      * @see org.kuali.student.r2.common.infc.HasState#getStateKey()
      */
+    @Override
     public String getStateKey();
 
     /**

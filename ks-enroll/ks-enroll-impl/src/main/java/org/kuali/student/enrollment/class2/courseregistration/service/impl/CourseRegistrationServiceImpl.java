@@ -11,7 +11,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
@@ -646,8 +645,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         for (LuiPersonRelationInfo courseLpr : courseLprList) {
 
-            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getId(),
-                    context));
+            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId,
+                    courseLpr.getId(), context));
 
         }
 
@@ -664,13 +663,18 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public RegRequestInfo getRegRequestForCourseRegistration(String courseRegistrationId, ContextInfo context)
+    public List<RegRequestInfo> getRegRequestsForCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        RegRequestInfo regRequest = regRequestAssembler.assemble(
-                lprService.getLprTransactionForLpr(courseRegistrationId, context), context);
+        List<RegRequestInfo> regrequests = new ArrayList<RegRequestInfo>();
+        List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsForLpr(courseRegistrationId, context);
+        for (LprTransactionInfo lprTransaction : lprTransactions) {
 
-        return regRequest;
+            regrequests.add(regRequestAssembler.assemble(lprTransaction, context));
+
+        }
+
+        return regrequests;
     }
 
     @Override

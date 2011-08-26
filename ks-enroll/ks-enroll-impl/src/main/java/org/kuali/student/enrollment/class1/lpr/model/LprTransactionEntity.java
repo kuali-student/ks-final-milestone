@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -32,9 +32,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "RT_DESCR_ID")
     private LprRichTextEntity descr;
 
-    @ElementCollection
-    @CollectionTable(name = "KSEN_LPR_TRANS_ITEMS", joinColumns = @JoinColumn(name = "Id"))
-    @Column(name = "LPR_TRANS_ITEMS")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "LPR_TRANS_ID", nullable = false)
     private Set<LprTransactionItemEntity> lprTransactionItems;
 
     @ManyToOne(optional = false)

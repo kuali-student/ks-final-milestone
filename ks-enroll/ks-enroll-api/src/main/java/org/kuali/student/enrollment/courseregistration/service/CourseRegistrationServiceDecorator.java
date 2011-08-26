@@ -54,7 +54,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException { 
+            DoesNotExistException {
         return getNextDecorator().getDataDictionaryEntry(entryKey, context);
     }
 
@@ -117,7 +117,7 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
     }
@@ -171,8 +171,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public LoadInfo calculateCreditLoadForRegRequest(String studentId, RegRequestInfo regRequestInfo,
+            ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return getNextDecorator().calculateCreditLoadForRegRequest(studentId, regRequestInfo, context);
     }
@@ -384,7 +384,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     public CourseRegistrationInfo getActiveCourseRegistrationForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        return getNextDecorator().getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
+        return getNextDecorator().getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId,
+                context);
     }
 
     @Override
@@ -402,10 +403,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public RegRequestInfo getRegRequestForCourseRegistration(String courseRegistrationId, ContextInfo context)
+    public List<RegRequestInfo> getRegRequestsForCourseRegistration(String courseRegistrationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegRequestForCourseRegistration(courseRegistrationId, context);
+        return getNextDecorator().getRegRequestsForCourseRegistration(courseRegistrationId, context);
     }
 
     @Override
@@ -509,7 +510,8 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByCourseOffering(String studentId,
             String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        return getNextDecorator().getCourseRegistrationsForStudentByCourseOffering(studentId, courseOfferingId, context);
+        return getNextDecorator()
+                .getCourseRegistrationsForStudentByCourseOffering(studentId, courseOfferingId, context);
     }
 
     @Override

@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 import org.kuali.student.r2.common.entity.MetaEntity;
 
+@Embeddable
 public class RequestOptionEntity extends MetaEntity {
 
     @Column(name = "OPTION_KEY")
