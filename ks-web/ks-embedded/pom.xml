@@ -62,6 +62,11 @@
             <artifactId>ojdbc14</artifactId>
             <version>${oracle.ojdbc.version}</version>
           </dependency>
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+          </dependency>
         </dependencies>
       </plugin>
       <!-- end -->
@@ -85,6 +90,11 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>${oracle.ojdbc.version}</version>
+          </dependency>
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
           </dependency>
         </dependencies>
       </plugin>
