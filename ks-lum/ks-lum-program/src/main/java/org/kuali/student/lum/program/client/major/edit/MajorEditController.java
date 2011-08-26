@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
@@ -500,7 +500,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void doCancel() {
-        showView(ProgramSections.SUMMARY);
+        Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
     }
 
     @Override
