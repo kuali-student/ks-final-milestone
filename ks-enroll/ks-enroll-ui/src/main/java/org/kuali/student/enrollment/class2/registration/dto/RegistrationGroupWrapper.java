@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.courseoffering.dto;
+package org.kuali.student.enrollment.class2.registration.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -12,7 +12,6 @@ public class RegistrationGroupWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private CourseOfferingInfo courseOffering;
-
     private RegistrationGroupInfo registrationGroup;
 
     private List<ActivityOfferingInfo> activityOfferings;

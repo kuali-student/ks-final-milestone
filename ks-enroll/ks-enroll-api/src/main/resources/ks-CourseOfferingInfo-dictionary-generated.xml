@@ -39,7 +39,7 @@ plus any of its dependencies -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
 	<!-- CourseOfferingInfo-->
-	<bean id="CourseOfferingInfo-generated" abstract="true" parent="DataObjectEntry">
+	<bean id="CourseOfferingInfo-generated" parent="DataObjectEntry">
 		<property name="name" value="courseOfferingInfo"/>
 		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
 		<property name="objectLabel" value="Course Offering"/>
@@ -52,71 +52,71 @@ plus any of its dependencies -->
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="CourseOfferingInfo.id"/>
-				<ref bean="CourseOfferingInfo.typeKey"/>
-				<ref bean="CourseOfferingInfo.stateKey"/>
-				<ref bean="CourseOfferingInfo.descr.plain"/>
-				<ref bean="CourseOfferingInfo.descr.formatted"/>
-				<ref bean="CourseOfferingInfo.courseId"/>
-				<ref bean="CourseOfferingInfo.termKey"/>
-				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
-				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
-				<ref bean="CourseOfferingInfo.courseTitle"/>
-				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
-				<ref bean="CourseOfferingInfo.subjectArea"/>
-				<ref bean="CourseOfferingInfo.hasFinalExam"/>
-				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
-				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
-				<ref bean="CourseOfferingInfo.creditOptions.id"/>
-				<ref bean="CourseOfferingInfo.creditOptions.typeKey"/>
-				<ref bean="CourseOfferingInfo.creditOptions.stateKey"/>
-				<ref bean="CourseOfferingInfo.creditOptions.name"/>
-				<ref bean="CourseOfferingInfo.creditOptions.descr.plain"/>
-				<ref bean="CourseOfferingInfo.creditOptions.descr.formatted"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.id"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.minValue"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.maxValue"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.increment"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.versionInd"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createTime"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createId"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateTime"/>
-				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateId"/>
-				<ref bean="CourseOfferingInfo.creditOptions.effectiveDate"/>
-				<ref bean="CourseOfferingInfo.creditOptions.expirationDate"/>
-				<ref bean="CourseOfferingInfo.creditOptions.meta.versionInd"/>
-				<ref bean="CourseOfferingInfo.creditOptions.meta.createTime"/>
-				<ref bean="CourseOfferingInfo.creditOptions.meta.createId"/>
-				<ref bean="CourseOfferingInfo.creditOptions.meta.updateTime"/>
-				<ref bean="CourseOfferingInfo.creditOptions.meta.updateId"/>
-				<ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey"/>
-				<ref bean="CourseOfferingInfo.hasWaitlist"/>
-				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
-				<ref bean="CourseOfferingInfo.waitlistMaximum"/>
-				<ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
-				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
-				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.timeQuantity"/>
-				<ref bean="CourseOfferingInfo.fundingSource"/>
-				<ref bean="CourseOfferingInfo.expenditure.id"/>
-				<ref bean="CourseOfferingInfo.expenditure.meta.versionInd"/>
-				<ref bean="CourseOfferingInfo.expenditure.meta.createTime"/>
-				<ref bean="CourseOfferingInfo.expenditure.meta.createId"/>
-				<ref bean="CourseOfferingInfo.expenditure.meta.updateTime"/>
-				<ref bean="CourseOfferingInfo.expenditure.meta.updateId"/>
-				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
-				<ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
-				<ref bean="CourseOfferingInfo.meta.versionInd"/>
-				<ref bean="CourseOfferingInfo.meta.createTime"/>
-				<ref bean="CourseOfferingInfo.meta.createId"/>
-				<ref bean="CourseOfferingInfo.meta.updateTime"/>
-				<ref bean="CourseOfferingInfo.meta.updateId"/>
+				<ref bean="CourseOfferingInfo.id-generated"/>
+				<ref bean="CourseOfferingInfo.typeKey-generated"/>
+				<ref bean="CourseOfferingInfo.stateKey-generated"/>
+				<ref bean="CourseOfferingInfo.descr.plain-generated"/>
+				<ref bean="CourseOfferingInfo.descr.formatted-generated"/>
+				<ref bean="CourseOfferingInfo.courseId-generated"/>
+				<ref bean="CourseOfferingInfo.termKey-generated"/>
+				<ref bean="CourseOfferingInfo.courseOfferingCode-generated"/>
+				<ref bean="CourseOfferingInfo.courseNumberSuffix-generated"/>
+				<ref bean="CourseOfferingInfo.courseTitle-generated"/>
+				<ref bean="CourseOfferingInfo.isHonorsOffering-generated"/>
+				<ref bean="CourseOfferingInfo.subjectArea-generated"/>
+				<ref bean="CourseOfferingInfo.hasFinalExam-generated"/>
+				<ref bean="CourseOfferingInfo.maximumEnrollment-generated"/>
+				<ref bean="CourseOfferingInfo.minimumEnrollment-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.id-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.typeKey-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.stateKey-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.name-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.descr.plain-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.descr.formatted-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.id-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.minValue-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.increment-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.versionInd-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createTime-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.createId-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateTime-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateId-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.effectiveDate-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.expirationDate-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.versionInd-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.createTime-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.createId-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.updateTime-generated"/>
+				<ref bean="CourseOfferingInfo.creditOptions.meta.updateId-generated"/>
+				<ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey-generated"/>
+				<ref bean="CourseOfferingInfo.hasWaitlist-generated"/>
+				<ref bean="CourseOfferingInfo.waitlistTypeKey-generated"/>
+				<ref bean="CourseOfferingInfo.waitlistMaximum-generated"/>
+				<ref bean="CourseOfferingInfo.isWaitlistCheckinRequired-generated"/>
+				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated"/>
+				<ref bean="CourseOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated"/>
+				<ref bean="CourseOfferingInfo.fundingSource-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.id-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.versionInd-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.createTime-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.createId-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.updateTime-generated"/>
+				<ref bean="CourseOfferingInfo.expenditure.meta.updateId-generated"/>
+				<ref bean="CourseOfferingInfo.isFinancialAidEligible-generated"/>
+				<ref bean="CourseOfferingInfo.registrationOrderTypeKey-generated"/>
+				<ref bean="CourseOfferingInfo.meta.versionInd-generated"/>
+				<ref bean="CourseOfferingInfo.meta.createTime-generated"/>
+				<ref bean="CourseOfferingInfo.meta.createId-generated"/>
+				<ref bean="CourseOfferingInfo.meta.updateTime-generated"/>
+				<ref bean="CourseOfferingInfo.meta.updateId-generated"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="CourseOfferingInfo.id-generated" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 		<property name="childEntryName" value="id"/>
 		<property name="required" value="false"/>
@@ -152,7 +152,7 @@ An Id:&lt;ul&gt;
 		-->
 	</bean>
 
-	<bean id="CourseOfferingInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="CourseOfferingInfo.typeKey-generated" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 		<property name="childEntryName" value="typeKey"/>
 		<property name="required" value="true"/>
@@ -175,7 +175,7 @@ Unique identifier for the type of this course offering.
 		-->
 	</bean>
 
-	<bean id="CourseOfferingInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="CourseOfferingInfo.stateKey-generated" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 		<property name="childEntryName" value="stateKey"/>
 		<property name="required" value="true"/>
@@ -195,22 +195,22 @@ i.e. draft, submitted, approved, offered, canceled, etc
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+	<bean id="CourseOfferingInfo.descr-generated" parent="BaseKuali.descr">
 		<property name="name" value="descr"/>
 		<property name="childEntryName" value="descr"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="CourseOfferingInfo.descr.plain-generated" parent="BaseKuali.descr.plain">
 		<property name="name" value="descr.plain"/>
 		<property name="childEntryName" value="plain"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="CourseOfferingInfo.descr.formatted-generated" parent="BaseKuali.descr.formatted">
 		<property name="name" value="descr.formatted"/>
 		<property name="childEntryName" value="formatted"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.courseId-generated" parent="BaseKuali.string">
 		<property name="name" value="courseId"/>
 		<property name="childEntryName" value="courseId"/>
 		<property name="required" value="true"/>
@@ -237,7 +237,7 @@ This is not updatable once initialized.
 		-->
 	</bean>
 
-	<bean id="CourseOfferingInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
+	<bean id="CourseOfferingInfo.termKey-generated" parent="BaseKuali.termKey">
 		<property name="name" value="termKey"/>
 		<property name="childEntryName" value="termKey"/>
 		<property name="required" value="true"/>
@@ -260,7 +260,7 @@ Academic term of course offering
 		-->
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
+	<bean id="CourseOfferingInfo.courseOfferingCode-generated" parent="BaseKuali.code">
 		<property name="name" value="courseOfferingCode"/>
 		<property name="childEntryName" value="courseOfferingCode"/>
 		<property name="required" value="false"/>
@@ -291,7 +291,7 @@ For example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then co
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseNumberSuffix-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.courseNumberSuffix-generated" parent="BaseKuali.string">
 		<property name="name" value="courseNumberSuffix"/>
 		<property name="childEntryName" value="courseNumberSuffix"/>
 		<property name="required" value="false"/>
@@ -320,7 +320,7 @@ Often used in the calculation of the courseCode.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.courseTitle-generated" parent="BaseKuali.string">
 		<property name="name" value="courseTitle"/>
 		<property name="childEntryName" value="courseTitle"/>
 		<property name="required" value="false"/>
@@ -350,7 +350,7 @@ AN EXPLORATION OF DEEP SPACE ARTIFACTS
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="CourseOfferingInfo.isHonorsOffering-generated" parent="BaseKuali.boolean">
 		<property name="name" value="isHonorsOffering"/>
 		<property name="childEntryName" value="isHonorsOffering"/>
 		<property name="required" value="false"/>
@@ -372,7 +372,7 @@ Indicates that the entire course offering is an Honors Course
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.subjectArea-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.subjectArea-generated" parent="BaseKuali.string">
 		<property name="name" value="subjectArea"/>
 		<property name="childEntryName" value="subjectArea"/>
 		<property name="required" value="false"/>
@@ -398,7 +398,7 @@ Often used in the calculation of the courseCode
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.hasFinalExam-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="CourseOfferingInfo.hasFinalExam-generated" parent="BaseKuali.boolean">
 		<property name="name" value="hasFinalExam"/>
 		<property name="childEntryName" value="hasFinalExam"/>
 		<property name="required" value="false"/>
@@ -420,7 +420,7 @@ Initially copied from the canonical course and then, depending on configuration,
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="CourseOfferingInfo.maximumEnrollment-generated" parent="BaseKuali.integer">
 		<property name="name" value="maximumEnrollment"/>
 		<property name="childEntryName" value="maximumEnrollment"/>
 		<property name="required" value="false"/>
@@ -440,7 +440,7 @@ Calculated based on sum of all the maximum seats of primary activity type offeri
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.minimumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="CourseOfferingInfo.minimumEnrollment-generated" parent="BaseKuali.integer">
 		<property name="name" value="minimumEnrollment"/>
 		<property name="childEntryName" value="minimumEnrollment"/>
 		<property name="required" value="false"/>
@@ -460,7 +460,7 @@ Calculated based on sum of all the minimum seats of primary activity type offeri
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="CourseOfferingInfo.creditOptions-generated" parent="BaseKuali.complex">
 		<property name="name" value="creditOptions"/>
 		<property name="childEntryName" value="creditOptions"/>
 		<property name="required" value="false"/>
@@ -487,42 +487,42 @@ a range (with increments) or even a discrete list of possible credit values.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="CourseOfferingInfo.creditOptions.id-generated" parent="BaseKuali.id">
 		<property name="name" value="creditOptions.id"/>
 		<property name="childEntryName" value="id"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="CourseOfferingInfo.creditOptions.typeKey-generated" parent="BaseKuali.typeKey">
 		<property name="name" value="creditOptions.typeKey"/>
 		<property name="childEntryName" value="typeKey"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="CourseOfferingInfo.creditOptions.stateKey-generated" parent="BaseKuali.stateKey">
 		<property name="name" value="creditOptions.stateKey"/>
 		<property name="childEntryName" value="stateKey"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="CourseOfferingInfo.creditOptions.name-generated" parent="BaseKuali.name">
 		<property name="name" value="creditOptions.name"/>
 		<property name="childEntryName" value="name"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr-generated" abstract="true" parent="BaseKuali.descr">
+	<bean id="CourseOfferingInfo.creditOptions.descr-generated" parent="BaseKuali.descr">
 		<property name="name" value="creditOptions.descr"/>
 		<property name="childEntryName" value="descr"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="CourseOfferingInfo.creditOptions.descr.plain-generated" parent="BaseKuali.descr.plain">
 		<property name="name" value="creditOptions.descr.plain"/>
 		<property name="childEntryName" value="plain"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="CourseOfferingInfo.creditOptions.descr.formatted-generated" parent="BaseKuali.descr.formatted">
 		<property name="name" value="creditOptions.descr.formatted"/>
 		<property name="childEntryName" value="formatted"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange-generated" parent="BaseKuali.complex">
 		<property name="name" value="creditOptions.resultValueRange"/>
 		<property name="childEntryName" value="resultValueRange"/>
 		<property name="required" value="false"/>
@@ -541,12 +541,12 @@ optional and might not be present for some Result Components
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.id-generated" parent="BaseKuali.id">
 		<property name="name" value="creditOptions.resultValueRange.id"/>
 		<property name="childEntryName" value="id"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.minValue-generated" abstract="true" parent="BaseKuali.float">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.minValue-generated" parent="BaseKuali.float">
 		<property name="name" value="creditOptions.resultValueRange.minValue"/>
 		<property name="childEntryName" value="minValue"/>
 		<property name="required" value="false"/>
@@ -566,7 +566,7 @@ value range?
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-generated" abstract="true" parent="BaseKuali.float">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.maxValue-generated" parent="BaseKuali.float">
 		<property name="name" value="creditOptions.resultValueRange.maxValue"/>
 		<property name="childEntryName" value="maxValue"/>
 		<property name="required" value="false"/>
@@ -585,7 +585,7 @@ result(ex. &quot;3.0&quot;, &quot;100.0&quot; etc.). Upper end can be left empty
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.increment-generated" abstract="true" parent="BaseKuali.float">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.increment-generated" parent="BaseKuali.float">
 		<property name="name" value="creditOptions.resultValueRange.increment"/>
 		<property name="childEntryName" value="increment"/>
 		<property name="required" value="false"/>
@@ -603,87 +603,87 @@ Increment number Legal increments in the result values. This has to be a decimal
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.effectiveDate-generated" parent="BaseKuali.effectiveDate">
 		<property name="name" value="creditOptions.resultValueRange.effectiveDate"/>
 		<property name="childEntryName" value="effectiveDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.expirationDate-generated" parent="BaseKuali.expirationDate">
 		<property name="name" value="creditOptions.resultValueRange.expirationDate"/>
 		<property name="childEntryName" value="expirationDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta-generated" abstract="true" parent="BaseKuali.meta">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta-generated" parent="BaseKuali.meta">
 		<property name="name" value="creditOptions.resultValueRange.meta"/>
 		<property name="childEntryName" value="meta"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="creditOptions.resultValueRange.meta.versionInd"/>
 		<property name="childEntryName" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.createTime-generated" parent="BaseKuali.meta.createTime">
 		<property name="name" value="creditOptions.resultValueRange.meta.createTime"/>
 		<property name="childEntryName" value="createTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.createId-generated" parent="BaseKuali.meta.createId">
 		<property name="name" value="creditOptions.resultValueRange.meta.createId"/>
 		<property name="childEntryName" value="createId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="creditOptions.resultValueRange.meta.updateTime"/>
 		<property name="childEntryName" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseOfferingInfo.creditOptions.resultValueRange.meta.updateId-generated" parent="BaseKuali.meta.updateId">
 		<property name="name" value="creditOptions.resultValueRange.meta.updateId"/>
 		<property name="childEntryName" value="updateId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="CourseOfferingInfo.creditOptions.effectiveDate-generated" parent="BaseKuali.effectiveDate">
 		<property name="name" value="creditOptions.effectiveDate"/>
 		<property name="childEntryName" value="effectiveDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="CourseOfferingInfo.creditOptions.expirationDate-generated" parent="BaseKuali.expirationDate">
 		<property name="name" value="creditOptions.expirationDate"/>
 		<property name="childEntryName" value="expirationDate"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta-generated" abstract="true" parent="BaseKuali.meta">
+	<bean id="CourseOfferingInfo.creditOptions.meta-generated" parent="BaseKuali.meta">
 		<property name="name" value="creditOptions.meta"/>
 		<property name="childEntryName" value="meta"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseOfferingInfo.creditOptions.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="creditOptions.meta.versionInd"/>
 		<property name="childEntryName" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseOfferingInfo.creditOptions.meta.createTime-generated" parent="BaseKuali.meta.createTime">
 		<property name="name" value="creditOptions.meta.createTime"/>
 		<property name="childEntryName" value="createTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseOfferingInfo.creditOptions.meta.createId-generated" parent="BaseKuali.meta.createId">
 		<property name="name" value="creditOptions.meta.createId"/>
 		<property name="childEntryName" value="createId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseOfferingInfo.creditOptions.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="creditOptions.meta.updateTime"/>
 		<property name="childEntryName" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptions.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseOfferingInfo.creditOptions.meta.updateId-generated" parent="BaseKuali.meta.updateId">
 		<property name="name" value="creditOptions.meta.updateId"/>
 		<property name="childEntryName" value="updateId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradeRosterLevelTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.gradeRosterLevelTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="gradeRosterLevelTypeKey"/>
 		<property name="childEntryName" value="gradeRosterLevelTypeKey"/>
 		<property name="required" value="false"/>
@@ -706,7 +706,7 @@ TODO: add a service method to get the list of types that can be put in this fiel
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="CourseOfferingInfo.hasWaitlist-generated" parent="BaseKuali.boolean">
 		<property name="name" value="hasWaitlist"/>
 		<property name="childEntryName" value="hasWaitlist"/>
 		<property name="required" value="false"/>
@@ -728,7 +728,7 @@ TODO: make sure we are consistent on how we spell Waitlist, should be spelled Wa
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.waitlistTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="waitlistTypeKey"/>
 		<property name="childEntryName" value="waitlistTypeKey"/>
 		<property name="required" value="false"/>
@@ -755,7 +755,7 @@ TODO: Cross validate with hasWaitlist
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.waitlistMaximum-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="CourseOfferingInfo.waitlistMaximum-generated" parent="BaseKuali.integer">
 		<property name="name" value="waitlistMaximum"/>
 		<property name="childEntryName" value="waitlistMaximum"/>
 		<property name="required" value="false"/>
@@ -773,7 +773,7 @@ Maximum number of students to be allowed on the wait list
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.isWaitlistCheckinRequired-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="CourseOfferingInfo.isWaitlistCheckinRequired-generated" parent="BaseKuali.boolean">
 		<property name="name" value="isWaitlistCheckinRequired"/>
 		<property name="childEntryName" value="isWaitlistCheckinRequired"/>
 		<property name="required" value="false"/>
@@ -791,7 +791,7 @@ Indicates if the waitlist requires checkin
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.waitlistCheckinFrequency-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="CourseOfferingInfo.waitlistCheckinFrequency-generated" parent="BaseKuali.complex">
 		<property name="name" value="waitlistCheckinFrequency"/>
 		<property name="childEntryName" value="waitlistCheckinFrequency"/>
 		<property name="required" value="false"/>
@@ -809,7 +809,7 @@ Frequency for the waitlist checkin
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="waitlistCheckinFrequency.atpDurationTypeKey"/>
 		<property name="childEntryName" value="atpDurationTypeKey"/>
 		<property name="required" value="false"/>
@@ -827,7 +827,7 @@ The kind of units associated with the quantity, such as Semesters
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="CourseOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated" parent="BaseKuali.integer">
 		<property name="name" value="waitlistCheckinFrequency.timeQuantity"/>
 		<property name="childEntryName" value="timeQuantity"/>
 		<property name="required" value="false"/>
@@ -845,7 +845,7 @@ The amount of time
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.fundingSource-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.fundingSource-generated" parent="BaseKuali.string">
 		<property name="name" value="fundingSource"/>
 		<property name="childEntryName" value="fundingSource"/>
 		<property name="required" value="false"/>
@@ -863,7 +863,7 @@ The primary source of funding for the offering.
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="CourseOfferingInfo.expenditure-generated" parent="BaseKuali.complex">
 		<property name="name" value="expenditure"/>
 		<property name="childEntryName" value="expenditure"/>
 		<property name="required" value="false"/>
@@ -885,42 +885,42 @@ Initially copied from the course catalog but then, depending on the configuratio
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="CourseOfferingInfo.expenditure.id-generated" parent="BaseKuali.id">
 		<property name="name" value="expenditure.id"/>
 		<property name="childEntryName" value="id"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta-generated" abstract="true" parent="BaseKuali.meta">
+	<bean id="CourseOfferingInfo.expenditure.meta-generated" parent="BaseKuali.meta">
 		<property name="name" value="expenditure.meta"/>
 		<property name="childEntryName" value="meta"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseOfferingInfo.expenditure.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="expenditure.meta.versionInd"/>
 		<property name="childEntryName" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseOfferingInfo.expenditure.meta.createTime-generated" parent="BaseKuali.meta.createTime">
 		<property name="name" value="expenditure.meta.createTime"/>
 		<property name="childEntryName" value="createTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseOfferingInfo.expenditure.meta.createId-generated" parent="BaseKuali.meta.createId">
 		<property name="name" value="expenditure.meta.createId"/>
 		<property name="childEntryName" value="createId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseOfferingInfo.expenditure.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="expenditure.meta.updateTime"/>
 		<property name="childEntryName" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.expenditure.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseOfferingInfo.expenditure.meta.updateId-generated" parent="BaseKuali.meta.updateId">
 		<property name="name" value="expenditure.meta.updateId"/>
 		<property name="childEntryName" value="updateId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.isFinancialAidEligible-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="CourseOfferingInfo.isFinancialAidEligible-generated" parent="BaseKuali.boolean">
 		<property name="name" value="isFinancialAidEligible"/>
 		<property name="childEntryName" value="isFinancialAidEligible"/>
 		<property name="required" value="false"/>
@@ -941,7 +941,7 @@ TODO: Decide if this is really a rule or a CluSet or what?
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.registrationOrderTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseOfferingInfo.registrationOrderTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="registrationOrderTypeKey"/>
 		<property name="childEntryName" value="registrationOrderTypeKey"/>
 		<property name="required" value="false"/>
@@ -973,32 +973,32 @@ TODO: We have NOT fully figured out how to do sequences in course registration
 		</property>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+	<bean id="CourseOfferingInfo.meta-generated" parent="BaseKuali.meta">
 		<property name="name" value="meta"/>
 		<property name="childEntryName" value="meta"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseOfferingInfo.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="meta.versionInd"/>
 		<property name="childEntryName" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseOfferingInfo.meta.createTime-generated" parent="BaseKuali.meta.createTime">
 		<property name="name" value="meta.createTime"/>
 		<property name="childEntryName" value="createTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseOfferingInfo.meta.createId-generated" parent="BaseKuali.meta.createId">
 		<property name="name" value="meta.createId"/>
 		<property name="childEntryName" value="createId"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseOfferingInfo.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="meta.updateTime"/>
 		<property name="childEntryName" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseOfferingInfo.meta.updateId-generated" parent="BaseKuali.meta.updateId">
 		<property name="name" value="meta.updateId"/>
 		<property name="childEntryName" value="updateId"/>
 	</bean>

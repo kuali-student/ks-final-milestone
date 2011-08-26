@@ -9,6 +9,7 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,7 +26,7 @@ public class AcademicCalendarInfoLookupableImpl extends LookupableImpl {
 	 	
 
 	    @Override
-	    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
+	    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 	    	/*
 	    	String credentialProgramTypeKey = fieldValues.get(CREDENTIAL_PROGRAM_TYPE_KEY);
 	    	ContextInfo context = ContextInfo.newInstance();

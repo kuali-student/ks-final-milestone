@@ -6,7 +6,7 @@
       <name>HoldInfoMaintenanceDocument</name>
       <description>Manage Holds for Person</description>
       <label>Manage Holds for Person</label>
-      <postProcessorName>org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor</postProcessorName>
+      <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>
       <blanketApproveGroupName namespace="KR-WKFLW">WorkflowAdmin</blanketApproveGroupName>
       <defaultExceptionGroupName namespace="KR-WKFLW">WorkflowAdmin</defaultExceptionGroupName>

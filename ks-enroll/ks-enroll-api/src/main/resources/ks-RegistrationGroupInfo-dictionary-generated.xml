@@ -39,7 +39,7 @@ plus any of its dependencies -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
 	<!-- RegistrationGroupInfo-->
-	<bean id="RegistrationGroupInfo-generated" abstract="true" parent="DataObjectEntry">
+	<bean id="RegistrationGroupInfo-generated" parent="DataObjectEntry">
 		<property name="name" value="registrationGroupInfo"/>
 		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo"/>
 		<property name="objectLabel" value="Registration Group"/>
@@ -53,34 +53,34 @@ individual activity offerings based on the canonical format."/>
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="RegistrationGroupInfo.courseOfferingId"/>
-				<ref bean="RegistrationGroupInfo.registrationCode"/>
-				<ref bean="RegistrationGroupInfo.formatId"/>
-				<ref bean="RegistrationGroupInfo.isHonorsOffering"/>
-				<ref bean="RegistrationGroupInfo.maximumEnrollment"/>
-				<ref bean="RegistrationGroupInfo.minimumEnrollment"/>
-				<ref bean="RegistrationGroupInfo.hasWaitlist"/>
-				<ref bean="RegistrationGroupInfo.waitlistTypeKey"/>
-				<ref bean="RegistrationGroupInfo.waitlistMaximum"/>
-				<ref bean="RegistrationGroupInfo.isWaitlistCheckinRequired"/>
-				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
-				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity"/>
-				<ref bean="RegistrationGroupInfo.id"/>
-				<ref bean="RegistrationGroupInfo.typeKey"/>
-				<ref bean="RegistrationGroupInfo.stateKey"/>
-				<ref bean="RegistrationGroupInfo.name"/>
-				<ref bean="RegistrationGroupInfo.descr.plain"/>
-				<ref bean="RegistrationGroupInfo.descr.formatted"/>
-				<ref bean="RegistrationGroupInfo.meta.versionInd"/>
-				<ref bean="RegistrationGroupInfo.meta.createTime"/>
-				<ref bean="RegistrationGroupInfo.meta.createId"/>
-				<ref bean="RegistrationGroupInfo.meta.updateTime"/>
-				<ref bean="RegistrationGroupInfo.meta.updateId"/>
+				<ref bean="RegistrationGroupInfo.courseOfferingId-generated"/>
+				<ref bean="RegistrationGroupInfo.registrationCode-generated"/>
+				<ref bean="RegistrationGroupInfo.formatId-generated"/>
+				<ref bean="RegistrationGroupInfo.isHonorsOffering-generated"/>
+				<ref bean="RegistrationGroupInfo.maximumEnrollment-generated"/>
+				<ref bean="RegistrationGroupInfo.minimumEnrollment-generated"/>
+				<ref bean="RegistrationGroupInfo.hasWaitlist-generated"/>
+				<ref bean="RegistrationGroupInfo.waitlistTypeKey-generated"/>
+				<ref bean="RegistrationGroupInfo.waitlistMaximum-generated"/>
+				<ref bean="RegistrationGroupInfo.isWaitlistCheckinRequired-generated"/>
+				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated"/>
+				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity-generated"/>
+				<ref bean="RegistrationGroupInfo.id-generated"/>
+				<ref bean="RegistrationGroupInfo.typeKey-generated"/>
+				<ref bean="RegistrationGroupInfo.stateKey-generated"/>
+				<ref bean="RegistrationGroupInfo.name-generated"/>
+				<ref bean="RegistrationGroupInfo.descr.plain-generated"/>
+				<ref bean="RegistrationGroupInfo.descr.formatted-generated"/>
+				<ref bean="RegistrationGroupInfo.meta.versionInd-generated"/>
+				<ref bean="RegistrationGroupInfo.meta.createTime-generated"/>
+				<ref bean="RegistrationGroupInfo.meta.createId-generated"/>
+				<ref bean="RegistrationGroupInfo.meta.updateTime-generated"/>
+				<ref bean="RegistrationGroupInfo.meta.updateId-generated"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="RegistrationGroupInfo.courseOfferingId-generated" parent="BaseKuali.string">
 		<property name="name" value="courseOfferingId"/>
 		<property name="childEntryName" value="courseOfferingId"/>
 		<property name="required" value="true"/>
@@ -103,7 +103,7 @@ Course offering for this registration group
 		-->
 	</bean>
 
-	<bean id="RegistrationGroupInfo.registrationCode-generated" abstract="true" parent="BaseKuali.code">
+	<bean id="RegistrationGroupInfo.registrationCode-generated" parent="BaseKuali.code">
 		<property name="name" value="registrationCode"/>
 		<property name="childEntryName" value="registrationCode"/>
 		<property name="required" value="false"/>
@@ -121,7 +121,7 @@ Uniquely identifies an instance of the course for the purposes of registration
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.formatId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="RegistrationGroupInfo.formatId-generated" parent="BaseKuali.string">
 		<property name="name" value="formatId"/>
 		<property name="childEntryName" value="formatId"/>
 		<property name="required" value="false"/>
@@ -139,7 +139,7 @@ Canonical format to which this registration group belong to.
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="RegistrationGroupInfo.isHonorsOffering-generated" parent="BaseKuali.boolean">
 		<property name="name" value="isHonorsOffering"/>
 		<property name="childEntryName" value="isHonorsOffering"/>
 		<property name="required" value="false"/>
@@ -157,7 +157,7 @@ Indicates that the entire course offering is an Honors Course
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="RegistrationGroupInfo.maximumEnrollment-generated" parent="BaseKuali.integer">
 		<property name="name" value="maximumEnrollment"/>
 		<property name="childEntryName" value="maximumEnrollment"/>
 		<property name="required" value="false"/>
@@ -175,7 +175,7 @@ Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.minimumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="RegistrationGroupInfo.minimumEnrollment-generated" parent="BaseKuali.integer">
 		<property name="name" value="minimumEnrollment"/>
 		<property name="childEntryName" value="minimumEnrollment"/>
 		<property name="required" value="false"/>
@@ -193,7 +193,7 @@ Total minimum number of seats that must be filled for the offering not to be can
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="RegistrationGroupInfo.hasWaitlist-generated" parent="BaseKuali.boolean">
 		<property name="name" value="hasWaitlist"/>
 		<property name="childEntryName" value="hasWaitlist"/>
 		<property name="required" value="false"/>
@@ -211,7 +211,7 @@ Indicates whether a RegistrationGroup has a waitlist
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="RegistrationGroupInfo.waitlistTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="waitlistTypeKey"/>
 		<property name="childEntryName" value="waitlistTypeKey"/>
 		<property name="required" value="false"/>
@@ -229,7 +229,7 @@ Indicates the type of waitlist as it relates to processing students on and off
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistMaximum-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="RegistrationGroupInfo.waitlistMaximum-generated" parent="BaseKuali.integer">
 		<property name="name" value="waitlistMaximum"/>
 		<property name="childEntryName" value="waitlistMaximum"/>
 		<property name="required" value="false"/>
@@ -247,7 +247,7 @@ Maximum number of students to be allowed on the wait list
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.isWaitlistCheckinRequired-generated" abstract="true" parent="BaseKuali.boolean">
+	<bean id="RegistrationGroupInfo.isWaitlistCheckinRequired-generated" parent="BaseKuali.boolean">
 		<property name="name" value="isWaitlistCheckinRequired"/>
 		<property name="childEntryName" value="isWaitlistCheckinRequired"/>
 		<property name="required" value="false"/>
@@ -265,7 +265,7 @@ Indicates if the waitlist requires checkin
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency-generated" parent="BaseKuali.complex">
 		<property name="name" value="waitlistCheckinFrequency"/>
 		<property name="childEntryName" value="waitlistCheckinFrequency"/>
 		<property name="required" value="false"/>
@@ -283,7 +283,7 @@ Frequency for the waitlist checkin
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" parent="BaseKuali.string">
 		<property name="name" value="waitlistCheckinFrequency.atpDurationTypeKey"/>
 		<property name="childEntryName" value="atpDurationTypeKey"/>
 		<property name="required" value="false"/>
@@ -301,7 +301,7 @@ The kind of units associated with the quantity, such as Semesters
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity-generated" parent="BaseKuali.integer">
 		<property name="name" value="waitlistCheckinFrequency.timeQuantity"/>
 		<property name="childEntryName" value="timeQuantity"/>
 		<property name="required" value="false"/>
@@ -319,67 +319,67 @@ The amount of time
 		</property>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="RegistrationGroupInfo.id-generated" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 		<property name="childEntryName" value="id"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="RegistrationGroupInfo.typeKey-generated" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 		<property name="childEntryName" value="typeKey"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="RegistrationGroupInfo.stateKey-generated" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 		<property name="childEntryName" value="stateKey"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="RegistrationGroupInfo.name-generated" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 		<property name="childEntryName" value="name"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+	<bean id="RegistrationGroupInfo.descr-generated" parent="BaseKuali.descr">
 		<property name="name" value="descr"/>
 		<property name="childEntryName" value="descr"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="RegistrationGroupInfo.descr.plain-generated" parent="BaseKuali.descr.plain">
 		<property name="name" value="descr.plain"/>
 		<property name="childEntryName" value="plain"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="RegistrationGroupInfo.descr.formatted-generated" parent="BaseKuali.descr.formatted">
 		<property name="name" value="descr.formatted"/>
 		<property name="childEntryName" value="formatted"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+	<bean id="RegistrationGroupInfo.meta-generated" parent="BaseKuali.meta">
 		<property name="name" value="meta"/>
 		<property name="childEntryName" value="meta"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="RegistrationGroupInfo.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="meta.versionInd"/>
 		<property name="childEntryName" value="versionInd"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="RegistrationGroupInfo.meta.createTime-generated" parent="BaseKuali.meta.createTime">
 		<property name="name" value="meta.createTime"/>
 		<property name="childEntryName" value="createTime"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="RegistrationGroupInfo.meta.createId-generated" parent="BaseKuali.meta.createId">
 		<property name="name" value="meta.createId"/>
 		<property name="childEntryName" value="createId"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="RegistrationGroupInfo.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="meta.updateTime"/>
 		<property name="childEntryName" value="updateTime"/>
 	</bean>
 
-	<bean id="RegistrationGroupInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="RegistrationGroupInfo.meta.updateId-generated" parent="BaseKuali.meta.updateId">
 		<property name="name" value="meta.updateId"/>
 		<property name="childEntryName" value="updateId"/>
 	</bean>

@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.class2.registration.form;
  */
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class RegistrationForm extends UifFormBase {
     private String termKey;
     private String subjectArea;
     private String courseNameOrNumber;
-    private List<CourseOfferingInfoWrapper> courseOfferings;
+    private List<CourseOfferingWrapper> courseOfferingWrappers;
 
     public RegistrationForm(){
         super();
@@ -58,12 +58,11 @@ public class RegistrationForm extends UifFormBase {
         this.courseNameOrNumber = courseNameOrNumber;
     }
 
-    public List<CourseOfferingInfoWrapper> getCourseOfferings() {
-        return courseOfferings;
+    public List<CourseOfferingWrapper> getCourseOfferingWrappers() {
+        return courseOfferingWrappers;
     }
 
-    public void setCourseOfferings(List<CourseOfferingInfoWrapper> courseOfferings) {
-        this.courseOfferings = courseOfferings;
+    public void setCourseOfferingWrappers(List<CourseOfferingWrapper> courseOfferingWrappers) {
+        this.courseOfferingWrappers = courseOfferingWrappers;
     }
-
 }

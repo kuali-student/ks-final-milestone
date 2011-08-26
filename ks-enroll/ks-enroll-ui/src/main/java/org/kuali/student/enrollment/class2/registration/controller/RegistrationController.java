@@ -18,9 +18,10 @@ package org.kuali.student.enrollment.class2.registration.controller;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper;
-import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupInfoWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -68,33 +69,34 @@ public class RegistrationController extends UifControllerBase {
         RegistrationForm registrationForm = (RegistrationForm) formBase;
         ContextInfo context = ContextInfo.newInstance();
 
-//        List<CourseOfferingInfoWrapper> courseOfferingInfoWrappers;
+//        List<CourseOfferingWrapper> courseOfferingWrappers;
 
         try {
             List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
-            registrationForm.setCourseOfferings(new ArrayList<CourseOfferingInfoWrapper>(courseOfferingIds.size()));
+            registrationForm.setCourseOfferingWrappers(new ArrayList<CourseOfferingWrapper>(courseOfferingIds.size()));
 
             for(String coId : courseOfferingIds) {
-                CourseOfferingInfoWrapper courseOfferingInfoWrapper = new CourseOfferingInfoWrapper();
-                courseOfferingInfoWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
+                CourseOfferingWrapper courseOfferingWrapper = new CourseOfferingWrapper();
+                courseOfferingWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
                 List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
 
-                List<RegistrationGroupInfoWrapper> registrationGroupInfoWrappers = new ArrayList<RegistrationGroupInfoWrapper>(regGroups.size());
+                List<RegistrationGroupWrapper> registrationGroupWrappers = new ArrayList<RegistrationGroupWrapper>(regGroups.size());
                 for(RegistrationGroupInfo regGroup : regGroups) {
-                    RegistrationGroupInfoWrapper registrationGroupInfoWrapper = new RegistrationGroupInfoWrapper();
-                    registrationGroupInfoWrapper.setRegistrationGroupInfo(regGroup);
+                    RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
+                    registrationGroupWrapper.setRegistrationGroup(regGroup);
 
                     // TODO right now getOfferingsByIdList throws a not supported exception
-//                    registrationGroupInfoWrapper.setActivityOfferingInfos(getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context));
+//                    registrationGroupInfoWrapper.setActivityOfferings(getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context));
 
+                    registrationGroupWrapper.setActivityOfferings(new ArrayList<ActivityOfferingInfo>(regGroup.getActivityOfferingIds().size()));
                     for(String activityId : regGroup.getActivityOfferingIds()) {
-                        registrationGroupInfoWrapper.getActivityOfferingInfos().add(getCourseOfferingService().getActivityOffering(activityId, context));
+                        registrationGroupWrapper.getActivityOfferings().add(getCourseOfferingService().getActivityOffering(activityId, context));
                     }
-                    registrationGroupInfoWrappers.add(registrationGroupInfoWrapper);
+                    registrationGroupWrappers.add(registrationGroupWrapper);
 
                 }
-                courseOfferingInfoWrapper.setRegistrationGroupInfoWrappers(registrationGroupInfoWrappers);
-                registrationForm.getCourseOfferings().add(courseOfferingInfoWrapper);
+                courseOfferingWrapper.setRegistrationGroupWrappers(registrationGroupWrappers);
+                registrationForm.getCourseOfferingWrappers().add(courseOfferingWrapper);
             }
 
         } catch (DoesNotExistException e) {

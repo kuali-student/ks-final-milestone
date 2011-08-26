@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -19,7 +20,7 @@ public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
     private static final String SUBJECT_AREA_FIELD_NAME = "subjectArea";
 
     @Override
-    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         ContextInfo context = ContextInfo.newInstance();
         String termKey = fieldValues.get(TERM_FIELD_NAME);

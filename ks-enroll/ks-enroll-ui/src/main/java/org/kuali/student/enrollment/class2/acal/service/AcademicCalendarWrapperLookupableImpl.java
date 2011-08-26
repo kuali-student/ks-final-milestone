@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
@@ -23,7 +24,7 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
  	
 
     @Override
-    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
     	List<AcademicCalendarWrapper> academicCalendarWrapperList = new ArrayList<AcademicCalendarWrapper>();
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
     	List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();    

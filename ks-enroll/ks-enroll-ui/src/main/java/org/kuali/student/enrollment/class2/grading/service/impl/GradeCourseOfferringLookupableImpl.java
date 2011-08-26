@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -35,8 +36,7 @@ import java.util.Map;
 public class GradeCourseOfferringLookupableImpl extends LookupableImpl {
 
     @Override
-    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
-
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         ContextInfo context = ContextInfo.newInstance();
 
         String termKey = fieldValues.get("termKey");

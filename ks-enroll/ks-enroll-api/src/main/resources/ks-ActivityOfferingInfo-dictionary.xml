@@ -74,7 +74,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="ActivityOfferingInfo.finalExamSpaceCode" parent="ActivityOfferingInfo.finalExamSpaceCode-parent"/>
 	<bean id="ActivityOfferingInfo.finalExamSpaceCode-parent" abstract="true" parent="ActivityOfferingInfo.finalExamSpaceCode-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
+    <!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
 	<bean id="ActivityOfferingInfo.weeklyInclassContactHours" parent="ActivityOfferingInfo.weeklyInclassContactHours-parent"/>

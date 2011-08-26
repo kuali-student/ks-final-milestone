@@ -125,8 +125,14 @@
             value="Click a class to show/hide detail" />
         <property name="accordion.render" value="true" />
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingInfoWrapper" />
-        <property name="propertyName" value="courseOfferings" />
+            value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
+        <property name="propertyName" value="courseOfferingWrappers" />
+        <property name="readOnly" value="true" />
+<!--
+        <property name="layoutManager.renderSequenceField" value="true"/>
+        <property name="layoutManager.renderAddLine" value="false" />
+        <property name="layoutManager.tableTools.render" value="false"/>
+-->
         <property name="layoutManager.summaryFields">
             <list>
                 <value>courseOffering.courseTitle</value>
@@ -155,11 +161,18 @@
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup">
         <property name="accordion.render" value="false" />
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupInfoWrapper" />
-        <property name="propertyName" value="registrationGroupInfoWrappers" />
+            value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
+        <property name="propertyName" value="registrationGroupWrappers" />
+<!-- TODO delyea - figure out if readOnly means no sorting and if that matters -->
+        <property name="readOnly" value="true" />
+<!--
+        <property name="layoutManager.renderSequenceField" value="true"/>
+        <property name="layoutManager.renderAddLine" value="false" />
+        <property name="layoutManager.tableTools.render" value="false"/>
+-->
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:propertyName="registrationGroupInfo.registrationCode" p:label="Registration Code" />
+                <bean parent="AttributeField" p:propertyName="registrationGroup.registrationCode" p:label="Registration Code" />
 <!--
                 <bean parent="AttributeField" p:propertyName="field2" p:label="SubField 2"
                     p:required="true" />

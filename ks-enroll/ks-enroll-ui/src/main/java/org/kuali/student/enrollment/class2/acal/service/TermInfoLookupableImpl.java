@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -19,7 +20,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
  	
 
     @Override
-    protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
+    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
     	TermInfo termInfo = null;
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
     	

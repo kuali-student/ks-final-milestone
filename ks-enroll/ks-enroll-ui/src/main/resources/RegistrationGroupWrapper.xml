@@ -21,41 +21,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
     <bean id="RegistrationGroupWrapper" parent="RegistrationGroupWrapper-parentBean"/>
     <bean id="RegistrationGroupWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="objectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper"/>
-        <property name="titleAttribute" value="registrationGroup.id"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>
+        <property name="objectLabel" value="Registration Group"/>
         <property name="complexAttributes">
             <list>
-                <ref bean="RegistrationGroupWrapper.courseOffering"/>
-                <ref bean="RegistrationGroupWrapper.registrationGroup"/>
+                <ref bean="CourseOfferingWrapper-courseOffering"/>
+                <ref bean="CourseOfferingWrapper-registrationGroup"/>
             </list>
         </property>
-        <property name="objectLabel" value="Registration Group"/>
-        <property name="primaryKeys">
+        <property name="collections">
           <list>
-            <value>registrationGroup.id</value>
+            <bean parent="CollectionDefinition" p:name="activityOfferings" /> <!--p:label="Addresses" p:shortLabel="Addresses" p:elementLabel="Address" />-->
           </list>
-        </property>
+      </property>
     </bean>
 
-    <bean id="RegistrationGroupWrapper.courseOffering" parent="ComplexAttributeDefinition">
+    <bean id="CourseOfferingWrapper-courseOffering" parent="ComplexAttributeDefinition">
         <property name="name" value="courseOffering"/>
         <property name="dataObjectEntry" ref="CourseOfferingInfoUI"/>
     </bean>
 
-    <bean id="RegistrationGroupWrapper.registrationGroup" parent="ComplexAttributeDefinition">
+    <bean id="CourseOfferingWrapper-registrationGroup" parent="ComplexAttributeDefinition">
         <property name="name" value="registrationGroup"/>
         <property name="dataObjectEntry" ref="RegistrationGroupInfoUI"/>
-    </bean>
-
-    <bean id="RegistrationGroupWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper"/>
-        <property name="documentTypeName" value="RegistrationGroupWrapperMaintenanceDocument"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        <property name="lockingKeys">
-            <list>
-                <value>registrationGroup.id</value>
-            </list>
-        </property>
     </bean>
 
 </beans>

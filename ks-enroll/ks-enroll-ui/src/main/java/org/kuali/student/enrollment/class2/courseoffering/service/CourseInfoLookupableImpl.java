@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.search.dto.*;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -21,7 +22,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     private transient CourseService courseService;
     
 	 @Override
-	 protected List<?> getSearchResultsForEBO(Map<String, String> fieldValues, boolean unbounded) {
+	 protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 		 	List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 		    String courseId = null;
 	        List<SearchParam> searchParams = new ArrayList<SearchParam>();
