@@ -87,7 +87,7 @@ public class MajorEditController extends MajorController {
      */
     public MajorEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        programModel.setModelName("Proposal");
+        programModel.setModelName("New Program");
         initializeComparisonModel();
         configurer = GWT.create(MajorEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
@@ -266,12 +266,7 @@ public class MajorEditController extends MajorController {
                 for (String id : ids) {
                     programRequirements.add(id);
                 }
-                doSave();
-                
-                reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                    @Override
-                    public void exec(Boolean result) {}
-                });                    
+                doSave();                
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
@@ -279,20 +274,7 @@ public class MajorEditController extends MajorController {
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());
             }
-        });
-        
-        super.registerModel("ComparisonModel", new ModelProvider<DataModel>() {
-            @Override
-            public void requestModel(final ModelRequestCallback<DataModel> callback) {
-            	if(comparisonModel.getRoot() != null && comparisonModel.getRoot().size() != 0){
-            		callback.onModelReady(comparisonModel);            		
-            	}
-            	else{
-            		callback.onModelReady(null);
-            	}
-                
-            }
-        });
+        });        
     }
 
     /**
@@ -398,7 +380,7 @@ public class MajorEditController extends MajorController {
         	
    			createNewVersionAndLoadModel(comparisonModelCallback, viewContext);   			
         }	
-        else 
+        else if (viewContext.getIdType() == IdType.OBJECT_ID)
         {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
@@ -415,7 +397,6 @@ public class MajorEditController extends MajorController {
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
                             comparisonModel.setRoot(result);
-//                          callback.onModelReady(comparisonModel);
                             reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
                                 @Override
                                 public void exec(Boolean result) {
@@ -442,7 +423,8 @@ public class MajorEditController extends MajorController {
         	};	
         	        	
         	super.loadModel(comparisonModelCallback);
-        }	
+        } else
+        	super.loadModel(callback);
     }
 
     protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
@@ -542,13 +524,15 @@ public class MajorEditController extends MajorController {
                     
                     okCallback.exec(false);
                 } else {
-                    refreshModelAndView(result);
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
                     ViewContext viewContext = getViewContext();
+                    boolean newProgram = true;
+                    if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID || viewContext.getIdType() == IdType.OBJECT_ID)
+                    	newProgram = false;
                     viewContext.setId(getStringProperty(ProgramConstants.ID));
                     viewContext.setIdType(IdType.OBJECT_ID);
 
@@ -566,10 +550,41 @@ public class MajorEditController extends MajorController {
                     docContext.setIdType(IdType.OBJECT_ID);
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
-                            HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-                   
-                    okCallback.exec(true);
-                    processCurrentView();
+                    HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
+                    
+                    if (newProgram)
+                    {
+                    	refreshModelAndView(result);
+                    	okCallback.exec(true);
+                    	processCurrentView();                    	
+                    } else	
+                    {
+                    	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+
+                    		@Override
+                    		public void onFailure(Throwable caught) {
+                    			super.onFailure(caught);
+                    			okCallback.exec(false);
+                    		}
+
+                    		@Override
+                    		public void onSuccess(Data result) {
+                    			super.onSuccess(result);
+                    			if (result != null) {
+                    				programModel.setRoot(result);
+                    			}
+                    			setHeaderTitle();
+                    			setStatus();
+                    			reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+                    				@Override
+                    				public void exec(Boolean result) {
+                    					okCallback.exec(true);
+                    					processCurrentView();                                	
+                    				}
+                    			});                    
+                    		}
+                    	});
+                	} 
                 }
             }
         });
