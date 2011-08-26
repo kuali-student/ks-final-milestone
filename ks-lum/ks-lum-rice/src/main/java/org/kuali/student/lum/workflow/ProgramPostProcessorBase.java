@@ -65,14 +65,14 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
         if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
-            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
+            return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
         } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
         } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
