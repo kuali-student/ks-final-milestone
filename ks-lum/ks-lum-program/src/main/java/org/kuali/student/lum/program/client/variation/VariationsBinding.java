@@ -77,7 +77,6 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                         viewContext.setIdType(IdType.OBJECT_ID);
                         if(model.get("proposal/id") != null){
                             // It is a proposal
-                            viewContext.setAttribute("isProposal", "true");
                             variationData.set("isProposal", true);
                         }
                         if(variationData.get("id")!=null){
