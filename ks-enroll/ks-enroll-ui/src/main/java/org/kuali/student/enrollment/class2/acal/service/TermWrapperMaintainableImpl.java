@@ -1,31 +1,21 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.KRADConstants;
-
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-public class TermWrapperMaintainableImpl extends KualiMaintainableImpl{
+import javax.xml.namespace.QName;
+import java.util.Calendar;
+import java.util.Date;
+
+public class TermWrapperMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;	
 	
     public final static String TERM_KEY_PREFIX = "kuali.term.";
@@ -38,8 +28,8 @@ public class TermWrapperMaintainableImpl extends KualiMaintainableImpl{
     private transient AcademicCalendarService academicCalendarService;
 	
     @Override
-    public void saveBusinessObject() {
-    	System.out.println(">>In TermWrapperMaintainableImpl.saveBusinessObject()");
+    public void saveDataObject() {
+    	System.out.println(">>In TermWrapperMaintainableImpl.saveDataObject()");
         TermWrapper termWrapper = (TermWrapper)getDataObject();
         TermInfo termInfo = termWrapper.getTermInfo();
         String termKey = getTermInfoKey (termInfo);

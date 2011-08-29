@@ -203,8 +203,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>  
 
 
-  <bean id="AcademicCalendarWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
+  <bean id="AcademicCalendarWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl"/>
     <property name="documentTypeName" value="AcademicCalendarWrapperMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>

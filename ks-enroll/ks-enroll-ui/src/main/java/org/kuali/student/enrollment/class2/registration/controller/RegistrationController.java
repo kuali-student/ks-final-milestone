@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWra
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -72,28 +73,20 @@ public class RegistrationController extends UifControllerBase {
 //        List<CourseOfferingWrapper> courseOfferingWrappers;
 
         try {
-            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+            List<String> courseOfferingIds = getCourseOfferingIds(registrationForm, context);
             registrationForm.setCourseOfferingWrappers(new ArrayList<CourseOfferingWrapper>(courseOfferingIds.size()));
 
             for(String coId : courseOfferingIds) {
                 CourseOfferingWrapper courseOfferingWrapper = new CourseOfferingWrapper();
                 courseOfferingWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
-                List<RegistrationGroupInfo> regGroups = getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
+                List<RegistrationGroupInfo> regGroups = getRegistrationGroupInfos(coId, context);
 
                 List<RegistrationGroupWrapper> registrationGroupWrappers = new ArrayList<RegistrationGroupWrapper>(regGroups.size());
                 for(RegistrationGroupInfo regGroup : regGroups) {
                     RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
                     registrationGroupWrapper.setRegistrationGroup(regGroup);
-
-                    // TODO right now getOfferingsByIdList throws a not supported exception
-//                    registrationGroupInfoWrapper.setActivityOfferings(getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context));
-
-                    registrationGroupWrapper.setActivityOfferings(new ArrayList<ActivityOfferingInfo>(regGroup.getActivityOfferingIds().size()));
-                    for(String activityId : regGroup.getActivityOfferingIds()) {
-                        registrationGroupWrapper.getActivityOfferings().add(getCourseOfferingService().getActivityOffering(activityId, context));
-                    }
+                    registrationGroupWrapper.setActivityOfferings(getActivityOfferingInfos(regGroup, context));
                     registrationGroupWrappers.add(registrationGroupWrapper);
-
                 }
                 courseOfferingWrapper.setRegistrationGroupWrappers(registrationGroupWrappers);
                 registrationForm.getCourseOfferingWrappers().add(courseOfferingWrapper);
@@ -112,6 +105,27 @@ public class RegistrationController extends UifControllerBase {
         }
 
         return getUIFModelAndView(registrationForm);
+    }
+
+    protected List<String> getCourseOfferingIds(RegistrationForm registrationForm, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+    }
+
+    protected List<RegistrationGroupInfo> getRegistrationGroupInfos(String coId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+//        return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
+        List<RegistrationGroupInfo> infos = new ArrayList<RegistrationGroupInfo>();
+
+        return infos;
+    }
+
+    protected List<ActivityOfferingInfo> getActivityOfferingInfos(RegistrationGroup regGroup, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        // TODO right now getOfferingsByIdList throws a not supported exception
+//        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
+        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(regGroup.getActivityOfferingIds().size());
+        for(String activityId : regGroup.getActivityOfferingIds()) {
+            activityOfferingInfos.add(getCourseOfferingService().getActivityOffering(activityId, context));
+        }
+        return activityOfferingInfos;
     }
 
     /**

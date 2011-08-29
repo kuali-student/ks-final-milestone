@@ -184,8 +184,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>  
 
 
-  <bean id="TermWrapperMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+  <bean id="TermWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
     <property name="documentTypeName" value="TermWrapperMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>

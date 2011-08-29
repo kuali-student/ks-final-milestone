@@ -58,8 +58,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>  
 
 
-  <bean id="HoldInfoMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+  <bean id="HoldInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl"/>
     <property name="documentTypeName" value="HoldInfoMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
