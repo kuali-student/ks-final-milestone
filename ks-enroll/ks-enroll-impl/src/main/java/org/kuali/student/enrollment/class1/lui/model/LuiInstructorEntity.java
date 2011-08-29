@@ -40,9 +40,7 @@ public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<Lu
     	super(luiInstructor);
     	try{
     		this.setId(luiInstructor.getId());
-    		this.setOrgId(luiInstructor.getOrgId());
     		this.setPersonId(luiInstructor.getPersonId());
-    		this.setPersonInfoOverride(luiInstructor.getPersonInfoOverride());
     		this.setPercentageEffort(luiInstructor.getPercentageEffort());
     		
 	        this.setAttributes(new ArrayList<LuiAttributeEntity>());
@@ -60,9 +58,7 @@ public class LuiInstructorEntity extends MetaEntity implements AttributeOwner<Lu
     public OfferingInstructorInfo toDto(){
     	OfferingInstructorInfo obj = new OfferingInstructorInfo();
     	obj.setId(getId());
-    	obj.setOrgId(orgId);
     	obj.setPersonId(personId);
-    	obj.setPersonInfoOverride(personInfoOverride);
     	obj.setPercentageEffort(percentageEffort);
     	obj.setMeta(super.toDTO());
     	

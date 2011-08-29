@@ -102,7 +102,6 @@ public class TestLuiServiceImpl {
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
         instructor.setId("LUI-INSTR-Test-1");
-        instructor.setOrgId("Org-1");
         instructor.setPersonId("Pers-2");
         instructor.setPercentageEffort((float) 100);
         instructors.add(instructor);

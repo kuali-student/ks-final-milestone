@@ -192,9 +192,7 @@ public class R1ToR2CopyHelper {
         }
         OfferingInstructorInfo r2 = new OfferingInstructorInfo();
         r2.setAttributes(copyAttributes(r1.getAttributes()));
-        r2.setOrgId(r1.getOrgId());
         r2.setPersonId(r1.getPersonId());
-        r2.setPersonInfoOverride(r1.getPersonInfoOverride());
         
         return r2;
     }

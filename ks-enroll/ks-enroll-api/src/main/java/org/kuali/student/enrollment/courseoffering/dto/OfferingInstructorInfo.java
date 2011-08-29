@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
 
 /**
- *Information about a potential instructor for a clu.
+ *Information about a potential instructor for a lui.
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OfferingInstructorInfo", propOrder = {"id", "orgId", "personId", "personInfoOverride", 
-        "percentageEffort", "meta", "attributes", "_futureElements"})
-public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements OfferingInstructor, Serializable {
+@XmlType(name = "OfferingInstructorInfo", propOrder = {"id", "personId", 
+        "percentageEffort", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
+public class OfferingInstructorInfo extends TypeStateEntityInfo implements OfferingInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,13 +43,7 @@ public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements 
     private String id;
     
     @XmlElement
-    private String orgId;
-
-    @XmlElement
     private String personId;
-
-    @XmlElement
-    private String personInfoOverride;
     
     @XmlElement 
     private Float percentageEffort; 
@@ -59,9 +53,7 @@ public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements 
 
     public OfferingInstructorInfo() {
         this.id = null;
-        this.orgId = null;
         this.personId = null;
-        this.personInfoOverride = null;
         this.percentageEffort = null;
         this._futureElements  = null;
     }
@@ -72,9 +64,7 @@ public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements 
         
         if(null == instructor) return;
         this.id = instructor.getId();
-        this.orgId = instructor.getOrgId();
         this.personId = instructor.getPersonId();
-        this.personInfoOverride = instructor.getPersonInfoOverride();
         this.percentageEffort = instructor.getPercentageEffort();
         this._futureElements = null;
     }
@@ -88,16 +78,6 @@ public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements 
         this.id = id;
     }
         
-    
-    @Override
-    public String getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
-
     @Override
     public String getPersonId() {
         return personId;
@@ -105,15 +85,6 @@ public class OfferingInstructorInfo extends HasAttributesAndMetaInfo implements 
 
     public void setPersonId(String personId) {
         this.personId = personId;
-    }
-
-    @Override
-    public String getPersonInfoOverride() {
-        return personInfoOverride;
-    }
-
-    public void setPersonInfoOverride(String personInfoOverride) {
-        this.personInfoOverride = personInfoOverride;
     }
 
     @Override

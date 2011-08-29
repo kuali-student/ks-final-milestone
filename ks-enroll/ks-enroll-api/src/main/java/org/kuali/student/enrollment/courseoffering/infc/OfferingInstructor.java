@@ -15,34 +15,20 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
  
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.TypeStateEntity;
 
 /**
  * Information about a potential instructor for a LUI (learning unit instance). These are built from Lui Person Relations with instructor type
  */ 
-public interface OfferingInstructor extends HasAttributesAndMeta, HasId {
-    
-    /**
-     * Unique identifier for an organization. This indicates which organization this individual is 
-     * associated with for the purposes of this lui.
-     * @name Org Id
-     */
-    public String getOrgId(); 
-    
+public interface OfferingInstructor extends TypeStateEntity, HasId {
+        
     /**
      * Unique identifier for a person record.
      * @name Person Id
      * @impl lpr.personId
      */
     public String getPersonId();
-
-    /**
-     * Override information on the personId. This is to capture person information 
-     * if Id is not a viable option
-     * @name PersonInfo Override
-     */
-    public String getPersonInfoOverride();
     
     /**
      * Percentage involvement of the instructor in the 
