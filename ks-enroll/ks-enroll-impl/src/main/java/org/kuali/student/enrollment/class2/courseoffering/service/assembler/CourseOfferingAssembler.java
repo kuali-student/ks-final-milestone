@@ -118,6 +118,8 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 					instructor.setPersonId(lpr.getPersonId());
 					instructor.setPercentageEffort(lpr.getCommitmentPercent());
 					instructor.setId(lpr.getId());
+					instructor.setTypeKey(lpr.getTypeKey());
+					instructor.setStateKey(lpr.getStateKey());
 					instructors.add(instructor);
 				}
 			}
