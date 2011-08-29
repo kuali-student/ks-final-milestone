@@ -41,6 +41,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.util.security.SecurityUtils;
+
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	protected Metadata searchMetadata;
@@ -53,11 +57,35 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         layout.addContentTitleWidget(getActionListLink());
 
         //Create
-        LinkContentBlock create = new LinkContentBlock(
+        final LinkContentBlock create = new LinkContentBlock(
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
+        
         create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
-        create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());        
+        
+        //KSLAB-2310 :
+        //ADMIN CREATE PROGRAM: On CM landing page, only authorized users 
+        //should be able to view and click link
+		String principalId = Application.getApplicationContext().getUserId();
+		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
+        
+		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
+        	@Override
+        	public void handleFailure(Throwable caught) {
+			}
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result)
+					{
+						// do nothing with the navigation link
+						create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+					}else{
+						
+					}
+				
+			}
+        });
+                
 
 
         //View + Modify
