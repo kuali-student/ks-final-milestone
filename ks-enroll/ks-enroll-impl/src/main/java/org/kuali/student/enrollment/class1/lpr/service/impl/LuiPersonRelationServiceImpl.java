@@ -68,6 +68,34 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprTypeDao lprTypeDao;
     private LuiService luiService;
 
+    public LprTransactionDao getLprTransDao() {
+        return lprTransDao;
+    }
+
+    public void setLprTransDao(LprTransactionDao lprTransDao) {
+        this.lprTransDao = lprTransDao;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public LprDao getLprDao() {
+        return lprDao;
+    }
+
+    public LprStateDao getLprStateDao() {
+        return lprStateDao;
+    }
+
+    public LprTypeDao getLprTypeDao() {
+        return lprTypeDao;
+    }
+
     private LuiPersonRelationInfo getLprsByLuiPersonAndState(String personId, String luiId, String stateKey,
             ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

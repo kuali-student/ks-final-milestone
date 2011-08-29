@@ -56,6 +56,46 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     private DataDictionaryService dataDictionaryService;
 
+    public LuiPersonRelationService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public RegRequestAssembler getRegRequestAssembler() {
+        return regRequestAssembler;
+    }
+
+    public void setRegRequestAssembler(RegRequestAssembler regRequestAssembler) {
+        this.regRequestAssembler = regRequestAssembler;
+    }
+
+    public RegResponseAssembler getRegResponseAssembler() {
+        return regResponseAssembler;
+    }
+
+    public void setRegResponseAssembler(RegResponseAssembler regResponseAssembler) {
+        this.regResponseAssembler = regResponseAssembler;
+    }
+
+    public CourseRegistrationAssembler getCourseRegistrationAssembler() {
+        return courseRegistrationAssembler;
+    }
+
+    public void setCourseRegistrationAssembler(CourseRegistrationAssembler courseRegistrationAssembler) {
+        this.courseRegistrationAssembler = courseRegistrationAssembler;
+    }
+
     private LprTransactionInfo createModifiedTransactionItems(LprTransactionInfo storedLprTransaction,
             RegRequestInfo storedRegRequest, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
