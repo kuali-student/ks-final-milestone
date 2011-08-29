@@ -11,8 +11,11 @@ import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -33,6 +36,7 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 	private Metadata previousVersionMetadata;
 	protected ProgramService programService; 
 	protected MetadataServiceImpl metadataService; 
+	protected AtpService atpService;
 	protected String proposalObjectType;
 	/**
 	 * Save previousVersionInfo from incoming data to be used by outbound filter
@@ -41,11 +45,9 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 	public void applyInboundDataFilter(Data data, Metadata metadata,
 			Map<String, Object> properties) throws Exception {
 		Data previousVersionData = data.query(PREVIOUS_VERSION_INFO);
-
+		data.remove(new StringKey(PREVIOUS_VERSION_INFO));
+		
 		if (previousVersionData != null){	
-			if(!"kuali.proposal.type.majorDiscipline.modify".equals(previousVersionData.query("type"))){
-				data.remove(new StringKey(PREVIOUS_VERSION_INFO));
-			}
 			properties.put(PREVIOUS_VERSION_DATA, previousVersionData);
 		}			
 	}
@@ -70,7 +72,17 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 				previousVersionData.set(ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, previousVersionMajorInfo.getEndProgramEntryTerm());
 				previousVersionData.set(ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, previousVersionMajorInfo.getEndTerm());
 				previousVersionData.set(ProgramConstants.PREV_END_INST_ADMIN_TERM, previousVersionMajorInfo.getEndTerm());
-				previousVersionData.set(ProgramConstants.PREV_START_TERM, previousVersionMajorInfo.getStartTerm());
+				
+				//set the prev start term to be the earliest of the major and all variations
+				AtpInfo latestStartAtp = atpService.getAtp(previousVersionMajorInfo.getStartTerm());
+				for (ProgramVariationInfo variation:previousVersionMajorInfo.getVariations()){
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
+					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
+						latestStartAtp = variationAtp;
+					}
+				}
+				
+				previousVersionData.set(ProgramConstants.PREV_START_TERM, latestStartAtp.getId());
 			}  
 			
 			data.set(PREVIOUS_VERSION_INFO, previousVersionData);
@@ -139,5 +151,9 @@ public class VersionProgramFilter extends AbstractDataFilter implements Metadata
 
 	public void setProposalObjectType(String proposalObjectType) {
 		this.proposalObjectType = proposalObjectType;
+	}
+
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
 	}	
 }

@@ -93,7 +93,10 @@ public class MajorProposalController extends MajorController implements Workflow
 
 	protected final DataModel comparisonModel = new DataModel("Original Program");
 	private String comparisonModelId = "ComparisonModel";
- 
+
+	protected final DataModel reqModel = new DataModel("");
+	private String reqModelId = "reqModel";
+
     private ProgramRequirementsDataModel reqDataModel;
     private ProgramRequirementsDataModel reqDataModelComp;
 
@@ -383,7 +386,30 @@ public class MajorProposalController extends MajorController implements Workflow
                 for (String id : ids) {
                     programRequirements.add(id);
                 }
-                doSave();
+                
+            	Callback<Boolean> reqCallback = new Callback<Boolean>() {
+            		@Override
+            		public void exec(Boolean result) {
+            			programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                            @Override
+                            public void onSuccess(Data result) {
+                                super.onSuccess(result);
+                                reqModel.setRoot(result);
+                                reqDataModel.retrieveProgramRequirements(MajorProposalController.this, reqModelId, new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {}
+                                });                    
+                            }
+                            
+                            @Override
+                            public void onFailure(Throwable caught) {
+                                super.onFailure(caught);
+                            }
+                        });
+            		}
+            	};
+
+                doSave(reqCallback);
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
@@ -437,6 +463,18 @@ public class MajorProposalController extends MajorController implements Workflow
             public void requestModel(final ModelRequestCallback<DataModel> callback) {
             	if(comparisonModel.getRoot() != null && comparisonModel.getRoot().size() != 0){
             		callback.onModelReady(comparisonModel);            		
+            	}
+            	else{
+            		callback.onModelReady(null);
+            	}                
+             }
+        });
+                
+        super.registerModel(reqModelId, new ModelProvider<DataModel>() {
+            @Override
+            public void requestModel(final ModelRequestCallback<DataModel> callback) {
+            	if(reqModel.getRoot() != null && reqModel.getRoot().size() != 0){
+            		callback.onModelReady(reqModel);            		
             	}
             	else{
             		callback.onModelReady(null);
@@ -696,6 +734,7 @@ public class MajorProposalController extends MajorController implements Workflow
                     
                     okCallback.exec(false);
                 } else {
+                	refreshModelAndView(result);
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();
@@ -719,36 +758,12 @@ public class MajorProposalController extends MajorController implements Workflow
                     docContext.setIdType(IdType.OBJECT_ID);
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
-                            HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-                   
-                    majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            super.onFailure(caught);
-                            okCallback.exec(false);
-                        }
-
-                        @Override
-                        public void onSuccess(Data result) {
-                            super.onSuccess(result);
-                            if (result != null) {
-                                programModel.setRoot(result);
-                            }
-                            setHeaderTitle();
-                            setStatus();
-                            reqDataModel.retrieveProgramRequirements(MajorProposalController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                                @Override
-                                public void exec(Boolean result) {
-                                    okCallback.exec(true);
-                                    processCurrentView();                                	
-                                }
-                            });                    
-                        }
-                    });
+                    HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
+                	okCallback.exec(true);
+                	processCurrentView();                    	
                 }
             }
-        });
+        }); 
     }
 
     private void processCurrentView() {

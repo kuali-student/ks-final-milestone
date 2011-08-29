@@ -411,6 +411,7 @@
         <property name="permissionService" ref="permissionServiceClient"/>
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
@@ -476,7 +477,6 @@
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="majorCredentialProgramFilter"/>
-                <ref bean="versionProgramFilter"/>                
                 <ref bean="majorDisciplineProposalWorkflowFilter"/>
                 <ref bean="programCollaboratorFilter"/>                
                 <ref bean="idTranslatorFilter"/>
@@ -643,6 +643,7 @@
         <property name="programService" ref="programClient"/>
         <property name="metadataService" ref="metadataServiceImpl"/>
         <property name="proposalObjectType" value="org.kuali.student.core.proposal.definition.ProgramProposalInfo"/>
+        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean id="versionCoreProgramFilter" class="org.kuali.student.lum.program.server.transform.VersionCoreProgramFilter">

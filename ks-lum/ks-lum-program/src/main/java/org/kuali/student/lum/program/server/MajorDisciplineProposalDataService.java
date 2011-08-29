@@ -11,10 +11,13 @@ import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
+import org.kuali.student.core.atp.dto.AtpInfo;
+import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
 
@@ -27,6 +30,7 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
     
     private ProgramService programService;
     private LuService luService;
+    private AtpService atpService; 
 
     @Override
     protected String getDefaultWorkflowDocumentType() {
@@ -65,8 +69,17 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
             	VersionDisplayInfo mdVersionInfo = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorVersionIndId);
             	mdInfo = programService.getMajorDiscipline(mdVersionInfo.getId());
             	
-            	//Save the start and end terms from the old version and put into filter properties
-		    	String startTerm = mdInfo.getStartTerm();
+            	//set the prev start term to be the most recent of the major and all variations
+				AtpInfo latestStartAtp = atpService.getAtp(mdInfo.getStartTerm());
+				for (ProgramVariationInfo variation:mdInfo.getVariations()){
+					AtpInfo variationAtp = atpService.getAtp(variation.getStartTerm());
+					if(variationAtp!=null && variationAtp.getStartDate()!=null && variationAtp.getStartDate().compareTo(latestStartAtp.getStartDate())>0){
+						latestStartAtp = variationAtp;
+					}
+				}
+
+				//Save the start and end terms from the old version and put into filter properties
+				String startTerm = latestStartAtp.getId();
 		    	String endTerm = mdInfo.getEndTerm();
 		    	String endProgramEntryTerm = mdInfo.getEndProgramEntryTerm();
 		    	String endInstAdmitTerm = mdInfo.getAttributes().get(ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM);
@@ -122,5 +135,9 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
     public void setLuService(LuService luService) {
         this.luService = luService;
     }
+
+	public void setAtpService(AtpService atpService) {
+		this.atpService = atpService;
+	}
 
 }
