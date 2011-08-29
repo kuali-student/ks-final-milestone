@@ -33,9 +33,11 @@ import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -74,9 +76,15 @@ public class CourseDataService extends AbstractDataService {
 			if(courseInfo.getId() == null){
 			    
 			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId())){
+	            	String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
+	            	
+	            	//Get the currentCourse from the service
+	            	VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId);
+	            	CourseInfo originalCourseInfo = courseService.getCourse(versionInfo.getId());
+	            	
 			    	//Save the start and end terms from the old version and put into filter properties
-			    	String startTerm = courseInfo.getStartTerm();
-			    	String endTerm = courseInfo.getEndTerm();
+			    	String startTerm = originalCourseInfo.getStartTerm();
+			    	String endTerm = originalCourseInfo.getEndTerm();
 			    	Map<String,String> proposalAttributes = new HashMap<String,String>();
 			    	if(startTerm!=null)
 			    		proposalAttributes.put("prevStartTerm",startTerm);
