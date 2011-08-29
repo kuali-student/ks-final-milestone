@@ -579,7 +579,7 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
