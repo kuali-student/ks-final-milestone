@@ -185,24 +185,6 @@ public class CourseSummaryConfigurer extends Configurer implements
     }
 
     public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {
-
-        //Create and add the comment tool
-        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS,
-                getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks",
-                "Proposal Comments");
-        commentTool.setEditMode(EditMode.VIEW_COMMENT);
-        if (controller instanceof MenuSectionController) {
-            MenuSectionController menuSectionController = (MenuSectionController)controller;
-            commentTool.setController(menuSectionController);
-            menuSectionController.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-
-                @Override
-                public void onClick(ClickEvent event) {
-                    commentTool.show();
-                }
-            }));
-        }
-
         tableSection.setEditable(canEditSections);
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposalCrossListed());

@@ -2,6 +2,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
@@ -13,8 +14,10 @@ import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
+import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool.EditMode;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
@@ -58,6 +61,8 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
             layout.removeMenuNavigation();
             layout.addView(summaryConfigurer.generateProposalSummarySection(false));
+            final CommentTool commentTool = createCommentTool(layout);
+            commentTool.setEditMode(EditMode.VIEW_COMMENT);
         }
     }
 
@@ -90,16 +95,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         documentTool.setTitle(getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
         documentTool.addStyleName(LUUIConstants.STYLE_SECTION);
 
-        //Create and add the comment tool
-        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
-        commentTool.setController(layout);        
-        layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-            
-            @Override
-            public void onClick(ClickEvent event) {
-                commentTool.show();
-            }
-        }));
+        createCommentTool(layout);
 
         
         //Add course admin sections to view
@@ -138,6 +134,20 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         requiredContainer.setMainSection(view);
 
         return view;
+    }
+
+    private CommentTool createCommentTool(final MenuSectionController layout) {
+        //Create and add the comment tool
+        final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
+        commentTool.setController(layout);        
+        layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+            
+            @Override
+            public void onClick(ClickEvent event) {
+                commentTool.show();
+            }
+        }));
+        return commentTool;
     }
     
     /**
