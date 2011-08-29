@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
-import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -14,18 +15,19 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
-import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo, LuiInfo>{
 	private LuiService luiService;
+	private LuiPersonRelationService lprService;
 	
-
 	public LuiService getLuiService() {
 		return luiService;
 	}
@@ -34,6 +36,13 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		this.luiService = luiService;
 	}
 
+	public LuiPersonRelationService getLprService() {
+		return lprService;
+	}
+
+	public void setLprService(LuiPersonRelationService lprService) {
+		this.lprService = lprService;
+	}
 
 	@Override
 	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
@@ -67,7 +76,9 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			assembleIdentifier(lui, co);
 			
 			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionIds --- call LRCService.getResultValuesByIdList
-			//TODO: co.setInstructors(instructors) -- call LPRService.findPersonIdsRelatedToLui?
+			
+			//instructors
+			assembleInstructors(co, lui.getId(), context);
 			
 			//lui.getAlternateIdentifiers() -- where to map?
 			//lui.getName() -- where to map?
@@ -83,6 +94,37 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			return null;
 	}
 
+	private void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context){
+		List<LuiPersonRelationInfo> lprs = null;;
+		try {
+			lprs = lprService.getLprsByLui(luiId, context);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		}
+		
+		if(lprs != null && !lprs.isEmpty()){
+			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+			for (LuiPersonRelationInfo lpr : lprs){
+				if(lpr != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
+					OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+					instructor.setPersonId(lpr.getPersonId());
+					instructor.setPercentageEffort(lpr.getCommitmentPercent());
+					instructor.setId(lpr.getId());
+					instructors.add(instructor);
+				}
+			}
+			co.setInstructors(instructors);
+		}		
+	}
+	
 	private void assembleLuiLuiRelations(CourseOfferingInfo co, String luiId, ContextInfo context){
 		try {
 			List<String> jointOfferingIds = new ArrayList<String>();

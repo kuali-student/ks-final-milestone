@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -59,7 +60,7 @@ public class TestCourseOfferingServiceImpl {
     public void testServiceSetup() {
     	assertNotNull(coServiceValidation);
     }
-
+	   
     @Test
     @Ignore
     public void testGetCourseOffering() throws DoesNotExistException,
@@ -77,12 +78,6 @@ public class TestCourseOfferingServiceImpl {
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getTypeKey()); 
             assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
             
-//            List<OfferingInstructorInfo> instructors = obj.getInstructors();
-//            assertTrue(instructors.size() == 1);
-//            assertEquals("Pers-1", instructors.get(0).getPersonId());
-//            assertEquals("Org-1", instructors.get(0).getOrgId());
-//            assertEquals("Instr-1", instructors.get(0).getPersonInfoOverride());
-//            assertEquals(Float.valueOf("30.5"), instructors.get(0).getPercentageEffort());
     	} catch (Exception ex) {
     		fail("exception from service call :" + ex.getMessage());
     	}    	
@@ -200,4 +195,32 @@ public class TestCourseOfferingServiceImpl {
     		fail("exception from service call :" + ex.getMessage());
 		}
 	}
+    
+	@Test
+    public void testUpdateCourseOffering() throws DataValidationErrorException, 
+    		DoesNotExistException, InvalidParameterException, MissingParameterException, 
+    		OperationFailedException, PermissionDeniedException,VersionMismatchException {
+	    	try{
+		    	CourseOfferingInfo obj = coServiceValidation.getCourseOffering("Lui-1", callContext);
+		    	assertNotNull(obj);
+		    	
+		    	obj.setTermKey("testAtpId1");
+		    	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+		    	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+		    	instructor.setPersonId("Pers-1");
+		    	instructor.setPercentageEffort(Float.valueOf("60"));
+		    	instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+		    	instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+		    	instructors.add(instructor);
+		    	obj.setInstructors(instructors);
+		    	CourseOfferingInfo updated = coServiceValidation.updateCourseOffering("Lui-1", obj, callContext);
+		    	assertNotNull(updated);
+		    	
+		    	CourseOfferingInfo retrieved = coServiceValidation.getCourseOffering("Lui-1", callContext);
+		    	assertNotNull(retrieved);
+		    	assertTrue(retrieved.getInstructors().size() == 1);
+	    	} catch (Exception ex) {
+	    		fail("exception from service call :" + ex.getMessage());
+			}
+    }   
 }

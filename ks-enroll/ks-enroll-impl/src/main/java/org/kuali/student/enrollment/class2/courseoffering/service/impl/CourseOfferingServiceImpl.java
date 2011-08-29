@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -10,10 +11,13 @@ import org.kuali.student.enrollment.class2.courseoffering.service.assembler.Cour
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -23,6 +27,7 @@ import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +43,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private ActivityOfferingAssembler aoAssembler;
 	private RegistrationGroupAssembler rgAssembler;
 	private StateService stateService;
+	private LuiPersonRelationService lprService;
 	
 	public LuiService getLuiService() {
 		return luiService;
@@ -93,6 +99,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 	public void setStateService(StateService stateService) {
 		this.stateService = stateService;
+	}
+
+	public LuiPersonRelationService getLprService() {
+		return lprService;
+	}
+
+	public void setLprService(LuiPersonRelationService lprService) {
+		this.lprService = lprService;
 	}
 
 	@Override
@@ -300,7 +314,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	
 	private void processRelationsForCourseOffering(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
 			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		//TODO: co.getInstructors() -- wire up with LuiPersonRelationService
+
+		processInstructors(co.getId(), co.getInstructors(), context);
 		
 		//TODO: hasFinalExam -- ignore for core slice
 		//how to determine that the lui already exist?
@@ -338,6 +353,55 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 				throw new OperationFailedException();
 			}
 		}
+	}
+	
+	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, ContextInfo context) 
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+		PermissionDeniedException, DataValidationErrorException{
+		if(instructors != null && !instructors.isEmpty()){
+			for(OfferingInstructorInfo instructor : instructors){
+				if (!checkExistenceForInstructor(instructor.getPersonId(), courseOfferingId, context)){
+					LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+					lpr.setPersonId(instructor.getPersonId());
+					lpr.setCommitmentPercent(instructor.getPercentageEffort());
+					lpr.setId(UUIDHelper.genStringUUID());
+					lpr.setLuiId(courseOfferingId);
+					lpr.setTypeKey(instructor.getTypeKey());
+					lpr.setStateKey(instructor.getStateKey());
+
+						try {
+							lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), lpr, context);
+						} catch (AlreadyExistsException e) {
+							throw new OperationFailedException();
+						} catch (DisabledIdentifierException e) {
+							throw new OperationFailedException();
+						} catch (ReadOnlyException e) {
+							throw new OperationFailedException();
+						}
+					
+				}
+			}
+		}
+	}
+
+	private boolean checkExistenceForInstructor(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+		InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		boolean existing = false;
+		try {
+			List<String> lprs = lprService.getLprIdsByLuiAndPerson(instructor, courseOfferingId, context);
+			
+			if(lprs != null && !lprs.isEmpty()){
+				for(String lpr : lprs){
+					LuiPersonRelationInfo lprInfo = lprService.getLpr(lpr, context);
+					if(lprInfo != null && lprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY))
+						return true;
+				}
+			}
+		} catch (DisabledIdentifierException e) {
+			throw new OperationFailedException();
+		}
+		
+		return existing;
 	}
 	
 	@Override
