@@ -337,7 +337,7 @@
 		<property name="name" value="typeOfModification" />		
 		<property name="dynamic" value="true"/>
 		<property name="minOccurs" value="0" />
-		<property name="maxOccurs" value="1" />
+		<property name="maxOccurs" value="unbounded" />
 		<property name="caseConstraint">
 	  	  <bean parent="caseConstraint">
 	   		<property name="operator" value="EQUALS"/>
@@ -353,7 +353,7 @@
 		       </property>
 		       <property name="constraint">
 		        <bean parent="baseStringReallyLong">
-				 <property name="maxOccurs" value="1" />
+				 <property name="maxOccurs" value="unbounded" />
 				 <property name="caseConstraint">
 		            <bean parent="caseConstraint">
 	           		    <property name="operator" value="EQUALS"/>
@@ -377,7 +377,7 @@
 									</property>
 									<property name="constraint">
 						                <bean parent="baseStringReallyLong">
-							              <property name="maxOccurs" value="1" />
+							              <property name="maxOccurs" value="unbounded" />
 							              <property name="minOccurs" value="1" />
 							            </bean>
 									</property>
@@ -398,7 +398,7 @@
 	              </property>
 	      		  <property name="constraint">
 	                <bean parent="baseStringReallyLong">
-		              <property name="maxOccurs" value="1" />
+		              <property name="maxOccurs" value="unbounded" />
 		              <property name="minOccurs" value="1" />
 		            </bean>
 	      		  </property>
