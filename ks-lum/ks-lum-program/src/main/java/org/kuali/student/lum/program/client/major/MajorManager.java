@@ -142,9 +142,9 @@ public class MajorManager {
     
     
     public MajorEditController getMajorEditController() {
-        if (majorEditController == null) {
-            majorEditController = new MajorEditController(programModel, viewContext, eventBus);
-        }
+        eventBus = new HandlerManager(null);
+        majorEditController = new MajorEditController(programModel, viewContext, eventBus);
+
         return majorEditController;
     }
 
