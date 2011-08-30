@@ -278,6 +278,7 @@
 		<property name="courseService" ref="courseServiceImpl"/>
 		<property name="acalService" ref="acalService"/>
 		<property name="stateService" ref="stateService"/>
+        <property name="lprService" ref="lprPersistenceService"/>
 	</bean>
 
     <bean id="coMockService" class="org.kuali.student.enrollment.classII.courseoffering.service.CourseOfferingServiceMockImpl">
@@ -300,6 +301,7 @@
 
     <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
     	<property name="luiService" ref="luiService"/>
+        <property name="lprService" ref="lprPersistenceService"/>
     </bean>
 
     <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
@@ -364,6 +366,24 @@
 
     <bean id="statementAssembler" class="org.kuali.student.core.statement.service.impl.StatementAssembler">
         <property name="statementDao" ref="statementDao"/>
+    </bean>
+
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+    	<property name="lprDao" ref="lprDao"/>
+    	<property name="lprStateDao" ref="lprStateDao"/>
+    	<property name="lprTypeDao" ref="lprTypeDao"/>
+    </bean>
+
+    <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+   <bean id="lprStateDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprStateDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+   <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
     </bean>
 
 </beans>
