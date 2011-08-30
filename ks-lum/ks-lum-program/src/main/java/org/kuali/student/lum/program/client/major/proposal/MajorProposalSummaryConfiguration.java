@@ -19,6 +19,8 @@ import org.kuali.student.lum.program.client.major.view.LearningObjectivesViewCon
 import org.kuali.student.lum.program.client.major.view.MajorKeyProgramInfoViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.ManagingBodiesViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.ProgramRequirementsViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ProposalChangeImpactViewConfiguration;
+import org.kuali.student.lum.program.client.major.view.ProposalInformationViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SpecializationsViewConfiguration;
 import org.kuali.student.lum.program.client.major.view.SupportingDocsViewConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -48,8 +50,9 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
     	
         // Initialize tabs on left of screen
-        MajorKeyProgramInfoViewConfiguration majorInfoViewConfig = MajorKeyProgramInfoViewConfiguration.createSpecial(controller);
-        configurationManager.registerConfiguration(majorInfoViewConfig);
+        configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
