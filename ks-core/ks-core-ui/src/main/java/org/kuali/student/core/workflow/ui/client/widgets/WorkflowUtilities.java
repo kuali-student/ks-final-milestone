@@ -1079,6 +1079,7 @@ public class WorkflowUtilities{
                             }
                         } else {
                             submitSuccessDialog.hide();
+                            updateWorkflowActionsWidget();
                         }
                     }
 
