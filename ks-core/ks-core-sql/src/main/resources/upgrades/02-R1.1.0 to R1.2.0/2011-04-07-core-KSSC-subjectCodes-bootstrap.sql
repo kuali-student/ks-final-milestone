@@ -178,8 +178,6 @@ insert into KSSC_SUBJ_CD (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NB
 
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('9a8535f5-4d43-462f-a1f0-e0d606a5e3c5', '212', '6', 1, to_date('2011-04-01','yyyy-mm-dd'), null, '14F49B4F-05E7-A621-12F0-CCADCA48DF56')
 /
-insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('64cbb209-6ed4-470b-b06a-aedaf4188604', '29', '2', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'AF717D2F-309B-A0EE-F772-D8161C5E5FC7')
-/
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('36829e62-de8e-4e93-b924-76cbeb3bc68c', '29', '3', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'F681ECB1-3DF7-309E-DDF8-C43A364BB2F2')
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('60527bcc-94fb-473c-915e-9926fc62ac29', '32', '4', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'F82F6574-DFCA-25AC-AD3E-3F27A294CF13')
@@ -224,8 +222,6 @@ insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('7414fa6c-3864-4957-a470-8df62eabda2a', '29', '28', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'BA01016B-9ADF-A878-6FF3-E1E4F8F601D5')
 /
-insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('26e9b160-73ba-4e70-8670-686c0fcfd93f', '65', '28', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'BC84F23F-E200-473D-21B7-1CF281035D5F')
-/
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('95a88c5e-5f5f-4a5b-8815-a0f757844204', '53', '29', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'ABC514C6-11A8-A660-BA45-8D683C8DCB76')
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('79a6e36c-744a-4f8c-9bf9-3597d75aef4a', '69', '30', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'F296A9DB-D440-BFEE-2370-38960DAAF0C6')
@@ -233,8 +229,6 @@ insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('17855886-6a66-414b-b86c-cbd80e81cd06', '57', '31', 1, to_date('2011-04-01','yyyy-mm-dd'), null, '3949E32D-9E49-46F9-41D4-DFE632D0C3D1')
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('91f2cde2-f3f1-4d84-917c-e753c5e7f069', '56', '32', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'B8D3E4A4-2D76-0F8B-8E0F-88E0A1EF0472')
-/
-insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('1c697004-8c9f-485e-bafe-46817e174fbe', '29', '33', 1, to_date('2011-04-01','yyyy-mm-dd'), null, 'D48A8CA8-A8D7-436B-7684-8B5511C95953')
 /
 insert into KSSC_SUBJ_CD_JN_ORG (ID, ORG_ID, SUBJ_CD_ID, VER_NBR, EFF_DT, EXPIR_DT, OBJ_ID) values ('4d568a5e-594c-439d-8956-1b748d748f9a', '28', '33', 1, to_date('2011-04-01','yyyy-mm-dd'), null, '4E2B1E19-E7E5-A1E3-C034-DB0FB2F77C47')
 /
