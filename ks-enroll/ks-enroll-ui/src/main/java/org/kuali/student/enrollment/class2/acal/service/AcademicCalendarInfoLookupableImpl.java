@@ -53,15 +53,15 @@ public class AcademicCalendarInfoLookupableImpl extends LookupableImpl {
 	    		academicCalendarInfoList.add(academicCalendarInfo);
 	    		return academicCalendarInfoList;
 	    	}catch (DoesNotExistException dnee){
-	    		
+	    		System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get DoesNotExistException:  "+dnee.toString());
 	    	}catch (InvalidParameterException ipe){
-	    		    		
+	    	    System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get InvalidParameterException:  "+ipe.toString());
 	    	}catch (MissingParameterException mpe){
-	    		
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get MissingParameterException:  "+mpe.toString());
 	    	}catch (OperationFailedException ofe){
-	    		
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get OperationFailedException:  "+ofe.toString());
 	    	}catch (PermissionDeniedException pde){
-	    		
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get PermissionDeniedException:  "+pde.toString());
 	    	}
 	    	return null;
 	        
