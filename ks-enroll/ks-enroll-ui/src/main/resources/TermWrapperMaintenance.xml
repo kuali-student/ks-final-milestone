@@ -18,11 +18,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
- <!--  
+
   <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
   <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
-    <property name="titleAttribute" value="termInfo.key"/>
+    <!-- <property name="titleAttribute" value="termInfo.key"/> -->
     <property name="complexAttributes">
       <list>
         <ref bean="TermWrapper.termInfo"/>
@@ -40,8 +40,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       </list>
     </property>
   </bean>
--->
-  <!-- Attribute Definitions 
+
+  <!-- Attribute Definitions -->
   <bean id="TermWrapper.termInfo" parent="ComplexAttributeDefinition">
   	<property name="name" value="termInfo"/>
   	<property name="dataObjectEntry" ref="TermInfoUI"/>  	
@@ -66,7 +66,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   	<property name="name" value="gradesDueDate"/>
   	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>     
   </bean>   
--->
+
   <!-- LookupView -->
   <bean id="TermWrapper-LookupView" parent="KSLookupView">
     <property name="title" value="Term Lookup (by Key)" />
