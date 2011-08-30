@@ -142,7 +142,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
                 			}
                 		}
                 		
-                   		if(rel.getTypeKey().equals("kuali.lui.lui.relation.IsDeliveredVia")){
+                   		if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY)){
                 			LuiInfo lui2 = luiService.getLui(rel.getRelatedLuiId(), context);
                 			if(lui2 != null && lui2.getTypeKey().equals("kuali.lui.type.course.finalExam") && !finalExams.contains(rel.getRelatedLuiId())){
                 				finalExams.add(rel.getRelatedLuiId());

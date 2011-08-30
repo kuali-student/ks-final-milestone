@@ -348,7 +348,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		
 		if(created != null){
 			try {
-				createLuiLuiRelation(co.getId(), created.getId(), "kuali.lui.lui.relation.IsDeliveredVia", context);
+				createLuiLuiRelation(co.getId(), created.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
 			} catch (AlreadyExistsException e1) {
 				throw new OperationFailedException();
 			}
@@ -511,7 +511,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return getActivitiesForRelation(courseOfferingId, "kuali.lui.lui.relation.IsDeliveredVia", "kuali.lui.type.course.finalExam", context);
+		return getActivitiesForRelation(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, "kuali.lui.type.course.finalExam", context);
 	}
 
 
@@ -587,7 +587,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
 		for (String courseOfferingId : courseOfferingIdList) {
-			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.type.deliveredvia", context);
+			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
 		}
 			
 	}
@@ -744,7 +744,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		if(rels != null && !rels.isEmpty()){                  
             for(LuiLuiRelationInfo rel : rels){
             	if(rel.getRelatedLuiId().equals(courseOfferingId)){
-            		if(rel.getTypeKey().equals("kuali.lui.lui.relation.type.registeredforvia")){
+            		if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY)){
             			String luiId = rel.getLuiId();
             			LuiInfo lui = luiService.getLui(luiId, context);
             			if(lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)){
@@ -802,11 +802,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
 			MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, "kuali.lui.lui.relation.type.registeredforvia", context);
+			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
 			
 			if(registrationGroupInfo.getActivityOfferingIds() != null && !registrationGroupInfo.getActivityOfferingIds().isEmpty()){
 				for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()){
-					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, "kuali.lui.lui.relation.type.registeredforvia", context);
+					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
 				}
 			}	
 	}
