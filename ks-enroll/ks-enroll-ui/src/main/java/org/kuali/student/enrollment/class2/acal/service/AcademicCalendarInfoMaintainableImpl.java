@@ -8,7 +8,7 @@ import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl {
+public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;	
 	
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
@@ -33,7 +33,7 @@ public class AcademicCalendarInfoMaintainableImpl extends KualiMaintainableImpl 
     private transient AcademicCalendarService academicCalendarService;
   
     @Override
-    public void saveBusinessObject() {
+    public void saveDataObject() {
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
         academicCalendarInfo.setKey(academicCalendarKey);
