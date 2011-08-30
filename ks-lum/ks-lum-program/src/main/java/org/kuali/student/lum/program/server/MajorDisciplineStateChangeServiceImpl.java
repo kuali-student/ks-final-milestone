@@ -68,8 +68,9 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String majorDisciplineId, String newState) throws Exception {
 
         // New state must not be null
-        if (newState == null)
+        if (newState == null){
             throw new InvalidParameterException("new state cannot be null");
+		}
 
         // The version selected in the UI
         MajorDisciplineInfo selectedVersion = programService.getMajorDiscipline(majorDisciplineId);
@@ -78,17 +79,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         // update the previous version end terms, and make the selected version current.
         if (newState.equals(DtoConstants.STATE_ACTIVE)) {
 
-            // Find the previous version
-            MajorDisciplineInfo previousVersion = findPreviousVersion(selectedVersion);
-
-            if (previousVersion != null) {
-
-                // Set end terms on previous version
-                setEndTerms(previousVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
-
-                // Mark previous version as superseded and update state on all associated objects
-                updateMajorDisciplineInfoState(previousVersion, DtoConstants.STATE_SUPERSEDED);
-            }
+            // Update previous versions to superseded and set end terms on previous current version.
+        	updatePreviousVersions(selectedVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
 
             // Update state of all associated objects for current version
             // NOTE: we must update state BEFORE making the version current
@@ -106,6 +98,115 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
     }
 
+
+    /**
+     * This method will update the state of this object and all associated objects.
+     * <p>
+     * It is needed because we need to make separate web service calls to update the state of these objects.
+     * 
+     * @param majorDisciplineInfo
+     * @param newState
+     */
+    private void updateMajorDisciplineInfoState(MajorDisciplineInfo majorDisciplineInfo, String newState) throws Exception {
+        // Update the statement tree
+        List<String> programRequirementIds = majorDisciplineInfo.getProgramRequirements();
+        updateRequirementsState(programRequirementIds, newState);
+
+        
+        // Update any variations 
+        List<ProgramVariationInfo> variationList = majorDisciplineInfo.getVariations();
+        updateVariationsRequirementsState(variationList, newState);
+        
+        
+        // Update major discipline
+        majorDisciplineInfo.setState(newState);
+        programService.updateMajorDiscipline(majorDisciplineInfo);
+    }
+
+    /**
+     * This method will make this version of the major discipline the current one.
+     * 
+     * @param majorDisciplineInfo
+     */
+    private void makeCurrent(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
+
+        // Check if this is the current version before trying to make it current
+        // (the web service will error if you try to make a version current that is already current)
+        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
+
+        // If this is not the current version, then make it current
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
+            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null);
+        }
+    }
+
+    /**
+     * This method finds all previous versions of program and sets all previous ACTIVE,APPROVED,DRAFT versions to SUPERSEDED and
+     * sets new end terms for previous current version.
+ 
+     * @param majorDisciplineInfo The version of major discipline program being activated
+     * @param endEntryTerm The new end entry term to set on previous active version
+     * @param endEnrollTerm The new end enroll term to set on previous active version
+     * @throws Exception
+     */
+    private void updatePreviousVersions (MajorDisciplineInfo selectedVersion, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm) throws Exception {
+    	// Get the current version of major discipline given the selected version
+    	MajorDisciplineInfo currentVersion = getCurrentVersion(selectedVersion);
+    	
+    	boolean isSelectedVersionCurrent = selectedVersion.getId().equals(currentVersion.getId());
+    	
+    	//Set the end terms on the current version of major discipline and update it's state to superseded
+    	setEndTerms(currentVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
+    	updateMajorDisciplineInfoState(currentVersion, DtoConstants.STATE_SUPERSEDED);
+
+		// Loop through all previous active or approved programs and set the state to superseded.
+		// We should only need to evaluated versions with sequence number
+		// higher than previous active program
+
+		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
+				selectedVersion.getVersionInfo().getVersionIndId());
+		Long startSeq = new Long(1);
+
+		if (!isSelectedVersionCurrent) {
+			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+		}
+
+		for (VersionDisplayInfo versionInfo : versions) {
+			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
+			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo().getSequenceNumber());  
+			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
+			if (updateState) {
+				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId());
+				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
+					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
+			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
+				}		
+			}
+		}    	
+
+    }
+    
+	/**
+	 * Get the current version of program given the selected version of program
+	 * 
+	 * @param verIndId
+	 */
+	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo)
+			throws Exception {
+		// Get version independent id of program
+		String verIndId = majorDisciplineInfo.getVersionInfo().getVersionIndId();
+
+		// Get id of current version of program given the version independent id
+		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(
+				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId);
+		String curVerId = curVerDisplayInfo.getId();
+
+		// Return the current version of the course
+		MajorDisciplineInfo currentVersion = programService.getMajorDiscipline(curVerId);
+
+		return currentVersion;
+	}
+    
     /**
      * This method updates the end terms for the major discipline passed into it.
      * <p>
@@ -173,85 +274,6 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    		
 	        }
         }
-    }
-
-    /**
-     * This method will update the state of this object and all associated objects.
-     * <p>
-     * It is needed because we need to make separate web service calls to update the state of these objects.
-     * 
-     * @param majorDisciplineInfo
-     * @param newState
-     */
-    private void updateMajorDisciplineInfoState(MajorDisciplineInfo majorDisciplineInfo, String newState) throws Exception {
-        // Update the statement tree
-        List<String> programRequirementIds = majorDisciplineInfo.getProgramRequirements();
-        updateRequirementsState(programRequirementIds, newState);
-
-        
-        // Update any variations 
-        List<ProgramVariationInfo> variationList = majorDisciplineInfo.getVariations();
-        updateVariationsRequirementsState(variationList, newState);
-        
-        
-        // Update major discipline
-        majorDisciplineInfo.setState(newState);
-        programService.updateMajorDiscipline(majorDisciplineInfo);
-    }
-
-    /**
-     * This method will make this version of the major discipline the current one.
-     * 
-     * @param majorDisciplineInfo
-     */
-    private void makeCurrent(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
-
-        // Check if this is the current version before trying to make it current
-        // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
-
-        // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
-            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null);
-        }
-    }
-
-    /**
-     * This method finds the previous version (the version right before this one).
-     * <p>
-     * e.g. v1 = ACTIVE v2 = APPROVED
-     * <p>
-     * If you passed v2 into this method, it would return v1.
-     * <p>
-     * If there is only one major discipline this method will return null.
-     * 
-     * @param majorDisciplineInfo
-     * @return
-     */
-    private MajorDisciplineInfo findPreviousVersion(MajorDisciplineInfo majorDisciplineInfo) throws Exception {
-        // Find all previous versions using the version independent indicator
-        List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId());
-
-        // Take the sequence number for this version
-        Long sequenceNumber = majorDisciplineInfo.getVersionInfo().getSequenceNumber();
-
-        // And subtract 1 from the sequence number to get the previous version
-        sequenceNumber -= 1;
-
-        // Loop over all versions and find the previous version based on the sequence number
-        /*
-         * NOTE: Dan suggested we loop over all versions and change any version with state=active to state=superseded.
-         * However, we decided not to go that route because we would need to pull back all data for each version to determine
-         * if a version is active, since versioninfo does not have a getState() method
-         */
-        MajorDisciplineInfo previousVersion = null;
-        for (VersionDisplayInfo versionInfo : versions) {
-            if (versionInfo.getSequenceNumber().equals(sequenceNumber)) {
-                previousVersion = programService.getMajorDiscipline(versionInfo.getId());
-                break;
-            }
-        }
-        return previousVersion;
     }
 
     /**
