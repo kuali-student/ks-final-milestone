@@ -24,7 +24,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="CourseInfo-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="objectLabel" value="Course"/>
     <property name="dataObjectClass" value="org.kuali.student.lum.course.dto.CourseInfo"/>
-    <property name="titleAttribute" value="code"/>
+    <property name="titleAttribute" value="id"/>
     <property name="attributes">
       <list>
       	<ref bean="CourseInfo.id"/>
