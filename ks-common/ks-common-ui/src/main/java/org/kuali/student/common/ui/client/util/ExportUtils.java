@@ -21,7 +21,6 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.list.KSLabelList;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -32,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableMode
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.ListBox;
@@ -44,83 +44,100 @@ public class ExportUtils {
     public static final String XLS = "XLS";
 
     public static ExportElement getExportItemDetails(ExportElement exportItem, Widget fieldWidget, boolean setFirstFieldValue, String viewName, String sectionName) {
-        String fieldValue = null;
+        
         if (!fieldWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
-        if (fieldWidget instanceof HasText) {
-            HasText itemHasTextValue = (HasText) fieldWidget;
-            fieldValue = itemHasTextValue.getText();
+            if (fieldWidget instanceof HasText) {
+                HasText itemHasTextValue = (HasText) fieldWidget;
+                setFieldValue(exportItem, setFirstFieldValue, itemHasTextValue.getText());
+                Element element = fieldWidget.getElement();
+                System.out.println("Inner Html:" + element.getInnerHTML());
+                Element parentElement = fieldWidget.getParent().getElement();
+                System.out.println("Parent Inner Html:" + parentElement.getInnerHTML());
+                
+                if (fieldWidget.getElement().getStyle().getFontStyle().equalsIgnoreCase("italic")){
+                    exportItem.setPrintType(ExportElement.ITALIC);
+                }
+            } else if (fieldWidget instanceof KSSelectedList) {
+                KSSelectedList selectedList = (KSSelectedList) fieldWidget;
+                List<KSItemLabel> selectedItems = selectedList.getSelectedItems();
+                String values = new String();
+                for (int j = 0; j < selectedItems.size(); j++) {
+                    values = selectedItems.get(j).getDisplayText();
+                }
+                setFieldValue(exportItem, setFirstFieldValue, values);
+                
+            } else if (fieldWidget instanceof KSPicker) {
+                KSPicker picker = (KSPicker) fieldWidget;
+                if (picker.getInputWidget() instanceof HasText) {
+                    HasText item = (HasText) picker.getInputWidget();
+                    setFieldValue(exportItem, setFirstFieldValue, item.getText());
+                } else if (picker.getInputWidget() instanceof KSLabelList) {
+                    String fieldValue = null;
+                    KSLabelList widget = (KSLabelList) picker.getInputWidget();
+                    List<String> selected = widget.getSelectedItemsForExport();
+                    for (int j = 0; j < selected.size(); j++) {
+                        if (fieldValue == null) {
+                            fieldValue = new String(selected.get(j));
+                        } else {
+                            fieldValue = fieldValue + ", " + selected.get(j);
+                        }
+                    }
+                    setFieldValue(exportItem, setFirstFieldValue, fieldValue);
+                }
+                
+            } else if (fieldWidget instanceof ListBox) {
+                ListBox listBox = (ListBox) fieldWidget;
+                setFieldValue(exportItem, setFirstFieldValue, listBox.getItemText(listBox.getSelectedIndex()));
+            } else if (fieldWidget instanceof SectionTitle) {
+                try {
+                    SectionTitle sectionTitle = (SectionTitle) fieldWidget;
+                    exportItem.setPrintType(ExportElement.BOLD);
+                    setFieldValue(exportItem, setFirstFieldValue, sectionTitle.getElement().getInnerText());
+                } catch (Exception e) {
+                    // ignore, section tile interface problem - only in debugging.");
+                }
 
-        } else if (fieldWidget instanceof KSLabel) {
-            // ignore labels... as we're not interested
-        } else if (fieldWidget instanceof KSSelectedList) {
-            KSSelectedList selectedList = (KSSelectedList) fieldWidget;
-            List<KSItemLabel> selectedItems = selectedList.getSelectedItems();
-            String values = new String();
-            for (int j = 0; j < selectedItems.size(); j++) {
-                values = selectedItems.get(j).getDisplayText();
-            }
-            fieldValue = values;
-        } else if (fieldWidget instanceof KSPicker) {
-            KSPicker picker = (KSPicker) fieldWidget;
-            if (picker.getInputWidget() instanceof HasText) {
-                HasText item = (HasText) picker.getInputWidget();
-                fieldValue = item.getText();
-            } else if (picker.getInputWidget() instanceof KSLabelList) {
-                KSLabelList widget = (KSLabelList) picker.getInputWidget();
-                List<String> selected = widget.getSelectedItemsForExport();
-                for (int j = 0; j < selected.size(); j++) {
-                    if (fieldValue == null) {
-                        fieldValue = new String(selected.get(j));
-                    } else {
-                        fieldValue = fieldValue + ", " + selected.get(j);
+            } else if (fieldWidget instanceof ReportExportWidget) {
+        	
+                if (fieldWidget.isVisible()){
+                    ReportExportWidget widget = (ReportExportWidget) fieldWidget;
+                    if (widget.isExportElement() ) {
+                        exportItem.setSubset(widget.getExportElementSubset(exportItem));
+                        setFieldValue(exportItem, setFirstFieldValue, widget.getExportFieldValue());
                     }
                 }
-            }
-        } else if (fieldWidget instanceof ListBox) {
-            ListBox listBox = (ListBox) fieldWidget;
-            fieldValue = listBox.getItemText(listBox.getSelectedIndex());
-        } else if (fieldWidget instanceof SectionTitle) {
-            try {
-                SectionTitle sectionTitle = (SectionTitle) fieldWidget;
-                fieldValue = sectionTitle.getElement().getInnerText();
-                // fieldValue = sectionTitle.getTitleText();
-            } catch (Exception e) {
-                System.out.println("Section tile interface probleem - only in debugging.");
-                e.printStackTrace();
-            }
-            // vrydag moved down } else if (fieldWidget instanceof ComplexPanel) {
-            // subExportElements = ExportUtils.getDetailsForWidget(fieldWidget,
-            // subExportElements, viewName, sectionName);
-        } else if (fieldWidget instanceof ReportExportWidget) {
-        	
-        	if (fieldWidget.isVisible()){
-            ReportExportWidget widget = (ReportExportWidget) fieldWidget;
-            if (widget.isExportElement() ) {
-                fieldValue = widget.getExportFieldValue();
-                exportItem.setSubset(widget.getExportElementSubset(exportItem));
-            }
-            }
-        } else if (fieldWidget instanceof ComplexPanel) {
-        	if(fieldWidget.isVisible())
-            {exportItem.setSubset(ExportUtils.getDetailsForWidget(fieldWidget, viewName, sectionName));}
+            } else if (fieldWidget instanceof ComplexPanel) {
+                if(fieldWidget.isVisible()) {
+                    exportItem.setSubset(ExportUtils.getDetailsForWidget(fieldWidget, viewName, sectionName));
+                }
 
-        } else {
-            // logger.warn(exportItem.getFieldLabel() +
-            // " Fieldwidget not catered for : class type = " +
-            // fieldWidget.getClass().getName());
+            } else {
+                // don't set anything
+            }
+        
+            
         }
+        return exportItem;
+    }
+
+
+    /**
+     * 
+     * This method sets the extracted string value.
+     * 
+     * @param exportItem
+     * @param setFirstFieldValue
+     * @param fieldValue
+     */
+    private static void setFieldValue(ExportElement exportItem, boolean setFirstFieldValue, String fieldValue) {
         if (setFirstFieldValue) {
             exportItem.setFieldValue(fieldValue);
         } else {
             exportItem.setFieldValue2(fieldValue);
         }
-        }
-        // System.out.println(exportItem.getSectionName() + " : Label = " +
-        // exportItem.getFieldLabel() + " fieldValue : " +
-        // exportItem.getFieldValue() + " fieldValue2 : " +
-        // exportItem.getFieldValue2());
-        return exportItem;
     }
+    
+    
 
     /**
      * This method gets the current controller based on the widget that was passed to it.
@@ -234,70 +251,56 @@ public class ExportUtils {
     public static List<ExportElement> getDetailsForWidget(Widget currentViewWidget, String viewName, String sectionName) {
         List<ExportElement> childElements = new ArrayList<ExportElement>();
         if (!currentViewWidget.getParent().getElement().getStyle().getDisplay().equals("none")){
-        if (currentViewWidget instanceof Section) {
-            Section widgetHasFields = (Section) currentViewWidget;
-            List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
-            for (FieldDescriptor field : widgetFields) {
+            if (currentViewWidget instanceof Section) {
+                Section widgetHasFields = (Section) currentViewWidget;
+                List<FieldDescriptor> widgetFields = widgetHasFields.getFields();
+                for (FieldDescriptor field : widgetFields) {
 
-                Widget fieldWidget = field.getFieldElement().getFieldWidget();
-                ExportElement exportItem = new ExportElement();
-				exportItem.setSectionName(sectionName + viewName);
-				exportItem.setViewName(sectionName + viewName);
-				exportItem.setFieldLabel(field.getFieldLabel());
-                exportItem = getExportItemDetails(exportItem, fieldWidget, true, viewName, sectionName);
-                //
-                ExportUtils.addElementToElementArray(childElements, exportItem);
-                //
-                // Vrydag exportElements.add(getExportItemDetails(exportItem,
-                // fieldWidget, true, viewName, sectionName));
-            }
-        } else if (currentViewWidget instanceof KSListPanel) {
-            KSListPanel ksListPanelWidget = (KSListPanel) currentViewWidget;
-            WidgetCollection children = ksListPanelWidget.getChildren();
-            for (int i = 0; i < children.size(); i++) {
-                Widget child = children.get(i);
+                    Widget fieldWidget = field.getFieldElement().getFieldWidget();
+                    ExportElement exportItem = new ExportElement();
+                    exportItem.setSectionName(sectionName + viewName);
+                    exportItem.setViewName(sectionName + viewName);
+                    exportItem.setFieldLabel(field.getFieldLabel());
+                    exportItem = getExportItemDetails(exportItem, fieldWidget, true, viewName, sectionName);
 
-				ExportElement exportItem = new ExportElement();
-				exportItem.setSectionName(sectionName + viewName);
-				exportItem.setViewName(sectionName + viewName);
-                exportItem = getExportItemDetails(exportItem, child, true, viewName, sectionName);
-                // Vrydag exportItem.setFieldLabel("");
-                //
-                ExportUtils.addElementToElementArray(childElements, exportItem);
-                //
-                // Vrydag exportElements.add(getExportItemDetails(exportItem, child,
-                // true, viewName, sectionName));
-            }
-
-        } else if (currentViewWidget instanceof ComplexPanel) {
-            ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
-            if (complexPanel.isVisible()){
-            for (int i = 0; i < complexPanel.getWidgetCount(); i++) {
-                Widget child = complexPanel.getWidget(i);
-                if (!(child instanceof KSButton)
-                // Vrydag && !(child instanceof SpanPanel) && !(child instanceof WarnContainer)) {
-                        && !(child instanceof WarnContainer)) {
-					
-					ExportElement exportItem = new ExportElement();
-					exportItem.setSectionName(sectionName);
-					exportItem.setViewName(viewName);
-					
-                    exportItem = getExportItemDetails(exportItem, child, true, viewName, sectionName);
                     ExportUtils.addElementToElementArray(childElements, exportItem);
-                    // Vrydag if ((exportItemDetails.getFieldValue() != null &&
-                    // !exportItemDetails.getFieldValue().equals(""))
-                    // || (exportItemDetails.getSubset() != null && exportItemDetails
-                    // .getSubset().size() > 0)) {
-                    // exportElements.add(exportItemDetails);
-                    // }
                 }
-            }
-            }
-        } else {
+            } else if (currentViewWidget instanceof KSListPanel) {
+                KSListPanel ksListPanelWidget = (KSListPanel) currentViewWidget;
+                WidgetCollection children = ksListPanelWidget.getChildren();
+                for (int i = 0; i < children.size(); i++) {
+                    Widget child = children.get(i);
 
-            System.out.println("ExportUtils does not cater for this type..." + currentViewWidget.getClass().getName());
+                    ExportElement exportItem = new ExportElement();
+                    exportItem.setSectionName(sectionName + viewName);
+                    exportItem.setViewName(sectionName + viewName);
+                    exportItem = getExportItemDetails(exportItem, child, true, viewName, sectionName);
 
-        }
+                    ExportUtils.addElementToElementArray(childElements, exportItem);
+                }
+
+            } else if (currentViewWidget instanceof ComplexPanel) {
+                ComplexPanel complexPanel = (ComplexPanel) currentViewWidget;
+                if (complexPanel.isVisible()){
+                    for (int i = 0; i < complexPanel.getWidgetCount(); i++) {
+                        Widget child = complexPanel.getWidget(i);
+                        if (!(child instanceof KSButton)
+                                && !(child instanceof WarnContainer)) {
+					
+                            ExportElement exportItem = new ExportElement();
+                            exportItem.setSectionName(sectionName);
+                            exportItem.setViewName(viewName);
+					
+                            exportItem = getExportItemDetails(exportItem, child, true, viewName, sectionName);
+                            ExportUtils.addElementToElementArray(childElements, exportItem);
+                        }
+                    }
+                }
+            } else {
+
+                System.out.println("ExportUtils does not cater for this type..." + currentViewWidget.getClass().getName());
+
+            }
         }
         return childElements;
     }
