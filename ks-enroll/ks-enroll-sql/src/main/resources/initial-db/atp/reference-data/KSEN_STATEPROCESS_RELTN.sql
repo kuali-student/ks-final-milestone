@@ -41,3 +41,7 @@ Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDAT
 Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-14',null,0,null,null,null,null,'kuali.lui.lui.relation.state.inactive','kuali.lui.lui.relation.state.active','kuali.lui.lui.relationship.process')
 /
 
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-15',null,0,null,null,null,null,'kuali.lpr.state.planned',null,'kuali.lpr.process.student.course.registration')
+/
+
+

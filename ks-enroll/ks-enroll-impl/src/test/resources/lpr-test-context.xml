@@ -101,14 +101,38 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
-    	<property name="lprDao" ref="lprDao"/>
-    </bean> 
-      
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>	                  	   
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
-		
+
+    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+        <property name="validator" ref="validator"/>
+        <property name="nextDecorator" ref="lprServiceImpl"/>
+    </bean>
+
+    <bean id="lprServiceImpl" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
+        <property name="lprDao" ref="lprDao"/>
+        <property name="stateService" ref="stateService"/>
+    </bean>
+
+    <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao"/>
+        <property name="spDao" ref="stateProcessDao"/>
+        <property name="sprDao" ref="stateProcessRelationDao"/>
+    </bean>
+
+    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
 </beans>

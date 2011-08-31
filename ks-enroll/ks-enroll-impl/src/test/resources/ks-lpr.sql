@@ -21,15 +21,30 @@ INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.n
 INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.waitlisted', 'Waitlisted', 'The student attempted to join but has been put on the waitlist', 0)
 INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.early', 'Dropped', 'The student was registered but subsequently dropped the course or section within the normally allotted time period', 0)
 INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.late', 'Dropped Late', 'The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate', 0)
+
+// LPR course registration process
+INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.process.student.course.registration', 'kuali.lpr.process.student.course.registration', 'kuali.lpr.process.student.course.registration', 0)
+
+// StateEntity entries for LPR states
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.planned', 'Planned', 'kuali.lpr.process.student.course.registration', 'The student plans on taking this course or program', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.registered', 'Registered', 'kuali.lpr.process.student.course.registration', 'The student is officially registered for the course or section', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.not.paid', 'Fee Not Paid', 'kuali.lpr.process.student.course.registration', 'The student has registered for the course by has not paid the fee', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.waitlisted', 'Waitlisted', 'kuali.lpr.process.student.course.registration', 'The student attempted to join but has been put on the waitlist', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.early', 'Dropped', 'kuali.lpr.process.student.course.registration', 'The student was registered but subsequently dropped the course or section within the normally allotted time period', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.late', 'Dropped Late', 'kuali.lpr.process.student.course.registration', 'The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate', 0)
+
+// State-proccess relations
+INSERT INTO KSEN_STATEPROCESS_RELTN(ID, PROCESS_KEY, PRIOR_STATEKEY, NEXT_STATEKEY, VER_NBR)VALUES('PROCESS-1', 'kuali.lpr.process.student.course.registration', null, 'kuali.lpr.state.planned', 0)
+
 // - Course and Section - Instructor - LPR States
 // - Program - Student - LPR States
 
 // LuiPersonRelationTypeEntity
-// - Course and Section Ð Instructor - LPR Types
+// - Course and Section ï¿½ Instructor - LPR Types
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.instructor.main', 'Main Instructor', 'Main instructor(s) responsible for course or section', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.instructor.assistant', 'Assistant Instructor', 'Person who assists the main instructor but is still considered an "instructor"', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.instructor.support', 'Support instructor', 'Persons who support the course but not in any official teaching role', 0)
-// - Course and Section Ð Student Ð LPR Types, 0
+// - Course and Section ï¿½ Student ï¿½ LPR Types, 0
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.registrant', 'Registrant', 'Registrant who is taking the course', 0)
 // - Program LPR Types
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.enrollee', 'Enrollee', 'Enrollee in the program', 0)

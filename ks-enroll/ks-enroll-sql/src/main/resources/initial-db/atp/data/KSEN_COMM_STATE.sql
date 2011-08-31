@@ -69,3 +69,15 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 /
 Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.canceled',null,0,null,null,null,null,'Once offered but now canceled',null,null,'Canceled','kuali.course.offering.process')
 /
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.planned',null,0,null,null,null,null,'The student plans on taking this course or program',null,null,'Planned','kuali.lpr.process.student.course.registration')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.registered',null,0,null,null,null,null,'The student is officially registered for the course or section',null,null,'Registered','kuali.lpr.process.student.course.registration')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.not.paid',null,0,null,null,null,null,'The student has registered for the course by has not paid the fee',null,null,'Fee Not Paid','kuali.lpr.process.student.course.registration')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.waitlisted',null,0,null,null,null,null,'The student attempted to join but has been put on the waitlist',null,null,'Waitlisted','kuali.lpr.process.student.course.registration')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.dropped.early',null,0,null,null,null,null,'The student was registered but subsequently dropped the course or section within the normally allotted time period',null,null,'Dropped','kuali.lpr.process.student.course.registration')
+/
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.dropped.late',null,0,null,null,null,null,'The student was registered but subsequently dropped the course or section past the normally allotted time period,typically resulting in a special grade or mark to so indicate',null,null,'Dropped Late','kuali.lpr.process.student.course.registration')
+/

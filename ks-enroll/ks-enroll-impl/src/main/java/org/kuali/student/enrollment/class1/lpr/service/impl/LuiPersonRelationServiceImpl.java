@@ -10,12 +10,6 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprStateDao;
@@ -25,36 +19,22 @@ import org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Author sambit
@@ -77,6 +57,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
+
+    private StateService stateService;
 
     public LprTransactionDao getLprTransDao() {
         return lprTransDao;
@@ -104,6 +86,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     public LprTypeDao getLprTypeDao() {
         return lprTypeDao;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
     }
 
     private LuiPersonRelationInfo getLprsByLuiPersonAndState(String personId, String luiId, String stateKey,
@@ -396,8 +386,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return stateService.getInitialValidStates(processKey, context);
     }
 
     @Override

@@ -29,3 +29,6 @@ Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,U
 Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relationship.process',null,0,null,null,null,null,'kuali lui-lui relationship process',null,null,'kuali.lui.lui.relationship.process')
 /
 
+Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lpr.process.student.course.registration',null,0,null,null,null,null,'kuali.lpr.process.student.course.registration',null,null,'kuali.lpr.process.student.course.registration')
+/
+
