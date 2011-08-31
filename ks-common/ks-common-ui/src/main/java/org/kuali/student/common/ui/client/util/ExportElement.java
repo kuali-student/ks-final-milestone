@@ -8,10 +8,19 @@ public class ExportElement implements Serializable {
     private static final long serialVersionUID = 1L;
     private String fieldLabel;
     private boolean isMandatory;
+    private int printType = -1;
 
     private String fieldValue;
     private String fieldValue2;
     private String viewName;
+    
+    //Print type constants.
+    public static int DEFAULT = 0;
+    public static int BOLD = 1;
+    public static int LIST_SUBREPORT = 2;
+    public static int SUBREPORT = 3;
+    public static int LIST = 4;
+    public static int ITALIC = 5;
 
     public ExportElement() {
         super();
@@ -56,13 +65,19 @@ public class ExportElement implements Serializable {
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
-        if (this.fieldValue != null && this.fieldValue.equals("")) {
-            System.out.println("Stop gou hier");
-        }
     }
 
-    public boolean isSub() {
-        return subset != null;
+    public void setPrintType(int printType) {
+        this.printType = printType;
+    }
+
+    public int getPrintType() {
+        if (this.printType != -1) {
+            return this.printType;
+        } else if (this.getSubset() != null && this.getValue().equals( "" )) {
+            return SUBREPORT;
+        }
+        return DEFAULT;
     }
 
     public List<ExportElement> getSubset() {
