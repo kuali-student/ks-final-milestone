@@ -18,8 +18,8 @@ import java.util.Map;
 //import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
 
 public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
-    public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "credentialProgramTypeKey";
-    public final static String ACADEMIC_CALENDAR_KEY = "key";
+    public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "academicCalendarInfo.credentialProgramTypeKey";
+    public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
  	private transient AcademicCalendarService academicCalendarService;
  	
 
@@ -33,25 +33,24 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     	List<AcademicCalendarInfo> academicCalendarInfoList = new ArrayList<AcademicCalendarInfo>();
     	
     	String academicCalendarKey = fieldValues.get(ACADEMIC_CALENDAR_KEY);
+        System.out.println(">>>academicCalendarKey = "+academicCalendarKey);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
     		academicCalendarInfo = academicCalendarService.getAcademicCalendar(academicCalendarKey, context);
     		academicCalendarWrapper.setAcademicCalendarInfo(academicCalendarInfo);
     		academicCalendarWrapperList.add(academicCalendarWrapper);
     		return academicCalendarWrapperList;
-    	}catch (DoesNotExistException dnee){
-    		if (academicCalendarInfo == null)
-    			return null;
-    		
-    	}catch (InvalidParameterException ipe){
-    		    		
-    	}catch (MissingParameterException mpe){
-    		
-    	}catch (OperationFailedException ofe){
-    		
-    	}catch (PermissionDeniedException pde){
-    		
-    	}
+        }catch (DoesNotExistException dnee){
+           System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get DoesNotExistException:  "+dnee.toString());
+	    }catch (InvalidParameterException ipe){
+	    	    System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get InvalidParameterException:  "+ipe.toString());
+	    }catch (MissingParameterException mpe){
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get MissingParameterException:  "+mpe.toString());
+	    }catch (OperationFailedException ofe){
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get OperationFailedException:  "+ofe.toString());
+	    }catch (PermissionDeniedException pde){
+                System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get PermissionDeniedException:  "+pde.toString());
+	    }
     	return null;
         
     }
