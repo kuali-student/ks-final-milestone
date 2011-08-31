@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
@@ -22,18 +22,18 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends KualiInquirableImpl {
-	 public final static String ACADEMIC_CALENDAR_KEY = "key";
+public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
+	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
 	 private transient AcademicCalendarService academicCalendarService;
 	 
 	@Override
-    public AcademicCalendarWrapper retrieveDataObject(Map fieldValues) {
+    public AcademicCalendarWrapper retrieveDataObject(Map<String, String> parameters) {
     	ContextInfo context = ContextInfo.newInstance();
     	academicCalendarService = getAcademicCalendarService();
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
     	try{
     		//need to retrieve AcademicCalendarInfo, all TermInfo and all KeyDateInfo to form the AcademicCalendarWrapper.
-    		String academicCalendarKey = (String)fieldValues.get(ACADEMIC_CALENDAR_KEY);
+    		String academicCalendarKey = parameters.get(ACADEMIC_CALENDAR_KEY);
     		if(academicCalendarKey == null){
     			System.out.println(">>>academicCalendarKey is null");
     			return null;
