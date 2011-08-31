@@ -50,11 +50,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarWrapper-LookupView" parent="KSLookupView">
     <property name="title" value="Academic Calendar Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper" />
-<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupableImpl" /> -->
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupableImpl" />
 
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" p:label="Academic Calendar Key"/>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
       </list>
     </property>
@@ -71,7 +71,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarWrapper-InquiryView" parent="InquiryView">
      <property name="title" value="Academic Calendar Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
-<!--      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperInquiryViewHelperServiceImpl" /> -->
+     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperInquiryViewHelperServiceImpl" />
      
      <property name="Items">
          <list>
