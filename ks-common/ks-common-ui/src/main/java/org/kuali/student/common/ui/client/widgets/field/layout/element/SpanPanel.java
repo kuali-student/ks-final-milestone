@@ -8,7 +8,6 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
@@ -22,7 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 
-    boolean exportElement = true;
+    private boolean exportElement = true;
+    private String reportText;
 
     public SpanPanel() {
         setElement(DOM.createSpan());
@@ -61,10 +61,12 @@ public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 
     public void setText(String text) {
         this.getElement().setInnerText(text);
+        this.reportText = text;
     }
 
     public void setHTML(String html) {
         this.getElement().setInnerHTML(html);
+        this.reportText = html;
     }
 
     public String getText() {
@@ -87,7 +89,12 @@ public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 
     @Override
     public String getExportFieldValue() {
-        return this.getText();
+        if (this.reportText != null){
+            return this.reportText;
+        } else if (this.getWidgetCount() == 0){
+            return this.getText();
+        }
+        return "";
     }
 
 }
