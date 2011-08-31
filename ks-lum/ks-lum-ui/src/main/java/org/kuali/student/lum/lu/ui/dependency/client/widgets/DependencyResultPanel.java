@@ -241,45 +241,60 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         
         @Override
         public List<ExportElement> getExportElementSubset(ExportElement parent) {
+            
             ArrayList<ExportElement> linkElementSubItems = new ArrayList<ExportElement>();
+            parent.setPrintType(ExportElement.LIST_SUBREPORT);
         	if (this.isVisible()) {  // If the panel is not open, then don't look further...
 			
-            for (CollapsablePanel depItem : dependencyItems) {
-            	if (depItem.isVisible()) {
+        	    for (CollapsablePanel depItem : dependencyItems) {
+        	        if (depItem.isVisible()) {
 					
-				
-            	ExportElement linkElement = new ExportElement();
-                linkElement.setSectionName(parent.getSectionName());
-                linkElement.setViewName(parent.getViewName());
-                linkElement.setFieldValue(depItem.getExportFieldValue());
-            	System.out.println("collapsablePanel " + linkElement.getFieldValue() + " is open " + depItem.isOpen());
+        	            ExportElement linkElement = new ExportElement();
+        	            linkElement.setSectionName(parent.getSectionName());
+        	            linkElement.setViewName(parent.getViewName());
+        	            linkElement.setFieldValue(depItem.getExportFieldValue());
                 
-                linkElement.setSubset(depItem.getExportElementSubset(parent));
+        	            List<ExportElement> subset = depItem.getExportElementSubset(parent);
+        	            linkElement.setSubset(setCurrOverToItalic(subset));
                 
-                String fieldValue = linkElement.getFieldValue();
-                if (fieldValue.indexOf("View Course Set") > 0) {
-                	fieldValue = fieldValue.replaceAll("View Course Set", "");
-                	fieldValue = "           " + fieldValue;
-                }	
-                else if (fieldValue.indexOf("View Course") > 0) {
-                	fieldValue = fieldValue.replaceAll("View Course", "");
-            		fieldValue = "           " + fieldValue;
-            	}	
-                else if (fieldValue.indexOf("View Program") > 0) {
-                	fieldValue = fieldValue.replaceAll("View Program", "");
-                	fieldValue = "           " + fieldValue;
+        	            String fieldValue = linkElement.getFieldValue();
+        	            if (fieldValue.indexOf("View Course Set") > 0) {
+        	                fieldValue = fieldValue.replaceAll("View Course Set", "");
+        	            } else if (fieldValue.indexOf("View Course") > 0) {
+        	                fieldValue = fieldValue.replaceAll("View Course", "");
+        	            } else if (fieldValue.indexOf("View Program") > 0) {
+        	                fieldValue = fieldValue.replaceAll("View Program", "");
+        	            }
+                
+        	            if (fieldValue.indexOf("Different Org") > 0) 
+        	                fieldValue = fieldValue.replaceAll("Different Org", "   * Different Org");
+                
+        	            linkElement.setFieldValue(fieldValue);
+        	            if (linkElement.getValue() != ""){
+        	                if (linkElement.getSubset() == null){
+        	                    linkElement.setPrintType(ExportElement.LIST);
+        	                } else {
+        	                    linkElement.setPrintType(ExportElement.LIST_SUBREPORT);
+        	                }
+        	            }
+                
+        	            linkElementSubItems.add(linkElement);
+        	        }
                 }
-                
-                if (fieldValue.indexOf("Different Org") > 0) 
-                	fieldValue = fieldValue.replaceAll("Different Org", "   * Different Org");
-                
-                linkElement.setFieldValue(fieldValue);
-                
-                linkElementSubItems.add(linkElement);
-            	}
-            }
         	}
             return linkElementSubItems;
+        }
+        
+        private List<ExportElement> setCurrOverToItalic(List<ExportElement> subset){
+            if (subset != null){
+                for (ExportElement element : subset){
+                    if ((element.getValue() != null)&&(element.getValue().contains("Curriculum Oversight"))){
+                        element.setPrintType(ExportElement.ITALIC);
+                    }
+                    element.setSubset(setCurrOverToItalic(element.getSubset()));
+                }
+            }
+            return subset;
         }
 
         @Override
@@ -289,7 +304,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
                 Widget child = this.linkPanel.getWidget(i);
                 if (child instanceof SpanPanel) {
                     SpanPanel header = (SpanPanel) child;
-                    text = header.getText();
+                    text = header.getExportFieldValue();
                 }
                 if (child instanceof KSLabel && (text != null) && (text != "")) {
                 	KSLabel countLabel = (KSLabel) child;
