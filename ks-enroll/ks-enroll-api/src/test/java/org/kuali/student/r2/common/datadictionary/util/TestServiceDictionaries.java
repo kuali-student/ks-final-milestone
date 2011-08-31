@@ -98,7 +98,7 @@ public class TestServiceDictionaries {
                 (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
         for (DataObjectEntry doe : beansOfType.values()) {
             System.out.println("Loading object structure: " + doe.getFullClassName());
-            if ("org.kuali.rice.kns.bo.AttributeReferenceDummy".equals(doe.getFullClassName())) {
+            if ("org.kuali.rice.krad.bo.AttributeReferenceDummy".equals(doe.getFullClassName())) {
                 continue;
             }
             doe.completeValidation();

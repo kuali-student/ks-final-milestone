@@ -196,7 +196,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     }
     
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     * @see org.kuali.rice.krad.maintenance.MaintainableImpl#prepareForSave()
      */
     @Override
     public void prepareForSave() {

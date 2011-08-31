@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//import org.kuali.rice.kns.uif.service.impl.LookupViewHelperServiceImpl;
-
 public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "academicCalendarInfo.credentialProgramTypeKey";
     public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";

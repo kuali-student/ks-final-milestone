@@ -213,7 +213,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
     
   
     /**
-     * @see org.kuali.rice.kns.maintenance.KualiMaintainableImpl#prepareForSave()
+     * @see org.kuali.rice.krad.maintenance.MaintainableImpl#prepareForSave()
      
     @Override
     public void prepareForSave() {
