@@ -35,6 +35,7 @@
                 <ref bean="ks_studentFacing_registrationView_section2"/>
                 <ref bean="ks_studentFacing_registrationView_nosection_group1"/>
                 <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings"/>
+                <ref bean="ks_studentFacing_registrationView_nosection_group2"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
@@ -118,29 +119,38 @@
         </property>
     </bean>
 
+    <bean id="ks_studentFacing_registrationView_nosection_group2" parent="GroupGridLayout">
+        <property name="items">
+            <list>
+                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
+            </list>
+        </property>
+    </bean>
 
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
-        <property name="title"
+        <property name="summary"
             value="Click a class to show/hide detail" />
         <property name="accordion.render" value="true" />
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
         <property name="propertyName" value="courseOfferingWrappers" />
-        <property name="readOnly" value="true" />
+        <property name="renderAddLine" value="false"/>
 <!--
+        <property name="readOnly" value="true" />
         <property name="layoutManager.renderSequenceField" value="true"/>
         <property name="layoutManager.renderAddLine" value="false" />
         <property name="layoutManager.tableTools.render" value="false"/>
 -->
         <property name="layoutManager.summaryFields">
             <list>
+                <value>courseOffering.courseOfferingCode</value>
                 <value>courseOffering.courseTitle</value>
             </list>
         </property>
+<!--
         <property name="items">
             <list>
-<!--
                 <bean parent="AttributeField" p:propertyName="courseOffering.courseTitle" p:label="Course" />
                 <bean parent="AttributeField" p:propertyName="field2" p:label="Field 2"
                     p:required="true" />
@@ -148,9 +158,9 @@
                     p:required="true" />
                 <bean parent="AttributeField" p:propertyName="field4" p:label="Field 4"
                     p:required="true" />
--->
             </list>
         </property>
+-->
         <property name="subCollections">
             <list>
                 <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" />
@@ -163,13 +173,19 @@
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="registrationGroupWrappers" />
+        <property name="renderAddLine" value="false"/>
 <!-- TODO delyea - figure out if readOnly means no sorting and if that matters -->
-        <property name="readOnly" value="true" />
 <!--
+        <property name="readOnly" value="true" />
         <property name="layoutManager.renderSequenceField" value="true"/>
         <property name="layoutManager.renderAddLine" value="false" />
         <property name="layoutManager.tableTools.render" value="false"/>
 -->
+        <property name="actionFields">
+          <list>
+            <bean parent="ActionField_SmallSecondary" p:methodToCall="registerClass" p:actionLabel="register"/>
+          </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="AttributeField" p:propertyName="registrationGroup.registrationCode" p:label="Registration Code" />

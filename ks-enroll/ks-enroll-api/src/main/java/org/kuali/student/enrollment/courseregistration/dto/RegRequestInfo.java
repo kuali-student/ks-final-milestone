@@ -35,7 +35,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         super();
         this.requestorId = null;
         this.termKey = null;
-        this.regRequestItems = null;
+        this.regRequestItems = new ArrayList<RegRequestItemInfo>();
         this._futureElements = null;
 
     }
