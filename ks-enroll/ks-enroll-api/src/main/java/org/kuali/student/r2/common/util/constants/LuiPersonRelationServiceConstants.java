@@ -29,12 +29,15 @@ public class LuiPersonRelationServiceConstants {
      * Types and knowns groups of types
      */
     public static final String LPR_KEY_PREFIX = "kuali.lpr";
+
     public static final String INSTRUCTOR_MAIN_TYPE_KEY = "kuali.lpr.type.instructor.main";
     public static final String INSTRUCTOR_ASSISTANT_TYPE_KEY = "kuali.lpr.type.instructor.assistant";
     public static final String INSTRUCTOR_SUPPORT_TYPE_KEY = "kuali.lpr.type.instructor.support";
     public static final String REGISTRANT_TYPE_KEY = "kuali.lpr.type.student";
     public static final String ENROLLEE_TYPE_KEY = "kuali.lpr.type.enrollee";
     public static final String ADVISOR_TYPE_KEY = "kuali.lpr.type.advisor";
+    public static final String LPRTRANS_ITEM__WAILISTIST_OPTION_KEY = "kuali.lpr.option.waitlist";
+    public static final String LPRTRANS_ITEM_HOLDLIST_OPTION_KEY = "kuali.lpr.option.holdlist";
     public static final String LPRTRANS_ITEM_UPDATE_TYPE_KEY = "kuali.lpr.trans.item.update";
     public static final String LPRTRANS_ITEM_ADD_TYPE_KEY = "kuali.lpr.trans.item.add";
     public static final String LPRTRANS_ITEM_SWAP_TYPE_KEY = "kuali.lpr.trans.item.swap";

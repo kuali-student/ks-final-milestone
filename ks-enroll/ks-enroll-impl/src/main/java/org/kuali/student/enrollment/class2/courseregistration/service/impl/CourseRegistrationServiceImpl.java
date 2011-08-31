@@ -114,11 +114,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     String regGroupId = regRequestItem.getNewRegGroupId();
                     RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
 
-                    if (getAvailableSeatsForStudentInRegGroup(storedRegRequest.getStudentId(), regGroupId, context) > 0) {
+                    if (getAvailableSeatsForStudentInRegGroup(regRequestItem.getStudentId(), regGroupId, context) > 0) {
                         List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
                         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
                             LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(
-                                    regRequestItem, context);
+                                    regRequestItem, null, context);
                             activtyItemInfo.setNewLuiId(activityOfferingId);
                             activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                             newTransactionItems.add(activtyItemInfo);
@@ -127,7 +127,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                         String courseOfferingId = regGroup.getCourseOfferingId();
                         LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(
-                                regRequestItem, context);
+                                regRequestItem, null, context);
                         courseOfferingItemInfo.setNewLuiId(courseOfferingId);
                         courseOfferingItemInfo
                                 .setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
@@ -136,7 +136,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                     } else {
                         LprTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem,
-                                context);
+                                null, context);
                         lprTransactionItem
                                 .setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY);
                         lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
@@ -151,7 +151,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
                     for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
                         LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
-                                context);
+                                null, context);
                         activtyItemInfo.setExistingLuiId(activityOfferingId);
                         activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
                         newTransactionItems.add(activtyItemInfo);
@@ -160,7 +160,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                     String courseOfferingId = regGroup.getCourseOfferingId();
                     LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem,
-                            context);
+                            null, context);
                     courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
                     courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
                     lprActivityTransactionItems.add(courseOfferingItemInfo);
@@ -842,6 +842,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getDroppedCourseRegistrationsByCourseOfferingId(String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

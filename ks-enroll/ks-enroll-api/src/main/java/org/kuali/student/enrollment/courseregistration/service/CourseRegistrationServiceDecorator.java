@@ -521,4 +521,11 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
         return getNextDecorator().getDroppedCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
     }
 
+    @Override
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+        return getNextDecorator().getCourseRegistrationsForStudent(studentId, context);
+    }
+
 }

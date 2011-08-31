@@ -16,15 +16,14 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegRequestInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "requestorId",
-        "studentId", "termKey", "regRequestItems", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegRequestInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "requestorId", "termKey",
+        "regRequestItems", "meta", "attributes", "_futureElements"})
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String requestorId;
-    @XmlElement
-    private String studentId;
+
     @XmlElement
     private String termKey;
     @XmlElement
@@ -35,7 +34,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     public RegRequestInfo() {
         super();
         this.requestorId = null;
-        this.studentId = null;
         this.termKey = null;
         this.regRequestItems = null;
         this._futureElements = null;
@@ -46,7 +44,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         super(regRequest);
         if (null != regRequest) {
             this.requestorId = regRequest.getRequestorId();
-            this.studentId = regRequest.getStudentId();
             this.termKey = regRequest.getTermKey();
             this.regRequestItems = new ArrayList<RegRequestItemInfo>();
             if (regRequest.getRegRequestItems() != null) {
@@ -64,10 +61,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         this.requestorId = requestorId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
     public void setTermKey(String termKey) {
         this.termKey = termKey;
     }
@@ -79,11 +72,6 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     @Override
     public String getRequestorId() {
         return requestorId;
-    }
-
-    @Override
-    public String getStudentId() {
-        return studentId;
     }
 
     @Override

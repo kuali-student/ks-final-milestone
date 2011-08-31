@@ -311,6 +311,24 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves LUI Person Relation for a specified LUI
+     * 
+     * @param typeKey
+     * @param luiId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<LuiPersonRelationInfo> getLprsByTypeAndLui(@WebParam(name = "typeKey") String typeKey,
+            @WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves LUIPersonRelation for LUI
      * 
      * @param luiId

@@ -1045,6 +1045,24 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * This method ...
      * 
      * @param studentId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DisabledIdentifierException
+     */
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(
+            @WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, DisabledIdentifierException;
+
+    /**
+     * This method ...
+     * 
+     * @param studentId
      * @param courseOfferingId
      * @param context
      * @return

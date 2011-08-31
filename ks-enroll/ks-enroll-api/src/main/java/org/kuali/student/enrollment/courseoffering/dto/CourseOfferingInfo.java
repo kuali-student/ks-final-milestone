@@ -32,9 +32,9 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey","name", "descr", "courseId", "formatIds",
-        "termKey", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering", "instructors",
-        "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
+@XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
+        "formatIds", "termKey", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
+        "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionIds", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",

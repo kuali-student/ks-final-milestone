@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.infc.Entity;
 
 /**
@@ -74,6 +73,6 @@ public interface LPRTransactionItem extends Entity {
      * 
      * @return
      */
-    public List<? extends ResultOptionInfo> getResultOptions();
+    public List<String> getResultOptionIds();
 
 }

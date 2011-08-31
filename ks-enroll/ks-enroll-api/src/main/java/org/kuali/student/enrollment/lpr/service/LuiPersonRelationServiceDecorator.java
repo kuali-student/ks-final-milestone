@@ -491,4 +491,11 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
         return getNextDecorator().getLprsByPersonForAtpAndPersonType(personId, atpKey, personTypeKey, context);
     }
 
+    @Override
+    public List<LuiPersonRelationInfo> getLprsByTypeAndLui(String typeKey, String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprsByTypeAndLui(typeKey, luiId, context);
+    }
+
 }

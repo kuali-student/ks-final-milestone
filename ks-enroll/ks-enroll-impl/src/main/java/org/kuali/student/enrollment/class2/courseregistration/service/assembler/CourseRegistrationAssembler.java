@@ -3,14 +3,12 @@ package org.kuali.student.enrollment.class2.courseregistration.service.assembler
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.mapping.Array;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegGroupRegistration;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
+import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrationInfo, LuiPersonRelationInfo> {

@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.Entity;
 
 /**
  * Represents a single reg group in the request to register. This request is
@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * 
  * @author Kuali Student Team (sambit)
  */
-public interface RegRequestItem extends IdEntity {
+public interface RegRequestItem extends Entity {
 
     /**
      * The possible types of RegRequestItem are ADD, DROP, SWAP or UPDATE. Those
@@ -34,6 +34,7 @@ public interface RegRequestItem extends IdEntity {
      * 
      * @see org.kuali.student.r2.common.infc.HasType#getTypeKey()
      */
+    @Override
     public String getTypeKey();
 
     /**
@@ -41,7 +42,16 @@ public interface RegRequestItem extends IdEntity {
      * 
      * @see org.kuali.student.r2.common.infc.HasState#getStateKey()
      */
+    @Override
     public String getStateKey();
+
+    /**
+     * Return the id of the student to be registered
+     * 
+     * @return
+     */
+
+    public String getStudentId();
 
     /**
      * Returns the id of the RegGroup for this item. This is populated for ADD,
@@ -80,7 +90,7 @@ public interface RegRequestItem extends IdEntity {
      * 
      * @return
      */
-    public String getGradingOption();
+    public String getGradingOptionId();
 
     /**
      * Specify the preferred credit option e.g credit/ no-credit for the course
@@ -88,6 +98,6 @@ public interface RegRequestItem extends IdEntity {
      * 
      * @return
      */
-    public String getCreditOption();
+    public String getCreditOptionId();
 
 }

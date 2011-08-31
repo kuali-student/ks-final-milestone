@@ -53,6 +53,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -67,6 +68,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprStateDao lprStateDao;
     private LprTypeDao lprTypeDao;
     private LuiService luiService;
+    private LRCService lrcService;
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
 
     public LprTransactionDao getLprTransDao() {
         return lprTransDao;
@@ -742,11 +752,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if (lprTransactionInfo.getTypeKey() != null)
                 modifiedLprTrans.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
             lprTransDao.merge(modifiedLprTrans);
-
             return lprTransDao.find(modifiedLprTrans.getId()).toDto();
 
         } else
-
             throw new DoesNotExistException(lprTransactionId);
     }
 
@@ -802,6 +810,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpKey,
             String personTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getLprsByTypeAndLui(String typeKey, String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

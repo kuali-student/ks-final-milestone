@@ -12,12 +12,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.dto.EntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptions",
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionIds",
         "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes",
         "_futureElements"})
 public class LprTransactionItemInfo extends EntityInfo implements LPRTransactionItem, Serializable {
@@ -34,7 +33,7 @@ public class LprTransactionItemInfo extends EntityInfo implements LPRTransaction
     private String existingLuiId;
 
     @XmlElement
-    private List<ResultOptionInfo> resultOptions;
+    private List<String> resultOptionIds;
 
     @XmlElement
     private List<RequestOptionInfo> requestOptions;
@@ -61,20 +60,19 @@ public class LprTransactionItemInfo extends EntityInfo implements LPRTransaction
             this.personId = lprTransactionItem.getPersonId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
-            
+
             this.requestOptions = new ArrayList<RequestOptionInfo>();
             if (null != lprTransactionItem.getRequestOptions()) {
                 for (RequestOption reqOp : lprTransactionItem.getRequestOptions()) {
                     this.requestOptions.add(new RequestOptionInfo(reqOp));
                 }
             }
-            
-            this.resultOptions = new ArrayList<ResultOptionInfo>();
-            if (null != lprTransactionItem.getResultOptions()) {
-                resultOptions.addAll(lprTransactionItem.getResultOptions());
+
+            this.resultOptionIds = new ArrayList<String>();
+            if (null != lprTransactionItem.getResultOptionIds()) {
+                resultOptionIds.addAll(lprTransactionItem.getResultOptionIds());
             }
-            
-            
+
             this.lprTransactionItemResult = new LprTransactionItemResultInfo(
                     lprTransactionItem.getLprTransactionItemResult());
 
@@ -126,14 +124,14 @@ public class LprTransactionItemInfo extends EntityInfo implements LPRTransaction
     public void setPersonId(String personId) {
         this.personId = personId;
     }
- 
+
     @Override
-    public List<ResultOptionInfo> getResultOptions() {
-        return resultOptions;
+    public List<String> getResultOptionIds() {
+        return resultOptionIds;
     }
 
-    public void setResultOptions(List<ResultOptionInfo> resultOptions) {
-        this.resultOptions = resultOptions;
+    public void setResultOptionIds(List<String> resultOptions) {
+        this.resultOptionIds = resultOptions;
     }
 
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {

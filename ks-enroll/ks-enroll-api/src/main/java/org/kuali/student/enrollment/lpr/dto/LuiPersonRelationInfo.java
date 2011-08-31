@@ -11,6 +11,7 @@
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +26,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId",
-        "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "resultOptionIds", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes",
+        "_futureElements"})
 public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPersonRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,9 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
 
     @XmlElement
     private String personId;
+
+    @XmlElement
+    private List<String> resultOptionIds;
 
     @XmlElement
     private Float commitmentPercent;
@@ -53,6 +58,9 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
         if (lpr != null) {
             this.luiId = lpr.getLuiId();
             this.personId = lpr.getPersonId();
+            if (lpr.getResultOptionIds() != null) {
+                this.resultOptionIds = new ArrayList<String>(lpr.getResultOptionIds());
+            }
             _futureElements = null;
         }
     }
@@ -82,5 +90,14 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
 
     public void setCommitmentPercent(Float commitmentPercent) {
         this.commitmentPercent = commitmentPercent;
+    }
+
+    @Override
+    public List<String> getResultOptionIds() {
+        return resultOptionIds;
+    }
+
+    public void setResultOptionIds(List<String> resultOptionIds) {
+        this.resultOptionIds = resultOptionIds;
     }
 }

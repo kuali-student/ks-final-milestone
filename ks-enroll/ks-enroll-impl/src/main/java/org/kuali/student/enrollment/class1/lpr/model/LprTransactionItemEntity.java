@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -42,9 +40,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @JoinColumn(name = "STATE_ID")
     private LuiPersonRelationStateEntity lprTransactionState;
 
-    @Embedded
-    private List<ResultOptionEntity> resultOptions;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private final List<LprTransItemAttributeEntity> attributes = new ArrayList<LprTransItemAttributeEntity>();
 
@@ -56,13 +51,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.newLuiId = lprTransactionItem.getNewLuiId();
         this.existingLuiId = lprTransactionItem.getExistingLuiId();
 
-        if (null != lprTransactionItem.getResultOptions()) {
-            for (ResultOptionInfo resultOption : lprTransactionItem.getResultOptions()) {
-                ResultOptionEntity resultOptionEntity = new ResultOptionEntity(resultOption);
-                this.getResultOptions().add(resultOptionEntity);
+        if (null != lprTransactionItem.getResultOptionIds()) {
+            for (String resultOptionId : lprTransactionItem.getResultOptionIds()) {
+                // TODO - is result option in this service?
             }
         }
-
 
         this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
         if (null != lprTransactionItem.getAttributes()) {
@@ -72,14 +65,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             }
         }
 
-    }
-
-    public List<ResultOptionEntity> getResultOptions() {
-        return resultOptions;
-    }
-
-    public void setResultOptions(List<ResultOptionEntity> resultOptions) {
-        this.resultOptions = resultOptions;
     }
 
     public LprTransactionEntity getLprTransactionEntity() {
