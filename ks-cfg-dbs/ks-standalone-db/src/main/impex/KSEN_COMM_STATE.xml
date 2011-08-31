@@ -54,6 +54,30 @@
         ID="kuali.hold.state.released" NAME="Released"
         PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
     <KSEN_COMM_STATE
+        DESCR="The student was registered but subsequently dropped the course or section within the normally allotted time period"
+        ID="kuali.lpr.state.dropped.early" NAME="Dropped"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The student was registered but subsequently dropped the course or section past the normally allotted time period,typically resulting in a special grade or mark to so indicate"
+        ID="kuali.lpr.state.dropped.late" NAME="Dropped Late"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The student has registered for the course by has not paid the fee"
+        ID="kuali.lpr.state.not.paid" NAME="Fee Not Paid"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The student plans on taking this course or program"
+        ID="kuali.lpr.state.planned" NAME="Planned"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The student is officially registered for the course or section"
+        ID="kuali.lpr.state.registered" NAME="Registered"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The student attempted to join but has been put on the waitlist"
+        ID="kuali.lpr.state.waitlisted" NAME="Waitlisted"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE
         DESCR="The relationship between the two LUIs is active "
         ID="kuali.lui.lui.relation.state.active" NAME="Active"
         PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>

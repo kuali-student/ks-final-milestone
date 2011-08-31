@@ -23,6 +23,9 @@
         NEXT_STATEKEY="kuali.lui.lui.relation.state.inactive"
         PRIOR_STATEKEY="kuali.lui.lui.relation.state.active"
         PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>
+    <KSEN_STATEPROCESS_RELTN ID="PROCESS-15"
+        NEXT_STATEKEY="kuali.lpr.state.planned"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
     <KSEN_STATEPROCESS_RELTN ID="PROCESS-2"
         NEXT_STATEKEY="kuali.atp.state.Official"
         PRIOR_STATEKEY="kuali.atp.state.Draft"
