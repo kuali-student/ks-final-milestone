@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -15,6 +17,7 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -23,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 
 public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo, LuiInfo>{
 	private LuiService luiService;
@@ -54,7 +58,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setMaximumEnrollment(lui.getMaximumEnrollment());
 			co.setMinimumEnrollment(lui.getMinimumEnrollment());
 
-			//TODO: co.setIsHonorsOffering(isHonorsOffering) -- lui.getLuiCodes() ?
+			assembleLuiCodes(lui, co);
 			
 			//below undecided
 			//co.setHasWaitlist(lui.getHasWaitlist());
@@ -94,6 +98,18 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			return null;
 	}
 
+	private void assembleLuiCodes(LuiInfo lui, CourseOfferingInfo co){
+		co.setIsHonorsOffering(false);
+		List<LuCodeInfo> luiCodes = lui.getLuiCodes();
+		if(luiCodes!= null && !luiCodes.isEmpty()){
+			for(LuCodeInfo luiCode : luiCodes){
+				if(luiCode.getTypeKey().equals("kuali.lu.code.honorsOffering"))
+					co.setIsHonorsOffering(Boolean.parseBoolean(luiCode.getValue()));
+					break;
+			}
+		}
+	}
+	
 	private void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context){
 		List<LuiPersonRelationInfo> lprs = null;;
 		try {
@@ -177,7 +193,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setMeta(co.getMeta());
 			lui.setAttributes(co.getAttributes());
 			
-			//TODO: co.getIsHonorsOffering() --store in a generic lui luCodes type of field?
+			disassembleLuiCodes(co, lui);
 			
 			//below undecided
 			//lui.setHasWaitlist(co.getHasWaitlist());
@@ -210,6 +226,17 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			return null;
 	}
 
+	private void disassembleLuiCodes(CourseOfferingInfo co, LuiInfo lui){
+		lui.setLuiCodes(new ArrayList<LuCodeInfo>());
+		
+        LuCodeInfo code = new LuCodeInfo();
+        code.setTypeKey("kuali.lu.code.honorsOffering");
+        code.setValue("true");
+        code.setAttributes(new ArrayList<AttributeInfo>());
+        lui.getLuiCodes().add(code);
+				
+	}
+	
 	private void disassembleIdentifier(CourseOfferingInfo co, LuiInfo lui){
 		LuiIdentifierInfo identifier = new LuiIdentifierInfo();
 		identifier.setCode(co.getCourseOfferingCode());

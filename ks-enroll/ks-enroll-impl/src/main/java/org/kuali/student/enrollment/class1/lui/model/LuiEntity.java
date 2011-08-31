@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.infc.LuCode;
 
 import javax.persistence.CascadeType;
@@ -168,7 +169,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         if (null != officialIdentifier) {
             obj.setOfficialIdentifier(officialIdentifier.toDto());
         }
-
+        
+        List<LuCodeInfo> codes = new ArrayList<LuCodeInfo>();
+        for (LuCodeEntity code : luCodes) {
+        	LuCodeInfo codeInfo = code.toDto();
+        	codes.add(codeInfo);
+        }
+        obj.setLuiCodes(codes);
+        
 	/*
 	 * decide if this this should be stored on the Lui or on a waitlist object?
     	obj.setHasWaitlist(hasWaitlist);

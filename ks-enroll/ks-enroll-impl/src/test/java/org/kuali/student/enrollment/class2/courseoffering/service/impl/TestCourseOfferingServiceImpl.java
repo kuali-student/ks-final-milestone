@@ -205,6 +205,7 @@ public class TestCourseOfferingServiceImpl {
 		    	assertNotNull(obj);
 		    	
 		    	obj.setTermKey("testAtpId1");
+		    	obj.setIsHonorsOffering(true);
 		    	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 		    	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 		    	instructor.setPersonId("Pers-1");
