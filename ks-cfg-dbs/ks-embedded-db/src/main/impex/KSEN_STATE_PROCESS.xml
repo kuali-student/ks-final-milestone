@@ -22,6 +22,10 @@
     <KSEN_STATE_PROCESS DESCR="kuali hold restriction process"
         ID="kuali.hold.restriction.process"
         NAME="kuali.hold.restriction.process" VER_NBR="0"/>
+    <KSEN_STATE_PROCESS
+        DESCR="kuali.lpr.process.student.course.registration"
+        ID="kuali.lpr.process.student.course.registration"
+        NAME="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
     <KSEN_STATE_PROCESS DESCR="kuali lui capacity process"
         ID="kuali.lui.capacity.process"
         NAME="kuali.lui.capacity.process" VER_NBR="0"/>
