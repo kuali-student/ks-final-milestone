@@ -389,14 +389,16 @@
 		<property name="dataService" ref="credentialProgramDataService"/>
 		<property name="programService" ref="programClient"/>
         <property name="statementService" ref="statementServiceClient"/>  
-		<property name="stateChangeService" ref="credentialProgramStateChangeService"/>     
+		<property name="stateChangeService" ref="credentialProgramStateChangeService"/>
+		<property name="luService" ref="luClient"/>     
     </bean>
 
     <bean id="coreProgramRpcServlet" class="org.kuali.student.lum.program.server.CoreProgramRpcServlet">
 		<property name="dataService" ref="coreProgramDataService"/>
 		<property name="programService" ref="programClient"/>
         <property name="statementService" ref="statementServiceClient"/>       
-        <property name="stateChangeService" ref="coreProgramStateChangeService"/> 
+        <property name="stateChangeService" ref="coreProgramStateChangeService"/>
+        <property name="luService" ref="luClient"/> 
     </bean>
 
     <bean id="majorDisciplineDataService" class="org.kuali.student.lum.program.server.MajorDisciplineDataService">
