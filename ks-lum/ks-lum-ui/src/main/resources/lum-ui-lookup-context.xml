@@ -7006,7 +7006,7 @@
            <property name="writeAccess" value="NEVER" />
            <property name="optional" value="true"/>
            <property name="caseSensitive" value="false" />
-           <property name="usage" value="ADVANCED"/>
+           <property name="usage" value="ADVANCED_CUSTOM"/>
           <!-- Hack to get the correct SQL generated in AbstractSearchableCrudDaoImpl -->
            <property name="defaultValueString" value="1"/>
        </bean>
