@@ -54,8 +54,9 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
-        
-
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 	</persistence-unit>

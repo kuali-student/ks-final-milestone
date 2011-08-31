@@ -928,7 +928,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<LuiInfo> getLprRoster(@WebParam(name = "lprRosterId") String lprRosterId,
+    public LprRosterInfo getLprRoster(@WebParam(name = "lprRosterId") String lprRosterId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 

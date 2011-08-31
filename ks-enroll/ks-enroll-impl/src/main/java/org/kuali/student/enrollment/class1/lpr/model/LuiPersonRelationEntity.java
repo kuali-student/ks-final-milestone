@@ -57,12 +57,14 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     public LuiPersonRelationEntity() {}
 
     public LuiPersonRelationEntity(LuiPersonRelation dto) {
-
+        super(dto);
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setExpirationDate(dto.getExpirationDate());
         this.setId(dto.getId());
         this.setLuiId(dto.getLuiId());
         this.setPersonId(dto.getPersonId());
+        this.setExpirationDate(dto.getExpirationDate());
+        this.setEffectiveDate(dto.getEffectiveDate());
         // TODO - need to retrieve the LuiPersonRelationState based on the
         // return of dto.getState()?
         // this.setPersonRelationState(new
