@@ -19,10 +19,39 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
 
+  <bean id="AcademicCalendarWrapper" parent="AcademicCalendarWrapper-parentBean"/>
+  <bean id="AcademicCalendarWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
+    <!-- <property name="titleAttribute" value="termInfo.key"/> -->
+    <property name="complexAttributes">
+      <list>
+        <ref bean="AcademicCalendarWrapper.academicCalendarInfo"/>
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="termWrapperList" /> <!--p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />-->
+      </list>
+    </property>
+    <property name="objectLabel" value="Academic Calendar with Terms"/>
+    <property name="primaryKeys">
+      <list>
+        <value>academicCalendarInfo.key</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AcademicCalendarWrapper.academicCalendarInfo" parent="ComplexAttributeDefinition">
+     <property name="name" value="academicCalendarInfo"/>
+     <property name="dataObjectEntry" ref="AcademicCalendarInfoUI"/>
+  </bean>
+
+  <!-- LookupView -->
   <bean id="AcademicCalendarWrapper-LookupView" parent="KSLookupView">
     <property name="title" value="Academic Calendar Lookup (by Key)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper" />
-<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupableImpl
+<!--     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupableImpl" /> -->
+
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" />
@@ -42,7 +71,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarWrapper-InquiryView" parent="InquiryView">
      <property name="title" value="Academic Calendar Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
--->
 <!--      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperInquiryViewHelperServiceImpl" /> -->
      
      <property name="Items">
