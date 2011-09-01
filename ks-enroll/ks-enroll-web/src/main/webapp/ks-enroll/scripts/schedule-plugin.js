@@ -25,6 +25,16 @@
 
             $.data(this, "options", options);
             $.data(this, "vars", localVars);
+            var cellWidth = $(this).find(".schedule td").css("width").replace("px", "");
+            var borderWidth = 1;
+            var tableWidth;
+            if(options.omitWeekend){
+               tableWidth  = (cellWidth * 6) + (borderWidth * 6);
+            }
+            else{
+               tableWidth  = (cellWidth * 8) + (borderWidth * 8);
+            }
+            $(this).find(".schedule").width(tableWidth);
             if(options.data != null){
                 $(this).initSchedule(options.data);
             }
@@ -35,11 +45,12 @@
     $.fn.initSchedule = function(data){
         $(this).find(".timeBlock").remove();
         $(this).find(".keyRow").remove();
-        var options = $.data(this[0], "options");
+        var schedule = this[0];
+        var options = $.data(schedule, "options");
         options.data = data;
         if(data != null){
            $.each(data, function(index, value){
-               $(this).addTimeAndKey(genBlockName(schedule), value.days, value.startTime, value.endTime, value.name, value.cssClass);
+               $(schedule).addTimeAndKey(genBlockName(schedule), value.days, value.startTime, value.endTime, value.name, value.cssClass);
            });
         }
     }
@@ -104,19 +115,16 @@
                 }
                 var tdLoc = $(schedule).find(".timeRow:nth-child(" + startIndex + ")").find("td:nth-child(" + dayIndex + ")");
 
-                var th = $(schedule).find(".timeRow th:first");
-
-                var divHeight = th.outerHeight() * totalHours;
+                var divHeight = tdLoc.outerHeight() * totalHours;
                 div.height(divHeight);
 
-                var divWidth = Math.round(th.width() / 2);
+                var divWidth = Math.floor(tdLoc.width() / 2);
                 div.width(divWidth);
 
-
-                var left = Math.round(th.width() / 4);
+                var left = Math.floor(tdLoc.width() / 4);
                 div.css("left", left + "px");
 
-                var top = th.height() * startMinFraction;
+                var top = tdLoc.height() * startMinFraction;
                 div.css("top", top + "px");
 
                 if (timeName) {

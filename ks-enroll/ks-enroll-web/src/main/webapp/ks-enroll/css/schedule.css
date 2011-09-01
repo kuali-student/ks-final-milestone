@@ -1,18 +1,25 @@
 .schedule{
 	font-size: .9em;
 	border-collapse:collapse;
+    background-color: white;
+}
+
+.schedule th, .schedule td{
+    padding: 0px;
+    height: 24px;
+    width: 50px;
+    overflow: hidden;
+    border: 1px solid black;
 }
 
 .schedule th{
-	border: 1px solid black;
 	font-weight: normal;
 	text-align: center;
+    vertical-align: middle;
 }
 
 .schedule td{
 	vertical-align: top;
-	border: 1px solid black;
-	padding: 0px;
 }
 
 .schedule .timeBlock{
@@ -25,7 +32,6 @@
 
 .schedule .dayRow th{
 	vertical-align: bottom;
-	width:80px;
 }
 
 .schedule .timeRow{
@@ -50,6 +56,10 @@
 .scheduleKey{
 	font-size: .9em;
 	border-collapse:collapse;
+}
+
+.scheduleKey td, .scheduleKey th{
+    padding: .2em;
 }
 
 .previewTimeBlock{

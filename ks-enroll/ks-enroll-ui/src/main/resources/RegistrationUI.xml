@@ -23,6 +23,7 @@
         <property name="id" value="studentRegistrationView"/>
         <property name="title" value="Registration"/>
         <property name="singlePageView" value="true" />
+        <property name="styleClasses" value="registration"/>
         <property name="page">
             <bean parent="Page" />
         </property>
@@ -31,47 +32,68 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="ks_studentFacing_registrationView_section1"/>
-                <ref bean="ks_studentFacing_registrationView_section2"/>
-                <ref bean="ks_studentFacing_registrationView_nosection_group1"/>
-                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings"/>
-                <ref bean="ks_studentFacing_registrationView_nosection_group2"/>
+                <ref bean="registration_grid_layout"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
-<!--
-        <property name="defaultBindingObjectPath" value="travelAccount1"/>
--->
+        <!--
+                <property name="defaultBindingObjectPath" value="travelAccount1"/>
+        -->
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_section1" parent="GroupSection">
+    <bean id="registration_grid_layout" parent="GroupGridLayout">
+		<property name="accordion.render" value="false" />
+        <property name="layoutManager.numberOfColumns" value="10"/>
+        <property name="layoutManager.renderAlternatingHeaderColumns" value="false"/>
+		<property name="items">
+			<list>
+                <ref bean="registration_search_panel"/>
+                <ref bean="registration_schedule_panel"/>
+            </list>
+		</property>
+	</bean>
+
+    <bean id="registration_search_panel" parent="Group"
+          p:layoutManager.orientation="VERTICAL" p:colSpan="6">
+        <property name="accordion.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="ks_studentFacing_registrationView_browse"/>
+                <ref bean="ks_studentFacing_registrationView_fast_find"/>
+                <ref bean="ks_studentFacing_registrationView_search_buttons"/>
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings"/>
+                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="registration_schedule_panel" parent="Group"
+          p:layoutManager.orientation="VERTICAL" p:colSpan="4">
+        <property name="accordion.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="ScheduleTableTest" parent="AttributeField_Form" abstract="true"
+                      p:labelField.renderColon="false">
+                    <property name="control">
+                        <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_browse" parent="Group">
         <property name="title" value="Browse Classes"/>
+        <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <ref bean="ks_studentFacing_registrationView_section1_group1"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ks_studentFacing_registrationView_section2" parent="GroupSection">
-        <property name="title" value="Fast Find"/>
-        <property name="items">
-            <list>
-                <ref bean="ks_studentFacing_registrationView_section2_group1"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ks_studentFacing_registrationView_section1_group1" parent="GroupGridLayout">
-        <property name="items">
-            <list>
-                <bean parent="AttributeField_Form" p:propertyName="termKey">
+                <bean parent="AttributeField_Form" p:labelField.renderColon="false" p:propertyName="termKey">
                     <property name="control">
                         <bean parent="HiddenControl"/>
                     </property>
                 </bean>
                 <bean parent="AttributeField_Form" p:propertyName="subjectArea" p:label="By Programs/Departments 2"
-                      p:readOnly="false" p:labelPlacement="TOP">
+                      p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
                         <bean parent="SelectControl"/>
                     </property>
@@ -91,11 +113,14 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_section2_group1" parent="GroupGridLayout">
+    <bean id="ks_studentFacing_registrationView_fast_find" parent="Group">
+        <property name="title" value="Fast Find"/>
+        <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber" p:label="Enter the Course Name or Number"
-                      p:readOnly="false" p:labelPlacement="TOP">
+                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber"
+                      p:label="Enter the Course Name or Number"
+                      p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
                     </property>
@@ -110,19 +135,13 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_nosection_group1" parent="GroupGridLayout">
+    <bean id="ks_studentFacing_registrationView_search_buttons" parent="Group"
+            p:layoutManager.orientation="HORIZONTAL">
+        <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"/>
                 <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ks_studentFacing_registrationView_nosection_group2" parent="GroupGridLayout">
-        <property name="items">
-            <list>
-                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
             </list>
         </property>
     </bean>
@@ -132,12 +151,14 @@
         <property name="summary"
             value="Click a class to show/hide detail" />
         <property name="accordion.render" value="true" />
+        <property name="accordion.defaultOpen" value="false"/>
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
         <property name="propertyName" value="courseOfferingWrappers" />
         <property name="renderAddLine" value="false"/>
-<!--
         <property name="readOnly" value="true" />
+<!--
+
         <property name="layoutManager.renderSequenceField" value="true"/>
         <property name="layoutManager.renderAddLine" value="false" />
         <property name="layoutManager.tableTools.render" value="false"/>
@@ -174,6 +195,7 @@
             value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="registrationGroupWrappers" />
         <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="true" />
 <!-- TODO delyea - figure out if readOnly means no sorting and if that matters -->
 <!--
         <property name="readOnly" value="true" />
