@@ -102,8 +102,8 @@ INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.
 INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.activity.offering.lecture', 'Lecture', 'Instructor presentation of course materials', 0)
 INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.activity.offering.lab', 'Lab', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
 
-INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.IsDeliveredVia', 'tmp activity', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
-INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.RegisteredForVia', 'tmp regGroup', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
+INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.type.registeredforvia', 'tmp activity', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
+INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.type.deliveredvia', 'tmp regGroup', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
 
 INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.associated', 'Associated', 'The first LUI is associated with the second LUI', 0)
 
