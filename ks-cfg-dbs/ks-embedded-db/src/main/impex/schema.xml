@@ -4462,6 +4462,16 @@
             <reference foreign="TYPE_KEY" local="RELATION_TYPE_ID"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LPRROSTER_LUI_RELTN">
+        <column name="LPRROSTER_ID" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI" name="KSEN_LPRROSTER_LUI_RELTN_FK2">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPRROSTER_LUI_RELTN_FK1">
+            <reference foreign="ID" local="LPRROSTER_ID"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LPR_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
@@ -4476,6 +4486,26 @@
         </foreign-key>
         <foreign-key foreignTable="KSEN_LPR_STATE" name="FKDF4BE635EA869E3D">
             <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LPR_ROSTER">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="22" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="MAX_CAPACITY" size="22" type="DECIMAL"/>
+        <column name="CHECK_IN_REQ" size="22" type="DECIMAL"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="ATP_DUR_TYP_KEY" size="255" type="VARCHAR"/>
+        <column name="TM_QUANTITY" size="22" type="DECIMAL"/>
+        <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="KSEN_LPR_ROSTER_FK1">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
     </table>
     <table name="KSEN_LPR_STATE">
