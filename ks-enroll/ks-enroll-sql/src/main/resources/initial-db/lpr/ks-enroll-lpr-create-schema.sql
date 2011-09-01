@@ -107,13 +107,13 @@ create table KSEN_LPR_ROSTER
 		STATE_ID varchar2(255),
 		TYPE_ID varchar2(255),
 		ATP_DUR_TYP_KEY varchar2(255),
-		TM_QUANTITY number,
+		TM_QUANTITY number
    )
 /
 
 create table  KSEN_LPRROSTER_LUI_RELTN
   (
 	    LPRROSTER_ID varchar2(255),
-	    LUI_ID varchar2(255),
+	    LUI_ID varchar2(255)
   )
 /
