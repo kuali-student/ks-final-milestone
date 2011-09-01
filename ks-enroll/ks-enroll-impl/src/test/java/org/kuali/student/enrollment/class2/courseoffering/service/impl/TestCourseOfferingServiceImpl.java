@@ -219,6 +219,7 @@ public class TestCourseOfferingServiceImpl {
 		    	
 		    	CourseOfferingInfo retrieved = coServiceValidation.getCourseOffering("Lui-1", callContext);
 		    	assertNotNull(retrieved);
+		    	assertTrue(retrieved.getIsHonorsOffering());
 		    	assertTrue(retrieved.getInstructors().size() == 1);
 	    	} catch (Exception ex) {
 	    		fail("exception from service call :" + ex.getMessage());

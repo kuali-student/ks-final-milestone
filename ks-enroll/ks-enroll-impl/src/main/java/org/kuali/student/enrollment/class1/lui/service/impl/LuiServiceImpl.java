@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiTypeDao;
+import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
@@ -421,6 +422,12 @@ public class LuiServiceImpl implements LuiService {
         if (null != luiInfo.getDescr())
         	entity.setDescr(new LuiRichTextEntity(luiInfo.getDescr()));
         
+        if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()){
+        	for (LuCodeEntity luiCode : entity.getLuCodes()){
+        		luiCode.setLui(entity);
+        	}
+        }
+       
         LuiEntity existing = luiDao.find(entity.getId());
         if( existing != null) {
             throw new AlreadyExistsException();
@@ -454,6 +461,12 @@ public class LuiServiceImpl implements LuiService {
             
             if (null != luiInfo.getTypeKey())
             	modifiedEntity.setLuiType(findType(luiInfo.getTypeKey()));
+
+            if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()){
+            	for (LuCodeEntity luiCode : modifiedEntity.getLuCodes()){
+            		luiCode.setLui(modifiedEntity);
+            	}
+            }
             
             luiDao.merge(modifiedEntity);
 	        return luiDao.find(modifiedEntity.getId()).toDto();
