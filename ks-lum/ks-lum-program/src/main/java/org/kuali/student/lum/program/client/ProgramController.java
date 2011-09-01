@@ -8,7 +8,6 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -28,7 +27,6 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
@@ -37,7 +35,6 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -49,8 +46,6 @@ import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -337,6 +332,7 @@ public abstract class ProgramController extends MenuSectionController {
             idAttributes.put(IdAttributes.ID_TYPE, idType.toString());
             viewContextId = viewContext.getId();
             if (idType == IdType.COPY_OF_OBJECT_ID) {
+   
                 viewContextId = null;
             }
         }
@@ -346,12 +342,6 @@ public abstract class ProgramController extends MenuSectionController {
             if (programStatus.getNextStatus() != null) {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
-        }
-        String currentDocType = programModel.get(configurer.getProposalPath()+"/type");
-        idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);                                      
-        if (LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equalsIgnoreCase(currentDocType)){
-            String workflowNode = programModel.get(configurer.getProposalPath()+"/workflowNode");
-            idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
         }
         programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
 
