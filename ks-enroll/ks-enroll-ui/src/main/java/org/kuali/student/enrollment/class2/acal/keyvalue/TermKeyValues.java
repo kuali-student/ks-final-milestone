@@ -38,7 +38,7 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private AcademicCalendarService acalService;
+    private transient AcademicCalendarService acalService;
 
 
     @Override
