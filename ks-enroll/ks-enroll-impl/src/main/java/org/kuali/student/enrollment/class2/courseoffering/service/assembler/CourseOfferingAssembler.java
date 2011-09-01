@@ -231,7 +231,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		
         LuCodeInfo code = new LuCodeInfo();
         code.setTypeKey("kuali.lu.code.honorsOffering");
-        code.setValue("true");
+        code.setValue(co.getIsHonorsOffering().toString());
         code.setAttributes(new ArrayList<AttributeInfo>());
         lui.getLuiCodes().add(code);
 				
