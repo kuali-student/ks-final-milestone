@@ -16,8 +16,10 @@ package org.kuali.student.enrollment.class2.registration.form;
  * limitations under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class RegistrationForm extends UifFormBase {
     private String subjectArea;
     private String courseNameOrNumber;
     private List<CourseOfferingWrapper> courseOfferingWrappers;
+    private List<ScheduleDataWrapper> registeredCourses;
+    private List<ScheduleDataWrapper> cartCourses;
 
     private RegRequestInfo regRequest;
 
@@ -75,5 +79,39 @@ public class RegistrationForm extends UifFormBase {
 
     public void setRegRequest(RegRequestInfo regRequest) {
         this.regRequest = regRequest;
+    }
+
+    public List<ScheduleDataWrapper> getRegisteredCourses() {
+        return registeredCourses;
+    }
+
+    public void setRegisteredCourses(List<ScheduleDataWrapper> registeredCourses) {
+        this.registeredCourses = registeredCourses;
+    }
+
+    public List<ScheduleDataWrapper> getCartCourses() {
+        return cartCourses;
+    }
+
+    public void setCartCourses(List<ScheduleDataWrapper> cartCourses) {
+        this.cartCourses = cartCourses;
+    }
+
+    public String getRegisteredCoursesJsArray(){
+        String courseArray = "[";
+        for(ScheduleDataWrapper course: registeredCourses){
+            courseArray = courseArray + course.getJsScheduleObject() + ",";
+        }
+        courseArray = StringUtils.removeEnd(courseArray, ",") + "]";
+        return courseArray;
+    }
+
+    public String getCartCoursesJsArray(){
+        String courseArray = "[";
+        for(ScheduleDataWrapper course: cartCourses){
+            courseArray = courseArray + course.getJsScheduleObject() + ",";
+        }
+        courseArray = StringUtils.removeEnd(courseArray, ",") + "]";
+        return courseArray;
     }
 }
