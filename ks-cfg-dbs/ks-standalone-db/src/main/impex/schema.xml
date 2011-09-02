@@ -1055,6 +1055,7 @@
         <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
         <column name="LUIID" size="255" type="VARCHAR"/>
         <column name="PERSONID" size="255" type="VARCHAR"/>
+        <column name="COMMITMENTPERCENT" type="FLOAT"/>
         <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
         <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_LPR_STATE" name="FK1BE1597B61E975F6">
