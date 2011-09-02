@@ -4,9 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.text.DateFormatSymbols;
+import java.util.*;
 
 public class MeetingScheduleWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -83,27 +82,91 @@ public class MeetingScheduleWrapper implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getJsScheduleObject(){
+    public String getJsScheduleObject() {
         String daysArray = "[";
-        for(String day: getDays()){
+        for (String day : getDays()) {
             daysArray = daysArray + "'" + day + "',";
         }
         daysArray = StringUtils.removeEnd(daysArray, ",") + "]";
-        return "{days:" + daysArray + ", startTime: '" + startTime + "', endTime: '" + endTime + "', name: '"
-                + courseOfferingCode + " " + courseTitle + " " + getDisplayableTime() +"' }";
+        String st = startTime.trim();
+        String et = endTime.trim();
+        if (st.length() == 3) {
+            st = "0" + st;
+        }
+        if (et.length() == 3) {
+            et = "0" + et;
+        }
+        return "{days:" + daysArray + ", startTime: '" + st + "', endTime: '" + et + "', name: '"
+                + courseOfferingCode + " " + courseTitle + " " + getDisplayableTime() + "' }";
     }
 
-    public String getDisplayableTime(){
-        // TODO - fix human readable format for days and times
+    public String getDisplayableTime() {
         //return human readable time format
         StringBuilder builder = new StringBuilder();
         for (String day : getDays()) {
             if (StringUtils.isNotBlank(builder.toString())) {
-                builder.append(", ");
+                builder.append(",");
             }
             builder.append(day);
         }
-        builder.append("      ").append(startTime).append("-").append(endTime);
-        return builder.toString();
+
+        String hrStart = startTime.trim();
+        String hrEnd = endTime.trim();
+
+        hrStart = convertToStandardTime(hrStart);
+        hrEnd = convertToStandardTime(hrEnd);
+
+        //Shorten string length if applicable
+        //international ampm symbols
+        Locale usersLocale = Locale.getDefault();
+        DateFormatSymbols dfs = new DateFormatSymbols(usersLocale);
+        String ampm[] = dfs.getAmPmStrings();
+        String am = ampm[Calendar.AM];
+        String pm = ampm[Calendar.PM];
+        if (hrStart.endsWith(am) && hrEnd.endsWith(am)) {
+            hrStart = hrStart.replace(am, "");
+
+        } else if (hrStart.endsWith(pm) && hrEnd.endsWith(pm)) {
+            hrStart = hrStart.replace(pm, "");
+        }
+
+        return hrStart + "-" + hrEnd + " | " + builder.toString();
+    }
+
+    private String convertToStandardTime(String time) {
+        String minutes;
+        String hours;
+        if (time.length() == 3) {
+            hours = time.substring(0, 1);
+            minutes = time.substring(1);
+        } else {
+            hours = time.substring(0, 2);
+            minutes = time.substring(2);
+        }
+
+        int hour = Integer.parseInt(hours);
+        boolean isPM = false;
+        if (hour > 12) {
+            hour = hour - 12;
+            isPM = true;
+        } else if (hour == 0) {
+            hour = 12;
+        }
+
+        //international ampm symbols
+        Locale usersLocale = Locale.getDefault();
+        DateFormatSymbols dfs = new DateFormatSymbols(usersLocale);
+        String ampm[] = dfs.getAmPmStrings();
+        String am = ampm[Calendar.AM];
+        String pm = ampm[Calendar.PM];
+
+        hours = "" + hour;
+        if (isPM) {
+            time = hours + ":" + minutes + pm;
+        } else {
+            time = hours + ":" + minutes + am;
+        }
+
+        return time;
     }
 }
