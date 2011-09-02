@@ -11,6 +11,7 @@
 	<field name="mandatory" class="java.lang.Boolean"/>
 	<field name="sectionName" class="java.lang.String"/>
 	<field name="empty" class="java.lang.Boolean"/>
+	<field name="fieldValue2" class="java.lang.String"/>
 	<pageHeader>
 		<band/>
 	</pageHeader>
@@ -45,7 +46,7 @@
 				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SubReport}]]></subreportExpression>
 			</subreport>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="20" y="0" width="492" height="18" isPrintWhenDetailOverflows="true">
+				<reportElement positionType="Float" x="20" y="0" width="490" height="18" isPrintWhenDetailOverflows="true">
 					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -82,7 +83,7 @@
 		<band height="18">
 			<printWhenExpression><![CDATA[$F{printType}==4]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="20" y="0" width="492" height="18" isPrintWhenDetailOverflows="true">
+				<reportElement positionType="Float" x="20" y="0" width="490" height="18" isPrintWhenDetailOverflows="true">
 					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -106,7 +107,7 @@
 		<band height="18">
 			<printWhenExpression><![CDATA[$F{printType}==5]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="20" y="0" width="492" height="18" isPrintWhenDetailOverflows="true">
+				<reportElement positionType="Float" x="20" y="0" width="490" height="18" isPrintWhenDetailOverflows="true">
 					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -125,7 +126,7 @@
 		<band height="18">
 			<printWhenExpression><![CDATA[$F{printType}==0]]></printWhenExpression>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="0" width="492" height="18" isPrintWhenDetailOverflows="true">
+				<reportElement positionType="Float" x="20" y="0" width="490" height="18" isPrintWhenDetailOverflows="true">
 					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="0" rightPadding="0">
@@ -139,6 +140,41 @@
 					<font fontName="DejaVu Sans" size="9" isItalic="false" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="18">
+			<printWhenExpression><![CDATA[$F{printType}==6]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="20" y="0" width="298" height="18" isPrintWhenDetailOverflows="true">
+					<printWhenExpression><![CDATA[!$F{value}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0">
+					<pen lineWidth="0.0" lineColor="#FF0033"/>
+					<topPen lineWidth="0.0" lineColor="#FF0033"/>
+					<leftPen lineWidth="0.0" lineColor="#FF0033"/>
+					<bottomPen lineWidth="0.0" lineColor="#FF0033"/>
+					<rightPen lineWidth="0.0" lineColor="#FF0033"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="DejaVu Sans" size="9" isItalic="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{value}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="318" y="0" width="192" height="18" isPrintWhenDetailOverflows="true">
+					<printWhenExpression><![CDATA[$F{fieldValue2} != null && !$F{fieldValue2}.equals( "" )]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="0">
+					<pen lineWidth="0.0" lineColor="#FF0033"/>
+					<topPen lineWidth="0.0" lineColor="#FF0033"/>
+					<leftPen lineWidth="0.0" lineColor="#FF0033"/>
+					<bottomPen lineWidth="0.0" lineColor="#FF0033"/>
+					<rightPen lineWidth="0.0" lineColor="#FF0033"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="DejaVu Sans" size="9" isItalic="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{fieldValue2}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
