@@ -8,7 +8,6 @@
     padding: 0px;
     height: 24px;
     width: 50px;
-    overflow: hidden;
     border: 1px solid black;
 }
 
@@ -40,6 +39,7 @@
 }
 
 .schedule .timeRow th{
+    overflow:  hidden;
 }
 
 .scheduleKey .keyBlock{

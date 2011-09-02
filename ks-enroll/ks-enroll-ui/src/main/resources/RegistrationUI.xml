@@ -74,7 +74,7 @@
         <property name="items">
             <list>
                 <bean id="ScheduleTableTest" parent="AttributeField_Form" abstract="true"
-                      p:labelField.renderColon="false">
+                      p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray">
                     <property name="control">
                         <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper"/>
                     </property>
@@ -161,7 +161,8 @@
     </bean>
 
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
+            p:layoutManager.lineGroupPrototype.accordion.render="false">
         <property name="summary"
             value="Click a class to show/hide detail" />
         <property name="accordion.render" value="true" />
@@ -169,9 +170,11 @@
             value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
         <property name="propertyName" value="courseOfferingWrappers" />
         <property name="renderAddLine" value="false"/>
-        <property name="readOnly" value="true" />
-<!--
+        <property name="renderLineActions" value="false" />
+        <property name="layoutManager.summaryTitle" value=""/>
 
+<!--
+        <property name="layoutManager.summaryTitle" value="@{#line?.courseOffering.courseOfferingCode} - @{#line?.courseOffering.courseTitle}"/>
         <property name="layoutManager.renderSequenceField" value="true"/>
         <property name="layoutManager.renderAddLine" value="false" />
         <property name="layoutManager.tableTools.render" value="false"/>
@@ -211,7 +214,8 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup"
+            p:layoutManager.lineGroupPrototype.accordion.render="false">
         <property name="accordion.render" value="false" />
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />

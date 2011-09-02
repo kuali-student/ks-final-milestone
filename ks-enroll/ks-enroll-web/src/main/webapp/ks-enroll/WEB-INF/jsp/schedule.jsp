@@ -20,6 +20,7 @@
 <tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
 
 <div id="${control.id}" class="${control.styleClassesAsString}">
+    <form:hidden id="${control.id}-value" path="${field.bindingInfo.bindingPath}"/>
     <table class="schedule">
         <tr class="dayRow">
             <c:forEach var="day" items="${control.days}">
@@ -54,20 +55,7 @@
     <krad:script value="
            jq('#' +'${control.id}').ready(function() {
                 jq('#' +'${control.id}').schedule(${control.scheduleOptions});
-                jq('#' +'${control.id}').initSchedule(
-                    [
-                        {days: ['TU','TH'],
-                            startTime: '1100',
-                            endTime: '1215',
-                            name: 'Fake Class One'
-                        },
-                        {days: ['MO','WE'],
-                            startTime: '1200',
-                            endTime: '1330',
-                            name: 'Fake Class Two'
-                        }
-                    ]
-                );
+                jq('#' +'${control.id}').initSchedule(eval('(' + jq('#' + '${control.id}-value').val() + ')'));
            });
     "/>
 </div>
