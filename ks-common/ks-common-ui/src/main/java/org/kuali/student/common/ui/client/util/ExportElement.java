@@ -21,6 +21,7 @@ public class ExportElement implements Serializable {
     public static int SUBREPORT = 3;
     public static int LIST = 4;
     public static int ITALIC = 5;
+    public static int PROPOSAL = 6;
 
     public ExportElement() {
         super();
@@ -73,6 +74,9 @@ public class ExportElement implements Serializable {
 
     public int getPrintType() {
         if (this.printType != -1) {
+            if (this.printType == LIST && this.getSubset() != null){
+                return LIST_SUBREPORT;
+            }
             return this.printType;
         } else if (this.getSubset() != null && this.getValue().equals( "" )) {
             return SUBREPORT;
