@@ -159,7 +159,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 	<property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
 		            <property name="fieldLookup.fieldConversions">
 		              <map>
-		                <entry key="code" value="courseId"/>
+		                <entry key="id" value="courseId"/>
 		              </map>
 		            </property> 
 		        </bean>
