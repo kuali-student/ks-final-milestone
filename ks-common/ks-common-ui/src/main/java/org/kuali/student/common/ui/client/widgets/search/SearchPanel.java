@@ -143,11 +143,11 @@ public class SearchPanel extends Composite{
         }    	
     }
     
-    public void setupSearch() {
-                
+    public void setupSearch() {                
         resultsTablePanel.clear();
         layout.clear();
         resultsShown = false;
+    	hasSearchParams = false;
 
         //create search panel
         Widget searchParamPanel;        
@@ -238,8 +238,10 @@ public class SearchPanel extends Composite{
 
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
         for(LookupParamMetadata metaParam: meta.getParams()){
-            if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
-            	hasSearchParams = true;
+        	if (metaParam.getUsage() != null && metaParam.getUsage() != Usage.DEFAULT){
+        		hasSearchParams = true;   //Only set to true if this only has user supplied params (i.e. params without default values)
+        	}
+        	if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
             	
                 final CustomizedSearch customizedSearch = new CustomizedSearch(meta, listItems);
                 KSButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);

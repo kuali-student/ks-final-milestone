@@ -1001,6 +1001,7 @@
 					<property name="name" value="Program Type" />
 					<property name="desc" value="Type of a program" />
 					<property name="writeAccess" value="NEVER" />
+					<property name="usage" value="DEFAULT" />
 					<property name="defaultValueList">
      					<list>
 						 	<value>kuali.lu.type.CoreProgram</value>
