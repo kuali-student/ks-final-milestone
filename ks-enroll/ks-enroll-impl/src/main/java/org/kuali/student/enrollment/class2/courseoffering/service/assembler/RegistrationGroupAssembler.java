@@ -68,7 +68,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			if(rels != null && !rels.isEmpty()){                  
                 for(LuiLuiRelationInfo rel : rels){
                 	if(rel.getLuiId().equals(luiId)){
-                		if(rel.getTypeKey().equals("kuali.lui.lui.relation.RegisteredForVia")){
+                		if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY)){
                 			LuiInfo lui = luiService.getLui(rel.getRelatedLuiId(), context);
                 			if(lui != null){
 	                			if( lui.getTypeKey().equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
