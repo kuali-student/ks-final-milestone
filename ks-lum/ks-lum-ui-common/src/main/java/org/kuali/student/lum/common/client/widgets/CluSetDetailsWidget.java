@@ -326,7 +326,9 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
         ArrayList<ExportElement> subItems = new ArrayList<ExportElement>();
         for (int i = 0; i < items.size(); i++) {
             ExportElement subelement = new ExportElement(parent.getViewName(), parent.getSectionName());
-            subelement.setFieldValue(items.get(i).getCode() + " " + items.get(i).getTitle() + " " + items.get(i).getCredits() + " credits");
+            subelement.setFieldValue("<b>" + items.get(i).getCode() + " " + items.get(i).getTitle() + "</b>");
+            subelement.setFieldValue2(items.get(i).getCredits() + " credits");
+            subelement.setPrintType(ExportElement.PROPOSAL);
             subItems.add(subelement);
         }
         return subItems;
