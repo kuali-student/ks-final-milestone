@@ -89,6 +89,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         requisitesSection = new CourseRequirementsViewController(layout, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), CourseSections.COURSE_REQUISITES, false, false);
 
         //Create the document upload section
+        
         documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
         documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
         documentTool.setController(layout);
@@ -119,7 +120,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.REQUISITES_LABEL_KEY), LUUIConstants.REQUISITES_LABEL_KEY, requisitesSection);
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.ACTIVE_DATES_LABEL_KEY), LUUIConstants.ACTIVE_DATES_LABEL_KEY, activeDatesSection.getLayout());
         layout.addMenuItemSection(sections, getLabel(LUUIConstants.FINANCIALS_LABEL_KEY), LUUIConstants.FINANCIALS_LABEL_KEY, financialSection.getLayout());
-        layout.addMenuItemSection(sections, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY), LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY, financialSection.getLayout());
+        layout.addMenuItemSection(sections, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY), LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY, documentTool);
         
         //Add buttons to top and bottom of view
         layout.addButtonForView(CourseSections.COURSE_INFO, layout.getApproveAndActivateButton());
