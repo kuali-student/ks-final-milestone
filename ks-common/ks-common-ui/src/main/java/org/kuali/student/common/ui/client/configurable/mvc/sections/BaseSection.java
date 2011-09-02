@@ -716,7 +716,18 @@ public abstract class BaseSection extends SpanPanel implements Section{
 		} 
 	}
 	
-	
+	 /** 
+     * This will progressively require/unrequire a set of fields
+     * @param isRequired
+     * @param fieldDescriptors
+     */
+    public static void progressiveRequireFields(Boolean isRequired, FieldDescriptor ... fieldDescriptors){
+
+        for (FieldDescriptor fd : fieldDescriptors){
+            fd.setRequired(isRequired);
+        } 
+    }	
+    
 	/**
 	 * Used to enable,disable widget defined in field descriptor 
 	 * 
@@ -739,4 +750,6 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			((TextBoxBase)widget).setReadOnly(!isEnabled);
 		}
 	}
+	
+	
 }

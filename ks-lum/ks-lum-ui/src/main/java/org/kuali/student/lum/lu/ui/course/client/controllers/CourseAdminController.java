@@ -232,9 +232,9 @@ public class CourseAdminController extends CourseProposalController{
 	 * Override {@link CourseProposalController} because end term should always be editable 
 	 * in admin screens.
 	 */
-	protected void progressiveEnableFields(){
-	    //Do nothing, the end term should always be editable on admin screens.
-	}
+    protected void progressiveEnableFields() {
+        super.progressiveEnableFields();
+    }
 	
 	/**
      * Override the setHeaderTitle to display proper header title for admin screens

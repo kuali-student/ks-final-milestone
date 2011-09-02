@@ -89,6 +89,7 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -491,16 +492,27 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	    	//Enable and require end term field based on pilot course value in model loaded		
 	        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE)) 
 	        	|| DtoConstants.STATE_RETIRED.equalsIgnoreCase((String)cluProposalModel.get(CreditCourseConstants.STATE));
-			BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
-	    	
+			
+	        // The end term should always be editable on admin screens.
+            if (cfg instanceof CourseAdminConfigurer) {
+                BaseSection.progressiveRequireFields(enableEndTerm, endTerm);
+            } else {
+                BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
+            }
+
 	        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
 			KSCheckBox pilotCheckbox = ((KSCheckBox)pilotCourse.getFieldWidget());
 	        pilotCheckbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					//Disable/enable end term field based on new value of pilot checkbox
-			        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
-			        
+				    // The end term should always be editable on admin screens.
+				    if (cfg instanceof CourseAdminConfigurer) {
+				        BaseSection.progressiveRequireFields(event.getValue(), endTerm);
+                    } else {
+                        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
+                    }
+		            
 			        //Clear out endTerm value if pilot course unchecked (as this field is not required when not pilot course)
 			        if (!event.getValue()){
 						((KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget()).clear();				
