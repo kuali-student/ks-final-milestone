@@ -18,8 +18,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 public class TermInfoInquiryViewHelperServiceImpl extends InquirableImpl {
-    public final static String TERM_TYPE_KEY = "termInfo.typeKey";
-    public final static String TERM_KEY = "termInfo.key";
+    public final static String TERM_TYPE_KEY = "typeKey";
+    public final static String TERM_KEY = "key";
  	private transient AcademicCalendarService academicCalendarService;
 	
 	 @Override
