@@ -9,6 +9,8 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -17,7 +19,7 @@ import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.common.client.widgets.DropdownList; 
+import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -85,11 +87,8 @@ public class MajorViewController extends MajorController {
                 
                 // If modify is selected
                 if (actionType == ActionType.MODIFY) {
-                    
-                    // Show the modify program light box.  This is triggered when you choose the 
-                    // modify program option in the action drop-down box
-                    buildModifyDialog(viewContext,"/HOME/CURRICULUM_HOME/COURSE_PROPOSAL",programModel);                   
-                } 
+                    processModifyActionType(viewContext);
+                }
                 // If retire is selected
                 else if (actionType == ActionType.RETIRE) {
                     // TODO: retire is not implemented yet for program
@@ -136,6 +135,41 @@ public class MajorViewController extends MajorController {
             }
         });
     }
+
+    /**
+     * 
+     * This method process the modify a program action that was selected. A permission
+     * check is done to see if the modify program lightbox shoudl be presented to the
+     * user.
+     * 
+     * The modify programl lightbox is only shown to the admin role.
+     * 
+     * @param viewContext
+     */
+    private void processModifyActionType(final ViewContext viewContext) {
+        String principalId = Application.getApplicationContext().getUserId();
+        SecurityRpcServiceAsync securityRpc = GWT
+                .create(SecurityRpcService.class);
+
+        securityRpc.checkAdminPermission(principalId, "useCurriculumReview", new KSAsyncCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                final boolean isAuthorized = result;
+
+                // Show the modify program light box only for admin role.
+                if (isAuthorized) {
+                    buildModifyDialog(viewContext, "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", programModel);
+                } else {
+                    if (isProgramStatusValidForProposal()) {
+                        showModifyProgramWithNewVersionCurriculumReviewView();
+                    } else {
+                        showModifyProgramWithoutVersionView(viewContext);
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * 
      * This method builds the light box that appears when you choose to modify a program.
@@ -209,24 +243,13 @@ public class MajorViewController extends MajorController {
                     // If modify w/out version radio button is chosen 
                     // we just edit the program.  We do not create a copy.
                     // We navigate to the edit program controller
-                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
-                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
+                     showModifyProgramWithoutVersionView(viewContext);
                  } else if (radioOptionModifyWithVersion.getValue() && curriculumReviewOption.getValue()){
                     // If the curriculum review option IS checked and the modify with version radio button IS selected
                     // We need to create a copy of the program (by passing in COPY_OF_OBJECT_ID)
                     // and then transfer control to the proposal controller (the proposal controller has
                     // extra section for entering proposal related data
-                    String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
- 
-                    // Pass the ID and the type to the proposal controller
-                    // using the view context.  We then read it in the
-                    // setViewContext method and use it to initialize the
-                    // work flow utilities
-                    final ViewContext viewContext = new ViewContext();
-                    viewContext.setId(versionIndId);
-                    viewContext.setIdType(IdAttributes.IdType.COPY_OF_OBJECT_ID); 
-                    Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
-
+                    showModifyProgramWithNewVersionCurriculumReviewView();
                  } else if (radioOptionModifyWithVersion.getValue()){
                     // If we are just choosing to modify a program but want to create a new version
                     // AND we are not using the proposal process
@@ -258,8 +281,7 @@ public class MajorViewController extends MajorController {
         // the curriculum review check box implements "modify by proposal"
         // a user can only check the box when the program state is active, retired, or approved (it must be the latest version when in these states)
         // See https://wiki.kuali.org/display/KULSTG/Course%2C+Proposal%2C+and+Program+Action+Dropdown+Items
-        ProgramStatus status = ProgramStatus.of(programModel);
-        if(isCurrentVersion && (status == ProgramStatus.ACTIVE || status == ProgramStatus.APPROVED || status == ProgramStatus.ACTIVE)){
+        if (isProgramStatusValidForProposal()) {
             layout.add(radioOptionModifyWithVersion);
             layout.add(curriculumReviewOption);
         }
@@ -268,6 +290,23 @@ public class MajorViewController extends MajorController {
         modifyDialog.show();
     } 
  
+    /**
+     * 
+     * This method checks if the program state is active, retired, or approved (it must be
+     * the latest version when in these states)
+     * 
+     * @return
+     */
+    private boolean isProgramStatusValidForProposal() {
+        ProgramStatus status = ProgramStatus.of(programModel);
+
+        if (isCurrentVersion
+                && (status == ProgramStatus.ACTIVE || status == ProgramStatus.APPROVED || status == ProgramStatus.ACTIVE)) {
+            return true;
+        }
+
+        return false;
+    }
     
     /**
      * 
@@ -374,5 +413,34 @@ public class MajorViewController extends MajorController {
         super.configureView();
         addContentWidget(actionBox);
         initialized = true;
+    }
+
+    /**
+     * 
+     * This method navigates to the edit program controller.
+     * 
+     * @param viewContext
+     */
+    private void showModifyProgramWithoutVersionView(final ViewContext viewContext) {
+        ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
+         HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
+    }
+
+    /**
+     * 
+     * This method transfers control to the proposal controller.
+     * 
+     */
+    private void showModifyProgramWithNewVersionCurriculumReviewView() {
+        String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
+ 
+        // Pass the ID and the type to the proposal controller
+        // using the view context.  We then read it in the
+        // setViewContext method and use it to initialize the
+        // work flow utilities
+        final ViewContext viewContext = new ViewContext();
+        viewContext.setId(versionIndId);
+        viewContext.setIdType(IdAttributes.IdType.COPY_OF_OBJECT_ID); 
+        Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
     }
 }
