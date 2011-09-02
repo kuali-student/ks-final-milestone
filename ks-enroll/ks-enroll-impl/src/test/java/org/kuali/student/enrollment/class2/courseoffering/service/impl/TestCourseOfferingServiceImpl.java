@@ -62,6 +62,7 @@ public class TestCourseOfferingServiceImpl {
     }
 	   
     @Test
+    @Ignore
     public void testGetCourseOffering() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -200,6 +201,7 @@ public class TestCourseOfferingServiceImpl {
 	}
     
 	@Test
+    @Ignore
     public void testUpdateCourseOffering() throws DataValidationErrorException, 
     		DoesNotExistException, InvalidParameterException, MissingParameterException, 
     		OperationFailedException, PermissionDeniedException,VersionMismatchException {
