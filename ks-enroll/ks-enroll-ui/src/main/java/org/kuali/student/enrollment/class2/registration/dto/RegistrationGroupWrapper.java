@@ -14,10 +14,10 @@ public class RegistrationGroupWrapper implements Serializable {
     private CourseOfferingInfo courseOffering;
     private RegistrationGroupInfo registrationGroup;
 
-    private List<ActivityOfferingInfo> activityOfferings;
+    private List<ActivityOfferingWrapper> activityOfferingWrappers;
 
     public RegistrationGroupWrapper() {
-        activityOfferings = new ArrayList<ActivityOfferingInfo>();
+        activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>();
     }
 
     public CourseOfferingInfo getCourseOffering() {
@@ -36,11 +36,11 @@ public class RegistrationGroupWrapper implements Serializable {
         this.registrationGroup = registrationGroup;
     }
 
-    public List<ActivityOfferingInfo> getActivityOfferings() {
-        return activityOfferings;
+    public List<ActivityOfferingWrapper> getActivityOfferingWrappers() {
+        return activityOfferingWrappers;
     }
 
-    public void setActivityOfferings(List<ActivityOfferingInfo> activityOfferings) {
-        this.activityOfferings = activityOfferings;
+    public void setActivityOfferingWrappers(List<ActivityOfferingWrapper> activityOfferingWrappers) {
+        this.activityOfferingWrappers = activityOfferingWrappers;
     }
 }

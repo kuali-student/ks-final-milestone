@@ -24,19 +24,22 @@ import org.kuali.rice.krad.uif.container.View;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.springframework.stereotype.Controller;
@@ -147,7 +150,7 @@ public class RegistrationController extends UifControllerBase {
                     RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
                     registrationGroupWrapper.setRegistrationGroup(regGroup);
                     registrationGroupWrapper.setCourseOffering(courseOfferingWrapper.getCourseOffering());
-                    registrationGroupWrapper.setActivityOfferings(getActivityOfferingInfos(regGroup, context));
+                    registrationGroupWrapper.setActivityOfferingWrappers(getActivityOfferingInfos(regGroup, courseOfferingWrapper.getCourseOffering(), context));
                     registrationGroupWrappers.add(registrationGroupWrapper);
                 }
                 courseOfferingWrapper.setRegistrationGroupWrappers(registrationGroupWrappers);
@@ -177,16 +180,47 @@ public class RegistrationController extends UifControllerBase {
         return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
     }
 
-    protected List<ActivityOfferingInfo> getActivityOfferingInfos(RegistrationGroup regGroup, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // TODO right now getOfferingsByIdList throws a not supported exception
 //        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
-        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(regGroup.getActivityOfferingIds().size());
+        List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for(String activityId : regGroup.getActivityOfferingIds()) {
-            activityOfferingInfos.add(getCourseOfferingService().getActivityOffering(activityId, context));
+            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
+            wrapper.setActivityOffering(activityOfferingInfo);
+            wrapper.setScheduleDataWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
+            activityOfferingWrappers.add(wrapper);
         }
-        return activityOfferingInfos;
+        // TODO remove this hack once activity offering info objects are saving with reg groups properly
+        if (activityOfferingWrappers.isEmpty()) {
+            ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
+            wrapper.setActivityOffering(activityOfferingInfo);
+            wrapper.setScheduleDataWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
+            activityOfferingWrappers.add(wrapper);
+        }
+        return activityOfferingWrappers;
     }
 
+    protected List<ScheduleDataWrapper> setupMeetingScheduleInfos(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo) {
+        List<ScheduleDataWrapper> wrappers = new ArrayList<ScheduleDataWrapper>();
+        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
+            ScheduleDataWrapper wrapper = new ScheduleDataWrapper(meetingScheduleInfo);
+            wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+            wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+            wrappers.add(wrapper);
+        }
+        // TODO undo this hack once valid MeetingScheduleInfo objects exist in the system
+        if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
+            MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
+            meetingScheduleInfo.setTimePeriods("TU,TH;1130,1330");
+            ScheduleDataWrapper wrapper = new ScheduleDataWrapper(meetingScheduleInfo);
+            wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+            wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+            wrappers.add(wrapper);
+        }
+        return wrappers;
+    }
     /**
      * After the document is loaded calls method to setup the maintenance object
      */

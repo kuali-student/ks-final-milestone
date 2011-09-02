@@ -87,12 +87,7 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:labelField.renderColon="false" p:propertyName="termKey">
-                    <property name="control">
-                        <bean parent="HiddenControl"/>
-                    </property>
-                </bean>
-                <bean parent="AttributeField_Form" p:propertyName="subjectArea" p:label="By Programs/Departments 2"
+                <bean parent="AttributeField_Form" p:propertyName="subjectArea" p:label="By Programs/Departments"
                       p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
                         <bean parent="SelectControl"/>
@@ -108,6 +103,11 @@
                         </map>
                     </property>
 -->
+                </bean>
+                <bean parent="AttributeField_Form" p:labelField.renderColon="false" p:propertyName="termKey">
+                    <property name="control">
+                        <bean parent="HiddenControl"/>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -151,7 +151,6 @@
         <property name="summary"
             value="Click a class to show/hide detail" />
         <property name="accordion.render" value="true" />
-        <property name="accordion.defaultOpen" value="false"/>
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
         <property name="propertyName" value="courseOfferingWrappers" />
@@ -163,15 +162,24 @@
         <property name="layoutManager.renderAddLine" value="false" />
         <property name="layoutManager.tableTools.render" value="false"/>
 -->
+        <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.summaryFields">
             <list>
                 <value>courseOffering.courseOfferingCode</value>
                 <value>courseOffering.courseTitle</value>
+                <value>courseOffering.subjectArea</value>
+                <value>courseOffering.courseNumberSuffix</value>
             </list>
         </property>
-<!--
+        <property name="layoutManager.lineGroupPrototype">
+           <bean parent="StackedGroupPrototype">
+             <property name="accordion.defaultOpen" value="false"/>
+          </bean>
+        </property>
         <property name="items">
             <list>
+                <bean parent="AttributeField" p:propertyName="courseOffering.descr.plain" p:readOnly="true"/>
+<!--
                 <bean parent="AttributeField" p:propertyName="courseOffering.courseTitle" p:label="Course" />
                 <bean parent="AttributeField" p:propertyName="field2" p:label="Field 2"
                     p:required="true" />
@@ -179,9 +187,9 @@
                     p:required="true" />
                 <bean parent="AttributeField" p:propertyName="field4" p:label="Field 4"
                     p:required="true" />
+-->
             </list>
         </property>
--->
         <property name="subCollections">
             <list>
                 <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" />
@@ -195,8 +203,6 @@
             value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="registrationGroupWrappers" />
         <property name="renderAddLine" value="false"/>
-        <property name="readOnly" value="true" />
-<!-- TODO delyea - figure out if readOnly means no sorting and if that matters -->
 <!--
         <property name="readOnly" value="true" />
         <property name="layoutManager.renderSequenceField" value="true"/>
@@ -210,8 +216,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:propertyName="registrationGroup.registrationCode" p:label="Registration Code" />
+                <bean parent="AttributeField" p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
+                <bean parent="AttributeField" p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
 <!--
+                <bean parent="AttributeField" p:propertyName="registrationGroup.registrationCode" p:label="Registration Code" />
                 <bean parent="AttributeField" p:propertyName="field2" p:label="SubField 2"
                     p:required="true" />
                 <bean parent="AttributeField" p:propertyName="field3" p:label="SubField 3"
@@ -221,7 +231,39 @@
 -->
             </list>
         </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" />
+            </list>
+        </property>
     </bean>
 
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" parent="CollectionGroup">
+        <property name="accordion.render" value="false" />
+        <property name="collectionObjectClass"
+            value="org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="activityOfferingWrappers" />
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="true" />
+        <property name="subCollections">
+            <list>
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" parent="CollectionGroup">
+        <property name="accordion.render" value="false" />
+        <property name="collectionObjectClass"
+            value="org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper" />
+        <property name="propertyName" value="scheduleDataWrappers" />
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="AttributeField" p:propertyName="displayableTime" />
+            </list>
+        </property>
+    </bean>
 
 </beans>
