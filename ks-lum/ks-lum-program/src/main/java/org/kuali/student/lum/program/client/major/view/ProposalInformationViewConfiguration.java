@@ -29,75 +29,21 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProposalInformationViewConfiguration extends AbstractSectionConfiguration {
 
-	private Controller controller = null;
-
-    public static ProposalInformationViewConfiguration createSpecial(Controller controller) { 
-        return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW, ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramSections.PROGRAM_PROPOSAL_EDIT)), controller);
+    public static ProposalInformationViewConfiguration createSpecial() { 
+        return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW, ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramSections.PROGRAM_PROPOSAL_EDIT)));
     }
 
-    private ProposalInformationViewConfiguration(SectionView sectionView, Controller controller) {
+    private ProposalInformationViewConfiguration(SectionView sectionView) {
         rootSection = sectionView;
-        this.controller = controller;
     }
 
     @Override
     protected void buildLayout() {
-    	VerticalSection section = new VerticalSection();
-   		section.addSection(createProposalInformationSectionEdit());
-        rootSection.addSection(section);
+        VerticalSection section = new VerticalSection(); 
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle()));        
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType()));        
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluAbstractType()));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale()));
+        rootSection.addSection(section);     
     }
-    
-    // Side-by-side comparison (when controller is not null)  
-    private SummaryTableSection createProposalInformationSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
-      	section.setEditable(false);
-      	section.addSummaryTableFieldBlock(createProposalInformationSectionEditBlock());
-
-        return section;
-    }
-
-  	@SuppressWarnings("unchecked")
-  	public SummaryTableFieldBlock createProposalInformationSectionEditBlock() {
-  		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProgramTitle())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluAbstractType())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale())));
-
-  		return block;
-  	}
-
-  	protected SummaryTableFieldRow getFieldRow(String fieldKey, MessageKeyInfo messageKey) {
-  		return getFieldRow(fieldKey, messageKey, null, null, null, null, false);
-  	}
-     
-  	protected SummaryTableFieldRow getFieldRow(String fieldKey,
-  			MessageKeyInfo messageKey, Widget widget, Widget widget2,
-  			String parentPath, ModelWidgetBinding<?> binding, boolean optional) 
-  	{
-  		QueryPath path = QueryPath.concat(parentPath, fieldKey);
-  		Metadata meta = configurer.getModelDefinition().getMetadata(path);
-
-  		FieldDescriptorReadOnly fd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
-  		if (widget != null) {
-  			fd.setFieldWidget(widget);
-  		}
-  		if (binding != null) {
-  			fd.setWidgetBinding(binding);
-  		}
-  		fd.setOptional(optional);
-
-  		FieldDescriptorReadOnly fd2 = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
-  		if (widget2 != null) {
-  			fd2.setFieldWidget(widget2);
-  		}
-  		if (binding != null) {
-  			fd2.setWidgetBinding(binding);
-  		}
-  		fd2.setOptional(optional);
-
-  		SummaryTableFieldRow fieldRow = new SummaryTableFieldRow(fd, fd2);
-
-  		return fieldRow;
-  	} 
 }
