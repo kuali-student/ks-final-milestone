@@ -19,26 +19,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
  limitations under the License.
 -->
 
-    <bean id="ScheduleDataWrapper" parent="ScheduleDataWrapper-parentBean"/>
-    <bean id="ScheduleDataWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper"/>
+    <bean id="MeetingScheduleWrapper" parent="MeetingScheduleWrapper-parentBean"/>
+    <bean id="MeetingScheduleWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper"/>
         <property name="objectLabel" value="Meeting Schedule"/>
         <property name="attributes">
             <list>
-                <ref bean="ScheduleDataWrapper-displayableTime" />
+                <ref bean="MeetingScheduleWrapper-displayableTime" />
             </list>
         </property>
 <!-- TODO - uncomment this file once the MeetingScheduleInfo object has a valid data dictionary file (MeetingScheduleInfoUI.xml)
         <property name="complexAttributes">
             <list>
-                <ref bean="ScheduleDataWrapper-meetingSchedule"/>
+                <ref bean="MeetingScheduleWrapper-meetingSchedule"/>
             </list>
         </property>
 -->
     </bean>
 
-    <bean id="ScheduleDataWrapper-displayableTime" parent="ScheduleDataWrapper-displayableTime-parent"/>
-    <bean id="ScheduleDataWrapper-displayableTime-parent" abstract="true" parent="AttributeDefinition">
+    <bean id="MeetingScheduleWrapper-displayableTime" parent="MeetingScheduleWrapper-displayableTime-parent"/>
+    <bean id="MeetingScheduleWrapper-displayableTime-parent" abstract="true" parent="AttributeDefinition">
         <property name="name" value="displayableTime"/>
         <property name="label" value="Course Schedule" />
         <property name="validationPattern" >
@@ -50,7 +50,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
 <!-- TODO - uncomment this file once the MeetingScheduleInfo object has a valid data dictionary file (MeetingScheduleInfoUI.xml)
-    <bean id="ScheduleDataWrapper-meetingSchedule" parent="ComplexAttributeDefinition">
+    <bean id="MeetingScheduleWrapper-meetingSchedule" parent="ComplexAttributeDefinition">
         <property name="name" value="meetingSchedule"/>
         <property name="dataObjectEntry" ref="MeetingScheduleInfoUI"/>
     </bean>

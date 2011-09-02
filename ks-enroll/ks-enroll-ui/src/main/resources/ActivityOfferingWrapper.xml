@@ -30,7 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         </property>
         <property name="collections">
           <list>
-            <bean parent="CollectionDefinition" p:name="scheduleDataWrappers" /> <!--p:label="Addresses" p:shortLabel="Addresses" p:elementLabel="Address" />-->
+            <bean parent="CollectionDefinition" p:name="meetingScheduleWrappers" /> <!--p:label="Addresses" p:shortLabel="Addresses" p:elementLabel="Address" />-->
           </list>
       </property>
     </bean>

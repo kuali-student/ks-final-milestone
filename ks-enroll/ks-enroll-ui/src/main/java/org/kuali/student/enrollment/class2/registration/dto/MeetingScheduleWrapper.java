@@ -7,9 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
-public class ScheduleDataWrapper implements Serializable {
+public class MeetingScheduleWrapper implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private MeetingScheduleInfo meetingSchedule;
@@ -20,11 +19,11 @@ public class ScheduleDataWrapper implements Serializable {
     private String startTime;
     private String endTime;
 
-    public ScheduleDataWrapper() {
+    public MeetingScheduleWrapper() {
         this.days = new ArrayList<String>();
     }
 
-    public ScheduleDataWrapper(MeetingScheduleInfo meetingSchedule) {
+    public MeetingScheduleWrapper(MeetingScheduleInfo meetingSchedule) {
         this();
         this.meetingSchedule = meetingSchedule;
         // timePeriods string should be in format "TU,TH;1130,1330"
@@ -95,15 +94,16 @@ public class ScheduleDataWrapper implements Serializable {
     }
 
     public String getDisplayableTime(){
+        // TODO - fix human readable format for days and times
         //return human readable time format
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         for (String day : getDays()) {
-            if (StringUtils.isNotBlank(buffer.toString())) {
-                buffer.append(", ");
+            if (StringUtils.isNotBlank(builder.toString())) {
+                builder.append(", ");
             }
-            buffer.append(day);
+            builder.append(day);
         }
-        buffer.append("      ").append(startTime).append("-").append(endTime);
-        return buffer.toString();
+        builder.append("      ").append(startTime).append("-").append(endTime);
+        return builder.toString();
     }
 }

@@ -18,11 +18,15 @@ package org.kuali.student.enrollment.class2.registration.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 
-import java.util.List;
+import java.util.*;
 
 public class RegistrationForm extends UifFormBase {
 
@@ -32,13 +36,16 @@ public class RegistrationForm extends UifFormBase {
     private String subjectArea;
     private String courseNameOrNumber;
     private List<CourseOfferingWrapper> courseOfferingWrappers;
-    private List<ScheduleDataWrapper> registeredCourses;
-    private List<ScheduleDataWrapper> cartCourses;
+
+    private List<CourseRegistrationInfo> courseRegistrations;
+    private Map<String,RegistrationGroupWrapper> registrationGroupWrappersById;
 
     private RegRequestInfo regRequest;
 
     public RegistrationForm(){
         super();
+        this.courseRegistrations = new ArrayList<CourseRegistrationInfo>();
+        this.registrationGroupWrappersById = new HashMap<String,RegistrationGroupWrapper>();
     }
 
     public String getTermKey() {
@@ -73,6 +80,22 @@ public class RegistrationForm extends UifFormBase {
         this.courseOfferingWrappers = courseOfferingWrappers;
     }
 
+    public List<CourseRegistrationInfo> getCourseRegistrations() {
+        return courseRegistrations;
+    }
+
+    public void setCourseRegistrations(List<CourseRegistrationInfo> courseRegistrations) {
+        this.courseRegistrations = courseRegistrations;
+    }
+
+    public Map<String, RegistrationGroupWrapper> getRegistrationGroupWrappersById() {
+        return registrationGroupWrappersById;
+    }
+
+    public void setRegistrationGroupWrappersById(Map<String, RegistrationGroupWrapper> registrationGroupWrappersById) {
+        this.registrationGroupWrappersById = registrationGroupWrappersById;
+    }
+
     public RegRequestInfo getRegRequest() {
         return regRequest;
     }
@@ -81,37 +104,54 @@ public class RegistrationForm extends UifFormBase {
         this.regRequest = regRequest;
     }
 
-    public List<ScheduleDataWrapper> getRegisteredCourses() {
-        return registeredCourses;
-    }
-
-    public void setRegisteredCourses(List<ScheduleDataWrapper> registeredCourses) {
-        this.registeredCourses = registeredCourses;
-    }
-
-    public List<ScheduleDataWrapper> getCartCourses() {
-        return cartCourses;
-    }
-
-    public void setCartCourses(List<ScheduleDataWrapper> cartCourses) {
-        this.cartCourses = cartCourses;
-    }
-
     public String getRegisteredCoursesJsArray(){
         String courseArray = "[";
-        for(ScheduleDataWrapper course: registeredCourses){
-            courseArray = courseArray + course.getJsScheduleObject() + ",";
-        }
+//        for(MeetingScheduleWrapper course: registeredCourses){
+//            courseArray = courseArray + course.getJsScheduleObject() + ",";
+//        }
         courseArray = StringUtils.removeEnd(courseArray, ",") + "]";
         return courseArray;
     }
 
-    public String getCartCoursesJsArray(){
-        String courseArray = "[";
-        for(ScheduleDataWrapper course: cartCourses){
-            courseArray = courseArray + course.getJsScheduleObject() + ",";
+    protected List<MeetingScheduleWrapper> getCartCourses() {
+        List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
+        // first loop all the items in the reg request
+        for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
+            // find the regGroupId of the current item
+            String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegGroupId())) ? regRequestItemInfo.getNewRegGroupId() : regRequestItemInfo.getExistingRegGroupId();
+            // find the regGroupWrapper that matches the id from the supplemental list
+            RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
+            // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart
+            if (regGroupWrapper == null) {
+                throw new RuntimeException("Cannot find RegistrationGroup in RegistrationForm for registrationGroupId: " + regGroupId);
+            }
+            // look at the activityOfferingInfos from the regGroup to get all the Schedule information into one single list
+            for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
+                meetingScheduleWrappers.addAll(activityOfferingWrapper.getMeetingScheduleWrappers());
+            }
         }
-        courseArray = StringUtils.removeEnd(courseArray, ",") + "]";
-        return courseArray;
+        return meetingScheduleWrappers;
     }
+
+    public void setCartCoursesJsArray(String string) {
+        StringBuilder builder = new StringBuilder();
+    }
+
+    public String getCartCoursesJsArray() {
+        StringBuilder builder = new StringBuilder();
+        for(MeetingScheduleWrapper course: getCartCourses()){
+            if (StringUtils.isNotBlank(builder.toString())) {
+                builder.append(",");
+            }
+            builder.append(course.getJsScheduleObject());
+        }
+        return "[" + builder.toString() + "]";
+//        String courseArray = "[";
+//        for(MeetingScheduleWrapper course: getCartCourses()){
+//            courseArray = courseArray + course.getJsScheduleObject() + ",";
+//        }
+//        courseArray = StringUtils.removeEnd(courseArray, ",") + "]";
+//        return courseArray;
+    }
+
 }

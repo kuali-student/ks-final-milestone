@@ -26,8 +26,8 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
-import org.kuali.student.enrollment.class2.registration.dto.ScheduleDataWrapper;
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -188,7 +188,7 @@ public class RegistrationController extends UifControllerBase {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
             wrapper.setActivityOffering(activityOfferingInfo);
-            wrapper.setScheduleDataWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
+            wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
         }
         // TODO remove this hack once activity offering info objects are saving with reg groups properly
@@ -196,16 +196,16 @@ public class RegistrationController extends UifControllerBase {
             ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
             wrapper.setActivityOffering(activityOfferingInfo);
-            wrapper.setScheduleDataWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
+            wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
         }
         return activityOfferingWrappers;
     }
 
-    protected List<ScheduleDataWrapper> setupMeetingScheduleInfos(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo) {
-        List<ScheduleDataWrapper> wrappers = new ArrayList<ScheduleDataWrapper>();
+    protected List<MeetingScheduleWrapper> setupMeetingScheduleInfos(CourseOfferingInfo courseOfferingInfo, ActivityOfferingInfo activityOfferingInfo) {
+        List<MeetingScheduleWrapper> wrappers = new ArrayList<MeetingScheduleWrapper>();
         for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
-            ScheduleDataWrapper wrapper = new ScheduleDataWrapper(meetingScheduleInfo);
+            MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
             wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
             wrappers.add(wrapper);
@@ -214,7 +214,7 @@ public class RegistrationController extends UifControllerBase {
         if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
             MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
             meetingScheduleInfo.setTimePeriods("TU,TH;1130,1330");
-            ScheduleDataWrapper wrapper = new ScheduleDataWrapper(meetingScheduleInfo);
+            MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
             wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
             wrappers.add(wrapper);
@@ -235,11 +235,11 @@ public class RegistrationController extends UifControllerBase {
                 // TODO - what to do with the RegResponseInfo object?
                 RegResponseInfo regResponse = submitRegRequest(regRequest, context);
             } else {
-                StringBuffer buffer = new StringBuffer("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
+                StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
                 for (ValidationResultInfo resultInfo : validationResultInfos) {
-                    buffer.append(resultInfo.getMessage()).append("\n");
+                    builder.append(resultInfo.getMessage()).append("\n");
                 }
-                throw new RuntimeException(buffer.toString());
+                throw new RuntimeException(builder.toString());
             }
         } catch (DataValidationErrorException e) {
             throw new RuntimeException(e);
@@ -309,14 +309,15 @@ public class RegistrationController extends UifControllerBase {
                 List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
                 if (CollectionUtils.isEmpty(validationResultInfos)) {
                     registrationForm.setRegRequest(saveRegRequest(registrationForm.getRegRequest(), context));
+                    registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(),regGroupWrapper);
                     // TODO - should we remove the registration group from the collection?
 //                    ((List<Object>) collection).remove(selectedLineIndex);
                 } else {
-                    StringBuffer buffer = new StringBuffer("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
+                    StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
                     for (ValidationResultInfo resultInfo : validationResultInfos) {
-                        buffer.append(resultInfo.getMessage()).append("\n");
+                        builder.append(resultInfo.getMessage()).append("\n");
                     }
-                    throw new RuntimeException(buffer.toString());
+                    throw new RuntimeException(builder.toString());
                 }
             } catch (InvalidParameterException e) {
                 throw new RuntimeException(e);

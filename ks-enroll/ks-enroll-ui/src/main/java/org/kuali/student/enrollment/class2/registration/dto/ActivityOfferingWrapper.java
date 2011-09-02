@@ -11,10 +11,10 @@ public class ActivityOfferingWrapper implements Serializable {
 
     private ActivityOfferingInfo activityOffering;
 
-    private List<ScheduleDataWrapper> scheduleDataWrappers;
+    private List<MeetingScheduleWrapper> meetingScheduleWrappers;
 
     public ActivityOfferingWrapper() {
-        scheduleDataWrappers = new ArrayList<ScheduleDataWrapper>();
+        meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
     }
 
     public ActivityOfferingInfo getActivityOffering() {
@@ -25,11 +25,11 @@ public class ActivityOfferingWrapper implements Serializable {
         this.activityOffering = activityOffering;
     }
 
-    public List<ScheduleDataWrapper> getScheduleDataWrappers() {
-        return scheduleDataWrappers;
+    public List<MeetingScheduleWrapper> getMeetingScheduleWrappers() {
+        return meetingScheduleWrappers;
     }
 
-    public void setScheduleDataWrappers(List<ScheduleDataWrapper> scheduleDataWrappers) {
-        this.scheduleDataWrappers = scheduleDataWrappers;
+    public void setMeetingScheduleWrappers(List<MeetingScheduleWrapper> meetingScheduleWrappers) {
+        this.meetingScheduleWrappers = meetingScheduleWrappers;
     }
 }
