@@ -155,6 +155,17 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     	
     	boolean isSelectedVersionCurrent = selectedVersion.getId().equals(currentVersion.getId());
     	
+
+        // Fix for KSLAB-2382
+        // When a version needs to be marked as superseded, the user is prompted with a screen to enter end terms.
+        // The screen will place the end terms in the data object and we'll see them here when the changeState method is called.
+        // if the end terms are null, we must not have been prompted with the screen, so we do not need to mark previous
+        // versions superseded.   
+    	// Another way to prevent this bug would be to ask if we are trying to activate a newly created program and,
+    	// if so, we should not try to supersede anything (because there should be nothing to supersede). 
+        if (endEntryTerm == null && endEnrollTerm == null && endInstAdmitTerm == null ){
+            return;
+        }
     	//Set the end terms on the current version of major discipline and update it's state to superseded
     	setEndTerms(currentVersion, endEntryTerm, endEnrollTerm, endInstAdmitTerm);
     	updateMajorDisciplineInfoState(currentVersion, DtoConstants.STATE_SUPERSEDED);
