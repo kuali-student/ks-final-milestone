@@ -68,6 +68,10 @@ public class ExportElement implements Serializable {
         this.fieldValue = fieldValue;
     }
 
+	public boolean isSub() {
+        return subset != null;
+    }
+    
     public void setPrintType(int printType) {
         this.printType = printType;
     }
