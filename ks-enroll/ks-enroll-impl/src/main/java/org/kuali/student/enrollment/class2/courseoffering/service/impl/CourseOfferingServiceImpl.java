@@ -218,13 +218,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         else
         	throw new DoesNotExistException("The course does not exist. course: " + courseId);
         
-        //TODO: uncomment when make the following insert in ks-lui.sql working 
-        //INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-201', 0)
-//        if(acalService.getTerm(termKey, context) != null)
-//        	courseOfferingInfo.setTermKey(termKey);
-//        else
-//        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
-        courseOfferingInfo.setTermKey(termKey);
+        if(acalService.getTerm(termKey, context) != null)
+        	courseOfferingInfo.setTermKey(termKey);
+        else
+        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
         
         if (checkExistenceForFormats(formatIdList, context))
         	courseOfferingInfo.setFormatIds(formatIdList);

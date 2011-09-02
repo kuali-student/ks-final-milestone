@@ -84,6 +84,10 @@ public class TestCourseOfferingServiceImpl {
 
     @Test
     @Ignore
+    //in ks-courseOffering.sql, if I add one atp
+    //INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0)
+    //i got error: The course does not exist. course: CLU-1. 
+    //If I remove this atp, and comment out if(acalService.getTerm(termKey, context) != null) etc, this test works fine.
     public void testCreateCourseOfferingFromCanonical() throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
