@@ -10,13 +10,6 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +36,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.kuali.student.r2.common.exceptions.*;
+
+import static org.junit.Assert.*;
 
 /**
  * @Author sambit
@@ -205,21 +200,31 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             PermissionDeniedException, VersionMismatchException {
         LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '" + LPRID1 + "' does not exist; cannot update", lpr);
-        Float commitmentPercent = .05F;
-        Date expirationDate = lpr.getExpirationDate();
 
-        lpr.setCommitmentPercent(commitmentPercent);
+        final Float initialCommitPercent = lpr.getCommitmentPercent();
+        final Float updatedCommitPercent;
+        if (initialCommitPercent == null) {
+            updatedCommitPercent = .5F;
+        } else {
+            updatedCommitPercent = initialCommitPercent + .05F;
+        }
+        lpr.setCommitmentPercent(updatedCommitPercent);
+
+        Date expirationDate = lpr.getExpirationDate();
         lpr.setExpirationDate(new Date());
+
+        LuiPersonRelationInfo updatedLpr = null;
         try {
-            lprService.updateLpr(LPRID1, lpr, callContext);
+            updatedLpr = lprService.updateLpr(LPRID1, lpr, callContext);
         } catch (Exception ex) {
             fail("Exception from service call: " + ex.getMessage());
         }
 
-        lpr = lprService.getLpr(LPRID1, callContext);
-        assertNotNull("LPR entity '" + LPRID1 + "' does not exist after being updated", lpr);
-        assertFalse("'commitmentPercent' property was not updated", commitmentPercent == lpr.getCommitmentPercent());
-        assertFalse("'expirationDate' property was not updated", expirationDate == lpr.getExpirationDate());
+        LuiPersonRelationInfo finalLpr = lprService.getLpr(LPRID1, callContext);
+        assertNotNull("LPR entity '" + LPRID1 + "' does not exist after being updated", finalLpr);
+        assertNotNull("'commitmentPercent' property does not exist after being updated", finalLpr.getCommitmentPercent());
+        assertEquals("'commitmentPercent' property was not updated properly.", updatedCommitPercent, finalLpr.getCommitmentPercent());
+        assertNotSame("'expirationDate' property was not updated", expirationDate, finalLpr.getExpirationDate());
     }
 
     // TODO implement @Test

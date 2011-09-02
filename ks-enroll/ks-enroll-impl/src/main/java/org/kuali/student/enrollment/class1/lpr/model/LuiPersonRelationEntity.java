@@ -32,6 +32,8 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
     private String luiId;
 
+    private Float commitmentPercent;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
 
@@ -63,6 +65,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setId(dto.getId());
         this.setLuiId(dto.getLuiId());
         this.setPersonId(dto.getPersonId());
+        this.setCommitmentPercent(dto.getCommitmentPercent());
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         // TODO - need to retrieve the LuiPersonRelationState based on the
@@ -95,6 +98,14 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
     public void setLuiId(String luiId) {
         this.luiId = luiId;
+    }
+
+    public Float getCommitmentPercent() {
+        return commitmentPercent;
+    }
+
+    public void setCommitmentPercent(Float commitmentPercent) {
+        this.commitmentPercent = commitmentPercent;
     }
 
     public Date getEffectiveDate() {
@@ -143,6 +154,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setId(getId());
         lprInfo.setLuiId(luiId);
+        lprInfo.setCommitmentPercent(commitmentPercent);
         lprInfo.setPersonId(personId);
         lprInfo.setEffectiveDate(effectiveDate);
         lprInfo.setExpirationDate(expirationDate);
