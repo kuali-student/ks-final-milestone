@@ -134,7 +134,11 @@ public class ScheduleControl extends ControlBase {
             if (!militaryTime) {
                 if (i > 12) {
                     times.add("" + (i - 12) + ZEROS + pm);
-                } else if (i == 0) {
+                }
+                else if (i == 12){
+                    times.add("" + i + ZEROS + pm);
+                }
+                else if (i == 0) {
                     times.add("12" + ZEROS + am);
                 } else {
                     times.add("" + i + ZEROS + am);
