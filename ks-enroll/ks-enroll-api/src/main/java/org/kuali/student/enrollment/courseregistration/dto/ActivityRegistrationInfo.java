@@ -55,6 +55,10 @@ public class ActivityRegistrationInfo extends RelationshipInfo implements Activi
         return activityOffering;
     }
 
+    public void setActivityOffering(ActivityOfferingInfo activityOffering) {
+        this.activityOffering = activityOffering;
+    }
+
     @Override
     public String getStudentId() {
         return studentId;

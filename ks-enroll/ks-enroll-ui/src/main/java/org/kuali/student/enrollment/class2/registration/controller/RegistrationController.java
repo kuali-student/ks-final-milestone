@@ -24,6 +24,8 @@ import org.kuali.rice.krad.uif.container.View;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
@@ -34,9 +36,9 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.*;
+import org.kuali.student.enrollment.courseregistration.infc.ActivityRegistration;
+import org.kuali.student.enrollment.courseregistration.infc.CourseRegistration;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
@@ -53,6 +55,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -71,6 +74,7 @@ public class RegistrationController extends UifControllerBase {
         if (getCourseRegistrationService() != null) {
             return getCourseRegistrationService().createRegRequest(new RegRequestInfo(), context);
         }
+        // TODO - everything below is a hack to get dummy data into the system
         RegRequestInfo regRequest = new RegRequestInfo();
         regRequest.setRegRequestItems(new ArrayList<RegRequestItemInfo>());
         return new RegRequestInfo();
@@ -80,6 +84,7 @@ public class RegistrationController extends UifControllerBase {
         if (getCourseRegistrationService() != null) {
             return getCourseRegistrationService().validateRegRequest(regRequest, context);
         }
+        // TODO - everything below is a hack to get dummy data into the system
         return null;
     }
 
@@ -87,6 +92,7 @@ public class RegistrationController extends UifControllerBase {
         if (getCourseRegistrationService() != null) {
             return getCourseRegistrationService().updateRegRequest(regRequest.getId(), regRequest, context);
         }
+        // TODO - everything below is a hack to get dummy data into the system
         return regRequest;
     }
 
@@ -94,7 +100,37 @@ public class RegistrationController extends UifControllerBase {
         if (getCourseRegistrationService() != null) {
             return getCourseRegistrationService().submitRegRequest(regRequest.getId(), context);
         }
+        // TODO - everything below is a hack to get dummy data into the system
         return new RegResponseInfo();
+    }
+
+    protected List<CourseRegistrationInfo> getCourseRegistrations(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DisabledIdentifierException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        if (getCourseRegistrationService() != null) {
+            return getCourseRegistrationService().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+        }
+        // TODO - everything below is a hack to get dummy data into the system
+        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+        courseOfferingInfo.setCourseNumberSuffix("101");
+        courseOfferingInfo.setCourseTitle("Dummy Course Title");
+        courseOfferingInfo.setCourseOfferingCode("FAKE101");
+        courseOfferingInfo.setSubjectArea("FAKE");
+
+        MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
+        meetingScheduleInfo.setTimePeriods("MO,WE;0930,1130");
+
+        ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+        activityOfferingInfo.setMeetingSchedules(Arrays.asList(meetingScheduleInfo));
+
+        ActivityRegistrationInfo activityRegistrationInfo = new ActivityRegistrationInfo();
+        activityRegistrationInfo.setActivityOffering(activityOfferingInfo);
+
+        RegGroupRegistrationInfo regGroupRegistrationInfo = new RegGroupRegistrationInfo();
+        regGroupRegistrationInfo.setActivityRegistrations(Arrays.asList(activityRegistrationInfo));
+
+        CourseRegistrationInfo courseRegistrationInfo = new CourseRegistrationInfo();
+        courseRegistrationInfo.setRegGroupRegistration(regGroupRegistrationInfo);
+        courseRegistrationInfo.setCourseOffering(courseOfferingInfo);
+        return Arrays.asList(courseRegistrationInfo);
     }
 
     /**
@@ -109,6 +145,7 @@ public class RegistrationController extends UifControllerBase {
         try {
             RegRequestInfo regRequest = createRegRequest(context);
             regForm.setRegRequest(regRequest);
+            regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermKey(), context));
             return getUIFModelAndView(regForm);
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
@@ -121,6 +158,10 @@ public class RegistrationController extends UifControllerBase {
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        } catch (DisabledIdentifierException e) {
+            throw new RuntimeException(e);
+        } catch (DoesNotExistException e) {
             throw new RuntimeException(e);
         }
     }
@@ -304,6 +345,7 @@ public class RegistrationController extends UifControllerBase {
                 // TODO - check to make sure this is the proper process to register a new course
                 RegRequestItemInfo regRequestItem = new RegRequestItemInfo();
                 regRequestItem.setTypeKey("");
+                regRequestItem.setStudentId(context.getPrincipalId());
                 regRequestItem.setNewRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
                 registrationForm.getRegRequest().getRegRequestItems().add(regRequestItem);
                 List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);

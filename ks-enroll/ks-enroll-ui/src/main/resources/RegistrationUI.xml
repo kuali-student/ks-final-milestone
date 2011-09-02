@@ -58,7 +58,6 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <ref bean="ks_studentFacing_registrationView_temp"/>
                 <ref bean="ks_studentFacing_registrationView_browse"/>
                 <ref bean="ks_studentFacing_registrationView_fast_find"/>
                 <ref bean="ks_studentFacing_registrationView_search_buttons"/>
@@ -77,19 +76,6 @@
                       p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray">
                     <property name="control">
                         <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="ks_studentFacing_registrationView_temp" parent="Group">
-        <property name="accordion.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean parent="AttributeField_Form" p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
-                    <property name="control">
-                        <bean parent="HiddenControl"/>
                     </property>
                 </bean>
             </list>
@@ -162,15 +148,16 @@
 
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
-            p:layoutManager.lineGroupPrototype.accordion.render="false">
+            p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
+            p:layoutManager.lineGroupPrototype.accordion.render="true">
         <property name="summary"
             value="Click a class to show/hide detail" />
-        <property name="accordion.render" value="true" />
+        <property name="accordion.render" value="false" />
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
         <property name="propertyName" value="courseOfferingWrappers" />
         <property name="renderAddLine" value="false"/>
-        <property name="renderLineActions" value="false" />
+        <property name="readOnly" value="true" />
         <property name="layoutManager.summaryTitle" value=""/>
 
 <!--
@@ -186,11 +173,6 @@
                 <value>courseOffering.subjectArea</value>
                 <value>courseOffering.courseNumberSuffix</value>
             </list>
-        </property>
-        <property name="layoutManager.lineGroupPrototype">
-           <bean parent="StackedGroupPrototype">
-             <property name="accordion.defaultOpen" value="false"/>
-          </bean>
         </property>
         <property name="items">
             <list>
@@ -255,7 +237,8 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" parent="CollectionGroup"
+        p:layoutManager.lineGroupPrototype.accordion.render="false">
         <property name="accordion.render" value="false" />
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper" />
@@ -269,7 +252,8 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" parent="CollectionGroup"
+        p:layoutManager.lineGroupPrototype.accordion.render="false">
         <property name="accordion.render" value="false" />
         <property name="collectionObjectClass"
             value="org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper" />
