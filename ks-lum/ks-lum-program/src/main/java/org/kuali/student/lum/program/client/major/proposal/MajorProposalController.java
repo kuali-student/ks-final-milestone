@@ -390,7 +390,7 @@ public class MajorProposalController extends MajorController implements Workflow
             	Callback<Boolean> reqCallback = new Callback<Boolean>() {
             		@Override
             		public void exec(Boolean result) {
-            			programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
                             @Override
                             public void onSuccess(Data result) {
                                 super.onSuccess(result);
