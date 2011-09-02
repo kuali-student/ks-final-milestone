@@ -398,7 +398,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         MultiplicitySection ms = null;
         ms = new MultiplicitySection(uploadFileMultiplicityConfig);
         verticalSection.addSection(ms);
-        verticalSection.getLayout().setWidth("100");
+        verticalSection.getLayout().setWidth("350");
 
         return verticalSection;
 	}

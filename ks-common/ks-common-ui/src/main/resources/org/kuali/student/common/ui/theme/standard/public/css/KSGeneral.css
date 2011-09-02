@@ -452,3 +452,7 @@ position:relative;
 .KS-indented{
 	margin-left:40px;
 }
+
+.ks-documentHeader-widgetPanel {
+	float: left;
+}

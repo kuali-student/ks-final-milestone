@@ -179,12 +179,14 @@ public class KSDocumentHeader extends Composite {
         if (w != null) {
             if (hasSeparator) {
                 if (widgetPanel.getElement().hasChildNodes()) {
-                    widgetPanel.add(new HTML("<span style='float: left; margin-left: .7em; margin-right: .7em'>|</span>"));
+                    HTML separatorWrapper = new HTML("<span style='float: left; margin-left: .7em; margin-right: .7em'>|</span>");
+                    separatorWrapper.addStyleName("ks-documentHeader-widgetPanel");
+                    widgetPanel.add(separatorWrapper);
                 }
             }
+            w.addStyleName("ks-documentHeader-widgetPanel");
             widgetPanel.add(w);
         }
-        w.getElement().setAttribute("style", "float: left");
     }
 
     public HTML getInfoLabel() {
