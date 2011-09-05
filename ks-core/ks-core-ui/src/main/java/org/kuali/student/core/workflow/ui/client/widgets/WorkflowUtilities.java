@@ -70,6 +70,9 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
+import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcServiceAsync;
@@ -157,6 +160,7 @@ public class WorkflowUtilities{
     
     WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
     private final CommentRpcServiceAsync commentServiceAsync = GWT.create(CommentRpcService.class);
+    private final ProposalRpcServiceAsync proposalServiceAsync = GWT.create(ProposalRpcService.class);
     
     private String modelName;
     private String proposalPath;
@@ -177,6 +181,8 @@ public class WorkflowUtilities{
     
     private final KSLabel workflowStatusLabel = new KSLabel("");
     
+    private final KSLabel proposalStatusLabel = new KSLabel("");
+
     private final LayoutController parentController;
 
 	private String dropDownLabel = "Workflow Actions";
@@ -441,7 +447,11 @@ public class WorkflowUtilities{
 		return workflowStatusLabel;
 	}
 	
-	private void updateWorkflowIdFromModel(final DataModel model){
+    public KSLabel getProposalStatusLabel() {
+        return proposalStatusLabel;
+    }
+
+    private void updateWorkflowIdFromModel(final DataModel model) {
 		if(model!=null){
 			String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
 			
@@ -470,7 +480,7 @@ public class WorkflowUtilities{
 			workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
 				@Override
 				public void handleFailure(Throwable caught) {
-					workflowStatusLabel.setText("Status: Unknown");
+                    setWorkflowStatus("Unknown");
 				}
 
 				@Override
@@ -478,8 +488,20 @@ public class WorkflowUtilities{
 					setWorkflowStatus(result);
 				}						
 			});
+            proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
+                @Override
+                public void handleFailure(Throwable caught) {
+                    setProposalStatus("Unknown");
+                }
+
+                @Override
+                public void onSuccess(ProposalInfo result) {
+                    setProposalStatus(result.getState());
+                }
+            });
 		} else {
-			workflowStatusLabel.setText("Status: Draft");
+            setWorkflowStatus("Draft");
+            setProposalStatus("Draft");
 		}			
 	}
 	
@@ -1448,11 +1470,19 @@ public class WorkflowUtilities{
 		workflowStatusLabel.setText("Status: " + statusTranslation);	
 	}
 	
-	/**
-	 * Use to set the modelName to use when this widget requests the data model.
-	 * 
-	 * @param modelName
-	 */
+    private void setProposalStatus(String statusCode) {
+        String statusLabel = Application.getApplicationContext()
+                .getUILabel("common", null, null, "proposalStatusLabel");
+        String status = Application.getApplicationContext().getUILabel("common", null, null, statusCode);
+
+        proposalStatusLabel.setText(statusLabel + ": " + status);
+    }
+
+    /**
+     * Use to set the modelName to use when this widget requests the data model.
+     * 
+     * @param modelName
+     */
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}

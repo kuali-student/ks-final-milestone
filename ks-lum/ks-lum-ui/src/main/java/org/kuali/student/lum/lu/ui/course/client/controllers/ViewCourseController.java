@@ -39,9 +39,9 @@ import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -50,7 +50,6 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSect
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
-import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
@@ -159,7 +158,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     			if (newState != null) {
                     KSNotifier.add(new KSNotification(getMessage("cluStateChangeNotification" + newState), false, 5000));
                     // FIXME: this is not updating the cluModel so state will not be updated in the model.  May not be a problem.
-                    statusLabel.setText("Status: " + newState);
+                            statusLabel.setText("Course Status: " + newState);
     			} else {
                     KSNotifier.add(new KSNotification(getMessage("cluStateChangeFailedNotification"), false, 5000));
     			}
@@ -409,7 +408,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     private void updateStatus() {
     	if(cluModel.get("state") != null){
-    		statusLabel.setText("Status: " + cluModel.get("state"));
+            statusLabel.setText(getMessage("courseStatusLabel") + ": " + cluModel.get("state"));
     	}
     }
     

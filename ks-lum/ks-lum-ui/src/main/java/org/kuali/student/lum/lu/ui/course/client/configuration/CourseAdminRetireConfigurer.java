@@ -38,9 +38,9 @@ public class CourseAdminRetireConfigurer extends CourseProposalConfigurer {
 
         KSLabel courseStatusLabel = new KSLabel("");
         if (layout.getCourseState() != null)
-            courseStatusLabel.setText("Status: " + layout.getCourseState());
+            courseStatusLabel.setText(getLabel("courseStatusLabel") + ": " + layout.getCourseState());
         else
-            courseStatusLabel.setText("Status: Unknown");
+            courseStatusLabel.setText(getLabel("courseStatusLabel") + ": Unknown");
         layout.addContentWidget(courseStatusLabel);
 
         layout.addView(generateCourseAdminView((CourseAdminRetireController) layout));

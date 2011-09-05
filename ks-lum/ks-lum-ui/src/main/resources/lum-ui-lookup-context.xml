@@ -294,10 +294,10 @@
     </bean>
     <bean parent="result">
      <property name="dataType" value="STRING" />
-     <property name="desc" value="Status" />
+     <property name="desc" value="Program Status" />
      <property name="hidden" value="false" />
      <property name="key" value="lu.resultColumn.luOptionalState" />
-     <property name="name" value="Status" />
+     <property name="name" value="Program Status" />
     </bean>
 	<bean parent="result">
      <property name="dataType" value="STRING" />
@@ -370,7 +370,7 @@
 
   <bean id="kuali.lu.browseProgram.filter.status" parent="kuali.lu.filter.enumeration-parent">
     <property name="id" value="lu.resultColumn.luOptionalState" />
-	<property name="title" value="Status"/>
+	<property name="title" value="Program Status"/>
 	<property name="resultDisplayKey" value="enumeration.resultColumn.code" />
 	<property name="params">
 		<list>
@@ -1767,8 +1767,8 @@
     </bean>
     <bean parent="result">
      <property name="key" value="lu.resultColumn.luOptionalState" />
-     <property name="name" value="Status" />
-     <property name="desc" value="Status" />
+     <property name="name" value="Program Status" />
+     <property name="desc" value="Program Status" />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
@@ -1815,8 +1815,8 @@
     </bean>
     <bean parent="result">
      <property name="key" value="lu.resultColumn.luOptionalState" />
-     <property name="name" value="Status" />
-     <property name="desc" value="Status" />
+     <property name="name" value="Program Status" />
+     <property name="desc" value="Program Status" />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
     </bean>
@@ -2365,7 +2365,7 @@
     </bean>
     <bean parent="result">
      <property name="key" value="lu.resultColumn.luOptionalState" />
-     <property name="name" value="Status" />
+     <property name="name" value="Course Status" />
      <property name="desc" value="Course state" />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />
@@ -3341,7 +3341,7 @@
     <bean parent="result" autowire-candidate="default"
           dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="proposal.resultColumn.proposalOptionalStatus" />
-     <property name="name" value="Status" />
+     <property name="name" value="Proposal Status" />
      <property name="desc" value="Status of the proposal." />
      <property name="dataType" value="STRING" />
      <property name="hidden" value="false" />

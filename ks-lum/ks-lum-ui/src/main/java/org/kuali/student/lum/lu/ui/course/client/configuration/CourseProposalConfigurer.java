@@ -203,7 +203,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         }
         layout.showPrint(true);
         layout.setDefaultView(CourseSections.SUMMARY);
-        layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
+        layout.addContentWidget(layout.getWfUtilities().getProposalStatusLabel());
         final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
         commentTool.setController(layout);
         

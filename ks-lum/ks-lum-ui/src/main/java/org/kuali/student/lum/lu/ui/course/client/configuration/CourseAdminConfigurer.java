@@ -17,7 +17,6 @@ import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool.EditMode;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
@@ -53,7 +52,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         
     	groupName = LUUIConstants.COURSE_GROUP_NAME;
 
-        layout.addContentWidget(layout.getWfUtilities().getWorkflowStatusLabel());
+        layout.addContentWidget(layout.getWfUtilities().getProposalStatusLabel());
         if (modelDefinition.getMetadata().isCanEdit()) {
             layout.addInfoWidget(requiredContainer);
             layout.addView(generateCourseAdminView((CourseAdminController) layout));
