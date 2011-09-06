@@ -1257,6 +1257,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
      */
     @Override
     public String getExportTemplateName() {
+        if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){
+            return "base.template";
+        }
         return "proposal.template";
     }
     
