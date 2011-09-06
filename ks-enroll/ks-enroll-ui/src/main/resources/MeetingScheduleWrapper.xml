@@ -40,6 +40,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="MeetingScheduleWrapper-displayableTime" parent="MeetingScheduleWrapper-displayableTime-parent"/>
     <bean id="MeetingScheduleWrapper-displayableTime-parent" abstract="true" parent="AttributeDefinition">
         <property name="name" value="displayableTime"/>
+        <property name="dataType" value="STRING" />            
         <property name="label" value="Course Schedule" />
         <property name="validationPattern" >
               <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />

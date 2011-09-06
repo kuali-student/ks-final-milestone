@@ -51,7 +51,7 @@
                     <!-- This generates the the dictionary documentation docs on the site-->                    
                     <execution>
                         <id>generate-dictionary-documentation</id>
-                        <phase>${ks.contractdoc.phase}</phase>
+                        <phase>${ks.dictionarydoc.phase}</phase>
                         <goals>
                             <goal>ksdictionarydoc</goal>                            
                         </goals>
@@ -60,13 +60,24 @@
                             <inputFiles>
                                <!--  inputFiles that do not end in ".xml" are treated it
                                as a header and used it to group the dictionary files--> 
-                               <!-- ATP -->
-                                <inputFile>UI Dictionaries</inputFile>
                                 <inputFile>AcademicCalendarInfoUI.xml</inputFile>
+                                <inputFile>AcademicCalendarWrapperMaintenance.xml</inputFile>
+                                <inputFile>ActivityOfferingInfoUI.xml</inputFile>
+                                <inputFile>ActivityOfferingWrapper.xml</inputFile>
+                                <inputFile>CourseInfoUI.xml</inputFile>
+                                <inputFile>CourseOfferingInfoUI.xml</inputFile>
+                                <inputFile>CourseOfferingWrapper.xml</inputFile>
+                                <inputFile>HoldInfo.xml</inputFile>
+                                <inputFile>IssueInfo.xml</inputFile>
                                 <inputFile>KeyDateInfoUI.xml</inputFile>
+                                <inputFile>RegistrationGroupInfoUI.xml</inputFile>
+                                <inputFile>RegistrationGroupWrapper.xml</inputFile>
+                                <inputFile>MeetingScheduleWrapper.xml</inputFile>                                
                                 <inputFile>TermInfoUI.xml</inputFile>
+                                <inputFile>TermWrapperMaintenance.xml</inputFile>
                             </inputFiles>
                             <supportFiles>
+                                <supportFile>org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>                                
                                 <supportFile>org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/uif/UifControlDefinitions.xml</supportFile>

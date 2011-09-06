@@ -34,9 +34,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="KeyDateInfo.typeKey"/>
                 <ref bean="KeyDateInfo.stateKey"/>
                 <ref bean="KeyDateInfo.name"/>
-                <ref bean="KeyDateInfo.descr"/>
                 <ref bean="KeyDateInfo.isAllDay"/>
                 <ref bean="KeyDateInfo.isDateRange"/>              
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="KeyDateInfo.descr"/>          
             </list>
         </property>
     </bean>
@@ -46,9 +50,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-    	</property>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
 
     <bean id="KeyDateInfoUI.endDate" parent="KeyDateInfo.endDate-parent">
@@ -56,9 +60,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
-    	</property>
-    	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+        </property>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>
     
 </beans>

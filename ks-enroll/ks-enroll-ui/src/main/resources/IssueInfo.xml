@@ -55,7 +55,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
 	<bean id="IssueInfo.id" parent="IssueInfo.id-parent"/>
     <bean id="IssueInfo.id-parent" abstract="true" parent="AttributeDefinition">
-        <property name="name" value="id"/>        
+        <property name="name" value="id"/>   
+        <property name="dataType" value="STRING" />          
         <property name="label" value="ID" />
         <property name="required" value="true"/>
         <property name="unique" value="true"/> 
@@ -71,6 +72,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="IssueInfo.name" parent="IssueInfo.name-parent"/>
     <bean id="IssueInfo.name-parent" abstract="true" parent="AttributeDefinition">
         <property name="name" value="name"/>
+        <property name="dataType" value="STRING" />            
         <property name="label" value="Name" />
         <property name="required" value="false"/>
         <property name="controlField">
@@ -85,6 +87,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="IssueInfo.organizationId" parent="IssueInfo.organizationId-parent"/>
     <bean id="IssueInfo.organizationId-parent" abstract="true" parent="AttributeDefinition">
         <property name="name" value="organizationId"/>
+        <property name="dataType" value="STRING" />          
         <property name="label" value="Organization ID"/>
         <property name="required" value="true"/>   	
     	<property name="controlField">

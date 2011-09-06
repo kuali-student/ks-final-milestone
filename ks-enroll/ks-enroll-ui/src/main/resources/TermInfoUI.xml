@@ -34,8 +34,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 
                 <!--  other attributes not used by UI -->           
                 <ref bean="TermInfo.stateKey"/>
-                <ref bean="TermInfo.name"/>
-                <ref bean="TermInfo.descr"/>             
+                <ref bean="TermInfo.name"/>       
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="TermInfo.descr"/>          
             </list>
         </property>
     </bean>

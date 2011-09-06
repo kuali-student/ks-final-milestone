@@ -29,30 +29,27 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
                 <!--  other attributes not used by UI -->
                 <ref bean="ActivityOfferingInfo.activityId"/>
-				<ref bean="ActivityOfferingInfo.activityCode"/>
-				<ref bean="ActivityOfferingInfo.termKey"/>
-				<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
-				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
-				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
-				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
-				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
-				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
-				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
-				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
-				<ref bean="ActivityOfferingInfo.id"/>
-				<ref bean="ActivityOfferingInfo.typeKey"/>
-				<ref bean="ActivityOfferingInfo.stateKey"/>
-				<ref bean="ActivityOfferingInfo.descr"/>
-				<ref bean="ActivityOfferingInfo.descr.plain"/>
-				<ref bean="ActivityOfferingInfo.descr.formatted"/>
-				<ref bean="ActivityOfferingInfo.meta"/>
-				<ref bean="ActivityOfferingInfo.meta.versionInd"/>
-				<ref bean="ActivityOfferingInfo.meta.createTime"/>
-				<ref bean="ActivityOfferingInfo.meta.createId"/>
-				<ref bean="ActivityOfferingInfo.meta.updateTime"/>
-				<ref bean="ActivityOfferingInfo.meta.updateId"/>
+		<ref bean="ActivityOfferingInfo.activityCode"/>
+		<ref bean="ActivityOfferingInfo.termKey"/>
+		<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
+		<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
+		<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
+		<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
+		<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
+		<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
+		<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
+		<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
+		<ref bean="ActivityOfferingInfo.id"/>
+		<ref bean="ActivityOfferingInfo.typeKey"/>
+		<ref bean="ActivityOfferingInfo.stateKey"/>
             </list>
         </property>
+        <property name="complexAttributes">
+            <list>
+		<ref bean="ActivityOfferingInfo.descr"/>
+		<ref bean="ActivityOfferingInfo.meta"/>
+            </list>
+        </property>        
     </bean>
 
 </beans>

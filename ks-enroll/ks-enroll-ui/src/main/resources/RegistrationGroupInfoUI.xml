@@ -29,31 +29,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
                 <!--  other attributes not used by UI -->
                 <ref bean="RegistrationGroupInfo.courseOfferingId"/>
-				<ref bean="RegistrationGroupInfo.registrationCode"/>
-				<ref bean="RegistrationGroupInfo.formatId"/>
-				<ref bean="RegistrationGroupInfo.isHonorsOffering"/>
-				<ref bean="RegistrationGroupInfo.maximumEnrollment"/>
-				<ref bean="RegistrationGroupInfo.minimumEnrollment"/>
-				<ref bean="RegistrationGroupInfo.hasWaitlist"/>
-				<ref bean="RegistrationGroupInfo.waitlistTypeKey"/>
-				<ref bean="RegistrationGroupInfo.waitlistMaximum"/>
-				<ref bean="RegistrationGroupInfo.isWaitlistCheckinRequired"/>
-				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency"/>
-				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
-				<ref bean="RegistrationGroupInfo.waitlistCheckinFrequency.timeQuantity"/>
-				<ref bean="RegistrationGroupInfo.id"/>
-				<ref bean="RegistrationGroupInfo.typeKey"/>
-				<ref bean="RegistrationGroupInfo.stateKey"/>
-				<ref bean="RegistrationGroupInfo.name"/>
-				<ref bean="RegistrationGroupInfo.descr"/>
-				<ref bean="RegistrationGroupInfo.descr.plain"/>
-				<ref bean="RegistrationGroupInfo.descr.formatted"/>
-				<ref bean="RegistrationGroupInfo.meta"/>
-				<ref bean="RegistrationGroupInfo.meta.versionInd"/>
-				<ref bean="RegistrationGroupInfo.meta.createTime"/>
-				<ref bean="RegistrationGroupInfo.meta.createId"/>
-				<ref bean="RegistrationGroupInfo.meta.updateTime"/>
-				<ref bean="RegistrationGroupInfo.meta.updateId"/>
+                <ref bean="RegistrationGroupInfo.registrationCode"/>
+                <ref bean="RegistrationGroupInfo.formatId"/>
+                <ref bean="RegistrationGroupInfo.isHonorsOffering"/>
+                <ref bean="RegistrationGroupInfo.maximumEnrollment"/>
+                <ref bean="RegistrationGroupInfo.minimumEnrollment"/>
+                <ref bean="RegistrationGroupInfo.hasWaitlist"/>
+                <ref bean="RegistrationGroupInfo.waitlistTypeKey"/>
+                <ref bean="RegistrationGroupInfo.waitlistMaximum"/>
+                <ref bean="RegistrationGroupInfo.isWaitlistCheckinRequired"/>
+                <ref bean="RegistrationGroupInfo.id"/>
+                <ref bean="RegistrationGroupInfo.typeKey"/>
+                <ref bean="RegistrationGroupInfo.stateKey"/>
+                <ref bean="RegistrationGroupInfo.name"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="RegistrationGroupInfo.waitlistCheckinFrequency"/>
+                <ref bean="RegistrationGroupInfo.descr"/>
+                <ref bean="RegistrationGroupInfo.meta"/>
             </list>
         </property>
     </bean>
@@ -63,11 +58,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="false"/>
         <property name="unique" value="false"/>
         <property name="validationPattern" >
-      		<bean parent="NumericValidationPattern" />
-    	</property>
-    	<property name="controlField">
-      		<bean parent="TextControl" p:size="10"/>
-    	</property>
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="10"/>
+        </property>
     </bean>
 
 </beans>
