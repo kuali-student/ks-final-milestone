@@ -1285,7 +1285,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEHONR100"
         ID="3cbcbb42-f786-4571-965b-af47d46abd93" IS_PR="0"
-        OBJ_ID="0040b7e8-a462-4426-8f91-da0a7efc9882" ORG_ID="48"
+        OBJ_ID="0040b7e8-a462-4426-8f91-da0a7efc9882" ORG_ID="223"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEBSCI440"
         ID="3ce0df5c-d4bb-445f-a2d8-a2e4677f9a90" IS_PR="0"
@@ -2022,7 +2022,7 @@
         TYPE="kuali.adminOrg.type.CurriculumOversightUnit" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEGEMS100"
         ID="5de888c2-44e4-4672-a6c1-37defe5a4f3d" IS_PR="0"
-        OBJ_ID="d4409200-6541-4c2d-b37b-d2897ed875cb" ORG_ID="203"
+        OBJ_ID="d4409200-6541-4c2d-b37b-d2897ed875cb" ORG_ID="223"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEMUSC679"
         ID="5e43f969-5ba5-4e9b-91b9-b5662481f314" IS_PR="0"
@@ -2705,6 +2705,10 @@
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSECBMG799"
         ID="7fe7b63d-65b9-4829-a980-3d30fc9b2133" IS_PR="0"
         OBJ_ID="49c6e027-d509-4420-a676-54d12eeb77e7" ORG_ID="65"
+        TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
+    <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEGEMS100"
+        ID="804c7c0c-056d-4cac-b043-cd3501fc233b" IS_PR="0"
+        OBJ_ID="3492763a-8f55-4c46-a20a-2fa195dec0f6" ORG_ID="29"
         TYPE="kuali.adminOrg.type.CurriculumOversight" VER_NBR="0"/>
     <KSLU_CLU_ADMIN_ORG CLU_ID="REFERENCECOURSEMOCB898"
         ID="80a049b5-88df-4ede-a390-79ec6e71df76" IS_PR="0"
