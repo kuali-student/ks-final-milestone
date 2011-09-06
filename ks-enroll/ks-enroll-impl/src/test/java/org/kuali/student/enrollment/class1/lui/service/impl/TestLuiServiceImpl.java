@@ -37,8 +37,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
 public class TestLuiServiceImpl {
-    private LuiService luiServiceValidation;
 
+    private LuiService luiServiceValidation;
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
 
@@ -65,7 +65,8 @@ public class TestLuiServiceImpl {
         try {
             try {
                 luiServiceValidation.getLui("Lui-blah", callContext);
-            } catch (DoesNotExistException enee) {}
+            } catch (DoesNotExistException enee) {
+            }
 
             LuiInfo obj = luiServiceValidation.getLui("Lui-1", callContext);
             assertNotNull(obj);
@@ -155,7 +156,6 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testUpdateLui() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         LuiInfo info = luiServiceValidation.getLui("Lui-1", callContext);
@@ -167,7 +167,10 @@ public class TestLuiServiceImpl {
         modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
         modified.setMaximumEnrollment(25);
         modified.setMinimumEnrollment(10);
-
+        assertNotNull(modified.getOfficialIdentifier());
+        modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        
         // try{
         LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
         assertNotNull(updated);
@@ -201,7 +204,8 @@ public class TestLuiServiceImpl {
         try {
             try {
                 luiServiceValidation.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
-            } catch (DoesNotExistException enee) {}
+            } catch (DoesNotExistException enee) {
+            }
 
             List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-1", callContext);
             assertNotNull(objs);
@@ -273,18 +277,21 @@ public class TestLuiServiceImpl {
         try {
             try {
                 luiServiceValidation.deleteLui("Lui-3-blah", callContext);
-            } catch (DoesNotExistException ee) {}
+            } catch (DoesNotExistException ee) {
+            }
 
             StatusInfo status = luiServiceValidation.deleteLui("Lui-3", callContext);
             assertTrue(status.getIsSuccess());
 
             try {
                 luiServiceValidation.getLuiLuiRelationsByLui("Lui-3", callContext);
-            } catch (DoesNotExistException ee) {}
+            } catch (DoesNotExistException ee) {
+            }
 
             try {
                 luiServiceValidation.getLui("Lui-3", callContext);
-            } catch (DoesNotExistException ee) {}
+            } catch (DoesNotExistException ee) {
+            }
         } catch (Exception e) {
             fail(e.getMessage());
         }
