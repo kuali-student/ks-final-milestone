@@ -190,7 +190,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
 		    		cluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
 		        }
-				HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL/COURSE_INFO", getViewContext());
+                HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", getViewContext());
 			}
 		}));
    		
