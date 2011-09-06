@@ -123,7 +123,7 @@
 								</list>
 							</property>
 							<property name="constraint">
-						        <bean parent="baseComplexRequired"/>
+						        <bean parent="baseKualiOrgIdRepeatingRequired"/>
 							</property>
 						</bean>
 					</list>
@@ -143,7 +143,7 @@
         </list>
        </property>
        <property name="constraint">
-        <bean parent="baseComplexRequired"/>
+        <bean parent="baseKualiOrgIdRepeatingRequired"/>
        </property>
       </bean>
      </list>

@@ -264,6 +264,9 @@
  <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
+ <bean id="baseKualiOrgIdRepeatingRequired" parent="baseKualiOrgId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
  <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
