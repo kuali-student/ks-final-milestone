@@ -33,7 +33,7 @@
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="html">
 					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
@@ -53,7 +53,7 @@
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="html">
 					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>

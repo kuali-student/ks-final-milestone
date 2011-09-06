@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DataSourceReport" pageWidth="515" pageHeight="842" columnWidth="515" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
@@ -15,17 +15,17 @@
 	<group name="Section">
 		<groupExpression><![CDATA[$F{sectionName}]]></groupExpression>
 		<groupHeader>
-			<band height="20">
+			<band height="24">
 				<printWhenExpression><![CDATA[$F{sectionName} != null]]></printWhenExpression>
 				<textField>
-					<reportElement x="0" y="5" width="100" height="15"/>
-					<textElement>
+					<reportElement x="0" y="-1" width="123" height="23"/>
+					<textElement verticalAlignment="Middle" markup="html">
 						<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{sectionName}]]></textFieldExpression>
 				</textField>
 				<line>
-					<reportElement x="0" y="19" width="515" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
+					<reportElement x="0" y="23" width="515" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
 					<graphicElement>
 						<pen lineWidth="0.5" lineStyle="Solid"/>
 					</graphicElement>
@@ -40,10 +40,10 @@
 		<band/>
 	</pageHeader>
 	<detail>
-		<band height="15">
+		<band height="18">
 			<printWhenExpression><![CDATA[$F{sub}==false && !$F{empty}]]></printWhenExpression>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="0" y="0" width="123" height="15">
+				<reportElement positionType="Float" x="0" y="0" width="123" height="18">
 					<printWhenExpression><![CDATA[$F{sub}==false]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="5" rightPadding="0">
@@ -59,21 +59,21 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{mandatory}==true ? $F{key} + "<font color=\"red\"> *</font>" : $F{key}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="319" y="0" width="196" height="15"/>
+				<reportElement positionType="Float" x="319" y="0" width="196" height="18"/>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="html">
 					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" x="123" y="0" width="196" height="15"/>
+				<reportElement positionType="Float" x="123" y="0" width="196" height="18"/>
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="html">
 					<font fontName="DejaVu Sans" size="9" pdfFontName="Helvetica"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
