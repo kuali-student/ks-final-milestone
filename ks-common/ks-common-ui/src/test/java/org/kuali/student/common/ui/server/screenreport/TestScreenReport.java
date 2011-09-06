@@ -195,6 +195,16 @@ public class TestScreenReport {
         Assert.assertNotNull(bytes);
         printToFile(bytes, "ks-common-ui/target/dataList.xls");
         Assert.assertTrue(bytes.length > 0);
+        
+        bytes = processor.createText(dataList, "base.template", "Course Information");
+        Assert.assertNotNull(bytes);
+        printToFile(bytes, "ks-common-ui/target/dataList.txt");
+        Assert.assertTrue(bytes.length > 0);
+        
+        bytes = processor.createRtf(dataList, "base.template", "Course Information");
+        Assert.assertNotNull(bytes);
+        printToFile(bytes, "ks-common-ui/target/dataList.rtf");
+        Assert.assertTrue(bytes.length > 0);
 
     }
     
