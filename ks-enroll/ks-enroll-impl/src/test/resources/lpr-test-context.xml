@@ -118,6 +118,7 @@
         <property name="lprStateDao" ref="lprStateDao"/>
         <property name="lprTypeDao" ref="typeDao"/>
         <property name="lprRosterDao" ref="lprRosterDao"/>
+        <property name="stateService" ref="stateService"/>
     </bean>
 
     <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">

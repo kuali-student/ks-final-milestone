@@ -50,6 +50,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprTypeDao lprTypeDao;
     private LuiService luiService;
     private LRCService lrcService;
+    private StateService stateService;
 
     public LRCService getLrcService() {
         return lrcService;
@@ -59,7 +60,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         this.lrcService = lrcService;
     }
 
-    private StateService stateService;
 
     public LprTransactionDao getLprTransDao() {
         return lprTransDao;
