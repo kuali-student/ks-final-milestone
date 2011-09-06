@@ -26,11 +26,11 @@ insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_U
 /
 insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4105', '', '', 'en', 'KUALI.RULE.COMPOSITION', '<reqCompFieldType=kuali.reqComponent.field.type.value.positive.integer;reqCompFieldLabel=Minimum Number of Courses Approved By Advisor>', 'kuali.reqComponent.type.program.courses.advisor')
 /
-insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4205', '', '', 'en', 'KUALI.RULE.CATALOG', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "credit") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
+insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4205', '', '', 'en', 'KUALI.RULE.CATALOG', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "course") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
 /
-insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4305', '', '', 'en', 'KUALI.RULE.PREVIEW', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "credit") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
+insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4305', '', '', 'en', 'KUALI.RULE.PREVIEW', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "course") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
 /
-insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4405', '', '', 'en', 'KUALI.RULE', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "credit") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
+insert into KSST_REQ_COM_TYPE_NL_TMPL (ID, ATTR_NAME, ATTR_VALUE, LANGUAGE, NL_USUAGE_TYPE_KEY, TEMPLATE, OWNER) values ('4405', '', '', 'en', 'KUALI.RULE', 'Must have $intValue $NLHelper.getProperGrammar($intValue, "course") from courses approved by advisor', 'kuali.reqComponent.type.program.courses.advisor')
 /
 insert into KSST_STMT_TYP_JN_RC_TYP (ID, STMT_TYPE_ID, REQ_COM_TYPE_ID) values ('PC-405','kuali.statement.type.program.completion', 'kuali.reqComponent.type.program.courses.advisor')
 /
