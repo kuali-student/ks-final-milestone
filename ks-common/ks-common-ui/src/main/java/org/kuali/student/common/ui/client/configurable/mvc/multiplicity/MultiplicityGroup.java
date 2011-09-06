@@ -127,7 +127,7 @@ public class MultiplicityGroup extends Composite {
         if (!loaded || itemCount == 0){
         	Integer minOccurs = MetadataInterrogator.getLargestMinOccurs(config.getMetaData());
         	
-        	if (minOccurs != null) {
+        	if (minOccurs != null && minOccurs > 0) {
 	            for (int i=0; i < minOccurs; i++){
 	            	createItem();
 	            }
