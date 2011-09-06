@@ -724,7 +724,7 @@
         OWNER="kuali.reqComponent.type.program.credits.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4205" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.CATALOG"
-        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
+        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4206" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.CATALOG"
         OWNER="kuali.reqComponent.type.program.credits.theme" TEMPLATE="Student must successfully complete $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in $fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
@@ -745,7 +745,7 @@
         OWNER="kuali.reqComponent.type.program.credits.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4305" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
-        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
+        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4306" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE.PREVIEW"
         OWNER="kuali.reqComponent.type.program.credits.theme" TEMPLATE="Student must successfully complete $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in $fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
@@ -766,7 +766,7 @@
         OWNER="kuali.reqComponent.type.program.credits.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4405" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
-        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) from courses approved by advisor"/>
+        OWNER="kuali.reqComponent.type.program.courses.advisor" TEMPLATE="Must have $intValue $NLHelper.getProperGrammar($intValue, &quot;course&quot;) from courses approved by advisor"/>
     <KSST_REQ_COM_TYPE_NL_TMPL ID="4406" LANGUAGE="en"
         NL_USUAGE_TYPE_KEY="KUALI.RULE"
         OWNER="kuali.reqComponent.type.program.credits.theme" TEMPLATE="Student must successfully complete $intValue $NLHelper.getProperGrammar($intValue, &quot;credit&quot;) in $fields.get(&quot;kuali.reqComponent.field.type.value.freeform.text&quot;)"/>
