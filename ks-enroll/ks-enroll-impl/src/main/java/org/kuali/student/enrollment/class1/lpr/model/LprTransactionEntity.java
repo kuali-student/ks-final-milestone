@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
@@ -33,7 +34,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     private LprRichTextEntity descr;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "LPR_TRANS_ID", nullable = false)
+    @JoinColumn(name = "ID", nullable = false)
     private Set<LprTransactionItemEntity> lprTransactionItems;
 
     @ManyToOne(optional = false)
@@ -41,8 +42,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     private LuiPersonRelationTypeEntity lprTransType;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "LPR_STATE_ID")
-    private LuiPersonRelationStateEntity lprTransState;
+    @JoinColumn(name = "STATE_ID")
+    private StateEntity lprTransState;
 
     public LprTransactionEntity() {}
 
@@ -96,11 +97,11 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.lprTransType = lprTransType;
     }
 
-    public LuiPersonRelationStateEntity getLprTransState() {
+    public StateEntity getLprTransState() {
         return lprTransState;
     }
 
-    public void setLprTransState(LuiPersonRelationStateEntity lprTransState) {
+    public void setLprTransState(StateEntity lprTransState) {
         this.lprTransState = lprTransState;
     }
 

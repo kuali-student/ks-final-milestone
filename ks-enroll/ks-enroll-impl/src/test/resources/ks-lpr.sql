@@ -141,14 +141,6 @@ INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYP
 INSERT INTO KSEN_LUILUI_RELTN(ID, VER_NBR, EFF_DT, EXP_DT, STATE_ID, LUI_ID, TYPE_ID, RELATED_LUI_ID) VALUES ('LUILUIREL-2', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.lui.lui.relation.state.active', 'Lui-3', 'kuali.lui.lui.relation.associated', 'Lui-4')
 
 
-// LuiPersonRelationStateEntity
-// - Course and Section - Student - LPR States
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.planned', 'Planned', 'The student plans on taking this course or program', 0)
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.registered', 'Registered', 'The student is officially registered for the course or section', 0)
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.not.paid', 'Fee Not Paid', 'The student has registered for the course by has not paid the fee', 0)
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.waitlisted', 'Waitlisted', 'The student attempted to join but has been put on the waitlist', 0)
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.early', 'Dropped', 'The student was registered but subsequently dropped the course or section within the normally allotted time period', 0)
-INSERT INTO KSEN_LPR_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.late', 'Dropped Late', 'The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate', 0)
 
 // LPR course registration process
 INSERT INTO KSEN_STATE_PROCESS (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.process.student.course.registration', 'kuali.lpr.process.student.course.registration', 'kuali.lpr.process.student.course.registration', 0)

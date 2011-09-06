@@ -11,7 +11,6 @@
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationStateEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationTypeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity</class>
         

@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -53,8 +54,16 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
     private CourseRegistrationAssembler courseRegistrationAssembler;
-
     private DataDictionaryService dataDictionaryService;
+    private LRCService lrcService;
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
 
     public LuiPersonRelationService getLprService() {
         return lprService;

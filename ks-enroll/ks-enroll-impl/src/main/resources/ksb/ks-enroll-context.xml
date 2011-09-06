@@ -372,13 +372,14 @@
     	<property name="lprDao" ref="lprDao"/>
     	<property name="lprStateDao" ref="lprStateDao"/>
     	<property name="lprTypeDao" ref="lprTypeDao"/>
+      <property name="stateService" ref="stateService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-   <bean id="lprStateDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprStateDao">
+   <bean id="lprStateDao" class="org.kuali.student.r2.common.dao.StateDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

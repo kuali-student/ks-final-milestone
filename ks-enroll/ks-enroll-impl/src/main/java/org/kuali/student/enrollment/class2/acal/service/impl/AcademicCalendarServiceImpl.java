@@ -1,6 +1,13 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -10,7 +17,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
@@ -40,8 +46,8 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class AcademicCalendarServiceImpl implements AcademicCalendarService{
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AtpService atpService;
     private AcademicCalendarAssembler acalAssembler;
     private TermAssembler termAssembler;
@@ -50,11 +56,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
+
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
-    
+
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
@@ -67,7 +73,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             DoesNotExistException {
         return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
     }
- 
+
     @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -131,7 +137,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         cal.clear();
         cal.set(year, 0, 1); // Jan 1 of the specified year
 
-
         Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
             @Override
             public int compare(AtpInfo atpInfo1, AtpInfo atpInfo2) {
@@ -160,28 +165,30 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO: this will be replaced by func on searching dynamic attributes
-    
-    	List<AcademicCalendarInfo> acals = new ArrayList<AcademicCalendarInfo>();
-    	List<String> atpKeys = atpService.getAtpKeysByType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context);
-    	if (atpKeys != null && !atpKeys.isEmpty()){
-    		for(String atpKey : atpKeys){
-    			try {
-					AtpInfo atp = atpService.getAtp(atpKey, context);
-	 				List<AttributeInfo> attributes = atp.getAttributes();
-					if(attributes != null && !attributes.isEmpty()){
-						for(AttributeInfo attribute : attributes){
-							if(attribute.getKey().equals("CredentialProgramType") && attribute.getValue().equals(credentialProgramTypeKey)){
-								AcademicCalendarInfo acal = acalAssembler.assemble(atp, context);
-								if(acal != null) acals.add(acal);
-							}
-						}
-					}
-    			} catch (DoesNotExistException e) {
-					throw new OperationFailedException("getAtpKeysByType found invalid atp: " + atpKey);
-				}
-    		}
-    	}
-    	
+
+        List<AcademicCalendarInfo> acals = new ArrayList<AcademicCalendarInfo>();
+        List<String> atpKeys = atpService.getAtpKeysByType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context);
+        if (atpKeys != null && !atpKeys.isEmpty()) {
+            for (String atpKey : atpKeys) {
+                try {
+                    AtpInfo atp = atpService.getAtp(atpKey, context);
+                    List<AttributeInfo> attributes = atp.getAttributes();
+                    if (attributes != null && !attributes.isEmpty()) {
+                        for (AttributeInfo attribute : attributes) {
+                            if (attribute.getKey().equals("CredentialProgramType")
+                                    && attribute.getValue().equals(credentialProgramTypeKey)) {
+                                AcademicCalendarInfo acal = acalAssembler.assemble(atp, context);
+                                if (acal != null)
+                                    acals.add(acal);
+                            }
+                        }
+                    }
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException("getAtpKeysByType found invalid atp: " + atpKey);
+                }
+            }
+        }
+
         return acals;
     }
 
@@ -201,104 +208,106 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         return new ArrayList<ValidationResultInfo>();
     }
 
-    private void processAcalToCcalRelation(String academicCalendarKey, List<String> campusCalendarKeys, ContextInfo context) 
-    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, 
-    		OperationFailedException, PermissionDeniedException{
-        if(campusCalendarKeys != null && !campusCalendarKeys.isEmpty()){
-        	List<String> validCcalKeys = new ArrayList<String>();
-        	for(String ccKey : campusCalendarKeys){
-        		try {
-					AtpInfo cCal = atpService.getAtp(ccKey, context);
-					if(cCal != null)
-						validCcalKeys.add(ccKey);
-					else
-						throw new OperationFailedException("The CampusCalendar does not exist. " + ccKey);
-				} catch (DoesNotExistException e) {
-					throw new OperationFailedException("The CampusCalendar Does Not Exist. " + ccKey);
-				} 
-        	}
-        	
-        	try {
-            	acalAssembler.getRelAssembler().disassemble(academicCalendarKey, validCcalKeys, AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context);
-        	} catch (VersionMismatchException e) {
-        		throw new OperationFailedException();
-			}
-        }        	
+    private void processAcalToCcalRelation(String academicCalendarKey, List<String> campusCalendarKeys,
+            ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (campusCalendarKeys != null && !campusCalendarKeys.isEmpty()) {
+            List<String> validCcalKeys = new ArrayList<String>();
+            for (String ccKey : campusCalendarKeys) {
+                try {
+                    AtpInfo cCal = atpService.getAtp(ccKey, context);
+                    if (cCal != null)
+                        validCcalKeys.add(ccKey);
+                    else
+                        throw new OperationFailedException("The CampusCalendar does not exist. " + ccKey);
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException("The CampusCalendar Does Not Exist. " + ccKey);
+                }
+            }
+
+            try {
+                acalAssembler.getRelAssembler().disassemble(academicCalendarKey, validCcalKeys,
+                        AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context);
+            } catch (VersionMismatchException e) {
+                throw new OperationFailedException();
+            }
+        }
     }
-    
+
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	AtpInfo created =null;
+        AtpInfo created = null;
         AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
         try {
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
-            if(existing == null) {
+            if (existing == null) {
                 created = atpService.createAtp(academicCalendarKey, atp, context);
-            	if (created != null)
-            		processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
-            } else { 
-                throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey + " already exists");
+                if (created != null)
+                    processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
+            } else {
+                throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey
+                        + " already exists");
             }
         } catch (DoesNotExistException e1) {
-        	created = atpService.createAtp(academicCalendarKey, atp, context);
-        	if (created != null)
-        		processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
+            created = atpService.createAtp(academicCalendarKey, atp, context);
+            if (created != null)
+                processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
         }
-       
+
         return academicCalendarInfo;
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
-        
-        try{
-        	AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
-        	if(existing != null){
-	            AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
-	
-	            if(atp != null){
-	            	AtpInfo updated = atpService.updateAtp(academicCalendarKey, atp, context);
-	            	if (updated != null)
-						try {
-							processAcalToCcalRelation(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
-						} catch (AlreadyExistsException e) {
-							throw new OperationFailedException();
-						}
-	            }
-        	}
-        	else
-        		throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
+
+        try {
+            AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
+            if (existing != null) {
+                AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
+
+                if (atp != null) {
+                    AtpInfo updated = atpService.updateAtp(academicCalendarKey, atp, context);
+                    if (updated != null)
+                        try {
+                            processAcalToCcalRelation(academicCalendarKey,
+                                    academicCalendarInfo.getCampusCalendarKeys(), context);
+                        } catch (AlreadyExistsException e) {
+                            throw new OperationFailedException();
+                        }
+                }
+            } else
+                throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
         } catch (DoesNotExistException e1) {
             throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
         }
-        
+
         return academicCalendarInfo;
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public StatusInfo deleteAcademicCalendar(String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
-        
-         AtpInfo atp =  atpService.getAtp(academicCalendarKey, context);
-            
-           if(atp != null){
-               //delete atp/acal
-               atpService.deleteAtp(academicCalendarKey, context);         
-           }
-        
+
+        AtpInfo atp = atpService.getAtp(academicCalendarKey, context);
+
+        if (atp != null) {
+            // delete atp/acal
+            atpService.deleteAtp(academicCalendarKey, context);
+        }
+
         return status;
     }
 
@@ -415,38 +424,40 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         TypeInfo type = atpService.getType(termTypeKey, context);
-        
-        if(!checkTypeForTermType(termTypeKey, context)) {
+
+        if (!checkTypeForTermType(termTypeKey, context)) {
             throw new InvalidParameterException(termTypeKey + " is not a Term type");
         }
-        
+
         return type;
     }
 
     @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+
         List<TypeTypeRelationInfo> relations = null;
-        
+
         try {
-            relations = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+            relations = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY,
+                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
-        
-        if(relations != null) {
+
+        if (relations != null) {
             List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
-            for(TypeTypeRelationInfo rel : relations) {
+            for (TypeTypeRelationInfo rel : relations) {
                 try {
                     results.add(atpService.getType(rel.getRelatedTypeKey(), context));
                 } catch (DoesNotExistException e) {
                     throw new OperationFailedException(e.getMessage(), e);
                 }
             }
-            
+
             return results;
         }
-        
+
         return null;
     }
 
@@ -454,10 +465,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        
+
         TypeInfo acalType = atpService.getType(academicCalendarTypeKey, context);
-        
-    	return atpService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+
+        return atpService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
@@ -465,30 +476,30 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         TypeInfo termType = getTermType(termTypeKey, context);
-        
+
         return atpService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
     public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-        
+
         StateInfo termState = atpService.getState(AtpServiceConstants.ATP_PROCESS_KEY, termStateKey, context);
-        
+
         return termState;
     }
 
     @Override
     public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        
+
         List<StateInfo> results;
         try {
             results = atpService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, context);
         } catch (DoesNotExistException ex) {
-           throw new OperationFailedException (AtpServiceConstants.ATP_PROCESS_KEY, ex);
+            throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
         }
-        
+
         return results;
     }
 
@@ -497,12 +508,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atp = atpService.getAtp(termKey, context);
         TermInfo term = null;
-        
-        if(atp != null && checkTypeForTermType(atp.getTypeKey(), context))
-        	term = termAssembler.assemble(atp, context);
+
+        if (atp != null && checkTypeForTermType(atp.getTypeKey(), context))
+            term = termAssembler.assemble(atp, context);
         else
-        	throw new DoesNotExistException("This is either not valid Atp or not valid Term. " + termKey);
-        
+            throw new DoesNotExistException("This is either not valid Atp or not valid Term. " + termKey);
+
         return term;
     }
 
@@ -510,22 +521,22 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TermInfo> getTermsByKeyList(List<String> termKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         List<AtpInfo> results = atpService.getAtpsByKeyList(termKeyList, context);
-        
+
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
-        
-        for(AtpInfo atp : results) {
+
+        for (AtpInfo atp : results) {
             terms.add(termAssembler.assemble(atp, context));
         }
-        
+
         return terms;
     }
 
     @Override
     public List<String> getTermKeysByType(String termTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         return atpService.getAtpKeysByType(termTypeKey, context);
     }
 
@@ -533,73 +544,76 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public List<TermInfo> getTermsForAcademicCalendar(String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
-        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtpAndRelationType(academicCalendarKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
-        
+
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtpAndRelationType(academicCalendarKey,
+                AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
-        
-        for(AtpAtpRelationInfo atpRelation : results) {
-            if(atpRelation.getAtpKey().equals(academicCalendarKey)) {
+
+        for (AtpAtpRelationInfo atpRelation : results) {
+            if (atpRelation.getAtpKey().equals(academicCalendarKey)) {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
-                
-                if(checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
+
+                if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     terms.add(termAssembler.assemble(possibleTerm, context));
                 }
             }
-            
+
         }
-        
+
         return terms;
     }
-    
+
     @Override
     public List<TermInfo> getIncludedTermsInTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         // check for a valid term
         TermInfo parentTerm = getTerm(termKey, context);
-        
-        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtpAndRelationType(parentTerm.getKey(), AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
-        
+
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtpAndRelationType(parentTerm.getKey(),
+                AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
-        
-        for(AtpAtpRelationInfo atpRelation : results) {
-            if(atpRelation.getAtpKey().equals(termKey)) {
+
+        for (AtpAtpRelationInfo atpRelation : results) {
+            if (atpRelation.getAtpKey().equals(termKey)) {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
-                
-                if(checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
+
+                if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     terms.add(termAssembler.assemble(possibleTerm, context));
                 }
             }
-            
+
         }
-        
+
         return terms;
     }
 
     @Override
     public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         // check for a valid term
         TermInfo term = getTerm(termKey, context);
-        
+
         List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtp(term.getKey(), context);
-        
+
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
-        
-        // check that the relations we found have the given termKey as the "related" atp, and that the owning atp is a term
-        for(AtpAtpRelationInfo atpRelation : results) {
-            if(atpRelation.getRelatedAtpKey().equals(termKey)) {
+
+        // check that the relations we found have the given termKey as the
+        // "related" atp, and that the owning atp is a term
+        for (AtpAtpRelationInfo atpRelation : results) {
+            if (atpRelation.getRelatedAtpKey().equals(termKey)) {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getAtpKey(), context);
-                
-                if(checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
+
+                if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     terms.add(termAssembler.assemble(possibleTerm, context));
                 }
             }
-            
+
         }
-        
+
         return terms;
     }
 
@@ -612,72 +626,72 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public TermInfo createTerm(String termKey, TermInfo termInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         AtpInfo atp;
-        
-        if(checkTypeForTermType(termInfo.getTypeKey(), context)){
-	        atp = termAssembler.disassemble(termInfo, context);
-	        try {
-	                AtpInfo existing = atpService.getAtp(termKey, context);
-	                if(existing == null)
-	                    atpService.createAtp(termKey, atp, context);
-					else
-						throw new AlreadyExistsException("Term with id = " + termKey + " already exists");
-	        } catch (DoesNotExistException e1) {
-	            atpService.createAtp(termKey, atp, context);
-	        }
-        }
-        else
-        	throw new InvalidParameterException("Term with id = " + termKey + " has invalid term type: " + termInfo.getTypeKey());
-        
+
+        if (checkTypeForTermType(termInfo.getTypeKey(), context)) {
+            atp = termAssembler.disassemble(termInfo, context);
+            try {
+                AtpInfo existing = atpService.getAtp(termKey, context);
+                if (existing == null)
+                    atpService.createAtp(termKey, atp, context);
+                else
+                    throw new AlreadyExistsException("Term with id = " + termKey + " already exists");
+            } catch (DoesNotExistException e1) {
+                atpService.createAtp(termKey, atp, context);
+            }
+        } else
+            throw new InvalidParameterException("Term with id = " + termKey + " has invalid term type: "
+                    + termInfo.getTypeKey());
+
         return termInfo;
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public TermInfo updateTerm(String termKey, TermInfo termInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        
+
         AtpInfo atp = atpService.getAtp(termKey, context);
-        
-        if(atp == null) {
+
+        if (atp == null) {
             throw new DoesNotExistException(termKey);
         }
-        
-        if(!checkTypeForTermType(atp.getTypeKey(), context)) {
+
+        if (!checkTypeForTermType(atp.getTypeKey(), context)) {
             throw new InvalidParameterException("Invalid termKey: " + termKey + "  Given key does not map to a Term");
         }
-        
+
         AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
-        
+
         AtpInfo updated = atpService.updateAtp(termKey, toUpdate, context);
-        
+
         TermInfo updatedTerm = termAssembler.assemble(updated, context);
-        
+
         return updatedTerm;
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public StatusInfo deleteTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         AtpInfo atp = atpService.getAtp(termKey, context);
-        
-        if(atp == null) {
+
+        if (atp == null) {
             throw new DoesNotExistException(termKey);
         }
-        
-        if(!checkTypeForTermType(atp.getTypeKey(), context)) {
+
+        if (!checkTypeForTermType(atp.getTypeKey(), context)) {
             throw new InvalidParameterException("Invalid termKey: " + termKey + "  Given key does not map to a Term");
         }
-        
+
         StatusInfo result = atpService.deleteAtp(termKey, context);
-        
+
         return result;
     }
 
@@ -686,135 +700,141 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-    	StatusInfo status = new StatusInfo();
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
-       
+
         AtpInfo acal = atpService.getAtp(academicCalendarKey, context);
-        if(acal != null){
-	        if(isAcademicCalendar(acal.getTypeKey())){
-	        	AtpInfo term = atpService.getAtp(termKey, context);
-	        	if(term != null){
-	        		if(checkTypeForTermType(term.getTypeKey(), context)){
-	        			if(!termAlreadyExists(academicCalendarKey, termKey, context)){
-			        		try {
-			        			acalAssembler.getRelAssembler().createAtpAtpRelations(academicCalendarKey, termKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
-					          } catch (DataValidationErrorException e) {
-					              status.setSuccess(Boolean.FALSE);     
-					          }
-	        			}
-	        			else
-	        				throw new AlreadyExistsException("Term with id = " + termKey + " already exists.");
-	        		}
-	        		else
-	        			throw new InvalidParameterException("Term with id = " + termKey + " has invalid type: " + term.getTypeKey());
-	        	}
-	        	else
-	        		throw new DoesNotExistException("Term with id = " + termKey + " does not exist.");
-	        }
-	        else 
-	        	throw new InvalidParameterException("AcademicCalendar with id = " + academicCalendarKey + " has invalid type: " + acal.getTypeKey());
-    	}
-        else
-        	throw new DoesNotExistException("AcademicCalendar with id = " + academicCalendarKey + " does not exist.");
-        
+        if (acal != null) {
+            if (isAcademicCalendar(acal.getTypeKey())) {
+                AtpInfo term = atpService.getAtp(termKey, context);
+                if (term != null) {
+                    if (checkTypeForTermType(term.getTypeKey(), context)) {
+                        if (!termAlreadyExists(academicCalendarKey, termKey, context)) {
+                            try {
+                                acalAssembler.getRelAssembler().createAtpAtpRelations(academicCalendarKey, termKey,
+                                        AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+                            } catch (DataValidationErrorException e) {
+                                status.setSuccess(Boolean.FALSE);
+                            }
+                        } else
+                            throw new AlreadyExistsException("Term with id = " + termKey + " already exists.");
+                    } else
+                        throw new InvalidParameterException("Term with id = " + termKey + " has invalid type: "
+                                + term.getTypeKey());
+                } else
+                    throw new DoesNotExistException("Term with id = " + termKey + " does not exist.");
+            } else
+                throw new InvalidParameterException("AcademicCalendar with id = " + academicCalendarKey
+                        + " has invalid type: " + acal.getTypeKey());
+        } else
+            throw new DoesNotExistException("AcademicCalendar with id = " + academicCalendarKey + " does not exist.");
+
         return status;
     }
 
-    private boolean isAcademicCalendar(String acalType){
-    	return null != acalType ? acalType.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY) : false;
+    private boolean isAcademicCalendar(String acalType) {
+        return null != acalType ? acalType.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY) : false;
     }
-    
-    private boolean termAlreadyExists(String atpKey, String termKey, ContextInfo context)
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
-    	boolean found = false;
-    	List<AtpAtpRelationInfo > atpRels = atpService.getAtpAtpRelationsByAtpAndRelationType(atpKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
 
-		if(atpRels != null && !atpRels.isEmpty()){
-			for(AtpAtpRelationInfo atpRelInfo : atpRels){
-				if(atpRelInfo.getAtpKey().equals(atpKey)){
-					if(atpRelInfo.getRelatedAtpKey().equals(termKey)){
-					 found = true;
-					 break;
-					}
-				}
-			}
-		}
-		
-		return found;
-}
-    
+    private boolean termAlreadyExists(String atpKey, String termKey, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        boolean found = false;
+        List<AtpAtpRelationInfo> atpRels = atpService.getAtpAtpRelationsByAtpAndRelationType(atpKey,
+                AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+
+        if (atpRels != null && !atpRels.isEmpty()) {
+            for (AtpAtpRelationInfo atpRelInfo : atpRels) {
+                if (atpRelInfo.getAtpKey().equals(atpKey)) {
+                    if (atpRelInfo.getRelatedAtpKey().equals(termKey)) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return found;
+    }
+
     @Override
     @Transactional
     public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         AtpInfo acal = atpService.getAtp(academicCalendarKey, context);
-        
-        if(acal == null) {
+
+        if (acal == null) {
             throw new InvalidParameterException("Invalid academicCalendarKey: " + academicCalendarKey);
         }
-        
+
         AtpInfo term = atpService.getAtp(termKey, context);
-        
-        if(term == null) {
+
+        if (term == null) {
             throw new InvalidParameterException("Invalid termKey: " + termKey);
         }
-        
-        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByAtpAndRelationType(academicCalendarKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
-        if(relations == null || relations.isEmpty()) {
-            throw new DoesNotExistException("No relationship exists between academic calendar: " + academicCalendarKey + " and term: " + termKey);
+
+        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByAtpAndRelationType(academicCalendarKey,
+                AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+        if (relations == null || relations.isEmpty()) {
+            throw new DoesNotExistException("No relationship exists between academic calendar: " + academicCalendarKey
+                    + " and term: " + termKey);
         }
-        
+
         AtpAtpRelationInfo relationToRemove = null;
-        
-        for(AtpAtpRelationInfo rel : relations) {
-            if(rel.getAtpKey().equals(academicCalendarKey)) {
-                if(rel.getRelatedAtpKey().equals(termKey)) {
-                    // if the relation represents an "includes" relationship from the AcademicCalendar to the Term,
+
+        for (AtpAtpRelationInfo rel : relations) {
+            if (rel.getAtpKey().equals(academicCalendarKey)) {
+                if (rel.getRelatedAtpKey().equals(termKey)) {
+                    // if the relation represents an "includes" relationship
+                    // from the AcademicCalendar to the Term,
                     // then it is the one we need to remove
                     relationToRemove = rel;
                     break;
                 }
             }
         }
-        
-        if(relationToRemove == null) {
-            throw new DoesNotExistException("No relationship exists between academic calendar: " + academicCalendarKey + " and term: " + termKey);
+
+        if (relationToRemove == null) {
+            throw new DoesNotExistException("No relationship exists between academic calendar: " + academicCalendarKey
+                    + " and term: " + termKey);
         }
-        
+
         StatusInfo resultStatus = atpService.deleteAtpAtpRelation(relationToRemove.getId(), context);
-        
+
         return resultStatus;
     }
 
     @Override
     @Transactional
     public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context)
-        throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
         TermInfo term = getTerm(termKey, context);
-        
+
         TermInfo includedTerm = getTerm(includedTermKey, context);
-        
+
         // check if the relationship already exists
         List<TermInfo> terms = getIncludedTermsInTerm(term.getKey(), context);
-        for(TermInfo t : terms) {
-            if(t.getKey().equals(includedTerm.getKey())) {
-                throw new AlreadyExistsException("A relationship already exists exists between term: " + termKey + " and included term: " + includedTermKey);
+        for (TermInfo t : terms) {
+            if (t.getKey().equals(includedTerm.getKey())) {
+                throw new AlreadyExistsException("A relationship already exists exists between term: " + termKey
+                        + " and included term: " + includedTermKey);
             }
         }
-        
+
         StatusInfo resultStatus = new StatusInfo();
-        
+
         try {
-            acalAssembler.getRelAssembler().createAtpAtpRelations(termKey, includedTermKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+            acalAssembler.getRelAssembler().createAtpAtpRelations(termKey, includedTermKey,
+                    AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
         } catch (DataValidationErrorException e) {
             resultStatus.setSuccess(false);
-            resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: " + e.getMessage());
+            resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: "
+                    + e.getMessage());
         }
-        
+
         return resultStatus;
     }
 
@@ -823,45 +843,47 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public StatusInfo removeTermFromTerm(String termKey, String includedTermKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         try {
             atpService.getAtp(termKey, context);
-        }
-        catch(DoesNotExistException e) {
+        } catch (DoesNotExistException e) {
             throw new InvalidParameterException("Invalid termKey: " + termKey);
         }
-        
+
         try {
             atpService.getAtp(includedTermKey, context);
-        }
-        catch(DoesNotExistException e) {
+        } catch (DoesNotExistException e) {
             throw new InvalidParameterException("Invalid includedTermKey: " + includedTermKey);
         }
-        
-        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByAtpAndRelationType(termKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
-        if(relations == null || relations.isEmpty()) {
-            throw new DoesNotExistException("No relationship exists between term: " + termKey + " and included term: " + includedTermKey);
+
+        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByAtpAndRelationType(termKey,
+                AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+        if (relations == null || relations.isEmpty()) {
+            throw new DoesNotExistException("No relationship exists between term: " + termKey + " and included term: "
+                    + includedTermKey);
         }
-        
+
         AtpAtpRelationInfo relationToRemove = null;
-        
-        for(AtpAtpRelationInfo rel : relations) {
-            if(rel.getAtpKey().equals(termKey)) {
-                if(rel.getRelatedAtpKey().equals(includedTermKey)) {
-                    // if the relation represents an "includes" relationship from the Term to the included Term,
+
+        for (AtpAtpRelationInfo rel : relations) {
+            if (rel.getAtpKey().equals(termKey)) {
+                if (rel.getRelatedAtpKey().equals(includedTermKey)) {
+                    // if the relation represents an "includes" relationship
+                    // from the Term to the included Term,
                     // then it is the one we need to remove
                     relationToRemove = rel;
                     break;
                 }
             }
         }
-        
-        if(relationToRemove == null) {
-            throw new DoesNotExistException("No relationship exists between term: " + termKey + " and included term: " + includedTermKey);
+
+        if (relationToRemove == null) {
+            throw new DoesNotExistException("No relationship exists between term: " + termKey + " and included term: "
+                    + includedTermKey);
         }
-        
+
         StatusInfo resultStatus = atpService.deleteAtpAtpRelation(relationToRemove.getId(), context);
-        
+
         return resultStatus;
     }
 
@@ -884,7 +906,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MilestoneInfo ms = atpService.getMilestone(keyDateKey, context);
-        return ( null != ms) ? new KeyDateInfo(ms) : null;
+        return (null != ms) ? new KeyDateInfo(ms) : null;
     }
 
     @Override
@@ -922,24 +944,24 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     @Override
     public List<KeyDateInfo> getKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
+
         AtpInfo termAtp = atpService.getAtp(termKey, context);
-        if(termAtp == null) {
+        if (termAtp == null) {
             throw new DoesNotExistException(termKey);
         }
-        
+
         List<MilestoneInfo> milestones = atpService.getMilestonesByAtp(termKey, context);
-        
-        if(milestones == null || milestones.isEmpty()) {
+
+        if (milestones == null || milestones.isEmpty()) {
             return Collections.emptyList();
         }
-        
+
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>(milestones.size());
-        
-        for(MilestoneInfo milestone : milestones) {
+
+        for (MilestoneInfo milestone : milestones) {
             keyDates.add(new KeyDateInfo(milestone));
         }
-        
+
         return keyDates;
     }
 
@@ -973,85 +995,90 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         return new ArrayList<ValidationResultInfo>();
     }
 
-    private boolean checkExistenceForKeyDateinTerm(String termKey, String keyDateKey, ContextInfo context) throws OperationFailedException{
-    	boolean ret = false;
-    	List<AtpMilestoneRelationInfo> amRels;
-		try {
-			amRels = atpService.getAtpMilestoneRelationsByAtp(termKey, context);
-		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("get DoesNotExistException when getAtpMilestoneRelationsByAtp " + termKey);
-		} catch (InvalidParameterException e) {
-			throw new OperationFailedException("get InvalidParameterException when getAtpMilestoneRelationsByAtp " + termKey);
-		} catch (MissingParameterException e) {
-			throw new OperationFailedException("get MissingParameterException when getAtpMilestoneRelationsByAtp " + termKey);
-		} catch (OperationFailedException e) {
-			throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
-		} catch (PermissionDeniedException e) {
-			throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
-		}
-        
-        if(amRels != null && !amRels.isEmpty()){                  
-            for(AtpMilestoneRelationInfo amRel : amRels){
-            	if(amRel.getAtpKey().equals(termKey)){
-                    if(amRel.getTypeKey().equals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY)){
-                        if(amRel.getMilestoneKey().equals(keyDateKey)){
-                        	return true;
+    private boolean checkExistenceForKeyDateinTerm(String termKey, String keyDateKey, ContextInfo context)
+            throws OperationFailedException {
+        boolean ret = false;
+        List<AtpMilestoneRelationInfo> amRels;
+        try {
+            amRels = atpService.getAtpMilestoneRelationsByAtp(termKey, context);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("get DoesNotExistException when getAtpMilestoneRelationsByAtp "
+                    + termKey);
+        } catch (InvalidParameterException e) {
+            throw new OperationFailedException("get InvalidParameterException when getAtpMilestoneRelationsByAtp "
+                    + termKey);
+        } catch (MissingParameterException e) {
+            throw new OperationFailedException("get MissingParameterException when getAtpMilestoneRelationsByAtp "
+                    + termKey);
+        } catch (OperationFailedException e) {
+            throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp "
+                    + termKey);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp "
+                    + termKey);
+        }
+
+        if (amRels != null && !amRels.isEmpty()) {
+            for (AtpMilestoneRelationInfo amRel : amRels) {
+                if (amRel.getAtpKey().equals(termKey)) {
+                    if (amRel.getTypeKey().equals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY)) {
+                        if (amRel.getMilestoneKey().equals(keyDateKey)) {
+                            return true;
                         }
                     }
-            	}
+                }
             }
         }
-      
+
         return ret;
     }
-    
+
     @Override
     @Transactional
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo,
             ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	KeyDateInfo keyDate = null;
-    	if(!checkExistenceForKeyDateinTerm(termKey, keyDateKey, context)){
-    		MilestoneInfo msInfo = toMilestoneInfo(keyDateInfo);
-        	if ( msInfo != null){
-        		//create keydate
-        		keyDate = new  KeyDateInfo(atpService.createMilestone(keyDateKey, msInfo, context));
-        		
-        		//create atp-milestone relation
-        		AtpMilestoneRelationInfo amRelInfo = new AtpMilestoneRelationInfo();
-        		amRelInfo.setAtpKey(termKey);
-        		amRelInfo.setId(UUIDHelper.genStringUUID());
-        		amRelInfo.setMilestoneKey(keyDateKey);
-        		amRelInfo.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
-        		amRelInfo.setTypeKey(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY);
-        		atpService.createAtpMilestoneRelation(amRelInfo, context);
-        	}
-    	}
-    	
+        KeyDateInfo keyDate = null;
+        if (!checkExistenceForKeyDateinTerm(termKey, keyDateKey, context)) {
+            MilestoneInfo msInfo = toMilestoneInfo(keyDateInfo);
+            if (msInfo != null) {
+                // create keydate
+                keyDate = new KeyDateInfo(atpService.createMilestone(keyDateKey, msInfo, context));
+
+                // create atp-milestone relation
+                AtpMilestoneRelationInfo amRelInfo = new AtpMilestoneRelationInfo();
+                amRelInfo.setAtpKey(termKey);
+                amRelInfo.setId(UUIDHelper.genStringUUID());
+                amRelInfo.setMilestoneKey(keyDateKey);
+                amRelInfo.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
+                amRelInfo.setTypeKey(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY);
+                atpService.createAtpMilestoneRelation(amRelInfo, context);
+            }
+        }
+
         return keyDate;
     }
 
-    private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo){
-    	if(keyDateInfo != null){
-			MilestoneInfo msInfo = new MilestoneInfo();
-			msInfo.setIsAllDay(keyDateInfo.getIsAllDay());
-			msInfo.setAttributes(keyDateInfo.getAttributes());
-			msInfo.setIsDateRange(keyDateInfo.getIsDateRange());
-			msInfo.setDescr(keyDateInfo.getDescr());
-			msInfo.setKey(keyDateInfo.getKey());
-			msInfo.setMeta(keyDateInfo.getMeta());
-			msInfo.setName(keyDateInfo.getName());
-			msInfo.setStartDate(keyDateInfo.getStartDate());
-			msInfo.setEndDate(keyDateInfo.getEndDate());
-			msInfo.setStateKey(keyDateInfo.getStateKey());
-			msInfo.setTypeKey(keyDateInfo.getTypeKey());
-			
-			return msInfo;
-    	}
-    	else
-    		return null;
+    private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo) {
+        if (keyDateInfo != null) {
+            MilestoneInfo msInfo = new MilestoneInfo();
+            msInfo.setIsAllDay(keyDateInfo.getIsAllDay());
+            msInfo.setAttributes(keyDateInfo.getAttributes());
+            msInfo.setIsDateRange(keyDateInfo.getIsDateRange());
+            msInfo.setDescr(keyDateInfo.getDescr());
+            msInfo.setKey(keyDateInfo.getKey());
+            msInfo.setMeta(keyDateInfo.getMeta());
+            msInfo.setName(keyDateInfo.getName());
+            msInfo.setStartDate(keyDateInfo.getStartDate());
+            msInfo.setEndDate(keyDateInfo.getEndDate());
+            msInfo.setStateKey(keyDateInfo.getStateKey());
+            msInfo.setTypeKey(keyDateInfo.getTypeKey());
+
+            return msInfo;
+        } else
+            return null;
     }
-    
+
     @Override
     public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -1220,8 +1247,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
     }
 
     @Override
-    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         return new ArrayList<TermInfo>();
     }
@@ -1241,17 +1269,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService{
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return new ArrayList<String>();
     }
-    
-    private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+
+    private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException {
         List<TypeInfo> types = getTermTypes(context);
-        
-        for(TypeInfo type : types) {
-            if(type.getKey().equals(typeKey)) {
+
+        for (TypeInfo type : types) {
+            if (type.getKey().equals(typeKey)) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
 }

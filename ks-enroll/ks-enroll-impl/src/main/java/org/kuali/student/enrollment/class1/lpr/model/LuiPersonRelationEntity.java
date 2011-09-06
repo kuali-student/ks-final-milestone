@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.model.StateEntity;
 
 /**
  * @author Igor
@@ -46,7 +47,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RELATION_STATE_ID")
-    private LuiPersonRelationStateEntity personRelationState;
+    private StateEntity personRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     // @JoinColumn(name = "LPR_ATTR_ID")
@@ -71,7 +72,6 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         // TODO - need to retrieve the LuiPersonRelationState based on the
         // return of dto.getState()?
         // this.setPersonRelationState(new
-        // LuiPersonRelationStateEntity(dto.getStateKey()));
         // TODO - need to retrieve the LuiPersonRelationType based on the return
         // of dto.getType()?
         // this.setPersonRelationType(new
@@ -132,11 +132,11 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.personRelationType = personRelationType;
     }
 
-    public LuiPersonRelationStateEntity getPersonRelationState() {
+    public StateEntity getPersonRelationState() {
         return personRelationState;
     }
 
-    public void setPersonRelationState(LuiPersonRelationStateEntity personRelationState) {
+    public void setPersonRelationState(StateEntity personRelationState) {
         this.personRelationState = personRelationState;
     }
 

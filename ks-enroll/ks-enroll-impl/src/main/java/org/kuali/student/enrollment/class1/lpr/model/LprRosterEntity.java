@@ -3,18 +3,24 @@ package org.kuali.student.enrollment.class1.lpr.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-import org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
+import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER")
@@ -43,43 +49,43 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
-    private LuiPersonRelationStateEntity lprRosterState;
+    private StateEntity lprRosterState;
 
-    @Column(name="ATP_DUR_TYP_KEY")
-	private String atpDurationTypeKey;
+    @Column(name = "ATP_DUR_TYP_KEY")
+    private String atpDurationTypeKey;
 
-    @Column(name="TM_QUANTITY")
-	private Integer timeQuantity;
+    @Column(name = "TM_QUANTITY")
+    private Integer timeQuantity;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprRosterAttributeEntity> attributes;
 
-    public LprRosterEntity(){
+    public LprRosterEntity() {
 
     }
 
-    public LprRosterEntity(LprRosterInfo dto){
-        if (dto != null){
+    public LprRosterEntity(LprRosterInfo dto) {
+        if (dto != null) {
             this.setCheckInRequired(dto.getCheckInRequired());
             this.setMaximumCapacity(dto.getMaximumCapacity());
             this.setId(dto.getId());
-            if (dto.getCheckInFrequency() != null){
+            if (dto.getCheckInFrequency() != null) {
                 this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
                 this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
             }
             this.setName(dto.getName());
-            if (dto.getDescr() != null){
+            if (dto.getDescr() != null) {
                 LprRichTextEntity entityDesc = new LprRichTextEntity(dto.getDescr());
                 this.setDescr(entityDesc);
             }
 
             this.setAttributes(new ArrayList<LprRosterAttributeEntity>());
-	        if (null != dto.getAttributes()) {
-	            for (Attribute att : dto.getAttributes()) {
-	            	LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
-	                this.getAttributes().add(attEntity);
-	            }
-	        }
+            if (null != dto.getAttributes()) {
+                for (Attribute att : dto.getAttributes()) {
+                    LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
+                    this.getAttributes().add(attEntity);
+                }
+            }
         }
     }
 
@@ -119,15 +125,15 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.lprRosterType = lprRosterType;
     }
 
-    public LuiPersonRelationStateEntity getLprRosterState() {
+    public StateEntity getLprRosterState() {
         return lprRosterState;
     }
 
-    public void setLprRosterState(LuiPersonRelationStateEntity lprRosterState) {
+    public void setLprRosterState(StateEntity lprRosterState) {
         this.lprRosterState = lprRosterState;
     }
 
-     public String getAtpDurationTypeKey() {
+    public String getAtpDurationTypeKey() {
         return atpDurationTypeKey;
     }
 
@@ -143,10 +149,12 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.timeQuantity = timeQuantity;
     }
 
+    @Override
     public List<LprRosterAttributeEntity> getAttributes() {
         return attributes;
     }
 
+    @Override
     public void setAttributes(List<LprRosterAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -167,7 +175,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.name = name;
     }
 
-    public LprRosterInfo toDto(){
+    public LprRosterInfo toDto() {
         LprRosterInfo info = new LprRosterInfo();
         info.setId(this.getId());
         TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
@@ -179,10 +187,10 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setName(this.getName());
         info.setStateKey(getLprRosterState().getId());
         info.setTypeKey(getLprRosterType().getId());
-        if (getAssociatedLuis() != null){
+        if (getAssociatedLuis() != null) {
             List<String> associatedLuiIds = new ArrayList();
-            for (LuiEntity luiEntity : getAssociatedLuis()){
-                 associatedLuiIds.add(luiEntity.getId());
+            for (LuiEntity luiEntity : getAssociatedLuis()) {
+                associatedLuiIds.add(luiEntity.getId());
             }
             info.setAssociatedLuiIds(associatedLuiIds);
         }
@@ -196,7 +204,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
 
         info.setMeta(super.toDTO());
 
-        if(descr != null){
+        if (descr != null) {
             info.setDescr(descr.toDto());
         }
 

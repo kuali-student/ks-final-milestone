@@ -32,7 +32,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="lprTypeDao" ref="lprTypeDao" />
     <property name="lprTransDao" ref="lprTransDao" />
     <property name="lprStateDao" ref="lprStateDao" />
-    <property name="luiService" ref="luiService" />
   </bean>
 
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl" />
