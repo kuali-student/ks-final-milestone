@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -39,51 +39,58 @@ plus any of its dependencies -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
 	<!-- ActivityOfferingInfo-->
-	<bean id="ActivityOfferingInfo-generated" parent="DataObjectEntry">
+	<bean id="ActivityOfferingInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="activityOfferingInfo"/>
 		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo"/>
 		<property name="objectLabel" value="Activity Offering"/>
-		<property name="objectDescription" value="This is a description of what this class does - Kamal don't for to fill this in."/>
+		<property name="objectDescription">
+			<value>
+This is a description of what this class does - Kamal don't for to fill this in.
+			</value>
+		</property>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
 			</list>
 		</property>
+
 		<property name="attributes">
 			<list>
-				<ref bean="ActivityOfferingInfo.activityId-generated"/>
-				<ref bean="ActivityOfferingInfo.activityCode-generated"/>
-				<ref bean="ActivityOfferingInfo.termKey-generated"/>
-				<ref bean="ActivityOfferingInfo.isHonorsOffering-generated"/>
-				<ref bean="ActivityOfferingInfo.finalExamStartTime-generated"/>
-				<ref bean="ActivityOfferingInfo.finalExamEndTime-generated"/>
-				<ref bean="ActivityOfferingInfo.finalExamSpaceCode-generated"/>
-<!--
-				<ref bean="ActivityOfferingInfo.finalExamRoom-generated"/>
--->
-				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours-generated"/>
-				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours-generated"/>
-				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours-generated"/>
-				<ref bean="ActivityOfferingInfo.maximumEnrollment-generated"/>
-				<ref bean="ActivityOfferingInfo.minimumEnrollment-generated"/>
-				<ref bean="ActivityOfferingInfo.id-generated"/>
-				<ref bean="ActivityOfferingInfo.typeKey-generated"/>
-				<ref bean="ActivityOfferingInfo.stateKey-generated"/>
-				<ref bean="ActivityOfferingInfo.descr.plain-generated"/>
-				<ref bean="ActivityOfferingInfo.descr.formatted-generated"/>
-				<ref bean="ActivityOfferingInfo.meta.versionInd-generated"/>
-				<ref bean="ActivityOfferingInfo.meta.createTime-generated"/>
-				<ref bean="ActivityOfferingInfo.meta.createId-generated"/>
-				<ref bean="ActivityOfferingInfo.meta.updateTime-generated"/>
-				<ref bean="ActivityOfferingInfo.meta.updateId-generated"/>
+				<ref bean="ActivityOfferingInfo.activityId"/>
+				<ref bean="ActivityOfferingInfo.activityCode"/>
+				<ref bean="ActivityOfferingInfo.termKey"/>
+				<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
+				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
+				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
+				<ref bean="ActivityOfferingInfo.finalExamSpaceCode"/>
+				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
+				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
+				<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
+				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
+				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
+				<ref bean="ActivityOfferingInfo.id"/>
+				<ref bean="ActivityOfferingInfo.typeKey"/>
+				<ref bean="ActivityOfferingInfo.stateKey"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="ActivityOfferingInfo.descr"/>
+				<ref bean="ActivityOfferingInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="ActivityOfferingInfo.instructors"/>
+				<ref bean="ActivityOfferingInfo.meetingSchedules"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.activityId-generated" parent="BaseKuali.string">
+	<bean id="ActivityOfferingInfo.activityId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="activityId"/>
-		<property name="childEntryName" value="activityId"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Activity Id"/>
 		<property name="summary">
 			<value>
@@ -96,12 +103,11 @@ Canonical activity whose instance is this activity offering
 Canonical activity whose instance is this activity offering
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.activityCode-generated" parent="BaseKuali.code">
+	<bean id="ActivityOfferingInfo.activityCode-generated" abstract="true" parent="BaseKuali.code">
 		<property name="name" value="activityCode"/>
-		<property name="childEntryName" value="activityCode"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Activity Code"/>
 		<property name="summary">
 			<value>
@@ -114,12 +120,11 @@ Alphanumeric character that identifies the section of the course offering
 Alphanumeric character that identifies the section of the course offering
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.termKey-generated" parent="BaseKuali.termKey">
+	<bean id="ActivityOfferingInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
 		<property name="name" value="termKey"/>
-		<property name="childEntryName" value="termKey"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Term Key"/>
 		<property name="summary">
 			<value>
@@ -133,12 +138,11 @@ Academic term the activity is being offered in. Should be same as CourseOffering
 be nested term of courseOffering
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.isHonorsOffering-generated" parent="BaseKuali.boolean">
+	<bean id="ActivityOfferingInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
 		<property name="name" value="isHonorsOffering"/>
-		<property name="childEntryName" value="isHonorsOffering"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Is Honors Offering"/>
 		<property name="summary">
 			<value>
@@ -151,12 +155,52 @@ Indicates that the course is an Honors Course
 Indicates that the course is an Honors Course
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamStartTime-generated" parent="BaseKuali.date">
+	<bean id="ActivityOfferingInfo.gradingOptions-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptions"/>
+		<property name="shortLabel" value="Grading Options"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades that can be awarded.
+
+			</value>
+		</property>
+		<property name="label" value="Grading Options"/>
+		<property name="elementLabel" value="Grading Option"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades that can be awarded.
+If the value is set here then the Clu must have a grading option set on the
+canonical activity
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.instructors-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="instructors"/>
+		<property name="shortLabel" value="Instructors"/>
+		<property name="summary">
+			<value>
+Instructors for the activity. 
+			</value>
+		</property>
+		<property name="label" value="Instructors"/>
+		<property name="elementLabel" value="Instructor"/>
+		<property name="description">
+			<value>
+Instructors for the activity. This list should be constrained by the instructors listed on the course offering.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.finalExamStartTime-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="finalExamStartTime"/>
-		<property name="childEntryName" value="finalExamStartTime"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Final Exam Start Time"/>
 		<property name="summary">
 			<value>
@@ -169,12 +213,11 @@ Start time of final exam
 Start time of final exam
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamEndTime-generated" parent="BaseKuali.date">
+	<bean id="ActivityOfferingInfo.finalExamEndTime-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="finalExamEndTime"/>
-		<property name="childEntryName" value="finalExamEndTime"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Final Exam End Time"/>
 		<property name="summary">
 			<value>
@@ -187,12 +230,11 @@ End time of final exam.
 End time of final exam.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode-generated" parent="BaseKuali.string">
+	<bean id="ActivityOfferingInfo.finalExamSpaceCode-generated" abstract="true" parent="BaseKuali.code">
 		<property name="name" value="finalExamSpaceCode"/>
-		<property name="childEntryName" value="finalExamSpaceCode"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Final Exam Space Code"/>
 		<property name="summary">
 			<value>
@@ -205,30 +247,30 @@ Space code where final exam will be conducted
 Space code where final exam will be conducted
 			</value>
 		</property>
-	</bean>
-<!--
-	<bean id="ActivityOfferingInfo.finalExamRoom-generated" parent="BaseKuali.string">
-		<property name="name" value="finalExamRoom"/>
-		<property name="childEntryName" value="finalExamRoom"/>
 		<property name="required" value="false"/>
-		<property name="shortLabel" value="Final Exam Room"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.meetingSchedules-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="meetingSchedules"/>
+		<property name="shortLabel" value="Meeting Schedules"/>
 		<property name="summary">
 			<value>
-Room number where final exam will be conducted
+???
 			</value>
 		</property>
-		<property name="label" value="Final Exam Room"/>
+		<property name="label" value="Meeting Schedules"/>
+		<property name="elementLabel" value="Meeting Schedule"/>
 		<property name="description">
 			<value>
-Room number where final exam will be conducted
+???
 			</value>
 		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MeetingScheduleInfo"/>
 	</bean>
--->
-	<bean id="ActivityOfferingInfo.weeklyInclassContactHours-generated" parent="BaseKuali.float">
+
+	<bean id="ActivityOfferingInfo.weeklyInclassContactHours-generated" abstract="true" parent="BaseKuali.float">
 		<property name="name" value="weeklyInclassContactHours"/>
-		<property name="childEntryName" value="weeklyInclassContactHours"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Weekly Inclass Contact Hours"/>
 		<property name="summary">
 			<value>
@@ -244,12 +286,11 @@ Calculated by system based on meeting times; may be validated against canonical.
 The unit is hours
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.weeklyOutofclassContactHours-generated" parent="BaseKuali.float">
+	<bean id="ActivityOfferingInfo.weeklyOutofclassContactHours-generated" abstract="true" parent="BaseKuali.float">
 		<property name="name" value="weeklyOutofclassContactHours"/>
-		<property name="childEntryName" value="weeklyOutofclassContactHours"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Weekly Outofclass Contact Hours"/>
 		<property name="summary">
 			<value>
@@ -265,12 +306,11 @@ Entered by Scheduler.
 The unit is hours
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.weeklyTotalContactHours-generated" parent="BaseKuali.float">
+	<bean id="ActivityOfferingInfo.weeklyTotalContactHours-generated" abstract="true" parent="BaseKuali.float">
 		<property name="name" value="weeklyTotalContactHours"/>
-		<property name="childEntryName" value="weeklyTotalContactHours"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Weekly Total Contact Hours"/>
 		<property name="summary">
 			<value>
@@ -286,12 +326,11 @@ Calculated by system based as sum of In Class and Out of Class hours.
 The unit is hours
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.maximumEnrollment-generated" parent="BaseKuali.integer">
+	<bean id="ActivityOfferingInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="maximumEnrollment"/>
-		<property name="childEntryName" value="maximumEnrollment"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Maximum Enrollment"/>
 		<property name="summary">
 			<value>
@@ -304,12 +343,11 @@ Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
 Total maximum number of &quot;seats&quot; or enrollment slots that can be filled for the offering.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.minimumEnrollment-generated" parent="BaseKuali.integer">
+	<bean id="ActivityOfferingInfo.minimumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="minimumEnrollment"/>
-		<property name="childEntryName" value="minimumEnrollment"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Minimum Enrollment"/>
 		<property name="summary">
 			<value>
@@ -322,12 +360,11 @@ Total minimum number of seats that must be filled for the offering not to be can
 Total minimum number of seats that must be filled for the offering not to be canceled.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.id-generated" parent="BaseKuali.id">
+	<bean id="ActivityOfferingInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
-		<property name="childEntryName" value="id"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Id"/>
 		<property name="summary">
 			<value>
@@ -358,12 +395,11 @@ An Id:&lt;ul&gt;
 		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
 		</property>
 		-->
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.typeKey-generated" parent="BaseKuali.typeKey">
+	<bean id="ActivityOfferingInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
-		<property name="childEntryName" value="typeKey"/>
-		<property name="required" value="true"/>
 		<property name="shortLabel" value="Type Key"/>
 		<property name="summary">
 			<value>
@@ -388,12 +424,11 @@ The initial configuration has this mapping as 1 to 1 but in the future this may 
 		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
 		</property>
 		-->
+		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.stateKey-generated" parent="BaseKuali.stateKey">
+	<bean id="ActivityOfferingInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
-		<property name="childEntryName" value="stateKey"/>
-		<property name="required" value="true"/>
 		<property name="shortLabel" value="State Key"/>
 		<property name="summary">
 			<value>
@@ -408,50 +443,147 @@ Unique identifier for the state of this course offering.
 i.e. draft, submitted, approved, offered, canceled, etc
 			</value>
 		</property>
+		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.descr-generated" parent="BaseKuali.descr">
+	<bean id="ActivityOfferingInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
-		<property name="childEntryName" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+A description of the Activity Offering.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+A description of the Activity Offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+A description of the Activity Offering.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ActivityOfferingInfo.descr.plain"/>
+						<ref bean="ActivityOfferingInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.descr.plain-generated" parent="BaseKuali.descr.plain">
-		<property name="name" value="descr.plain"/>
-		<property name="childEntryName" value="plain"/>
+	<bean id="ActivityOfferingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.descr.formatted-generated" parent="BaseKuali.descr.formatted">
-		<property name="name" value="descr.formatted"/>
-		<property name="childEntryName" value="formatted"/>
+	<bean id="ActivityOfferingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta-generated" parent="BaseKuali.meta">
+	<bean id="ActivityOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
-		<property name="childEntryName" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Create/Update meta info"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ActivityOfferingInfo.meta.versionInd"/>
+						<ref bean="ActivityOfferingInfo.meta.createTime"/>
+						<ref bean="ActivityOfferingInfo.meta.createId"/>
+						<ref bean="ActivityOfferingInfo.meta.updateTime"/>
+						<ref bean="ActivityOfferingInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta.versionInd-generated" parent="BaseKuali.meta.versionInd">
-		<property name="name" value="meta.versionInd"/>
-		<property name="childEntryName" value="versionInd"/>
+	<bean id="ActivityOfferingInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta.createTime-generated" parent="BaseKuali.meta.createTime">
-		<property name="name" value="meta.createTime"/>
-		<property name="childEntryName" value="createTime"/>
+	<bean id="ActivityOfferingInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta.createId-generated" parent="BaseKuali.meta.createId">
-		<property name="name" value="meta.createId"/>
-		<property name="childEntryName" value="createId"/>
+	<bean id="ActivityOfferingInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta.updateTime-generated" parent="BaseKuali.meta.updateTime">
-		<property name="name" value="meta.updateTime"/>
-		<property name="childEntryName" value="updateTime"/>
+	<bean id="ActivityOfferingInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.meta.updateId-generated" parent="BaseKuali.meta.updateId">
-		<property name="name" value="meta.updateId"/>
-		<property name="childEntryName" value="updateId"/>
+	<bean id="ActivityOfferingInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
 	</bean>
 </beans>

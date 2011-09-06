@@ -59,8 +59,8 @@ public class RegResponseInfo implements RegResponse, Serializable {
         return regResponseItems;
     }
 
-    public void setRegResponseItemInfos(List<RegResponseItemInfo> regResponseItemInfos) {
-        this.regResponseItems = regResponseItemInfos;
+    public void setRegResponseItems(List<RegResponseItemInfo> regResponseItems) {
+        this.regResponseItems = regResponseItems;
     }
 
     @Override

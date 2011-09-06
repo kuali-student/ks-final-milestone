@@ -73,7 +73,7 @@ public class RegGroupRegistrationInfo extends RelationshipInfo implements RegGro
     }
 
     @Override
-    public RegistrationGroup getRegistrationGroup() {
+    public RegistrationGroupInfo getRegistrationGroup() {
         return registrationGroup;
     }
 

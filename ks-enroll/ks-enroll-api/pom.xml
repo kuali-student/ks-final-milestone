@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -117,13 +118,11 @@
                                <!--  inputFiles that do not end in ".xml" are treated it
                                as a header and used it to group the dictionary files--> 
                                <!-- ATP -->
-                                <inputFile>Academic Time Period (ATP) Service</inputFile>
                                 <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AtpMilestoneRelationInfo-dictionary.xml</inputFile>                               
                                <!-- ACAL -->                               
-                                <inputFile>Academic Calendar (ACAL) Service</inputFile>
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CampusCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
@@ -131,24 +130,45 @@
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
                                <!-- LPR -->
-                                <inputFile>Lui Person Relation (LPR) Service</inputFile>
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RequestOptionInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
                                <!-- Hold -->        
-                                <inputFile>Hold Service</inputFile>
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RestrictionInfo-dictionary.xml</inputFile>
                                <!-- LUI -->                
-                                <inputFile>Learning Unit Instance (LUI) Service</inputFile>
                                 <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LuiIdentifierInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LuCodeInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-FeeInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-CurrencyAmountInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RevenueInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AffiliatedOrgInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-MeetingScheduleInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiLuiRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
-                               <!-- Course Offering -->
-                                <inputFile>Course Offering Service</inputFile>        
-                                <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
+                               <!-- Course Offering -->      
+                                <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>        
+                                <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
+<!--                            <inputFile>ks-StatementTreeViewInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ReqComponentInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ReqCompFieldInfo-dictionary.xml</inputFile>-->
+                              <!-- Course Registration  -->
+                                <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegGroupRegistrationInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegRequestInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegRequestItemInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegResponseInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-RegResponseItemInfo-dictionary.xml</inputFile>
                             </inputFiles>
                         </configuration>                                    
                     </execution>

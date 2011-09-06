@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Wed Aug 17 18:07:08 EDT 2011
+		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -43,7 +43,9 @@ plus any of its dependencies -->
 		<property name="name" value="registrationDateGroupInfo"/>
 		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo"/>
 		<property name="objectLabel" value="Registration Date Group"/>
-		<property name="objectDescription" value="A cluster of hardened dates pertinent to an academic term.
+		<property name="objectDescription">
+			<value>
+A cluster of hardened dates pertinent to an academic term.
 
 A Date Group is a short cut to accessing a set of KeyDates dates
 relating to a Term. An RegistrationDateGroup is available for all
@@ -57,43 +59,41 @@ of the appropriate Type if it does not exist.
 The KeyDate Type is used to link a specific KeyDate with one of the
 elements in this structure. For example, getRegistrationStartDate()
 returns the starting date of the range in a KeyDate of type
-kuali.apt.milestone.RegistrationPeriod for the associated term."/>
+kuali.apt.milestone.RegistrationPeriod for the associated term.
+			</value>
+		</property>
 		<property name="primaryKeys">
 			<list>
 				<value>termKey</value>
 			</list>
 		</property>
+
 		<property name="attributes">
 			<list>
 				<ref bean="RegistrationDateGroupInfo.termKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateRange.start"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateRange.end"/>
-				<ref bean="RegistrationDateGroupInfo.classDateRange.start"/>
-				<ref bean="RegistrationDateGroupInfo.classDateRange.end"/>
 				<ref bean="RegistrationDateGroupInfo.addDate"/>
 				<ref bean="RegistrationDateGroupInfo.dropDate"/>
-				<ref bean="RegistrationDateGroupInfo.finalExamDateRange.start"/>
-				<ref bean="RegistrationDateGroupInfo.finalExamDateRange.end"/>
-				<ref bean="RegistrationDateGroupInfo.gradingDateRange.start"/>
-				<ref bean="RegistrationDateGroupInfo.gradingDateRange.end"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationStartDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationEndDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.classStartDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.classEndDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.addDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.dropDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamStartDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamEndDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingStartDateTermKey"/>
-				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingEndDateTermKey"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="RegistrationDateGroupInfo.registrationDateRange"/>
+				<ref bean="RegistrationDateGroupInfo.classDateRange"/>
+				<ref bean="RegistrationDateGroupInfo.finalExamDateRange"/>
+				<ref bean="RegistrationDateGroupInfo.gradingDateRange"/>
+				<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
 		<property name="name" value="termKey"/>
-		<property name="childEntryName" value="termKey"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Term Key"/>
 		<property name="summary">
 			<value>
@@ -111,12 +111,11 @@ Gets the key identifying the term for this date group.
 		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
 		</property>
 		-->
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationDateGroupInfo.registrationDateRange-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationDateGroupInfo.registrationDateRange-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="registrationDateRange"/>
-		<property name="childEntryName" value="registrationDateRange"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Registration Date Range"/>
 		<property name="summary">
 			<value>
@@ -129,12 +128,40 @@ Gets the registration period.
 Gets the registration period.
 			</value>
 		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="registrationDateRange"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.DateRangeInfo"/>
+				<property name="objectLabel" value="Registration Date Range"/>
+				<property name="objectDescription">
+					<value>
+Gets the registration period.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationDateGroupInfo.registrationDateRange.start"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateRange.end"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateRange.start-generated" abstract="true" parent="BaseKuali.start">
-		<property name="name" value="registrationDateRange.start"/>
-		<property name="childEntryName" value="start"/>
-		<property name="required" value="false"/>
+		<property name="name" value="start"/>
 		<property name="shortLabel" value="Start"/>
 		<property name="summary">
 			<value>
@@ -147,12 +174,11 @@ Get sthe start date of the range.
 Get sthe start date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateRange.end-generated" abstract="true" parent="BaseKuali.end">
-		<property name="name" value="registrationDateRange.end"/>
-		<property name="childEntryName" value="end"/>
-		<property name="required" value="false"/>
+		<property name="name" value="end"/>
 		<property name="shortLabel" value="End"/>
 		<property name="summary">
 			<value>
@@ -165,12 +191,11 @@ Gets the end date of the range.
 Gets the end date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationDateGroupInfo.classDateRange-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationDateGroupInfo.classDateRange-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="classDateRange"/>
-		<property name="childEntryName" value="classDateRange"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Class Date Range"/>
 		<property name="summary">
 			<value>
@@ -183,12 +208,40 @@ Gets the instructional class period.
 Gets the instructional class period.
 			</value>
 		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="classDateRange"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.DateRangeInfo"/>
+				<property name="objectLabel" value="Class Date Range"/>
+				<property name="objectDescription">
+					<value>
+Gets the instructional class period.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationDateGroupInfo.classDateRange.start"/>
+						<ref bean="RegistrationDateGroupInfo.classDateRange.end"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.classDateRange.start-generated" abstract="true" parent="BaseKuali.start">
-		<property name="name" value="classDateRange.start"/>
-		<property name="childEntryName" value="start"/>
-		<property name="required" value="false"/>
+		<property name="name" value="start"/>
 		<property name="shortLabel" value="Start"/>
 		<property name="summary">
 			<value>
@@ -201,12 +254,11 @@ Get sthe start date of the range.
 Get sthe start date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.classDateRange.end-generated" abstract="true" parent="BaseKuali.end">
-		<property name="name" value="classDateRange.end"/>
-		<property name="childEntryName" value="end"/>
-		<property name="required" value="false"/>
+		<property name="name" value="end"/>
 		<property name="shortLabel" value="End"/>
 		<property name="summary">
 			<value>
@@ -219,12 +271,11 @@ Gets the end date of the range.
 Gets the end date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.addDate-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="addDate"/>
-		<property name="childEntryName" value="addDate"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Add Date"/>
 		<property name="summary">
 			<value>
@@ -237,12 +288,11 @@ Last Date to Add a Course
 Last Date to Add a Course
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.dropDate-generated" abstract="true" parent="BaseKuali.date">
 		<property name="name" value="dropDate"/>
-		<property name="childEntryName" value="dropDate"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Drop Date"/>
 		<property name="summary">
 			<value>
@@ -255,12 +305,11 @@ Last date to drop a course
 Last date to drop a course
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationDateGroupInfo.finalExamDateRange-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationDateGroupInfo.finalExamDateRange-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="finalExamDateRange"/>
-		<property name="childEntryName" value="finalExamDateRange"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Final Exam Date Range"/>
 		<property name="summary">
 			<value>
@@ -273,12 +322,40 @@ Gets the he Final Exam Period.
 Gets the he Final Exam Period.
 			</value>
 		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="finalExamDateRange"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.DateRangeInfo"/>
+				<property name="objectLabel" value="Final Exam Date Range"/>
+				<property name="objectDescription">
+					<value>
+Gets the he Final Exam Period.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationDateGroupInfo.finalExamDateRange.start"/>
+						<ref bean="RegistrationDateGroupInfo.finalExamDateRange.end"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.finalExamDateRange.start-generated" abstract="true" parent="BaseKuali.start">
-		<property name="name" value="finalExamDateRange.start"/>
-		<property name="childEntryName" value="start"/>
-		<property name="required" value="false"/>
+		<property name="name" value="start"/>
 		<property name="shortLabel" value="Start"/>
 		<property name="summary">
 			<value>
@@ -291,12 +368,11 @@ Get sthe start date of the range.
 Get sthe start date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.finalExamDateRange.end-generated" abstract="true" parent="BaseKuali.end">
-		<property name="name" value="finalExamDateRange.end"/>
-		<property name="childEntryName" value="end"/>
-		<property name="required" value="false"/>
+		<property name="name" value="end"/>
 		<property name="shortLabel" value="End"/>
 		<property name="summary">
 			<value>
@@ -309,12 +385,11 @@ Gets the end date of the range.
 Gets the end date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationDateGroupInfo.gradingDateRange-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationDateGroupInfo.gradingDateRange-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="gradingDateRange"/>
-		<property name="childEntryName" value="gradingDateRange"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Grading Date Range"/>
 		<property name="summary">
 			<value>
@@ -327,12 +402,40 @@ Gets the grading period.
 Gets the grading period.
 			</value>
 		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="gradingDateRange"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.DateRangeInfo"/>
+				<property name="objectLabel" value="Grading Date Range"/>
+				<property name="objectDescription">
+					<value>
+Gets the grading period.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationDateGroupInfo.gradingDateRange.start"/>
+						<ref bean="RegistrationDateGroupInfo.gradingDateRange.end"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.gradingDateRange.start-generated" abstract="true" parent="BaseKuali.start">
-		<property name="name" value="gradingDateRange.start"/>
-		<property name="childEntryName" value="start"/>
-		<property name="required" value="false"/>
+		<property name="name" value="start"/>
 		<property name="shortLabel" value="Start"/>
 		<property name="summary">
 			<value>
@@ -345,12 +448,11 @@ Get sthe start date of the range.
 Get sthe start date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.gradingDateRange.end-generated" abstract="true" parent="BaseKuali.end">
-		<property name="name" value="gradingDateRange.end"/>
-		<property name="childEntryName" value="end"/>
-		<property name="required" value="false"/>
+		<property name="name" value="end"/>
 		<property name="shortLabel" value="End"/>
 		<property name="summary">
 			<value>
@@ -363,12 +465,11 @@ Gets the end date of the range.
 Gets the end date of the range.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup-generated" abstract="true" parent="BaseKuali.complex">
+	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="registrationDateDerivationGroup"/>
-		<property name="childEntryName" value="registrationDateDerivationGroup"/>
-		<property name="required" value="false"/>
 		<property name="shortLabel" value="Registration Date Derivation Group"/>
 		<property name="summary">
 			<value>
@@ -383,12 +484,49 @@ Gets the date derivation structure for the Registration
 dats.
 			</value>
 		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="registrationDateDerivationGroup"/>
+				<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.RegistrationDateDerivationGroupInfo"/>
+				<property name="objectLabel" value="Registration Date Derivation Group"/>
+				<property name="objectDescription">
+					<value>
+Gets the date derivation structure for the Registration
+dats.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationStartDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationEndDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.classStartDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.classEndDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.addDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.dropDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamStartDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamEndDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingStartDateTermKey"/>
+						<ref bean="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingEndDateTermKey"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationStartDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.registrationStartDateTermKey"/>
-		<property name="childEntryName" value="registrationStartDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="registrationStartDateTermKey"/>
 		<property name="shortLabel" value="Registration Start Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -409,12 +547,11 @@ start date needs to be explicitly set.
 		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
 		</property>
 		-->
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.registrationEndDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.registrationEndDateTermKey"/>
-		<property name="childEntryName" value="registrationEndDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="registrationEndDateTermKey"/>
 		<property name="shortLabel" value="Registration End Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -430,12 +567,11 @@ period is derived. If null, then the registration end date
 needs to be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.classStartDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.classStartDateTermKey"/>
-		<property name="childEntryName" value="classStartDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="classStartDateTermKey"/>
 		<property name="shortLabel" value="Class Start Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -451,12 +587,11 @@ period is derived. If null, then the class start date needs to
 be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.classEndDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.classEndDateTermKey"/>
-		<property name="childEntryName" value="classEndDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="classEndDateTermKey"/>
 		<property name="shortLabel" value="Class End Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -472,12 +607,11 @@ is derived. If null, then the class end date needs to be
 explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.addDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.addDateTermKey"/>
-		<property name="childEntryName" value="addDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="addDateTermKey"/>
 		<property name="shortLabel" value="Add Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -491,12 +625,11 @@ Gets the key of the Term from which the add date is derived. If
 null, then the add date needs to be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.dropDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.dropDateTermKey"/>
-		<property name="childEntryName" value="dropDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="dropDateTermKey"/>
 		<property name="shortLabel" value="Drop Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -510,12 +643,11 @@ Gets the key of the Term from which the drop date is derived. If
 null, then the drop date needs to be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamStartDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.finalExamStartDateTermKey"/>
-		<property name="childEntryName" value="finalExamStartDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="finalExamStartDateTermKey"/>
 		<property name="shortLabel" value="Final Exam Start Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -531,12 +663,11 @@ period is derived. If null, then the class start date needs to
 be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.finalExamEndDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.finalExamEndDateTermKey"/>
-		<property name="childEntryName" value="finalExamEndDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="finalExamEndDateTermKey"/>
 		<property name="shortLabel" value="Final Exam End Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -552,12 +683,11 @@ period is derived. If null, then the class end date needs to be
 explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingStartDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.gradingStartDateTermKey"/>
-		<property name="childEntryName" value="gradingStartDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="gradingStartDateTermKey"/>
 		<property name="shortLabel" value="Grading Start Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -573,12 +703,11 @@ period is derived. If null, then the class start date needs to
 be explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationDateGroupInfo.registrationDateDerivationGroup.gradingEndDateTermKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="registrationDateDerivationGroup.gradingEndDateTermKey"/>
-		<property name="childEntryName" value="gradingEndDateTermKey"/>
-		<property name="required" value="false"/>
+		<property name="name" value="gradingEndDateTermKey"/>
 		<property name="shortLabel" value="Grading End Date Term Key"/>
 		<property name="summary">
 			<value>
@@ -594,5 +723,6 @@ period is derived. If null, then the class end date needs to be
 explicitly set.
 			</value>
 		</property>
+		<property name="required" value="false"/>
 	</bean>
 </beans>

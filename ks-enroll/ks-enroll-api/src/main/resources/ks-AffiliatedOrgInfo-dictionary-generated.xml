@@ -1,0 +1,123 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- AffiliatedOrgInfo-->
+	<bean id="AffiliatedOrgInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="affiliatedOrgInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo"/>
+		<property name="objectLabel" value="Affiliated Org"/>
+		<property name="objectDescription">
+			<value>
+Detailed information about the distribution of revenue by organization.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="AffiliatedOrgInfo.id"/>
+				<ref bean="AffiliatedOrgInfo.orgId"/>
+				<ref bean="AffiliatedOrgInfo.percentage"/>
+				<ref bean="AffiliatedOrgInfo.effectiveDate"/>
+				<ref bean="AffiliatedOrgInfo.expirationDate"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AffiliatedOrgInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="AffiliatedOrgInfo.orgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="orgId"/>
+		<property name="shortLabel" value="Org Id"/>
+		<property name="summary">
+			<value>
+Unique identifier for an organization.
+			</value>
+		</property>
+		<property name="label" value="Organization Id"/>
+		<property name="description">
+			<value>
+Unique identifier for an organization.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AffiliatedOrgInfo.percentage-generated" abstract="true" parent="BaseKuali.long">
+		<property name="name" value="percentage"/>
+		<property name="shortLabel" value="Percentage"/>
+		<property name="summary">
+			<value>
+A long numeric value without a fractional component.
+			</value>
+		</property>
+		<property name="label" value="Percentage"/>
+		<property name="description">
+			<value>
+A long numeric value without a fractional component.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="AffiliatedOrgInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+		<property name="name" value="effectiveDate"/>
+	</bean>
+
+	<bean id="AffiliatedOrgInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+		<property name="name" value="expirationDate"/>
+	</bean>
+</beans>

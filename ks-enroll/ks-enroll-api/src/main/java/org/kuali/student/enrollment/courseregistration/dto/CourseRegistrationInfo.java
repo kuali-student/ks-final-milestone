@@ -79,7 +79,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     }
 
     @Override
-    public CourseOffering getCourseOffering() {
+    public CourseOfferingInfo getCourseOffering() {
         return courseOffering;
     }
 
