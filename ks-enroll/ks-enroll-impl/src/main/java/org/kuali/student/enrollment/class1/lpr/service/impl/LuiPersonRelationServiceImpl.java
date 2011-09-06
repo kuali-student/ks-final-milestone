@@ -273,6 +273,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    @Transactional
     public LuiPersonRelationInfo updateLpr(String luiPersonRelationId, LuiPersonRelationInfo luiPersonRelationInfo,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             ReadOnlyException, OperationFailedException, PermissionDeniedException {
