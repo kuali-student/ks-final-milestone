@@ -345,15 +345,35 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetLprIdsByLuiAndPerson() {
-        List<String> lprIds = null;
+    public void testGetLprRostersByLuiAndRosterType() {
+        List<LprRosterInfo> infoList = null;
         try {
-            lprIds = lprService.getLprIdsByLuiAndPerson("testPersonId1", "testLuiId1", callContext);
+            LprRosterInfo lprRosterInfo = createLprRosterInfo();
+            String lprRosterId = lprService.createLprRoster(lprRosterInfo,callContext);
+            infoList = lprService.getLprRostersByLuiAndRosterType(LUI_ID,TYPE_KEY,callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
-        assertNotNull(lprIds);
-        assertEquals(1, lprIds.size());
+        assertNotNull(infoList);
+        assertEquals(1, infoList.size());
+        assertEquals(infoList.get(0).getAssociatedLuiIds().size(),1);
+        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0),LUI_ID);
+    }
+
+    @Test
+    public void testGetLprRostersByLui() {
+        List<LprRosterInfo> infoList = null;
+        try {
+            LprRosterInfo lprRosterInfo = createLprRosterInfo();
+            String lprRosterId = lprService.createLprRoster(lprRosterInfo,callContext);
+            infoList = lprService.getLprRostersByLui(LUI_ID,callContext);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        assertNotNull(infoList);
+        assertEquals(1, infoList.size());
+        assertEquals(infoList.get(0).getAssociatedLuiIds().size(),1);
+        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0),LUI_ID);
     }
 
     @Ignore
@@ -371,6 +391,18 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             fail(e.getMessage());
         }
 
+    }
+
+    @Test
+    public void testGetLprIdsByLuiAndPerson() {
+        List<String> lprIds = null;
+        try {
+            lprIds = lprService.getLprIdsByLuiAndPerson("testPersonId1", "testLuiId1", callContext);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        assertNotNull(lprIds);
+        assertEquals(1, lprIds.size());
     }
 
     @Ignore
