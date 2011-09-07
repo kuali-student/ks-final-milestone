@@ -20,8 +20,11 @@
 <tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
 
 <div id="${control.id}" class="${control.styleClassesAsString}">
+    <krad:template component="${control.headerField}"/>
+
     <form:hidden id="${control.id}-value" path="${field.bindingInfo.bindingPath}"/>
-    <table class="schedule">
+
+    <table class="schedule" id="${control.id}-schedule">
         <tr class="dayRow">
             <c:forEach var="day" items="${control.days}">
                 <th>${day}</th>
@@ -46,7 +49,7 @@
             </tr>
         </c:forEach>
     </table>
-    <table class="scheduleKey">
+    <table class="scheduleKey" id="${control.id}-key">
         <tr>
             <th>Key</th>
             <th style="text-align: left">Name</th>

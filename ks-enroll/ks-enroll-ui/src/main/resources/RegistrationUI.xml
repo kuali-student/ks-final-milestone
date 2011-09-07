@@ -3,32 +3,32 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-  <!--
-   Copyright 2007-2009 The Kuali Foundation
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
 
-   Licensed under the Educational Community License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
 
-   http://www.opensource.org/licenses/ecl2.php
+     http://www.opensource.org/licenses/ecl2.php
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-  -->
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
 
     <bean id="ks_studentFacing_registrationView" parent="KSFormView">
         <property name="id" value="studentRegistrationView"/>
         <property name="title" value="Registration"/>
-        <property name="singlePageView" value="true" />
+        <property name="singlePageView" value="true"/>
         <property name="styleClasses" value="registration"/>
         <property name="page">
-            <bean parent="Page" />
+            <bean parent="Page"/>
         </property>
         <property name="footer">
-          <bean parent="Footer"/>
+            <bean parent="Footer"/>
         </property>
         <property name="items">
             <list>
@@ -36,48 +36,65 @@
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
-        <!--
-                <property name="defaultBindingObjectPath" value="travelAccount1"/>
-        -->
     </bean>
 
     <bean id="registration_grid_layout" parent="GroupGridLayout">
-		<property name="accordion.render" value="false" />
+        <property name="accordion.render" value="false"/>
         <property name="layoutManager.numberOfColumns" value="10"/>
         <property name="layoutManager.renderAlternatingHeaderColumns" value="false"/>
-		<property name="items">
-			<list>
+        <property name="items">
+            <list>
                 <ref bean="registration_search_panel"/>
                 <ref bean="registration_schedule_panel"/>
             </list>
-		</property>
-	</bean>
+        </property>
+    </bean>
 
     <bean id="registration_search_panel" parent="Group"
           p:layoutManager.orientation="VERTICAL" p:colSpan="6">
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <ref bean="ks_studentFacing_registrationView_browse"/>
-                <ref bean="ks_studentFacing_registrationView_fast_find"/>
+                <ref bean="ks_studentFacing_registrationView_searchFunctions"/>
                 <ref bean="ks_studentFacing_registrationView_search_buttons"/>
                 <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings"/>
-                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
             </list>
         </property>
     </bean>
 
     <bean id="registration_schedule_panel" parent="Group"
-          p:layoutManager.orientation="VERTICAL" p:colSpan="4">
+          p:layoutManager.orientation="VERTICAL" p:colSpan="4" p:styleClasses="registration-schedule-group">
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="ScheduleTableTest" parent="AttributeField_Form" abstract="true"
+                <bean id="RegScheduleTable" parent="AttributeField_Form" abstract="true"
                       p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray">
                     <property name="control">
-                        <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper"/>
+                        <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper">
+                            <property name="headerField">
+                                <bean parent="HeaderThree" p:headerText="Your Schedule"/>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
+                <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
+                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
+                    <property name="control">
+                        <bean parent="ScheduleCartControl" p:styleClasses="registration-schedule-wrapper"
+                              p:scheduleId="RegScheduleTable"/>
+                    </property>
+                </bean>
+                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_searchFunctions" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+        <property name="accordion.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="ks_studentFacing_registrationView_browse"/>
+                <ref bean="ks_studentFacing_registrationView_fast_find"/>
             </list>
         </property>
     </bean>
@@ -95,14 +112,6 @@
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SubjectAreaKeyValues"/>
                     </property>
-<!--
-                    <property name="fieldLookup.dataObjectClassName" value="edu.sampleu.travel.bo.TravelAccount"/>
-                    <property name="fieldLookup.fieldConversions">
-                        <map>
-                            <entry key="number" value="field1"/>
-                        </map>
-                    </property>
--->
                 </bean>
                 <bean parent="AttributeField_Form" p:labelField.renderColon="false" p:propertyName="termKey">
                     <property name="control">
@@ -113,7 +122,7 @@
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_fast_find" parent="Group">
+    <bean id="ks_studentFacing_registrationView_fast_find" parent="Group" p:styleClasses="fastFind-group">
         <property name="title" value="Fast Find"/>
         <property name="accordion.render" value="false"/>
         <property name="items">
@@ -124,19 +133,13 @@
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
                     </property>
-<!--
-                    <property name="fieldSuggest.render" value="true"/>
-                    <property name="fieldSuggest.sourcePropertyName" value="accountTypeCode"/>
-                    <property name="fieldSuggest.suggestQuery.dataObjectClassName"
-                              value="edu.sampleu.travel.bo.TravelAccountType"/>
--->
                 </bean>
             </list>
         </property>
     </bean>
 
     <bean id="ks_studentFacing_registrationView_search_buttons" parent="Group"
-            p:layoutManager.orientation="HORIZONTAL">
+          p:layoutManager.orientation="HORIZONTAL">
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
@@ -148,121 +151,118 @@
 
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
-            p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
-            p:layoutManager.lineGroupPrototype.accordion.render="true">
+          p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
+          p:layoutManager.lineGroupPrototype.accordion.render="true">
+        <property name="layoutManager.lineGroupPrototype.header">
+          <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
+        </property>
         <property name="summary"
-            value="Click a class to show/hide detail" />
-        <property name="accordion.render" value="false" />
+                  value="Click a class to show/hide detail"/>
+        <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper" />
-        <property name="propertyName" value="courseOfferingWrappers" />
+                  value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper"/>
+        <property name="propertyName" value="courseOfferingWrappers"/>
         <property name="renderAddLine" value="false"/>
-        <property name="readOnly" value="true" />
+        <property name="readOnly" value="true"/>
         <property name="layoutManager.summaryTitle" value=""/>
-
-<!--
-        <property name="layoutManager.summaryTitle" value="@{#line?.courseOffering.courseOfferingCode} - @{#line?.courseOffering.courseTitle}"/>
-        <property name="layoutManager.renderSequenceField" value="true"/>
-        <property name="layoutManager.renderAddLine" value="false" />
-        <property name="layoutManager.tableTools.render" value="false"/>
--->
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Group" p:layoutManager.orientation="VERTICAL"
+                  p:styleClasses="courseOffering-item" p:footer-ref="Footer"/>
+        </property>
+        <property name="layoutManager.subCollectionGroupFieldPrototype">
+            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        </property>
         <property name="layoutManager.summaryFields">
             <list>
                 <value>courseOffering.courseOfferingCode</value>
                 <value>courseOffering.courseTitle</value>
-                <value>courseOffering.subjectArea</value>
-                <value>courseOffering.courseNumberSuffix</value>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:propertyName="courseOffering.descr.plain" p:readOnly="true"/>
-<!--
-                <bean parent="AttributeField" p:propertyName="courseOffering.courseTitle" p:label="Course" />
-                <bean parent="AttributeField" p:propertyName="field2" p:label="Field 2"
-                    p:required="true" />
-                <bean parent="AttributeField" p:propertyName="field3" p:label="Field 3"
-                    p:required="true" />
-                <bean parent="AttributeField" p:propertyName="field4" p:label="Field 4"
-                    p:required="true" />
--->
+                <bean parent="AttributeField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain" p:readOnly="true"/>
             </list>
         </property>
         <property name="subCollections">
             <list>
-                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" />
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups"/>
             </list>
         </property>
     </bean>
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup"
-            p:layoutManager.lineGroupPrototype.accordion.render="false">
-        <property name="accordion.render" value="false" />
+          p:layoutManager.lineGroupPrototype.accordion.render="false">
+        <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper" />
-        <property name="propertyName" value="registrationGroupWrappers" />
+                  value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>
+        <property name="propertyName" value="registrationGroupWrappers"/>
         <property name="renderAddLine" value="false"/>
-<!--
-        <property name="readOnly" value="true" />
-        <property name="layoutManager.renderSequenceField" value="true"/>
-        <property name="layoutManager.renderAddLine" value="false" />
-        <property name="layoutManager.tableTools.render" value="false"/>
--->
+        <property name="layoutManager.lineGroupPrototype.styleClasses" value="regGroup-item"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="actionFields">
-          <list>
-            <bean parent="ActionField_SmallSecondary" p:methodToCall="registerClass" p:actionLabel="register"/>
-          </list>
+            <list>
+                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
+                      p:clientSideJs="updateCollectionAndRelatedItem('ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionLabel="Register"/>
+            </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
-                <bean parent="AttributeField" p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
-                <bean parent="AttributeField" p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
-                <bean parent="AttributeField" p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
-<!--
-                <bean parent="AttributeField" p:propertyName="registrationGroup.registrationCode" p:label="Registration Code" />
-                <bean parent="AttributeField" p:propertyName="field2" p:label="SubField 2"
-                    p:required="true" />
-                <bean parent="AttributeField" p:propertyName="field3" p:label="SubField 3"
-                    p:required="true" />
-                <bean parent="AttributeField" p:propertyName="field4" p:label="SubField 4"
-                    p:required="true" />
--->
+                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
             </list>
         </property>
         <property name="subCollections">
             <list>
-                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" />
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings" parent="CollectionGroup"
-        p:layoutManager.lineGroupPrototype.accordion.render="false">
-        <property name="accordion.render" value="false" />
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings"
+          parent="CollectionGroup"
+          p:layoutManager.lineGroupPrototype.accordion.render="false">
+        <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper" />
-        <property name="propertyName" value="activityOfferingWrappers" />
+                  value="org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper"/>
+        <property name="propertyName" value="activityOfferingWrappers"/>
         <property name="renderAddLine" value="false"/>
-        <property name="readOnly" value="true" />
+        <property name="readOnly" value="true"/>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
+                  p:styleClasses="activityOffering-item" p:footer-ref="Footer"/>
+        </property>
+        <property name="layoutManager.subCollectionGroupFieldPrototype">
+            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        </property>
         <property name="subCollections">
             <list>
-                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" />
+                <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules" parent="CollectionGroup"
-        p:layoutManager.lineGroupPrototype.accordion.render="false">
-        <property name="accordion.render" value="false" />
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules"
+          parent="CollectionGroup"
+          p:layoutManager.lineGroupPrototype.accordion.render="false">
+        <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
-            value="org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper" />
-        <property name="propertyName" value="meetingScheduleWrappers" />
+                  value="org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper"/>
+        <property name="propertyName" value="meetingScheduleWrappers"/>
         <property name="renderAddLine" value="false"/>
-        <property name="readOnly" value="true" />
+        <property name="readOnly" value="true"/>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
+                  p:styleClasses="meetingTime-item" p:footer-ref="Footer"/>
+        </property>
+        <property name="layoutManager.subCollectionGroupFieldPrototype">
+            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:propertyName="displayableTime" />
+                <bean parent="AttributeField" p:styleClasses="displayableTime" p:labelField.render="false" p:propertyName="displayableTime"/>
             </list>
         </property>
     </bean>

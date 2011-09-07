@@ -4,15 +4,15 @@
 
         return this.each(function() {
             options = options || {};
-			//default setting
-			options = $.extend({
-				sundayFirst: true,
+            //default setting
+            options = $.extend({
+                sundayFirst: true,
                 startTime: 5,
                 endTime: 20,
                 useLetterKeys: true,
                 omitWeekend: false,
                 data: null
-			}, options);
+            }, options);
 
             var localVars = {
                 genRed : 40,
@@ -28,30 +28,30 @@
             var cellWidth = $(this).find(".schedule td").css("width").replace("px", "");
             var borderWidth = 1;
             var tableWidth;
-            if(options.omitWeekend){
-               tableWidth  = (cellWidth * 6) + (borderWidth * 6);
+            if (options.omitWeekend) {
+                tableWidth = (cellWidth * 6) + (borderWidth * 6);
             }
-            else{
-               tableWidth  = (cellWidth * 8) + (borderWidth * 8);
+            else {
+                tableWidth = (cellWidth * 8) + (borderWidth * 8);
             }
             $(this).find(".schedule").width(tableWidth);
-            if(options.data != null){
+            if (options.data != null) {
                 $(this).initSchedule(options.data);
             }
         });
 
     };
 
-    $.fn.initSchedule = function(data){
+    $.fn.initSchedule = function(data) {
         $(this).find(".timeBlock").remove();
         $(this).find(".keyRow").remove();
         var schedule = this[0];
         var options = $.data(schedule, "options");
         options.data = data;
-        if(data != null){
-           $.each(data, function(index, value){
-               $(schedule).addTimeAndKey(genBlockName(schedule), value.days, value.startTime, value.endTime, value.name, value.cssClass);
-           });
+        if (data != null) {
+            $.each(data, function(index, value) {
+                $(schedule).addTimeAndKey(genBlockName(schedule), value.days, value.startTime, value.endTime, value.name, value.cssClass);
+            });
         }
     }
 
@@ -67,9 +67,26 @@
         );
     };
 
+    $.fn.addBulkTimesAndKeys = function(data, keyDivId) {
+        var schedule = this[0];
+        if (data != null) {
+            $.each(data, function(index, value) {
+                var name = genBlockName(schedule);
+                $(schedule).addTime(name, value.days, value.startTime, value.endTime, value.name, value.cssClass, true);
+                if (keyDivId != null) {
+                    $("#" + keyDivId).addKey(name, value.name, value.cssClass, true, $(schedule).attr("id"));
+                }
+                else {
+                    $(schedule).addKey(name, value.name, value.cssClass, true, $(schedule).attr("id"));
+                }
+            });
+        }
+
+    };
+
     $.fn.addTimeAndKey = function(name, days, startTime, endTime, timeName, cssColorClass) {
         $(this).addTime(name, days, startTime, endTime, timeName, cssColorClass, true);
-        $(this).addKey(name, timeName, cssColorClass, true);
+        $(this).addKey(name, timeName, cssColorClass, true, null);
     };
 
     $.fn.addTime = function(name, days, startTime, endTime, timeName, cssColorClass, useLetter) {
@@ -83,8 +100,8 @@
         var totalHours = minDiff / 60;
 
         //if totalHours outside of schedule range, cut off
-        if (parseInt(startTime.substring(0, 2)) + startMinFraction + totalHours > (options.endTime+1)) {
-            totalHours = (options.endTime+1) - (parseInt(startTime.substring(0, 2)) + startMinFraction);
+        if (parseInt(startTime.substring(0, 2)) + startMinFraction + totalHours > (options.endTime + 1)) {
+            totalHours = (options.endTime + 1) - (parseInt(startTime.substring(0, 2)) + startMinFraction);
         }
 
         var content;
@@ -104,7 +121,7 @@
         $.each(days, function(index, value) {
             var dayIndex = determineDayIndex(schedule, value);
             //-1 means an invalid date for this schedule so don't add it
-            if(dayIndex != -1){
+            if (dayIndex != -1) {
                 var div = $('<div name="' + name + '" class="timeBlock">' + content + '</div>');
                 if (cssColorClass) {
                     div.addClass(cssColorClass);
@@ -138,7 +155,7 @@
 
     $.fn.removeTimeAndKey = function(name) {
         $(this).find("div[name='" + name + "']").remove();
-        $(this).find("td[name='" + name + "']").remove();
+        $(this).find("tr[name='" + name + "']").remove();
     };
 
     $.fn.removeTime = function(name) {
@@ -146,26 +163,35 @@
     };
 
     $.fn.removeKey = function(name) {
-        $(this).find("td[name='" + name + "']").remove();
+        $(this).find("tr[name='" + name + "']").remove();
     };
 
-    $.fn.addKey = function(name, keyName, cssColorClass, useLetter) {
+    $.fn.addKey = function(name, keyName, cssColorClass, useLetter, scheduleId) {
         var appendage;
-        var options = $.data(this[0], "options");
-        var vars = $.data(this[0], "vars");
+        var schedule;
+        if(scheduleId == null){
+            //assume this is the schedule block when no id supplied
+            schedule = this[0];
+        }
+        else{
+            //otherwise assume this is another block that contains a .scheduleKey class table
+            schedule = $("#" +  scheduleId)[0];
+        }
+        var options = $.data(schedule, "options");
+        var vars = $.data(schedule, "vars");
         var content = "&nbsp;";
         if (options.useLetterKeys && useLetter) {
             content = String.fromCharCode(vars.charCode);
         }
 
         if (cssColorClass) {
-            appendage = $("<tr class='keyRow'><td><div class='keyBlock " + cssColorClass + "'>" + content + "</div></td><td><div>" + keyName + "</div></td></tr>");
+            appendage = $("<tr class='keyRow' name='" + name + "'><td><div class='keyBlock " + cssColorClass + "'>" + content + "</div></td><td><div>" + keyName + "</div></td></tr>");
         }
         else {
-            appendage = $("<tr class='keyRow'><td><div class='keyBlock' style='background-color: " + getGeneratedColor(this[0]) + "' >" + content + "</div></td><td><div>" + keyName + "</div></td></tr>");
+            appendage = $("<tr class='keyRow' name='" + name + "'><td><div class='keyBlock' style='background-color: " + getGeneratedColor(schedule) + "' >" + content + "</div></td><td><div>" + keyName + "</div></td></tr>");
         }
 
-        var blocks = $(this).find(".timeBlock[name='" + name + "']");
+        var blocks = $(schedule).find(".timeBlock[name='" + name + "']");
         var height = blocks.height();
         var width = blocks.width();
         $(appendage).find("div").hover(
@@ -189,7 +215,7 @@
         $(this).find(".scheduleKey").append(appendage);
     }
 
-    $.fn.clearTable =  function() {
+    $.fn.clearTable = function() {
         $(this).find(".timeBlock").remove();
     };
 
@@ -197,6 +223,10 @@
         $(this).find(".timeBlock").remove();
         $(this).find(".keyRow").remove();
     };
+
+    $.fn.generateUniqueScheduleName = function() {
+        return genBlockName(this[0]);
+    }
 
     //private functions
     function genBlockName(schedule) {
@@ -295,7 +325,7 @@
             case "Saturday":
             case "6":
                 dayIndex = 6;
-                if(options.omitWeekend){
+                if (options.omitWeekend) {
                     dayIndex = -1;
                 }
                 break;
@@ -309,7 +339,7 @@
                 else {
                     dayIndex = 7;
                 }
-                if(options.omitWeekend){
+                if (options.omitWeekend) {
                     dayIndex = -1;
                 }
                 break;
@@ -318,7 +348,7 @@
             dayIndex = dayIndex + 2;
         }
         else {
-            if(dayIndex != -1){
+            if (dayIndex != -1) {
                 dayIndex = dayIndex + 1;
             }
         }
