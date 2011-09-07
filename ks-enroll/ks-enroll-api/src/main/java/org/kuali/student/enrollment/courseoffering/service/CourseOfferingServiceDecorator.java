@@ -488,4 +488,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             PermissionDeniedException {
         return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
     }
+
+    @Override
+    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator ().getCourseOfferingIdsByTermAndInstructorId(termKey, instructorId, context);
+    }
+    
+    
 }

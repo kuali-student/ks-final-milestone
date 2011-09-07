@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -34,24 +34,22 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
-       
 
     private static Map<String, CourseOfferingInfo> courseOfferingCache = new HashMap<String, CourseOfferingInfo>();
     private static Map<String, ActivityOfferingInfo> activityOfferingCache = new HashMap<String, ActivityOfferingInfo>();
-    private static Map<String, List<ActivityOfferingInfo> > courseToActivityOfferingCache = new HashMap<String, List<ActivityOfferingInfo> >();
-    private static Map<String, List<RegistrationGroupInfo> > courseToRegGroupCache = new HashMap<String, List<RegistrationGroupInfo> >();
+    private static Map<String, List<ActivityOfferingInfo>> courseToActivityOfferingCache = new HashMap<String, List<ActivityOfferingInfo>>();
+    private static Map<String, List<RegistrationGroupInfo>> courseToRegGroupCache = new HashMap<String, List<RegistrationGroupInfo>>();
     private static Map<String, RegistrationGroupInfo> registrationGroupCache = new HashMap<String, RegistrationGroupInfo>();
     private static Map<String, CourseInfo> courseCache = new HashMap<String, CourseInfo>();
     private static Map<String, TypeInfo> typesCache = new HashMap<String, TypeInfo>();
     private static Map<String, SeatPoolDefinitionInfo> seatPoolDefinitionCache = new HashMap<String, SeatPoolDefinitionInfo>();
-    
     private CourseService courseService;
 
-    public CourseOfferingServiceMockImpl(){
+    public CourseOfferingServiceMockImpl() {
         loadCaches();
     }
 
-    private  void loadCaches(){
+    private void loadCaches() {
         CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
         courseOfferingInfo.setCourseId("101");
         courseOfferingInfo.setId("PHYS121");
@@ -66,7 +64,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setIsHonorsOffering(Boolean.TRUE);
         courseOfferingInfo.setTermKey("201108");
 
-        courseOfferingCache.put(courseOfferingInfo.getId(),courseOfferingInfo);
+        courseOfferingCache.put(courseOfferingInfo.getId(), courseOfferingInfo);
 
         CourseOfferingInfo courseOfferingInfo1 = new CourseOfferingInfo();
         courseOfferingInfo1.setCourseId("102");
@@ -82,7 +80,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo1.setIsHonorsOffering(Boolean.TRUE);
         courseOfferingInfo1.setTermKey("201108");
 
-        courseOfferingCache.put(courseOfferingInfo1.getId(),courseOfferingInfo1);
+        courseOfferingCache.put(courseOfferingInfo1.getId(), courseOfferingInfo1);
 
         CourseOfferingInfo courseOfferingInfo2 = new CourseOfferingInfo();
         courseOfferingInfo2.setCourseId("103");
@@ -98,33 +96,33 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo2.setIsHonorsOffering(Boolean.TRUE);
         courseOfferingInfo2.setTermKey("201108");
 
-        courseOfferingCache.put(courseOfferingInfo2.getId(),courseOfferingInfo2);
+        courseOfferingCache.put(courseOfferingInfo2.getId(), courseOfferingInfo2);
     }
 
     public CourseService getCourseService() {
         return courseService;
     }
+
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
-    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-    	return null;
+        return null;
     }
 
     @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return courseOfferingCache.get(courseOfferingId);
 
@@ -272,14 +270,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
-    	return new ArrayList<TypeInfo>();
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-    	return new ArrayList<TypeInfo>();
+        return new ArrayList<TypeInfo>();
     }
 
     @Override
@@ -308,12 +306,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
         for (String courseOfferingId : courseOfferingIdList) {
             List<ActivityOfferingInfo> activities = courseToActivityOfferingCache.get(courseOfferingId);
-            if(null == activities) {
+            if (null == activities) {
                 activities = new ArrayList<ActivityOfferingInfo>();
             }
-            
+
             activities.add(activityOfferingInfo);
-            
+
             courseToActivityOfferingCache.put(courseOfferingId, activities);
         }
 
@@ -365,7 +363,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     public Float calculateTotalContactHoursForTerm(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	return calculateInClassContactHoursForTerm(activityOfferingId, context)
+        return calculateInClassContactHoursForTerm(activityOfferingId, context)
                 + calculateOutofClassContactHoursForTerm(activityOfferingId, context);
     }
 
@@ -405,11 +403,11 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         List<FormatInfo> formatsInfo = new ArrayList<FormatInfo>();
 
         List<RegistrationGroupInfo> regGroups = courseToRegGroupCache.get(courseOfferingId);
-        
-        if(null == regGroups) {
+
+        if (null == regGroups) {
             regGroups = new ArrayList<RegistrationGroupInfo>();
         }
-        
+
         List<RegistrationGroupInfo> result = new ArrayList<RegistrationGroupInfo>();
 
         try {
@@ -428,7 +426,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
         for (FormatInfo format : formatsInfo) {
 
-            for (RegistrationGroupInfo regGroup : regGroups) {                
+            for (RegistrationGroupInfo regGroup : regGroups) {
                 if (format.getId().equals(regGroup.getFormatId()) && format.getType().equals(formatTypeKey)) {
                     result.add(regGroup);
                 }
@@ -447,14 +445,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         registrationGroupCache.put(registrationGroupInfo.getId(), registrationGroupInfo);
 
         List<RegistrationGroupInfo> regGroups = courseToRegGroupCache.get(courseOfferingId);
-        
-        if(null == regGroups) {
+
+        if (null == regGroups) {
             regGroups = new ArrayList<RegistrationGroupInfo>();
         }
 
         regGroups.add(registrationGroupInfo);
-        
-        courseToRegGroupCache.put(courseOfferingId, regGroups);                
+
+        courseToRegGroupCache.put(courseOfferingId, regGroups);
 
         return registrationGroupInfo;
     }
@@ -544,42 +542,42 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
     @Override
     public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return new ArrayList<StatementTreeViewInfo>();
+        return new ArrayList<StatementTreeViewInfo>();
     }
 
     @Override
     public StatementTreeViewInfo createCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-    	return null;
+        return null;
     }
 
     @Override
     public StatementTreeViewInfo updateCourseOfferingRestriction(String courseOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-    	return null;
+        return null;
     }
 
     @Override
     public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return null;
+        return null;
     }
 
     @Override
     public List<StatementTreeViewInfo> getActivityOfferingRestrictions(String activityOfferingId, String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return new ArrayList<StatementTreeViewInfo>();
+        return new ArrayList<StatementTreeViewInfo>();
     }
 
     @Override
     public StatementTreeViewInfo createActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
-    	return null;
+        return null;
     }
 
     @Override
     public StatementTreeViewInfo updateActivityOfferingRestriction(String activityOfferingId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-    	return null;
+        return null;
     }
 
     @Override
     public StatusInfo deleteActivityOfferingRestriction(String activityOfferingId, String restrictionId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return null;
+        return null;
     }
 
     @Override
@@ -615,53 +613,64 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> cList = new ArrayList<CourseOfferingInfo>();
-        
-        for(String cId : courseOfferingIds) {
+
+        for (String cId : courseOfferingIds) {
             CourseOfferingInfo cOffering = courseOfferingCache.get(cId);
-            if(null == cOffering) throw new DoesNotExistException("Course Offering not found for: " + cId);
+            if (null == cOffering) {
+                throw new DoesNotExistException("Course Offering not found for: " + cId);
+            }
             cList.add(cOffering);
         }
-        
+
         return cList;
     }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> aList = new ArrayList<ActivityOfferingInfo>();
-        
-        for(String aId : activityOfferingIds) {
+
+        for (String aId : activityOfferingIds) {
             ActivityOfferingInfo activity = activityOfferingCache.get(aId);
-            if(null == activity) throw new DoesNotExistException("Activity Offering not found for: " + aId);
+            if (null == activity) {
+                throw new DoesNotExistException("Activity Offering not found for: " + aId);
+            }
             aList.add(activity);
         }
-        
+
         return aList;
     }
 
-
     @Override
     public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ActivityOfferingInfo activity = activityOfferingCache.get(activityOfferingId);        
-        if(null == activity) throw new DoesNotExistException("Activity offering not found for: " + activityOfferingId);
-
-        for(String cId : courseOfferingIdList) {
-            CourseOfferingInfo cInfo = courseOfferingCache.get(cId);
-            if(null == cInfo) throw new DoesNotExistException("Course offering not found for: " + cId);
+        ActivityOfferingInfo activity = activityOfferingCache.get(activityOfferingId);
+        if (null == activity) {
+            throw new DoesNotExistException("Activity offering not found for: " + activityOfferingId);
         }
 
-        for(String cId : courseOfferingIdList) {
-            List<ActivityOfferingInfo> aList = courseToActivityOfferingCache.get(cId);
-            if(null == aList) throw new OperationFailedException("Inconsistent data!");
-            
-            for(ActivityOfferingInfo aInfo : aList) {
-                if(aInfo.getId().equals(activityOfferingId)) throw new AlreadyExistsException("activity offering " + activityOfferingId + " already mapped to course offering " + cId );
+        for (String cId : courseOfferingIdList) {
+            CourseOfferingInfo cInfo = courseOfferingCache.get(cId);
+            if (null == cInfo) {
+                throw new DoesNotExistException("Course offering not found for: " + cId);
             }
-            
+        }
+
+        for (String cId : courseOfferingIdList) {
+            List<ActivityOfferingInfo> aList = courseToActivityOfferingCache.get(cId);
+            if (null == aList) {
+                throw new OperationFailedException("Inconsistent data!");
+            }
+
+            for (ActivityOfferingInfo aInfo : aList) {
+                if (aInfo.getId().equals(activityOfferingId)) {
+                    throw new AlreadyExistsException("activity offering " + activityOfferingId + " already mapped to course offering " + cId);
+                }
+            }
+
             aList.add(activity);
             courseToActivityOfferingCache.put(cId, aList);
         }
-        
-        
+
+
         StatusInfo s = new StatusInfo();
         s.setSuccess(true);
         return s;
@@ -670,15 +679,18 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegistrationGroupInfo> regList = new ArrayList<RegistrationGroupInfo>();
-        
-        for(String regId : registrationGroupIds) {
+
+        for (String regId : registrationGroupIds) {
             RegistrationGroupInfo reg = registrationGroupCache.get(regId);
-            if(null == reg) throw new DoesNotExistException("Reg group not found for: " + regId);
+            if (null == reg) {
+                throw new DoesNotExistException("Reg group not found for: " + regId);
+            }
             regList.add(reg);
         }
-        
+
         return regList;
     }
+
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -686,6 +698,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -693,6 +706,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<ActivityOfferingInfo> searchForActivityOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -700,6 +714,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<String> searchForActivityOfferingIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -707,6 +722,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<CourseRegistrationInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -714,6 +730,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -721,6 +738,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -728,6 +746,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
     public List<String> searchForSeatpoolDefintionIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -735,5 +754,22 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    
+
+    @Override
+    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+        for (CourseOfferingInfo courseOfferingInfo : this.courseOfferingCache.values()) {
+            if (termKey.equals(courseOfferingInfo.getTermKey())) {
+                if (courseOfferingInfo.getInstructors() != null) {
+                    for (OfferingInstructorInfo offeringInstructorInfo : courseOfferingInfo.getInstructors()) {
+                        if (instructorId.equals(offeringInstructorInfo.getPersonId())) {
+                            list.add(courseOfferingInfo.getId());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
 }
