@@ -1072,6 +1072,7 @@ public class WorkflowUtilities{
 														                });
 														                parentController.fireApplicationEvent(saveActionEvent);
 											                    	}else{
+											                    	    submitSuccessDialog.hide();
 											                    		KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
 											                    	}
 										                    	}else{
