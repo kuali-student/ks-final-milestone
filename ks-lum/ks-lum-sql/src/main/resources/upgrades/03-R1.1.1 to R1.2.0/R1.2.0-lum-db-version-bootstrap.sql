@@ -15,7 +15,7 @@ IF temp <= 0 THEN EXECUTE IMMEDIATE 'CREATE
 END;
 /
 
-delete from KS_DB_VERSION where MODULE_NAME ='${project.artifactId}'
+delete from KS_DB_VERSION where MODULE_NAME ='ks-lum-sql'
 /
-insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('${project.version}', '${project.artifactId}', '${env.JOB_NAME}-build-${env.BUILD_NUMBER}','${kuali.build.timestamp}')
+insert into KS_DB_VERSION (VERSION, MODULE_NAME, BUILD_ID, BUILD_TIMESTAMP) values ('ks-lum-sql', '1.2.0', '', '')
 /
