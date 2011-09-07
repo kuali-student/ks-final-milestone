@@ -588,7 +588,7 @@ public abstract class ProgramController extends MenuSectionController implements
 		Map<String,String> attributes = new HashMap<String,String>();
 //		if (StringUtils.isNotBlank(getViewContext().getId())) {
 		GWT.log("Attempting Auth Check.", null);
-		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
+		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
 			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 		}
 		//"proposal/id"
