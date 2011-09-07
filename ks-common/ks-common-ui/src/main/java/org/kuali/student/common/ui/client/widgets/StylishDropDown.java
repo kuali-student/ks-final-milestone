@@ -20,11 +20,11 @@ import java.util.List;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.MenuChangeEvent;
 import org.kuali.student.common.ui.client.widgets.menus.MenuEventHandler;
 import org.kuali.student.common.ui.client.widgets.menus.MenuSelectEvent;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSListMenuImpl;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,9 +42,9 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.KeyboardListener;
 
 public class StylishDropDown extends Composite{
 	
@@ -242,7 +242,7 @@ public class StylishDropDown extends Composite{
 	}
 	
 	public void showMenu(){
-		menuPanel.setPopupPosition(this.getAbsoluteLeft(), this.getAbsoluteTop() + this.getOffsetHeight());
+		menuPanel.setPopupPosition(layout.getAbsoluteLeft(), layout.getAbsoluteTop() + layout.getOffsetHeight());
 		menuPanel.show();
 	}
 	
