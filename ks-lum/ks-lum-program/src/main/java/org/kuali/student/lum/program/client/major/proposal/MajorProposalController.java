@@ -48,6 +48,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -496,6 +497,7 @@ public class MajorProposalController extends MajorController implements Workflow
                 viewContextId = null;
             }
         }
+        idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);       
         if (programModel.getRoot() != null) {
             ProgramStatus programStatus = ProgramStatus.of(programModel);
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
@@ -634,8 +636,9 @@ public class MajorProposalController extends MajorController implements Workflow
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
                 refreshModelAndView(result);
-                viewContext.setId(ProgramUtils.getProgramId(programModel));
-                viewContext.setIdType(IdType.OBJECT_ID);
+                
+                viewContext.setId(ProgramUtils.getProposalId(programModel));
+                viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
