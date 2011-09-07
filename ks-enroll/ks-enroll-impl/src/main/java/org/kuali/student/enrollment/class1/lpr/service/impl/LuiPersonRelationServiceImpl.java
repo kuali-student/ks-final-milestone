@@ -261,7 +261,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public String createLpr(String personId, String luiId, String luiPersonRelationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException,
@@ -503,7 +503,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public String createLprRoster(LprRosterInfo lprRosterInfo, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
             DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,

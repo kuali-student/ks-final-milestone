@@ -235,7 +235,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
@@ -262,7 +262,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey,
             AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -293,7 +293,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public StatusInfo deleteAcademicCalendar(String academicCalendarKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -626,7 +626,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public TermInfo createTerm(String termKey, TermInfo termInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -651,7 +651,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public TermInfo updateTerm(String termKey, TermInfo termInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -676,7 +676,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public StatusInfo deleteTerm(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
