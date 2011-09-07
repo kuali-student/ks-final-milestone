@@ -140,4 +140,10 @@ public class MajorDisciplineProposalDataService extends AbstractDataService {
 		this.atpService = atpService;
 	}
 
+	@Override
+	protected boolean checkDocumentLevelPermissions() {
+		// TODO Auto-generated method stub
+		return  true;
+	}
+
 }

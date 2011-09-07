@@ -1,14 +1,18 @@
 package org.kuali.student.lum.program.client;
 
+import org.kuali.student.common.ui.client.application.Application;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -21,6 +25,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
@@ -47,13 +53,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
  */
-public abstract class ProgramController extends MenuSectionController {
+public abstract class ProgramController extends MenuSectionController implements RequiresAuthorization {
 
     protected MajorDisciplineRpcServiceAsync programRemoteService;
 
@@ -548,5 +555,84 @@ public abstract class ProgramController extends MenuSectionController {
         return null;
     
     }
+
+
+	@Override
+	public void checkAuthorization(final PermissionType permissionType,
+			final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
+		
+    	//String principalId = Application.getApplicationContext().getUserId();
+		//SecurityRpcServiceAsync securityRpc = GWT
+		//		.create(SecurityRpcService.class);
+
+//		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>(){
+//				@Override
+//				public void handleFailure(Throwable caught) {
+//			callbackLocatedOnBaseControllerClass.isNotAuthorized("Error checking authorization.");
+//			GWT.log("Error checking proposal authorization.", caught);
+//            Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
+//		}
+//
+//		@Override
+//		public void onSuccess(Boolean result) {
+//			GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+//			if (Boolean.TRUE.equals(result)) {
+//				callbackLocatedOnBaseControllerClass.isAuthorized();
+//			}
+//			else {
+//				callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
+//			}
+//		}
+//		});
+		
+		Map<String,String> attributes = new HashMap<String,String>();
+//		if (StringUtils.isNotBlank(getViewContext().getId())) {
+		GWT.log("Attempting Auth Check.", null);
+		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
+			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
+		}
+		//"proposal/id"
+		//programModel.
+		DataModel g = programModel;
+		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+
+			@Override
+			public void handleFailure(Throwable caught) {
+				callbackLocatedOnBaseControllerClass.isNotAuthorized("Error checking authorization.");
+				GWT.log("Error checking proposal authorization.", caught);
+                Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				if (Boolean.TRUE.equals(result)) {
+					callbackLocatedOnBaseControllerClass.isAuthorized();
+				}
+				else {
+					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
+				}
+			}
+    	});
+//		 TODO Auto-generated method stub
+		
+				
+
+		
+	}
+
+
+	@Override
+	public boolean isAuthorizationRequired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -74,6 +75,13 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
         	final KSSelectedList couWidget = (KSSelectedList)cou.getFieldWidget();
         	
         	couWidget.getMainPanel().insert(unitCheckBox, 1);
+        	
+        	//While testing the permission this broke... I am not sure why it broke but this element
+        	// returns a null when doing the getAddItemButton, this might be because with CheckPermissions
+        	// set to true certain Model data is not passed thru to the clients .... need Daniel and Will's
+        	// help to investigate and make certain that that is not the case
+        	
+        	if (couWidget.getAddItemButton() != null){
         	couWidget.getAddItemButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
 					if(unitCheckBox.getValue()){
@@ -84,8 +92,9 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
 	                }
 				}
         	});
-        	
+        	}
         	//Also add a hook into the advanced search
+        	if (couWidget.getPicker() != null){
         	final Callback<List<SelectedResults>> originalAdvancedSearchCallback = couWidget.getPicker().getAdvancedSearchCallback();
         	
         	couWidget.getPicker().setAdvancedSearchCallback(new Callback<List<SelectedResults>>() {
@@ -103,10 +112,11 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
             });
         	
         }
-        
+        }
         if(cod.getFieldWidget() instanceof KSSelectedList){
         	final KSSelectedList codWidget = (KSSelectedList)cod.getFieldWidget();
         	codWidget.getMainPanel().insert(divisionCheckBox, 1);
+        	if (codWidget.getAddItemButton() != null){
         	codWidget.getAddItemButton().addClickHandler(new ClickHandler(){
 				public void onClick(ClickEvent event) {
 					if(divisionCheckBox.getValue()){
@@ -117,9 +127,17 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
 	                }
 				}
         	});
+        	}
         }
         
 
+    }
+    @Override
+    public boolean checkPermission(DataModel model) {
+    	// TODO Auto-generated method stub
+    	//super.checkPermission(model);
+    	
+    	return true;
     }
 
 }
