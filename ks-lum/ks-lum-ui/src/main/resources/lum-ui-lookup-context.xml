@@ -4928,6 +4928,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
+						<value>kuali.org.College</value>
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
@@ -4973,6 +4974,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
+						<value>kuali.org.College</value>
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
@@ -5095,6 +5097,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
+						<value>kuali.org.College</value>
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
@@ -5217,6 +5220,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
+						<value>kuali.org.College</value>
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
@@ -5338,6 +5342,7 @@
 				<property name="defaultValueList">
 					<list>
 						<value>kuali.org.Department</value>
+						<value>kuali.org.College</value>
 					</list>
 				</property>
 				<property name="caseSensitive" value="true" />
