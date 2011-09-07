@@ -41,10 +41,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
-import org.kuali.student.common.util.security.SecurityUtils;
-
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	protected Metadata searchMetadata;
@@ -601,7 +597,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
             public void onClick(ClickEvent event) {
                 final KSLightBox pop = new KSLightBox();
                 pop.setWidget(new CurriculumHomeHelpTable());
-                pop.setSize(800, 600);
+                pop.setSize(800, 680);
                 pop.show();
             }
         });
