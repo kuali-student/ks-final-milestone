@@ -474,14 +474,23 @@
 
     <bean id="majorDisciplineProposalTransformationManager" class="org.kuali.student.common.assembly.transform.TransformationManager">
         <property name="metadataService" ref="programMetadataServiceImpl"/>
-        <property name="filters">
+        <property name="inboundFilters">
             <list>
                 <!-- Order of filters is important -->
                 <ref bean="authzFilter"/>
                 <ref bean="majorCredentialProgramFilter"/>
                 <ref bean="majorDisciplineProposalWorkflowFilter"/>
                 <ref bean="programCollaboratorFilter"/>                
+            </list>
+        </property>
+        <property name="outboundFilters">
+            <list>
+                <!-- Order of filters is important -->
+                <ref bean="majorCredentialProgramFilter"/>
+                <ref bean="majorDisciplineProposalWorkflowFilter"/>
+                <ref bean="programCollaboratorFilter"/>                
                 <ref bean="idTranslatorFilter"/>
+                <ref bean="authzFilter"/>                
             </list>
         </property>
     </bean>

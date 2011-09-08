@@ -16,7 +16,8 @@ public class TransformationManager {
 
 	private MetadataServiceImpl metadataService;
 	private DataBeanMapper mapper = new DefaultDataBeanMapper();
-	private List<TransformFilter> filterList = new ArrayList<TransformFilter>();
+	private List<TransformFilter> inboundFilterList = new ArrayList<TransformFilter>();
+	private List<TransformFilter> outboundFilterList = new ArrayList<TransformFilter>();	
 
 	/**
 	 * This is an outbound transform request which will convert incoming DTO objects
@@ -97,7 +98,7 @@ public class TransformationManager {
 	 * @throws Exception
 	 */
 	public void applyInboundFilters(String dtoName, Object value, Map<String,Object> properties, Metadata metadata) throws Exception{
-		for (TransformFilter filter:filterList){
+		for (TransformFilter filter:inboundFilterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
 					((AbstractDataFilter)filter).applyInboundDataFilter((Data)value, metadata, properties);
@@ -118,7 +119,7 @@ public class TransformationManager {
 	 * @throws Exception
 	 */
 	public void applyOutboundFilters(String dtoName, Object value, Map<String,Object> properties) throws Exception{
-		for (TransformFilter filter:filterList){
+		for (TransformFilter filter:outboundFilterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
 					//FIXME: It might be more efficient to getMetadata outside of the for loop (unless metadata might be different)
@@ -149,7 +150,7 @@ public class TransformationManager {
 	}
 
 	public void applyMetadataFilters(String dtoName, Metadata metadata, Map<String, Object> filterProperties){
-		for (TransformFilter filter:filterList){
+		for (TransformFilter filter:outboundFilterList){
 			if (filter instanceof MetadataFilter){
 				((MetadataFilter) filter).applyMetadataFilter(dtoName, metadata, filterProperties);
 			}
@@ -174,16 +175,24 @@ public class TransformationManager {
 		this.mapper = mapper;
 	}
 
-	public void addFilter(TransformFilter filter){
-		filterList.add(filter);
-	}
-
+	/**
+	 * Use setInboundFilters and setOutboundFilters instead. This sets both
+	 * the inbound and outbound filter chain to be the same.
+	 *  
+	 * @param filters
+	 */
+	@Deprecated
 	public void setFilters(List<TransformFilter> filters){
-		filterList.addAll(filters);
-	}
-	
-	public void removeFilter(TransformFilter filter){
-		filterList.remove(filter);
-	}
+		inboundFilterList.addAll(filters);
+		outboundFilterList.addAll(filters);
+	}	
+
+	public void setInboundFilters(List<TransformFilter> filters){
+		inboundFilterList.addAll(filters);
+	}	
 		
+	public void setOutboundFilters(List<TransformFilter> filters){
+		outboundFilterList.addAll(filters);
+	}	
+
 }

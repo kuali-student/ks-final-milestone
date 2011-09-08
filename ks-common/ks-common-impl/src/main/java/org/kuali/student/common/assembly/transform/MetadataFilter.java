@@ -15,5 +15,12 @@ public interface MetadataFilter {
     public static final String METADATA_ID_TYPE		= "MetadataIdType";
     public static final String METADATA_ID_VALUE	= "MetadataIdValue";
 	
-	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> filterProperties);
+	/**
+	 * NOTE: The metadata filter is only applied in order as defined in the outbound filter path chain.
+	 * 
+	 * @param dtoName
+	 * @param metadata
+	 * @param filterProperties
+	 */
+    public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> filterProperties);
 }
