@@ -59,6 +59,8 @@ public class MajorViewController extends MajorController {
     // to display the use curriculum review process checkbox
     private boolean isCurrentVersion;
     
+    private SecurityRpcServiceAsync securityRpc;
+    
     /**
      * Constructor.
      *
@@ -67,7 +69,8 @@ public class MajorViewController extends MajorController {
     public MajorViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
         configurer = GWT.create(MajorViewConfigurer.class);
-  
+        securityRpc = GWT .create(SecurityRpcService.class);  
+        
         // Initialize handlers and action drop-down
         initHandlers();
      }
@@ -148,8 +151,6 @@ public class MajorViewController extends MajorController {
      */
     private void processModifyActionType(final ViewContext viewContext) {
         String principalId = Application.getApplicationContext().getUserId();
-        SecurityRpcServiceAsync securityRpc = GWT
-                .create(SecurityRpcService.class);
 
         securityRpc.checkAdminPermission(principalId, "useCurriculumReview", new KSAsyncCallback<Boolean>() {
             @Override
@@ -354,7 +355,23 @@ public class MajorViewController extends MajorController {
 			    // Populate the action box drop-down with different values depending 
 			    // on if we are working with the latest version of the program 
 			    // or a historical version
-    		    actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));	
+                actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));
+
+                if (!isCurrentVersion) {
+                    String principalId = Application.getApplicationContext().getUserId();
+
+                    securityRpc.checkAdminPermission(principalId, "useCurriculumReview", new KSAsyncCallback<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean result) {
+                            final boolean isAuthorized = result;
+
+                            if (!isAuthorized) {
+                                actionBox.removeItem(ActionType.MODIFY.getValue());
+                            }
+                        }
+                    });
+                }
+
  			}        	
         });
     	
