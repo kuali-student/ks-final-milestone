@@ -704,14 +704,16 @@
 				    This will not be a problem in oracle/mysql, but may cause problems with our tests that use derby embedded.
 				-->
 				<entry  key="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId">
-					<value>(:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.startDate >= (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId)))</value>
+					<value>((:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.startDate >= (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId))) AND 
+					        (:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.endDate >= (SELECT MAX(startAtp.endDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId))))</value>
 				</entry>
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintId IS NULL OR (atp.endDate &lt;= (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintId)))</value>
 				</entry>
 				
 				<entry  key="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive">
-					<value>(:atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive IS NULL OR (atp.startDate > (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive)))</value>
+					<value>((:atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive IS NULL OR (atp.startDate > (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive))) AND
+					        (:atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive IS NULL OR (atp.endDate > (SELECT MAX(startAtp.endDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive))))</value>
 				</entry>
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
