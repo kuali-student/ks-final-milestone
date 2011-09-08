@@ -80,10 +80,16 @@ Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.AdvanceRegistrationPeriod',null,0,'Advance Registration Period',null,null,'Advance Registration Period','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
 /
 
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.InstructionalPeriod',null,0,'Dates between which classes should meet',null,null,'Instructional Period','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.RegistrationPeriod',null,0,'Registration Period',null,null,'Registration Period','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
 /
 
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.DropDate',null,0,'Drop Period Ends',null,null,'Drop Date','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.FinalExamPeriod',null,0,'Final Examinations',null,null,'Final Exam Period ','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
 /
 
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.GradesDue',null,0,'Grades Due',null,null,'Grades Due','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
