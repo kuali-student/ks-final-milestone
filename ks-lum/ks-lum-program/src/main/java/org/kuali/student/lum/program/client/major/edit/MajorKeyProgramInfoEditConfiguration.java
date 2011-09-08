@@ -13,16 +13,15 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSCharCount;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -145,20 +144,20 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
 		return searchWidget;
 	}
 	
-    public class DiplomaBinding extends ModelWidgetBindingSupport<KSTextBox> {
+    public class DiplomaBinding extends ModelWidgetBindingSupport<HasText> {
         private boolean isEmpty(String value) {
             return value == null || value.isEmpty();
         }
 
         @Override
-        public void setModelValue(KSTextBox widget, DataModel model, String path) {
+        public void setModelValue(HasText widget, DataModel model, String path) {
             String diplomaTitle = widget.getText();
             if (diplomaTitle != null)
                 model.set(QueryPath.concat(null, "/" + ProgramConstants.DIPLOMA), diplomaTitle);
         }
 
         @Override
-        public void setWidgetValue(KSTextBox widget, DataModel model, String path) {
+        public void setWidgetValue(HasText widget, DataModel model, String path) {
             String diplomaTitle = model.get("/" + ProgramConstants.DIPLOMA);
             if (isEmpty(diplomaTitle)) {
                 String programTitle = model.get("/" + ProgramConstants.LONG_TITLE);
