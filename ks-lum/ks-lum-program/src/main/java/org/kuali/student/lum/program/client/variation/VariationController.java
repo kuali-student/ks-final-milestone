@@ -1,12 +1,6 @@
 package org.kuali.student.lum.program.client.variation;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -18,11 +12,18 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramController;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
+import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
-import java.util.List;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -86,7 +87,13 @@ public abstract class VariationController extends ProgramController {
 
     @Override
     public void collectBreadcrumbNames(List<String> names) {
-        names.add(parentName + "@" + HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), getViewContext()));
+    	String appLoc = "";
+    	
+    	if(!(majorController instanceof MajorProposalController))//programModel.get("isProposal") == null )
+    		appLoc = AppLocations.Locations.VIEW_PROGRAM.getLocation();
+    	else
+    		appLoc = AppLocations.Locations.PROGRAM_PROPOSAL.getLocation();
+        names.add(parentName + "@" + HistoryManager.appendContext(appLoc, getViewContext()));
         super.collectBreadcrumbNames(names);
     }
 

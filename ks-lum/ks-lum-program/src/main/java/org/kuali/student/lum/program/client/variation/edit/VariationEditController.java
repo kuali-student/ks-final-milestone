@@ -28,6 +28,7 @@ import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
+import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -262,8 +263,13 @@ public class VariationEditController extends VariationController {
     }
 
     private void navigateToParent(ProgramSections parentSection) {
-
-        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation(), getViewContext()) + "/" + parentSection;
+    	String appLoc = "";
+    	
+    	if(!(majorController instanceof MajorProposalController))
+    		appLoc = AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation();
+    	else
+    		appLoc = AppLocations.Locations.PROGRAM_PROPOSAL.getLocation();
+        String path = HistoryManager.appendContext(appLoc, getViewContext()) + "/" + parentSection;
         HistoryManager.navigate(path);
     }
 

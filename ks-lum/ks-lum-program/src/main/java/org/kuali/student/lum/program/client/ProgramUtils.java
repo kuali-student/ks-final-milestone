@@ -138,12 +138,17 @@ public class ProgramUtils {
     }
 
     public static void unregisterUnusedHandlers(HandlerManager eventBus) {
-        HashMap<GwtEvent.Type, EventHandler> eventsMap = ProgramRegistry.getSpecializationHandlers();
-        if (eventsMap != null) {
-            for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
-                eventBus.removeHandler(typeEventHandlerEntry.getKey(), typeEventHandlerEntry.getValue());
-            }
-        }
+		HashMap<GwtEvent.Type, EventHandler> eventsMap = ProgramRegistry.getSpecializationHandlers();
+		if (eventsMap != null) {
+			for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
+				try {
+					eventBus.removeHandler(typeEventHandlerEntry.getKey(),typeEventHandlerEntry.getValue());
+				} catch(Exception e) {
+					//FIXME: Unregistering of handlers should be better handled
+				}
+				finally{return;}
+			}
+		}
     }
     
     /**
