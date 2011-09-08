@@ -25,7 +25,7 @@ public class TermWrapper implements Serializable {
 		gradesDueDate = new KeyDateInfo();
 	}
 
-    	/**
+    /**
 	 * @return the key
 	 */
 	public String getKey() {
