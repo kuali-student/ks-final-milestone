@@ -6,7 +6,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -131,13 +130,6 @@ public class ManagingBodiesEditConfiguration extends AbstractSectionConfiguratio
         }
         
 
-    }
-    @Override
-    public boolean checkPermission(DataModel model) {
-    	// TODO Auto-generated method stub
-    	//super.checkPermission(model);
-    	
-    	return true;
     }
 
 }
