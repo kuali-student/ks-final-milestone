@@ -18,9 +18,17 @@
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Drop Period Ends"
         TYPE_KEY="kuali.atp.milestone.DropDate" VER_NBR="0"/>
+    <KSEN_ATP_TYPE NAME="Final Exam Period "
+        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_DESC="Final Examinations"
+        TYPE_KEY="kuali.atp.milestone.FinalExamPeriod" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Grades Due"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Grades Due" TYPE_KEY="kuali.atp.milestone.GradesDue" VER_NBR="0"/>
+    <KSEN_ATP_TYPE NAME="Instructional Period"
+        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_DESC="Dates between which classes should meet"
+        TYPE_KEY="kuali.atp.milestone.InstructionalPeriod" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Registration Period"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/MilestoneInfo"
         TYPE_DESC="Registration Period"

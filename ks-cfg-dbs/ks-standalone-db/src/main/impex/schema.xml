@@ -1111,6 +1111,28 @@
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LPR_ROSTER_ENTRY">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="LPRROSTER_ID" size="255" type="VARCHAR"/>
+        <column name="LPR_ID" size="255" type="VARCHAR"/>
+        <column name="POSITION" size="10" type="VARCHAR"/>
+        <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
+        <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LPR" name="KSEN_LPR_ROSTER_ENTRY_FK2">
+            <reference foreign="ID" local="LPR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_ENTRY_FK1">
+            <reference foreign="ID" local="LPRROSTER_ID"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LPR_STATE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
