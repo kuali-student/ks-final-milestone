@@ -112,15 +112,17 @@ public class MetadataServiceImpl {
     	nextState = (nextState == null || nextState.length() <=0 ? DtoState.getNextStateAsString(state):nextState);
     	state = state==null?null:state.toUpperCase();
     	nextState = nextState==null?null:nextState.toUpperCase();
+    	//FIXME/TODO: documentTypeName is only passed here, because it is eventually used in ProgramMetadataServiceImpl's getConstraints() method
     	return getMetadataFromDictionaryService(objectKey, type, state, nextState, null, documentTypeName);
     }
 
-    /**
+	/**
      * This method gets the metadata for the given object id key, workflowNode and documentTypeName
      * 
      * @return
      */
     public Metadata getMetadataByWorkflowNode(String objectKey, String workflowNode, String documentTypeName) {
+    	//FIXME/TODO: documentTypeName is only passed here, because it is eventually used in ProgramMetadataServiceImpl's getConstraints() method
     	return getMetadataFromDictionaryService(objectKey, null, DtoState.DRAFT.toString(), null, workflowNode, documentTypeName);
     }
 
@@ -172,10 +174,11 @@ public class MetadataServiceImpl {
      * @return
      */
     protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState, String workflowNode, String documentTypeName) {
+        
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
-
+		//FIXME/TODO: documentTypeName is only passed here, because it is eventually used in ProgramMetadataServiceImpl's getConstraints() method
         metadata.setProperties(getProperties(objectStructure, type, state, nextState, workflowNode, new RecursionCounter(), documentTypeName));
 
         metadata.setWriteAccess(WriteAccess.ALWAYS);
@@ -210,6 +213,7 @@ public class MetadataServiceImpl {
                 // Set constraints, authz flags, default value
                 metadata.setWriteAccess(WriteAccess.ALWAYS);
                 metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
+                //FIXME/TODO: documentTypeName is only passed here, because it is eventually used in ProgramMetadataServiceImpl's getConstraints() method
                 metadata.setConstraints(getConstraints(fd, type, state, nextState, workflowNode, documentTypeName));
                 metadata.setCanEdit(!fd.isReadOnly());
                 metadata.setCanUnmask(!fd.isMask());
@@ -296,6 +300,7 @@ public class MetadataServiceImpl {
         return dictionaryService.getObjectStructure(objectKey);
     }
 
+	//FIXME/TODO: documentTypeName is only passed here, because it is used(overridden) in ProgramMetadataServiceImpl's getConstraints() method
     protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState, String workflowNode, String documentTypeName) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
 
