@@ -32,7 +32,7 @@ public class TermWrapper implements Serializable {
 		return key;
 	}
 	/**
-	 * @param key the key to set. It equalscd to termInfo.getKey()
+	 * @param key the key to set. It equals to termInfo.getKey()
 	 */
 	public void setKey(String key) {
 		this.key = key;
