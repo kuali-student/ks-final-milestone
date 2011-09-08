@@ -27,11 +27,12 @@ public interface GPA {
     /**
      * The GPA.
      *
+     * @return a string representing a floating point decimal number
      * @name GPA
      * @readOnly
      * @required
      */
-    public Float getGPA();
+    public String getGPA();
 
     /**
      * The calculation Type key.

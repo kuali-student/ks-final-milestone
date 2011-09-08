@@ -38,56 +38,40 @@ public interface StudentCourseRecord {
     public String getPersonId();
 
     /**
-     * The title of the course offering that was in effect at the time
+     * The title of the course that was in effect at the time
      * the student took the course. 
      *
-     * @name Course Offering Title
+     * @name Course Title
      * @readOnly
      * @required
      * @impl retrieved from the CourseOffering related to the Course 
      *       Registration
      */
-    public String getCourseOfferingTitle();
+    public String getCourseTitle();
 
     /**
-     * The number of the course offering that was in effect at the time
+     * The code or number of the course that was in effect at the time
      * the student took the course. 
      *
-     * @name Course Offering Title
+     * @name Course Code
      * @readOnly
      * @required
      * @impl retrieved from the Course Offering related to the Course 
      *       Registration
      */
-    public String getCourseOfferingNumber();
+    public String getCourseCode();
 
     /**
-     * The Id of the Course Offering taken by the student.
+     * The code or number of the primary activity or section that was
+     * in effect at the time the student took the course.
      *
-     * @name Course Offering Id
+     * @name Course Code
      * @readOnly
-     * @impl retrieved from the Course Registration
-     */
-    public String getCourseOfferingId();
-
-    /**
-     * The Id of the Course Registration of the student in the course
-     * offering.
-     *
-     * @name Course Registration Id
-     * @readOnly
-     */
-    public String getCourseRegistrationId();
-
-    /**
-     * The Id of the canonical Course related to the Course Offering.
-     *
-     * @name Course Id
-     * @readOnly
+     * @required
      * @impl retrieved from the Course Offering related to the Course 
-     *       Registration.
+     *       Registration
      */
-    public String getCourseId();
+    public String getActivityCode();
     
     /**
      * The name of the term in which the student took the offering.
@@ -100,35 +84,24 @@ public interface StudentCourseRecord {
     public String getTermName();
 
     /**
-     * The start date of the term in which the student took the
-     * offering.
+     * The start date of the course.
      *
-     * @name Term Start Date
+     * @name Course Begin Date
      * @readonly
      * @impl retrieved from the Term related to the Course Offering 
      *       in the Course Registration
      */
-    public Date getTermStartDate();
+    public Date getCourseBeginDate();
 
     /**
-     * The end date of the term in which the student took the
-     * offering.
+     * The end date of the course.
      *
-     * @name Term End Date
+     * @name Course End Date
      * @readonly
      * @impl retrieved from the Term related to the Course Offering 
      *       in the Course Registration
      */
-    public Date getTermEndDate();
-    
-    /**
-     * The key of the term in which the student took the offering.
-     *
-     * @name Term Key
-     * @readonly
-     * @impl retrieved from the Course Offering in the Course Registration
-     */
-    public String getTermKey();
+    public Date getCourseEndDate();
 
     /**
      * The grade the student was assigned for the course.
@@ -139,13 +112,30 @@ public interface StudentCourseRecord {
     public String getAssignedGradeValue();
 
     /**
-     * The key for the grading scale for the assigned grade.
-     * (not sure what this is yet).
+     * The Id for the grading scale for the assigned grade.
      *
      * @name Assigned Grade Scale
      * @readonly
+     * @impl the Id of the Result Values Group
      */
-    public String getAssignedGradeScaleKey();
+    public String getAssignedGradeScaleId();
+
+    /**
+     * The grade the student was assigned for the course.
+     *
+     * @name Administrative Grade Value
+     * @readonly
+     */
+    public String getAdministrativeGradeValue();
+
+    /**
+     * The Id for the grading scale for the administrative grade.
+     *
+     * @name Administrative Grade Scale
+     * @readonly
+     * @impl the Id of the Result Values Group
+     */
+    public String getAdministrativeGradeScaleId();
 
     /**
      * The calculated grade the student earned for the course.
@@ -156,50 +146,54 @@ public interface StudentCourseRecord {
     public String getCalculatedGradeValue();
 
     /**
-     * The key for the grading scale for the calculated grade.
-     * (not sure what this is yet).
+     * The Id for the grading scale for the calculated grade.
      *
      * @name Calculated Grade Scale
      * @readonly
+     * @impl the Id of the Result Values Group
      */
-    public String getCalculatedGradeScaleKey();
+    public String getCalculatedGradeScaleId();
 
     /**
      * The number of credits the student attempted for this course.
      *
+     * @return a string representing a floating point decimal number
      * @name Credits Attempted
      * @required
      * @readonly
      */
-    public Float getCreditsAttempted();
+    public String getCreditsAttempted();
 
     /**
      * The number of credits the student earned for this course.
      *
+     * @return a string representing a floating point decimal number
      * @name Credits Earned
      * @readonly
      */
-    public Float getCreditsEarned();
+    public String getCreditsEarned();
 
     /**
-     * If this student record counts toward the students GPA.
+     * The number of credits to be applied for the GPA calculation.
+     * This is provides a weighting to this course for the GPA.
      *
-     * @name Does Count Toward GPA
+     * @return a string representing a floating point decimal number
+     * @name Credits For GPA
      */
-    public Boolean doesCountTowardGPA();
+    public String getCreditsForGPA();
 
     /**
      * If this student record counts toward the cumultive credits.
      *
-     * @name Does Count Toward Credits
+     * @name Counts Toward Credits
      */
-    public Boolean doesCountTowardCredits();
+    public Boolean countsTowardCredits();
 
     /**
      * If this course is a repeat of a previous offering. the student
      * took.
      *
-     * @name Is Repeat
+     * @name Is Repeated
      */
-    public Boolean isRepeat();
+    public Boolean isRepeated();
 }
