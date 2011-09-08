@@ -139,6 +139,16 @@
 				<value>FCLTY</value>
 			</list>
 		</property>
+		<property name="includedRouteStatuses">
+			<!-- Allow for cancelled, withdrawn, rejected, processed, and final -->
+			<list>
+				<value>X</value>
+				<value>C</value>
+				<value>D</value>
+				<value>P</value>
+				<value>F</value>
+			</list>
+		</property>
 		<!--<property name="orgService" ref="orgClient"/>-->
 	</bean>
 	<!-- Hierarchy Derived role -->
