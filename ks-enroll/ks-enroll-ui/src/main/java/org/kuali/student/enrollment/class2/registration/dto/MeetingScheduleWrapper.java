@@ -17,6 +17,8 @@ public class MeetingScheduleWrapper implements Serializable {
     private List<String> days;
     private String startTime;
     private String endTime;
+    private String regGroupId;
+    private String timeTypeName;
 
     public MeetingScheduleWrapper() {
         this.days = new ArrayList<String>();
@@ -96,8 +98,15 @@ public class MeetingScheduleWrapper implements Serializable {
         if (et.length() == 3) {
             et = "0" + et;
         }
-        return "{days:" + daysArray + ", startTime: '" + st + "', endTime: '" + et + "', name: '"
-                + courseOfferingCode + " " + courseTitle + " " + getDisplayableTime() + "' }";
+        if (regGroupId == null) {
+            regGroupId = "";
+        }
+        if (timeTypeName == null) {
+            timeTypeName = "";
+        }
+
+        return "{timeId:'" + regGroupId + "', timeType:'" + timeTypeName + "', days:" + daysArray + ", startTime: '" + st + "', endTime: '" + et
+                + "', name: '" + courseOfferingCode + " " + courseTitle + "', displayableTime:'"+getDisplayableTime()+"' }";
     }
 
     public String getDisplayableTime() {
@@ -149,11 +158,9 @@ public class MeetingScheduleWrapper implements Serializable {
         if (hour > 12) {
             hour = hour - 12;
             isPM = true;
-        }
-        else if(hour == 12){
+        } else if (hour == 12) {
             isPM = true;
-        }
-        else if (hour == 0) {
+        } else if (hour == 0) {
             hour = 12;
         }
 
@@ -172,5 +179,21 @@ public class MeetingScheduleWrapper implements Serializable {
         }
 
         return time;
+    }
+
+    public String getRegGroupId() {
+        return regGroupId;
+    }
+
+    public void setRegGroupId(String regGroupId) {
+        this.regGroupId = regGroupId;
+    }
+
+    public String getTimeTypeName() {
+        return timeTypeName;
+    }
+
+    public void setTimeTypeName(String timeTypeName) {
+        this.timeTypeName = timeTypeName;
     }
 }

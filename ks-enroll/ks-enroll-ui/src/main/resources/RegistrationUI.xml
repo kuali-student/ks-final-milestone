@@ -237,6 +237,11 @@
         <property name="layoutManager.subCollectionGroupFieldPrototype">
             <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
         </property>
+        <property name="items">
+            <list>
+                <bean parent="AttributeField" p:styleClasses="activityOfferingType" p:labelField.render="false" p:propertyName="activityOffering.typeKey"/>
+            </list>
+        </property>
         <property name="subCollections">
             <list>
                 <ref bean="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups_activityOfferings_schedules"/>

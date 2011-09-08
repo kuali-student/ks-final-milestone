@@ -24,11 +24,13 @@ import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapp
 import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RegistrationForm extends UifFormBase {
 
@@ -119,6 +121,9 @@ public class RegistrationForm extends UifFormBase {
                     MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
                     meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                     meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                    meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
+                    // TODO - convert type key to actual activity type
+                    meetingScheduleWrapper.setTimeTypeName(activityOfferingInfo.getTypeKey());
                     meetingScheduleWrappers.add(meetingScheduleWrapper);
                 }
             }
@@ -140,7 +145,12 @@ public class RegistrationForm extends UifFormBase {
             }
             // look at the activityOfferingInfos from the regGroup to get all the Schedule information into one single list
             for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
-                meetingScheduleWrappers.addAll(activityOfferingWrapper.getMeetingScheduleWrappers());
+                for(MeetingScheduleWrapper meetingScheduleWrapper: activityOfferingWrapper.getMeetingScheduleWrappers()){
+                    meetingScheduleWrapper.setRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
+                    meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getActivityOffering().getTypeKey());
+                    meetingScheduleWrappers.add(meetingScheduleWrapper);
+                }
+
             }
         }
         return meetingScheduleWrappers;

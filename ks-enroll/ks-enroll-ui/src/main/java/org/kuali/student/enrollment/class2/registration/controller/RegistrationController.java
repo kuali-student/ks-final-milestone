@@ -24,8 +24,6 @@ import org.kuali.rice.krad.uif.container.View;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
@@ -37,8 +35,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.*;
-import org.kuali.student.enrollment.courseregistration.infc.ActivityRegistration;
-import org.kuali.student.enrollment.courseregistration.infc.CourseRegistration;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
@@ -119,6 +115,7 @@ public class RegistrationController extends UifControllerBase {
         meetingScheduleInfo.setTimePeriods("MO,WE;0930,1130");
 
         ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+        activityOfferingInfo.setTypeKey("Lecture");
         activityOfferingInfo.setMeetingSchedules(Arrays.asList(meetingScheduleInfo));
 
         ActivityRegistrationInfo activityRegistrationInfo = new ActivityRegistrationInfo();
@@ -176,7 +173,7 @@ public class RegistrationController extends UifControllerBase {
         ContextInfo context = ContextInfo.newInstance();
 
 //        List<CourseOfferingWrapper> courseOfferingWrappers;
-
+        fakeDataNum = 0;
         try {
             List<String> courseOfferingIds = getCourseOfferingIds(registrationForm, context);
             registrationForm.setCourseOfferingWrappers(new ArrayList<CourseOfferingWrapper>(courseOfferingIds.size()));
@@ -221,25 +218,33 @@ public class RegistrationController extends UifControllerBase {
         return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
     }
 
+    private int fakeDataNum = 0;
+
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // TODO right now getOfferingsByIdList throws a not supported exception
 //        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
+        fakeDataNum = 0;
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for(String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
+            if(StringUtils.isBlank(activityOfferingInfo.getTypeKey())){
+                activityOfferingInfo.setTypeKey("Lecture");
+            }
             wrapper.setActivityOffering(activityOfferingInfo);
             wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
+            fakeDataNum++;
         }
         // TODO remove this hack once activity offering info objects are saving with reg groups properly
-        if (activityOfferingWrappers.isEmpty()) {
+        //if (activityOfferingWrappers.isEmpty()) {
             ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
+            activityOfferingInfo.setTypeKey("Lab");
             wrapper.setActivityOffering(activityOfferingInfo);
             wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
-        }
+        //}
         return activityOfferingWrappers;
     }
 
@@ -254,11 +259,26 @@ public class RegistrationController extends UifControllerBase {
         // TODO undo this hack once valid MeetingScheduleInfo objects exist in the system
         if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
             MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
-            meetingScheduleInfo.setTimePeriods("TU,TH;1130,1330");
+            if(fakeDataNum > 0){
+                meetingScheduleInfo.setTimePeriods("MO,WE,FR;1515,1630");
+            }
+            else{
+                meetingScheduleInfo.setTimePeriods("TU,TH;1130,1330");
+            }
             MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
             wrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
             wrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
             wrappers.add(wrapper);
+
+            //Hack for one more meeting time
+            if(fakeDataNum == 0){
+                MeetingScheduleInfo meetingScheduleInfo2 = new MeetingScheduleInfo();
+                meetingScheduleInfo2.setTimePeriods("TU,TH;1500,1600");
+                MeetingScheduleWrapper wrapper2 = new MeetingScheduleWrapper(meetingScheduleInfo2);
+                wrapper2.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                wrapper2.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+                wrappers.add(wrapper2);
+            }
         }
         return wrappers;
     }

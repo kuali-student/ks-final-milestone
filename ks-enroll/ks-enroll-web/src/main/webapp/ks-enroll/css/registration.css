@@ -79,5 +79,9 @@
 .displayableTime{
     font-size: 1.3em;
     font-weight: bold;
-    padding:  5px;
+    padding-left:  5px;
+}
+
+.timeType{
+    display: block;
 }
