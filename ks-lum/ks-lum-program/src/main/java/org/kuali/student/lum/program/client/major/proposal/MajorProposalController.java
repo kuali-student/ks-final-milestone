@@ -657,8 +657,12 @@ public class MajorProposalController extends MajorController implements Workflow
 
 			@Override
 			public void onSuccess(String proposalId) {
-				getViewContext().setId(proposalId);
-				MajorProposalController.super.loadModel(callback);
+				//Create a new view Context and navigate if coming from action list
+        		ViewContext viewContext = new ViewContext();
+                viewContext.setId(proposalId);
+                getViewContext().setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+                viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
+                Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
 			}
         });    	
     }
