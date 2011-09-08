@@ -493,12 +493,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	        Boolean enableEndTerm = Boolean.TRUE.equals(cluProposalModel.get(CreditCourseConstants.PILOT_COURSE)) 
 	        	|| DtoConstants.STATE_RETIRED.equalsIgnoreCase((String)cluProposalModel.get(CreditCourseConstants.STATE));
 			
-	        // The end term should always be editable on admin screens.
-            if (cfg instanceof CourseAdminConfigurer) {
-                BaseSection.progressiveRequireFields(enableEndTerm, endTerm);
-            } else {
-                BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
-            }
+            BaseSection.progressiveEnableAndRequireFields(enableEndTerm, endTerm);
 
 	        //Add a click handler to pilot checkbox to toggle enabling and requiredness of end term field
 			KSCheckBox pilotCheckbox = ((KSCheckBox)pilotCourse.getFieldWidget());
@@ -506,13 +501,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					//Disable/enable end term field based on new value of pilot checkbox
-				    // The end term should always be editable on admin screens.
-				    if (cfg instanceof CourseAdminConfigurer) {
-				        BaseSection.progressiveRequireFields(event.getValue(), endTerm);
-                    } else {
-                        BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
-                    }
-		            
+                    BaseSection.progressiveEnableAndRequireFields(event.getValue(), endTerm);
+	            
 			        //Clear out endTerm value if pilot course unchecked (as this field is not required when not pilot course)
 			        if (!event.getValue()){
 						((KSDropDown)((KSPicker)endTerm.getFieldWidget()).getInputWidget()).clear();				
