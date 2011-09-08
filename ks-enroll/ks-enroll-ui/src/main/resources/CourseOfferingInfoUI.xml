@@ -178,7 +178,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="items">
                         <list>
                             <bean parent="AttributeField" p:propertyName="personId" p:label="Instructor ID">
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.Person"/>
+                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="personId"/>
