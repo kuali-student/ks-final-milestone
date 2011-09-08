@@ -738,6 +738,9 @@ public class MajorProposalController extends MajorController implements Workflow
                     okCallback.exec(false);
                 } else {
                 	refreshModelAndView(result);
+                    if(workflowUtil != null){
+                        workflowUtil.refresh();
+                    }                	
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();

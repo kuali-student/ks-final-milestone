@@ -1502,6 +1502,7 @@ public class WorkflowUtilities{
 
     //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
 	public void refresh(){
+	    updateApproveFields();
 		updateWorkflow(dataModel);
 	}
 	
