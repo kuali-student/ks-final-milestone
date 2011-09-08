@@ -176,11 +176,12 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 			Map<String, Object> filterProperties) {	
 		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
+		String documentTypeName = (String)filterProperties.get(WORKFLOW_DOC_TYPE);
 		Metadata proposalMetadata;
 		if (workflowNode == null || workflowNode.isEmpty()){
-			proposalMetadata = metadataService.getMetadata(getProposalObjectType(), null, "SAVED", nextState);
+			proposalMetadata = metadataService.getMetadata(getProposalObjectType(), null, "SAVED", nextState, documentTypeName);
 		} else {
-			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalObjectType(), workflowNode);
+			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalObjectType(), workflowNode, documentTypeName);
 		}
 		
 		Map<String, Metadata> properties = metadata.getProperties();

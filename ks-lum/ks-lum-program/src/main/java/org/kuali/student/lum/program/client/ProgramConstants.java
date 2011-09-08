@@ -46,7 +46,13 @@ public class ProgramConstants {
     public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
     public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
     public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale";
-    public static final String PROPOSAL_PREV_START_TERM_PATH = "proposal/prevStartTerm";    
+    public static final String PROPOSAL_PREV_START_TERM_PATH = "proposal/prevStartTerm";  
+    
+    //Change Impact
+    public static final String PROPOSAL_RELATED_COURSE_CHANGES_PATH = "proposal/relatedCourseChanges";
+    public static final String PROPOSAL_IMPACTED_UNITS_PATH = "proposal/impactedUnits";
+    public static final String PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH = "proposal/impactedArticulationTransferPrograms";
+    public static final String PROPOSAL_STUDENT_TRANSITION_PLANS_PATH = "proposal/studentTransitionPlans";
     
     //Program Title
     public static final String LONG_TITLE = "longTitle";

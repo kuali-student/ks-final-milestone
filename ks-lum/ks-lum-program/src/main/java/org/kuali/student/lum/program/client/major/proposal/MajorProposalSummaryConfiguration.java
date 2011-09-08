@@ -50,8 +50,8 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
     	
         // Initialize tabs on left of screen
-        configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial());
-        configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial());
+        configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(controller));
+        configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));

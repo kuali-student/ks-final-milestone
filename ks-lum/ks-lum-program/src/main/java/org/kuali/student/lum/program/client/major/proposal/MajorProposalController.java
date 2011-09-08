@@ -501,10 +501,6 @@ public class MajorProposalController extends MajorController implements Workflow
         if (programModel.getRoot() != null) {
             ProgramStatus programStatus = ProgramStatus.of(programModel);
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
-            if (programStatus.getNextStatus() != null) {
-                idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
-            }
-            
             String workflowNode = programModel.get("proposal/workflowNode");
             if(workflowNode!=null){
             	idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);

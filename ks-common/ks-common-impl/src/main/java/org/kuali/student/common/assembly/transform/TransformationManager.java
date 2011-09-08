@@ -10,6 +10,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.StudentWorkflowConstants;
 
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);
@@ -137,12 +138,14 @@ public class TransformationManager {
 		String state = (String)filterProperties.get(DtoConstants.DTO_STATE);
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
 		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
+		//The docTypeName is actually set with ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, however it is not visible in this project.
+		String documentTypeName = (String)filterProperties.get(StudentWorkflowConstants.WORKFLOW_DOCUMENT_TYPE);
 
 		Metadata metadata;
 		if (workflowNode == null || workflowNode.isEmpty()){
-			metadata = metadataService.getMetadata(dtoName, null, state, nextState);
+			metadata = metadataService.getMetadata(dtoName, null, state, nextState, documentTypeName);
 		} else {
-			metadata = metadataService.getMetadataByWorkflowNode(dtoName, workflowNode);
+			metadata = metadataService.getMetadataByWorkflowNode(dtoName, workflowNode, documentTypeName);
 		}		 
 
 		applyMetadataFilters(dtoName, metadata, filterProperties);

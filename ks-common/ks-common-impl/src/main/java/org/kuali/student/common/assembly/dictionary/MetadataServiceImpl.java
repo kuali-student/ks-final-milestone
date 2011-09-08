@@ -105,22 +105,23 @@ public class MetadataServiceImpl {
      * @param type The type of the object (value can be null)
      * @param state The state for which to retrieve object constraints (value can be null)
      * @param nextState The state to to check requiredForNextState indicators (value can be null)
+     * @param documentTypeName The type of the document (value can be null)
      * @return
      */
-    public Metadata getMetadata(String objectKey, String type, String state, String nextState) {
+    public Metadata getMetadata(String objectKey, String type, String state, String nextState, String documentTypeName) {
     	nextState = (nextState == null || nextState.length() <=0 ? DtoState.getNextStateAsString(state):nextState);
     	state = state==null?null:state.toUpperCase();
     	nextState = nextState==null?null:nextState.toUpperCase();
-    	return getMetadataFromDictionaryService(objectKey, type, state, nextState, null);
+    	return getMetadataFromDictionaryService(objectKey, type, state, nextState, null, documentTypeName);
     }
 
     /**
-     * This method gets the metadata for the given object id key and workflowNode
+     * This method gets the metadata for the given object id key, workflowNode and documentTypeName
      * 
      * @return
      */
-    public Metadata getMetadataByWorkflowNode(String objectKey, String workflowNode) {
-    	return getMetadataFromDictionaryService(objectKey, null, DtoState.DRAFT.toString(), null, workflowNode);
+    public Metadata getMetadataByWorkflowNode(String objectKey, String workflowNode, String documentTypeName) {
+    	return getMetadataFromDictionaryService(objectKey, null, DtoState.DRAFT.toString(), null, workflowNode, documentTypeName);
     }
 
     /**
@@ -135,7 +136,7 @@ public class MetadataServiceImpl {
     	state = (state == null ? DtoState.DRAFT.toString():state);
     	String nextState = DtoState.getNextStateAsString(state);
     	
-    	return getMetadata(objectKey, type, state.toUpperCase(), nextState);
+    	return getMetadata(objectKey, type, state.toUpperCase(), nextState, null);
     }
 
 
@@ -167,14 +168,15 @@ public class MetadataServiceImpl {
      * @param objectKey
      * @param type
      * @param state
+     * @param documentTypeName
      * @return
      */
-    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState, String workflowNode) {
+    protected Metadata getMetadataFromDictionaryService(String objectKey, String type, String state, String nextState, String workflowNode, String documentTypeName) {
         Metadata metadata = new Metadata();
 
         ObjectStructureDefinition objectStructure = getObjectStructure(objectKey);
 
-        metadata.setProperties(getProperties(objectStructure, type, state, nextState, workflowNode, new RecursionCounter()));
+        metadata.setProperties(getProperties(objectStructure, type, state, nextState, workflowNode, new RecursionCounter(), documentTypeName));
 
         metadata.setWriteAccess(WriteAccess.ALWAYS);
         metadata.setDataType(DataType.DATA);
@@ -184,13 +186,14 @@ public class MetadataServiceImpl {
 
     /**
      * This method is used to convert a list of dictionary fields into metadata properties
-     * 
-     * @param fields
      * @param type
      * @param state
+     * @param documentTypeName TODO
+     * @param fields
+     * 
      * @return
      */
-    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, String workflowNode, RecursionCounter counter) {
+    private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, String workflowNode, RecursionCounter counter, String documentTypeName) {
         String objectName = objectStructure.getName();
         int hits = counter.increment(objectName);
 
@@ -207,7 +210,7 @@ public class MetadataServiceImpl {
                 // Set constraints, authz flags, default value
                 metadata.setWriteAccess(WriteAccess.ALWAYS);
                 metadata.setDataType(convertDictionaryDataType(fd.getDataType()));
-                metadata.setConstraints(getConstraints(fd, type, state, nextState, workflowNode));
+                metadata.setConstraints(getConstraints(fd, type, state, nextState, workflowNode, documentTypeName));
                 metadata.setCanEdit(!fd.isReadOnly());
                 metadata.setCanUnmask(!fd.isMask());
                 metadata.setCanView(!fd.isHide());
@@ -227,7 +230,7 @@ public class MetadataServiceImpl {
                 // Get properties for nested object structure
                 Map<String, Metadata> nestedProperties = null;
                 if (fd.getDataType() == org.kuali.student.common.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null) {
-                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, workflowNode, counter);
+                    nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, workflowNode, counter, documentTypeName);
                 }
 
                 // For repeating field, create a LIST with wildcard in metadata structure
@@ -293,7 +296,7 @@ public class MetadataServiceImpl {
         return dictionaryService.getObjectStructure(objectKey);
     }
 
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState, String workflowNode) {
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState, String workflowNode, String documentTypeName) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
 
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();

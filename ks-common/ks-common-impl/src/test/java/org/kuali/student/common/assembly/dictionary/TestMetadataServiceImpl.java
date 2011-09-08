@@ -69,19 +69,19 @@ public class TestMetadataServiceImpl {
 
 
 		//Check requiredness by workflow Node
-		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE A");
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE A", null);
 		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
 		assertFalse(gpaConstraints.isRequiredForNextState());
 		assertNull(gpaConstraints.getNextState());
 		assertEquals(0, gpaConstraints.getMinOccurs().intValue());
 		
-		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE B");
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE B", null);
 		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
 		assertTrue(gpaConstraints.isRequiredForNextState());
 		assertEquals("APPROVED", gpaConstraints.getNextState());
 		assertTrue(gpaConstraints.getMinOccurs()==0);
 
-		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE C");
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE C", null);
 		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
 		assertFalse(gpaConstraints.isRequiredForNextState());
 		assertNull(gpaConstraints.getNextState());
