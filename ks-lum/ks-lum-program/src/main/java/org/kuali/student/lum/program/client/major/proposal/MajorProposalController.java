@@ -31,6 +31,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -83,7 +85,7 @@ import com.google.gwt.user.client.Window;
 /**
  * @author Igor
  */
-public class MajorProposalController extends MajorController implements WorkflowEnhancedNavController {
+public class MajorProposalController extends MajorController implements WorkflowEnhancedNavController, RequiresAuthorization{
 
 	private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
@@ -948,4 +950,54 @@ public class MajorProposalController extends MajorController implements Workflow
 			}
 		});
 	}
+
+	@Override
+	public void checkAuthorization(final PermissionType permissionType,	final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
+		
+		Map<String,String> attributes = new HashMap<String,String>();
+		GWT.log("Attempting Auth Check.", null);
+		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
+			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
+				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
+			} else { 
+				//This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
+				//parent link from within specialization
+				attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
+	    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+			}
+		}
+		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+
+			@Override
+			public void handleFailure(Throwable caught) {
+				callbackLocatedOnBaseControllerClass.isNotAuthorized("Error checking authorization.");
+				GWT.log("Error checking proposal authorization.", caught);
+                Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				if (Boolean.TRUE.equals(result)) {
+					callbackLocatedOnBaseControllerClass.isAuthorized();
+				}
+				else {
+					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
+				}
+			}
+    	});
+	}
+
+
+	@Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
+
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		//Does nothing at the momement
+	}
+
 }
