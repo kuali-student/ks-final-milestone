@@ -60,7 +60,30 @@ public class MajorManager {
         definition.setMetadata (programModel.getDefinition ().getMetadata ("variations/*"));
         variationModel.setDefinition(definition);
         variationModel.setRoot(ProgramRegistry.getData());
-        variationViewController = new VariationViewController(variationModel, viewContext, eventBus, majorViewController);
+       
+        // Determine if we are coming from a link to a proposal
+        // If so, we need to instantiate the variation controller using an
+        // instance of the proposal controller, otherwise we should just
+        // use the major discipline controller
+        MajorController theController = null;
+        
+        // Look in model to see if we have passed a flag to say we are working with
+        // a proposal (passed from VariationsBinding.java, search for isProposal)
+        boolean comingFromProposal = variationModel != null && variationModel.get("isProposal") != null && majorProposalController!=null;
+           
+        if (comingFromProposal){
+ 	       // We are coming from a link to a proposal, so use the proposal controller
+            theController = majorProposalController;
+        }
+        else {
+        	// This is not a link to a proposal, so use the normal major discipline controller
+        	 theController = (MajorController)majorViewController;
+        } 
+        
+    	// Instantiate a controller used to work with the specialization, passing it
+    	// either the proposal controller or the major discipline controller
+        variationViewController = new VariationViewController(variationModel, viewContext, eventBus, theController);
+   
         return variationViewController;
     }
 
@@ -105,10 +128,28 @@ public class MajorManager {
         variationModel.setDefinition(definition);
         variationModel.setRoot(ProgramRegistry.getData());
         ProgramUtils.unregisterUnusedHandlers(eventBus);
-        MajorController theController = (MajorController)majorEditController;
-        if (variationModel != null && variationModel.get("isProposal") != null && majorProposalController!=null){
+ 
+        // Determine if we are coming from a link to a proposal
+        // If so, we need to instantiate the variation controller using an
+        // instance of the proposal controller, otherwise we should just
+        // use the major discipline controller
+        MajorController theController = null;
+        
+        // Look in model to see if we have passed a flag to say we are working with
+        // a proposal (passed from VariationsBinding.java, search for isProposal)
+        boolean comingFromProposal = variationModel != null && variationModel.get("isProposal") != null && majorProposalController!=null;
+           
+        if (comingFromProposal){
+ 	       // We are coming from a link to a proposal, so use the proposal controller
             theController = majorProposalController;
-        }    
+        }
+        else {
+        	// This is not a link to a proposal, so use the normal major discipline controller
+        	 theController = (MajorController)majorViewController;
+        } 
+    	
+    	// Instantiate a controller used to work with the specialization, passing it
+    	// either the proposal controller or the major discipline controller
         variationEditController = new VariationEditController(variationModel, viewContext, eventBus, theController);
         return variationEditController;
     }

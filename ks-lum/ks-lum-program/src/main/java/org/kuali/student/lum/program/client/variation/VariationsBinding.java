@@ -38,15 +38,40 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
     private boolean editable;
 
     private Configuration configuration;
+    
+    /**
+     * Passed into constructor to tell us this is the right hand column
+     * in the specializations section of the summary tab.  We will
+     * disable links in the right hand column using the variable.
+     */
+    private boolean isRightHandColumn = false;
 
+    /**
+     * 
+     * This is a special constructor that allows us to differentiate between
+     * the left and right side-by-side comparison columns.  We need to
+     * disable links in the right hand column.
+     * 
+     * @param url
+     * @param editable
+     * @param isRightHandColumn
+     */
+    public VariationsBinding(String url, boolean editable, boolean isRightHandColumn) {
+        this.url = url;
+        this.editable = editable;
+        this.isRightHandColumn = isRightHandColumn;
+    }
+    
     public VariationsBinding(String url, boolean editable) {
         this.url = url;
         this.editable = editable;
+        this.isRightHandColumn = false; // in case this class is reused.
     }
 
     public VariationsBinding(String url, boolean editable, Configuration configuration) {
         this(url, editable);
         this.configuration = configuration;
+        this.isRightHandColumn = false;  // in case this class is reused.
     }
 
     @Override
@@ -63,30 +88,38 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
             for (final Data.Property property : variationMap) {
                 final Data variationData = property.getValue();
                 final int currentRow = row;
-                       
-                Anchor anchor = new Anchor(getVariationName(variationData));
-                anchor.addClickHandler(new ClickHandler() {
-                    @Override
-                    public void onClick(ClickEvent event) {
-                        ProgramRegistry.setData(variationData);
-                        ProgramRegistry.setRow(currentRow);
-                        ProgramUtils.addCredentialProgramDataToVariation(variationData, model);
-                        String id = (String) model.get("id");
-                        ViewContext viewContext = new ViewContext();
-                        viewContext.setId(id);
-                        viewContext.setIdType(IdType.OBJECT_ID);
-                        if(model.get("proposal/id") != null){
-                            // It is a proposal
-                            variationData.set("isProposal", true);
+                // If this is the right hand column (the original)
+                // Disable links and use labels instead
+                if (isRightHandColumn == true){
+                    KSLabel label = new KSLabel(getVariationName(variationData));
+                    table.setWidget(row, 0, label );
+                }
+                else {
+                    // For left hand column show links
+                    Anchor anchor = new Anchor(getVariationName(variationData));
+                    anchor.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            ProgramRegistry.setData(variationData);
+                            ProgramRegistry.setRow(currentRow);
+                            ProgramUtils.addCredentialProgramDataToVariation(variationData, model);
+                            String id = (String) model.get("id");
+                            ViewContext viewContext = new ViewContext();
+                            viewContext.setId(id);
+                            viewContext.setIdType(IdType.OBJECT_ID);
+                            if(model.get("proposal/id") != null){
+                                // It is a proposal
+                                variationData.set("isProposal", true);
+                            }
+                            if(variationData.get("id")!=null){
+                            	viewContext.setAttribute(ProgramConstants.VARIATION_ID, variationData.get("id").toString());
+                            }
+                            HistoryManager.navigate(url, viewContext);
                         }
-                        if(variationData.get("id")!=null){
-                        	viewContext.setAttribute(ProgramConstants.VARIATION_ID, variationData.get("id").toString());
-                        }
-                        HistoryManager.navigate(url, viewContext);
-                    }
-                });
-
-                table.setWidget(row, 0, anchor);
+                    });
+                    
+                    table.setWidget(row, 0, anchor);
+                }
                 if (editable) {
                     KSButton removeButton = new KSButton(ProgramProperties.get().common_remove());
                     table.setWidget(row, 1, removeButton);                                             

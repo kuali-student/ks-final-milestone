@@ -117,6 +117,12 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
   			fd2.setFieldWidget(widget2);
   		}
   		if (binding != null) {
+  		    // Pass in a variable to distinguish that this is the right hand column of side-by-side
+  		    // so we can disable links in that column.  We created a new constructor to pass this
+  		    // variable
+  		    if (binding instanceof VariationsBinding){
+  		      binding = new VariationsBinding(AppLocations.Locations.VIEW_VARIATION.getLocation(), false, true); 
+  		    }
   			fd2.setWidgetBinding(binding);
   		}
   		fd2.setOptional(optional);
