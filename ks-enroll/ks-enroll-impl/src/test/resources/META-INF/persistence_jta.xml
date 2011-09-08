@@ -18,10 +18,12 @@
         <class>org.kuali.student.r2.core.class1.atp.model.AtpStateEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpTypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
 		<class>org.kuali.student.r2.common.model.StateEntity</class>

@@ -8,7 +8,7 @@ import org.kuali.student.r2.common.entity.TypeEntity;
 
 @Entity
 @Table(name = "KSEN_ATP_TYPE")
-public class AtpTypeEntity extends TypeEntity<AtpAttributeEntity>{
+public class AtpTypeEntity extends TypeEntity<AtpTypeAttributeEntity>{
 
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;

@@ -23,7 +23,7 @@ import org.kuali.student.r2.core.atp.infc.Milestone;
 
 @Entity
 @Table(name = "KSEN_MSTONE")
-public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
+public class MilestoneEntity extends MetaEntity implements AttributeOwner<MilestoneAttributeEntity> {
 
     @Column(name = "NAME")
     private String name;
@@ -55,7 +55,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     private boolean isDateRange;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-    private List<AtpAttributeEntity> attributes;
+    private List<MilestoneAttributeEntity> attributes;
 
     public MilestoneEntity() {
     }
@@ -77,10 +77,10 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
         
-        this.setAttributes(new ArrayList<AtpAttributeEntity>());
+        this.setAttributes(new ArrayList<MilestoneAttributeEntity>());
         if (null != milestone.getAttributes()) {
             for (Attribute att : milestone.getAttributes()) {
-                this.getAttributes().add(new AtpAttributeEntity(att));
+                this.getAttributes().add(new MilestoneAttributeEntity(att, this));
             }
         }
     }
@@ -150,13 +150,13 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
     }
 
     @Override
-    public void setAttributes(List<AtpAttributeEntity> attributes) {
+    public void setAttributes(List<MilestoneAttributeEntity> attributes) {
        this.attributes = attributes;
         
     }
 
     @Override
-    public List<AtpAttributeEntity> getAttributes() {
+    public List<MilestoneAttributeEntity> getAttributes() {
         return attributes;
     }
     
@@ -176,7 +176,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<AtpAtt
         
         if(getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
-            for (AtpAttributeEntity att : getAttributes()) {
+            for (MilestoneAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 atts.add(attInfo);
             }

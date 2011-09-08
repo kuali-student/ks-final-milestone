@@ -434,16 +434,8 @@
 --  Ref Constraints for Table KSEN_ATP_ATTR
 --------------------------------------------------------
 
-  ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "FK3DFA6EE13309051A" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_ATP_TYPE" ("TYPE_KEY") ENABLE
-/
- 
   ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "FK3DFA6EE162FD4240" FOREIGN KEY ("OWNER")
 	  REFERENCES "KSEN_ATP" ("ID") ENABLE
-/
- 
-  ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "FK3DFA6EE1BA0FC113" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_MSTONE" ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -498,5 +490,21 @@
  
   ALTER TABLE "KSEN_STATE_ATTR" ADD CONSTRAINT "FK8193D5EDD052F725" FOREIGN KEY ("OWNER")
 	  REFERENCES "KSEN_STATE_PROCESS" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_MSTONE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_MSTONE_ATTR" ADD CONSTRAINT "FK3DFA6EE1BA0FC113" FOREIGN KEY ("OWNER")
+	  REFERENCES "KSEN_MSTONE" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_ATPTYPE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPTYPE_ATTR" ADD CONSTRAINT "FK3DFA6EE13309051A" FOREIGN KEY ("OWNER")
+	  REFERENCES "KSEN_ATP_TYPE" ("TYPE_KEY") ENABLE
 /
 

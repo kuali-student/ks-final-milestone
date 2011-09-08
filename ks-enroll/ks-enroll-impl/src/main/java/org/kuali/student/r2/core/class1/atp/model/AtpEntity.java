@@ -1,25 +1,16 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_ATP")
@@ -30,7 +21,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT")
     private Date startDate;
@@ -38,48 +29,44 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT")
     private Date endDate;
-    
-    @ManyToOne(optional=false)
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ATP_TYPE_ID")
     private AtpTypeEntity atpType;
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "ATP_STATE_ID")
     private AtpStateEntity atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
-  
-    
-    public AtpEntity(){}
-    
-    public AtpEntity(Atp atp){
-        super(atp); 
-        try {
-	        this.setId(atp.getKey());
-	        this.setName(atp.getName());
-	        
-	        if (atp.getStartDate() != null) {
-	            this.setStartDate(atp.getStartDate());
-	        }
-	        if (atp.getEndDate() != null) {
-	            this.setEndDate(atp.getEndDate());
-	        }
-	        if(atp.getDescr() != null) {
-	            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
-	        }
-	        this.setAttributes(new ArrayList<AtpAttributeEntity>());
-	        if (null != atp.getAttributes()) {
-	            for (Attribute att : atp.getAttributes()) {
-	            	AtpAttributeEntity attEntity = new AtpAttributeEntity(att);
-	                this.getAttributes().add(attEntity);
-	            }
-	        }
-        } catch (Exception e){
-            e.printStackTrace();
+
+
+    public AtpEntity() {
+    }
+
+    public AtpEntity(Atp atp) {
+        super(atp);
+        this.setId(atp.getKey());
+        this.setName(atp.getName());
+
+        if (atp.getStartDate() != null) {
+            this.setStartDate(atp.getStartDate());
+        }
+        if (atp.getEndDate() != null) {
+            this.setEndDate(atp.getEndDate());
+        }
+        if (atp.getDescr() != null) {
+            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
+        }
+        this.setAttributes(new ArrayList<AtpAttributeEntity>());
+        if (null != atp.getAttributes()) {
+            for (Attribute att : atp.getAttributes()) {
+                this.getAttributes().add(new AtpAttributeEntity(att, this));
+            }
         }
     }
-    
+
     public String getName() {
         return name;
     }
@@ -95,7 +82,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     public void setDescr(AtpRichTextEntity descr) {
         this.descr = descr;
     }
-    
+
     public Date getStartDate() {
         return startDate;
     }
@@ -112,7 +99,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.endDate = endDate;
     }
 
-    
+
     public AtpTypeEntity getAtpType() {
         return atpType;
     }
@@ -131,8 +118,8 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     @Override
     public void setAttributes(List<AtpAttributeEntity> attributes) {
-       this.attributes = attributes;
-        
+        this.attributes = attributes;
+
     }
 
     @Override
@@ -146,12 +133,12 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);
-        if(atpType != null)
+        if (atpType != null)
             atp.setTypeKey(atpType.getId());
-        if(atpState != null)
+        if (atpState != null)
             atp.setStateKey(atpState.getId());
         atp.setMeta(super.toDTO());
-        if(descr != null)
+        if (descr != null)
             atp.setDescr(descr.toDto());
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
@@ -160,7 +147,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
             atts.add(attInfo);
         }
         atp.setAttributes(atts);
-        
+
         return atp;
     }
 }

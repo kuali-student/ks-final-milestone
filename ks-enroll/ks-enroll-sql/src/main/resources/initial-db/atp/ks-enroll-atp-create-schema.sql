@@ -118,25 +118,6 @@ CREATE TABLE KSEN_ATPMSTONE_RELTN
 /
 
 -----------------------------------------------------------------------------
--- KSEN_ATPMSTONE_RELTN_ATTR
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_ATPMSTONE_RELTN_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_ATPMSTONE_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_ATPMSTONE_RELTN_ATTR 
-   (	ID VARCHAR2(255 CHAR), 
-			OBJ_ID VARCHAR2(36 CHAR), 
-			ATTR_KEY VARCHAR2(255 CHAR), 
-			ATTR_VALUE VARCHAR2(2000 CHAR), 
-			OWNER VARCHAR2(255 CHAR)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_ATP_ATTR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -591,4 +572,43 @@ CREATE TABLE KSEN_TYPETYPE_RELTN
 			RT_DESCR_ID VARCHAR2(255)
    )
 /
+
+-----------------------------------------------------------------------------
+-- KSEN_MSTONE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_MSTONE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_MSTONE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_MSTONE_ATTR
+   (	ID VARCHAR2(255),
+			OBJ_ID VARCHAR2(36),
+			ATTR_KEY VARCHAR2(255),
+			ATTR_VALUE VARCHAR2(2000),
+			OWNER VARCHAR2(255)
+   )
+/
+
+-----------------------------------------------------------------------------
+-- KSEN_ATPTYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_ATPTYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_ATPTYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_ATPTYPE_ATTR
+   (	ID VARCHAR2(255),
+			OBJ_ID VARCHAR2(36),
+			ATTR_KEY VARCHAR2(255),
+			ATTR_VALUE VARCHAR2(2000),
+			OWNER VARCHAR2(255)
+   )
+/
+
 

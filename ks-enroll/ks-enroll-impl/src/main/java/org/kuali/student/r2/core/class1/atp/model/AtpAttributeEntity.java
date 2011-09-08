@@ -23,8 +23,9 @@ public class AtpAttributeEntity extends BaseAttributeEntity<AtpEntity> {
         super(key, value);
     }
 
-    public AtpAttributeEntity(Attribute att) {
+    public AtpAttributeEntity(Attribute att, AtpEntity owner) {
         super(att);
+        setOwner(owner);
     }
 
     @Override
