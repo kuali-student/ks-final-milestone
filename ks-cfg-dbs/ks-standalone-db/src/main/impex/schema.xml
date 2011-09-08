@@ -881,18 +881,22 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSEN_ATPTYPE_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ATP_TYPE" name="FK3DFA6EE13309051A">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_ATP_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_MSTONE" name="FK3DFA6EE1BA0FC113">
-            <reference foreign="ID" local="OWNER"/>
-        </foreign-key>
-        <foreign-key foreignTable="KSEN_ATP_TYPE" name="FK3DFA6EE13309051A">
-            <reference foreign="TYPE_KEY" local="OWNER"/>
-        </foreign-key>
         <foreign-key foreignTable="KSEN_ATP" name="FK3DFA6EE162FD4240">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
@@ -1383,6 +1387,16 @@
         </foreign-key>
         <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="FK996BC8066C2F628C">
             <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_MSTONE_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_MSTONE" name="FK3DFA6EE1BA0FC113">
+            <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
     <table name="KSEN_RESTRICTION">
