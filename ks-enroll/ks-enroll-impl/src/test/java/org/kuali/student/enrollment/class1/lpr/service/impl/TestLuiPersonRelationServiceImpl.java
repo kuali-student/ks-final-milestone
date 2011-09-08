@@ -21,10 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator;
-import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -47,6 +44,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @Author sambit
@@ -422,5 +420,92 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         }
         assertNotNull(lprTransactionInfo);
         assertTrue(lprTransactionInfo.getName().equals(updateName));
+    }
+
+    @Test
+    public void testCreateLprRosterEntry() throws DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException, AlreadyExistsException, DisabledIdentifierException {
+
+        LprRosterInfo lprRosterInfo = createLprRosterInfo();
+        String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
+
+        LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+        lprInfo.setLuiId(LUIID2);
+        lprInfo.setPersonId(PERSONID2);
+        lprInfo.setTypeKey("kuali.lpr.type.registrant");
+        lprInfo.setStateKey("kuali.lpr.state.registered");
+        lprInfo.setEffectiveDate(new Date());
+        lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
+        String lprId = null;
+        LuiPersonRelationInfo lpr2 = null;
+
+        try {
+            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+        }catch(Exception e){
+            fail(e.getMessage());
+        }
+        LprRosterEntryInfo info = new LprRosterEntryInfo();
+        info.setLprId(lprId);
+        info.setLprRosterId(lprRosterId);
+        info.setPosition("1");
+
+        Date effectiveDate = new Date();
+        Date expiryDate = DateUtils.addYears(new Date(), 20);
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expiryDate);
+
+        String lprEntryId = lprService.createLprRosterEntry(info,callContext);
+
+        List<LprRosterEntryInfo> entryInfoList = lprService.getEntriesForLprRoster(lprRosterId,callContext);
+
+        assertEquals(1,entryInfoList.size());
+        assertEquals(entryInfoList.get(0).getLprId(),lprId);
+        assertEquals(entryInfoList.get(0).getLprRosterId(),lprRosterId);
+        assertEquals(entryInfoList.get(0).getPosition(),"1");
+
+    }
+
+    @Test
+    public void testDeleteLprRosterEntry() throws DoesNotExistException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException, AlreadyExistsException, DisabledIdentifierException {
+
+        //Create LprRoster
+        LprRosterInfo lprRosterInfo = createLprRosterInfo();
+        String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
+
+        //Create LPR
+        LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
+        lprInfo.setLuiId(LUIID2);
+        lprInfo.setPersonId(PERSONID2);
+        lprInfo.setTypeKey("kuali.lpr.type.registrant");
+        lprInfo.setStateKey("kuali.lpr.state.registered");
+        lprInfo.setEffectiveDate(new Date());
+        lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
+        String lprId = null;
+
+        try {
+            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+        }catch(Exception e){
+            fail(e.getMessage());
+        }
+
+        //Create LPR Entry
+        LprRosterEntryInfo info = new LprRosterEntryInfo();
+        info.setLprId(lprId);
+        info.setLprRosterId(lprRosterId);
+        info.setPosition("1");
+
+        String lprEntryId = lprService.createLprRosterEntry(info,callContext);
+
+        StatusInfo status = lprService.deleteLprRosterEntry(lprEntryId,callContext);
+
+        assertEquals(status.getIsSuccess(),true);
+
+        //Make sure it's really deleted
+        List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(lprRosterId,callContext);
+        assertEquals(0,entries.size());
+
     }
 }

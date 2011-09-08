@@ -19,16 +19,8 @@ import javax.jws.WebService;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
-import org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.dao.*;
+import org.kuali.student.enrollment.class1.lpr.model.*;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
@@ -72,6 +64,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprDao lprDao;
     private LuiDao luiDao;
     private LprRosterDao lprRosterDao;
+    private LprRosterEntryDao lprRosterEntryDao;
     private LprTransactionDao lprTransDao;
     private StateDao stateDao;
     private LprTypeDao lprTypeDao;
@@ -104,6 +97,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
     }
+
+    public LprRosterEntryDao getLprRosterEntryDao() {
+        return lprRosterEntryDao;
+    }
+
+    public void setLprRosterEntryDao(LprRosterEntryDao lprRosterEntryDao) {
+        this.lprRosterEntryDao = lprRosterEntryDao;
+    }
+
 
     private LuiPersonRelationInfo getLprsByLuiPersonAndState(String personId, String luiId, String stateKey,
             ContextInfo context) {
@@ -540,6 +542,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo deleteLprRoster(String lprRosterId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -566,8 +569,18 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LprRosterEntryInfo> getEntriesForLprRoster(String lprRosterId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<LprRosterEntryEntity> entities = lprRosterEntryDao.getLprRosterEntriesForLprRoster(lprRosterId);
+
+        List<LprRosterEntryInfo> infos = new ArrayList();
+        if (entities != null){
+            for (LprRosterEntryEntity entry : entities){
+                infos.add(entry.toDto());
+            }
+        }
+
+        return infos;
+
     }
 
     @Override
@@ -614,18 +627,64 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public String createLprRosterEntry(LprRosterEntryInfo lprRosterEntryInfo, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        LprRosterEntryEntity rosterEntity = new LprRosterEntryEntity(lprRosterEntryInfo);
+        rosterEntity.setId(UUIDHelper.genStringUUID());
+        rosterEntity.setEffectiveDate(lprRosterEntryInfo.getEffectiveDate());
+        rosterEntity.setExpirationDate(lprRosterEntryInfo.getExpirationDate());
+        rosterEntity.setLprId(lprRosterEntryInfo.getLprId());
+        rosterEntity.setLprRosterId(lprRosterEntryInfo.getLprRosterId());
+
+        if (lprRosterEntryInfo.getStateKey() != null) {
+            rosterEntity.setLprEntryRelationState(stateDao.find(lprRosterEntryInfo.getStateKey()));
+        }
+        if (lprRosterEntryInfo.getTypeKey() != null) {
+            rosterEntity.setLprEntryRelationType(lprTypeDao.find(lprRosterEntryInfo.getTypeKey()));
+        }
+
+
+        if (rosterEntity.getAttributes() != null) {
+            for (LprRosterEntryAttributeEntity attribute : rosterEntity.getAttributes()) {
+                if (StringUtils.isEmpty(attribute.getId())) {
+                    attribute.setId(UUIDHelper.genStringUUID());
+                }
+            }
+        }
+
+        lprRosterEntryDao.persist(rosterEntity);
+
+        rosterEntity = lprRosterEntryDao.find(rosterEntity.getId());
+
+        return rosterEntity.getId();
+
     }
 
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo deleteLprRosterEntry(String lprRosterEntryId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        StatusInfo status = new StatusInfo();
+
+        LprRosterEntryEntity entity = lprRosterEntryDao.find(lprRosterEntryId);
+
+        if (entity != null) {
+            status.setSuccess(true);
+        } else {
+            status.setSuccess(false);
+        }
+
+        /**
+         * FIXME : Remove entries from KSEN_LPRROSTER_LUI_RELTN, attributes and
+         * desc
+         */
+
+        lprRosterEntryDao.remove(entity);
+        return status;
     }
 
     @Override
