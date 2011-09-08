@@ -3,20 +3,32 @@ package org.kuali.student.enrollment.class2.acal.service;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.document.MaintenanceDocument;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.KRADConstants;
+
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.Context;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
 
 public class TermWrapperMaintainableImpl extends MaintainableImpl {
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
+
+     public final static String TERM_KEY = "key";
 	
     public final static String TERM_KEY_PREFIX = "kuali.term.";
     //Type keys for term are "kuali.atp.type.Fall", "kuali.atp.type.Winter", "kuali.atp.type.Spring", or "kuali.atp.type.Summer".
@@ -94,7 +106,7 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         		academicCalendarService.updateKeyDate(gradesDueDateKey, gradesDueDate, context);        		
         	}
         }catch (AlreadyExistsException aee){
-            
+
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -112,12 +124,78 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         }       
         
     }
-    
-    protected AcademicCalendarService getAcademicCalendarService() {
-        if(academicCalendarService == null) {
-       	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
+
+    @Override
+    public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
+
+       Object dataObject = null;
+       try {
+           // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
+           TermWrapper termWrapper = new TermWrapper();
+           ContextInfo context = ContextInfo.newInstance();
+           String termKey =  dataObjectKeys.get(TERM_KEY);
+
+           try {
+                TermInfo termInfo = getAcademicCalendarService().getTerm(termKey, context);
+                // getLookupService().findObjectBySearch(((TermWrapper) getDataObject()).getTermInfo().getClass(), dataObjectKeys);
+
+                if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
+                    // If we don't clear the primary key and set the fieldsClearedOnCopy flag then the
+                    // MaintenanceDocumentServiceImpl.processMaintenanceObjectForCopy() will try to locate the primary keys in
+                    // an attempt to clear them which again would cause an exception due to the wrapper class.
+                    termInfo.setKey(null);
+                    document.setFieldsClearedOnCopy(true);
+                }
+                termWrapper.setTermInfo(termInfo);
+
+                List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, ContextInfo.newInstance());
+
+                for (KeyDateInfo keyDateInfo : keyDateInfoList){
+    				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+    					termWrapper.setClassesMeetDates(keyDateInfo);
+    				}
+    				else if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+    					termWrapper.setRegistrationPeriod(keyDateInfo);
+    				}
+    				else if(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+    					termWrapper.setDropPeriodEndsDate(keyDateInfo);
+    				}
+    				else if(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+    					termWrapper.setFinalExaminationsDates(keyDateInfo);
+     				}
+    				else if(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+    					termWrapper.setGradesDueDate(keyDateInfo);
+    				}
+                }
+    	   }catch (DoesNotExistException dnee){
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get DoesNotExistException:  "+dnee.toString());
+           }catch (InvalidParameterException ipe){
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get InvalidParameterException:  "+ipe.toString());
+           }catch (MissingParameterException mpe){
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get MissingParameterException:  "+mpe.toString());
+           }catch (OperationFailedException ofe){
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get OperationFailedException:  "+ofe.toString());
+           }catch (PermissionDeniedException pde){
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get PermissionDeniedException:  "+pde.toString());
+           }
+           dataObject = termWrapper;
+
+       } catch (ClassNotPersistenceCapableException ex) {
+           if (!document.getOldMaintainableObject().isExternalBusinessObject()) {
+               throw new RuntimeException("Data Object Class: " + getDataObjectClass() +
+                       " is not persistable and is not externalizable - configuration error");
+           }
+           // otherwise, let fall through
        }
 
+       return dataObject;
+
+    }
+    
+    protected AcademicCalendarService getAcademicCalendarService() {
+       if(academicCalendarService == null) {
+       	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
+       }
        return academicCalendarService;
    }
     

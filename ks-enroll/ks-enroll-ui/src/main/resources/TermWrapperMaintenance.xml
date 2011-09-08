@@ -22,7 +22,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
   <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
-    <!-- <property name="titleAttribute" value="termInfo.key"/> -->
+    <property name="titleAttribute" value="key"/>
+    <property name="attributes">
+        <list>
+            <ref bean="TermWrapper.key"/>
+        </list>
+    </property>
     <property name="complexAttributes">
       <list>
         <ref bean="TermWrapper.termInfo"/>
@@ -36,12 +41,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="objectLabel" value="Term with Key Dates"/>
     <property name="primaryKeys">
       <list>
-        <value>termInfo.key</value>
+        <value>key</value>
       </list>
     </property>
   </bean>
 
   <!-- Attribute Definitions -->
+  <bean id="TermWrapper.key" parent="BaseKuali.key">
+        <property name="name" value="key"/>
+        <property name="label" value="Term Key" />
+        <property name="required" value="false"/>
+        <property name="unique" value="true"/>
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
+    	<property name="controlField">
+      		<bean parent="TextControl" p:size="60"/>
+    	</property>
+    	<property name="control">
+      		<bean parent="TextControlDefinition" p:size="60"/>
+	    </property>
+  </bean>
+
   <bean id="TermWrapper.termInfo" parent="ComplexAttributeDefinition">
   	<property name="name" value="termInfo"/>
   	<property name="dataObjectEntry" ref="TermInfoUI"/>  	
@@ -74,19 +96,50 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperLookupableImpl"></property>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="termInfo.typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="termInfo.key" />
+        <bean parent="AttributeField" p:propertyName="key" />
+		<!-- <bean parent="AttributeField" p:propertyName="termInfo.key" />    -->
         <bean parent="AttributeField" p:propertyName="termInfo.typeKey" /> 		
         <bean parent="AttributeField" p:propertyName="termInfo.startDate" />
-        <bean parent="AttributeField" p:propertyName="termInfo.endDate" />       
+        <bean parent="AttributeField" p:propertyName="termInfo.endDate" />
+        <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate">
+            <property name="label" value="Classes Meet Start Date" />
+        </bean>
+        <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate">
+            <property name="label" value="Classes Meet End Date" />
+        </bean>
       </list>
     </property>
   </bean>
+
+
+  <!-- LookupView   -->
+  <bean id="TermWrapper-LookupView2" parent="KSLookupView">
+    <property name="title" value="Term Wrapp/Info Lookup (by Key)" />
+    <property name="viewName" value="TermInfo-LookupView2"/>
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+    <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermLookupableImpl"></property>
+    <property name="criteriaFields">
+      <list>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="typeKey"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="AttributeField" p:propertyName="key" />
+        <bean parent="AttributeField" p:propertyName="typeKey" />
+        <bean parent="AttributeField" p:propertyName="startDate" />
+        <bean parent="AttributeField" p:propertyName="endDate" />
+      </list>
+    </property>
+  </bean>
+
 
   <!-- InquiryView -->
   <bean id="TermWrapper-InquiryView" parent="KSInquiryView">

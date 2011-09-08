@@ -17,12 +17,9 @@ import java.util.Map;
 /**
  * Created by IntelliJ IDEA.
  * User: huangb
- * Date: 9/2/11
- * Time: 4:24 PM
- * To change this template use File | Settings | File Templates.
  */
 public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
-     public final static String TERM_KEY = "termInfo.key";
+     public final static String TERM_WRAPPER_KEY = "key";
 	 private transient AcademicCalendarService academicCalendarService;
 
     @Override
@@ -30,7 +27,7 @@ public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
     	TermInfo termInfo = null;
         TermWrapper termWrapper = new TermWrapper();
 
-    	String termKey = parameters.get(TERM_KEY);
+    	String termKey = parameters.get(TERM_WRAPPER_KEY);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
     		termInfo = getAcademicCalendarService().getTerm(termKey, context);
@@ -70,10 +67,9 @@ public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {
-        if(academicCalendarService == null) {
+       if(academicCalendarService == null) {
        	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
        }
-
        return academicCalendarService;
    }
 }
