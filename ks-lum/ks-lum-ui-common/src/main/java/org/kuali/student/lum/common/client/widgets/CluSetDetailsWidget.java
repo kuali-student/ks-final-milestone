@@ -7,15 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.ui.*;
-
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
@@ -26,6 +24,13 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
 
@@ -266,7 +271,7 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                     url += "&docId=" + clu.getVerIndependentId();
                 }
                 String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
-                Window.open(url, HTMLPanel.createUniqueId(), features);
+                Window.open(url, HTMLPanel.createUniqueId().replace("-", "_"), features);
             }
         });
         columnIndex++;
