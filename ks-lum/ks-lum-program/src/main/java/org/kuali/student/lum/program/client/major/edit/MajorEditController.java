@@ -554,6 +554,10 @@ public class MajorEditController extends MajorController {
                         	existingVariationIds.add(existingId);
                         }
                     }
+                    // TODO: Error message are being sent back from the server but we 
+                    // do not have time to implement code to display them (we wanted
+                    // to implement a lightbox for this).  
+                    KSNotifier.add(new KSNotification("Unable to save, please check fields for errors or missing information on this and other tabs", false, true, 5000));
                     
                     okCallback.exec(false);
                 } else {
