@@ -113,6 +113,7 @@ public class TestMetadataServiceDictionary {
 		for (String className : startingClasses) {
 			String outFile = "target/metadata-for-" + className + ".txt";
 			File file = new File(outFile);
+			file.getParentFile().mkdirs();
 			OutputStream outputStream = null;
 			try {
 				outputStream = new FileOutputStream(file, false);
@@ -166,8 +167,8 @@ public class TestMetadataServiceDictionary {
 			//error: org.kuali.student.lum.program.dto.ProgramRequirementInfo.learningObjectives.*.loDisplayInfoList.*.loDisplayInfoList.*.loDisplayInfoList.* is of type DATA but it has no properties
 
 			
-			// 29 errors found when validating metadata
-			if (errors.size() != 29) {
+			// 33 errors found when validating metadata
+			if (errors.size() != 33) {
 				fail(errors.size() + " errors found when validating metadata");
 			}
 		}
