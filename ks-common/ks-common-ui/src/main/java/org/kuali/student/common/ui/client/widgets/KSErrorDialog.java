@@ -20,13 +20,12 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.logging.Logger;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -52,7 +51,7 @@ public class KSErrorDialog {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
                 GWT.log(e.getMessage(), e);
-                Window.alert("Uncaught exception was thrown:"+getStackTrace(e)+"\nMessage:"+e.getMessage());
+                //Window.alert("Uncaught exception was thrown:"+getStackTrace(e)+"\nMessage:"+e.getMessage());
             	KSErrorDialog.show(e);
             }
         });
