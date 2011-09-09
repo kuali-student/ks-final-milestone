@@ -967,7 +967,7 @@ public class MajorProposalController extends MajorController implements Workflow
 			attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
     		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
 		} else if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
-			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID ){
+			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.DOCUMENT_ID){
 				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 			}
 		}
