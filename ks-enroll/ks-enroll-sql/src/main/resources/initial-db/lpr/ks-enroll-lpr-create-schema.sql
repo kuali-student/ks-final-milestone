@@ -149,17 +149,16 @@ create table KSEN_LPR_TRANS
    (
 		ID varchar2(255),
 		CREATEID VARCHAR2(255),
-		CREATETIME timestamp,
+		CREATETIME timestamp(6),
 		UPDATEID VARCHAR2(255),
-		UPDATETIME timestamp,
+		UPDATETIME timestamp(6),
 		OBJ_ID varchar2(36),
-		VER_NBR number,
+		VER_NBR number(19,0),
 		NAME VARCHAR2(255),
 		RT_DESCR_ID VARCHAR2(255),
 		REQ_PERSON_ID  VARCHAR2(255),
 		STATE_ID varchar2(255),
-		LPR_TYPE_ID varchar2(255),
-	
+		LPR_TYPE_ID varchar2(255)
    )
 /
 
@@ -178,11 +177,11 @@ create table KSEN_LPR_TRANS_ITEMS
    (
 		ID varchar2(255),
 		CREATEID VARCHAR2(255),
-		CREATETIME timestamp,
+		CREATETIME timestamp(6),
 		UPDATEID VARCHAR2(255),
-		UPDATETIME timestamp,
+		UPDATETIME timestamp(6),
 		OBJ_ID varchar2(36),
-		VER_NBR number,
+		VER_NBR number(19,0),
 		NAME VARCHAR2(255),
 		RT_DESCR_ID VARCHAR2(255),
 		PERSON_ID  VARCHAR2(255),
@@ -190,8 +189,7 @@ create table KSEN_LPR_TRANS_ITEMS
 		EXIST_LUI_ID  VARCHAR2(255),
 		LPR_TRANS_ID  VARCHAR2(255),
 		STATE_ID varchar2(255),
-		TYPE_ID varchar2(255),
-	
+		TYPE_ID varchar2(255)
    )
 /
    
