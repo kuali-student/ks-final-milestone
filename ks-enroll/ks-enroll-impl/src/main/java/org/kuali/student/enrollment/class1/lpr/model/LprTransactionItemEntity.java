@@ -34,13 +34,17 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @Column(name = "EXIST_LUI_ID")
     private String existingLuiId;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RT_DESCR_ID")
+    private LprRichTextEntity descr;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "TYPE_ID")
-    private LuiPersonRelationTypeEntity lprTransactionType;
+    private LuiPersonRelationTypeEntity lprTransactionItemType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
-    private StateEntity lprTransactionState;
+    private StateEntity lprTransactionItemState;
 
     @CollectionOfElements
     private Set<String> resutOptionIds = new HashSet<String>();
@@ -77,6 +81,14 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         return new LprTransactionItemInfo();
     }
 
+    public LprRichTextEntity getDescr() {
+        return descr;
+    }
+
+    public void setDescr(LprRichTextEntity descr) {
+        this.descr = descr;
+    }
+
     public String getPersonId() {
         return personId;
     }
@@ -101,20 +113,20 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.existingLuiId = existingLuiId;
     }
 
-    public LuiPersonRelationTypeEntity getLprTransactionType() {
-        return lprTransactionType;
+    public LuiPersonRelationTypeEntity getLprTransactionItemType() {
+        return lprTransactionItemType;
     }
 
-    public void setLprTransactionType(LuiPersonRelationTypeEntity lprTransactionType) {
-        this.lprTransactionType = lprTransactionType;
+    public void setLprTransactionItemType(LuiPersonRelationTypeEntity lprTransactionType) {
+        this.lprTransactionItemType = lprTransactionType;
     }
 
-    public StateEntity getLprTransactionState() {
-        return lprTransactionState;
+    public StateEntity getLprTransactionItemState() {
+        return lprTransactionItemState;
     }
 
-    public void setLprTransactionState(StateEntity lprTransactionState) {
-        this.lprTransactionState = lprTransactionState;
+    public void setLprTransactionItemState(StateEntity lprTransactionState) {
+        this.lprTransactionItemState = lprTransactionState;
     }
 
     public Set<String> getResutOptionIds() {

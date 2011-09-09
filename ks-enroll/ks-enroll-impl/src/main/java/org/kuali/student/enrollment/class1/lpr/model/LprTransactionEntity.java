@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -52,9 +51,6 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         super(lprTransaction);
         this.requestingPersonId = lprTransaction.getRequestingPersonId();
         this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
-        for (LPRTransactionItem lprTransItem : lprTransaction.getLprTransactionItems()) {
-            this.lprTransactionItems.add(new LprTransactionItemEntity(lprTransItem));
-        }
 
     }
 
@@ -70,14 +66,14 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         lpr.setMeta(super.toDTO());
         if (descr != null)
             lpr.setDescr(descr.toDto());
-
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
-        for (LprTransAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+        if (getAttributes() != null) {
+            List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+            for (LprTransAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                atts.add(attInfo);
+            }
+            lpr.setAttributes(atts);
         }
-        lpr.setAttributes(atts);
-
         return lpr;
 
     }

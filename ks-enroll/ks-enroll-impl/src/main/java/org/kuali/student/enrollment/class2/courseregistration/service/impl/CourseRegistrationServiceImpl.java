@@ -18,6 +18,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -478,6 +479,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multpleItemsTransaction.getId(),
                 context);
 
+        // TODO error check
+        lprService.createLprRosterEntry(new LprRosterEntryInfo(), context);
         return regResponseAssembler.assemble(submittedLprTransaction, context);
 
     }

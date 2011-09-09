@@ -83,6 +83,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private StateService stateService;
     private LprRosterEntryDao lprRosterEntryDao;
 
+    public void setLprTransItemDao(LprTransactionItemDao lprTransItemDao) {
+        this.lprTransItemDao = lprTransItemDao;
+    }
+
+    public void setStateDao(StateDao stateDao) {
+        this.stateDao = stateDao;
+    }
+
     public LprTransactionDao getLprTransDao() {
         return lprTransDao;
     }
@@ -733,14 +741,37 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             lprTransactionEntity.setDescr(new LprRichTextEntity(lprTransactionInfo.getDescr()));
         }
 
+        List<LprTransactionItemEntity> lprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+
+        for (LprTransactionItemInfo lprTransItemInfo : lprTransactionInfo.getLprTransactionItems()) {
+
+            LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransItemInfo);
+            lprTransItemEntity.setId(UUIDHelper.genStringUUID());
+            if (null != lprTransItemInfo.getStateKey()) {
+                lprTransItemEntity.setLprTransactionItemState(stateDao.find(lprTransItemInfo.getStateKey()));
+            }
+
+            if (null != lprTransItemInfo.getTypeKey()) {
+                lprTransItemEntity.setLprTransactionItemType(lprTypeDao.find(lprTransItemInfo.getTypeKey()));
+            }
+            if (null != lprTransItemInfo.getDescr()) {
+                lprTransItemEntity.setDescr(new LprRichTextEntity(lprTransItemInfo.getDescr()));
+            }
+            lprTransItemDao.persist(lprTransItemEntity);
+            lprTransItemEntities.add(lprTransItemEntity);
+
+        }
+        lprTransactionEntity.setLprTransactionItems(lprTransItemEntities);
         LprTransactionEntity existing = lprTransDao.find(lprTransactionEntity.getId());
 
         if (existing != null) {
             throw new AlreadyExistsException();
         }
+
         lprTransDao.persist(lprTransactionEntity);
 
         LprTransactionEntity retrived = lprTransDao.find(lprTransactionEntity.getId());
+
         LprTransactionInfo info = null;
         if (retrived != null) {
             info = retrived.toDto();
