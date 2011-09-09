@@ -1098,6 +1098,16 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String status_draft();
 
   /**
+   * Translated "Not Approved"
+   * 
+   * @return translated "Draft"
+   */
+  @DefaultMessage("NotApproved")
+  @Key("status.notapproved")
+  String status_notapproved();
+
+  
+  /**
    * Translated "Superseded".
    * 
    * @return translated "Superseded"
