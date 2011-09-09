@@ -956,14 +956,14 @@ public class MajorProposalController extends MajorController implements Workflow
 		
 		Map<String,String> attributes = new HashMap<String,String>();
 		GWT.log("Attempting Auth Check.", null);
-		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
-			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID){
+		if (programModel != null && programModel.getRoot() != null) {
+			//This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
+			//parent link from within specialization
+			attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
+    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+		} else if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
+			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID ){
 				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
-			} else { 
-				//This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
-				//parent link from within specialization
-				attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
-	    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
 			}
 		}
 		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
