@@ -1062,7 +1062,7 @@
         <column name="COMMITMENTPERCENT" type="FLOAT"/>
         <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
         <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_STATE" name="FK1BE1597B61E975F6">
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE1597B61E975F6">
             <reference foreign="ID" local="RELATION_STATE_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSEN_LPR_TYPE" name="FK1BE1597B1D2EFA44">
@@ -1136,19 +1136,6 @@
         <foreign-key foreignTable="KSEN_LPR_ROSTER" name="KSEN_LPR_ROSTER_ENTRY_FK1">
             <reference foreign="ID" local="LPRROSTER_ID"/>
         </foreign-key>
-    </table>
-    <table name="KSEN_LPR_STATE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="DESCR" size="255" type="VARCHAR"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
