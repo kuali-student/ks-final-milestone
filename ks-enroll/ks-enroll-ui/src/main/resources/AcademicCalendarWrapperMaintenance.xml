@@ -22,7 +22,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarWrapper" parent="AcademicCalendarWrapper-parentBean"/>
   <bean id="AcademicCalendarWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
-    <!-- <property name="titleAttribute" value="termInfo.key"/> -->
+    <property name="titleAttribute" value="key"/>
+    <property name="attributes">
+        <list>
+            <ref bean="AcademicCalendarWrapper.key"/>
+        </list>
+    </property>
     <property name="complexAttributes">
       <list>
         <ref bean="AcademicCalendarWrapper.academicCalendarInfo"/>
@@ -36,9 +41,27 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="objectLabel" value="Academic Calendar with Terms"/>
     <property name="primaryKeys">
       <list>
-        <value>academicCalendarInfo.key</value>
+        <value>key</value>
       </list>
     </property>
+  </bean>
+
+  <!-- Attribute Definitions -->
+  <bean id="AcademicCalendarWrapper.key" parent="BaseKuali.key">
+          <property name="name" value="key"/>
+          <property name="label" value="Academic Calendar Key" />
+          <property name="required" value="false"/>
+          <property name="unique" value="true"/>
+          <property name="validationPattern" >
+                <bean parent="AnyCharacterValidationPattern"
+                    p:allowWhitespace="false" />
+          </property>
+          <property name="controlField">
+                <bean parent="TextControl" p:size="60"/>
+          </property>
+          <property name="control">
+                <bean parent="TextControlDefinition" p:size="60"/>
+          </property>
   </bean>
 
   <bean id="AcademicCalendarWrapper.academicCalendarInfo" parent="ComplexAttributeDefinition">
@@ -54,13 +77,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.key" p:label="Academic Calendar Key"/>
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
         <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="academicCalendarInfo.key" />
+		<bean parent="AttributeField" p:propertyName="key" />
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate" />
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate" />
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />        

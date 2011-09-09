@@ -23,7 +23,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
-	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
+//	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
+     public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "key";
 	 private transient AcademicCalendarService academicCalendarService;
 	 
 	@Override
@@ -33,7 +34,7 @@ public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends Inquira
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
     	try{
     		//need to retrieve AcademicCalendarInfo, all TermInfo and all KeyDateInfo to form the AcademicCalendarWrapper.
-    		String academicCalendarKey = parameters.get(ACADEMIC_CALENDAR_KEY);
+    		String academicCalendarKey = parameters.get(ACADEMIC_CALENDAR_WRAPPER_KEY);
     		if(academicCalendarKey == null){
     			System.out.println(">>>academicCalendarKey is null");
     			return null;
@@ -88,10 +89,9 @@ public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends Inquira
 	}
 	
     protected AcademicCalendarService getAcademicCalendarService() {
-        if(academicCalendarService == null) {
+       if(academicCalendarService == null) {
        	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));
        }
-
        return academicCalendarService;
    }
 
