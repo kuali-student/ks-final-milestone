@@ -3,10 +3,8 @@ package org.kuali.student.lum.program.client.major.view;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -19,7 +17,6 @@ import org.kuali.student.lum.common.client.configuration.AbstractSectionConfigur
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
-import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
@@ -32,16 +29,26 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
 
     private Controller controller;
 
+	public static ProposalInformationViewConfiguration create() {
+        return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW,
+                ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+	}
+
     public static ProposalInformationViewConfiguration createSpecial(Controller controller) {
         return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW,
                 ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID,
                 new MajorEditableHeader(ProgramProperties.get().program_menu_sections_proposalInformation(),
                         ProgramSections.PROGRAM_PROPOSAL_EDIT)), controller);
     }
+    
 
     private ProposalInformationViewConfiguration(SectionView sectionView, Controller controller) {
         rootSection = sectionView;
         this.controller = controller;
+    }
+
+    private ProposalInformationViewConfiguration(SectionView sectionView) {
+        rootSection = sectionView;
     }
 
     @Override
@@ -118,4 +125,5 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
                 ProgramProperties.get().proposalInformation_cluProposalRationale()));
         return section;
     }
+
 }

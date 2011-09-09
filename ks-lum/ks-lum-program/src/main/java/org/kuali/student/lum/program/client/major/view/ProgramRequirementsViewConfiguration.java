@@ -2,29 +2,19 @@ package org.kuali.student.lum.program.client.major.view;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
-import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
@@ -38,7 +28,6 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsView
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class ProgramRequirementsViewConfiguration extends AbstractControllerConfiguration {
 
@@ -59,9 +48,13 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
                                     (special ? new MajorEditableHeader(ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null), reloadRequirements);
     }
 
-    public ProgramRequirementsViewConfiguration(Controller controller) {
+    public ProgramRequirementsViewConfiguration(Controller controller, boolean special) {
         String title = ProgramProperties.get().program_menu_sections_requirements();
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.PROGRAM_REQUIREMENTS_EDIT));
+        if (special){
+        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.PROGRAM_REQUIREMENTS_EDIT));
+        } else {
+        	rootSection = new VerticalSectionView(ProgramSections.PROGRAM_REQUIREMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);        	
+        }
         this.controller = controller;
     }
 

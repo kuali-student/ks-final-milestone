@@ -518,6 +518,11 @@ public class MajorProposalController extends MajorController implements Workflow
                 comparisonModel.setDefinition(def);
                 lastLoadedStatus = ProgramStatus.of(programModel);
                 afterMetadataLoaded(onReadyCallback);
+                if (result.isCanEdit()){
+                    sideBar.setState(ProgramSideBar.State.EDIT);
+                }else {
+                	sideBar.setState(ProgramSideBar.State.VIEW);
+                }
             }
 
             @Override

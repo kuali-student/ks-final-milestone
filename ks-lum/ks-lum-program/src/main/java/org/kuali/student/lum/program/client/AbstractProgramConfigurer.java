@@ -35,7 +35,7 @@ public abstract class AbstractProgramConfigurer extends Configurer {
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         programController.addMenu(programSectionLabel);
-        ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
+        ArrayList<Configuration> configurations = getProgramSectionConfigManager().getConfigurations();
         for (Configuration configuration : configurations) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(programController);

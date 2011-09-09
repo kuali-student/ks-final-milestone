@@ -48,8 +48,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MajorProposalSummaryConfiguration extends AbstractControllerConfiguration {
 
-    public MajorProposalSummaryConfiguration() {
+	boolean showEditLinks = false;
+	
+	public MajorProposalSummaryConfiguration(boolean showEditLinks) {
     	super();
+        this.showEditLinks = showEditLinks;
     }
 
     /**
@@ -116,16 +119,12 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         ConfigurationManager configurationManager = new ConfigurationManager(configurer);
     	
         // Initialize tabs on left of screen
-        configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller));
-        configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(controller));
-
+        if (showEditLinks){
+        	configureSectionsWithEditLinks(configurationManager);
+        } else {
+        	configureSectionsWithoutEditLinks(configurationManager);
+        }
+        
         // Add the work flow utilities to the screen light box to the screen
         // Instance of check ensures we only do this for majors
         if (controller instanceof MajorProposalController){
@@ -180,6 +179,29 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
         }    
      }
     
+    protected void configureSectionsWithEditLinks(ConfigurationManager configurationManager){
+	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller, true));
+	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(controller));
+	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(controller));
+    }
+    
+    protected void configureSectionsWithoutEditLinks(ConfigurationManager configurationManager){
+	    configurationManager.registerConfiguration(ProposalInformationViewConfiguration.create());
+	    configurationManager.registerConfiguration(ProposalChangeImpactViewConfiguration.create());
+	    configurationManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create());
+	    configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
+	    configurationManager.registerConfiguration(SpecializationsViewConfiguration.create());
+	    configurationManager.registerConfiguration(CatalogInformationViewConfiguration.create());
+	    configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller, false));
+	    configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
+	    configurationManager.registerConfiguration(SupportingDocsViewConfiguration.create());    
+    }    
     
     // Initializes a WarnContainer with Action options dropdown, and Curriculum Management link 
     private WarnContainer generateWorkflowWidgetContainer(Widget w) {

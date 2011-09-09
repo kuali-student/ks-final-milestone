@@ -15,9 +15,12 @@ import org.kuali.student.lum.program.client.major.edit.SupportingDocsEditConfigu
  */
 public class MajorProposalConfigurer extends AbstractProgramConfigurer {
 
+	protected ConfigurationManager proposalSummarySectionConfigurer;
+	
     public MajorProposalConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new MajorProposalInformationEditConfiguration());
+
+    	programSectionConfigManager = new ConfigurationManager(this);
+		programSectionConfigManager.registerConfiguration(new MajorProposalInformationEditConfiguration());
         programSectionConfigManager.registerConfiguration(new MajorProposalChangeImpactEditConfiguration());
         programSectionConfigManager.registerConfiguration(new MajorProposalKeyProgramInfoEditConfiguration());
         programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
@@ -27,6 +30,22 @@ public class MajorProposalConfigurer extends AbstractProgramConfigurer {
         programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
         programSectionConfigManager.registerConfiguration(new CollaboratorsEditConfiguration());
         programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new MajorProposalSummaryConfiguration());
+        programSectionConfigManager.registerConfiguration(new MajorProposalSummaryConfiguration(true));
+        
+        
+        proposalSummarySectionConfigurer = new ConfigurationManager(this);
+        proposalSummarySectionConfigurer.registerConfiguration(new MajorProposalSummaryConfiguration(false));
     }
+    
+    @Override
+    public ConfigurationManager getProgramSectionConfigManager() {
+    	if (modelDefinition.getMetadata().isCanEdit()) {
+    		return programSectionConfigManager;
+    	} else {
+    		return proposalSummarySectionConfigurer;    	
+    	}
+    }
+
+
+
 }

@@ -29,7 +29,7 @@ public class MajorSummaryConfiguration extends AbstractControllerConfiguration {
         configurationManager.registerConfiguration(ManagingBodiesViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(SpecializationsViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(CatalogInformationViewConfiguration.createSpecial(controller));
-        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller));
+        configurationManager.registerConfiguration(new ProgramRequirementsViewConfiguration(controller,true));
         configurationManager.registerConfiguration(LearningObjectivesViewConfiguration.createSpecial(controller));
         configurationManager.registerConfiguration(SupportingDocsViewConfiguration.createSpecial(controller));
 
