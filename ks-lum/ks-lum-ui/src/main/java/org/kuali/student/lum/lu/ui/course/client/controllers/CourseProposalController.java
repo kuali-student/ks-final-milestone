@@ -422,7 +422,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     
     protected void configureScreens(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
     	if (workflowUtil != null){
-    		workflowUtil.requestAndSetupModel();	
+    		workflowUtil.requestAndSetupModel(NO_OP_CALLBACK);	
     	}
 
         CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {

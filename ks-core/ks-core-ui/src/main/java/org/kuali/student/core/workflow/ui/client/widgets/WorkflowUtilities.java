@@ -338,7 +338,7 @@ public class WorkflowUtilities{
             }
         }
     }
-	public void requestAndSetupModel() {
+	public void requestAndSetupModel(final Callback<Boolean> onModelReadyCallback) {
 		
 		if(null==dataModel){
 			//Get the Model from the controller and register a model change handler when the workflow model is updated
@@ -354,12 +354,14 @@ public class WorkflowUtilities{
 					//After we get the model update immediately
 					dataModel = model;
 					updateWorkflow(dataModel);
+					onModelReadyCallback.exec(true);
 				}
 			});
 		}else{
 			//If the model has been set don't waste time finding it again and don't register 
 			//another change listener, just update
 			updateWorkflow(dataModel);
+			onModelReadyCallback.exec(true);
 		}
 	}
 	

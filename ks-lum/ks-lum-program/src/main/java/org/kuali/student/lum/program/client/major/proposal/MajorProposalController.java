@@ -425,7 +425,7 @@ public class MajorProposalController extends MajorController implements Workflow
 			@Override
 			public void onEvent(ModelLoadedEvent event) {
 				if (workflowUtil != null){
-					workflowUtil.requestAndSetupModel();
+					workflowUtil.requestAndSetupModel(NO_OP_CALLBACK);
 					
 				}
 			}        	
