@@ -230,6 +230,33 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: review for change to focus on start year        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: review for change to focus on start year        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: review for change to focus on start year        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO: review for change to focus on start year        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    
+    
+    @Override
     public List<AtpInfo> getAtpsByKeyList(List<String> atpKeyList, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.findByIds(atpKeyList);

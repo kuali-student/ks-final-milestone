@@ -130,9 +130,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByYear(Integer year, ContextInfo context)
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+        // TODO: review for change to focus on start year
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set(year, 0, 1); // Jan 1 of the specified year
@@ -193,7 +194,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForYear(
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(
             String credentialProgramTypeKey, Integer year, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
@@ -382,7 +383,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<CampusCalendarInfo> getCampusCalendarsByYear(Integer year, ContextInfo context)
+    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS

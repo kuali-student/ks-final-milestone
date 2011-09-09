@@ -222,10 +222,10 @@ public class TestAcademicCalendarServiceImpl{
     }
 
     @Test
-    public void testGetAcademicCalendarsByYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public void testGetAcademicCalendarsByStartYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException{
-
-        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByYear(2011, callContext);
+        // TODO: review for change to focus on start year
+        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(2011, callContext);
 
         assertEquals(1, acalInfos.size());
     }
