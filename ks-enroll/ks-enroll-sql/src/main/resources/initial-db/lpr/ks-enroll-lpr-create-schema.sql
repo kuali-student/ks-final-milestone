@@ -143,6 +143,7 @@ BEGIN
   SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
+/
 
 create table KSEN_LPR_TRANS
    (
@@ -160,16 +161,20 @@ create table KSEN_LPR_TRANS
 		LPR_TYPE_ID varchar2(255),
 	
    )
+/
+
 -----------------------------------------------------------------------------
 -- KSEN_LPR_TRANS_ITEMS
 -----------------------------------------------------------------------------
    
-   DECLARE temp NUMBER;
+DECLARE temp NUMBER;
 BEGIN
   SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS_ITEMS';
 	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS_ITEMS CASCADE CONSTRAINTS PURGE'; END IF;
 END;
-   create table KSEN_LPR_TRANS_ITEMS
+/
+
+create table KSEN_LPR_TRANS_ITEMS
    (
 		ID varchar2(255),
 		CREATEID VARCHAR2(255),
@@ -188,7 +193,7 @@ END;
 		TYPE_ID varchar2(255),
 	
    )
-   
+/
    
 DECLARE temp NUMBER;
 BEGIN
