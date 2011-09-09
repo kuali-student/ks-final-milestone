@@ -184,10 +184,10 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<String> getAcademicCalendarKeysByType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Academic Calendars that pertain to the
+     * Retrieves a list of Academic Calendars that start in the
      * given year.
      *
-     * @param year calendar year during which the academic calendar overlaps 
+     * @param year calendar year during which the academic calendar starts 
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -197,7 +197,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AcademicCalendarInfo> getAcademicCalendarsByYear(@WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Academic Calendars mapped to a credential
@@ -217,10 +217,10 @@ public interface AcademicCalendarService extends DataDictionaryService {
 
     /** 
      * Retrieves a list of Academic Calendars mapped to a credential
-     * program type and pertains to the given year.
+     * program type and starts in the given year.
      *
      * @param credentialProgramTypeKey a Type of a credential program
-     * @param year a year within the academic calendar
+     * @param year a year within which the academic calendar should start
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -230,7 +230,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForYear(@WebParam(name = "credentialProgramTypeKey") String credentialProgramTypeKey, @WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(@WebParam(name = "credentialProgramTypeKey") String credentialProgramTypeKey, @WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an academic calendar. Depending on the value of
@@ -474,10 +474,10 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<String> getCampusCalendarKeysByType(@WebParam(name = "campusCalendarTypeKey") String campusCalendarTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Campus Calendars that pertain to the
+     * Retrieves a list of Campus Calendars that start in the
      * given year.
      *
-     * @param year calendar year during which the campus calendar overlaps
+     * @param year calendar year during which the campus calendar start
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -487,7 +487,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CampusCalendarInfo> getCampusCalendarsByYear(@WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a campus calendar. Depending on the value of

@@ -97,6 +97,78 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      */
     public List<AtpInfo> getAtpsByDate(@WebParam(name = "searchDate") Date searchDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+     /** 
+     * Retrieves the list of Academic Time Periods that the supplied
+     * date falls within inclusive of the start end end date of the
+     * ATP and whose type matches the specified type key.
+     *
+     * @param searchDate Timestamp to be matched
+     * @param searchTypeKey typeKey to be matched
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return List of Academic Time Periods that contain the supplied searchDate
+     * @throws InvalidParameterException invalid searchDate
+     * @throws MissingParameterException missing searchDate
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getAtpsByDateAndType(@WebParam(name = "searchDate") Date searchDate, 
+            @WebParam(name = "searchTypeKey") String searchTypeKey,
+            @WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    
+    /** 
+     * Retrieves the list of Academic Time Periods whose start dates fall within 
+     * the supplied date range, inclusive of the start and end dates on the range.
+     *
+     * @param searchDateRangeStart start date to be compared to the start date of the 
+     * @param searchDateRangeEnd ending date to compare to the start date of the atp
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return List of Academic Time Periods that contain the supplied searchDate
+     * @throws InvalidParameterException invalid searchDate
+     * @throws MissingParameterException missing searchDate
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getAtpsByStartDateRange(
+            @WebParam(name = "searchDateRangeStart") Date searchDateRangeStart, 
+            @WebParam(name = "searchDateRangeEnd") Date searchDateRangeEnd,             
+            @WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+     /** 
+     * Retrieves the list of Academic Time Periods whose start dates fall within 
+     * the supplied date range, inclusive of the start and end dates on the range 
+     * and whose type matches the specified type.
+     *
+     * @param searchDateRangeStart start date to be compared to the start date of the 
+     * @param searchDateRangeEnd ending date to compare to the start date of the atp
+     * @param searchTypeKey typeKey to be matched
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return List of Academic Time Periods that contain the supplied searchDate
+     * @throws InvalidParameterException invalid searchDate
+     * @throws MissingParameterException missing searchDate
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getAtpsByStartDateRangeAndType(
+            @WebParam(name = "searchDateRangeStart") Date searchDateRangeStart, 
+            @WebParam(name = "searchDateRangeEnd") Date searchDateRangeEnd,
+            @WebParam(name = "searchTypeKey") String searchTypeKey,
+            @WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+   
+
+    
+        
     /** 
      * Retrieves the list of Academic Time Periods that are totally
      * contained within the supplied dates. The entire Atp falls
@@ -115,6 +187,33 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      */
     public List<AtpInfo> getAtpsByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /** 
+     * Retrieves the list of Academic Time Periods that are totally
+     * contained within the supplied dates. The entire Atp falls
+     * within the supplied dates inclusive of the dates and whose typeKey
+     * matches the specified type.
+     *
+     * @param startDate Earliest Timestamp
+     * @param endDate Latest Timestamp
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Academic Time Periods 
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AtpInfo> getAtpsByDatesAndType(
+            @WebParam(name = "startDate") Date startDate,
+            @WebParam(name = "endDate") Date endDate, 
+            @WebParam(name = "searchTypeKey") String searchTypeKey,            
+            @WebParam(name = "context") ContextInfo context) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    
     /** 
      * Retrieves a list of Academic Time Periods corresponding to the
      * given list of ATP keys.

@@ -185,7 +185,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      */
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByYear(Integer year, ContextInfo context)
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
@@ -227,7 +227,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * credentialProgramTypeKey
      */
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForYear(
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(
             String credentialProgramTypeKey, Integer year, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
@@ -443,7 +443,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * AtpService.getAtpByDate() 2. Convert to CampusCalendarInfo object
      */
     @Override
-    public List<CampusCalendarInfo> getCampusCalendarsByYear(Integer year, ContextInfo context)
+    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 

@@ -152,6 +152,26 @@ public class AtpServiceDecorator implements AtpService {
 		return getNextDecorator().getAtpsByDate(searchDate, context);
 	}
 
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsByStartDateRange(searchDateRangeStart, searchDateRangeEnd, context);
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsByDatesAndType(startDate, endDate, searchTypeKey, context);
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsByDateAndType(searchDate, searchTypeKey, context);
+    }
+
 	@Override
 	public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate,
 			ContextInfo context) throws InvalidParameterException,

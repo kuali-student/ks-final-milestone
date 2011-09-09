@@ -182,6 +182,51 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
+    public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpInfo> atpList = new ArrayList<AtpInfo>();
+        for (AtpInfo atp : this.getAtpsByDate (searchDate, context)) {
+            if (searchTypeKey.equals(atp.getTypeKey())) {
+                atpList.add(atp);
+            }
+        }
+        return atpList;  
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByDatesAndType(Date searchDate, Date endDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpInfo> atpList = new ArrayList<AtpInfo>();
+        for (AtpInfo atp : this.getAtpsByDates (searchDate, endDate, context)) {
+            if (searchTypeKey.equals(atp.getTypeKey())) {
+                atpList.add(atp);
+            }
+        }
+        return atpList; 
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+       List<AtpInfo> atpList = new ArrayList<AtpInfo>();
+        for (AtpInfo atp : atpCache.values()) {
+            if (searchDateRangeStart.before(atp.getStartDate()) && searchDateRangeEnd.after(atp.getStartDate())) {
+                atpList.add(atp);
+            }
+        }
+        return atpList;
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+         List<AtpInfo> atpList = new ArrayList<AtpInfo>();
+        for (AtpInfo atp : this.getAtpsByStartDateRange (searchDateRangeStart, searchDateRangeEnd, context)) {
+            if (searchTypeKey.equals(atp.getTypeKey())) {
+                atpList.add(atp);
+            }
+        }
+        return atpList; 
+    }
+ 
+    
+    @Override
     public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) 
     		throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> atpKeyList = new ArrayList<String>();

@@ -112,12 +112,12 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByYear(Integer year,
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year,
                 ContextInfo context)
             throws InvalidParameterException,
                 MissingParameterException, OperationFailedException,
                 PermissionDeniedException {
-    	return getNextDecorator().getAcademicCalendarsByYear(year, context);
+    	return getNextDecorator().getAcademicCalendarsByStartYear(year, context);
     }
 
     @Override
@@ -129,11 +129,11 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForYear(
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(
                 String credentialProgramTypeKey, Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
                 OperationFailedException, PermissionDeniedException {
-     	return getNextDecorator().getAcademicCalendarsByCredentialProgramTypeForYear(credentialProgramTypeKey,year, context);
+     	return getNextDecorator().getAcademicCalendarsByCredentialProgramTypeForStartYear(credentialProgramTypeKey,year, context);
     }
 
     @Override
@@ -243,12 +243,12 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public List<CampusCalendarInfo> getCampusCalendarsByYear(Integer year,
+    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(Integer year,
                 ContextInfo context)
             throws InvalidParameterException,
                 MissingParameterException, OperationFailedException,
                 PermissionDeniedException {
-    	return getNextDecorator().getCampusCalendarsByYear(year, context);
+    	return getNextDecorator().getCampusCalendarsByStartYear(year, context);
     }
 
     @Override
