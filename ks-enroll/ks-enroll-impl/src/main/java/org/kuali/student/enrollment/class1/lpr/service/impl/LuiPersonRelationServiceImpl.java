@@ -640,7 +640,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
         LprRosterEntity entity = lprRosterDao.find(lprRosterId);
         if (entity == null) {
-            throw new DoesNotExistException("LPRRoster entity not found for " + lprRosterId);
+            return null;
         }
 
         return entity.toDto();
@@ -671,6 +671,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 if (StringUtils.isEmpty(attribute.getId())) {
                     attribute.setId(UUIDHelper.genStringUUID());
                 }
+                if (attribute.getOwner() == null){
+                    attribute.setOwner(rosterEntity);
+                }
             }
         }
 
@@ -696,11 +699,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         } else {
             status.setSuccess(false);
         }
-
-        /**
-         * FIXME : Remove entries from KSEN_LPRROSTER_LUI_RELTN, attributes and
-         * desc
-         */
 
         lprRosterEntryDao.remove(entity);
         return status;

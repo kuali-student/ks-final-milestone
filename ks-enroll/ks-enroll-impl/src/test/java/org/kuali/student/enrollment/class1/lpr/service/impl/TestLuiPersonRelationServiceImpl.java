@@ -351,9 +351,13 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         LprRosterInfo lprRosterInfo = createLprRosterInfo();
         String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
-        StatusInfo info = lprService.deleteLprRoster(lprRosterId, callContext);
+        StatusInfo status = lprService.deleteLprRoster(lprRosterId, callContext);
 
-        assertTrue(info.getIsSuccess());
+        assertTrue(status.getIsSuccess());
+
+        //Just make sure it's really not there
+        LprRosterInfo info = lprService.getLprRoster(lprRosterId,callContext);
+        assertNull(info);
 
     }
 
