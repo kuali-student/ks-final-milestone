@@ -51,8 +51,11 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author sambit
@@ -60,6 +63,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
+@TransactionConfiguration(transactionManager="JtaTxManager", defaultRollback=true)
+@Transactional
 public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
     private LuiPersonRelationService lprService;
@@ -339,7 +344,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         // assertEquals(info.getAttributes().get(0).getKey(),"Value");
     }
 
-    @Ignore
     @Test
     public void testDeleteLprRoster() throws DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
@@ -364,7 +368,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             fail(e.getMessage());
         }
         assertNotNull(infoList);
-        assertEquals(2, infoList.size());
+        assertEquals(1, infoList.size());
         assertEquals(infoList.get(0).getAssociatedLuiIds().size(), 1);
         assertEquals(infoList.get(0).getAssociatedLuiIds().get(0), LUI_ID);
     }
@@ -380,7 +384,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             fail(e.getMessage());
         }
         assertNotNull(infoList);
-        assertEquals(3, infoList.size());
+        assertEquals(1, infoList.size());
         assertEquals(infoList.get(0).getAssociatedLuiIds().size(), 1);
         assertEquals(infoList.get(0).getAssociatedLuiIds().get(0), LUI_ID);
     }
@@ -391,6 +395,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprTransactionInfo = lprService.createLprTransaction(lprTransactionInfo, callContext);
         } catch (Exception e) {
+            e.printStackTrace();;
             fail(e.getMessage());
         }
         try {
