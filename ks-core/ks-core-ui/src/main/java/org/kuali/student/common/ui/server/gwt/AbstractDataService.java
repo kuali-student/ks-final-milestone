@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -204,6 +205,9 @@ public abstract class AbstractDataService implements DataService{
 						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
 					}
 				}
+		        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
+				attributes.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {

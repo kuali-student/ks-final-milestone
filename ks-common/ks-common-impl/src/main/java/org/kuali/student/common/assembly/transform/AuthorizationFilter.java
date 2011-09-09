@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -202,6 +203,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
             String principalId = SecurityUtils.getCurrentUserId();
             AttributeSet qualification = getQualification(idType, id, docType);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
+            
             List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
             		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
@@ -248,6 +250,8 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         AttributeSet qualification = new AttributeSet();
         qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
+        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
+        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
         return qualification;
     }
 
