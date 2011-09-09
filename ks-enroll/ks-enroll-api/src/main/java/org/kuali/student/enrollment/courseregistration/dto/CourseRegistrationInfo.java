@@ -10,14 +10,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.infc.CourseRegistration;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOffering", "studentId",
-        "regGroupRegistration", "creditCount", "gradingOption", "effectiveDate", "expirationDate", "meta",
+        "regGroupRegistration", "credits", "gradingOptionId", "effectiveDate", "expirationDate", "meta",
         "attributes", "_futureElements"})
 public class CourseRegistrationInfo extends RelationshipInfo implements CourseRegistration, Serializable {
 
@@ -33,11 +32,11 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     private String studentId;
 
     @XmlElement
-    private String creditCount;
+    private String credits;
 
     @XmlElement
-    private String gradingOption;
- 
+    private String gradingOptionId;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -45,7 +44,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
         super();
         this.courseOffering = null;
         this.studentId = null;
-        this.creditCount = null;
+        this.credits = null;
         this._futureElements = null;
     }
 
@@ -54,7 +53,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
         if (null != courseRegistration) {
             this.courseOffering = new CourseOfferingInfo(courseRegistration.getCourseOffering());
             this.studentId = courseRegistration.getStudentId();
-            this.creditCount = courseRegistration.getCreditCount();
+            this.credits = courseRegistration.getCredits();
             this._futureElements = null;
         }
     }
@@ -65,17 +64,17 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     }
 
     @Override
-    public String getCreditCount() {
-        return creditCount;
+    public String getCredits() {
+        return credits;
     }
 
     @Override
-    public String getGradingOption() {
-        return gradingOption;
+    public String getGradingOptionId() {
+        return gradingOptionId;
     }
 
     public void setGradingOption(String gradingOption) {
-        this.gradingOption = gradingOption;
+        this.gradingOptionId = gradingOption;
     }
 
     @Override
@@ -100,8 +99,8 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
         this.studentId = studentId;
     }
 
-    public void setCreditCount(String creditCount) {
-        this.creditCount = creditCount;
+    public void setCredits(String creditCount) {
+        this.credits = creditCount;
     }
 
 }

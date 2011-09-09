@@ -133,6 +133,63 @@ create table  KSEN_LPRROSTER_LUI_RELTN
   )
 /
 
+
+-----------------------------------------------------------------------------
+-- KSEN_LPR_TRANS
+-----------------------------------------------------------------------------
+
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+
+create table KSEN_LPR_TRANS
+   (
+		ID varchar2(255),
+		CREATEID VARCHAR2(255),
+		CREATETIME timestamp,
+		UPDATEID VARCHAR2(255),
+		UPDATETIME timestamp,
+		OBJ_ID varchar2(36),
+		VER_NBR number,
+		NAME VARCHAR2(255),
+		RT_DESCR_ID VARCHAR2(255),
+		REQ_PERSON_ID  VARCHAR2(255),
+		STATE_ID varchar2(255),
+		LPR_TYPE_ID varchar2(255),
+	
+   )
+-----------------------------------------------------------------------------
+-- KSEN_LPR_TRANS_ITEMS
+-----------------------------------------------------------------------------
+   
+   DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS_ITEMS';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS_ITEMS CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+   create table KSEN_LPR_TRANS_ITEMS
+   (
+		ID varchar2(255),
+		CREATEID VARCHAR2(255),
+		CREATETIME timestamp,
+		UPDATEID VARCHAR2(255),
+		UPDATETIME timestamp,
+		OBJ_ID varchar2(36),
+		VER_NBR number,
+		NAME VARCHAR2(255),
+		RT_DESCR_ID VARCHAR2(255),
+		PERSON_ID  VARCHAR2(255),
+		NEW_LUI_ID  VARCHAR2(255),
+		EXIST_LUI_ID  VARCHAR2(255),
+		LPR_TRANS_ID  VARCHAR2(255),
+		STATE_ID varchar2(255),
+		TYPE_ID varchar2(255),
+	
+   )
+   
+   
 DECLARE temp NUMBER;
 BEGIN
   SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_ROSTER_ENTRY';

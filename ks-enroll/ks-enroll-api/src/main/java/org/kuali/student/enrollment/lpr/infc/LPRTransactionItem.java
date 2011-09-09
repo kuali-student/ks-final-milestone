@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * A transaction item represents a request for creating a new relation of a
@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.infc.Entity;
  * @author Kuali Student Team (sambit)
  */
 
-public interface LPRTransactionItem extends Entity {
+public interface LPRTransactionItem extends IdEntity {
 
     /**
      * The possible types of the LPR transaction item e.g. ADD, UPDATE, DROP,

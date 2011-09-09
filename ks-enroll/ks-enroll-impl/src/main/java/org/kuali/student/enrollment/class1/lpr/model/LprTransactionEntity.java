@@ -1,9 +1,7 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -34,8 +32,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     private LprRichTextEntity descr;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ID", nullable = false)
-    private Set<LprTransactionItemEntity> lprTransactionItems;
+    @JoinColumn(name = "LPR_TRANS_ID")
+    private List<LprTransactionItemEntity> lprTransactionItems;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "LPR_TYPE_ID")
@@ -45,12 +43,15 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "STATE_ID")
     private StateEntity lprTransState;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<LprTransAttributeEntity> attributes;
+
     public LprTransactionEntity() {}
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
         this.requestingPersonId = lprTransaction.getRequestingPersonId();
-        this.lprTransactionItems = new HashSet<LprTransactionItemEntity>();
+        this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
         for (LPRTransactionItem lprTransItem : lprTransaction.getLprTransactionItems()) {
             this.lprTransactionItems.add(new LprTransactionItemEntity(lprTransItem));
         }
@@ -113,22 +114,22 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.requestingPersonId = requestingPersonId;
     }
 
-    public Set<LprTransactionItemEntity> getLprTransactionItems() {
+    public List<LprTransactionItemEntity> getLprTransactionItems() {
         return lprTransactionItems;
     }
 
-    public void setLprTransactionItems(Set<LprTransactionItemEntity> lprTransactionItems) {
+    public void setLprTransactionItems(List<LprTransactionItemEntity> lprTransactionItems) {
         this.lprTransactionItems = lprTransactionItems;
     }
 
     @Override
     public void setAttributes(List<LprTransAttributeEntity> attributes) {
-
+        this.setAttributes(attributes);
     }
 
     @Override
     public List<LprTransAttributeEntity> getAttributes() {
-        return null;
+        return this.attributes;
     }
 
 }

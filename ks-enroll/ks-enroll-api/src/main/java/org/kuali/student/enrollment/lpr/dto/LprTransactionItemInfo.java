@@ -12,14 +12,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.enrollment.lpr.infc.RequestOption;
-import org.kuali.student.r2.common.dto.EntityInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionIds",
         "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes",
         "_futureElements"})
-public class LprTransactionItemInfo extends EntityInfo implements LPRTransactionItem, Serializable {
+public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
 

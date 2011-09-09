@@ -37,7 +37,7 @@ public interface CourseRegistration extends Relationship{
      * 
      * @return
      */
-    public String getCreditCount();
+    public String getCredits();
     
     /**
      * 
@@ -45,7 +45,7 @@ public interface CourseRegistration extends Relationship{
      * 
      * @return
      */
-    public String getGradingOption();
+    public String getGradingOptionId();
     
     /**
      * 

@@ -10,6 +10,13 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +28,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator;
-import org.kuali.student.enrollment.lpr.dto.*;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -42,9 +53,6 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * @Author sambit
@@ -289,8 +297,10 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         LuiPersonRelationInfo finalLpr = lprService.getLpr(LPRID1, callContext);
         assertNotNull("LPR entity '" + LPRID1 + "' does not exist after being updated", finalLpr);
-        assertNotNull("'commitmentPercent' property does not exist after being updated", finalLpr.getCommitmentPercent());
-        assertEquals("'commitmentPercent' property was not updated properly.", updatedCommitPercent, finalLpr.getCommitmentPercent());
+        assertNotNull("'commitmentPercent' property does not exist after being updated",
+                finalLpr.getCommitmentPercent());
+        assertEquals("'commitmentPercent' property was not updated properly.", updatedCommitPercent,
+                finalLpr.getCommitmentPercent());
         assertNotSame("'expirationDate' property was not updated", expirationDate, finalLpr.getExpirationDate());
     }
 
@@ -347,15 +357,15 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         List<LprRosterInfo> infoList = null;
         try {
             LprRosterInfo lprRosterInfo = createLprRosterInfo();
-            String lprRosterId = lprService.createLprRoster(lprRosterInfo,callContext);
-            infoList = lprService.getLprRostersByLuiAndRosterType(LUI_ID,TYPE_KEY,callContext);
+            String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
+            infoList = lprService.getLprRostersByLuiAndRosterType(LUI_ID, TYPE_KEY, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
         assertNotNull(infoList);
-        assertEquals(1, infoList.size());
-        assertEquals(infoList.get(0).getAssociatedLuiIds().size(),1);
-        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0),LUI_ID);
+        assertEquals(3, infoList.size());
+        assertEquals(infoList.get(0).getAssociatedLuiIds().size(), 1);
+        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0), LUI_ID);
     }
 
     @Test
@@ -363,15 +373,15 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         List<LprRosterInfo> infoList = null;
         try {
             LprRosterInfo lprRosterInfo = createLprRosterInfo();
-            String lprRosterId = lprService.createLprRoster(lprRosterInfo,callContext);
-            infoList = lprService.getLprRostersByLui(LUI_ID,callContext);
+            String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
+            infoList = lprService.getLprRostersByLui(LUI_ID, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
         assertNotNull(infoList);
-        assertEquals(1, infoList.size());
-        assertEquals(infoList.get(0).getAssociatedLuiIds().size(),1);
-        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0),LUI_ID);
+        assertEquals(4, infoList.size());
+        assertEquals(infoList.get(0).getAssociatedLuiIds().size(), 1);
+        assertEquals(infoList.get(0).getAssociatedLuiIds().get(0), LUI_ID);
     }
 
     @Ignore
@@ -442,7 +452,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         try {
             lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
-        }catch(Exception e){
+        } catch (Exception e) {
             fail(e.getMessage());
         }
         LprRosterEntryInfo info = new LprRosterEntryInfo();
@@ -455,14 +465,14 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         info.setEffectiveDate(effectiveDate);
         info.setExpirationDate(expiryDate);
 
-        String lprEntryId = lprService.createLprRosterEntry(info,callContext);
+        String lprEntryId = lprService.createLprRosterEntry(info, callContext);
 
-        List<LprRosterEntryInfo> entryInfoList = lprService.getEntriesForLprRoster(lprRosterId,callContext);
+        List<LprRosterEntryInfo> entryInfoList = lprService.getEntriesForLprRoster(lprRosterId, callContext);
 
-        assertEquals(1,entryInfoList.size());
-        assertEquals(entryInfoList.get(0).getLprId(),lprId);
-        assertEquals(entryInfoList.get(0).getLprRosterId(),lprRosterId);
-        assertEquals(entryInfoList.get(0).getPosition(),"1");
+        assertEquals(1, entryInfoList.size());
+        assertEquals(entryInfoList.get(0).getLprId(), lprId);
+        assertEquals(entryInfoList.get(0).getLprRosterId(), lprRosterId);
+        assertEquals(entryInfoList.get(0).getPosition(), "1");
 
     }
 
@@ -471,11 +481,11 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, AlreadyExistsException, DisabledIdentifierException {
 
-        //Create LprRoster
+        // Create LprRoster
         LprRosterInfo lprRosterInfo = createLprRosterInfo();
         String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
 
-        //Create LPR
+        // Create LPR
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
         lprInfo.setPersonId(PERSONID2);
@@ -487,25 +497,25 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         try {
             lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
-        }catch(Exception e){
+        } catch (Exception e) {
             fail(e.getMessage());
         }
 
-        //Create LPR Entry
+        // Create LPR Entry
         LprRosterEntryInfo info = new LprRosterEntryInfo();
         info.setLprId(lprId);
         info.setLprRosterId(lprRosterId);
         info.setPosition("1");
 
-        String lprEntryId = lprService.createLprRosterEntry(info,callContext);
+        String lprEntryId = lprService.createLprRosterEntry(info, callContext);
 
-        StatusInfo status = lprService.deleteLprRosterEntry(lprEntryId,callContext);
+        StatusInfo status = lprService.deleteLprRosterEntry(lprEntryId, callContext);
 
-        assertEquals(status.getIsSuccess(),true);
+        assertEquals(status.getIsSuccess(), true);
 
-        //Make sure it's really deleted
-        List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(lprRosterId,callContext);
-        assertEquals(0,entries.size());
+        // Make sure it's really deleted
+        List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(lprRosterId, callContext);
+        assertEquals(0, entries.size());
 
     }
 }
