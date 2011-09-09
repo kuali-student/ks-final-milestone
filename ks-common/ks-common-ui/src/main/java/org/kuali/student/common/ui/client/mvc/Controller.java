@@ -173,7 +173,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     private <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
-        if ((currentView == null) || currentView.beforeHide()) {
+        if (((currentView == null) || currentView.beforeHide()) && view != null) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
 				public void exec(Boolean result) {
