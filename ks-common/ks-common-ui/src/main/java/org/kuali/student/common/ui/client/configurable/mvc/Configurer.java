@@ -7,7 +7,6 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -213,12 +212,7 @@ public abstract class Configurer {
 
         FieldDescriptor fd = new FieldDescriptor(path.toString(), messageKey, meta);
         if (widget != null) {
-        	//FIXME: Need a better way to handle defaulting custom widgets to read-only versions.  This if statement was
-        	//added so any custom text widget can be defaulted by the FieldDescriptor to be a read only KSLabel widget when
-        	//there is no edit access to the field.
-        	if (!(widget instanceof HasText && meta.isCanEdit())){
-        		fd.setFieldWidget(widget);
-        	}
+            fd.setFieldWidget(widget);
         }
         section.addField(fd);
         return fd;
