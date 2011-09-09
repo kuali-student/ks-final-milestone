@@ -53,8 +53,8 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
             Calendar nowCal = Calendar.getInstance();
             nowCal.setTime(new Date());
             int year = nowCal.get(Calendar.YEAR);
-
-            acals = getAcalService().getAcademicCalendarsByYear(year, context);
+            // TODO: review for change to focus on start year
+            acals = getAcalService().getAcademicCalendarsByStartYear(year, context);
             for (AcademicCalendarInfo acal : acals) {
                 terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
             }
