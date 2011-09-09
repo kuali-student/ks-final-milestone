@@ -80,6 +80,14 @@ public class MajorManager {
         	 theController = (MajorController)majorViewController;
         } 
         
+        // Fix for 2417
+        // A case exists where we are coming from majorEditController
+        // TODO: we really need to think about how this works rather than
+        // add these if/then cases, but we are out of time 
+        if (theController == null && majorEditController != null){
+            theController = majorEditController;
+        }
+        
     	// Instantiate a controller used to work with the specialization, passing it
     	// either the proposal controller or the major discipline controller
         variationViewController = new VariationViewController(variationModel, viewContext, eventBus, theController);
@@ -148,6 +156,16 @@ public class MajorManager {
         	 theController = (MajorController)majorViewController;
         } 
     	
+        // Fix for 2417
+        // A case exists where we are coming from majorEditController
+        // TODO: we really need to think about how this works rather than
+        // add these if/then cases, but we are out of time 
+        if (theController == null && majorEditController != null){
+            theController = majorEditController;
+        }
+       
+        
+        
     	// Instantiate a controller used to work with the specialization, passing it
     	// either the proposal controller or the major discipline controller
         variationEditController = new VariationEditController(variationModel, viewContext, eventBus, theController);
