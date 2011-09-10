@@ -51,7 +51,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -63,7 +62,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
-@TransactionConfiguration(transactionManager="JtaTxManager", defaultRollback=true)
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
@@ -355,8 +354,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         assertTrue(status.getIsSuccess());
 
-        //Just make sure it's really not there
-        LprRosterInfo info = lprService.getLprRoster(lprRosterId,callContext);
+        // Just make sure it's really not there
+        LprRosterInfo info = lprService.getLprRoster(lprRosterId, callContext);
         assertNull(info);
 
     }
@@ -399,7 +398,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprTransactionInfo = lprService.createLprTransaction(lprTransactionInfo, callContext);
         } catch (Exception e) {
-            e.printStackTrace();;
+            e.printStackTrace();
+            ;
             fail(e.getMessage());
         }
         try {
@@ -422,7 +422,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         assertEquals(1, lprIds.size());
     }
 
-    @Ignore
     @Test
     public void testUpdateLprTransaction() {
         String updateName = "NEW TRANSACTION TEST 1";

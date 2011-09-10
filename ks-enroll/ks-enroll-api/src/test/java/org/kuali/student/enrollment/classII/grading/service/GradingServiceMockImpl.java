@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
-import org.kuali.student.enrollment.grading.dto.CreditsEarnedInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
@@ -36,30 +34,30 @@ public class GradingServiceMockImpl implements GradingService {
 
     private static Map<String, ResultValuesGroupInfo> validGradesCache = new HashMap<String, ResultValuesGroupInfo>();
 
-    public GradingServiceMockImpl(){
+    public GradingServiceMockImpl() {
         loadCaches();
     }
 
-    public void loadCaches(){
+    public void loadCaches() {
         GradeRosterEntryInfo gradeRosterEntryInfo1 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo1.setId("1");
         gradeRosterEntryInfo1.setStudentId("1100");
-        gradeRosterEntriesCache.put(gradeRosterEntryInfo1.getId(),gradeRosterEntryInfo1);
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo1.getId(), gradeRosterEntryInfo1);
 
         GradeRosterEntryInfo gradeRosterEntryInfo2 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo2.setId("2");
         gradeRosterEntryInfo2.setStudentId("1101");
-        gradeRosterEntriesCache.put(gradeRosterEntryInfo2.getId(),gradeRosterEntryInfo2);
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo2.getId(), gradeRosterEntryInfo2);
 
         GradeRosterEntryInfo gradeRosterEntryInfo3 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo3.setId("3");
         gradeRosterEntryInfo3.setStudentId("1102");
-        gradeRosterEntriesCache.put(gradeRosterEntryInfo3.getId(),gradeRosterEntryInfo3);
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo3.getId(), gradeRosterEntryInfo3);
 
         GradeRosterEntryInfo gradeRosterEntryInfo4 = new GradeRosterEntryInfo();
         gradeRosterEntryInfo4.setId("4");
         gradeRosterEntryInfo4.setStudentId("1103");
-        gradeRosterEntriesCache.put(gradeRosterEntryInfo4.getId(),gradeRosterEntryInfo4);
+        gradeRosterEntriesCache.put(gradeRosterEntryInfo4.getId(), gradeRosterEntryInfo4);
 
         GradeRosterInfo gradeRosterInfo1 = new GradeRosterInfo();
         gradeRosterInfo1.setCourseOfferingId("PHYS121");
@@ -75,19 +73,21 @@ public class GradingServiceMockImpl implements GradingService {
         List grader = new ArrayList();
         grader.add("admin");
         gradeRosterInfo1.setGraderIds(grader);
-        gradeRostersCache.put(gradeRosterInfo1.getId(),gradeRosterInfo1);
+        gradeRostersCache.put(gradeRosterInfo1.getId(), gradeRosterInfo1);
 
-        /*GradeRosterInfo gradeRosterInfo2 = new GradeRosterInfo();
-        gradeRosterInfo2 = new GradeRosterInfo();
-        gradeRosterInfo2.setCourseOfferingId("PHYS122");
-        gradeRosterInfo2.setId("PHYS122");
-        gradeRosterInfo2.setTypeKey("FINAL_TYPE_KEY");
-        gradeRosterInfo2.setName("Fundamentals of Physics II");*/
+        /*
+         * GradeRosterInfo gradeRosterInfo2 = new GradeRosterInfo();
+         * gradeRosterInfo2 = new GradeRosterInfo();
+         * gradeRosterInfo2.setCourseOfferingId("PHYS122");
+         * gradeRosterInfo2.setId("PHYS122");
+         * gradeRosterInfo2.setTypeKey("FINAL_TYPE_KEY");
+         * gradeRosterInfo2.setName("Fundamentals of Physics II");
+         */
 
         List<String> courseOfferings = new ArrayList();
         courseOfferings.add("PHYS121");
-//      courseOfferings.add(gradeRosterInfo2.getCourseOfferingId());
-        termCourseOfferingsCache.put("201108",courseOfferings);
+        // courseOfferings.add(gradeRosterInfo2.getCourseOfferingId());
+        termCourseOfferingsCache.put("201108", courseOfferings);
 
         loadValidGradesCache();
 
@@ -122,8 +122,6 @@ public class GradingServiceMockImpl implements GradingService {
         List<String> satisfactoryGrades = new ArrayList<String>();
         satisfactoryGrades.add("Satisfactory");
         satisfactoryGrades.add("Not-Satisfactory");
-
-
 
         ResultValuesGroupInfo letterGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
         letterGradesResultValuesGroupInfo.setResultValueIds(letterGrades);
@@ -173,7 +171,6 @@ public class GradingServiceMockImpl implements GradingService {
         percentGradesResultValuesGroupInfo.setEffectiveDate(null);
         percentGradesResultValuesGroupInfo.setExpirationDate(null);
 
-
         validGradesCache.put("letter", letterGradesResultValuesGroupInfo);
         validGradesCache.put("completionNotation", completionNotationGradesResultValuesGroupInfo);
         validGradesCache.put("passFail", passFailGradesResultValuesGroupInfo);
@@ -184,20 +181,20 @@ public class GradingServiceMockImpl implements GradingService {
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
-    	return null;
+        return null;
     }
 
     @Override
     public TypeInfo getGradeRosterType(String gradeRosterTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return null;
+        return null;
     }
 
     @Override
@@ -214,9 +211,10 @@ public class GradingServiceMockImpl implements GradingService {
             OperationFailedException, PermissionDeniedException {
 
         List<GradeRosterInfo> gradeRosters = new ArrayList<GradeRosterInfo>();
-        if (termCourseOfferingsCache.get(termKey) != null){
+        if (termCourseOfferingsCache.get(termKey) != null) {
             for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
-                if (gradeRoster.getGraderIds().contains(graderId) && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
+                if (gradeRoster.getGraderIds().contains(graderId)
+                        && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
                     gradeRosters.add(gradeRoster);
                 }
 
@@ -288,9 +286,9 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList, String rosterTypeKey,
-            ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList,
+            String rosterTypeKey, ContextInfo context) throws AlreadyExistsException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         GradeRosterInfo gradeRoster = new GradeRosterInfo();
         gradeRoster.setId(String.valueOf(Math.random()));
@@ -345,7 +343,7 @@ public class GradingServiceMockImpl implements GradingService {
     public List<ValidationResultInfo> validateGradeRoster(GradeRosterInfo gradeRoster, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-    	return new ArrayList<ValidationResultInfo>();
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -385,28 +383,28 @@ public class GradingServiceMockImpl implements GradingService {
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-            List<ResultValuesGroupInfo> rvgInfo =  new ArrayList<ResultValuesGroupInfo>();
+        List<ResultValuesGroupInfo> rvgInfo = new ArrayList<ResultValuesGroupInfo>();
 
-            if (studentId.equals("1100")) {
-                rvgInfo.add(validGradesCache.get("letter"));
-            } else if (studentId.equals("1101")) {
-                rvgInfo.add(validGradesCache.get("percent"));
-            } else if (studentId.equals("1102")) {
-                rvgInfo.add(validGradesCache.get("passFail"));
-            } else if (studentId.equals("1103")) {
-                rvgInfo.add(validGradesCache.get("satisfactory"));
-            } else {
-                rvgInfo.add(validGradesCache.get("letter"));
-            }
+        if (studentId.equals("1100")) {
+            rvgInfo.add(validGradesCache.get("letter"));
+        } else if (studentId.equals("1101")) {
+            rvgInfo.add(validGradesCache.get("percent"));
+        } else if (studentId.equals("1102")) {
+            rvgInfo.add(validGradesCache.get("passFail"));
+        } else if (studentId.equals("1103")) {
+            rvgInfo.add(validGradesCache.get("satisfactory"));
+        } else {
+            rvgInfo.add(validGradesCache.get("letter"));
+        }
 
-            return rvgInfo;
+        return rvgInfo;
     }
 
     @Override
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-    	return null;
+        return null;
     }
 
     @Override
@@ -434,23 +432,23 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public AssignedGradeInfo updateAssignedGrade(String gradeRosterEntryId, AssignedGradeInfo assignedGrade,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public boolean updateAssignedGrade(String gradeRosterEntryId, String assignedGradeKey, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.get(gradeRosterEntryId);
-        geInfo.setAssignedGrade(assignedGrade);
-        return assignedGrade;
+        GradeRosterEntryInfo geInfo = gradeRosterEntriesCache.get(gradeRosterEntryId);
+        geInfo.setAssignedGradeKey(assignedGradeKey);
+        return true;
     }
 
     @Override
-    public CreditsEarnedInfo updateCredit(String gradeRosterEntryId, CreditsEarnedInfo assignedGrade,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public boolean updateCredit(String gradeRosterEntryId, String creditKey, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        GradeRosterEntryInfo geInfo =    gradeRosterEntriesCache.get(gradeRosterEntryId);
-        geInfo.setCreditsEarned(assignedGrade);
-        return assignedGrade;
+        GradeRosterEntryInfo geInfo = gradeRosterEntriesCache.get(gradeRosterEntryId);
+        geInfo.setCreditsEarnedKey(creditKey);
+        return true;
     }
 
 }

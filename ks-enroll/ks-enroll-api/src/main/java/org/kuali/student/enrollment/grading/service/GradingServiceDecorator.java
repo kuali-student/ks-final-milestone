@@ -2,8 +2,6 @@ package org.kuali.student.enrollment.grading.service;
 
 import java.util.List;
 
-import org.kuali.student.enrollment.grading.dto.AssignedGradeInfo;
-import org.kuali.student.enrollment.grading.dto.CreditsEarnedInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -21,21 +19,19 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
-public abstract class GradingServiceDecorator implements GradingService
-{
+public abstract class GradingServiceDecorator implements GradingService {
     private GradingService nextDecorator;
-    
-    public GradingService getNextDecorator()
-			throws OperationFailedException {
-		if (null == nextDecorator) {
-			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
-		}
+
+    public GradingService getNextDecorator() throws OperationFailedException {
+        if (null == nextDecorator) {
+            throw new OperationFailedException("Misconfigured application: nextDecorator is null");
+        }
         return nextDecorator;
     }
+
     public void setNextDecorator(GradingService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
-    
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
@@ -87,14 +83,15 @@ public abstract class GradingServiceDecorator implements GradingService
     public List<GradeRosterInfo> getGradeRostersForActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-       return getNextDecorator().getGradeRostersForActivityOffering(activityOfferingId, context);
+        return getNextDecorator().getGradeRostersForActivityOffering(activityOfferingId, context);
     }
 
     @Override
-    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList, String rosterTypeKey,
-            ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIdList, rosterTypeKey, context);
+    public GradeRosterInfo buildInterimGradeRosterByType(String courseOfferingId, List<String> activityOfferingIdList,
+            String rosterTypeKey, ContextInfo context) throws AlreadyExistsException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().buildInterimGradeRosterByType(courseOfferingId, activityOfferingIdList,
+                rosterTypeKey, context);
     }
 
     @Override
@@ -115,7 +112,7 @@ public abstract class GradingServiceDecorator implements GradingService
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator().updateFinalGradeRosterState(gradeRosterId, stateKey, context);
-        
+
     }
 
     @Override
@@ -164,7 +161,7 @@ public abstract class GradingServiceDecorator implements GradingService
     public GradeRosterEntryInfo addEntrytoInterimRoster(GradeRosterEntryInfo gradeRosterEntry, String gradeRosterId,
             ContextInfo context) throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        
+
         return getNextDecorator().addEntrytoInterimRoster(gradeRosterEntry, gradeRosterId, context);
     }
 
@@ -176,18 +173,18 @@ public abstract class GradingServiceDecorator implements GradingService
     }
 
     @Override
-    public AssignedGradeInfo updateAssignedGrade(String gradeRosterEntryId, AssignedGradeInfo assignedGrade,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public boolean updateAssignedGrade(String gradeRosterEntryId, String assignedGradeId, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        
-        return getNextDecorator().updateAssignedGrade(gradeRosterEntryId, assignedGrade, context);
+
+        return getNextDecorator().updateAssignedGrade(gradeRosterEntryId, assignedGradeId, context);
     }
 
     @Override
-    public CreditsEarnedInfo updateCredit(String gradeRosterEntryId, CreditsEarnedInfo assignedGrade,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public boolean updateCredit(String gradeRosterEntryId, String creditId, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().updateCredit(gradeRosterEntryId, assignedGrade, context);
+        return getNextDecorator().updateCredit(gradeRosterEntryId, creditId, context);
     }
 
 }

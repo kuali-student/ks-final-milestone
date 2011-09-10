@@ -127,7 +127,7 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * 
      * @name: Result Options Ids
      */
-    public List<String> getResultOptionIds();
+    public List<String> getResultValuesGroupKeys();
     
     /**
      * The fees associated with the course offering. 

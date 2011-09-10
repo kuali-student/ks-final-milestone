@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuiPersonRelationInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId",
-        "resultOptionIds", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes",
+        "resultValuesGroupKeys", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes",
         "_futureElements"})
 public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPersonRelation, Serializable {
 
@@ -39,7 +39,7 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
     private String personId;
 
     @XmlElement
-    private List<String> resultOptionIds;
+    private List<String> resultValuesGroupKeys;
 
     @XmlElement
     private Float commitmentPercent;
@@ -58,8 +58,8 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
         if (lpr != null) {
             this.luiId = lpr.getLuiId();
             this.personId = lpr.getPersonId();
-            if (lpr.getResultOptionIds() != null) {
-                this.resultOptionIds = new ArrayList<String>(lpr.getResultOptionIds());
+            if (lpr.getResultValuesGroupKeys() != null) {
+                this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
             }
             _futureElements = null;
         }
@@ -93,11 +93,11 @@ public class LuiPersonRelationInfo extends RelationshipInfo implements LuiPerson
     }
 
     @Override
-    public List<String> getResultOptionIds() {
-        return resultOptionIds;
+    public List<String> getResultValuesGroupKeys() {
+        return resultValuesGroupKeys;
     }
 
-    public void setResultOptionIds(List<String> resultOptionIds) {
-        this.resultOptionIds = resultOptionIds;
+    public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
+        this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
 }

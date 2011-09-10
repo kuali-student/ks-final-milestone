@@ -90,6 +90,17 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
+    public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo,
+            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (lprTransactionInfo.getId() == null) {
+            throw new DataValidationErrorException("Id is mandatory on an update");
+        }
+
+        return getNextDecorator().updateLprTransaction(lprTransactionId, lprTransactionInfo, context);
+    }
+
+    @Override
     public String createLpr(String personId, String luiId, String luiPersonRelationType,
             LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException,
@@ -137,6 +148,17 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         }
 
         return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
+    }
+
+    @Override
+    public LprTransactionInfo getLprTransaction(String lprTransactionId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        if (lprTransactionId == null) {
+            throw new InvalidParameterException("Id is mandatory to be supplied on a get*");
+        }
+
+        return getNextDecorator().getLprTransaction(lprTransactionId, context);
     }
 
     private void _luiPersonRelationFullValidation(LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)

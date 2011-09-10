@@ -671,7 +671,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 if (StringUtils.isEmpty(attribute.getId())) {
                     attribute.setId(UUIDHelper.genStringUUID());
                 }
-                if (attribute.getOwner() == null){
+                if (attribute.getOwner() == null) {
                     attribute.setOwner(rosterEntity);
                 }
             }
@@ -787,7 +787,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         LprTransactionEntity existingLprTransactionEntity = lprTransDao.find(lprTransactionId);
         LprTransactionEntity newLprTransactionEntity = new LprTransactionEntity();
         if (existingLprTransactionEntity != null) {
-            newLprTransactionEntity.setId(String.valueOf(Math.random()));
+            newLprTransactionEntity.setId(UUIDHelper.genStringUUID());
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
             newLprTransactionEntity.setDescr(existingLprTransactionEntity.getDescr());
             newLprTransactionEntity.setLprTransactionItems(existingLprTransactionEntity.getLprTransactionItems());

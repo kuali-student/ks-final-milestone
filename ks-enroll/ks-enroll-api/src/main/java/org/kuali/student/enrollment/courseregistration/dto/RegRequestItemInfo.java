@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegRequestItemInfo", propOrder = {"name", "descr", "typeKey", "stateKey", "studentId",
-        "newRegGroupId", "existingRegGroupId", "okToWaitlist", "okToHoldList", "gradingOptionId", "creditOptionId",
+        "newRegGroupId", "existingRegGroupId", "okToWaitlist", "okToHoldList", "gradingOptionKey", "creditOptionKey",
         "meta", "attributes", "_futureElements"})
 public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Serializable {
 
@@ -36,10 +36,10 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
     private Boolean okToHoldList;
 
     @XmlElement
-    private String gradingOptionId;
+    private String gradingOptionKey;
 
     @XmlElement
-    private String creditOptionId;
+    private String creditOptionKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -50,8 +50,8 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
         this.existingRegGroupId = null;
         this.okToWaitlist = null;
         this.okToHoldList = null;
-        this.gradingOptionId = null;
-        this.creditOptionId = null;
+        this.gradingOptionKey = null;
+        this.creditOptionKey = null;
         this._futureElements = null;
 
     }
@@ -64,8 +64,8 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
             this.existingRegGroupId = regRequestItem.getExistingRegGroupId();
             this.okToWaitlist = regRequestItem.getOkToWaitlist();
             this.okToHoldList = regRequestItem.getOkToHoldList();
-            this.gradingOptionId = regRequestItem.getGradingOptionId();
-            this.creditOptionId = regRequestItem.getCreditOptionId();
+            this.gradingOptionKey = regRequestItem.getGradingOptionKey();
+            this.creditOptionKey = regRequestItem.getCreditOptionKey();
             this._futureElements = null;
         }
     }
@@ -86,12 +86,12 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
         this.okToHoldList = okToHoldList;
     }
 
-    public void setGradingOptionId(String gradingOptionId) {
-        this.gradingOptionId = gradingOptionId;
+    public void setGradingOptionKey(String gradingOptionId) {
+        this.gradingOptionKey = gradingOptionId;
     }
 
-    public void setCreditOptionId(String creditOptionId) {
-        this.creditOptionId = creditOptionId;
+    public void setCreditOptionKey(String creditOptionId) {
+        this.creditOptionKey = creditOptionId;
     }
 
     @Override
@@ -119,15 +119,15 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
     }
 
     @Override
-    public String getGradingOptionId() {
+    public String getGradingOptionKey() {
 
-        return gradingOptionId;
+        return gradingOptionKey;
     }
 
     @Override
-    public String getCreditOptionId() {
+    public String getCreditOptionKey() {
 
-        return creditOptionId;
+        return creditOptionKey;
     }
 
     public void setStudentId(String studentId) {

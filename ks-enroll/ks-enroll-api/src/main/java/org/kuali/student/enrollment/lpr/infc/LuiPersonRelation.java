@@ -58,5 +58,5 @@ public interface LuiPersonRelation extends Relationship {
      * 
      * @return
      */
-    public List<String> getResultOptionIds();
+    public List<String> getResultValuesGroupKeys();
 }

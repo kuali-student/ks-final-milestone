@@ -46,31 +46,6 @@ CREATE TABLE KSEN_LPR_ATTR
 /
 
 -----------------------------------------------------------------------------
--- KSEN_LPR_STATE
------------------------------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_STATE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_STATE CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-CREATE TABLE KSEN_LPR_STATE 
-   (	ID VARCHAR2(255), 
-			OBJ_ID VARCHAR2(36), 
-			VER_NBR NUMBER(19,0), 
-			CREATEID VARCHAR2(255), 
-			CREATETIME TIMESTAMP (6), 
-			UPDATEID VARCHAR2(255), 
-			UPDATETIME TIMESTAMP (6), 
-			DESCR VARCHAR2(255), 
-			EFFECTIVEDATE TIMESTAMP (6), 
-			EXPIRATIONDATE TIMESTAMP (6), 
-			NAME VARCHAR2(255)
-   )
-/
-
------------------------------------------------------------------------------
 -- KSEN_LPR_TYPE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -218,3 +193,43 @@ create table KSEN_LPR_ROSTER_ENTRY
 		RELATION_TYPE_ID varchar2(255)
   )
 /
+
+-----------------------------------------------------------------------------
+-- KSEN_LPR_TRANS_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_LPR_TRANS_ATTR 
+   (	ID VARCHAR2(255), 
+			OBJ_ID VARCHAR2(36), 
+			ATTR_KEY VARCHAR2(255), 
+			ATTR_VALUE VARCHAR2(2000), 
+			OWNER VARCHAR2(255)
+   )
+/
+
+
+-----------------------------------------------------------------------------
+-- KSEN_LPR_TRANS_ITEM_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_TRANS_ITEM_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_TRANS_ITEM_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_LPR_TRANS_ITEM_ATTR 
+   (	ID VARCHAR2(255), 
+			OBJ_ID VARCHAR2(36), 
+			ATTR_KEY VARCHAR2(255), 
+			ATTR_VALUE VARCHAR2(2000), 
+			OWNER VARCHAR2(255)
+   )
+/
+

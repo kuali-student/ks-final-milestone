@@ -22,10 +22,13 @@ public class LprTransAttributeEntity extends BaseAttributeEntity<LprTransactionE
         super(att);
     }
 
+    public LprTransAttributeEntity(String key, String value) {
+        super(key, value);
+    }
+
     @Override
     public void setOwner(LprTransactionEntity owner) {
         this.owner = owner;
-
     }
 
     @Override

@@ -40,8 +40,8 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
         RegRequestItemInfo regRequestItemInfo = new RegRequestItemInfo();
         EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo> commonAssembler = new EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo>();
         regRequestItemInfo = commonAssembler.assemble(baseDTO, regRequestItemInfo, context);
-        regRequestItemInfo.setCreditOptionId(null);
-        regRequestItemInfo.setGradingOptionId(null);
+        regRequestItemInfo.setCreditOptionKey(null);
+        regRequestItemInfo.setGradingOptionKey(null);
         regRequestItemInfo.setStudentId(baseDTO.getPersonId());
         regRequestItemInfo.setExistingRegGroupId(baseDTO.getExistingLuiId());
         regRequestItemInfo.setNewRegGroupId(baseDTO.getNewLuiId());

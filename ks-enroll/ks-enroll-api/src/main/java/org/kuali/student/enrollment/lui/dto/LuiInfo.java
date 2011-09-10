@@ -46,7 +46,7 @@ import org.w3c.dom.Element;
     "officialIdentifier", "alternateIdentifiers", "cluId",
     "cluCluRelationIds", "atpKey", "luiCodes",
     "maximumEnrollment", "minimumEnrollment", "referenceURL",
-    "unitsContentOwner", "unitsDeployment", "resultOptionIds",
+    "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
     "fees", "revenues", "expenditure",
     "meta", "attributes", "meetingSchedules", "_futureElements"})
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
@@ -79,7 +79,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     @XmlElement
     private List<String> unitsDeployment;
     @XmlElement
-    private List<String> resultOptionIds;
+    private List<String> resultValuesGroupKeys;
     @XmlElement
     private List<FeeInfo> fees;
     @XmlElement
@@ -109,7 +109,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         referenceURL = null;
         unitsDeployment = new ArrayList<String>();
         unitsContentOwner = new ArrayList<String>();
-        resultOptionIds = new ArrayList<String>();
+        resultValuesGroupKeys = new ArrayList<String>();
 
         fees = new ArrayList<FeeInfo>();
         revenues = new ArrayList<RevenueInfo>();
@@ -158,7 +158,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
             this.unitsContentOwner = new ArrayList<String>(lui.getUnitsContentOwner());
         }
         this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
-        this.resultOptionIds = new ArrayList<String>(lui.getResultOptionIds());
+        this.resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
 
         this.fees = new ArrayList<FeeInfo>();
         if (lui.getFees() != null) {
@@ -306,12 +306,12 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     }
 
     @Override
-    public List<String> getResultOptionIds() {
-        return resultOptionIds;
+    public List<String> getResultValuesGroupKeys() {
+        return resultValuesGroupKeys;
     }
 
-    public void setResultOptionIds(List<String> resultOptionIds) {
-        this.resultOptionIds = resultOptionIds;
+    public void setResultValuesGroupKeys(List<String> resultValueGroupKeys) {
+        this.resultValuesGroupKeys = resultValueGroupKeys;
     }
 
     @Override

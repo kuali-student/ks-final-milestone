@@ -28,8 +28,8 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeRosterEntryInfo", propOrder = {"id", "studentId", "activityOfferingId",
-        "assignedGrade", "calculatedGrade", "creditsEarned", "meta", "attributes", "_futureElements"})
+@XmlType(name = "GradeRosterEntryInfo", propOrder = {"id", "studentId", "activityOfferingId", "assignedGradeKey",
+        "administrativeGradeKey", "calculatedGradeKey", "creditsEarnedKey", "meta", "attributes", "_futureElements"})
 public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements GradeRosterEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,17 +44,25 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
     private String activityOfferingId;
 
     @XmlElement
-    private AssignedGradeInfo assignedGrade;
+    private String assignedGradeKey;
 
     @XmlElement
-    private CalculatedGradeInfo calculatedGrade;
+    private String administrativeGradeKey;
 
     @XmlElement
-    private CreditsEarnedInfo creditsEarned;
+    private String calculatedGradeKey;
+
+    @XmlElement
+    private String creditsEarnedKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    public GradeRosterEntryInfo() {
+        super();
+    }
+
+    @Override
     public String getId() {
         return id;
     }
@@ -63,6 +71,7 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
         this.id = id;
     }
 
+    @Override
     public String getStudentId() {
         return studentId;
     }
@@ -71,6 +80,7 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
         this.studentId = studentId;
     }
 
+    @Override
     public String getActivityOfferingId() {
         return activityOfferingId;
     }
@@ -79,27 +89,39 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
         this.activityOfferingId = activityOfferingId;
     }
 
-    public AssignedGradeInfo getAssignedGrade() {
-        return assignedGrade;
+    @Override
+    public String getAssignedGradeKey() {
+        return assignedGradeKey;
     }
 
-    public void setAssignedGrade(AssignedGradeInfo assignedGrade) {
-        this.assignedGrade = assignedGrade;
+    public void setAssignedGradeKey(String assignedGradeId) {
+        this.assignedGradeKey = assignedGradeId;
     }
 
-    public CalculatedGradeInfo getCalculatedGrade() {
-        return calculatedGrade;
+    @Override
+    public String getCalculatedGradeKey() {
+        return calculatedGradeKey;
     }
 
-    public void setCalculatedGrade(CalculatedGradeInfo calculatedGrade) {
-        this.calculatedGrade = calculatedGrade;
+    public void setCalculatedGradeKey(String calculatedGradeId) {
+        this.calculatedGradeKey = calculatedGradeId;
     }
 
-    public CreditsEarnedInfo getCreditsEarned() {
-        return creditsEarned;
+    @Override
+    public String getCreditsEarnedKey() {
+        return creditsEarnedKey;
     }
 
-    public void setCreditsEarned(CreditsEarnedInfo creditsEarned) {
-        this.creditsEarned = creditsEarned;
+    public void setCreditsEarnedKey(String creditsEarnedKey) {
+        this.creditsEarnedKey = creditsEarnedKey;
+    }
+
+    @Override
+    public String getAdministrativeGradeKey() {
+        return administrativeGradeKey;
+    }
+
+    public void setAdministrativeGradeKey(String administrativeGradeKey) {
+        this.administrativeGradeKey = administrativeGradeKey;
     }
 }

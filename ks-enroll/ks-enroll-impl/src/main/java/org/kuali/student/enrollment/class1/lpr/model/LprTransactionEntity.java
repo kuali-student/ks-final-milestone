@@ -13,15 +13,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LprTransaction;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
 public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransAttributeEntity> {
+
+    @Column(name = "TRANS_NAME")
+    private String name;
 
     @Column(name = "REQ_PERSON_ID")
     private String requestingPersonId;
@@ -49,8 +54,18 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
+        this.name = lprTransaction.getName();
         this.requestingPersonId = lprTransaction.getRequestingPersonId();
         this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
+        this.setId(lprTransaction.getId());
+        this.descr = new LprRichTextEntity(lprTransaction.getDescr());
+        // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
+        if (null != lprTransaction.getAttributes()) {
+            for (Attribute att : lprTransaction.getAttributes()) {
+                this.getAttributes().add(new LprTransAttributeEntity(att));
+
+            }
+        }
 
     }
 
@@ -74,8 +89,25 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
             }
             lpr.setAttributes(atts);
         }
+        lpr.setName(getName());
+        lpr.setRequestingPersonId(getRequestingPersonId());
+        List<LprTransactionItemInfo> lprItemsInfo = new ArrayList<LprTransactionItemInfo>();
+        if (lprTransactionItems != null) {
+            for (LprTransactionItemEntity lprItemEntity : lprTransactionItems) {
+                lprItemsInfo.add(lprItemEntity.toDto());
+            }
+        }
+        lpr.setLprTransactionItems(lprItemsInfo);
         return lpr;
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LprRichTextEntity getDescr() {

@@ -90,7 +90,7 @@ public interface RegRequestItem extends Entity {
      * 
      * @return
      */
-    public String getGradingOptionId();
+    public String getGradingOptionKey();
 
     /**
      * Specify the preferred credit option e.g credit/ no-credit for the course
@@ -98,6 +98,6 @@ public interface RegRequestItem extends Entity {
      * 
      * @return
      */
-    public String getCreditOptionId();
+    public String getCreditOptionKey();
 
 }

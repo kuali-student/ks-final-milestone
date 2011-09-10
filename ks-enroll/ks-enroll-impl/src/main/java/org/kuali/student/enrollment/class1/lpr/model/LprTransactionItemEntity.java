@@ -1,9 +1,7 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +14,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CollectionOfElements;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -47,7 +46,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     private StateEntity lprTransactionItemState;
 
     @CollectionOfElements
-    private Set<String> resutOptionIds = new HashSet<String>();
+    private List<String> resutOptionIds = new ArrayList<String>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprTransItemAttributeEntity> attributes;
@@ -78,7 +77,31 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     }
 
     public LprTransactionItemInfo toDto() {
-        return new LprTransactionItemInfo();
+
+        LprTransactionItemInfo lprTransItemInfo = new LprTransactionItemInfo();
+        lprTransItemInfo.setId(getId());
+
+        if (lprTransactionItemType != null)
+            lprTransItemInfo.setTypeKey(lprTransactionItemType.getId());
+        if (lprTransactionItemState != null)
+            lprTransItemInfo.setStateKey(lprTransactionItemState.getId());
+        lprTransItemInfo.setExistingLuiId(existingLuiId);
+        lprTransItemInfo.setNewLuiId(newLuiId);
+        lprTransItemInfo.setPersonId(personId);
+        lprTransItemInfo.setResultOptionIds(resutOptionIds);
+        lprTransItemInfo.setMeta(super.toDTO());
+        if (descr != null)
+            lprTransItemInfo.setDescr(descr.toDto());
+        if (getAttributes() != null) {
+            List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+            for (LprTransItemAttributeEntity att : getAttributes()) {
+                AttributeInfo attInfo = att.toDto();
+                atts.add(attInfo);
+            }
+            lprTransItemInfo.setAttributes(atts);
+        }
+        return lprTransItemInfo;
+
     }
 
     public LprRichTextEntity getDescr() {
@@ -129,11 +152,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.lprTransactionItemState = lprTransactionState;
     }
 
-    public Set<String> getResutOptionIds() {
+    public List<String> getResutOptionIds() {
         return resutOptionIds;
     }
 
-    public void setResutOptionIds(Set<String> resutOptionIds) {
+    public void setResutOptionIds(List<String> resutOptionIds) {
         this.resutOptionIds = resutOptionIds;
     }
 
