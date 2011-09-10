@@ -62,6 +62,12 @@
         </property>
     </bean>
 
+    <bean id="TimePreviewControl" parent="TimePreviewControl-parentBean"/>
+    <bean id="TimePreviewControl-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.control.TimePreviewControl" scope="prototype">
+        <property name="template" value="/ks-enroll/WEB-INF/jsp/timePreview.jsp"/>
+    </bean>
+
     <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
     <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">

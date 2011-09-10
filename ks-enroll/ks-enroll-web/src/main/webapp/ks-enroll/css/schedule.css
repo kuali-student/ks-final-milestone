@@ -70,3 +70,11 @@
 .timeHighlight{
 	border: 2px dotted yellow;
 }
+
+.timeBlock-conflict-new{
+    background-color: red;
+}
+
+.timeBlock-conflict-old{
+
+}

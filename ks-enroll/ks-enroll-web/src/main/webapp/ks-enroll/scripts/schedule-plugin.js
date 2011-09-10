@@ -14,17 +14,9 @@
                 data: null
             }, options);
 
-            var localVars = {
-                genRed : 40,
-                genGreen : 40,
-                genBlue : 40,
-                colorIndex : 0,
-                charCode : 64, //A - 1 is start
-                nameIndex : 0
-            };
-
             $.data(this, "options", options);
-            $.data(this, "vars", localVars);
+            initScheduleVars(this);
+
             var cellWidth = $(this).find(".schedule td").css("width").replace("px", "");
             var borderWidth = 1;
             var tableWidth;
@@ -60,11 +52,25 @@
         }
     }
 
-    $.fn.addSchedulePreviewTimeHandler = function(scheduleId, days, startTime, endTime) {
+    $.fn.addSchedulePreviewMultipleTimesHandler = function(scheduleId, data) {
         var name = genBlockName($("#" + scheduleId)[0]);
         $(this).hover(
             function () {
-                $("#" + scheduleId).addTime(name, days, startTime, endTime, null, null, null, "previewTimeBlock", false);
+                $.each(data, function(index, value) {
+                    $("#" + scheduleId).addTime(name, value.days, value.startTime, value.endTime, value.name, value.timeType, value.displayableTime, "previewTimeBlock", false);
+                });
+            },
+            function () {
+                $("#" + scheduleId).removeTime(name);
+            }
+        );
+    };
+
+    $.fn.addSchedulePreviewSingleTimeHandler = function(scheduleId, days, startTime, endTime) {
+        var name = genBlockName($("#" + scheduleId)[0]);
+        $(this).hover(
+            function () {
+                $("#" + scheduleId).addTime(name, value.days, value.startTime, value.endTime, value.name, value.timeType, value.displayableTime, "previewTimeBlock", false);
             },
             function () {
                 $("#" + scheduleId).removeTime(name);
@@ -129,21 +135,27 @@
             generatedColor = getGeneratedColor(schedule);
         }
 
-        var generatedTimeName = genTimeName(schedule, name, timeName, typeName, displayableTime);
+        var generatedTimeName = "";
+        if (timeName && typeName && displayableTime) {
+            generatedTimeName = genTimeName(schedule, name, timeName, typeName, displayableTime);
+        }
 
         $.each(days, function(index, value) {
             var dayIndex = determineDayIndex(schedule, value);
             //-1 means an invalid date for this schedule so don't add it
             if (dayIndex != -1) {
+
+                //find td that matches start time and start day index in schedule table
+                var tdLoc = $(schedule).find(".timeRow:nth-child(" + startIndex + ")").find("td:nth-child(" + dayIndex + ")");
+
                 var div = $('<div name="' + name + '" class="timeBlock">' + content + '</div>');
                 if (cssColorClass) {
                     div.addClass(cssColorClass);
                 }
                 else {
-                    //generate a shade of gray if no css class assigned
+                    //generate a shade if no css class assigned
                     div.css("background-color", generatedColor);
                 }
-                var tdLoc = $(schedule).find(".timeRow:nth-child(" + startIndex + ")").find("td:nth-child(" + dayIndex + ")");
 
                 var divHeight = tdLoc.outerHeight() * totalHours;
                 div.height(divHeight);
@@ -151,29 +163,69 @@
                 var divWidth = Math.floor(tdLoc.width() / 2);
                 div.width(divWidth);
 
-                var left = Math.floor(tdLoc.width() / 4);
-                div.css("left", left + "px");
-
                 var top = tdLoc.height() * startMinFraction;
                 div.css("top", top + "px");
 
+                var conflicts = checkForConflicts(schedule, dayIndex, parseInt(startTime), parseInt(endTime));
+                if (conflicts.length) {
+                    //has time conflict
+                    var left = Math.floor(tdLoc.width() / 8);
+                    div.css("left", left + "px");
+
+                    div.addClass("timeBlock-conflict-new");
+                    $(conflicts).each(function() {
+                        $(this).addClass("timeBlock-conflict-old");
+                        $(this).css("left", (left * 3) + "px");
+                    });
+                }
+                else {
+                    //does not have time conflict
+                    var left = Math.floor(tdLoc.width() / 4);
+                    div.css("left", left + "px");
+                }
+
                 $(tdLoc).find("div:not('.timeBlock')").append(div);
+
+                //add time block data to its element internally
+                $.data(div[0], "timeData", genBlockData(dayIndex, parseInt(startTime), parseInt(endTime)));
             }
         });
 
         $(schedule).find("[name='" + name + "']").each(function() {
-            $(this).attr('title', generatedTimeName);
-            $.data(this, "timeName", generatedTimeName);
+            if (generatedTimeName) {
+                $(this).attr('title', generatedTimeName);
+                $.data(this, "timeName", generatedTimeName);
+            }
         });
     };
 
     $.fn.removeTimeAndKey = function(name) {
-        $(this).find("div[name='" + name + "']").remove();
+        $(this).removeTime(name);
         $(this).find("tr[name='" + name + "']").remove();
     };
 
     $.fn.removeTime = function(name) {
-        $(this).find("div[name='" + name + "']").remove();
+        var removals = $(this).find("div[name='" + name + "']");
+        var schedule = this[0];
+        var oldData = [];
+        $(removals).each(function() {
+            var data = $.data(this, "timeData");
+            oldData.push(data);
+        });
+        $(removals).remove();
+
+        $(oldData).each(function(index, value) {
+            var conflicts = checkForConflicts(schedule, value.dayIndex, value.start, value.end);
+            if (conflicts.length) {
+                //had a time conflict that resolved, now return to original position
+                $(conflicts).each(function() {
+                    var tdLoc = $(this).closest("td");
+                    var left = Math.floor(tdLoc.width() / 4);
+                    $(this).removeClass("timeBlock-conflict-old");
+                    $(this).css("left", left + "px");
+                });
+            }
+        });
     };
 
     $.fn.removeKey = function(name) {
@@ -264,10 +316,47 @@
     }
 
     //private functions
-    function genBlockName(schedule) {
+    function initScheduleVars(schedule) {
         var vars = $.data(schedule, "vars");
+        if (vars == null) {
+            var localVars = {
+                genRed : 40,
+                genGreen : 40,
+                genBlue : 40,
+                colorIndex : 0,
+                charCode : 64, //A - 1 is start
+                nameIndex : 0
+            };
+            $.data(schedule, "vars", localVars);
+        }
+    }
+
+    function genBlockName(schedule) {
+        initScheduleVars(schedule);
+        var vars = $.data(schedule, "vars");
+
         vars.nameIndex++;
         return "timeBlock" + vars.nameIndex;
+    }
+
+    function genBlockData(dayIndex, startTime, endTime) {
+        return  {dayIndex: dayIndex, start: startTime, end: endTime};
+    }
+
+    function checkForConflicts(schedule, dayIndex, startTime, endTime) {
+        var conflicts = [];
+        $(schedule).find(".timeBlock").each(function() {
+            var data = $.data(this, "timeData");
+            if (data.dayIndex == dayIndex) {
+                if (startTime >= data.start && startTime < data.endTime) {
+                    conflicts.push(this);
+                }
+                else if (startTime <= data.start && endTime > data.start) {
+                    conflicts.push(this);
+                }
+            }
+        });
+        return conflicts;
     }
 
     function getTimeName(schedule, name, timeName, typeName, displayableTime) {

@@ -19,6 +19,7 @@ public class MeetingScheduleWrapper implements Serializable {
     private String endTime;
     private String regGroupId;
     private String timeTypeName;
+    private String regGroupTimesJsObject;
 
     public MeetingScheduleWrapper() {
         this.days = new ArrayList<String>();
@@ -195,5 +196,13 @@ public class MeetingScheduleWrapper implements Serializable {
 
     public void setTimeTypeName(String timeTypeName) {
         this.timeTypeName = timeTypeName;
+    }
+
+    public String getRegGroupTimesJsObject() {
+        return regGroupTimesJsObject;
+    }
+
+    public void setRegGroupTimesJsObject(String regGroupTimesJsObject) {
+        this.regGroupTimesJsObject = regGroupTimesJsObject;
     }
 }

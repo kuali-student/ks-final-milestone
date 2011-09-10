@@ -157,7 +157,7 @@
           <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
         </property>
         <property name="summary"
-                  value="Click a class to show/hide detail"/>
+                  value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
         <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper"/>
@@ -203,7 +203,7 @@
             <list>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
                       p:clientSideJs="updateCollectionAndRelatedItem('ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="Register"/>
+                      p:actionLabel="Add to Cart"/>
             </list>
         </property>
         <property name="items">
@@ -268,6 +268,11 @@
         <property name="items">
             <list>
                 <bean parent="AttributeField" p:styleClasses="displayableTime" p:labelField.render="false" p:propertyName="displayableTime"/>
+                <bean parent="AttributeField_Form" p:readOnly="false" p:labelField.render="false" p:propertyName="regGroupTimesJsObject">
+                    <property name="control">
+                        <bean parent="TimePreviewControl" p:hoverComponentClass="meetingTime-item" p:scheduleId="RegScheduleTable"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

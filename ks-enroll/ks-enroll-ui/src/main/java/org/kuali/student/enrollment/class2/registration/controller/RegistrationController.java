@@ -136,7 +136,7 @@ public class RegistrationController extends UifControllerBase {
      */
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                              HttpServletRequest request, HttpServletResponse response) {
         ContextInfo context = ContextInfo.newInstance();
         RegistrationForm regForm = (RegistrationForm) formBase;
         try {
@@ -168,7 +168,7 @@ public class RegistrationController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=searchCourseOfferings")
     public ModelAndView searchCourseOfferings(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                                              HttpServletRequest request, HttpServletResponse response) {
 //        RegistrationForm registrationForm = (RegistrationForm) formBase;
         ContextInfo context = ContextInfo.newInstance();
 
@@ -178,13 +178,13 @@ public class RegistrationController extends UifControllerBase {
             List<String> courseOfferingIds = getCourseOfferingIds(registrationForm, context);
             registrationForm.setCourseOfferingWrappers(new ArrayList<CourseOfferingWrapper>(courseOfferingIds.size()));
 
-            for(String coId : courseOfferingIds) {
+            for (String coId : courseOfferingIds) {
                 CourseOfferingWrapper courseOfferingWrapper = new CourseOfferingWrapper();
                 courseOfferingWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
                 List<RegistrationGroupInfo> regGroups = getRegistrationGroupInfos(coId, context);
 
                 List<RegistrationGroupWrapper> registrationGroupWrappers = new ArrayList<RegistrationGroupWrapper>(regGroups.size());
-                for(RegistrationGroupInfo regGroup : regGroups) {
+                for (RegistrationGroupInfo regGroup : regGroups) {
                     RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
                     registrationGroupWrapper.setRegistrationGroup(regGroup);
                     registrationGroupWrapper.setCourseOffering(courseOfferingWrapper.getCourseOffering());
@@ -225,10 +225,10 @@ public class RegistrationController extends UifControllerBase {
 //        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
         fakeDataNum = 0;
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
-        for(String activityId : regGroup.getActivityOfferingIds()) {
+        for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
-            if(StringUtils.isBlank(activityOfferingInfo.getTypeKey())){
+            if (StringUtils.isBlank(activityOfferingInfo.getTypeKey())) {
                 activityOfferingInfo.setTypeKey("Lecture");
             }
             wrapper.setActivityOffering(activityOfferingInfo);
@@ -238,13 +238,28 @@ public class RegistrationController extends UifControllerBase {
         }
         // TODO remove this hack once activity offering info objects are saving with reg groups properly
         //if (activityOfferingWrappers.isEmpty()) {
-            ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
-            ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
-            activityOfferingInfo.setTypeKey("Lab");
-            wrapper.setActivityOffering(activityOfferingInfo);
-            wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
-            activityOfferingWrappers.add(wrapper);
+        ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
+        ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
+        activityOfferingInfo.setTypeKey("Lab");
+        wrapper.setActivityOffering(activityOfferingInfo);
+        wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
+        activityOfferingWrappers.add(wrapper);
         //}
+        StringBuilder builder = new StringBuilder();
+        for (ActivityOfferingWrapper a : activityOfferingWrappers) {
+            for (MeetingScheduleWrapper m : a.getMeetingScheduleWrappers()) {
+                if (StringUtils.isNotBlank(builder.toString())) {
+                    builder.append(",");
+                }
+                builder.append(m.getJsScheduleObject());
+            }
+        }
+        String times = "[" + builder.toString() + "]";
+        for (ActivityOfferingWrapper a : activityOfferingWrappers) {
+            for (MeetingScheduleWrapper m : a.getMeetingScheduleWrappers()) {
+                m.setRegGroupTimesJsObject(times);
+            }
+        }
         return activityOfferingWrappers;
     }
 
@@ -259,10 +274,9 @@ public class RegistrationController extends UifControllerBase {
         // TODO undo this hack once valid MeetingScheduleInfo objects exist in the system
         if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
             MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
-            if(fakeDataNum > 0){
+            if (fakeDataNum > 0) {
                 meetingScheduleInfo.setTimePeriods("MO,WE,FR;1515,1630");
-            }
-            else{
+            } else {
                 meetingScheduleInfo.setTimePeriods("TU,TH;1130,1330");
             }
             MeetingScheduleWrapper wrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
@@ -271,7 +285,7 @@ public class RegistrationController extends UifControllerBase {
             wrappers.add(wrapper);
 
             //Hack for one more meeting time
-            if(fakeDataNum == 0){
+            if (fakeDataNum == 0) {
                 MeetingScheduleInfo meetingScheduleInfo2 = new MeetingScheduleInfo();
                 meetingScheduleInfo2.setTimePeriods("TU,TH;1500,1600");
                 MeetingScheduleWrapper wrapper2 = new MeetingScheduleWrapper(meetingScheduleInfo2);
@@ -282,12 +296,13 @@ public class RegistrationController extends UifControllerBase {
         }
         return wrappers;
     }
+
     /**
      * After the document is loaded calls method to setup the maintenance object
      */
     @RequestMapping(params = "methodToCall=submitRegistration")
     public ModelAndView submitRegistration(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                                           HttpServletRequest request, HttpServletResponse response) {
         ContextInfo context = ContextInfo.newInstance();
         try {
             List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
@@ -327,7 +342,7 @@ public class RegistrationController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=registerClass")
     public ModelAndView registerClass(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
+                                      HttpServletRequest request, HttpServletResponse response) {
         ContextInfo context = ContextInfo.newInstance();
 
         // Code copied roughly from UifControllerBase.deleteLine() method
@@ -359,7 +374,7 @@ public class RegistrationController extends UifControllerBase {
         }
 
         if (collection instanceof List) {
-            RegistrationGroupWrapper regGroupWrapper = (RegistrationGroupWrapper)((List<Object>) collection).get(selectedLineIndex);
+            RegistrationGroupWrapper regGroupWrapper = (RegistrationGroupWrapper) ((List<Object>) collection).get(selectedLineIndex);
 
             try {
                 // TODO - check to make sure this is the proper process to register a new course
@@ -371,7 +386,7 @@ public class RegistrationController extends UifControllerBase {
                 List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
                 if (CollectionUtils.isEmpty(validationResultInfos)) {
                     registrationForm.setRegRequest(saveRegRequest(registrationForm.getRegRequest(), context));
-                    registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(),regGroupWrapper);
+                    registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
                     // TODO - should we remove the registration group from the collection?
 //                    ((List<Object>) collection).remove(selectedLineIndex);
                 } else {
