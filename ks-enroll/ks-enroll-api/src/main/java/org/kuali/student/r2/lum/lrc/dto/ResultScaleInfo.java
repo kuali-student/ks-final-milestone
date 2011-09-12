@@ -16,6 +16,7 @@
 package org.kuali.student.r2.lum.lrc.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,25 +27,24 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultScale;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResultScaleInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
-public class ResultScaleInfo extends HasAttributesAndMetaInfo implements ResultScale, Serializable {
+@XmlType(name = "ResultScaleInfo", propOrder = {
+        "key", "typeKey", "stateKey", "name", "descr", 
+        "resultValueRange", "effectiveDate", "expirationDate", 
+        "meta", "attributes", "_futureElements"})
+
+public class ResultScaleInfo 
+        extends KeyEntityInfo 
+        implements ResultScale, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String key;
-
     @XmlElement
-    private String name;
-
-    @XmlElement
-    private RichTextInfo descr;
+    private ResultValueRangeInfo resultValueRange;
 
     @XmlElement
     private Date effectiveDate;
@@ -57,9 +57,7 @@ public class ResultScaleInfo extends HasAttributesAndMetaInfo implements ResultS
 
     public ResultScaleInfo() {
         super();
-        key = null;
-        name = null;
-        descr = null;
+        resultValueRange = null;	
         effectiveDate = null;
         expirationDate = null;
     }
@@ -67,27 +65,19 @@ public class ResultScaleInfo extends HasAttributesAndMetaInfo implements ResultS
     public ResultScaleInfo(ResultScale resultScale) {
         super(resultScale);
         if (null != resultScale) {
-            this.key = resultScale.getKey();
-            this.name = resultScale.getName();
-            this.descr = new RichTextInfo(resultScale.getDescr());
+            this.resultValueRange = new ResultValueRangeInfo(resultScale.getResultValueRange());
             this.effectiveDate = new Date(resultScale.getEffectiveDate().getTime());
             this.expirationDate = new Date(resultScale.getExpirationDate().getTime());
         }
     }
 
-    @Override
-    public String getKey() {
-        return key;
+    @Override    
+    public ResultValueRangeInfo getResultValueRange() {
+        return resultValueRange;
     }
 
-    @Override    
-    public String getName() {
-        return name;
-    }
-
-    @Override    
-    public RichTextInfo getDescr() {
-        return descr;
+    public void setResultValueRange(ResultValueRangeInfo resultValueRange) {
+        this.resultValueRange = resultValueRange;
     }
 
     @Override    
@@ -95,36 +85,16 @@ public class ResultScaleInfo extends HasAttributesAndMetaInfo implements ResultS
         return effectiveDate;
     }
 
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     @Override    
     public Date getExpirationDate() {
         return expirationDate;
-    }
-    
-    public List<Element> get_futureElements() {
-        return _futureElements;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
     }
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
-    public void set_futureElements(List<Element> _futureElements) {
-        this._futureElements = _futureElements;
-    }    
 }

@@ -15,20 +15,36 @@
  */
 package org.kuali.student.r2.lum.lrc.infc;
 
-import java.util.Date;
+import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+/**
+ *  A ResultValuesGroup is used to relate a ResultScale to a learning
+ *  unit or grading entry. A ResultValuesGroup may be identical to a
+ *  ResultScale, or it may further contrict the valid values and
+ *  ranges defined in the ResultScale.
+ *
+ *  The purpose of the ResultValuesGroup is to permit a subset of
+ *  ResultValues and ranges to be applied without having to generate
+ *  new ResultScales.
+ */
 
-
-public interface ResultValuesGroup extends IdEntity {
-
+public interface ResultValuesGroup extends KeyEntity, HasEffectiveDates {
 
     /**
-     * Contains the list of discrete results value ids in this group.
-     * @name Result Value Ids
+     * The scale to which this group belongs. Result Values mapped to
+     * a Result Values Group belong to a single Result Scale.
+     *
+     * @name Result Scale Key
      */
-    public List<String> getResultValueIds();
+    public String getResultScaleKey();
+
+    /**
+     * Contains the list of discrete results value keys in this group.
+     * @name Result Value Keys
+     */
+    public List<String> getResultValueKeys();
 
     /**
      * The  range contained within this result value group. This is
@@ -37,24 +53,4 @@ public interface ResultValuesGroup extends IdEntity {
      * @name Result Value Range
      */
     public ResultValueRange getResultValueRange();
-        
-	/**
-	 * Date and time that this result component became effective. This is a
-	 * similar concept to the effective date on enumerated values. When an
-	 * expiration date has been specified, this field must be less than or equal
-	 * to the expiration date.
-	 * @name Effective Date
-	 */
-	public Date getEffectiveDate();
-
-	/**
-	 * Date and time that this result component expires. This is a similar
-	 * concept to the expiration date on enumerated values. If specified, this
-	 * should be greater than or equal to the effective date. If this field is
-	 * not specified, then no expiration date has been currently defined and
-	 * should automatically be considered greater than the effective date.
-	 * @name Expiration Date
-	 */
-	public Date getExpirationDate();
-
 }

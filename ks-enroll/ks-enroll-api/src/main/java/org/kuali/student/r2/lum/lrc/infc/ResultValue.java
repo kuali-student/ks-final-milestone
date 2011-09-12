@@ -15,85 +15,38 @@
  */
 package org.kuali.student.r2.lum.lrc.infc;
 
-import java.util.Date;
-
-import org.kuali.student.r2.common.infc.Entity;
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 
 /**
- * @author sambit
+ * A Result Value.
  */
 
-public interface ResultValue extends HasAttributesAndMeta {
+public interface ResultValue extends KeyEntity, HasEffectiveDates {
 
-	
-	/**
-	 * The unique identifier for this result value in the database
-	 * @name Result Value Identifier
-	 */
-	public String getId();
-	
     /**
-     * Name: Name
-     * A display name for this entity.
-     *  
-     * @return the entity name
+     * Identifier of the scale for this result value.
+     * 
+     * @name Scale Key
      */
-
-    public String getName();
-
+    public String getResultScaleKey();
 
     /**
-     * Name: Description
-     * A description of the entity.
-     *
-     * @return the entity description
-     */
-
-    public RichText getDescr();
-	
-	/**
-	 * Result Value string Value of the result. Typically corresponds with the
-	 * short coded form of the result(ex. "A", "4.0", "97.0", "B.S" etc.)
-	 * scaleKey Scale Identifier scaleKey
-	 * @name Result value
-	 */
-	public String getValue();
-    
-	/**
-	 * Identifier of the scale for this result value. Can be null if no scale associated 
-	 * with the resultValue
-	 * 
-	 * @name Scale Key
-	 */
-    public String getScaleKey();
-
-    /**
-     * Rank of the result value within the scale. Standards around uniqueness and meaning 
-     * of value are described in the information about the scale.
+     * Rank of the result value within the scale. Standards around
+     * uniqueness and meaning of value are described in the
+     * information about the scale.
      * 
      * @name Rank
+     * @return a floating point decimal as a string
      */
-    public Float getRank();      
-    
-	/**
-	 * Effective Date dateTime Date and time that this result value became
-	 * effective. This is a similar concept to the effective date on enumerated
-	 * values. When an expiration date has been specified, this field must be
-	 * less than or equal to the expiration date.
-	 * @name Effective Date
-	 */
-	public Date getEffectiveDate();
+    public String getNumericValue();      
 
-	/**
-	 * Expiration Date dateTime Date and time that this result value expires.
-	 * This is a similar concept to the expiration date on enumerated values. If
-	 * specified, this should be greater than or equal to the effective date. If
-	 * this field is not specified, then no expiration date has been currently
-	 * defined and should automatically be considered greater than the effective
-	 * date.
-	 * @name Expiration Date
-	 */
-	public Date getExpirationDate();	
+    /**
+     * Result Value string Value of the result. Typically corresponds with the
+     * short coded form of the result(ex. "A", "4.0", "97.0", "B.S" etc.)
+     * scaleKey Scale Identifier scaleKey.
+     *
+     * @name Result value
+     */
+    public String getValue();
 }

@@ -26,112 +26,67 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResultValueRangeInfo", propOrder = { "id", "minValue", "maxValue", "increment",
-		"effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
-public class ResultValueRangeInfo extends HasAttributesAndMetaInfo implements
-		ResultValueRange, Serializable {
+@XmlType(name = "ResultValueRangeInfo", propOrder = {
+        "minValue", "maxValue", "increment", 
+"_futureElements" })
 
-	private static final long serialVersionUID = 1L;
+public class ResultValueRangeInfo implements ResultValueRange, Serializable {
+    private static final long serialVersionUID = 1L;
 
-	@XmlAttribute
-	private String id;
-	
-	@XmlElement
-	private Float minValue;
+    @XmlElement
+    private String minValue;
 
-	@XmlElement
-	private Float maxValue;
-	
-	@XmlElement
-	private Float increment;
+    @XmlElement
+    private String maxValue;
 
-	@XmlElement
-	private Date effectiveDate;
-	
-	@XmlElement
-	private Date expirationDate;
+    @XmlElement
+    private String increment;
 
     @XmlAnyElement
     private List<Element> _futureElements;
-	
-	public ResultValueRangeInfo() {
-	}
 
-	public ResultValueRangeInfo(ResultValueRange resultValueRangeInfo) {
-		super(resultValueRangeInfo);
-		if (null != resultValueRangeInfo) {
-			this.minValue = resultValueRangeInfo.getMinValue();
-			this.maxValue = resultValueRangeInfo.getMaxValue();
-			this.increment = resultValueRangeInfo.getIncrement();
-			this.effectiveDate = new Date( resultValueRangeInfo.getEffectiveDate().getTime());
-			this.expirationDate = new Date (resultValueRangeInfo.getExpirationDate( ).getTime());
-		}
-	}
-
-	@Override
-	public String getId() {
-        return id;
+    public ResultValueRangeInfo() {
+        minValue = null;
+        maxValue = null;
+        increment = null;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ResultValueRangeInfo(ResultValueRange resultValueRangeInfo) {
+        if (null != resultValueRangeInfo) {
+            this.minValue = resultValueRangeInfo.getMinValue();
+            this.maxValue = resultValueRangeInfo.getMaxValue();
+            this.increment = resultValueRangeInfo.getIncrement();
+        }
     }
 
     @Override
-	public Float getMinValue() {
-		return minValue;
-	}
-
-	public void setMinValue(Float minValue) {
-		this.minValue = minValue;
-	}
-
-	@Override
-	public Float getMaxValue() {
-		return maxValue;
-	}
-
-	public void setMaxValue(Float maxValue) {
-		this.maxValue = maxValue;
-	}
-
-	@Override
-	public Float getIncrement() {
-		return increment;
-	}
-
-	public void setIncrement(Float increment) {
-		this.increment = increment;
-	}
-
-	@Override
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	@Override
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-    public List<Element> get_futureElements() {
-        return _futureElements;
+    public String getMinValue() {
+        return minValue;
     }
 
-    public void set_futureElements(List<Element> _futureElements) {
-        this._futureElements = _futureElements;
-    }	
+    public void setMinValue(String minValue) {
+        this.minValue = minValue;
+    }
+
+    @Override
+    public String getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(String maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    @Override
+    public String getIncrement() {
+        return increment;
+    }
+
+    public void setIncrement(String increment) {
+        this.increment = increment;
+    }
 }

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.w3c.dom.Element;
 
@@ -36,90 +36,106 @@ import org.w3c.dom.Element;
  * (1) as an explicit list of values, i.e. A, B, C, etc
  * (2) as a range of numeric values 1-100 with .01 increments
  * 
- * It may also combine the two approaches.
- * (3) A numeric range for a grade 1-100 but also allow for grades like I for incomplete.
+ * It may also combine the two approaches.  (3) A numeric range for a
+ * grade 1-100 but also allow for grades like I for incomplete.
  * 
- * Note: This object has been renamed from R1, previously it was called ResultComponent.
+ * Note: This object has been renamed from R1, previously it was
+ * called ResultComponent.
  * 
  * @Author sambit
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResultValuesGroupInfo", propOrder = { "id", "typeKey",
-		"stateKey", "name", "descr", "resultValueIds", "resultValueRange", "effectiveDate",
-		"expirationDate", "meta", "attributes", "_futureElements" })
-public class ResultValuesGroupInfo extends IdEntityInfo implements
-		ResultValuesGroup {
+@XmlType(name = "ResultValuesGroupInfo", propOrder = { 
+        "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey", 
+        "resultValueKeys", "resultValueRange", "effectiveDate",
+        "expirationDate", "meta", "attributes", "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
+public class ResultValuesGroupInfo 
+        extends KeyEntityInfo 
+        implements ResultValuesGroup {
 
-	@XmlElement
-	private List<String> resultValueIds;
+    private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String resultScaleKey;
+
+    @XmlElement
+    private List<String> resultValueKeys;
 
     @XmlElement
     private ResultValueRangeInfo resultValueRange;
 
-	@XmlElement
-	private Date effectiveDate;
+    @XmlElement
+    private Date effectiveDate;
 
-	@XmlElement
-	private Date expirationDate;
+    @XmlElement
+    private Date expirationDate;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
-	public ResultValuesGroupInfo() {
+    public ResultValuesGroupInfo() {
+        resultScaleKey = null;
+        resultValueKeys = new ArrayList<String>();
+        resultValueRange = null;
+        effectiveDate = null;
+        expirationDate = null;
+    }
 
-	}
+    public ResultValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
+        super(resultValuesGroup);
+        if (null != resultValuesGroup) {
+            this.resultScaleKey = resultValuesGroup.getResultScaleKey();
+            this.resultValueKeys = new ArrayList<String>(resultValuesGroup.getResultValueKeys());
+            this.resultValueRange = new ResultValueRangeInfo(resultValuesGroup.getResultValueRange());
+            this.effectiveDate = new Date(resultValuesGroup.getEffectiveDate().getTime());
+            this.expirationDate = new Date(resultValuesGroup.getExpirationDate().getTime());
+        }
+    }
 
-	public ResultValuesGroupInfo(ResultValuesGroup resultValueGroupInfo) {
-		super(resultValueGroupInfo);
-		if (null != resultValueGroupInfo) {
-			this.resultValueIds = new ArrayList<String>(
-					resultValueGroupInfo.getResultValueIds());
-            this.resultValueRange = new ResultValueRangeInfo(resultValueGroupInfo.getResultValueRange());
-			this.effectiveDate = new Date(resultValueGroupInfo.getEffectiveDate().getTime());
-			this.expirationDate = new Date(resultValueGroupInfo.getExpirationDate().getTime());
- 		}
-	}
+    @Override
+    public String getResultScaleKey() {
+        return resultScaleKey;
+    }
 
-	@Override
-	public List<String> getResultValueIds() {
-		if (resultValueIds == null) {
-			resultValueIds = new ArrayList<String>(0);
-		}
-		return resultValueIds;
-	}
+    public void setResultScaleKey(String resultScaleKey) {
+        this.resultScaleKey = resultScaleKey;
+    }
 
-	public void setResultValueIds(List<String> resultValueIds) {
-		this.resultValueIds = resultValueIds;
-	}
+    @Override
+    public List<String> getResultValueKeys() {
+        return resultValueKeys;
+    }
 
-	@Override
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public void setResultValueKeys(List<String> resultValueKeys) {
+        this.resultValueKeys = resultValueKeys;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+    @Override
+    public ResultValueRangeInfo getResultValueRange() {
+        return resultValueRange;
+    }
 
-	@Override
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public void setResultValueRange(ResultValueRangeInfo resultValueRange) {
+        this.resultValueRange = resultValueRange;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	public void setResultValueRange(ResultValueRangeInfo resultValueRange) {
-		this.resultValueRange = resultValueRange;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-	@Override
-	public ResultValueRangeInfo getResultValueRange() {
-		return resultValueRange;
-	}
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 }
