@@ -216,7 +216,7 @@ public class TestAcademicCalendarServiceImpl{
     @Test
     public void testGetAcademicCalendarsByStartYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException{
-        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(2000, callContext);
+        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(1980, callContext);
         assertNotNull("No Calendars returned.", acalInfos);
 
         Set<String> acalNames = new HashSet<String>();
