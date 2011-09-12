@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 
@@ -46,7 +47,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
 
     @ManyToOne
     @JoinColumn(name = "MILESTONE_STATE_ID")
-    private AtpStateEntity atpState;
+    private StateEntity atpState;
     
     @Column(name="IS_ALL_DAY")
     private boolean isAllDay;
@@ -66,7 +67,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.setAllDay(milestone.getIsAllDay());
         this.setDateRange(milestone.getIsDateRange());
         this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
-        AtpStateEntity state = new AtpStateEntity();
+        StateEntity state = new StateEntity();
         state.setId(milestone.getStateKey());
         this.setAtpState(state);
         AtpTypeEntity type = new AtpTypeEntity();
@@ -125,11 +126,11 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.atpType = atpType;
     }
 
-    public AtpStateEntity getAtpState() {
+    public StateEntity getAtpState() {
         return atpState;
     }
 
-    public void setAtpState(AtpStateEntity atpState) {
+    public void setAtpState(StateEntity atpState) {
         this.atpState = atpState;
     }
 

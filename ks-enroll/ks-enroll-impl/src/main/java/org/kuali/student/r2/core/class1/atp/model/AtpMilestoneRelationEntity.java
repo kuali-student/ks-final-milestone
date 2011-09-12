@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 
@@ -62,7 +63,7 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
 
     @ManyToOne
     @JoinColumn(name = "ATP_STATE_ID")
-    private AtpStateEntity atpState;
+    private StateEntity atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpMilestoneRelationAttributeEntity> attributes;
@@ -124,11 +125,11 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
         this.expirationDate = expirationDate;
     }
 
-    public AtpStateEntity getAtpState() {
+    public StateEntity getAtpState() {
         return atpState;
     }
 
-    public void setAtpState(AtpStateEntity atpState) {
+    public void setAtpState(StateEntity atpState) {
         this.atpState = atpState;
     }
     

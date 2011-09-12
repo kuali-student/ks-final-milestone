@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
@@ -463,7 +464,7 @@ public class AtpServiceImpl implements AtpService {
 
         AtpEntity atp = new AtpEntity(atpInfo);
         if (null != atpInfo.getStateKey()) {
-            atp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
+        	atp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context));
         }
         if (null != atpInfo.getTypeKey()) {
             atp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
@@ -487,6 +488,22 @@ public class AtpServiceImpl implements AtpService {
         return info;
     }
 
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, 
+			MissingParameterException, OperationFailedException{
+		StateEntity state = null;
+		try {
+			StateInfo stInfo = getState(processKey, stateKey, context);
+			if(stInfo != null){
+				state = new StateEntity(stInfo);
+				return state;
+			}
+			else
+				throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}			
+    }
+    
     @Override
     @Transactional
     public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
@@ -498,7 +515,7 @@ public class AtpServiceImpl implements AtpService {
         if (null != atp) {
             AtpEntity modifiedAtp = new AtpEntity(atpInfo);
             if (atpInfo.getStateKey() != null)
-                modifiedAtp.setAtpState(atpStateDao.find(atpInfo.getStateKey()));
+            	modifiedAtp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context));
             if (atpInfo.getTypeKey() != null)
                 modifiedAtp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
             atpDao.merge(modifiedAtp);
@@ -564,7 +581,7 @@ public class AtpServiceImpl implements AtpService {
         }
 
         if (milestoneInfo.getStateKey() != null) {
-            entity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
+        	entity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), context));
         }
 
         if (milestoneInfo.getDescr() != null) {
@@ -591,7 +608,7 @@ public class AtpServiceImpl implements AtpService {
         }
 
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
-        updatedEntity.setAtpState(atpStateDao.find(milestoneInfo.getStateKey()));
+        updatedEntity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), context));
         updatedEntity.setAtpType(atpTypeDao.find(milestoneInfo.getTypeKey()));
 
         milestoneDao.merge(updatedEntity);
@@ -693,7 +710,7 @@ public class AtpServiceImpl implements AtpService {
             atpRel.setId(UUIDHelper.genStringUUID());
 
             if (null != atpAtpRelationInfo.getStateKey()) {
-                atpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+            	atpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY, atpAtpRelationInfo.getStateKey(), context));
             }
             if (null != atpAtpRelationInfo.getTypeKey()) {
                 atpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
@@ -731,7 +748,7 @@ public class AtpServiceImpl implements AtpService {
             if (atpAtpRelationInfo.getTypeKey() != null)
                 modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             if (atpAtpRelationInfo.getStateKey() != null)
-                modifiedAtpRel.setAtpState(atpStateDao.find(atpAtpRelationInfo.getStateKey()));
+            	modifiedAtpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY, atpAtpRelationInfo.getStateKey(), context));
 
             atpRelDao.merge(modifiedAtpRel);
             return atpRelDao.find(modifiedAtpRel.getId()).toDto();
@@ -881,7 +898,7 @@ public class AtpServiceImpl implements AtpService {
                     .getTypeKey()));
         }
         if (atpMilestoneRelationInfo.getStateKey() != null) {
-            createdRel.setAtpState(atpStateDao.find(atpMilestoneRelationInfo.getStateKey()));
+        	createdRel.setAtpState(findState(AtpServiceConstants.ATP_MILESTONE_RELATION_PROCESS_KEY, atpMilestoneRelationInfo.getStateKey(), context));
         }
 
         atpMilestoneRelationDao.persist(createdRel);
@@ -914,7 +931,7 @@ public class AtpServiceImpl implements AtpService {
                     .getTypeKey()));
         }
         if (atpMilestoneRelationInfo.getStateKey() != null) {
-            modifiedRel.setAtpState(atpStateDao.find(atpMilestoneRelationInfo.getStateKey()));
+        	modifiedRel.setAtpState(findState(AtpServiceConstants.ATP_MILESTONE_RELATION_PROCESS_KEY, atpMilestoneRelationInfo.getStateKey(), context));
         }
 
         atpMilestoneRelationDao.merge(modifiedRel);

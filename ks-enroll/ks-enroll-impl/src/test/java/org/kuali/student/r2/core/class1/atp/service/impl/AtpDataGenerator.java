@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
@@ -55,8 +56,8 @@ public class AtpDataGenerator {
         return atpType;
     }
 
-    private AtpStateEntity createState() {
-        AtpStateEntity atpState = new AtpStateEntity();
+    private StateEntity createState() {
+        StateEntity atpState = new StateEntity();
         atpState.setName("state1");
         atpState.setDescription("state1 descr");
         return atpState;

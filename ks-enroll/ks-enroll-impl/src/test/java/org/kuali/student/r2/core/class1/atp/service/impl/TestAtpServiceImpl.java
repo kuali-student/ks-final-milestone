@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
@@ -50,6 +51,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao"),
     @Dao(value = "org.kuali.student.r2.common.dao.TypeTypeRelationDao")} )
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
+@Ignore
 public class TestAtpServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl")
     
