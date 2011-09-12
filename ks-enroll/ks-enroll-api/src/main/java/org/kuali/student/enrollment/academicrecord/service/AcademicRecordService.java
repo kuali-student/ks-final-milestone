@@ -195,5 +195,95 @@ public interface AcademicRecordService {
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */    
-     public GPAInfo getCumulativeGPA(@WebParam(name = "personId") String personId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public GPAInfo getCumulativeGPA(@WebParam(name = "personId") String personId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the number of credits a student earned in a
+     * given Term.
+     *
+     * @param personId an Id of a student
+     * @param termKey a key for a Term
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a number of credits represented by a string
+     * @throws DoesNotExistException personId, termKey or 
+     *         calculationTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */    
+    public String getEarnedCreditsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the number of credits a student earned in a
+     * given Academic Calendar.
+     *
+     * @param personId an Id of a student
+     * @param academicCalendarKey a key for an AcademicCalendar
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a number of credits represented by a string
+     * @throws DoesNotExistException personId, academicCalendarKey or 
+     *         calculationTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */    
+    public String getEarnedCreditsForAcademicCalendar(@WebParam(name = "personId") String personId, @WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the number of credits a student earned
+     * across all terms.
+     *
+     * @param personId an Id of a student
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a number of credits represented by a string
+     * @throws DoesNotExistException personId or calculationTypeKey 
+     *         not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */    
+    public String getEarnedCredits(@WebParam(name = "personId") String personId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the number of credits a student earned
+     * across all terms for a given Program.
+     *
+     * @param personId an Id of a student
+     * @param programId an Id of a Program
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a number of credits represented by a string
+     * @throws DoesNotExistException personId, programId or 
+     *         calculationTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */    
+    public String getCumulativeEarnedCreditsForProgram(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * This method returns the number of credits a student earned
+     * in a given term for a given Program.
+     *
+     * @param personId an Id of a student
+     * @param programId an Id of a Program
+     * @param termKey a key of a Term
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a number of credits represented by a string
+     * @throws DoesNotExistException personId, programId, termKey or 
+     *         calculationTypeKey not found
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     */    
+    public String getCumulativeEarnedCreditsForProgramAndTerm(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
