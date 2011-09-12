@@ -25,4 +25,19 @@ public class AtpDao extends GenericEntityDao<AtpEntity>{
         return em.createQuery("from AtpEntity a where a.startDate >= :startDate and a.endDate <= :endDate")
                             .setParameter("startDate", startDate, DATE).setParameter("endDate", endDate).getResultList();
     }
+
+    public List<AtpEntity> getByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd) {
+        return em.createQuery("from AtpEntity a where (a.startDate between :searchDateRangeStart and :searchDateRangeEnd)")
+                .setParameter("searchDateRangeStart", searchDateRangeStart, DATE)
+                .setParameter("searchDateRangeEnd", searchDateRangeEnd, DATE)
+                .getResultList();
+    }
+
+    public List<AtpEntity> getByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey) {
+        return em.createQuery("from AtpEntity a where (a.startDate between :searchDateRangeStart and :searchDateRangeEnd)  and (a.atpType.id = :searchTypeKey)")
+                .setParameter("searchDateRangeStart", searchDateRangeStart, DATE)
+                .setParameter("searchDateRangeEnd", searchDateRangeEnd, DATE)
+                .setParameter("searchTypeKey", searchTypeKey)
+                .getResultList();
+    }
 }

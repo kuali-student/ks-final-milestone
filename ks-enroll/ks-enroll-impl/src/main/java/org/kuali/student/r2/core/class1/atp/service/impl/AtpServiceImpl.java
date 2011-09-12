@@ -231,26 +231,38 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: review for change to focus on start year        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: review for change to focus on start year        
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: review for change to focus on start year        
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<AtpEntity> atps = atpDao.getByStartDateRange(searchDateRangeStart, searchDateRangeEnd);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     @Override
     public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: review for change to focus on start year        
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<AtpEntity> atps = atpDao.getByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     

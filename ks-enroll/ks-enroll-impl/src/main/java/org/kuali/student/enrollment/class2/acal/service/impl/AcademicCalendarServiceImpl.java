@@ -133,10 +133,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO: review for change to focus on start year
+        final Date yearBegin, yearEnd;
+
         Calendar cal = Calendar.getInstance();
         cal.clear();
-        cal.set(year, 0, 1); // Jan 1 of the specified year
+        cal.set(year, 0, 1);
+        yearBegin = cal.getTime(); // XXXX-01-01 00:00:00.000
+        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.MILLISECOND, -1);
+        yearEnd = cal.getTime();   // XXXX-12-31 23:59:59.999
 
         Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
             @Override
@@ -144,19 +149,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 return atpInfo1.getKey().compareTo(atpInfo2.getKey());
             }
         });
-        // get ATPs that include the start of the specified year
-        atpInfos.addAll(atpService.getAtpsByDate(cal.getTime(), context));
 
-        // and all the ATPs that include the end of the specified year
-        // (since we're looking for academic calendars that overlap that year)
-        cal.add(Calendar.YEAR, 1);
-        cal.add(Calendar.DAY_OF_YEAR, -1); // Dec 31st of the specified year
-        atpInfos.addAll(atpService.getAtpsByDate(cal.getTime(), context));
+        atpInfos.addAll(atpService.getAtpsByStartDateRangeAndType(yearBegin, yearEnd, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context));
+
         List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
         for (AtpInfo atpInfo : atpInfos) {
-            if (AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY.equals(atpInfo.getTypeKey())) {
-                acalInfos.add(acalAssembler.assemble(atpInfo, context));
-            }
+            acalInfos.add(acalAssembler.assemble(atpInfo, context));
         }
         return acalInfos;
     }

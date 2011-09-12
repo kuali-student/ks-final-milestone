@@ -1,16 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +30,8 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
@@ -224,10 +216,34 @@ public class TestAcademicCalendarServiceImpl{
     @Test
     public void testGetAcademicCalendarsByStartYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException{
-        // TODO: review for change to focus on start year
-        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(2011, callContext);
+        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(2000, callContext);
+        assertNotNull("No Calendars returned.", acalInfos);
 
-        assertEquals(1, acalInfos.size());
+        Set<String> acalNames = new HashSet<String>();
+        for (AcademicCalendarInfo acalInfo : acalInfos) {
+            acalNames.add(acalInfo.getName());
+        }
+
+        Set<String> expected = new HashSet<String>();
+        expected.add("testEdgeAtpId1");
+        expected.add("testEdgeAtpId4");
+        expected.add("testEdgeAtpId6");
+        expected.add("testEdgeAtpId7");
+        expected.add("testEdgeAtpId8");
+
+        Set<String> unexpected = new HashSet<String>();
+        unexpected.add("testEdgeAtpId2");
+        unexpected.add("testEdgeAtpId3");
+        unexpected.add("testEdgeAtpId5");
+        unexpected.add("testEdgeAtpId9");
+        unexpected.add("testEdgeAtpId10");
+
+        for (String acalName : expected) {
+            assertTrue("Expected calendar not returned: " + acalName, acalNames.contains(acalName));
+        }
+        for (String acalName : unexpected) {
+            assertFalse("Unexpected calendar returned: " + acalName, acalNames.contains(acalName));
+        }
     }
 
 	@Test
