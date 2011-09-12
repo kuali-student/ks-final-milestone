@@ -163,10 +163,10 @@ public class R1ToR2CopyHelper {
         // TODO: Deep copy the dates
         r2.setEffectiveDate(r1.getEffectiveDate());
         r2.setExpirationDate(r1.getExpirationDate());
-        r2.setId(r1.getId());
+        r2.setKey(r1.getId());
         r2.setMeta(copyMetaInfo(r1.getMetaInfo()));
         r2.setName(r1.getName());
-        r2.setResultValueIds(r1.getResultValues());
+        r2.setResultValueKeys(r1.getResultValues());
         // TODO: deail with ranges perhaps by interrogating the result values to see if it is a range?
         r2.setResultValueRange(null);
         r2.setStateKey(r1.getState());
