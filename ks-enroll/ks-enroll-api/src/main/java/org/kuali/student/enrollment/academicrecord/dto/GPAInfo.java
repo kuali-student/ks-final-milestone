@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermInfo", propOrder = {
+@XmlType(name = "GPAInfo", propOrder = {
         "value", "calculationTypeKey", "scaleKey", 
         "meta", "attributes", "_futureElements"})
 
@@ -59,10 +59,9 @@ public class GPAInfo
     }
 
     /**
-     * Constructs a new TermInfo from another
-     * Term.
+     * Constructs a new GPAInfo from another GPA.
      *
-     * @param term the Term to copy
+     * @param gpa the GPA to copy
      */
     public GPAInfo(GPA gpa) {
         super(gpa);

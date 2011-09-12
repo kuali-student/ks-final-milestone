@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.academicrecord.infc;
 
 import java.util.Date;
 
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+
 /**
  * Information about a Student Course Record. A Student Course Record
  * contains information on the courses a student has taken.
@@ -25,7 +27,8 @@ import java.util.Date;
  * @since Tue Sep 06 14:22:34 EDT 2011
  */ 
 
-public interface StudentCourseRecord {
+public interface StudentCourseRecord 
+    extends HasAttributesAndMeta {
 
     /**
      * The Id of the Student.
@@ -187,7 +190,7 @@ public interface StudentCourseRecord {
      *
      * @name Counts Toward Credits
      */
-    public Boolean countsTowardCredits();
+    public Boolean getCountsTowardCredits();
 
     /**
      * If this course is a repeat of a previous offering. the student
@@ -195,5 +198,5 @@ public interface StudentCourseRecord {
      *
      * @name Is Repeated
      */
-    public Boolean isRepeated();
+    public Boolean getIsRepeated();
 }
