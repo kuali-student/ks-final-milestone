@@ -124,49 +124,47 @@ public class GradingServiceMockImpl implements GradingService {
         satisfactoryGrades.add("Not-Satisfactory");
 
         ResultValuesGroupInfo letterGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        letterGradesResultValuesGroupInfo.setResultValueIds(letterGrades);
+        letterGradesResultValuesGroupInfo.setResultValueKeys(letterGrades);
         letterGradesResultValuesGroupInfo.setResultValueRange(null);
         letterGradesResultValuesGroupInfo.setEffectiveDate(null);
         letterGradesResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo completionNotationResultValuesGroupInfo = new ResultValuesGroupInfo();
-        completionNotationResultValuesGroupInfo.setResultValueIds(completionNotationGrades);
+        completionNotationResultValuesGroupInfo.setResultValueKeys(completionNotationGrades);
         completionNotationResultValuesGroupInfo.setResultValueRange(null);
         completionNotationResultValuesGroupInfo.setEffectiveDate(null);
         completionNotationResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo passFailResultValuesGroupInfo = new ResultValuesGroupInfo();
-        passFailResultValuesGroupInfo.setResultValueIds(passFailGrades);
+        passFailResultValuesGroupInfo.setResultValueKeys(passFailGrades);
         passFailResultValuesGroupInfo.setResultValueRange(null);
         passFailResultValuesGroupInfo.setEffectiveDate(null);
         passFailResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo completionNotationGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        completionNotationGradesResultValuesGroupInfo.setResultValueIds(completionNotationGrades);
+        completionNotationGradesResultValuesGroupInfo.setResultValueKeys(completionNotationGrades);
         completionNotationGradesResultValuesGroupInfo.setResultValueRange(null);
         completionNotationGradesResultValuesGroupInfo.setEffectiveDate(null);
         completionNotationGradesResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo passFailGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        passFailGradesResultValuesGroupInfo.setResultValueIds(passFailGrades);
+        passFailGradesResultValuesGroupInfo.setResultValueKeys(passFailGrades);
         passFailGradesResultValuesGroupInfo.setResultValueRange(null);
         passFailGradesResultValuesGroupInfo.setEffectiveDate(null);
         passFailGradesResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValuesGroupInfo satisfactoryGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        satisfactoryGradesResultValuesGroupInfo.setResultValueIds(satisfactoryGrades);
+        satisfactoryGradesResultValuesGroupInfo.setResultValueKeys(satisfactoryGrades);
         satisfactoryGradesResultValuesGroupInfo.setResultValueRange(null);
         satisfactoryGradesResultValuesGroupInfo.setEffectiveDate(null);
         satisfactoryGradesResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
-        resultValueRangeInfo.setMaxValue(100F);
-        resultValueRangeInfo.setMinValue(0F);
-        resultValueRangeInfo.setIncrement(.01F);
-        resultValueRangeInfo.setEffectiveDate(null);
-        resultValueRangeInfo.setExpirationDate(null);
+        resultValueRangeInfo.setMaxValue("100");
+        resultValueRangeInfo.setMinValue("0");
+        resultValueRangeInfo.setIncrement(".01");
         ResultValuesGroupInfo percentGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        percentGradesResultValuesGroupInfo.setResultValueIds(null);
+        percentGradesResultValuesGroupInfo.setResultValueKeys(null);
         percentGradesResultValuesGroupInfo.setResultValueRange(resultValueRangeInfo);
         percentGradesResultValuesGroupInfo.setEffectiveDate(null);
         percentGradesResultValuesGroupInfo.setExpirationDate(null);
