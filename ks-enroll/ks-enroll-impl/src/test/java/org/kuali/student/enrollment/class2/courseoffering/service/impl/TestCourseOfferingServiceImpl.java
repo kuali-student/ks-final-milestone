@@ -119,7 +119,6 @@ public class TestCourseOfferingServiceImpl {
         rv.setEffectiveDate(Calendar.getInstance().getTime());
         rv.setName("test");
         ResultValueRangeInfo rvr = new ResultValueRangeInfo();
-        rvr.setEffectiveDate(Calendar.getInstance().getTime());
         rv.setResultValueRange(rvr);
         retrieved.setCreditOptions(rv);
         try {
