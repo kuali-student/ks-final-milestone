@@ -32,11 +32,13 @@ public interface ResultValue extends KeyEntity, HasEffectiveDates {
     public String getResultScaleKey();
 
     /**
-     * A numeric value used to ranking or order this result value within the scale. 
+     * A numeric value used to ranking or order this result value
+     * within the scale.
      * 
-     * For Grades it holds the quality points, i.e. A=4.0, B=3.0.  For credits it holds 
-     * the actual numeric credits.  For degrees it is used to indicate perhaps how many years 
-     * of study it typically takes to achieve that degree.
+     * For Grades it holds the quality points, i.e. A=4.0, B=3.0.  For
+     * credits it holds the actual numeric credits.  For degrees it is
+     * used to indicate perhaps how many years of study it typically
+     * takes to achieve that degree.
      * 
      * @name Numeric Value
      * @return a floating point decimal as a string
@@ -44,9 +46,9 @@ public interface ResultValue extends KeyEntity, HasEffectiveDates {
     public String getNumericValue();      
 
     /**
-     * Result Value string Value of the result. Typically corresponds with the
-     * short coded form of the result(ex. "A", "4.0", "97.0", "B.S" etc.)
-     * scaleKey Scale Identifier scaleKey.
+     * Result Value string Value of the result. Typically corresponds
+     * with the short coded form of the result (ex. "A", "4.0",
+     * "97.0", "B.S" etc.)  scaleKey Scale Identifier scaleKey.
      *
      * @name Result value
      */
