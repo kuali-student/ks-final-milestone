@@ -34,15 +34,15 @@ import org.w3c.dom.Element;
         "personId", "courseTitle", "courseCode", "termName", 
         "courseBeginDate", "courseEndDate", 
         "assignedGradeValue", "assignedGradeScaleKey", 
-        "aaministrativeGradeValue", "administrativeGradeScaleKey", 
+        "administrativeGradeValue", "administrativeGradeScaleKey", 
         "calculatedGradeValue", "calculatedGradeScaleKey", 
-	"creditsAttempted", "creditsEarned", "creditsForGPA",
-	"countsTowardCredits", "isRepeated",
+        "creditsAttempted", "creditsEarned", "creditsForGPA",
+        "countsTowardCredits", "isRepeated",
         "meta", "attributes", "_futureElements"})
 
 public class StudentCourseRecordInfo 
-        extends HasAttributesAndMetaInfo 
-        implements StudentCourseRecord, Serializable {
+    extends HasAttributesAndMetaInfo 
+    implements StudentCourseRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -104,24 +104,24 @@ public class StudentCourseRecordInfo
     List<Element> _futureElements;
 
     public StudentCourseRecordInfo() {
-	personId = null;
-	courseTitle = null;
-	courseCode = null;
-	activityCode = null;
-	termName = null;
-	courseBeginDate = null;
-	courseEndDate = null;
-	assignedGradeValue = null;
-	assignedGradeScaleKey = null;
-	administrativeGradeValue = null;
-	administrativeGradeScaleKey = null;
-	calculatedGradeValue = null;
-	calculatedGradeScaleKey = null;
-	creditsAttempted = null;
-	creditsEarned = null;
-	creditsForGPA = null;
-	countsTowardCredits = new Boolean(false);
-	isRepeated = new Boolean(false);
+        personId = null;
+        courseTitle = null;
+        courseCode = null;
+        activityCode = null;
+        termName = null;
+        courseBeginDate = null;
+        courseEndDate = null;
+        assignedGradeValue = null;
+        assignedGradeScaleKey = null;
+        administrativeGradeValue = null;
+        administrativeGradeScaleKey = null;
+        calculatedGradeValue = null;
+        calculatedGradeScaleKey = null;
+        creditsAttempted = null;
+        creditsEarned = null;
+        creditsForGPA = null;
+        countsTowardCredits = new Boolean(false);
+        isRepeated = new Boolean(false);
 
         _futureElements = null;
     }
@@ -135,24 +135,24 @@ public class StudentCourseRecordInfo
     public StudentCourseRecordInfo(StudentCourseRecord scr) {
         super(scr);
 
-	personId = scr.getPersonId();;
-	courseTitle = scr.getCourseTitle();
-	courseCode = scr.getCourseCode();
-	activityCode = scr.getActivityCode();
-	termName = scr.getTermName();
-	courseBeginDate = scr.getCourseBeginDate();
-	courseEndDate = scr.getCourseEndDate();
-	assignedGradeValue = scr.getAssignedGradeValue();
-	assignedGradeScaleKey = scr.getAssignedGradeScaleKey();
-	administrativeGradeValue = scr.getAdministrativeGradeValue();
-	administrativeGradeScaleKey = scr.getAdministrativeGradeScaleKey();
-	calculatedGradeValue = scr.getCalculatedGradeValue();
-	calculatedGradeScaleKey = scr.getCalculatedGradeScaleKey();
-	creditsAttempted = scr.getCreditsAttempted();
-	creditsEarned = scr.getCreditsEarned();
-	creditsForGPA = scr.getCreditsForGPA();
-	countsTowardCredits = scr.getCountsTowardCredits();
-	isRepeated = scr.getIsRepeated();
+        personId = scr.getPersonId();;
+        courseTitle = scr.getCourseTitle();
+        courseCode = scr.getCourseCode();
+        activityCode = scr.getActivityCode();
+        termName = scr.getTermName();
+        courseBeginDate = scr.getCourseBeginDate();
+        courseEndDate = scr.getCourseEndDate();
+        assignedGradeValue = scr.getAssignedGradeValue();
+        assignedGradeScaleKey = scr.getAssignedGradeScaleKey();
+        administrativeGradeValue = scr.getAdministrativeGradeValue();
+        administrativeGradeScaleKey = scr.getAdministrativeGradeScaleKey();
+        calculatedGradeValue = scr.getCalculatedGradeValue();
+        calculatedGradeScaleKey = scr.getCalculatedGradeScaleKey();
+        creditsAttempted = scr.getCreditsAttempted();
+        creditsEarned = scr.getCreditsEarned();
+        creditsForGPA = scr.getCreditsForGPA();
+        countsTowardCredits = scr.getCountsTowardCredits();
+        isRepeated = scr.getIsRepeated();
 
         _futureElements = null;
     }
