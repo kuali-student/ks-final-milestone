@@ -110,8 +110,8 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     student.setResultValuesGroupInfoList(grades);
 
                     for (ResultValuesGroupInfo grade : grades) {
-                        if (grade.getResultValueIds() != null && !grade.getResultValueIds().isEmpty()) {
-                            student.getAvailabeGradingOptions().addAll(grade.getResultValueIds());
+                        if (grade.getResultValueKeys() != null && !grade.getResultValueKeys().isEmpty()) {
+                            student.getAvailabeGradingOptions().addAll(grade.getResultValueKeys());
                             student.setPercentGrade(true);
                         } else if (grade.getResultValueRange() != null) {
                             student.setPercentGrade(false);
