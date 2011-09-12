@@ -15,6 +15,8 @@
 
 package org.kuali.student.enrollment.academicrecord.infc;
 
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+
 /**
  * Information about a GPA.
  *
@@ -22,17 +24,18 @@ package org.kuali.student.enrollment.academicrecord.infc;
  * @since Tue Sep 06 14:22:34 EDT 2011
  */ 
 
-public interface GPA {
+public interface GPA
+    extends HasAttributesAndMeta {
 
     /**
-     * The GPA.
+     * The GPA value.
      *
      * @return a string representing a floating point decimal number
      * @name GPA
      * @readOnly
      * @required
      */
-    public String getGPA();
+    public String getValue();
 
     /**
      * The calculation Type key.

@@ -26,7 +26,7 @@ import java.util.Date;
  */ 
 
 public interface StudentCourseRecord {
-    
+
     /**
      * The Id of the Student.
      *
@@ -72,7 +72,7 @@ public interface StudentCourseRecord {
      *       Registration
      */
     public String getActivityCode();
-    
+
     /**
      * The name of the term in which the student took the offering.
      *
