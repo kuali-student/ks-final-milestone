@@ -114,16 +114,16 @@ public interface StudentCourseRecord {
     /**
      * The Id for the grading scale for the assigned grade.
      *
-     * @name Assigned Grade Scale
+     * @name Assigned Grade Scale Key
      * @readonly
-     * @impl the Id of the Result Values Group
+     * @impl the Id of the Result Scale
      */
-    public String getAssignedGradeScaleId();
+    public String getAssignedGradeScaleKey();
 
     /**
      * The grade the student was assigned for the course.
      *
-     * @name Administrative Grade Value
+     * @name Administrative Grade Value Key
      * @readonly
      */
     public String getAdministrativeGradeValue();
@@ -131,11 +131,11 @@ public interface StudentCourseRecord {
     /**
      * The Id for the grading scale for the administrative grade.
      *
-     * @name Administrative Grade Scale
+     * @name Administrative Grade Scale Key
      * @readonly
-     * @impl the Id of the Result Values Group
+     * @impl the Id of the Result Scale
      */
-    public String getAdministrativeGradeScaleId();
+    public String getAdministrativeGradeScaleKey();
 
     /**
      * The calculated grade the student earned for the course.
@@ -148,11 +148,11 @@ public interface StudentCourseRecord {
     /**
      * The Id for the grading scale for the calculated grade.
      *
-     * @name Calculated Grade Scale
+     * @name Calculated Grade Scale Key
      * @readonly
-     * @impl the Id of the Result Values Group
+     * @impl the Key of the Result Scale
      */
-    public String getCalculatedGradeScaleId();
+    public String getCalculatedGradeScaleKey();
 
     /**
      * The number of credits the student attempted for this course.
