@@ -34,8 +34,8 @@ import org.w3c.dom.Element;
         "meta", "attributes", "_futureElements"})
 
 public class GPAInfo 
-        extends HasAttributesAndMetaInfo 
-        implements GPA, Serializable {
+    extends HasAttributesAndMetaInfo 
+    implements GPA, Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -26,11 +26,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCourseRecordInfo", propOrder = {
+        "id", "typeKey", "stateKey", "name", "descr", 
+        "sourceTypeKey", "courseRegistrationId",
         "personId", "courseTitle", "courseCode", "termName", 
         "courseBeginDate", "courseEndDate", 
         "assignedGradeValue", "assignedGradeScaleKey", 
@@ -40,11 +42,17 @@ import org.w3c.dom.Element;
         "countsTowardCredits", "isRepeated",
         "meta", "attributes", "_futureElements"})
 
-public class StudentCourseRecordInfo 
-    extends HasAttributesAndMetaInfo 
+public class StudentCourseRecordInfo     
+    extends IdEntityInfo
     implements StudentCourseRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String sourceTypeKey;
+
+    @XmlElement
+    private String courseRegistrationId;
 
     @XmlElement
     private String personId;
@@ -104,6 +112,8 @@ public class StudentCourseRecordInfo
     List<Element> _futureElements;
 
     public StudentCourseRecordInfo() {
+        sourceTypeKey = null;
+        courseRegistrationId = null;
         personId = null;
         courseTitle = null;
         courseCode = null;
@@ -135,6 +145,8 @@ public class StudentCourseRecordInfo
     public StudentCourseRecordInfo(StudentCourseRecord scr) {
         super(scr);
 
+        sourceTypeKey = scr.getSourceTypeKey();
+        courseRegistrationId = scr.getCourseRegistrationId();
         personId = scr.getPersonId();;
         courseTitle = scr.getCourseTitle();
         courseCode = scr.getCourseCode();
@@ -155,6 +167,24 @@ public class StudentCourseRecordInfo
         isRepeated = scr.getIsRepeated();
 
         _futureElements = null;
+    }
+
+    @Override
+    public String getSourceTypeKey() {
+        return sourceTypeKey;
+    }
+
+    public void setSourceTypeKey(String sourceTypeKey) {
+        this.sourceTypeKey = sourceTypeKey;
+    }
+
+    @Override
+    public String getCourseRegistrationId() {
+        return courseRegistrationId;
+    }
+
+    public void setCourseRegistrationId(String courseRegistrationId) {
+        this.courseRegistrationId = courseRegistrationId;
     }
 
     @Override

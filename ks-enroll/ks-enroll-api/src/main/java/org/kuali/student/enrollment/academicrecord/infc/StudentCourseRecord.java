@@ -17,18 +17,41 @@ package org.kuali.student.enrollment.academicrecord.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * Information about a Student Course Record. A Student Course Record
  * contains information on the courses a student has taken.
+ *
+ * include notes on Id
  *
  * @author tom
  * @since Tue Sep 06 14:22:34 EDT 2011
  */ 
 
 public interface StudentCourseRecord 
-    extends HasAttributesAndMeta {
+    extends IdEntity {
+
+    /**
+     *  The Source is represented by a Type to indicate what crated
+     *  this record. Examples are "native" that implies the exietence
+     *  of a Course Registration or a "transfer articulation" that may
+     *  imply the existence of other data.
+     *
+     *  @name Source Type Key
+     *  @readOnly
+     */
+    public String getSourceTypeKey();
+
+    /**
+     * The Id of the Course Registration. A Course Registration Id is
+     * available for native source types.
+     *
+     * @name Course Registration Id
+     * @readOnly
+     * @required
+     */
+    public String getCourseRegistrationId();
 
     /**
      * The Id of the Student.
@@ -59,7 +82,7 @@ public interface StudentCourseRecord
      * @name Course Code
      * @readOnly
      * @required
-     * @impl retrieved from the Course Offering related to the Course 
+     * @impl retrieved from the Registration Group related to the Course 
      *       Registration
      */
     public String getCourseCode();

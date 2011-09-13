@@ -22,13 +22,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -127,26 +120,6 @@ public interface AcademicRecordService {
     public GPAInfo getGPAForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the cumulative GPA of a student for a
-     * Program in a Term.
-     *
-     * @param personId an Id of a student
-     * @param programId an Id of a Program
-     * @param termKey a key for a Term
-     *  
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return a GPA
-     * @throws DoesNotExistException personId, programId, termKey or
-     *         calculationTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */    
-    public GPAInfo getGPAForProgramAndTerm(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
      * This method returns the GPA of a student for the period of time
      * indicated by the given Academic Calendar.
      *
@@ -162,24 +135,6 @@ public interface AcademicRecordService {
      * @throws OperationFailedException unable to complete request
      */    
     public GPAInfo getGPAForAcademicCalendar(@WebParam(name = "personId") String personId, @WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * This method returns the cumulative GPA of a student for a
-     * Program.
-     *
-     * @param personId an Id of a student
-     * @param programId an Id of a Program
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return a GPA
-     * @throws DoesNotExistException personId, programId
-     *         calculationTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */    
-    public GPAInfo getCumulativeGPAForProgram(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns the cumulative GPA of a student.
@@ -249,41 +204,4 @@ public interface AcademicRecordService {
      * @throws OperationFailedException unable to complete request
      */    
     public String getEarnedCredits(@WebParam(name = "personId") String personId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * This method returns the number of credits a student earned
-     * across all terms for a given Program.
-     *
-     * @param personId an Id of a student
-     * @param programId an Id of a Program
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return a number of credits represented by a string
-     * @throws DoesNotExistException personId, programId or 
-     *         calculationTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */    
-    public String getCumulativeEarnedCreditsForProgram(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * This method returns the number of credits a student earned
-     * in a given term for a given Program.
-     *
-     * @param personId an Id of a student
-     * @param programId an Id of a Program
-     * @param termKey a key of a Term
-     * @param context Context information containing the principalId
-     *        and locale information about the caller of service
-     *        operation
-     * @return a number of credits represented by a string
-     * @throws DoesNotExistException personId, programId, termKey or 
-     *         calculationTypeKey not found
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     */    
-    public String getCumulativeEarnedCreditsForProgramAndTerm(@WebParam(name = "personId") String personId, @WebParam(name = "programId") String programId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
