@@ -22,6 +22,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
+
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -30,9 +35,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 
 /**
  * Academic Record Service Description and Assumptions.
