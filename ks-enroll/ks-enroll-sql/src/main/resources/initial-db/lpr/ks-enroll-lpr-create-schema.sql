@@ -122,7 +122,7 @@ END;
 
 create table KSEN_LPR_TRANS
    (	
-		NAME varchar2(255),
+		TRANS_NAME varchar2(255),
 		ID varchar2(255),
 		CREATEID VARCHAR2(255),
 		CREATETIME timestamp(6),
