@@ -54,15 +54,6 @@
   ALTER TABLE "KSEN_ATP_STATE" ADD PRIMARY KEY ("ID") ENABLE
 /
 
---------------------------------------------------------
---  Constraints for Table KSEN_COMM_STATE
---------------------------------------------------------
-
-  ALTER TABLE "KSEN_COMM_STATE" MODIFY ("ID" NOT NULL ENABLE)
-/
- 
-  ALTER TABLE "KSEN_COMM_STATE" ADD PRIMARY KEY ("ID") ENABLE
-/
 
 --------------------------------------------------------
 --  Constraints for Table KSEN_HOLD
