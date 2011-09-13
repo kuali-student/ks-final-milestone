@@ -123,7 +123,10 @@ public class RegistrationForm extends UifFormBase {
                     meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
                     meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
                     // TODO - convert type key to actual activity type
-                    meetingScheduleWrapper.setTimeTypeName(activityOfferingInfo.getTypeKey());
+                    String key = activityOfferingInfo.getTypeKey();
+                    String name = key.substring(key.lastIndexOf(".") + 1);
+                    name = String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
+                    meetingScheduleWrapper.setTimeTypeName(name);
                     meetingScheduleWrappers.add(meetingScheduleWrapper);
                 }
             }
@@ -147,7 +150,7 @@ public class RegistrationForm extends UifFormBase {
             for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
                 for(MeetingScheduleWrapper meetingScheduleWrapper: activityOfferingWrapper.getMeetingScheduleWrappers()){
                     meetingScheduleWrapper.setRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
-                    meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getActivityOffering().getTypeKey());
+                    meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getTypeName());
                     meetingScheduleWrappers.add(meetingScheduleWrapper);
                 }
 

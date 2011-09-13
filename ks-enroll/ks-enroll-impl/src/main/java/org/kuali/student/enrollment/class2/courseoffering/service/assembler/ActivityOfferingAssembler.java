@@ -29,6 +29,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			ao.setAttributes(lui.getAttributes());
 			ao.setActivityId(lui.getCluId());
 			ao.setTermKey(lui.getAtpKey());
+            ao.setMeetingSchedules(lui.getMeetingSchedules());
 						
 			//TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call LRCService.getResultValuesByIdList
 			//TODO: ao.setInstructors(instructors) -- call LPRService.findPersonIdsRelatedToLui?
@@ -53,6 +54,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			lui.setAttributes(ao.getAttributes());
 			lui.setCluId(ao.getActivityId());
 			lui.setAtpKey(ao.getTermKey());
+            lui.setMeetingSchedules(ao.getMeetingSchedules());
 			
 			//rest fields no mapping doc
 			return lui;

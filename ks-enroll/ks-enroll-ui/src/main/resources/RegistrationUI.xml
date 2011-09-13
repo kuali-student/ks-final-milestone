@@ -239,7 +239,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:styleClasses="activityOfferingType" p:labelField.render="false" p:propertyName="activityOffering.typeKey"/>
+                <bean parent="AttributeField" p:styleClasses="activityOfferingType" p:labelField.render="false" p:propertyName="typeName"/>
             </list>
         </property>
         <property name="subCollections">

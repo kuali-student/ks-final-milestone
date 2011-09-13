@@ -32,4 +32,11 @@ public class ActivityOfferingWrapper implements Serializable {
     public void setMeetingScheduleWrappers(List<MeetingScheduleWrapper> meetingScheduleWrappers) {
         this.meetingScheduleWrappers = meetingScheduleWrappers;
     }
+
+    //TODO this is a hack to parse for human readable - it should be going to some service to get a human readable name for this activity
+    public String getTypeName() {
+        String key = activityOffering.getTypeKey();
+        String name = key.substring(key.lastIndexOf(".") + 1);
+        return String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
+    }
 }
