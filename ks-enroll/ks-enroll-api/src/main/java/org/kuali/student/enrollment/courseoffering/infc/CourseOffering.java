@@ -16,7 +16,7 @@ import java.util.List;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
 import org.kuali.student.r2.lum.lu.infc.Fee;
@@ -254,7 +254,7 @@ public interface CourseOffering extends IdEntity {
      * @impl Lui.resultOptionIds returns a list of resultOptions. Filter option
      *       with credit type and that should give the resultValueGroup
      */
-    public ResultValuesGroupInfo getCreditOptions();
+    public GradeValuesGroupInfo getCreditOptions();
 
     /**
      * Key indicating the level at which grade rosters should be generated -

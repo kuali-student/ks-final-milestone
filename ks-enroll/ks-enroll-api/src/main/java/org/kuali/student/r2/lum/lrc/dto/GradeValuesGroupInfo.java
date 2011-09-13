@@ -46,12 +46,12 @@ import org.w3c.dom.Element;
  * @Since Tue Apr 21 13:47:47 PDT 2009
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResultValuesGroupInfo", propOrder = { 
+@XmlType(name = "GradeValuesGroupInfo", propOrder = { 
         "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey", 
         "resultValueKeys", "resultValueRange", "effectiveDate",
         "expirationDate", "meta", "attributes", "_futureElements" })
 
-public class ResultValuesGroupInfo 
+public class GradeValuesGroupInfo 
         extends KeyEntityInfo 
         implements ResultValuesGroup {
 
@@ -75,7 +75,7 @@ public class ResultValuesGroupInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public ResultValuesGroupInfo() {
+    public GradeValuesGroupInfo() {
         resultScaleKey = null;
         resultValueKeys = new ArrayList<String>();
         resultValueRange = null;
@@ -83,7 +83,7 @@ public class ResultValuesGroupInfo
         expirationDate = null;
     }
 
-    public ResultValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
+    public GradeValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
         super(resultValuesGroup);
         if (null != resultValuesGroup) {
             this.resultScaleKey = resultValuesGroup.getResultScaleKey();

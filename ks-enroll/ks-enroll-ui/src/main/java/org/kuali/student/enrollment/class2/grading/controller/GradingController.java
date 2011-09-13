@@ -140,7 +140,7 @@ public class GradingController extends UifControllerBase {
             String gradeRosterEntryId = gradeRosterEntryInfo.getId();
 
             // TODO Sambit Commented out - assignedGradeKey.setGrade(grade);
-            gradingService.updateAssignedGrade(gradeRosterEntryId, assignedGradeKey, context);
+            gradingService.updateGrade(gradeRosterEntryId, assignedGradeKey, context);
 
         }
 

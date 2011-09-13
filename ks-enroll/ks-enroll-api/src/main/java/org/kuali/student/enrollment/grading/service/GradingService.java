@@ -18,6 +18,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -32,7 +33,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE. This service manages grade and credit
@@ -374,10 +374,28 @@ public interface GradingService extends DataDictionaryService {
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<ResultValuesGroupInfo> getValidGradesForStudentByRoster(@WebParam(name = "studentId") String studentId,
+    public List<String> getValidGradeGroupIdsForStudentByRoster(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "rosterId") String rosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
+
+    /**
+     * This method ...
+     * 
+     * @param gradeRosterEntryIdList
+     * @param rosterId
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(
+            @WebParam(name = "gradeGroupIdList") List<String> gradeGroupIdList,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method ...
@@ -463,14 +481,34 @@ public interface GradingService extends DataDictionaryService {
      *             authorization failure
      * @throws VersionMismatchException
      */
-    public boolean updateAssignedGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
+    public boolean updateGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
             @WebParam(name = "assignedGradeId") String assignedGradeId, @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
-     * This method ... TODO - do we need to change the output to an object
-     * instead of boolean?
+     * This method ...
+     * 
+     * @param gradeRosterEntryId
+     * @param numberGradeValue
+     * @param context
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws VersionMismatchException
+     */
+    public boolean updateNumberGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
+            @WebParam(name = "numberGradeValue") String numberGradeValue,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * TODO - do we need to change the output to an object instead of boolean?
      * 
      * @param gradeRosterEntryId
      * @param assignedGrade

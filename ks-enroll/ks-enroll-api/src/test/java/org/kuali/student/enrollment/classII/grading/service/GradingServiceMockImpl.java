@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -21,8 +22,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public class GradingServiceMockImpl implements GradingService {
 
@@ -32,7 +33,7 @@ public class GradingServiceMockImpl implements GradingService {
 
     public static Map<String, List<String>> termCourseOfferingsCache = new HashMap<String, List<String>>();
 
-    private static Map<String, ResultValuesGroupInfo> validGradesCache = new HashMap<String, ResultValuesGroupInfo>();
+    private static Map<String, GradeValuesGroupInfo> validGradesCache = new HashMap<String, GradeValuesGroupInfo>();
 
     public GradingServiceMockImpl() {
         loadCaches();
@@ -93,81 +94,74 @@ public class GradingServiceMockImpl implements GradingService {
 
     }
 
+    private ResultValueInfo createResultValue(String value) {
+        ResultValueInfo rv = new ResultValueInfo();
+        rv.setValue(value);
+        rv.setKey("kuali.student.rv." + Math.random());
+        return rv;
+    }
+
     private void loadValidGradesCache() {
 
-        List<String> letterGrades = new ArrayList<String>();
-        letterGrades.add("A+");
-        letterGrades.add("A");
-        letterGrades.add("A-");
-        letterGrades.add("B+");
-        letterGrades.add("B");
-        letterGrades.add("B-");
-        letterGrades.add("C+");
-        letterGrades.add("C");
-        letterGrades.add("C-");
-        letterGrades.add("D+");
-        letterGrades.add("D");
-        letterGrades.add("D-");
-        letterGrades.add("F");
+        List<ResultValueInfo> letterGrades = new ArrayList<ResultValueInfo>();
+        letterGrades.add(createResultValue("A+"));
+        letterGrades.add(createResultValue("A"));
+        letterGrades.add(createResultValue("A-"));
+        letterGrades.add(createResultValue("B+"));
+        letterGrades.add(createResultValue("B"));
+        letterGrades.add(createResultValue("B-"));
+        letterGrades.add(createResultValue("C+"));
+        letterGrades.add(createResultValue("C"));
+        letterGrades.add(createResultValue("C-"));
+        letterGrades.add(createResultValue("D+"));
+        letterGrades.add(createResultValue("D"));
+        letterGrades.add(createResultValue("D-"));
+        letterGrades.add(createResultValue("F"));
 
-        List<String> completionNotationGrades = new ArrayList<String>();
-        completionNotationGrades.add("Completed");
-        completionNotationGrades.add("Not-Completed");
-        completionNotationGrades.add("In-Progress");
+        List<ResultValueInfo> completionNotationGrades = new ArrayList<ResultValueInfo>();
+        completionNotationGrades.add(createResultValue("Completed"));
+        completionNotationGrades.add(createResultValue("Not-Completed"));
+        completionNotationGrades.add(createResultValue("In-Progress"));
 
-        List<String> passFailGrades = new ArrayList<String>();
-        passFailGrades.add("Pass");
-        passFailGrades.add("Fail");
+        List<ResultValueInfo> passFailGrades = new ArrayList<ResultValueInfo>();
+        passFailGrades.add(createResultValue("Pass"));
+        passFailGrades.add(createResultValue("Fail"));
 
-        List<String> satisfactoryGrades = new ArrayList<String>();
-        satisfactoryGrades.add("Satisfactory");
-        satisfactoryGrades.add("Not-Satisfactory");
+        List<ResultValueInfo> satisfactoryGrades = new ArrayList<ResultValueInfo>();
+        satisfactoryGrades.add(createResultValue("Satisfactory"));
+        satisfactoryGrades.add(createResultValue("Not-Satisfactory"));
 
-        ResultValuesGroupInfo letterGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        letterGradesResultValuesGroupInfo.setResultValueKeys(letterGrades);
+        GradeValuesGroupInfo letterGradesResultValuesGroupInfo = new GradeValuesGroupInfo();
+        letterGradesResultValuesGroupInfo.setResultValueInfos(letterGrades);
         letterGradesResultValuesGroupInfo.setResultValueRange(null);
-        letterGradesResultValuesGroupInfo.setEffectiveDate(null);
-        letterGradesResultValuesGroupInfo.setExpirationDate(null);
 
-        ResultValuesGroupInfo completionNotationResultValuesGroupInfo = new ResultValuesGroupInfo();
-        completionNotationResultValuesGroupInfo.setResultValueKeys(completionNotationGrades);
+        GradeValuesGroupInfo completionNotationResultValuesGroupInfo = new GradeValuesGroupInfo();
+        completionNotationResultValuesGroupInfo.setResultValueInfos(completionNotationGrades);
         completionNotationResultValuesGroupInfo.setResultValueRange(null);
-        completionNotationResultValuesGroupInfo.setEffectiveDate(null);
-        completionNotationResultValuesGroupInfo.setExpirationDate(null);
 
-        ResultValuesGroupInfo passFailResultValuesGroupInfo = new ResultValuesGroupInfo();
-        passFailResultValuesGroupInfo.setResultValueKeys(passFailGrades);
+        GradeValuesGroupInfo passFailResultValuesGroupInfo = new GradeValuesGroupInfo();
+        passFailResultValuesGroupInfo.setResultValueInfos(passFailGrades);
         passFailResultValuesGroupInfo.setResultValueRange(null);
-        passFailResultValuesGroupInfo.setEffectiveDate(null);
-        passFailResultValuesGroupInfo.setExpirationDate(null);
 
-        ResultValuesGroupInfo completionNotationGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        completionNotationGradesResultValuesGroupInfo.setResultValueKeys(completionNotationGrades);
+        GradeValuesGroupInfo completionNotationGradesResultValuesGroupInfo = new GradeValuesGroupInfo();
+        completionNotationGradesResultValuesGroupInfo.setResultValueInfos(completionNotationGrades);
         completionNotationGradesResultValuesGroupInfo.setResultValueRange(null);
-        completionNotationGradesResultValuesGroupInfo.setEffectiveDate(null);
-        completionNotationGradesResultValuesGroupInfo.setExpirationDate(null);
 
-        ResultValuesGroupInfo passFailGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        passFailGradesResultValuesGroupInfo.setResultValueKeys(passFailGrades);
+        GradeValuesGroupInfo passFailGradesResultValuesGroupInfo = new GradeValuesGroupInfo();
+        passFailGradesResultValuesGroupInfo.setResultValueInfos(passFailGrades);
         passFailGradesResultValuesGroupInfo.setResultValueRange(null);
-        passFailGradesResultValuesGroupInfo.setEffectiveDate(null);
-        passFailGradesResultValuesGroupInfo.setExpirationDate(null);
 
-        ResultValuesGroupInfo satisfactoryGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        satisfactoryGradesResultValuesGroupInfo.setResultValueKeys(satisfactoryGrades);
+        GradeValuesGroupInfo satisfactoryGradesResultValuesGroupInfo = new GradeValuesGroupInfo();
+        satisfactoryGradesResultValuesGroupInfo.setResultValueInfos(satisfactoryGrades);
         satisfactoryGradesResultValuesGroupInfo.setResultValueRange(null);
-        satisfactoryGradesResultValuesGroupInfo.setEffectiveDate(null);
-        satisfactoryGradesResultValuesGroupInfo.setExpirationDate(null);
 
         ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
         resultValueRangeInfo.setMaxValue("100");
         resultValueRangeInfo.setMinValue("0");
         resultValueRangeInfo.setIncrement(".01");
-        ResultValuesGroupInfo percentGradesResultValuesGroupInfo = new ResultValuesGroupInfo();
-        percentGradesResultValuesGroupInfo.setResultValueKeys(null);
+        GradeValuesGroupInfo percentGradesResultValuesGroupInfo = new GradeValuesGroupInfo();
+        percentGradesResultValuesGroupInfo.setResultValueInfos(null);
         percentGradesResultValuesGroupInfo.setResultValueRange(resultValueRangeInfo);
-        percentGradesResultValuesGroupInfo.setEffectiveDate(null);
-        percentGradesResultValuesGroupInfo.setExpirationDate(null);
 
         validGradesCache.put("letter", letterGradesResultValuesGroupInfo);
         validGradesCache.put("completionNotation", completionNotationGradesResultValuesGroupInfo);
@@ -377,25 +371,25 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<String> getValidGradeGroupIdsForStudentByRoster(String studentId, String rosterId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<ResultValuesGroupInfo> rvgInfo = new ArrayList<ResultValuesGroupInfo>();
+        List<String> rvgIds = new ArrayList<String>();
 
         if (studentId.equals("1100")) {
-            rvgInfo.add(validGradesCache.get("letter"));
+            rvgIds.add("letter");
         } else if (studentId.equals("1101")) {
-            rvgInfo.add(validGradesCache.get("percent"));
+            rvgIds.add("percent");
         } else if (studentId.equals("1102")) {
-            rvgInfo.add(validGradesCache.get("passFail"));
+            rvgIds.add("passFail");
         } else if (studentId.equals("1103")) {
-            rvgInfo.add(validGradesCache.get("satisfactory"));
+            rvgIds.add("satisfactory");
         } else {
-            rvgInfo.add(validGradesCache.get("letter"));
+            rvgIds.add("letter");
         }
 
-        return rvgInfo;
+        return rvgIds;
     }
 
     @Override
@@ -430,7 +424,7 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public boolean updateAssignedGrade(String gradeRosterEntryId, String assignedGradeKey, ContextInfo context)
+    public boolean updateGrade(String gradeRosterEntryId, String assignedGradeKey, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -447,6 +441,22 @@ public class GradingServiceMockImpl implements GradingService {
         GradeRosterEntryInfo geInfo = gradeRosterEntriesCache.get(gradeRosterEntryId);
         geInfo.setCreditsEarnedKey(creditKey);
         return true;
+    }
+
+    @Override
+    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(List<String> gradeGroupIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public boolean updateNumberGrade(String gradeRosterEntryId, String numberGradeValue, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return false;
     }
 
 }

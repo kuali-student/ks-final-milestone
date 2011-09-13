@@ -598,7 +598,7 @@ even a discrete list of possible credit values.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="creditOptions"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo"/>
 				<property name="objectLabel" value="Credit Options"/>
 				<property name="objectDescription">
 					<value>

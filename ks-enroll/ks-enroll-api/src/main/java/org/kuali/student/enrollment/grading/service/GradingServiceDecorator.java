@@ -17,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public abstract class GradingServiceDecorator implements GradingService {
     private GradingService nextDecorator;
@@ -144,10 +143,10 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getValidGradesForStudentByRoster(String studentId, String rosterId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<String> getValidGradeGroupIdsForStudentByRoster(String studentId, String rosterId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getValidGradesForStudentByRoster(studentId, rosterId, context);
+        return getNextDecorator().getValidGradeGroupIdsForStudentByRoster(studentId, rosterId, context);
     }
 
     @Override
@@ -173,11 +172,11 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public boolean updateAssignedGrade(String gradeRosterEntryId, String assignedGradeId, ContextInfo context)
+    public boolean updateGrade(String gradeRosterEntryId, String assignedGradeId, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        return getNextDecorator().updateAssignedGrade(gradeRosterEntryId, assignedGradeId, context);
+        return getNextDecorator().updateGrade(gradeRosterEntryId, assignedGradeId, context);
     }
 
     @Override

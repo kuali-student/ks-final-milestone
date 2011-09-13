@@ -35,9 +35,10 @@ import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperServ
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
 public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implements GradingViewHelperService {
@@ -50,8 +51,8 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         if (field.getContext().get(UifConstants.ContextVariableNames.LINE) != null
                 && field.getControl() instanceof SelectControl) {
             GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
-            for (String option : student.getAvailabeGradingOptions()) {
-                keyValues.add(new ConcreteKeyValue(option, option));
+            for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
+                keyValues.add(new ConcreteKeyValue(option.getValue(), option.getValue()));
             }
             ((SelectControl) field.getControl()).setOptions(keyValues);
         }
@@ -105,13 +106,15 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setLastName(entityNameInfo.getLastNameUnmasked());
                         }
                     }
-                    List<ResultValuesGroupInfo> grades = gradingService.getValidGradesForStudentByRoster(
+                    List<String> grades = gradingService.getValidGradeGroupIdsForStudentByRoster(
                             entryInfo.getStudentId(), rosterInfo.getId(), context);
-                    student.setResultValuesGroupInfoList(grades);
 
-                    for (ResultValuesGroupInfo grade : grades) {
-                        if (grade.getResultValueKeys() != null && !grade.getResultValueKeys().isEmpty()) {
-                            student.getAvailabeGradingOptions().addAll(grade.getResultValueKeys());
+                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByIdList(grades, context);
+                    student.setGradeValuesGroupInfoList(gradeValueInfos);
+
+                    for (GradeValuesGroupInfo grade : gradeValueInfos) {
+                        if (grade.getResultValueInfos() != null && !grade.getResultValueInfos().isEmpty()) {
+                            student.getAvailabeGradingOptions().addAll(grade.getResultValueInfos());
                             student.setPercentGrade(true);
                         } else if (grade.getResultValueRange() != null) {
                             student.setPercentGrade(false);

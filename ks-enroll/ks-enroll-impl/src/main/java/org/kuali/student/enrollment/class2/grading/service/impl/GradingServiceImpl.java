@@ -6,6 +6,7 @@ import javax.jws.WebParam;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -20,7 +21,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 public class GradingServiceImpl implements GradingService {
     /**
@@ -374,7 +374,7 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public List<ResultValuesGroupInfo> getValidGradesForStudentByRoster(@WebParam(name = "studentId") String studentId,
+    public List<String> getValidGradeGroupIdsForStudentByRoster(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "rosterId") String rosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -474,7 +474,7 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
      */
     @Override
-    public boolean updateAssignedGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
+    public boolean updateGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
             @WebParam(name = "assignedGrade") String assignedGradeKey, @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -561,5 +561,21 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "context") ContextInfo context) throws OperationFailedException,
             MissingParameterException, PermissionDeniedException, DoesNotExistException {
         return null; // TODO implement method.
+    }
+
+    @Override
+    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(List<String> gradeGroupIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public boolean updateNumberGrade(String gradeRosterEntryId, String numberGradeValue, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return false;
     }
 }

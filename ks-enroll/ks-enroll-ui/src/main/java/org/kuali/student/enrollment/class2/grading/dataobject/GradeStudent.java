@@ -1,26 +1,22 @@
 package org.kuali.student.enrollment.class2.grading.dataobject;
 
 /*
- * Copyright 2007 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2007 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
-
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 public class GradeStudent implements Serializable {
 
@@ -32,12 +28,11 @@ public class GradeStudent implements Serializable {
 
     private boolean percentGrade;
 
-    private List<String> availabeGradingOptions;
+    private List<ResultValueInfo> availabeGradingOptions;
 
-    private List<ResultValuesGroupInfo> resultValuesGroupInfoList;
+    private List<GradeValuesGroupInfo> gradeValuesGroupInfoList;
 
-    public GradeStudent(){
-    }
+    public GradeStudent() {}
 
     public String getFirstName() {
         return firstName;
@@ -63,14 +58,14 @@ public class GradeStudent implements Serializable {
         this.studentId = studentId;
     }
 
-    public List<String> getAvailabeGradingOptions() {
-        if (availabeGradingOptions == null){
+    public List<ResultValueInfo> getAvailabeGradingOptions() {
+        if (availabeGradingOptions == null) {
             availabeGradingOptions = new ArrayList();
         }
         return availabeGradingOptions;
     }
 
-    public void setAvailabeGradingOptions(List<String> availabeGradingOptions) {
+    public void setAvailabeGradingOptions(List<ResultValueInfo> availabeGradingOptions) {
         this.availabeGradingOptions = availabeGradingOptions;
     }
 
@@ -82,7 +77,7 @@ public class GradeStudent implements Serializable {
         this.selectedGrade = selectedGrade;
     }
 
-     public boolean isPercentGrade() {
+    public boolean isPercentGrade() {
         return percentGrade;
     }
 
@@ -90,11 +85,11 @@ public class GradeStudent implements Serializable {
         this.percentGrade = percentGrade;
     }
 
-    public List<ResultValuesGroupInfo> getResultValuesGroupInfoList() {
-        return resultValuesGroupInfoList;
+    public List<GradeValuesGroupInfo> getGradeValuesGroupInfoList() {
+        return gradeValuesGroupInfoList;
     }
 
-    public void setResultValuesGroupInfoList(List<ResultValuesGroupInfo> resultValuesGroupInfoList) {
-        this.resultValuesGroupInfoList = resultValuesGroupInfoList;
+    public void setGradeValuesGroupInfoList(List<GradeValuesGroupInfo> resultValuesGroupInfoList) {
+        this.gradeValuesGroupInfoList = resultValuesGroupInfoList;
     }
 }

@@ -34,7 +34,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
@@ -68,7 +68,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public GradeValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves result components by a list of identifiers.
@@ -84,7 +84,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<GradeValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of existing result components that a result value is tied to.
@@ -100,7 +100,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<GradeValuesGroupInfo> getResultValuesGroupsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of result group identifiers for a specified
@@ -122,7 +122,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
     /**
      * Creates a new result Component.
      * 
-     * @param resultValuesGroupInfo information about the result component 
+     * @param gradeValuesGroupInfo information about the result component 
      *        being created
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
@@ -136,7 +136,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public GradeValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") GradeValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing result component.
@@ -159,7 +159,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws VersionMismatchException action was attempted on an out of 
      *                                  date version
      */
-    public ResultValuesGroupInfo updateResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "resultValuesGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public GradeValuesGroupInfo updateResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "resultValuesGroupInfo") GradeValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Deletes an existing result component.
@@ -184,7 +184,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * or expanded to perform all tests related to this object. 
      * 
      * @param validationType Identifier of the extent of validation
-     * @param resultValuesGroupInfo Result component to be validated
+     * @param gradeValuesGroupInfo Result component to be validated
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -195,7 +195,7 @@ public interface LRCService extends DataDictionaryService, TypeService, StateSer
      * @throws MissingParameterException missing validationType, resultValuesGroupInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateResultValuesGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo resultValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateResultValuesGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") GradeValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves result value by its id.

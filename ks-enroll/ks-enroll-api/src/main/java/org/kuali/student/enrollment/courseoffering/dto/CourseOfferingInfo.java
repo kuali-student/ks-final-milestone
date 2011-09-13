@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
@@ -95,7 +95,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<String> jointOfferingIds;
 
     @XmlElement
-    private ResultValuesGroupInfo creditOptions;
+    private GradeValuesGroupInfo creditOptions;
 
     @XmlElement
     private List<String> gradingOptionIds;
@@ -194,7 +194,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
                 : null;
         this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(
                 course.getJointOfferingIds()) : null;
-        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions())
+        this.creditOptions = (null != course.getCreditOptions()) ? new GradeValuesGroupInfo(course.getCreditOptions())
                 : null;
         this.gradingOptionIds = (null != course.getGradingOptionIds()) ? new ArrayList<String>(
                 course.getGradingOptionIds()) : null;
@@ -308,7 +308,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public ResultValuesGroupInfo getCreditOptions() {
+    public GradeValuesGroupInfo getCreditOptions() {
         return this.creditOptions;
     }
 
@@ -446,7 +446,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(ResultValuesGroupInfo creditOptions) {
+    public void setCreditOptions(GradeValuesGroupInfo creditOptions) {
         this.creditOptions = creditOptions;
     }
 
