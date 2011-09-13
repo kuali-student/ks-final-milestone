@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CollectionOfElements;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -45,9 +44,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @JoinColumn(name = "STATE_ID")
     private StateEntity lprTransactionItemState;
 
-    @CollectionOfElements
-    private List<String> resutOptionIds = new ArrayList<String>();
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprTransItemAttributeEntity> attributes;
 
@@ -60,10 +56,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             this.setId(lprTransactionItem.getId());
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
-
-            if (null != lprTransactionItem.getResultOptionIds()) {
-                resutOptionIds.addAll(lprTransactionItem.getResultOptionIds());
-            }
 
             this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
             if (null != lprTransactionItem.getAttributes()) {
@@ -88,7 +80,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         lprTransItemInfo.setExistingLuiId(existingLuiId);
         lprTransItemInfo.setNewLuiId(newLuiId);
         lprTransItemInfo.setPersonId(personId);
-        lprTransItemInfo.setResultOptionIds(resutOptionIds);
         lprTransItemInfo.setMeta(super.toDTO());
         if (descr != null)
             lprTransItemInfo.setDescr(descr.toDto());
@@ -150,14 +141,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     public void setLprTransactionItemState(StateEntity lprTransactionState) {
         this.lprTransactionItemState = lprTransactionState;
-    }
-
-    public List<String> getResutOptionIds() {
-        return resutOptionIds;
-    }
-
-    public void setResutOptionIds(List<String> resutOptionIds) {
-        this.resutOptionIds = resutOptionIds;
     }
 
     @Override
