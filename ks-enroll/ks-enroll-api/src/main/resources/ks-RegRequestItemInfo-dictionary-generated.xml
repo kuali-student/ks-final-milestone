@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Mon Sep 12 14:39:44 EDT 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -83,8 +83,8 @@ Type is UPDATE and newRegGroupId is populated
 				<ref bean="RegRequestItemInfo.existingRegGroupId"/>
 				<ref bean="RegRequestItemInfo.okToWaitlist"/>
 				<ref bean="RegRequestItemInfo.okToHoldList"/>
-				<ref bean="RegRequestItemInfo.gradingOptionId"/>
-				<ref bean="RegRequestItemInfo.creditOptionId"/>
+				<ref bean="RegRequestItemInfo.gradingOptionKey"/>
+				<ref bean="RegRequestItemInfo.creditOptionKey"/>
 			</list>
 		</property>
 
@@ -293,16 +293,16 @@ future date, is it okay to be placed in such a list.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegRequestItemInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOptionId"/>
-		<property name="shortLabel" value="Grading Option Id"/>
+	<bean id="RegRequestItemInfo.gradingOptionKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionKey"/>
+		<property name="shortLabel" value="Grading Option Key"/>
 		<property name="summary">
 			<value>
 Specify the preferred grading option for the course e.g. pass/fail since
 the course allows to specify such options
 			</value>
 		</property>
-		<property name="label" value="Grading Option Id"/>
+		<property name="label" value="Grading Option Key"/>
 		<property name="description">
 			<value>
 Specify the preferred grading option for the course e.g. pass/fail since
@@ -312,16 +312,16 @@ the course allows to specify such options
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegRequestItemInfo.creditOptionId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="creditOptionId"/>
-		<property name="shortLabel" value="Credit Option Id"/>
+	<bean id="RegRequestItemInfo.creditOptionKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditOptionKey"/>
+		<property name="shortLabel" value="Credit Option Key"/>
 		<property name="summary">
 			<value>
 Specify the preferred credit option e.g credit/ no-credit for the course
 because the course.
 			</value>
 		</property>
-		<property name="label" value="Credit Option Id"/>
+		<property name="label" value="Credit Option Key"/>
 		<property name="description">
 			<value>
 Specify the preferred credit option e.g credit/ no-credit for the course
