@@ -4460,7 +4460,7 @@
         <column name="COMMITMENTPERCENT" type="FLOAT"/>
         <column name="RELATION_STATE_ID" size="255" type="VARCHAR"/>
         <column name="RELATION_TYPE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LPR_STATE" name="FK1BE1597B61E975F6">
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE1597B61E975F6">
             <reference foreign="ID" local="RELATION_STATE_ID"/>
         </foreign-key>
         <foreign-key foreignTable="KSEN_LPR_TYPE" name="FK1BE1597B1D2EFA44">
@@ -4489,7 +4489,7 @@
         <foreign-key foreignTable="KSEN_LPR" name="FKDF4BE635DC3CD520">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-        <foreign-key foreignTable="KSEN_LPR_STATE" name="FKDF4BE635EA869E3D">
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FKDF4BE635EA869E3D">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
@@ -4535,20 +4535,8 @@
             <reference foreign="ID" local="LPRROSTER_ID"/>
         </foreign-key>
     </table>
-    <table name="KSEN_LPR_STATE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="VER_NBR" size="19" type="DECIMAL"/>
-        <column name="CREATEID" size="255" type="VARCHAR"/>
-        <column name="CREATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="DESCR" size="255" type="VARCHAR"/>
-        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
-        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-    </table>
     <table name="KSEN_LPR_TRANS">
+        <column name="TRANS_NAME" size="255" type="VARCHAR"/>
         <column name="ID" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
@@ -4561,6 +4549,13 @@
         <column name="REQ_PERSON_ID" size="255" type="VARCHAR"/>
         <column name="STATE_ID" size="255" type="VARCHAR"/>
         <column name="LPR_TYPE_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LPR_TRANS_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TRANS_ITEMS">
         <column name="ID" size="255" type="VARCHAR"/>
@@ -4578,6 +4573,13 @@
         <column name="LPR_TRANS_ID" size="255" type="VARCHAR"/>
         <column name="STATE_ID" size="255" type="VARCHAR"/>
         <column name="TYPE_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LPR_TRANS_ITEM_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
