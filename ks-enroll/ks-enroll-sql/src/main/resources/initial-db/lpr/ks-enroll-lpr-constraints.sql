@@ -9,13 +9,13 @@
 /
 
 --------------------------------------------------------
---  Constraints for Table KSEN_LPR_STATE
+--  Constraints for Table KSEN_COMM_STATE
 --------------------------------------------------------
 
-  ALTER TABLE "KSEN_LPR_STATE" MODIFY ("ID" NOT NULL ENABLE)
+  ALTER TABLE "KSEN_COMM_STATE" MODIFY ("ID" NOT NULL ENABLE)
 /
  
-  ALTER TABLE "KSEN_LPR_STATE" ADD PRIMARY KEY ("ID") ENABLE
+  ALTER TABLE "KSEN_COMM_STATE" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -47,7 +47,7 @@
 /
  
   ALTER TABLE "KSEN_LPR" ADD CONSTRAINT "FK1BE1597B61E975F6" FOREIGN KEY ("RELATION_STATE_ID")
-	  REFERENCES "KSEN_LPR_STATE" ("ID") ENABLE
+	  REFERENCES "KSEN_COMM_STATE" ("ID") ENABLE
 /
 
 --------------------------------------------------------
@@ -63,7 +63,7 @@
 /
  
     ALTER TABLE "KSEN_LPR_ATTR" ADD CONSTRAINT "FKDF4BE635EA869E3D" FOREIGN KEY ("OWNER")
-	  REFERENCES "KSEN_LPR_STATE" ("ID") ENABLE
+	  REFERENCES "KSEN_COMM_STATE" ("ID") ENABLE
 /
 
 --------------------------------------------------------
