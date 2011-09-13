@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.model.StateEntity;
 @Table(name = "KSEN_LPR_TRANS")
 public class LprTransactionEntity extends MetaEntity implements AttributeOwner<LprTransAttributeEntity> {
 
-    @Column(name = "TRANS_NAME")
+    @Column(name = "NAME")
     private String name;
 
     @Column(name = "REQ_PERSON_ID")
