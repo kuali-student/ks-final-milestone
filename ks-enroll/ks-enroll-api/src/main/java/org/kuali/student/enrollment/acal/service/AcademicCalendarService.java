@@ -712,12 +712,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<String> getTermKeysByType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Terms mapped to the given Academic Calendar
+     * Retrieves a list of the top level Terms mapped to the given Academic Calendar
      * sorted by Term start date.
-     *
-     * Mappings are managed through Type configuration and inferred by
-     * the dates of the calendar and term so operations to manage the
-     * mappings are not currently defined.
      *
      * @param academicCalendarKey a key for an academic calendar
      * @param context Context information containing the principalId
@@ -733,18 +729,16 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list Terms included inside the given Term sorted
-     * by Term start date,
+     * Retrieves a list Terms included immediately inside the given Term sorted
+     * by Term start date.
      *
-     * Mappings are managed through Type configuration and inferred by
-     * the dates of the terms so operations to manage the mappings are
-     * not currently defined.
-     *
+     * This method should be called recursively to get sub-terms.
+     * 
      * @param termKey a key for a Term
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return a list of Terms
+     * @return a list of Terms, empty list if there are no children.
      * @throws DoesNotExistException the term is not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
@@ -757,13 +751,15 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * Gets the containing terms of a given term. A term may be
      * "included" inside other terms using addTermToTerm(). This
      * method returns the list of terms that the given term has been
-     * placed inside.
+     * placed inside.  
+     * 
+     * Typically a term is placed inside a single parent term.
      *
      * @param termKey a key for a Term
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return the parent term or null if it is a root
+     * @return the parent terms or empty list if it is a root
      * @throws DoesNotExistException the term is not found
      * @throws InvalidParameterException invalid termKey
      * @throws MissingParameterException missing termKey
