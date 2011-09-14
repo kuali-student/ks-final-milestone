@@ -372,7 +372,14 @@
     	<property name="lprDao" ref="lprDao"/>
     	<property name="lprStateDao" ref="lprStateDao"/>
     	<property name="lprTypeDao" ref="lprTypeDao"/>
+        <property name="lprTransDao" ref="lprTrasactionDao"/>
+        <property name="lprTransItemDao" ref="lprTrasactionItemDao"/>
       <property name="stateService" ref="stateService"/>
+    </bean>
+
+    <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+        <property name="nextDecorator" ref="lprPersistenceService"/>
+        <property name="validator" ref="validator"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -385,6 +392,40 @@
 
    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
         <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lprTrasactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="lprTrasactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+        <property name="lprService" ref="lprServiceValidation" />
+        <property name="courseOfferingService" ref="coServiceValidation" />
+        <property name="regRequestAssembler" ref="regRequestAssembler" />
+        <property name="regResponseAssembler" ref="regResponseAssembler" />
+        <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
+    </bean>
+
+    <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
+    <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
+    <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
+
+    <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+       <property name="serviceDefinition">
+           <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+               <property name="jaxWsService" value="true"/>
+               <property name="service" ref="courseRegistrationService"/>
+               <property name="serviceInterface"
+                         value="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService"/>
+               <property name="localServiceName" value="CourseRegistrationService"/>
+               <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationService"/>
+               <property name="busSecurity" value="${ks.lum.bus.security}"/>
+           </bean>
+       </property>
     </bean>
 
 </beans>
