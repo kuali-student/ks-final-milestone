@@ -127,6 +127,26 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         this.stateService = stateService;
     }
 
+    public void setLprDao(LprDao lprDao) {
+        this.lprDao = lprDao;
+    }
+
+    public void setLprStateDao(StateDao stateDao) {
+        this.stateDao = stateDao;
+    }
+
+    public void setLprTypeDao(LprTypeDao lprTypeDao) {
+        this.lprTypeDao = lprTypeDao;
+    }
+
+    public void setLuiDao(LuiDao luiDao) {
+        this.luiDao = luiDao;
+    }
+
+    public void setLprRosterDao(LprRosterDao lprRosterDao) {
+        this.lprRosterDao = lprRosterDao;
+    }
+
     private LuiPersonRelationInfo getLprsByLuiPersonAndState(String personId, String luiId, String stateKey,
             ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -389,26 +409,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
-    }
-
-    public void setLprDao(LprDao lprDao) {
-        this.lprDao = lprDao;
-    }
-
-    public void setLprStateDao(StateDao stateDao) {
-        this.stateDao = stateDao;
-    }
-
-    public void setLprTypeDao(LprTypeDao lprTypeDao) {
-        this.lprTypeDao = lprTypeDao;
-    }
-
-    public void setLuiDao(LuiDao luiDao) {
-        this.luiDao = luiDao;
-    }
-
-    public void setLprRosterDao(LprRosterDao lprRosterDao) {
-        this.lprRosterDao = lprRosterDao;
     }
 
     @Override

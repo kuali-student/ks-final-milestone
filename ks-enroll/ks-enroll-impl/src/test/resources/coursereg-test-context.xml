@@ -17,18 +17,9 @@
   <import resource="classpath:META-INF/default-property-config-context-test.xml" />
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:lpr-test-context.xml"/>
   <!-- Preloaded data -->
-  <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-    <property name="jtaTxManager" ref="JtaTxManager" />
-    <property name="shouldLoadData" value="true" />
-    <property name="preloadMap">
-      <map>
-        <entry key="CourseReg">
-          <value>classpath:ks-courseRegistration.sql</value>
-        </entry>
-      </map>
-    </property>
-  </bean>
+
 
   <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
     <property name="properties" value="${propertiesPrefix.systemProperties}" />
@@ -88,21 +79,20 @@
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
-  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
-    <property name="lprDao" ref="lprDao" />
-    <property name="lprTypeDao" ref="lprTypeDao" />
-    <property name="lprTransDao" ref="lprTransDao" />
-    <property name="lprStateDao" ref="lprStateDao" />
-    <property name="stateService" ref="stateService" />
-  </bean>
+
 
   <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
-    <property name="lprService" ref="lprServiceOnBus" />
-    <property name="courseOfferingService" ref="courseOfferingServiceOnBus" />
+    <property name="lprService" ref="lprService" />
     <property name="regRequestAssembler" ref="regRequestAssembler" />
     <property name="regResponseAssembler" ref="regResponseAssembler" />
     <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
   </bean>
+
+  <bean id="courseRegServiceValidation" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
+      <property name="nextDecorator" ref="courseRegistrationService" />
+  </bean>
+
+
 
   <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
   <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
