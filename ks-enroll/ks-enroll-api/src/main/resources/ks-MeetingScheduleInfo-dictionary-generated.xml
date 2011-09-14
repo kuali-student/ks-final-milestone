@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Wed Sep 14 16:05:43 EDT 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -50,12 +50,13 @@ Captures space and time information associated with a meeting or event.
 		</property>
 		<property name="primaryKeys">
 			<list>
-				<value>spaceId</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
+				<ref bean="MeetingScheduleInfo.id"/>
 				<ref bean="MeetingScheduleInfo.spaceId"/>
 				<ref bean="MeetingScheduleInfo.timePeriods"/>
 			</list>
@@ -70,6 +71,10 @@ Captures space and time information associated with a meeting or event.
 			<list>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="MeetingScheduleInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="MeetingScheduleInfo.spaceId-generated" abstract="true" parent="BaseKuali.string">
@@ -94,21 +99,44 @@ Space code where the meeting is going to take place
 		<property name="shortLabel" value="Time Periods"/>
 		<property name="summary">
 			<value>
-Date and Time
-The date and time values for all vCalendar properties are formatted as a string consistent with the ISO 8601 representation for combinations of dates and times. 
+Date and Time The date and time values for all vCalendar properties are
+formatted as a string consistent with the ISO 8601 representation for
+combinations of dates and times. 
 			</value>
 		</property>
 		<property name="label" value="Time"/>
 		<property name="description">
 			<value>
-Date and Time
-The date and time values for all vCalendar properties are formatted as a string consistent with the ISO 8601 representation for combinations of dates and times. Either the basic or extended format is allowed. The use of UTC, rather than local time, should be used when ever possible in order to avoid time zone ambiguities. The format for the complete, basic representation of a date and time value is written in the following sequence of characters:
-&lt;year&gt;&lt;month&gt;&lt;day&gt;T&lt;hour&gt;&lt;minute&lt;second&gt;&lt;type designator&gt;
-For example, 8:30 AM on April 15, 1996 local time would be written as: 19960415T083000
+Date and Time The date and time values for all vCalendar properties are
+formatted as a string consistent with the ISO 8601 representation for
+combinations of dates and times. Either the basic or extended format is
+allowed. The use of UTC, rather than local time, should be used when ever
+possible in order to avoid time zone ambiguities. The format for the
+complete, basic representation of a date and time value is written in the
+following sequence of characters:
+&lt;year&gt;&lt;month&gt;&lt;day&gt;T&lt;hour&gt;&lt;minute&lt;second&gt;&lt;type designator&gt; For example,
+8:30 AM on April 15, 1996 local time would be written as: 19960415T083000
 And the same time in UTC based time would be written as: 19960415T083000Z
-Where a value needs to specify a sequence of date and time values, then the property value is a string made up of a list of date and time values, separated by the field separator. For example: 19960101T090000Z; 19960201T090000Z; 19960301T090000Z; 19960401T090000Z; ...
-Time Duration
-The values for time duration or periods of time for all vCalendar properties are formatted as a string conformant with the ISO 8601 basic representation for duration of time. A given duration of a period of time is represented by a character string consisting of the designator &quot;P&quot;, optionally including the number of years followed by the designator &quot;Y&quot;, optionally including the number of months followed by the designator &quot;M&quot;, optionally including the number of weeks followed by the designator &quot;W&quot;, optionally including the number of days followed by the designator &quot;D&quot;. The sequence can also contain a time component preceded by the designator &quot;T&quot;, optionally including the number of hours followed by the designator &quot;H&quot;, optionally including the number of minutes followed by the designator &quot;M&quot;, optionally including the number of seconds followed by the designator &quot;S&quot;. For example: P6W A period of six weeks; PT15M A period of 15 minutes; PT1H30M A period of 1 hour and thirty minutes; or P2Y10M15DT10H30M20S A period of 2 years, 10 months, 15 days, 10 hours, 30 minutes, and 20 seconds.
+Where a value needs to specify a sequence of date and time values, then
+the property value is a string made up of a list of date and time values,
+separated by the field separator. For example: 19960101T090000Z;
+19960201T090000Z; 19960301T090000Z; 19960401T090000Z; ... Time Duration
+The values for time duration or periods of time for all vCalendar
+properties are formatted as a string conformant with the ISO 8601 basic
+representation for duration of time. A given duration of a period of time
+is represented by a character string consisting of the designator &quot;P&quot;,
+optionally including the number of years followed by the designator &quot;Y&quot;,
+optionally including the number of months followed by the designator &quot;M&quot;,
+optionally including the number of weeks followed by the designator &quot;W&quot;,
+optionally including the number of days followed by the designator &quot;D&quot;.
+The sequence can also contain a time component preceded by the designator
+&quot;T&quot;, optionally including the number of hours followed by the designator
+&quot;H&quot;, optionally including the number of minutes followed by the
+designator &quot;M&quot;, optionally including the number of seconds followed by
+the designator &quot;S&quot;. For example: P6W A period of six weeks; PT15M A
+period of 15 minutes; PT1H30M A period of 1 hour and thirty minutes; or
+P2Y10M15DT10H30M20S A period of 2 years, 10 months, 15 days, 10 hours, 30
+minutes, and 20 seconds.
 			</value>
 		</property>
 		<property name="required" value="false"/>
