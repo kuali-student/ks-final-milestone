@@ -1138,7 +1138,6 @@
         </foreign-key>
     </table>
     <table name="KSEN_LPR_TRANS">
-        <column name="TRANS_NAME" size="255" type="VARCHAR"/>
         <column name="ID" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
