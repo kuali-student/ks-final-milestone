@@ -190,42 +190,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		return results;
 	}
 
-     /**
-     * HACK HACK HACK
-     *
-     * This implementation is a HACK!!!  Please think of the poor wasted CPU cycles and use a more specific lui service method
-     * when one is made.
-     *
-     * This implementation is terrible inefficient, since it looks up ALL courseOffering and then filters the matching ones out.
-     *
-     * HACK HACK HACK
-     */
-            @Override
+    @Override
     public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) 
-                    throws DoesNotExistException, 
-                    InvalidParameterException, 
-                    MissingParameterException, 
-                    OperationFailedException, 
-                    PermissionDeniedException {
-        TermInfo term = acalService.getTerm(termKey, context);
+                    throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                           OperationFailedException, PermissionDeniedException {
 
-        List<String> luiIds = luiService.getLuiIdsByType(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
-        List<String> results = new ArrayList<String>();
-        for (String luiId : luiIds) {
-            CourseOfferingInfo co = getCourseOffering(luiId, context);
-            if (termKey.equals(co.getTermKey())) {
-                if (co.getInstructors() != null) {
-                    for (OfferingInstructorInfo offeringInstructorInfo : co.getInstructors()) {
-                        if (instructorId.equals(offeringInstructorInfo.getPersonId())) {
-                            results.add(co.getId());
-                            break;
-                        }
-                    }
-                }
-            }
-
+        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId,termKey,"kuali.lpr.type.instructor.main",context);
+        List<String> coIds = new ArrayList();
+        for(LuiPersonRelationInfo lprInfo : lprInfos){
+            coIds.add(lprInfo.getLuiId());
         }
-        return results;
+
+        return coIds;
     }
         
         
@@ -964,7 +940,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("getCourseOfferingsByIdList not supported");
-    }
+        }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

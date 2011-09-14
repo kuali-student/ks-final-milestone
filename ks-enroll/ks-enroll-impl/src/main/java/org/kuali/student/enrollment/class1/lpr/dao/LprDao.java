@@ -22,4 +22,8 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
     public List<String> getLprIdsByLuiAndPerson(String personId, String luiId) {
         return (List<String>) em.createQuery("select lpr.id from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.luiId=:luiId").setParameter("personId", personId).setParameter("luiId", luiId).getResultList();
     }
+
+    public List<LuiPersonRelationEntity> getLprsByPersonAndType(String personId,String typeKey){
+        return (List<LuiPersonRelationEntity>) em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.personRelationType.id=:typeKey").setParameter("personId", personId).setParameter("typeKey", typeKey).getResultList();
+    }
 }

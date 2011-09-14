@@ -982,8 +982,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpKey, String typeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId,atpKey);
+        List<LuiPersonRelationInfo> infoList = new ArrayList();
+        for (LuiPersonRelationEntity entity : entityList){
+            LuiEntity lui = luiDao.find(entity.getLuiId());
+            if (!StringUtils.equals(lui.getAtpKey(),atpKey)) {
+                 infoList.add(entity.toDto());
+            }
+        }
+
+        return infoList;
     }
 
     @Override
