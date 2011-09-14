@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
+import org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -435,7 +436,13 @@ public class LuiServiceImpl implements LuiService {
         		luiCode.setLui(entity);
         	}
         }
-       
+
+        if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()){
+        	for (MeetingScheduleEntity schedule : entity.getMeetingSchedules()){
+        		schedule.setLui(entity);
+        	}
+        }
+
         LuiEntity existing = luiDao.find(entity.getId());
         if( existing != null) {
             throw new AlreadyExistsException();
@@ -473,6 +480,12 @@ public class LuiServiceImpl implements LuiService {
             if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()){
             	for (LuCodeEntity luiCode : modifiedEntity.getLuCodes()){
             		luiCode.setLui(modifiedEntity);
+            	}
+            }
+
+            if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()){
+            	for (MeetingScheduleEntity schedule : modifiedEntity.getMeetingSchedules()){
+            		schedule.setLui(modifiedEntity);
             	}
             }
             

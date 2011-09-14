@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -143,6 +144,17 @@ public class TestCourseOfferingServiceImpl {
 		ao.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 		ao.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
 		
+		List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
+		MeetingScheduleInfo schedule1 = new MeetingScheduleInfo();
+		schedule1.setSpaceId("room 314");
+		schedule1.setTimePeriods("19960415T083000");
+		schedules.add(schedule1);
+		MeetingScheduleInfo schedule2 = new MeetingScheduleInfo();
+		schedule2.setSpaceId("room 316");
+		schedule2.setTimePeriods("19960415T083000Z");
+		schedules.add(schedule2);
+		ao.setMeetingSchedules(schedules);
+		
 		 try {
 			 ActivityOfferingInfo created = coServiceValidation.createActivityOffering(courseOfferingIdList, ao, callContext);
 			 assertNotNull(created);
@@ -153,6 +165,7 @@ public class TestCourseOfferingServiceImpl {
 		     assertEquals("testAtpId1", retrieved.getTermKey());
 		     assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
 		     assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey()); 
+		     assertTrue(retrieved.getMeetingSchedules().size()== 2);
 		     
 		     //test getActivitiesForCourseOffering
 		     List<ActivityOfferingInfo> activities = coServiceValidation.getActivitiesForCourseOffering("Lui-1", callContext);
@@ -160,6 +173,7 @@ public class TestCourseOfferingServiceImpl {
 		     assertTrue(activities.size() == 1);
 		     assertEquals(activities.get(0).getActivityId(), "CLU-1");
 		     assertEquals(activities.get(0).getId(), created.getId());
+		     assertTrue(activities.get(0).getMeetingSchedules().size() == 2);
 		 } catch (Exception ex) {
 	    		fail("exception from service call :" + ex.getMessage());
     	 }  

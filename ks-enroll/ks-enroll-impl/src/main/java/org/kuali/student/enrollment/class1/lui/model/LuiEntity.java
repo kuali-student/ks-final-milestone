@@ -4,9 +4,11 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.MeetingSchedule;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.infc.LuCode;
@@ -80,6 +82,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinTable(name = "KSEN_LUI_JN_LUI_IDENT", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "ALT_LUI_ID"))
     private List<LuiIdentifierEntity> alternateIdentifiers;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
+	private List<MeetingScheduleEntity> meetingSchedules;   
+	
 //	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
 //	private List<LuiCluRelationEntity> cluCluRelationIds;
 	
@@ -148,6 +153,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	        	}
 	        }
 	        
+	        this.setMeetingSchedules(new ArrayList<MeetingScheduleEntity>());
+	        if (null != lui.getMeetingSchedules()) {
+	        	for(MeetingSchedule ms : lui.getMeetingSchedules()){
+	        		MeetingScheduleEntity msEntity = new MeetingScheduleEntity(ms);
+	        		this.getMeetingSchedules().add(msEntity);
+	        	}
+	        }
+	        
 	        this.setAttributes(new ArrayList<LuiAttributeEntity>());
 	        if (null != lui.getAttributes()) {
 	            for (Attribute att : lui.getAttributes()) {
@@ -198,6 +211,13 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         obj.setMeta(super.toDTO());
         if(descr != null)
             obj.setDescr(descr.toDto());
+ 
+        List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
+        for (MeetingScheduleEntity ms : meetingSchedules) {
+        	MeetingScheduleInfo msInfo = ms.toDto();
+        	schedules.add(msInfo);
+        }
+        obj.setMeetingSchedules(schedules);
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
@@ -353,6 +373,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	@Override
 	public List<LuiAttributeEntity> getAttributes() {
 		return attributes;
+	}
+
+	public List<MeetingScheduleEntity> getMeetingSchedules() {
+		return meetingSchedules;
+	}
+
+	public void setMeetingSchedules(List<MeetingScheduleEntity> meetingSchedules) {
+		this.meetingSchedules = meetingSchedules;
 	}
 
 /*	public List<LuiCluRelationEntity> getCluCluRelationIds() {

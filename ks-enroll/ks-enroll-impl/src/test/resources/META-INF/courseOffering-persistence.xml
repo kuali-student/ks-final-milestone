@@ -55,6 +55,7 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
  
  		<class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
 		<class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>
