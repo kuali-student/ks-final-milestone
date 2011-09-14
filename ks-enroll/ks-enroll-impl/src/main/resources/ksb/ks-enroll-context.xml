@@ -402,7 +402,12 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
-    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
+        <property name="validator" ref="validator"/>
+        <property name="nextDecorator" ref="courseRegistrationImpl"/>
+    </bean>
+
+    <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="lprServiceValidation" />
         <property name="courseOfferingService" ref="coServiceValidation" />
         <property name="regRequestAssembler" ref="regRequestAssembler" />
