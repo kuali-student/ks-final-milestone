@@ -434,7 +434,14 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
-            categoryTypeLabel.setText(categoryInfo.getType());
+            if (categoryTypeList != null) {
+                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
+                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getType())) {
+                        categoryTypeLabel.setText(catTypeInfo.getName());
+                        break;
+                    }
+                }
+            }
         }
     }
     class UpdateCategoryDialog extends KSLightBox {
