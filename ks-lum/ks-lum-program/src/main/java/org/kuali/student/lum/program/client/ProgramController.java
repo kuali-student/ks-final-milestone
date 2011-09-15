@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
@@ -510,16 +511,33 @@ public abstract class ProgramController extends MenuSectionController {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#getExportTemplateName()
+     */
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
+    public String getExportTemplateName() {
+        if (this.getCurrentViewEnum().equals(ProgramSections.VIEW_ALL)){
+            return "base.template";
+        }
+        return "proposal.template";
+    }
+    
+    @Override
+    public List<ExportElement> getExportElementsFromView() {
 
         String viewName = null;
         String sectionTitle = null;
         View currentView = this.getCurrentView();
         if (currentView != null) {
             
-            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-            if (currentView != null && currentView instanceof Section) {
+            List<ExportElement> exportElements = new ArrayList<ExportElement>();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(currentView.getName());
+            exportElements.add(heading);
+            
+            if (currentView instanceof Section) {
                 Section currentSection = (Section) currentView;
                 List<Section> nestedSections = currentSection.getSections();
                 for (int i = 0; i < nestedSections.size(); i++) {
