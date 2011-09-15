@@ -81,5 +81,6 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 /
 Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.dropped.late',null,0,null,null,null,null,'The student was registered but subsequently dropped the course or section past the normally allotted time period,typically resulting in a special grade or mark to so indicate',null,null,'Dropped Late','kuali.lpr.process.student.course.registration')
 /
-
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.assigned',null,0,null,null,null,null, 'The instructor is assigned to teach this course or section.', null, null, 'Assigned', 'kuali.lpr.process.instructor.course.assignment')
+/
 

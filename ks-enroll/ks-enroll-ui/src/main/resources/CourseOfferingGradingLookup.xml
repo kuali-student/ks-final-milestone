@@ -28,7 +28,11 @@
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="id" />
         <bean parent="LookupCriteriaAttributeField" p:propertyName="courseId" />
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="termKey" p:required="true" p:defaultValue="201108" />
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="termKey" p:required="true">
+             <property name="optionsFinder">
+                  <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
+             </property>
+        </bean>
       </list>
     </property>
     <property name="resultFields">

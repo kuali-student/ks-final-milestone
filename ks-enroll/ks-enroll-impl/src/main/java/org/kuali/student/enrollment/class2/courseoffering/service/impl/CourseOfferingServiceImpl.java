@@ -939,8 +939,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getCourseOfferingsByIdList not supported");
+        List<LuiInfo> luiInfoList = luiService.getLuisByIdList(courseOfferingIds,context);
+        List<CourseOfferingInfo> coList = new ArrayList();
+        for (LuiInfo lui : luiInfoList){
+            CourseOfferingInfo coInfo = coAssembler.assemble(lui,context);
+            coList.add(coInfo);
         }
+        return coList;
+    }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

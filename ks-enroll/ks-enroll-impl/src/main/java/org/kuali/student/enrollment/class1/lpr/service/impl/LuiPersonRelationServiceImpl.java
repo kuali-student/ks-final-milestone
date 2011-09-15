@@ -983,11 +983,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId,atpKey);
+        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId,typeKey);
         List<LuiPersonRelationInfo> infoList = new ArrayList();
         for (LuiPersonRelationEntity entity : entityList){
             LuiEntity lui = luiDao.find(entity.getLuiId());
-            if (!StringUtils.equals(lui.getAtpKey(),atpKey)) {
+            if (StringUtils.equals(lui.getAtpKey(),atpKey)) {
                  infoList.add(entity.toDto());
             }
         }

@@ -409,7 +409,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprId = lprService.createLpr(PERSONID2, "Lui-1", LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, lprInfo, callContext);
             LuiPersonRelationInfo newInfo = lprService.getLpr(lprId,callContext);
-            List<LuiPersonRelationInfo> info = lprService.getLprsByPersonAndTypeForAtp(PERSONID2,LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, callContext);
+            List<LuiPersonRelationInfo> info = lprService.getLprsByPersonAndTypeForAtp(PERSONID2, "testTermId4", LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, callContext);
             assertEquals(1,info.size());
             assertEquals("Lui-1",info.get(0).getLuiId());
             assertEquals(PERSONID2,info.get(0).getPersonId());

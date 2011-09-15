@@ -45,27 +45,16 @@ public class GradeCourseOfferringLookupableImpl extends LookupableImpl {
         List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList();
 
         GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
-        CourseOfferingService courseOfferingService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "CourseOfferingMockService"));
-        try {
-            List<GradeRosterInfo> gradeRosterInfoList = gradingService.getGradeRostersByGraderAndTerm(currentUser, termKey, context);
-            if (gradeRosterInfoList != null){
-                List<String> courseOfferingIds = new ArrayList();
-                for (GradeRosterInfo gradeInfo : gradeRosterInfoList){
-                     courseOfferingIds.add(gradeInfo.getCourseOfferingId());
-                }
-                courseOfferingInfoList = courseOfferingService.getCourseOfferingsByIdList(courseOfferingIds, context);
-            }
+        CourseOfferingService courseOfferingService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
 
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        try{
+            List<String> coIds = courseOfferingService.getCourseOfferingIdsByTermAndInstructorId(termKey,currentUser,context);
+            if (!coIds.isEmpty()){
+                courseOfferingInfoList = courseOfferingService.getCourseOfferingsByIdList(coIds, context);
+            }
+        }catch(Exception e){
+            //FIXME: Change it to use proper error handling
+            throw new RuntimeException(e);
         }
 
         return courseOfferingInfoList;
