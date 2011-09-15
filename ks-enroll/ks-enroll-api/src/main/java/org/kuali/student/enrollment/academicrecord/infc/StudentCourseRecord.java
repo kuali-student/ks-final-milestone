@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.academicrecord.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Information about a Student Course Record. A Student Course Record
@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */ 
 
 public interface StudentCourseRecord 
-    extends IdEntity {
+    extends IdNamelessEntity {
 
     /**
      *  The Source is represented by a Type to indicate what crated
@@ -91,7 +91,7 @@ public interface StudentCourseRecord
      * The code or number of the primary activity or section that was
      * in effect at the time the student took the course.
      *
-     * @name Course Code
+     * @name Activity Code
      * @readOnly
      * @required
      * @impl retrieved from the Course Offering related to the Course 

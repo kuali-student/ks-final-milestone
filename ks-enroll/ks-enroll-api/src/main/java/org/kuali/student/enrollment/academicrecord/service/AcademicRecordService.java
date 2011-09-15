@@ -53,8 +53,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public interface AcademicRecordService {
 
     /**
-     * This method returns a list of StudentCourseRecords for a student
-     * and a term where each record is a course the student attempted.
+     * This method returns a list of StudentCourseRecords for a
+     * student and a term where each record is a course the student
+     * attempted. The Term includes nested or sub-Terms.
      *
      * @param personId an Id of a student
      * @param termKey a key of a Term
@@ -89,7 +90,7 @@ public interface AcademicRecordService {
     /**
      * This method returns a list of StudentCourseRecord for a student
      * and a term where each returned course is a course the student
-     * completed.
+     * completed The Term includes nested or sub-Terms.
      *
      * @param personId an Id of a student
      * @param termKey a key of a Term
@@ -105,7 +106,8 @@ public interface AcademicRecordService {
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the GPA of a student for a term.
+     * This method returns the GPA of a student for all courses taken
+     * within a given a Term including its sub-Terms.
      *
      * @param personId an Id of a student
      * @param termKey a key of a Term
@@ -155,8 +157,8 @@ public interface AcademicRecordService {
     public GPAInfo getCumulativeGPA(@WebParam(name = "personId") String personId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns the number of credits a student earned in a
-     * given Term.
+     * This method returns the number of credits a student earned by
+     * courss within in a given Term including its sub-Terms.
      *
      * @param personId an Id of a student
      * @param termKey a key for a Term

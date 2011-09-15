@@ -66,8 +66,7 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     /**
      * Retrieves the Relation for the specified LUI Person Relation
      * 
-     * @param luiPersonRelationId
-     *            Identifier for the LUI Person Relation
+     * @param luiPersonRelationId Identifier for the LUI Person Relation
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation

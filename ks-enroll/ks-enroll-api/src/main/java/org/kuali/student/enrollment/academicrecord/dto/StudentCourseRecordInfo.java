@@ -26,15 +26,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCourseRecordInfo", propOrder = {
-        "id", "typeKey", "stateKey", "name", "descr", 
+        "id", "typeKey", "stateKey", 
         "sourceTypeKey", "courseRegistrationId",
-        "personId", "courseTitle", "courseCode", "termName", 
-        "courseBeginDate", "courseEndDate", 
+	"personId", "courseTitle", "courseCode", "activityCode", 
+        "termName", "courseBeginDate", "courseEndDate", 
         "assignedGradeValue", "assignedGradeScaleKey", 
         "administrativeGradeValue", "administrativeGradeScaleKey", 
         "calculatedGradeValue", "calculatedGradeScaleKey", 
@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
         "meta", "attributes", "_futureElements"})
 
 public class StudentCourseRecordInfo     
-    extends IdEntityInfo
+    extends IdNamelessEntityInfo
     implements StudentCourseRecord, Serializable {
 
     private static final long serialVersionUID = 1L;

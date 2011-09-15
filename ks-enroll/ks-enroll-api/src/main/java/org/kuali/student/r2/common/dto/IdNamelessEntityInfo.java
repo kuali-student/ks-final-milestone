@@ -17,35 +17,36 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
-
-
+/**
+ * Provides basic method for a nameless entity.
+ */
 @SuppressWarnings("serial")
 @XmlTransient
-public abstract class KeyEntityInfo extends EntityInfo implements KeyEntity, Serializable {
+public abstract class IdNamelessEntityInfo 
+    extends TypeStateEntityInfo 
+    implements IdNamelessEntity, Serializable {
 
     @XmlAttribute
-    private String key;
+    private String id;
 
-    public KeyEntityInfo() {
-    	super();
-        key = null;
+    protected IdNamelessEntityInfo() {
+        super ();
+        id = null;
     }
 
-    public KeyEntityInfo(KeyEntity kEntity) {
-        super(kEntity);
-        if (null != kEntity) {
-	        this.key = kEntity.getKey();
-        }
+    public IdNamelessEntityInfo(IdNamelessEntity builder) {
+        super(builder);
+        this.id = builder.getId();
     }
 
     @Override
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
-    
-    public void setKey(String key) {
-        this.key = key;
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
