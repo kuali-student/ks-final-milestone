@@ -30,6 +30,7 @@ public class MeetingScheduleEntity extends MetaEntity {
     		this.setId(meetingSchedule.getId());
     		this.setSpaceId(meetingSchedule.getSpaceId());
     		this.setTimePeriods(meetingSchedule.getTimePeriods());
+    		this.setVersionNumber((long) 0);
     	} catch (Exception e){
             e.printStackTrace();
         }
