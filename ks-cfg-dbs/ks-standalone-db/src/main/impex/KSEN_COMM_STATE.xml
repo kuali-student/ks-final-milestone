@@ -54,6 +54,10 @@
         ID="kuali.hold.state.released" NAME="Released"
         PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
     <KSEN_COMM_STATE
+        DESCR="The instructor is assigned to teach this course or section."
+        ID="kuali.lpr.state.assigned" NAME="Assigned"
+        PROCESS_KEY="kuali.lpr.process.instructor.course.assignment" VER_NBR="0"/>
+    <KSEN_COMM_STATE
         DESCR="The student was registered but subsequently dropped the course or section within the normally allotted time period"
         ID="kuali.lpr.state.dropped.early" NAME="Dropped"
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
