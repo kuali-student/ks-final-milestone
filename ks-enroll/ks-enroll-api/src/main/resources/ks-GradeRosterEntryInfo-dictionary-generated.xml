@@ -38,14 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- OfferingInstructorInfo-->
-	<bean id="OfferingInstructorInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="offeringInstructorInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo"/>
-		<property name="objectLabel" value="Offering Instructor"/>
+	<!-- GradeRosterEntryInfo-->
+	<bean id="GradeRosterEntryInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="gradeRosterEntryInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo"/>
+		<property name="objectLabel" value="Grade Roster Entry"/>
 		<property name="objectDescription">
 			<value>
-Information about a potential instructor for a lui.
+Information about a Grading Roster Entry
 			</value>
 		</property>
 		<property name="primaryKeys">
@@ -56,17 +56,19 @@ Information about a potential instructor for a lui.
 
 		<property name="attributes">
 			<list>
-				<ref bean="OfferingInstructorInfo.id"/>
-				<ref bean="OfferingInstructorInfo.personId"/>
-				<ref bean="OfferingInstructorInfo.percentageEffort"/>
-				<ref bean="OfferingInstructorInfo.typeKey"/>
-				<ref bean="OfferingInstructorInfo.stateKey"/>
+				<ref bean="GradeRosterEntryInfo.id"/>
+				<ref bean="GradeRosterEntryInfo.studentId"/>
+				<ref bean="GradeRosterEntryInfo.activityOfferingId"/>
+				<ref bean="GradeRosterEntryInfo.assignedGradeKey"/>
+				<ref bean="GradeRosterEntryInfo.administrativeGradeKey"/>
+				<ref bean="GradeRosterEntryInfo.calculatedGradeKey"/>
+				<ref bean="GradeRosterEntryInfo.creditsEarnedKey"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="OfferingInstructorInfo.meta"/>
+				<ref bean="GradeRosterEntryInfo.meta"/>
 			</list>
 		</property>
 
@@ -76,53 +78,113 @@ Information about a potential instructor for a lui.
 		</property>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="GradeRosterEntryInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
-		<property name="name" value="personId"/>
-		<property name="shortLabel" value="Person Id"/>
+	<bean id="GradeRosterEntryInfo.studentId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="studentId"/>
+		<property name="shortLabel" value="Student Id"/>
 		<property name="summary">
 			<value>
-Unique identifier for a person record.
+???
 			</value>
 		</property>
-		<property name="label" value="Person Id"/>
+		<property name="label" value="Student Id"/>
 		<property name="description">
 			<value>
-Unique identifier for a person record.
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.percentageEffort-generated" abstract="true" parent="BaseKuali.float">
-		<property name="name" value="percentageEffort"/>
-		<property name="shortLabel" value="Percentage Effort"/>
+	<bean id="GradeRosterEntryInfo.activityOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="activityOfferingId"/>
+		<property name="shortLabel" value="Activity Offering Id"/>
 		<property name="summary">
 			<value>
-Percentage involvement of the instructor in the
+This method ...
 			</value>
 		</property>
-		<property name="label" value="Percentage Effort"/>
+		<property name="label" value="Activity Offering Id"/>
 		<property name="description">
 			<value>
-Percentage involvement of the instructor in the
+This method ...
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
-		<property name="name" value="typeKey"/>
+	<bean id="GradeRosterEntryInfo.assignedGradeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="assignedGradeKey"/>
+		<property name="shortLabel" value="Assigned Grade Key"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Assigned Grade Grade assigned by the grader in a roster entry"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
-		<property name="name" value="stateKey"/>
+	<bean id="GradeRosterEntryInfo.administrativeGradeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="administrativeGradeKey"/>
+		<property name="shortLabel" value="Administrative Grade Key"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Admin Grade Grade assigned by the grader in a roster entry"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="GradeRosterEntryInfo.calculatedGradeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="calculatedGradeKey"/>
+		<property name="shortLabel" value="Calculated Grade Key"/>
+		<property name="summary">
+			<value>
+the roster entry
+			</value>
+		</property>
+		<property name="label" value="Calculated Grade Grade calculated based on the assigned grade in"/>
+		<property name="description">
+			<value>
+the roster entry
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="GradeRosterEntryInfo.creditsEarnedKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditsEarnedKey"/>
+		<property name="shortLabel" value="Credits Earned Key"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Credits Earned Credits earned in the course offering."/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="GradeRosterEntryInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -168,11 +230,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="OfferingInstructorInfo.meta.versionInd"/>
-						<ref bean="OfferingInstructorInfo.meta.createTime"/>
-						<ref bean="OfferingInstructorInfo.meta.createId"/>
-						<ref bean="OfferingInstructorInfo.meta.updateTime"/>
-						<ref bean="OfferingInstructorInfo.meta.updateId"/>
+						<ref bean="GradeRosterEntryInfo.meta.versionInd"/>
+						<ref bean="GradeRosterEntryInfo.meta.createTime"/>
+						<ref bean="GradeRosterEntryInfo.meta.createId"/>
+						<ref bean="GradeRosterEntryInfo.meta.updateTime"/>
+						<ref bean="GradeRosterEntryInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -189,23 +251,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="GradeRosterEntryInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="GradeRosterEntryInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="GradeRosterEntryInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="GradeRosterEntryInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="OfferingInstructorInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="GradeRosterEntryInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

@@ -51,7 +51,7 @@ import org.w3c.dom.Element;
         "resultValueKeys", "resultValueRange", "effectiveDate",
         "expirationDate", "meta", "attributes", "_futureElements" })
 
-public class GradeValuesGroupInfo 
+public class ResultValuesGroupInfo 
         extends KeyEntityInfo 
         implements ResultValuesGroup {
 
@@ -75,7 +75,7 @@ public class GradeValuesGroupInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public GradeValuesGroupInfo() {
+    public ResultValuesGroupInfo() {
         resultScaleKey = null;
         resultValueKeys = new ArrayList<String>();
         resultValueRange = null;
@@ -83,7 +83,7 @@ public class GradeValuesGroupInfo
         expirationDate = null;
     }
 
-    public GradeValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
+    public ResultValuesGroupInfo(ResultValuesGroup resultValuesGroup) {
         super(resultValuesGroup);
         if (null != resultValuesGroup) {
             this.resultScaleKey = resultValuesGroup.getResultScaleKey();

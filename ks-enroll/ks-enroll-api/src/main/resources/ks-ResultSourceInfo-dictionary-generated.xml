@@ -38,19 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- RegRequestInfo-->
-	<bean id="RegRequestInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="regRequestInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo"/>
-		<property name="objectLabel" value="Reg Request"/>
+	<!-- ResultSourceInfo-->
+	<bean id="ResultSourceInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="resultSourceInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.lrr.dto.ResultSourceInfo"/>
+		<property name="objectLabel" value="Result Source"/>
 		<property name="objectDescription">
 			<value>
-The request made to the service from the application to register for
-course(s). The attributes of this entity include requester (which will be the
-student in most cases), request id and term. Each of the reg group the
-students want to register would be a registration request item in the Request
-object. For every transactional operation from the application, a new
-Registration request is created.
+Information about the Result Source. Result source is used to indicate how the result was created (Manual, Articulation, Result transformation etc)
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -62,38 +57,40 @@ Registration request is created.
 
 		<property name="attributes">
 			<list>
-				<ref bean="RegRequestInfo.id"/>
-				<ref bean="RegRequestInfo.name"/>
-				<ref bean="RegRequestInfo.typeKey"/>
-				<ref bean="RegRequestInfo.stateKey"/>
-				<ref bean="RegRequestInfo.requestorId"/>
-				<ref bean="RegRequestInfo.termKey"/>
+				<ref bean="ResultSourceInfo.id"/>
+				<ref bean="ResultSourceInfo.typeKey"/>
+				<ref bean="ResultSourceInfo.name"/>
+				<ref bean="ResultSourceInfo.articulationId"/>
+				<ref bean="ResultSourceInfo.resultTransformationId"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="RegRequestInfo.descr"/>
-				<ref bean="RegRequestInfo.meta"/>
+				<ref bean="ResultSourceInfo.descr"/>
+				<ref bean="ResultSourceInfo.meta"/>
 			</list>
 		</property>
 
 		<property name="collections">
 			<list>
-				<ref bean="RegRequestInfo.regRequestItems"/>
 			</list>
 		</property>
 	</bean>
 
-	<bean id="RegRequestInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="ResultSourceInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="RegRequestInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="ResultSourceInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="ResultSourceInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="RegRequestInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="ResultSourceInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -121,8 +118,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="RegRequestInfo.descr.plain"/>
-						<ref bean="RegRequestInfo.descr.formatted"/>
+						<ref bean="ResultSourceInfo.descr.plain"/>
+						<ref bean="ResultSourceInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -139,111 +136,49 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="RegRequestInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="ResultSourceInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="RegRequestInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="ResultSourceInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="RegRequestInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
-		<property name="name" value="typeKey"/>
-		<property name="shortLabel" value="Type Key"/>
+	<bean id="ResultSourceInfo.articulationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="articulationId"/>
+		<property name="shortLabel" value="Articulation Id"/>
 		<property name="summary">
 			<value>
-The type of the overall registration request.
+Unique identifier for an articulation record.
 			</value>
 		</property>
-		<property name="label" value="Type Key"/>
+		<property name="label" value="Articulation Id"/>
 		<property name="description">
 			<value>
-The type of the overall registration request.
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="RegRequestInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
-		<property name="name" value="stateKey"/>
-		<property name="shortLabel" value="State Key"/>
-		<property name="summary">
-			<value>
-Represents the state of the overall registration request.
-			</value>
-		</property>
-		<property name="label" value="State Key"/>
-		<property name="description">
-			<value>
-Represents the state of the overall registration request.
-			</value>
-		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="RegRequestInfo.requestorId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="requestorId"/>
-		<property name="shortLabel" value="Requestor Id"/>
-		<property name="summary">
-			<value>
-Returns the id of the person who requested the course registration. 
-			</value>
-		</property>
-		<property name="label" value="Requestor Id"/>
-		<property name="description">
-			<value>
-Returns the id of the person who requested the course registration. Most
-of the times it would be a student but it could also be an admin or
-faculty making a request on behalf of the student
+Unique identifier for an articulation record.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegRequestInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="termKey"/>
-		<property name="shortLabel" value="Term Key"/>
+	<bean id="ResultSourceInfo.resultTransformationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="resultTransformationId"/>
+		<property name="shortLabel" value="Result Transformation Id"/>
 		<property name="summary">
 			<value>
-Returns the key of the {@link Term} of the registration request
+Unique identifier for an learning result transformation.
 			</value>
 		</property>
-		<property name="label" value="Term Key"/>
+		<property name="label" value="Result Transformation Id"/>
 		<property name="description">
 			<value>
-Returns the key of the {@link Term} of the registration request
+Unique identifier for an learning result transformation.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegRequestInfo.regRequestItems-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="regRequestItems"/>
-		<property name="shortLabel" value="Reg Request Items"/>
-		<property name="summary">
-			<value>
-Returns a list of {@link RegRequestItem} that the RegRequest is composed
-of.
-			</value>
-		</property>
-		<property name="label" value="Reg Request Items"/>
-		<property name="elementLabel" value="Reg Request Item"/>
-		<property name="description">
-			<value>
-Returns a list of {@link RegRequestItem} that the RegRequest is composed
-of.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo"/>
-	</bean>
-
-	<bean id="RegRequestInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="ResultSourceInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -289,11 +224,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="RegRequestInfo.meta.versionInd"/>
-						<ref bean="RegRequestInfo.meta.createTime"/>
-						<ref bean="RegRequestInfo.meta.createId"/>
-						<ref bean="RegRequestInfo.meta.updateTime"/>
-						<ref bean="RegRequestInfo.meta.updateId"/>
+						<ref bean="ResultSourceInfo.meta.versionInd"/>
+						<ref bean="ResultSourceInfo.meta.createTime"/>
+						<ref bean="ResultSourceInfo.meta.createId"/>
+						<ref bean="ResultSourceInfo.meta.updateTime"/>
+						<ref bean="ResultSourceInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -310,23 +245,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="RegRequestInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="ResultSourceInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="RegRequestInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="ResultSourceInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="RegRequestInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="ResultSourceInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="RegRequestInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="ResultSourceInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="RegRequestInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="ResultSourceInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

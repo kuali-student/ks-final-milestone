@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.lu.dto.FeeInfo;
 import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
@@ -95,7 +95,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private List<String> jointOfferingIds;
 
     @XmlElement
-    private GradeValuesGroupInfo creditOptions;
+    private ResultValuesGroupInfo creditOptions;
 
     @XmlElement
     private List<String> gradingOptionIds;
@@ -138,10 +138,10 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.courseId = null;
         this.formatIds = new ArrayList<String>();
         this.subjectArea = null;
-        this.isHonorsOffering = new Boolean(false);
+        this.isHonorsOffering = false;
         this.instructors = new ArrayList<OfferingInstructorInfo>();
         this.unitsContentOwner = null;
-        this.hasFinalExam = new Boolean(false);
+        this.hasFinalExam = false;
         this.waitlistTypeKey = null;
         this.waitlistMaximum = null;
         this.termKey = null;
@@ -154,14 +154,14 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.creditOptions = null;
         this.gradingOptionIds = new ArrayList<String>();
         this.gradeRosterLevelTypeKey = null;
-        this.hasWaitlist = new Boolean(false);
-        this.isWaitlistCheckinRequired = new Boolean(false);
+        this.hasWaitlist = false;
+        this.isWaitlistCheckinRequired = false;
         this.waitlistCheckinFrequency = null;
         this.fundingSource = null;
         this.fees = new ArrayList<FeeInfo>();
         this.revenues = new ArrayList<RevenueInfo>();
         this.expenditure = null;
-        this.isFinancialAidEligible = new Boolean(false);
+        this.isFinancialAidEligible = false;
         this.registrationOrderTypeKey = null;
         this._futureElements = null;
     }
@@ -176,32 +176,28 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.courseId = course.getCourseId();
         this.formatIds = (null != course.getFormatIds()) ? new ArrayList<String>(course.getFormatIds()) : null;
         this.subjectArea = course.getSubjectArea();
-        this.isHonorsOffering = (null != course.getIsHonorsOffering()) ? new Boolean(course.getIsHonorsOffering())
-                : null;
+        this.isHonorsOffering = course.getIsHonorsOffering();
         this.instructors = (null != course.getInstructors()) ? new ArrayList<OfferingInstructorInfo>(
                 ((List<OfferingInstructorInfo>) course.getInstructors())) : new ArrayList<OfferingInstructorInfo>();
         this.unitsContentOwner = course.getUnitsContentOwner();
-        this.hasFinalExam = (null != course.getHasFinalExam()) ? new Boolean(course.getHasFinalExam()) : null;
+        this.hasFinalExam = course.getHasFinalExam();
         this.waitlistTypeKey = course.getWaitlistTypeKey();
-        this.waitlistMaximum = (null != course.getWaitlistMaximum()) ? new Integer(course.getWaitlistMaximum()) : null;
+        this.waitlistMaximum = course.getWaitlistMaximum();
         this.termKey = course.getTermKey();
         this.courseOfferingCode = course.getCourseOfferingCode();
         this.courseNumberSuffix = course.getCourseNumberSuffix();
         this.courseTitle = course.getCourseTitle();
-        this.maximumEnrollment = (null != course.getMaximumEnrollment()) ? new Integer(course.getMaximumEnrollment())
-                : null;
-        this.minimumEnrollment = (null != course.getMinimumEnrollment()) ? new Integer(course.getMinimumEnrollment())
-                : null;
+        this.maximumEnrollment = course.getMaximumEnrollment();
+        this.minimumEnrollment = course.getMinimumEnrollment();
         this.jointOfferingIds = (null != course.getJointOfferingIds()) ? new ArrayList<String>(
                 course.getJointOfferingIds()) : null;
-        this.creditOptions = (null != course.getCreditOptions()) ? new GradeValuesGroupInfo(course.getCreditOptions())
+        this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions())
                 : null;
         this.gradingOptionIds = (null != course.getGradingOptionIds()) ? new ArrayList<String>(
                 course.getGradingOptionIds()) : null;
         this.gradeRosterLevelTypeKey = course.getGradeRosterLevelTypeKey();
         this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
-        this.isWaitlistCheckinRequired = (null != course.getIsWaitlistCheckinRequired()) ? new Boolean(
-                course.getIsWaitlistCheckinRequired()) : null;
+        this.isWaitlistCheckinRequired = course.getIsWaitlistCheckinRequired();
         this.waitlistCheckinFrequency = (null != course.getWaitlistCheckinFrequency()) ? new TimeAmountInfo(
                 course.getWaitlistCheckinFrequency()) : null;
         this.fundingSource = course.getFundingSource();
@@ -210,8 +206,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.revenues = course.getRevenues();
         // TODO: Change this to r2 expenditure with null;
         this.expenditure = course.getExpenditure();
-        this.isFinancialAidEligible = (null != course.getIsFinancialAidEligible()) ? new Boolean(
-                course.getIsFinancialAidEligible()) : null;
+        this.isFinancialAidEligible = course.getIsFinancialAidEligible();
         this.registrationOrderTypeKey = course.getRegistrationOrderTypeKey();
     }
 
@@ -308,7 +303,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public GradeValuesGroupInfo getCreditOptions() {
+    public ResultValuesGroupInfo getCreditOptions() {
         return this.creditOptions;
     }
 
@@ -446,7 +441,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.jointOfferingIds = jointOfferingIds;
     }
 
-    public void setCreditOptions(GradeValuesGroupInfo creditOptions) {
+    public void setCreditOptions(ResultValuesGroupInfo creditOptions) {
         this.creditOptions = creditOptions;
     }
 
