@@ -67,29 +67,52 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean id="RegScheduleTable" parent="AttributeField_Form" abstract="true"
-                      p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray">
-                    <property name="control">
-                        <bean parent="ScheduleControl" p:styleClasses="registration-schedule-wrapper">
-                            <property name="headerField">
-                                <bean parent="HeaderThree" p:headerText="Your Schedule"/>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
-                <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
-                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
-                    <property name="control">
-                        <bean parent="ScheduleCartControl" p:styleClasses="registration-schedule-wrapper"
-                              p:scheduleId="RegScheduleTable"/>
-                    </property>
-                </bean>
-                <bean parent="ActionField" p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
+                <ref bean="registration_schedule_panel_schedule"/>
+                <ref bean="registration_schedule_panel_cart"/>
             </list>
         </property>
     </bean>
 
-    <bean id="ks_studentFacing_registrationView_searchFunctions" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="registration_schedule_panel_schedule" parent="Group"
+          p:layoutManager.orientation="VERTICAL" p:styleClasses="registration-schedule-wrapper">
+        <property name="accordion.render" value="false"/>
+        <property name="header">
+            <bean parent="HeaderThree" p:headerText="Your Schedule"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="RegScheduleTable" parent="AttributeField_Form" abstract="true"
+                      p:labelField.renderColon="false" p:propertyName="registeredCoursesJsArray">
+                    <property name="control">
+                        <bean parent="ScheduleControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="registration_schedule_panel_cart" parent="Group"
+          p:layoutManager.orientation="VERTICAL" p:styleClasses="registration-schedule-wrapper">
+        <property name="accordion.render" value="false"/>
+        <property name="header">
+            <bean parent="HeaderThree" p:headerText="Registration Cart"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
+                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
+                    <property name="control">
+                        <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable"/>
+                    </property>
+                </bean>
+                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP"
+                      p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ks_studentFacing_registrationView_searchFunctions" parent="Group"
+          p:layoutManager.orientation="HORIZONTAL">
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
@@ -143,8 +166,8 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"/>
-                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"/>
+                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses" p:jumpToIdAfterSubmit="TOP"/>
+                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values" p:jumpToIdAfterSubmit="TOP"/>
             </list>
         </property>
     </bean>
@@ -154,7 +177,7 @@
           p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
           p:layoutManager.lineGroupPrototype.accordion.render="true">
         <property name="layoutManager.lineGroupPrototype.header">
-          <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
+            <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
         </property>
         <property name="summary"
                   value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
@@ -180,7 +203,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain"
+                      p:readOnly="true"/>
             </list>
         </property>
         <property name="subCollections">
@@ -203,15 +227,19 @@
             <list>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
                       p:clientSideJs="updateCollectionAndRelatedItem('ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="Add to Cart"/>
+                      p:jumpToIdAfterSubmit="TOP" p:actionLabel="Add to Cart"/>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
-                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
-                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
-                <bean parent="AttributeField" p:labelField.renderColon="false" p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false"
+                      p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false"
+                      p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false"
+                      p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
+                <bean parent="AttributeField" p:labelField.renderColon="false"
+                      p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
             </list>
         </property>
         <property name="subCollections">
@@ -239,7 +267,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:styleClasses="activityOfferingType" p:labelField.render="false" p:propertyName="typeName"/>
+                <bean parent="AttributeField" p:styleClasses="activityOfferingType" p:labelField.render="false"
+                      p:propertyName="typeName"/>
             </list>
         </property>
         <property name="subCollections">
@@ -267,10 +296,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:styleClasses="displayableTime" p:labelField.render="false" p:propertyName="displayableTime"/>
-                <bean parent="AttributeField_Form" p:readOnly="false" p:labelField.render="false" p:propertyName="regGroupTimesJsObject">
+                <bean parent="AttributeField" p:styleClasses="displayableTime" p:labelField.render="false"
+                      p:propertyName="displayableTime"/>
+                <bean parent="AttributeField_Form" p:readOnly="false" p:labelField.render="false"
+                      p:propertyName="regGroupTimesJsObject">
                     <property name="control">
-                        <bean parent="TimePreviewControl" p:hoverComponentClass="meetingTime-item" p:scheduleId="RegScheduleTable"/>
+                        <bean parent="TimePreviewControl" p:hoverComponentClass="meetingTime-item"
+                              p:scheduleId="RegScheduleTable"/>
                     </property>
                 </bean>
             </list>

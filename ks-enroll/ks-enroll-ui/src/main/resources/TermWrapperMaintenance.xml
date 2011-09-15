@@ -213,14 +213,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate" p:constraint="Required when End Date has a value">
                             <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="classesMeetDates.endDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.endDate" />
                                 </list>
                             </property>
                         </bean>
                         <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate" p:constraint="Required when Start Date has a value">
                              <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="classesMeetDates.startDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.startDate" />
                                 </list>
                              </property>
                         </bean>
@@ -229,14 +229,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate" p:constraint="Required when End Date has a value">
                              <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="registrationPeriod.endDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.endDate" />
                                 </list>
                              </property>
                         </bean>
                         <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate" p:constraint="Required when Start Date has a value">
                              <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="registrationPeriod.startDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.startDate" />
                                 </list>
                              </property>
                         </bean>
@@ -250,14 +250,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate" p:constraint="Required when End Date has a value">
                              <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="finalExaminationsDates.endDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.endDate" />
                                 </list>
                              </property>
                         </bean>
                         <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate" p:constraint="Required when Start Date has a value">
                              <property name="dependencyConstraints">
                                 <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="finalExaminationsDates.StartDate" />
+                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.StartDate" />
                                 </list>
                              </property>
                         </bean>

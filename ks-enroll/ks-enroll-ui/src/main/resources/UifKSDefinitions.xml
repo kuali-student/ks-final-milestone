@@ -48,18 +48,12 @@
         <property name="omitWeekend" value="false"/>
         <property name="omitAMPMSuffix" value="false"/>
         <property name="militaryTime" value="false"/>
-        <property name="headerField">
-            <bean parent="HeaderThree" p:headerText="Your Schedule"/>
-        </property>
     </bean>
 
     <bean id="ScheduleCartControl" parent="ScheduleCartControl-parentBean"/>
     <bean id="ScheduleCartControl-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.control.ScheduleCartControl" scope="prototype">
         <property name="template" value="/ks-enroll/WEB-INF/jsp/scheduleCart.jsp"/>
-        <property name="headerField">
-            <bean parent="HeaderThree" p:headerText="Registration Cart"/>
-        </property>
     </bean>
 
     <bean id="TimePreviewControl" parent="TimePreviewControl-parentBean"/>

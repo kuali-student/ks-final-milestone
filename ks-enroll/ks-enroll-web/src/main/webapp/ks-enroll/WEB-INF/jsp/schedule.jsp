@@ -20,7 +20,7 @@
 <tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
 
 <div id="${control.id}" class="${control.styleClassesAsString}">
-    <krad:template component="${control.headerField}"/>
+<%--    <krad:template component="${control.headerField}"/>--%>
 
     <form:hidden id="${control.id}-value" path="${field.bindingInfo.bindingPath}"/>
 

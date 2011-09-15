@@ -68,7 +68,13 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegRequestInfo createRegRequest(ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, OperationFailedException {
         if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().createRegRequest(new RegRequestInfo(), context);
+            String id = "admin";
+            if(StringUtils.isNotBlank(context.getPrincipalId())){
+                id = context.getPrincipalId();
+            }
+            RegRequestInfo info = new RegRequestInfo();
+            info.setRequestorId(id);
+            return getCourseRegistrationService().createRegRequest(info, context);
         }
         // TODO - everything below is a hack to get dummy data into the system
         RegRequestInfo regRequest = new RegRequestInfo();
@@ -228,23 +234,22 @@ public class RegistrationController extends UifControllerBase {
         for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
-            if (StringUtils.isBlank(activityOfferingInfo.getTypeKey())) {
-                activityOfferingInfo.setTypeKey("Lecture");
-            }
             wrapper.setActivityOffering(activityOfferingInfo);
             wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
             fakeDataNum++;
         }
         // TODO remove this hack once activity offering info objects are saving with reg groups properly
-        //if (activityOfferingWrappers.isEmpty()) {
+/*        //if (activityOfferingWrappers.isEmpty()) {
         ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
         ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper();
         activityOfferingInfo.setTypeKey("Lab");
         wrapper.setActivityOffering(activityOfferingInfo);
         wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
         activityOfferingWrappers.add(wrapper);
-        //}
+        //}*/
+
+        //generate js object that represents the times of the entire reg group
         StringBuilder builder = new StringBuilder();
         for (ActivityOfferingWrapper a : activityOfferingWrappers) {
             for (MeetingScheduleWrapper m : a.getMeetingScheduleWrappers()) {
@@ -272,7 +277,7 @@ public class RegistrationController extends UifControllerBase {
             wrappers.add(wrapper);
         }
         // TODO undo this hack once valid MeetingScheduleInfo objects exist in the system
-        if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
+/*        if (activityOfferingInfo.getMeetingSchedules().isEmpty()) {
             MeetingScheduleInfo meetingScheduleInfo = new MeetingScheduleInfo();
             if (fakeDataNum > 0) {
                 meetingScheduleInfo.setTimePeriods("MO,WE,FR;1515,1630");
@@ -293,7 +298,7 @@ public class RegistrationController extends UifControllerBase {
                 wrapper2.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                 wrappers.add(wrapper2);
             }
-        }
+        }*/
         return wrappers;
     }
 
@@ -427,10 +432,10 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null) {
+/*        if (courseRegistrationService == null) {
             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseRegistrationService", "CourseRegistrationService"));
-        }
-
-        return courseRegistrationService;
+        }*/
+        //TODO return the real service when ready
+        return null;
     }
 }

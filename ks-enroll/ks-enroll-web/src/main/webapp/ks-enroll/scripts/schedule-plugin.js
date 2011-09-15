@@ -1,5 +1,22 @@
 (function($) {
 
+    /**
+     * Sets up the schedule calendar. This function should be used only on a div
+     * which contains a table with the 'schedule' css class, formatted in the required fashion
+     * (day columns, timeRows, inner div in cells with position: relative set, etc... see schedule.jsp),
+     * and a 'scheduleKey' table in the appropriate format
+     * @param options - contains various options as follows:
+     * sundayFirst - true when sunday occurs first on the schedule
+     * startTime - military time that the calendar starts at
+     * endTime - military time that the calendar ends at (24 ends at midnight, last hour being the 23rd)
+     * useLetterKeys - in addition to colors key by letter
+     * omitWeekend - weekend is not included in this calender if true
+     * data - the initial data to set this calendar with in the following array format:
+     * [{days: ["MO", "TU"],
+     *  startTime: "1500",
+     *  endTime: "1600"},
+     * <additional time objects>...]
+     */
     $.fn.schedule = function(options) {
 
         return this.each(function() {
@@ -34,6 +51,16 @@
 
     };
 
+    /**
+     * initSchedule will clear all timeBlocks and keys on this schedule before adding the data to
+     * both the schedule table and local keys.
+     *
+     * @param data - the initial data to set this calendar with in the following array format:
+     * [{days: ["MO", "TU"],
+     *  startTime: "1500",
+     *  endTime: "1600"},
+     * <additional time objects>...]
+     */
     $.fn.initSchedule = function(data) {
         $(this).find(".timeBlock").remove();
         $(this).find(".keyRow").remove();
@@ -52,6 +79,12 @@
         }
     }
 
+    /**
+     * Adds a handler on the selected element which shows timeBlocks on the schedule identified by id with the
+     * time data specified when it is hovered over.
+     * @param scheduleId
+     * @param data
+     */
     $.fn.addSchedulePreviewMultipleTimesHandler = function(scheduleId, data) {
         var name = genBlockName($("#" + scheduleId)[0]);
         $(this).hover(
@@ -66,6 +99,13 @@
         );
     };
 
+    /**
+     * Adds a handler on the selected element which shows timeBlocks on the schedule identified by id with the
+     * time data specified when it is hovered over.  This is different from addSchedulePreviewMultipleTimesHandler
+     * because this is for only time data instead of multiple.
+     * @param scheduleId
+     * @param data
+     */
     $.fn.addSchedulePreviewSingleTimeHandler = function(scheduleId, days, startTime, endTime) {
         var name = genBlockName($("#" + scheduleId)[0]);
         $(this).hover(
@@ -78,6 +118,14 @@
         );
     };
 
+    /**
+     * Adds multiple times and keys to the schedule selected with the time data supplied.  The keys are added
+     * to the key 'scheduleKey' table in the div specified by keyDivId.  If keyDivId is not specified,
+     * the key is added to this schedules default key table.  Used by scheduleCart.  This method does not clear
+     * data on the schedule before adding.
+     * @param data
+     * @param keyDivId
+     */
     $.fn.addBulkTimesAndKeys = function(data, keyDivId) {
         var schedule = this[0];
         if (data != null) {
@@ -101,11 +149,46 @@
 
     };
 
+    /**
+     * Adds a time and key to the schedule selected.
+     * @param name - the html name attribute given to all timeBlocks for this
+     * time, essentially working as its unique identifier
+     * @param days - array of days for this time
+     * @param startTime - startTime in military time
+     * @param endTime - endTime in miliatary time
+     * @param timeName - human readable name (in html) for this time to be used in key and on hover, will not be used if there is a match on name with
+     * an existing block - it will be generated as a combination of this timeName and the block's timeName
+     * @param typeName - type of this time ie lecture, lab, discussion - future matches on name and type will be grouped appropriately in
+     * the same timeName
+     * @param displayableTime - the times in human readable form (in html)
+     * @param cssColorClass - css class that must define a background-color, if null, the background-color is generated per
+     * timeBlock name
+     */
     $.fn.addTimeAndKey = function(name, days, startTime, endTime, timeName, typeName, displayableTime, cssColorClass) {
         $(this).addTime(name, days, startTime, endTime, timeName, typeName, displayableTime, cssColorClass, true);
         $(this).addKey(name, timeName, typeName, displayableTime, cssColorClass, true, null);
     };
 
+    /**
+     * Adds a time to the schedule selected.  Times are timeBlock divs in the schedule, their width is determined
+     * as function of the width of the table's cell width.  TimeBlock height is also determined dynamically based on
+     * cell height and time length.  When a time block is in conflict when added, the current
+     * time block is offset and the new block gets the 'timeBlock-conflict-new' class - this only properly works once - intended
+     * use is for hover, as times should never conflict in a correct schedule (should never get to the point where that
+     * conflicting time is permanent).
+     * @param name - the html name attribute given to all timeBlocks for this
+     * time, essentially working as its unique identifier
+     * @param days - array of days for this time
+     * @param startTime - startTime in military time
+     * @param endTime - endTime in miliatary time
+     * @param timeName - human readable name (in html) for this time to be used on hover, will not be used if there is a match on name with
+     * an existing block - it will be generated as a combination of this timeName and the block's timeName
+     * @param typeName - type of this time ie lecture, lab, discussion - future matches on name and type will be grouped appropriately in
+     * the same timeName
+     * @param displayableTime - the times in human readable form (in html)
+     * @param cssColorClass - css class that must define a background-color, if null, the background-color is generated per
+     * timeBlock name
+     */
     $.fn.addTime = function(name, days, startTime, endTime, timeName, typeName, displayableTime, cssColorClass, useLetter) {
         var options = $.data(this[0], "options");
         var vars = $.data(this[0], "vars");
@@ -113,12 +196,12 @@
         //TODO check for time conflict here maybe?
         var startIndex = determineStartIndex(schedule, startTime.substring(0, 2));
         var startMinFraction = (startTime.substring(2, 4)) / 60;
-        var minDiff = ((endTime.substring(0, 2) * 60) + parseInt(endTime.substring(2, 4))) - ((startTime.substring(0, 2) * 60) + parseInt(startTime.substring(2, 4)));
+        var minDiff = ((endTime.substring(0, 2) * 60) + parseInt(endTime.substring(2, 4), 10)) - ((startTime.substring(0, 2) * 60) + parseInt(startTime.substring(2, 4), 10));
         var totalHours = minDiff / 60;
 
         //if totalHours outside of schedule range, cut off
-        if (parseInt(startTime.substring(0, 2)) + startMinFraction + totalHours > (options.endTime + 1)) {
-            totalHours = (options.endTime + 1) - (parseInt(startTime.substring(0, 2)) + startMinFraction);
+        if (parseInt(startTime.substring(0, 2), 10) + startMinFraction + totalHours > (options.endTime + 1)) {
+            totalHours = (options.endTime + 1) - (parseInt(startTime.substring(0, 2), 10) + startMinFraction);
         }
 
         var content;
@@ -166,7 +249,7 @@
                 var top = tdLoc.height() * startMinFraction;
                 div.css("top", top + "px");
 
-                var conflicts = checkForConflicts(schedule, dayIndex, parseInt(startTime), parseInt(endTime));
+                var conflicts = checkForConflicts(schedule, dayIndex, parseInt(startTime, 10), parseInt(endTime, 10));
                 if (conflicts.length) {
                     //has time conflict
                     var left = Math.floor(tdLoc.width() / 8);
@@ -174,8 +257,13 @@
 
                     div.addClass("timeBlock-conflict-new");
                     $(conflicts).each(function() {
-                        $(this).addClass("timeBlock-conflict-old");
-                        $(this).css("left", (left * 3) + "px");
+                        //Only offset original block (overlay additional conflicts visually)
+                        //if we want to make this fully work with multiple time conflicts (unlikely) must add conflict
+                        //information to the timeBlock data, so removal can behave correctly
+                        if(!($(this).hasClass("timeBlock-conflict-new")) && !($(this).hasClass("timeBlock-conflict-old"))){
+                            $(this).addClass("timeBlock-conflict-old");
+                            $(this).css("left", (left * 3) + "px");
+                        }
                     });
                 }
                 else {
@@ -187,7 +275,7 @@
                 $(tdLoc).find("div:not('.timeBlock')").append(div);
 
                 //add time block data to its element internally
-                $.data(div[0], "timeData", genBlockData(dayIndex, parseInt(startTime), parseInt(endTime)));
+                $.data(div[0], "timeData", genBlockData(dayIndex, parseInt(startTime, 10), parseInt(endTime, 10)));
             }
         });
 
@@ -199,11 +287,20 @@
         });
     };
 
+    /**
+     * Remove times and keys from the selected schedule that match the name specified
+     * @param name
+     */
     $.fn.removeTimeAndKey = function(name) {
         $(this).removeTime(name);
         $(this).find("tr[name='" + name + "']").remove();
     };
 
+    /**
+     * Remove times from the schedule and reposition original block if conflicts are resolved (does
+     * not behave properly if multiple conflicts - not intended to)
+     * @param name
+     */
     $.fn.removeTime = function(name) {
         var removals = $(this).find("div[name='" + name + "']");
         var schedule = this[0];
@@ -228,10 +325,28 @@
         });
     };
 
+    /**
+     * Removes a key from the selected element which contains a table with a row matching the name of the key
+     * @param name
+     */
     $.fn.removeKey = function(name) {
         $(this).find("tr[name='" + name + "']").remove();
     };
 
+    /**
+     * Adds a key to the specified area
+     * @param name - the html name attribute given to the timeBlocks this function is keying
+     * @param keyName - human readable name (in html) for this time to be used in the key, will not be used if there is a match on name with
+     * an existing block - it will be generated as a combination of this timeName and the existing timeName
+     * @param typeName - type of this time ie lecture, lab, discussion - future matches on name and type will be grouped appropriately in
+     * the same keyName
+     * @param displayableTime - the times in human readable form (in html)
+     * @param cssColorClass - css class that must define a background-color, if null, the background-color used is the last
+     * generated one (or if a key for name is already present that the keyName will just use that)
+     * @param useLetter - true if letter should be used in the key
+     * @param scheduleId - if null assumes that this selected element is the schedule, otherwise it uses
+     * this id to identify where the schedule table div that this key refers to exists
+     */
     $.fn.addKey = function(name, keyName, typeName, displayableTime, cssColorClass, useLetter, scheduleId) {
         var appendage;
         var schedule;
@@ -302,18 +417,27 @@
         }
     }
 
+    /**
+     * Removes all timeBlocks from the schedule table of the selected element
+     */
     $.fn.clearTable = function() {
         $(this).find(".timeBlock").remove();
     };
 
+    /**
+     * Removes all timeBlocks and keyRows from the schedule table and scheduleKey of the selected element
+     */
     $.fn.clearTableAndKeys = function() {
         $(this).find(".timeBlock").remove();
         $(this).find(".keyRow").remove();
     };
 
-    $.fn.generateUniqueScheduleName = function() {
-        return genBlockName(this[0]);
-    }
+    /**
+     * Removes all keyRows from the scheduleKey of the selected element
+     */
+    $.fn.clearKeys = function() {
+        $(this).find(".keyRow").remove();
+    };
 
     //private functions
     function initScheduleVars(schedule) {
@@ -331,6 +455,10 @@
         }
     }
 
+    /**
+     * Generates a unique name for a timeBlock for the schedule passed in
+     * @param schedule
+     */
     function genBlockName(schedule) {
         initScheduleVars(schedule);
         var vars = $.data(schedule, "vars");
@@ -343,6 +471,14 @@
         return  {dayIndex: dayIndex, start: startTime, end: endTime};
     }
 
+    /**
+     * Checks for conflicts against the dayIndex, startTime, and endTime specified with other
+     * timeBlocks within the schedule specified
+     * @param schedule
+     * @param dayIndex
+     * @param startTime
+     * @param endTime
+     */
     function checkForConflicts(schedule, dayIndex, startTime, endTime) {
         var conflicts = [];
         $(schedule).find(".timeBlock").each(function() {
@@ -359,6 +495,14 @@
         return conflicts;
     }
 
+    /**
+     * Gets the time name used by the time with name specified (used by key add)
+     * @param schedule
+     * @param name
+     * @param timeName
+     * @param typeName
+     * @param displayableTime
+     */
     function getTimeName(schedule, name, timeName, typeName, displayableTime) {
         var elements = $(schedule).find("[name='" + name + "']");
         var fullName;
@@ -376,6 +520,16 @@
         return fullName;
     }
 
+    /**
+     * Generates an amalgamation of the current timeName (if name matches an existing timeBlock) with
+     * the timeName, typeName, and displayableTime by grouping common type times together in one string
+     * (used during addTime)
+     * @param schedule
+     * @param name
+     * @param timeName
+     * @param typeName
+     * @param displayableTime
+     */
     function genTimeName(schedule, name, timeName, typeName, displayableTime) {
         var elements = $(schedule).find("[name='" + name + "']");
         var fullName;
@@ -418,6 +572,11 @@
         return "rgb(" + vars.genRed + ", " + vars.genGreen + ", " + vars.genBlue + ")";
     }
 
+    /**
+     * Finds the existing color if a timeBlock with the name specified already exists
+     * @param schedule
+     * @param name
+     */
     function findTimeBlockColor(schedule, name) {
         var elements = $(schedule).find("[name='" + name + "']");
         var color = "";
@@ -427,6 +586,10 @@
         return color;
     }
 
+    /**
+     * Iterates to the next color, up to 16 different colors
+     * @param schedule
+     */
     function updateColor(schedule) {
         var vars = $.data(schedule, "vars");
         if (vars.genRed + 60 > 255 || vars.genGreen + 60 > 255 || vars.genBlue + 60 > 255) {
@@ -458,6 +621,11 @@
         }
     }
 
+    /**
+     * Determines the row index to place the timeBlock based on the hour
+     * @param schedule
+     * @param hour
+     */
     function determineStartIndex(schedule, hour) {
         var options = $.data(schedule, "options");
         if (hour < options.startTime) {
@@ -467,6 +635,12 @@
         return hourIndex;
     }
 
+    /**
+     * Determines the dayIndex of the day passed in based on how many days exist in the represented
+     * week
+     * @param schedule
+     * @param day
+     */
     function determineDayIndex(schedule, day) {
         var dayIndex = -1;
         var options = $.data(schedule, "options");

@@ -22,7 +22,7 @@
 <div id="${control.id}" class="${control.styleClassesAsString}">
      <form:hidden id="${control.id}-value" path="${field.bindingInfo.bindingPath}"/>
 
-     <krad:template component="${control.headerField}"/>
+<%--     <krad:template component="${control.headerField}"/>--%>
 
      <table class="scheduleKey" id="${control.id}-cart">
         <tr>
