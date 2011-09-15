@@ -1365,15 +1365,15 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="ACDD45FA1FF86B0EE040C60AF05B378A" LOCALE="en"
+        ID="ACF0E25B7589BEC3E040C60AF05B66DB" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="ACDD45FA1FF96B0EE040C60AF05B378A" VER_NBR="1"/>
+        OBJ_ID="ACF0E25B758ABEC3E040C60AF05B66DB" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="ACDD45FA1FFA6B0EE040C60AF05B378A" LOCALE="en"
+        ID="ACF0E25B758BBEC3E040C60AF05B66DB" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="ACDD45FA1FFB6B0EE040C60AF05B378A" VER_NBR="1"/>
+        OBJ_ID="ACF0E25B758CBEC3E040C60AF05B66DB" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
