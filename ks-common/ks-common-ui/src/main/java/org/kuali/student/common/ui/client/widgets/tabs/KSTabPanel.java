@@ -87,6 +87,16 @@ public class KSTabPanel extends KSTabPanelAbstract {
 	public String getSelectedTabKey() {
 		return panel.getSelectedTabKey();
 	}
+	
+	@Override
+    public Widget getSelectedTab() {
+        return panel.getSelectedTab();
+    }
+	
+	@Override
+    public String getSelectedTabName() {
+        return panel.getSelectedTabName();
+    }
 
 	@Override
 	public void removeTab(String key) {
