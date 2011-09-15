@@ -307,3 +307,26 @@ END;
    )
 /
 
+ --------------------------------------------------------
+--  KSEN_LUI_MTG_SCHE
+--------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_MTG_SCHE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_MTG_SCHE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+  CREATE TABLE KSEN_LUI_MTG_SCHE
+   (  ID VARCHAR2(255),
+      OBJ_ID VARCHAR2(36),
+      VER_NBR NUMBER(19,0),
+      CREATEID VARCHAR2(255),
+      CREATETIME TIMESTAMP (6),
+      UPDATEID VARCHAR2(255),
+      UPDATETIME TIMESTAMP (6),
+      SPACE_ID VARCHAR2(255),
+      TM_PRD VARCHAR2(255),
+      LUI_ID VARCHAR2(255)
+   )
+ /

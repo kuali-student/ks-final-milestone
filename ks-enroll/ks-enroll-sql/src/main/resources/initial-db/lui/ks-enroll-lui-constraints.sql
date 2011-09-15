@@ -281,3 +281,14 @@
     REFERENCES KSEN_LUI(ID)
 /
 
+ --------------------------------------------------------
+--  Constraints for Table KSEN_LUI_MTG_SCHE
+--------------------------------------------------------
+  ALTER TABLE "KSEN_LUI_MTG_SCHE" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_LUI_MTG_SCHE" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+  ALTER TABLE "KSEN_LUI_MTG_SCHE" ADD CONSTRAINT "KSEN_LUI_MTG_SCHE_FK_LUI" FOREIGN KEY ("LUI_ID")
+    REFERENCES "KSEN_LUI" ("ID") ENABLE
