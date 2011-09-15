@@ -47,7 +47,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <bean id="KeyDateInfoUI.startDate" parent="KeyDateInfo.startDate-parent">
         <property name="label" value="Start Date" />
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
         <property name="minLength" value="10" />
         <property name="controlField">
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -57,7 +57,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
     <bean id="KeyDateInfoUI.endDate" parent="KeyDateInfo.endDate-parent">
         <property name="label" value="End Date" />
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
         <property name="minLength" value="10" />
         <property name="controlField">
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
