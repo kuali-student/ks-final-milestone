@@ -1254,8 +1254,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
     
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
-        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+    public List<ExportElement> getExportElementsFromView() {
+        List<ExportElement> exportElements = new ArrayList<ExportElement>();
         if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
             SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
             ExportElement heading = new ExportElement();
@@ -1263,7 +1263,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
             heading.setFieldValue(cluProposalModel.getModelName());
             heading.setFieldValue2(comparisonModel.getModelName());
             exportElements.add(heading);
-            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+            exportElements.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));
         }
         return exportElements;
     }
