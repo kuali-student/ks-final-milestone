@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
-import org.kuali.student.r2.lum.lrc.dto.GradeValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -114,7 +114,7 @@ public class TestCourseOfferingServiceImpl {
       
         //test update
         retrieved.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
-        GradeValuesGroupInfo rv = new GradeValuesGroupInfo();
+        ResultValuesGroupInfo rv = new ResultValuesGroupInfo();
         rv.setStateKey("test");
         rv.setTypeKey("test");
         rv.setEffectiveDate(Calendar.getInstance().getTime());
