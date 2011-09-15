@@ -225,8 +225,13 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LuiPersonRelationInfo> getLprsByIdList(List<String> luiPersonRelationIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<LuiPersonRelationInfo> lprInfos = new ArrayList<LuiPersonRelationInfo>();
+        List<LuiPersonRelationEntity> lprEntities = lprDao.findByIds(luiPersonRelationIdList);
+        for (LuiPersonRelationEntity lprEntity : lprEntities) {
+            LuiPersonRelationInfo lprInfo = lprEntity.toDto();
+            lprInfos.add(lprInfo);
+        }
+        return lprInfos;
     }
 
     @Override

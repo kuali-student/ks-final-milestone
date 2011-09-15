@@ -1,13 +1,24 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jws.WebParam;
 
+import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -23,6 +34,34 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 public class GradingServiceImpl implements GradingService {
+    private LuiPersonRelationService lprService;
+    private GradeRosterAssembler gradeRosterAssembler;
+    private CourseOfferingService courseOfferingService;
+
+    public LuiPersonRelationService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public GradeRosterAssembler getGradeRosterAssembler() {
+        return gradeRosterAssembler;
+    }
+
+    public void setGradeRosterAssembler(GradeRosterAssembler gradeRosterAssembler) {
+        this.gradeRosterAssembler = gradeRosterAssembler;
+    }
+
     /**
      * This method returns the TypeInfo for a given grade roster type key.
      * 
@@ -114,7 +153,15 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // TODO implement method.
+        List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
+
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, "kuali.lpr.type.roster.grade.final", context);
+        for (LprRosterInfo lprRoster : lprRosters) {
+            GradeRosterInfo gradeRosterInfo = assembleGradeRoster(lprRoster, context);
+            gradeRosterInfos.add(gradeRosterInfo);
+        }
+
+        return gradeRosterInfos;
     }
 
     /**
@@ -578,4 +625,35 @@ public class GradingServiceImpl implements GradingService {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return false;
     }
+
+    private GradeRosterInfo assembleGradeRoster(LprRosterInfo lprRosterInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        Map<String, LprRosterEntryInfo> lprIdToRosterEntriesMap = new HashMap<String, LprRosterEntryInfo>();
+        List<String> graderIds = new ArrayList<String>();
+        List<String> lprRosterEntryIds = new ArrayList<String>();
+
+        List<LprRosterEntryInfo> lprRosterEntries = lprService.getEntriesForLprRoster(lprRosterInfo.getId(), context);
+        for (LprRosterEntryInfo lprRosterEntry : lprRosterEntries) {
+            String lprId = lprRosterEntry.getLprId();
+            lprIdToRosterEntriesMap.put(lprId, lprRosterEntry);
+        }
+
+        List<String> lprIds = new ArrayList<String>(lprIdToRosterEntriesMap.keySet());
+        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByIdList(lprIds, context);
+        for (LuiPersonRelationInfo lprInfo : lprInfos) {
+            String lprInfoType = lprInfo.getTypeKey();
+            if ("kuali.lpr.type.instructor.main".equals(lprInfoType)) {
+                graderIds.add(lprInfo.getPersonId());
+            } else if ("kuali.lpr.type.registrant".equals(lprInfoType)) {
+                LprRosterEntryInfo lprRosterEntryInfo = lprIdToRosterEntriesMap.get(lprInfo.getId());
+                lprRosterEntryIds.add(lprRosterEntryInfo.getId());
+            }
+        }
+
+        List<CourseOfferingInfo> courseOfferings = courseOfferingService.getCourseOfferingsByIdList(lprRosterInfo.getAssociatedLuiIds(), context);
+        String courseOfferingId = courseOfferings.get(0).getCourseId();
+
+        GradeRosterInfo gradeRosterInfo = gradeRosterAssembler.assemble(lprRosterInfo, lprRosterEntryIds, graderIds, courseOfferingId, context);
+        return gradeRosterInfo;
+    }
+
 }
