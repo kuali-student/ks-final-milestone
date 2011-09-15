@@ -53,6 +53,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint" />
+        </property>
     </bean>
 
     <bean id="KeyDateInfoUI.endDate" parent="KeyDateInfo.endDate-parent">
@@ -63,6 +66,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint" />
+        </property>
     </bean>
     
 </beans>
