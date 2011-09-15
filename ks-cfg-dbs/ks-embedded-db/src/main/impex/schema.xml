@@ -4767,6 +4767,21 @@
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LUI_MTG_SCHE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="SPACE_ID" size="255" type="VARCHAR"/>
+        <column name="TM_PRD" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_MTG_SCHE_FK_LUI">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_LUI_RICH_TEXT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
