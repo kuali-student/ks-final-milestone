@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.jws.WebService;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -449,6 +450,23 @@ public class AtpServiceImpl implements AtpService {
         return results;
     }
 
+
+    @Override
+    public List<String> searchForAtpKeys(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<AtpInfo>();
+    }
+
     @Override
     public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -554,6 +572,23 @@ public class AtpServiceImpl implements AtpService {
         // TODO Handle removal of orphan RichTextEntities
 
         return status;
+    }
+
+
+    @Override
+    public List<String> searchForMilestoneKeys(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+    
+    @Override
+    public List<MilestoneInfo> searchForMilestones(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<MilestoneInfo>();
     }
 
     @Override
@@ -673,6 +708,22 @@ public class AtpServiceImpl implements AtpService {
         }
 
         return relInfos;
+    }
+
+    @Override
+    public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<AtpAtpRelationInfo>();
     }
 
     @Override
@@ -865,6 +916,23 @@ public class AtpServiceImpl implements AtpService {
         }
 
         return result;
+    }
+
+
+    @Override
+    public List<String> searchForAtpMilestoneRelationIds(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<AtpMilestoneRelationInfo> searchForAtpMilestoneRelations(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<AtpMilestoneRelationInfo>();
     }
 
     @Override

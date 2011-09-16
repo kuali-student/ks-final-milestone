@@ -268,7 +268,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-     public List<HoldInfo> getActiveHoldsByIssueForPerson(@WebParam(name = "issueId") String issueId, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HoldInfo> getActiveHoldsByIssueForPerson(@WebParam(name = "issueId") String issueId, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Holds based on the criteria and returns a list
@@ -387,7 +387,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-     public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HoldInfo releaseHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Deletes an existing Hold record.
