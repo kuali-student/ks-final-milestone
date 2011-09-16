@@ -392,7 +392,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         assertEquals(infoList.get(0).getAssociatedLuiIds().get(0), LUI_ID);
     }
 
-    @Ignore
     @Test
     public void testGetLprsByPersonAndTypeForAtp() {
 
@@ -409,10 +408,9 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprId = lprService.createLpr(PERSONID2, "Lui-1",
                     LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, lprInfo, callContext);
-            LuiPersonRelationInfo newInfo = lprService.getLpr(lprId, callContext);
             List<LuiPersonRelationInfo> info = lprService.getLprsByPersonAndTypeForAtp(PERSONID2, "testTermId4",
                     LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, callContext);
-            assertEquals(0, info.size());
+            assertEquals(1, info.size());
             assertEquals("Lui-1", info.get(0).getLuiId());
             assertEquals(PERSONID2, info.get(0).getPersonId());
 
@@ -429,8 +427,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprTransactionInfo = lprService.createLprTransaction(lprTransactionInfo, callContext);
         } catch (Exception e) {
-            e.printStackTrace();
-            ;
             fail(e.getMessage());
         }
         try {
