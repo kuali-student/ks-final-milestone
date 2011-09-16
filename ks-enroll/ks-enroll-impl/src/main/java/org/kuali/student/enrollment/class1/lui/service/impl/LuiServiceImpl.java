@@ -4,6 +4,7 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
@@ -345,6 +346,23 @@ public class LuiServiceImpl implements LuiService {
        	return relInfos;
 	}
 
+
+    @Override
+    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<LuiInfo>();
+    }
+
 	@Override
 	public List<ValidationResultInfo> validateLui(String validationType,
 			LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
@@ -530,6 +548,22 @@ public class LuiServiceImpl implements LuiService {
 	    return null;
 	}
 
+    @Override
+    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<LuiLuiRelationInfo>();
+    }
+
 	@Override
 	public List<ValidationResultInfo> validateLuiLuiRelation(
 			String validationType, LuiLuiRelationInfo luiLuiRelationInfo,
@@ -640,6 +674,22 @@ public class LuiServiceImpl implements LuiService {
 	throws DoesNotExistException, InvalidParameterException, 
 	       MissingParameterException, OperationFailedException {
         return new ArrayList<String>();
+    }
+
+    @Override
+    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<String>();
+    }
+
+    @Override
+    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo context) 
+	throws InvalidParameterException, MissingParameterException, 
+	       OperationFailedException, PermissionDeniedException {
+
+	return new ArrayList<LuiCapacityInfo>();
     }
 
     @Override

@@ -22,6 +22,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
@@ -48,10 +50,12 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 /**
  * Learning Unit Instance (LUI) Service
  *
- * Manages the creation of Instances of the canonical Learning unit.  An instance is
- * associated with a particular time period during which is is offered.
+ * Manages the creation of Instances of the canonical Learning unit.
+ * An instance is associated with a particular time period during
+ * which is is offered.
  *
- * This includes course and section offerings as well as program offerings
+ * This includes course and section offerings as well as program
+ * offerings
  * 
  * @version 1.0 (Dev)
  *
@@ -69,13 +73,13 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *
      * @param luiId identifier of the LUI
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return information about a LUI
-     * @throws DoesNotExistException     lui not found
+     * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId
      * @throws MissingParameterException missing luiId
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public LuiInfo getLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -84,13 +88,13 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *
      * @param luiIdList List of LUI identifiers
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return information about a list of LUIs
-     * @throws DoesNotExistException     One or more luis not found
+     * @throws DoesNotExistException One or more luis not found
      * @throws InvalidParameterException One or more invalid luiIds
      * @throws MissingParameterException missing luiIdList
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<LuiInfo> getLuisByIdList(@WebParam(name = "luiIdList") List<String> luiIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -99,8 +103,8 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *
      * @param luiTypeKey a unique identifier for a LUI Type
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return information about a list of LUIs
      * @throws DoesNotExistException luiTypeKey not found
      * @throws InvalidParameterException invalid parameter
@@ -114,8 +118,8 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *
      * @param cluId identifier of the CLU
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException     clu not found
      * @throws InvalidParameterException invalid cluId
@@ -130,8 +134,8 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param cluId identifier of the CLU
      * @param atpKey identifier for the academic time period
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException     clu, atp not found
      * @throws InvalidParameterException invalid cluId, atpKey
@@ -146,8 +150,8 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param cluId identifier of the CLU
      * @param atpKey identifier for the academic time period
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI information
      * @throws DoesNotExistException     clu, atp not found
      * @throws InvalidParameterException invalid cluId, atpKey
@@ -164,11 +168,11 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param relatedLuiId identifier of the LUI
      * @param luLuRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI identifiers, empty list of none found
-     * @throws InvalidParameterException invalid relatedLuiId, luLuRelationTypeKey
-     * @throws MissingParameterException missing relatedLuiId, luLuRelationTypeKey
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
      * @throws OperationFailedException  unable to complete request
      */
     public List<String> getLuiIdsByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
@@ -182,11 +186,11 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param relatedLuiId identifier of the LUI
      * @param luLuRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI information, empty list if none
-     * @throws InvalidParameterException invalid relatedLuiId, luLuRelationTypeKey
-     * @throws MissingParameterException missing relatedLuiId, luLuRelationTypeKey
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing paremeter
      * @throws OperationFailedException  unable to complete request
      */
     public List<LuiInfo> getLuisByRelation(@WebParam(name = "relatedLuiId") String relatedLuiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
@@ -199,12 +203,12 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param luiId identifier of the LUI
      * @param luLuRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI identifier, empty list if none found
-     * @throws InvalidParameterException invalid luiId, luLuRelationTypeKey
-     * @throws MissingParameterException missing luiId, luLuRelationTypeKey
-     * @throws OperationFailedException  unable to complete request
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
      */
     public List<String> getRelatedLuiIdsByLuiId(@WebParam(name = "luiId") String luiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -216,14 +220,46 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param luiId identifier of the LUI
      * @param luLuRelationTypeKey the LU to LU relation type
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return list of LUI information, empty list if none found
      * @throws InvalidParameterException invalid luiId, luLuRelationTypeKey
      * @throws MissingParameterException missing luiId, luLuRelationTypeKey
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name = "luiId") String luiId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Searches for Luis that meet the search criteria and returns a
+     * list of Lui identifiers that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of lui Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForLuiIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Luis that meet the search criteria and returns
+     * a list of Luis that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of luis
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<LuiInfo> searchForLuis(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a LUI. Depending on the value of validationType, this
@@ -242,13 +278,13 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param validationType identifier of the extent of validation
      * @param luiInfo LUI information to be tested.
      * @param context Context information containing the principalId
-     *                and locale information about the caller of
-     *                service operation
+     *        and locale information about the caller of service
+     *        operation
      * @return results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, luiInfo
      * @throws MissingParameterException missing validationTypeKey, luiInfo
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<ValidationResultInfo> validateLui(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -260,28 +296,28 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                LUI being created
      * @param luiInfo information about the LUI being created
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return the created LUI information
-     * @throws AlreadyExistsException       LUI already exists
+     * @throws AlreadyExistsException LUI already exists
      * @throws DataValidationErrorException One or more values invalid
      *                                      for this operation
-     * @throws DoesNotExistException        clu, atp not found
-     * @throws InvalidParameterException    invalid cluId, atpKey, luiInfo
-     * @throws MissingParameterException    missing cluId, atpKey, luiInfo
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
+     * @throws DoesNotExistException clu, atp not found
+     * @throws InvalidParameterException invalid cluId, atpKey, luiInfo
+     * @throws MissingParameterException missing cluId, atpKey, luiInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public LuiInfo createLui(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing LUI.
      *
-     * @param luiId   identifier for the LUI to be updated
+     * @param luiId identifier for the LUI to be updated
      * @param luiInfo updated information about the LUI
      * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     *        and locale information about the caller of service
+     *        operation
      * @return the updated LUI information
      * @throws DataValidationErrorException One or more values invalid
      *                                      for this operation
@@ -304,7 +340,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                operation
      * @return status of the operation
      * @throws DependentObjectsExistException delete would leave
-     *                                        orphaned objects or violate integrity constraints
+     *         orphaned objects or violate integrity constraints
      * @throws DoesNotExistException          lui not found
      * @throws InvalidParameterException      invalid luiId
      * @throws MissingParameterException      missing luiId
@@ -342,10 +378,10 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                and locale information about the caller of
      *                service operation
      * @return information on the relation between two LUIs
-     * @throws DoesNotExistException     luiLuiRelation not found
+     * @throws DoesNotExistException luiLuiRelation not found
      * @throws InvalidParameterException invalid luiLuiRelationId
      * @throws MissingParameterException missing luiLuiRelationId
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -391,12 +427,45 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                and locale information about the caller of service
      *                operation
      * @return list of LUI to LUI relation information
-     * @throws DoesNotExistException     lui not found
+     * @throws DoesNotExistException lui not found
      * @throws InvalidParameterException invalid luiId
      * @throws MissingParameterException missing luiId
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Searches for LuiLuiRelations that meet the search criteria and
+     * returns a list of LuiLuiRelation identifiers that meet the
+     * criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of lui lui relation Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForLuiLuiRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LuiLuiRelations that meet the search criteria and
+     * returns a list of LuiLuiRelations that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of lui lui relations
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a relationship between LUIs. Depending on the value
@@ -416,8 +485,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @param luiLuiRelationInfo LUI to LUI relationship information
      *                           to be tested.
      * @param context            Context information containing the principalId
-     *                           and locale information about the caller of service
-     *                           operation
+     *        and locale information about the caller of service operation
      * @return results from performing the validation
      * @throws DoesNotExistException     validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey,
@@ -431,16 +499,16 @@ public interface LuiService extends DataDictionaryService, TypeService {
     /**
      * Create a relationship between two LUIs.
      *
-     * @param luiId              identifier of the first LUI in the relationship
-     * @param relatedLuiId       identifier of the second LUI in the
-     *                           relationship to be related to
-     * @param luLuRelationTypeKey   the LU to LU relationship type of the
-     *                           relationship
+     * @param luiId identifier of the first LUI in the relationship
+     * @param relatedLuiId identifier of the second LUI in the
+     *        relationship to be related to
+     * @param luLuRelationTypeKey the LU to LU relationship type of the
+     *        relationship
      * @param luiLuiRelationInfo information about the relationship
-     *                           between the two LUIs
-     * @param context            Context information containing the principalId
-     *                           and locale information about the caller of service
-     *                           operation
+     *        between the two LUIs
+     * @param context Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
      * @return the created LUI to LUI relation information
      * @throws AlreadyExistsException        relationship already exists
      * @throws CircularRelationshipException luiId equals relatedLuiId
@@ -460,12 +528,12 @@ public interface LuiService extends DataDictionaryService, TypeService {
     /**
      * Updates a relationship between two LUIs.
      *
-     * @param luiLuiRelationId   identifier of the LUI to LUI relation to update
+     * @param luiLuiRelationId identifier of the LUI to LUI relation to update
      * @param luiLuiRelationInfo changed information about the
      *                           relationship between the two LUIs
-     * @param context            Context information containing the principalId
-     *                           and locale information about the caller of service
-     *                           operation
+     * @param context Context information containing the principalId
+     *                        and locale information about the caller
+     *                        of service operation
      * @return the update LUI to LUI relation information
      * @throws DataValidationErrorException One or more values invalid
      *                                      for this operation
@@ -490,10 +558,10 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                         and locale information about the caller of service
      *                         operation
      * @return status of the operation (success or failure)
-     * @throws DoesNotExistException     luiLuiRelation not found
+     * @throws DoesNotExistException luiLuiRelation not found
      * @throws InvalidParameterException invalid luiLuiRelationId
      * @throws MissingParameterException missing luiLuiRelationId
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteLuiLuiRelation(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -506,10 +574,10 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                and locale information about the caller of service
      *                operation
      * @return information about a LuiCapacity
-     * @throws DoesNotExistException     luiCapacity not found
+     * @throws DoesNotExistException luiCapacity not found
      * @throws InvalidParameterException invalid luiCapacityId
      * @throws MissingParameterException missing luiCapacityId
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public LuiCapacityInfo getLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -524,7 +592,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws DoesNotExistException One or more lui capacities not found
      * @throws InvalidParameterException One or more invalid luiCapacityIds
      * @throws MissingParameterException missing luiCapacityIdList
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<LuiCapacityInfo> getLuiCapacitiesByIdList(@WebParam(name = "luiCapacityIdList") List<String> luiCapacityIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -542,6 +610,39 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws OperationFailedException unable to complete request
      */
     public List<String> getLuiCapacityIdsByType(@WebParam(name = "luiCapacityTypeKey") String luiCapacityTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Searches for LuiCapacities that meet the search criteria and
+     * returns a list of LuiCapacity identifiers that meet the
+     * criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of lui capacity Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForLuiCapacityIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LuiCapacities that meet the search criteria and
+     * returns a list of LuiCapacities that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of lui capacitiess
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<LuiCapacityInfo> searchForLuiCapacities(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a LuiCapacity. Depending on the value of
@@ -566,7 +667,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, luiInfo
      * @throws MissingParameterException missing validationTypeKey, luiInfo
-     * @throws OperationFailedException  unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<ValidationResultInfo> validateLuiCapacity(@WebParam(name = "validationType") String validationType, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
@@ -600,14 +701,14 @@ public interface LuiService extends DataDictionaryService, TypeService {
      *                operation
      * @return the updated LuiCapacity information
      * @throws DataValidationErrorException One or more values invalid
-     *                                      for this operation
+     *         for this operation
      * @throws DoesNotExistException luiCapacityId not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException The action was attempted on an
-     *                                  out of date version.
+     *         out of date version.
      */
     public LuiCapacityInfo updateLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "luiCapacityInfo") LuiCapacityInfo luiCapacityInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
@@ -625,7 +726,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws DependentObjectsExistException delete would leave
-     *                                        orphaned objects or violate integrity constraints
+     *         orphaned objects or violate integrity constraints
      */
     public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "context") ContextInfo context) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
