@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.enrollment.hold.service.HoldService;
+
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -18,6 +21,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,6 +30,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
 public class HoldServiceMockImpl implements HoldService {
@@ -191,7 +196,7 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public List<HoldInfo> getActvHoldsByRestrForPerson(
+	public List<HoldInfo> getActiveHoldsByRestrForPerson(
 			String restrictionKey, String personId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -301,6 +306,16 @@ public class HoldServiceMockImpl implements HoldService {
 		}
 		return holdsActive;
 	}
+
+    @Override
+    public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<String>();
+    }	
+
+    @Override
+    public List<HoldInfo> searchForHolds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<HoldInfo>();
+    }	
 
 	@Override
 	public List<ValidationResultInfo> validateHold(String validationTypeKey,
@@ -441,6 +456,16 @@ public class HoldServiceMockImpl implements HoldService {
 		return new StatusInfo();
 	}
 
+    @Override
+    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<String>();
+    }	
+
+    @Override
+    public List<IssueInfo> searchForIssues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<IssueInfo>();
+    }	
+
 	@Override
 	public List<ValidationResultInfo> validateIssue(String validationTypeKey,
 			IssueInfo issueInfo, ContextInfo context)
@@ -527,6 +552,16 @@ public class HoldServiceMockImpl implements HoldService {
 		return restrictionKeys;
 
 	}
+
+    @Override
+    public List<String> searchForRestrictionKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<String>();
+    }	
+
+    @Override
+    public List<RestrictionInfo> searchForRestrictions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return new ArrayList<RestrictionInfo>();
+    }	
 
 	@Override
 	public List<ValidationResultInfo> validateRestriction(

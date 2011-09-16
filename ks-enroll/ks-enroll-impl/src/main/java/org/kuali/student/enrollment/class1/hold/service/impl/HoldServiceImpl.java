@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao;
@@ -214,7 +215,7 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getActvHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<HoldInfo> getActiveHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<HoldInfo>();
     }
 
@@ -255,6 +256,22 @@ public class HoldServiceImpl implements HoldService {
 
     @Override
     public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<HoldInfo>();
+    }
+
+    @Override
+    public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public List<HoldInfo> searchForHolds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
         return new ArrayList<HoldInfo>();
     }
 
@@ -439,6 +456,22 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
+    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public List<IssueInfo> searchForIssues(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        return new ArrayList<IssueInfo>();
+    }
+
+    @Override
     public List<ValidationResultInfo> validateIssue(String validationTypeKey, IssueInfo issueInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
     }
@@ -509,6 +542,22 @@ public class HoldServiceImpl implements HoldService {
         }
         
         return results;
+    }
+
+    @Override
+    public List<String> searchForRestrictionKeys(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public List<RestrictionInfo> searchForRestrictions(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        return new ArrayList<RestrictionInfo>();
     }
 
     @Override

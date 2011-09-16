@@ -23,11 +23,21 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -37,15 +47,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 
 /**
@@ -231,6 +232,40 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(@WebParam(name = "credentialProgramTypeKey") String credentialProgramTypeKey, @WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Academic Calendars that meet the search criteria
+     * and returns a list of academic calendar identifiers that meet
+     * the criteria.
+     *
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of academic calendar Keys
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForAcademicCalendarKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Academic Calendars that meet the search criteria
+     * and returns a list of AcademicCalendars that meet the
+     * criteria
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of academic calendars
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<AcademicCalendarInfo> searchForAcademicCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an academic calendar. Depending on the value of
@@ -488,6 +523,40 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<CampusCalendarInfo> getCampusCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Searches for Campus Calendars that meet the search criteria and
+     * returns a list of campus calendar identifiers that meet the
+     * criteria
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of campus calendar Keys
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForCampusCalendarKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Campus Calendars that meet the search criteria and returns
+     * a list of CampusCalendars that meet the criteria
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of campus calendars
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<CampusCalendarInfo> searchForCampusCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a campus calendar. Depending on the value of
@@ -768,6 +837,38 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public List<TermInfo> getContainingTerms(@WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Searches for Terms that meet the search criteria and returns a
+     * list of Term identifiers that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of term Keys
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForTermKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Terms that meet the search criteria and returns
+     * a list of Terms that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of terms
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> searchForTerms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
     /** 
      * Validates a term. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
@@ -1113,109 +1214,26 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<KeyDateInfo> getKeyDatesForAllTermsByDate(@WebParam(name = "termKey") String termKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+    
     /**
-     * Searches for Academic Calendars that meet the search criteria
-     * and returns a list of {@link AcademicCalendarInfo} objects that
-     * meet the criteria
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of academic calendars
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<AcademicCalendarInfo> searchForAcademicCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for Academic Calendars that meet the search criteria
-     * and returns a list of academic calendar identifiers that meet
-     * the criteria.
+     * Searches for KeyDates based on the criteria and returns a list
+     * of key date identifiers which match the search criteria.
      *
      * @param criteria the search criteria
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
-     * @return list of academic calendar Ids
+     * @return list of key date Keys
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException parameter is missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForAcademicCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForKeyDateKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Campus Calendars that meet the search criteria and returns
-     * a list of {@link CampusCalendarInfo}  that meet the criteria
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of campus calendars
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<CampusCalendarInfo> searchForCampusCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    /**
-     * Searches for Campus Calendars that meet the search criteria and
-     * returns a list of campus calendar identifiers that meet the
-     * criteria
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of campus calendar Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> searchForCampusCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for Terms that meet the search criteria and returns
-     * a list of {@link TermInfo} that meet the criteria.
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of terms
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<TermInfo> searchForTerms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for Terms that meet the search criteria and returns a
-     * list of Term identifiers that meet the criteria.
-     * 
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of term Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> searchForTermIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    /**
-     * Searches for KeyDates based on the criteria and returns a list of
-     * {@link KeyDateInfo} which match the search criteria.
+     * Searches for KeyDates based on the criteria and returns a list
+     * of KeyDates which match the search criteria.
      * 
      * @param criteria the search criteria
      * @param context Context information containing the principalId
@@ -1229,22 +1247,6 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public List<KeyDateInfo> searchForKeyDates(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
-    /**
-     * Searches for KeyDates based on the criteria and returns a list
-     * of key date identifiers which match the search criteria.
-     *
-     * @param criteria the search criteria
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return list of key date Ids
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<String> searchForKeyDateIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
     /** 
      * Validates a key date. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
@@ -1379,6 +1381,38 @@ public interface AcademicCalendarService extends DataDictionaryService {
      */
     public List<HolidayInfo> getHolidaysForAcademicCalendar(@WebParam(name = "academicCalendarKey") String academicCalendarKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Searches for Holidays that meet the search criteria and returns
+     * a list of Holiday identifiers that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of holiday Keys
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForHolidayKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Holidays that meet the search criteria and returns
+     * a list of Holidays that meet the criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of holidays
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<HolidayInfo> searchForHolidays(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /** 
      * Validates a holiday. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
@@ -1410,7 +1444,8 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /** 
      * Creates a new Holiday for a Campus Calendar.
      *
-     * @param campusCalendarKey a key for a Term to which this holiday is mapped
+     * @param campusCalendarKey a key for a Campus Calendar to which this 
+     *        holiday is mapped
      * @param holidayKey the key of the Holiday to be created
      * @param holidayInfo Details of the Holiday to be created
      * @param context Context information containing the principalId

@@ -21,17 +21,19 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -151,7 +153,7 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HoldInfo> getActvHoldsByRestrForPerson(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HoldInfo> getActiveHoldsByRestrForPerson(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the details of a single Hold by a hold Id.
@@ -267,6 +269,38 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws PermissionDeniedException authorization failure
      */
      public List<HoldInfo> getActiveHoldsByIssueForPerson(@WebParam(name = "issueId") String issueId, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Holds based on the criteria and returns a list
+     * of Hold identifiers which match the search criteria.
+     *
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of Hold Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForHoldIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Holds based on the criteria and returns a list of
+     * Holds which match the search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of Holds
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<HoldInfo> searchForHolds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a Hold. Depending on the value of validationType,
@@ -451,6 +485,38 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      */
     public List<IssueInfo> getIssuesByRestriction(@WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Searches for Issues based on the criteria and returns a list
+     * of Issue identifiers which match the search criteria.
+     *
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of Issue Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForIssueIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Issues based on the criteria and returns a list of
+     * Issues which match the search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of IssueIds
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<IssueInfo> searchForIssues(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /** 
      * Adds an Issue to a Restriction.
      *
@@ -632,6 +698,39 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws PermissionDeniedException authorization failure
      */
     public List<RestrictionInfo> getRestrictionsByIssue(@WebParam(name = "issueId") String issueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Restrictions based on the criteria and returns a
+     * list of Restriction identifiers which match the search
+     * criteria.
+     *
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of Restriction Keys
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForRestrictionKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Restrictions based on the criteria and returns a
+     * list of Restrictions which match the search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return list of Restrictions
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException parameter is missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RestrictionInfo> searchForRestrictions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a restriction. Depending on the value of validationType,

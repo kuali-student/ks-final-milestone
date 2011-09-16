@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.hold.service;
 
 import java.util.List;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
@@ -55,27 +57,6 @@ public class HoldServiceDecorator implements HoldService
 		this.nextDecorator = nextDecorator;
 	}
 	
-
-    @Override
-    public Boolean isPersonRestricted(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	    return getNextDecorator().isPersonRestricted(restrictionKey, personId, context);
-    }
-
-    @Override
-    public List<String> getRestrictedPersons(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	    return getNextDecorator().getRestrictedPersons(restrictionKey, context);
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	    return getNextDecorator().getHoldsByRestrictionForPerson(restrictionKey, personId, context);
-    }
-		
-    @Override					 
-    public List<HoldInfo> getActvHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-	    return getNextDecorator().getActvHoldsByRestrForPerson(restrictionKey, personId, context);
-    }	       
-
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
 	    return getNextDecorator().getDataDictionaryEntryKeys(context);
@@ -137,6 +118,26 @@ public class HoldServiceDecorator implements HoldService
     }
     
     @Override
+    public Boolean isPersonRestricted(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    return getNextDecorator().isPersonRestricted(restrictionKey, personId, context);
+    }
+
+    @Override
+    public List<String> getRestrictedPersons(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    return getNextDecorator().getRestrictedPersons(restrictionKey, context);
+    }
+
+    @Override
+    public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    return getNextDecorator().getHoldsByRestrictionForPerson(restrictionKey, personId, context);
+    }
+		
+    @Override					 
+    public List<HoldInfo> getActiveHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    return getNextDecorator().getActiveHoldsByRestrForPerson(restrictionKey, personId, context);
+    }	       
+
+    @Override
     public HoldInfo getHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    return getNextDecorator().getHold(holdId, context);
     }
@@ -170,6 +171,16 @@ public class HoldServiceDecorator implements HoldService
     public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    return getNextDecorator().getActiveHoldsByIssueForPerson(issueId, personId, context);
     }
+
+    @Override
+    public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForHoldIds(criteria, context);
+    }	
+
+    @Override
+    public List<HoldInfo> searchForHolds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForHolds(criteria, context);
+    }	
 
     @Override
     public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -222,6 +233,16 @@ public class HoldServiceDecorator implements HoldService
     }
 
     @Override
+    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForIssueIds(criteria, context);
+    }	
+
+    @Override
+    public List<IssueInfo> searchForIssues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForIssues(criteria, context);
+    }	
+
+    @Override
     public StatusInfo addIssueToRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    return getNextDecorator().addIssueToRestriction(restrictionKey, issueId, context);
     }
@@ -270,6 +291,16 @@ public class HoldServiceDecorator implements HoldService
     public List<RestrictionInfo> getRestrictionsByIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    return getNextDecorator().getRestrictionsByIssue(issueId, context);
     }
+
+    @Override
+    public List<String> searchForRestrictionKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForRestrictionKeys(criteria, context);
+    }	
+
+    @Override
+    public List<RestrictionInfo> searchForRestrictions(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	return getNextDecorator().searchForRestrictions(criteria, context);
+    }	
 
     @Override
     public List<ValidationResultInfo> validateRestriction(String validationTypeKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
