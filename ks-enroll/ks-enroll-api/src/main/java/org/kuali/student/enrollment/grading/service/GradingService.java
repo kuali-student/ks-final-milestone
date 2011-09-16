@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE. This service manages grade and credit
@@ -339,7 +340,7 @@ public interface GradingService extends DataDictionaryService {
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve grade roster entries by roster
+     * Retrieve grade roster entries by roster.
      * 
      * @param gradeRosterId
      * @param context
@@ -359,10 +360,14 @@ public interface GradingService extends DataDictionaryService {
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * This method gets a valid list of {@link GradeValuesGroupInfo} id for the
+     * student and roster. A student can have at least one or more valid
+     * {@link GradeValuesGroupInfo} for any roster they are in.
      * 
      * @param studentId
+     *            student id
      * @param rosterId
+     *            Roster id for which {@link GradeValuesGroupInfo} are needed
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -374,13 +379,13 @@ public interface GradingService extends DataDictionaryService {
      * @throws PermissionDeniedException
      *             authorization failure
      */
-    public List<String> getValidGradeGroupIdsForStudentByRoster(@WebParam(name = "studentId") String studentId,
+    public List<String> getValidGradeGroupKeysForStudentByRoster(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "rosterId") String rosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * Based on the id list, return {@link GradeValuesGroupInfo}.
      * 
      * @param gradeRosterEntryIdList
      * @param rosterId
@@ -392,13 +397,13 @@ public interface GradingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(
-            @WebParam(name = "gradeGroupIdList") List<String> gradeGroupIdList,
+    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(
+            @WebParam(name = "gradeGroupKeyList") List<String> gradeGroupKeyList,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ...
+     * Get the final grades for a student in a particular course offering.
      * 
      * @param studentId
      * @param courseOfferingId
@@ -462,11 +467,14 @@ public interface GradingService extends DataDictionaryService {
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method ... TODO - do we need to change the output to an object
-     * instead of boolean?
+     * Assign any admin or letter grades which have a distinct value using this
+     * method. The keys of those grades is the key of {@link ResultValueInfo} in
+     * the {@link GradeValuesGroupInfo}. TODO - do we need to change the output
+     * to an object instead of boolean?
      * 
      * @param gradeRosterEntryId
-     * @param assignedGradeId
+     * @param assignedGradeKey
+     *            the result value key
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -482,12 +490,15 @@ public interface GradingService extends DataDictionaryService {
      * @throws VersionMismatchException
      */
     public boolean updateGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
-            @WebParam(name = "assignedGradeId") String assignedGradeId, @WebParam(name = "context") ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+            @WebParam(name = "assignedGradeKey") String assignedGradeKey,
+            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException;
 
     /**
-     * This method ...
+     * Assign any number grade that are in a range since those don't have any
+     * unique key to begin with. Put in the value of the number grade - the
+     * system generates a unique key and persists the grade.
      * 
      * @param gradeRosterEntryId
      * @param numberGradeValue

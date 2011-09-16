@@ -141,7 +141,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         yearBegin = cal.getTime(); // XXXX-01-01 00:00:00.000
         cal.add(Calendar.YEAR, 1);
         cal.add(Calendar.MILLISECOND, -1);
-        yearEnd = cal.getTime();   // XXXX-12-31 23:59:59.999
+        yearEnd = cal.getTime(); // XXXX-12-31 23:59:59.999
 
         Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
             @Override
@@ -150,7 +150,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
         });
 
-        atpInfos.addAll(atpService.getAtpsByStartDateRangeAndType(yearBegin, yearEnd, AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context));
+        atpInfos.addAll(atpService.getAtpsByStartDateRangeAndType(yearBegin, yearEnd,
+                AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, context));
 
         List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
         for (AtpInfo atpInfo : atpInfos) {
@@ -561,6 +562,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return terms;
+    }
+
+    @Override
+    public TermInfo getCurrentTermForAcademicCalendar(String academicCalendarKey, String processKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        List<TermInfo> terms = getTermsForAcademicCalendar(academicCalendarKey, context);
+        if (terms == null || terms.size() == 0) {
+            throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + academicCalendarKey);
+        }
+        return terms.get(0);
     }
 
     @Override

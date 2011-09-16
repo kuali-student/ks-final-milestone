@@ -106,10 +106,10 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setLastName(entityNameInfo.getLastNameUnmasked());
                         }
                     }
-                    List<String> grades = gradingService.getValidGradeGroupIdsForStudentByRoster(
+                    List<String> grades = gradingService.getValidGradeGroupKeysForStudentByRoster(
                             entryInfo.getStudentId(), rosterInfo.getId(), context);
 
-                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByIdList(grades, context);
+                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(grades, context);
                     student.setGradeValuesGroupInfoList(gradeValueInfos);
 
                     for (GradeValuesGroupInfo grade : gradeValueInfos) {

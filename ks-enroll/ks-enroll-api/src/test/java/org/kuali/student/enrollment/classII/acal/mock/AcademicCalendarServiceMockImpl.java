@@ -7,11 +7,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -19,7 +16,6 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -27,7 +23,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -36,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
@@ -81,10 +75,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public AtpService getAtpService() {
         return atpService;
     }
+
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
-    
 
     @Override
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
@@ -113,7 +107,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         try {
             return this.atpService.getStatesByProcess(processKey, context);
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException (processKey, ex);
+            throw new OperationFailedException(processKey, ex);
         }
     }
 
@@ -249,14 +243,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<String> searchForAcademicCalendarKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<AcademicCalendarInfo>();
+        return new ArrayList<AcademicCalendarInfo>();
     }
 
     /**
@@ -400,7 +394,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         try {
             return this.atpService.getStatesByProcess(processKey, context);
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException (processKey, ex);
+            throw new OperationFailedException(processKey, ex);
         }
     }
 
@@ -479,14 +473,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<String> searchForCampusCalendarKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public List<CampusCalendarInfo> searchForCampusCalendars(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<CampusCalendarInfo>();
+        return new ArrayList<CampusCalendarInfo>();
     }
 
     /**
@@ -579,7 +573,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         try {
             return this.atpService.getStatesByProcess(termProcessKey, context);
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException (termProcessKey, ex);
+            throw new OperationFailedException(termProcessKey, ex);
         }
     }
 
@@ -707,14 +701,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<String> searchForKeyDateKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public List<KeyDateInfo> searchForKeyDates(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<KeyDateInfo>();
+        return new ArrayList<KeyDateInfo>();
     }
 
     /**
@@ -783,14 +777,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<String> searchForHolidayKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<HolidayInfo>();
+        return new ArrayList<HolidayInfo>();
     }
 
     /**
@@ -961,21 +955,21 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     @Override
     public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-    	return new ArrayList<TermInfo>();
+        return new ArrayList<TermInfo>();
     }
 
     @Override
     public List<String> searchForTermKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<TermInfo>();
+        return new ArrayList<TermInfo>();
     }
 
     /**
@@ -1250,7 +1244,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<TypeInfo> getHolidayTypesForCampusCalendarType(String campusCalendarTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-    	return new ArrayList<TypeInfo>();
+        return new ArrayList<TypeInfo>();
     }
 
     private MilestoneInfo createMilestoneFromHoliday(HolidayInfo holidayInfo) {
@@ -1262,5 +1256,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         mInfo.setKey(holidayInfo.getKey());
 
         return mInfo;
+    }
+
+    @Override
+    public TermInfo getCurrentTermForAcademicCalendar(String academicCalendarKey, String processKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 }

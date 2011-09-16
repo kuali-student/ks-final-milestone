@@ -421,7 +421,7 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public List<String> getValidGradeGroupIdsForStudentByRoster(@WebParam(name = "studentId") String studentId,
+    public List<String> getValidGradeGroupKeysForStudentByRoster(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "rosterId") String rosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -611,7 +611,7 @@ public class GradingServiceImpl implements GradingService {
     }
 
     @Override
-    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(List<String> gradeGroupIdList, ContextInfo context)
+    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

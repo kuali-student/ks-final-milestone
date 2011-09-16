@@ -371,7 +371,7 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<String> getValidGradeGroupIdsForStudentByRoster(String studentId, String rosterId, ContextInfo context)
+    public List<String> getValidGradeGroupKeysForStudentByRoster(String studentId, String rosterId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
@@ -444,7 +444,7 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<GradeValuesGroupInfo> getGradeGroupsByIdList(List<String> gradeGroupIdList, ContextInfo context)
+    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
