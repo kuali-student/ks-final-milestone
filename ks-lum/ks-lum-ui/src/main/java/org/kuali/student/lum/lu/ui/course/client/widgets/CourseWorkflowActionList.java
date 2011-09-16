@@ -451,6 +451,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
             items.add(modifyCourseActionItem);          
         }
         items.add(copyCourseActionItem);
+
+        if (!isCurrentVersion) {
+            items.remove(modifyCourseActionItem);
+        }
+
         return items;
     }
 	
