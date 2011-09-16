@@ -56,7 +56,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             this.setId(lprTransactionItem.getId());
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();
-
+            this.personId = lprTransactionItem.getPersonId();
             this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
             if (null != lprTransactionItem.getAttributes()) {
                 for (Attribute att : lprTransactionItem.getAttributes()) {

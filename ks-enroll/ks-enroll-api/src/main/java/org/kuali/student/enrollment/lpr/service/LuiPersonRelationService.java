@@ -22,7 +22,6 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -66,7 +65,8 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     /**
      * Retrieves the Relation for the specified LUI Person Relation
      * 
-     * @param luiPersonRelationId Identifier for the LUI Person Relation
+     * @param luiPersonRelationId
+     *            Identifier for the LUI Person Relation
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation

@@ -19,12 +19,12 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
@@ -55,7 +55,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
     private CourseRegistrationAssembler courseRegistrationAssembler;
-    private DataDictionaryService dataDictionaryService;
+
     private LRCService lrcService;
 
     public LRCService getLrcService() {
@@ -187,27 +187,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     context);
         }
         return storedLprTransaction;
-    }
-
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        return dataDictionaryService.getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
     }
 
     @Override
@@ -479,10 +458,40 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multpleItemsTransaction.getId(),
                 context);
 
-        // TODO error check
-        lprService.createLprRosterEntry(new LprRosterEntryInfo(), context);
-        return regResponseAssembler.assemble(submittedLprTransaction, context);
+        RegResponseInfo returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);
 
+        if (checkSuccessfulRegCriteria(returnRegResponse)) {
+            for (LprTransactionItemInfo lprItem : submittedLprTransaction.getLprTransactionItems()) {
+                if (lprItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY)) {
+                    LprRosterEntryInfo newLprRosterEntry = new LprRosterEntryInfo();
+                    newLprRosterEntry.setLprId(lprItem.getLprTransactionItemResult().getResultingLprId());
+
+                    newLprRosterEntry
+                            .setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY);
+
+                    List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(lprItem.getNewLuiId(),
+                            LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+                    if (lprRosters.size() == 1) {
+                        newLprRosterEntry.setLprRosterId(lprRosters.get(0).getId());
+                    } else {
+                        throw new OperationFailedException(
+                                "The number of final grade rosters should be one for course offering: "
+                                        + lprItem.getNewLuiId());
+                    }
+                    lprService.createLprRosterEntry(newLprRosterEntry, context);
+
+                }
+
+            }
+
+        }
+
+        return returnRegResponse;
+
+    }
+
+    private boolean checkSuccessfulRegCriteria(RegResponseInfo returnRegResponse) {
+        return true;
     }
 
     @Override
@@ -862,6 +871,21 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
+            MissingParameterException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
+            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
+            DoesNotExistException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }

@@ -45,6 +45,8 @@ public class LuiPersonRelationServiceConstants {
     public static final String LPRTRANS_ITEM_WAITLIST_TYPE_KEY = "kuali.lpr.trans.item.waitlist";
     public static final String LPRTRANS_ITEM_SAVE_TYPE_KEY = "kuali.lpr.trans.item.save";
 
+    public static final String LPRTRANS_REGISTER_TYPE_KEY = "kuali.lpr.trans.registrant";
+
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.new";
     public static final String LPRTRANS_ITEM_DRAFT_STATE_KEY = "kuali.lpr.trans.item.draft";
     public static final String LPRTRANS_ITEM_SUBMITTED_STATE_KEY = "kuali.lpr.trans.submitted";
@@ -55,6 +57,9 @@ public class LuiPersonRelationServiceConstants {
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
             INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
     public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_TYPE_KEY};
+
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.final";
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY = "kuali.lpr.roster.state.course.new";
     /**
      * Student states to courses
      */

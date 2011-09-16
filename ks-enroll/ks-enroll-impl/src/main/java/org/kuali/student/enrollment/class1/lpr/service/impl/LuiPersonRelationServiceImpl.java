@@ -841,7 +841,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
             LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
             if (lprTransactionItemInfo.getTypeKey()
-                    .equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+                    .equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
+                    || lprTransactionItemInfo.getTypeKey().equals(
+                            LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY)) {
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
 
                 lprTransResultInfo.setResultingLprId(lprCreated);
@@ -854,6 +856,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
 
                 deleteLprTransaction(toBeDroppedLPR.getId(), context);
+                lprTransResultInfo.setResultingLprId(toBeDroppedLPR.getId());
+                lprTransResultInfo.setStatus("SUCCESS");
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(
                     LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
@@ -866,6 +870,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");
 
+            } else {
+
+                throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
             lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
         }
@@ -988,12 +995,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId,typeKey);
+        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId, atpKey);
         List<LuiPersonRelationInfo> infoList = new ArrayList();
-        for (LuiPersonRelationEntity entity : entityList){
+        for (LuiPersonRelationEntity entity : entityList) {
             LuiEntity lui = luiDao.find(entity.getLuiId());
-            if (StringUtils.equals(lui.getAtpKey(),atpKey)) {
-                 infoList.add(entity.toDto());
+            if (!StringUtils.equals(lui.getAtpKey(), atpKey)) {
+                infoList.add(entity.toDto());
             }
         }
 

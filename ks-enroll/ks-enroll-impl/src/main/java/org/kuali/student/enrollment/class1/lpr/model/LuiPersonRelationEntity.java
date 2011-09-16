@@ -158,8 +158,12 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         lprInfo.setPersonId(personId);
         lprInfo.setEffectiveDate(effectiveDate);
         lprInfo.setExpirationDate(expirationDate);
-        lprInfo.setTypeKey(personRelationType.getId());
-        lprInfo.setStateKey(personRelationState.getId());
+        if (personRelationType != null)
+            lprInfo.setTypeKey(personRelationType.getId());
+
+        if (personRelationState != null)
+            lprInfo.setStateKey(personRelationState.getId());
+
         lprInfo.setMeta(super.toDTO());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiPersonRelationAttributeEntity att : getAttributes()) {

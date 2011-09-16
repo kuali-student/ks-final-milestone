@@ -49,7 +49,8 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
         this.personId = null;
         this.newLuiId = null;
         this.existingLuiId = null;
-        this.requestOptions = null;
+        this.requestOptions = new ArrayList<RequestOptionInfo>();
+        this.resultOptionIds = new ArrayList<String>();
         this._futureElements = null;
     }
 
