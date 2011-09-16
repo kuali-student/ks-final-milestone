@@ -65,10 +65,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="CourseOfferingInfoUI.id" parent="CourseOfferingInfo.id-parent">
         <property name="label" value="Course Offering ID" />
         <property name="required" value="false"/>
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-        </property>
+					<property name="validCharactersConstraint">
+						<bean parent="NoWhitespacePatternConstraint" />
+					</property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
@@ -78,10 +77,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Course ID" />
         <property name="required" value="true"/>
         <property name="summary" value=""/>
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-        </property>
+					<property name="validCharactersConstraint">
+						<bean parent="NoWhitespacePatternConstraint" />
+					</property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
@@ -91,10 +89,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="summary" value=""/>
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-        </property>
+					<property name="validCharactersConstraint">
+						<bean parent="NoWhitespacePatternConstraint" />
+					</property>
         <property name="controlField">
             <bean parent="SelectControl"/>
         </property>
@@ -107,10 +104,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Subject Area" />
         <property name="required" value="false"/>
         <property name="summary" value=""/>
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="true" />
-        </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property>

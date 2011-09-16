@@ -484,7 +484,7 @@
         $(schedule).find(".timeBlock").each(function() {
             var data = $.data(this, "timeData");
             if (data.dayIndex == dayIndex) {
-                if (startTime >= data.start && startTime < data.endTime) {
+                if (startTime >= data.start && startTime < data.end) {
                     conflicts.push(this);
                 }
                 else if (startTime <= data.start && endTime > data.start) {
