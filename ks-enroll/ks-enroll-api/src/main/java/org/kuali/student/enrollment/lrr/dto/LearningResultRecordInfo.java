@@ -29,8 +29,7 @@ import org.w3c.dom.Element;
  * Information about the Learning Result Record Info.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningResultRecordInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "lprId",
-        "resultValueGroupId", "resultValueId", "resultSourceIdList", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LearningResultRecordInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "lprId", "resultValueKey", "resultSourceIdList", "meta", "attributes", "_futureElements"})
 public class LearningResultRecordInfo extends IdEntityInfo implements LearningResultRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,10 +38,7 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
     private String lprId;
 
     @XmlElement
-    private String resultValueGroupId;
-
-    @XmlElement
-    private String resultValueId;
+    private String resultValueKey;
 
     @XmlElement
     private List<String> resultSourceIdList;
@@ -51,7 +47,10 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
     private List<Element> _futureElements;
 
     public LearningResultRecordInfo() {
-
+        super();
+        this.lprId = null;
+        this.resultValueKey = null;
+        this.resultSourceIdList = new ArrayList<String>();
     }
 
     /**
@@ -63,8 +62,7 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
         super(lrr);
 
         this.lprId = lrr.getLprId();
-        this.resultValueGroupId = lrr.getResultValueGroupId();
-        this.resultValueId = lrr.getResultValueId();
+        this.resultValueKey = lrr.getResultValueKey();
 
         resultSourceIdList = new ArrayList<String>();
 
@@ -72,18 +70,17 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
 
     }
 
+    @Override
     public String getLprId() {
         return lprId;
     }
 
-    public String getResultValueGroupId() {
-        return resultValueGroupId;
+    @Override
+    public String getResultValueKey() {
+        return resultValueKey;
     }
 
-    public String getResultValueId() {
-        return resultValueId;
-    }
-
+    @Override
     public List<String> getResultSourceIdList() {
         if (null == resultSourceIdList) {
             resultSourceIdList = new ArrayList<String>(0);
@@ -95,12 +92,8 @@ public class LearningResultRecordInfo extends IdEntityInfo implements LearningRe
         this.lprId = lprId;
     }
 
-    public void setResultValueGroupId(String resultValueGroupId) {
-        this.resultValueGroupId = resultValueGroupId;
-    }
-
-    public void setResultValueId(String resultValueId) {
-        this.resultValueId = resultValueId;
+    public void setResultValueKey(String resultValueId) {
+        this.resultValueKey = resultValueId;
     }
 
     public void setResultSourceIdList(List<String> resultSourceIdList) {

@@ -27,7 +27,7 @@ public class TestLRRServiceConformance {
 		LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
 		lrrInfo.setId(String.valueOf(Math.random()));
 		lrrInfo.setName("KS YY Course Result");
-		lrrInfo.setResultValueId(String.valueOf(Math.random()));
+		lrrInfo.setResultValueKey(String.valueOf(Math.random()));
 		lrrInfo.setDescr(null);
 		LRRServiceMockImpl lrrMockImpl = new LRRServiceMockImpl();
 
@@ -57,7 +57,7 @@ public class TestLRRServiceConformance {
 		LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
 		lrrInfo.setId(String.valueOf(Math.random()));
 		lrrInfo.setName("KS YY Course Result");
-		lrrInfo.setResultValueId(String.valueOf(Math.random()));
+		lrrInfo.setResultValueKey(String.valueOf(Math.random()));
 		lrrInfo.setDescr(null);
 		LRRServiceMockImpl lrrMockImpl = new LRRServiceMockImpl();
 

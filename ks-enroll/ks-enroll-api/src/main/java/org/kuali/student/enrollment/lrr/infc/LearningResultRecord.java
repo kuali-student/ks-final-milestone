@@ -21,17 +21,13 @@ public interface LearningResultRecord extends IdEntity {
      */
     public String getLprId();
 
-    /**
-     * @name Result Value Group Id Result Value Group to which the result value contained in this LRR belongs. The Id will
-     * come from LRC service
-     */
-    public String getResultValueGroupId();
+
 
     /**
      * Result Value (Grade, Credits, etc). References a unique Id in the LRC service
      * @name Result Value Id
      */
-    public String getResultValueId();
+    public String getResultValueKey();
 
     /**
      * List of source record ids that were responsible in generating the result value. 

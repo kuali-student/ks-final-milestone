@@ -63,7 +63,7 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
             throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
         return this.getDataDictionaryEntry(entryKey, context);
-    }
+    } 
 
     @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
@@ -625,9 +625,9 @@ public abstract class AcademicCalendarServiceDecorator implements AcademicCalend
     }
 
     @Override
-    public TermInfo getCurrentTermForAcademicCalendar(String academicCalendarKey, String processKey, ContextInfo context)
+    public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCurrentTermForAcademicCalendar(academicCalendarKey, processKey, context);
+        return getNextDecorator().getCurrentTerms( processKey, context);
     }
 }

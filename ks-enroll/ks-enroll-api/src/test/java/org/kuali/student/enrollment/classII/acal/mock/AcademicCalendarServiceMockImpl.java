@@ -81,28 +81,24 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
+    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException,
             DoesNotExistException {
         return this.atpService.getDataDictionaryEntry(entryKey, context);
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
+    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
         return this.atpService.getDataDictionaryEntryKeys(context);
     }
 
     @Override
-    public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StateInfo getAcademicCalendarState(String academicCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return this.atpService.getState(null, academicCalendarStateKey, context);
     }
 
     @Override
-    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         String processKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
         try {
             return this.atpService.getStatesByProcess(processKey, context);
@@ -121,8 +117,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * 3. convert them to Campus Calendars, Terms, HolidayInfo etc
      * 4. Transform and create AcademicCalendar  out of those constituents
      */
-    public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         AcademicCalendarInfo acObject = this.acCache.get(academicCalendarKey);
@@ -138,9 +133,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * invoking getAcademicCalendar() method
      */
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByKeyList(List<String> academicCalendarKeyList,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public List<AcademicCalendarInfo> getAcademicCalendarsByKeyList(List<String> academicCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AcademicCalendarInfo> infos = new ArrayList<AcademicCalendarInfo>();
         for (AcademicCalendarInfo info : this.acCache.values()) {
             // TODO: consider speeding up the list search by converting to a
@@ -161,8 +155,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      */
 
     @Override
-    public List<String> getAcademicCalendarKeysByType(String academicCalendarTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getAcademicCalendarKeysByType(String academicCalendarTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         List<String> academicCalendarTypes = new ArrayList<String>();
@@ -183,8 +176,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      */
 
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(Integer year, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
         for (AcademicCalendarInfo info : this.acCache.values()) {
@@ -203,9 +195,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * ACs of the particular credentialProgramTypeKey
      */
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramType(String credentialProgramTypeKey,
-            ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramType(String credentialProgramTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
         for (AcademicCalendarInfo info : this.acCache.values()) {
@@ -225,14 +216,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * credentialProgramTypeKey
      */
     @Override
-    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(
-            String credentialProgramTypeKey, Integer year, ContextInfo context) throws InvalidParameterException,
+    public List<AcademicCalendarInfo> getAcademicCalendarsByCredentialProgramTypeForStartYear(String credentialProgramTypeKey, Integer year, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
         for (AcademicCalendarInfo info : this.acCache.values()) {
 
-            if (info.getCredentialProgramTypeKey().equals(credentialProgramTypeKey)
-                    && info.getStartDate().getYear() == year.intValue()) {
+            if (info.getCredentialProgramTypeKey().equals(credentialProgramTypeKey) && info.getStartDate().getYear() == year.intValue()) {
                 academicCalendars.add(info);
             }
         }
@@ -240,15 +229,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<String> searchForAcademicCalendarKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForAcademicCalendarKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<AcademicCalendarInfo>();
     }
@@ -258,8 +245,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * this method in the decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateAcademicCalendar(String validationType,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DoesNotExistException,
+    public List<ValidationResultInfo> validateAcademicCalendar(String validationType, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
@@ -274,10 +260,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * AtpService.createAtp() to create an Atp for the AcademicCalendar
      */
     @Override
-    public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         AcademicCalendarInfo acInfo = new AcademicCalendarInfo();
         acInfo.setKey(academicCalendarKey);
@@ -296,17 +280,15 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * the AtpService.updateAtp() to update an Atp for the AcademicCalendar
      */
     @Override
-    public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey,
-            AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException {
+    public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         AcademicCalendarInfo existingAC = this.acCache.get(academicCalendarKey);
         if (existingAC == null) {
             throw new DoesNotExistException(academicCalendarKey);
         }
         if (!academicCalendarInfo.getMeta().getVersionInd().equals(existingAC.getMeta().getVersionInd())) {
-            throw new VersionMismatchException("Updated by " + existingAC.getMeta().getUpdateId() + " on "
-                    + existingAC.getMeta().getUpdateId() + " with version of " + existingAC.getMeta().getVersionInd());
+            throw new VersionMismatchException("Updated by " + existingAC.getMeta().getUpdateId() + " on " + existingAC.getMeta().getUpdateId() + " with version of "
+                    + existingAC.getMeta().getVersionInd());
         }
         MockHelper helper = new MockHelper();
         AcademicCalendarInfo acInfo = new AcademicCalendarInfo(academicCalendarInfo);
@@ -324,8 +306,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * terms, CredentialProgram etc in the AcademicCalendar
      */
     @Override
-    public StatusInfo deleteAcademicCalendar(String academicCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo deleteAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         if (acCache.containsKey(academicCalendarKey)) {
@@ -345,9 +326,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * CampusCalendar, terms, CredentialProgram etc in the AcademicCalendar
      */
     @Override
-    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarKey, String newAcademicCalendarKey,
-            ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarKey, String newAcademicCalendarKey, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (this.acCache.containsKey(academicCalendarKey)) {
             AcademicCalendarInfo dupCalendar = this.acCache.get(academicCalendarKey);
@@ -366,9 +346,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public String getAcademicCalendarData(String academicCalendarKey, String calendarDataFormatTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public String getAcademicCalendarData(String academicCalendarKey, String calendarDataFormatTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit complete the impl later
         for (AcademicCalendarInfo info : this.acCache.values()) {
 
@@ -380,16 +359,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StateInfo getCampusCalendarState(String campusCalendarStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StateInfo getCampusCalendarState(String campusCalendarStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         String processKey = null;
         return this.atpService.getState(processKey, campusCalendarStateKey, context);
     }
 
     @Override
-    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<StateInfo> getCampusCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         String processKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
         try {
             return this.atpService.getStatesByProcess(processKey, context);
@@ -405,8 +382,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * For real impl:
      * 1. get the ATP from Atp Service by calling AtpService.getAtp()  
      */
-    public CampusCalendarInfo getCampusCalendar(String campusCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public CampusCalendarInfo getCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         CampusCalendarInfo campusCalendar = ccCache.get(campusCalendarKey);
@@ -418,9 +394,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * campusCalendarKeyList from Atp Service by calling AtpService.getAtp()
      */
     @Override
-    public List<CampusCalendarInfo> getCampusCalendarsByKeyList(List<String> campusCalendarKeyList, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public List<CampusCalendarInfo> getCampusCalendarsByKeyList(List<String> campusCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
         for (CampusCalendarInfo info : this.ccCache.values()) {
@@ -436,8 +411,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * campusCalendarKeyList from Atp Service by calling AtpService.getAtp()
      */
     @Override
-    public List<String> getCampusCalendarKeysByType(String campusCalendarTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getCampusCalendarKeysByType(String campusCalendarTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<String> campusCalendarKeys = new ArrayList<String>();
 
@@ -455,8 +429,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * AtpService.getAtpByDate() 2. Convert to CampusCalendarInfo object
      */
     @Override
-    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(Integer year, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<CampusCalendarInfo> getCampusCalendarsByStartYear(Integer year, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         List<CampusCalendarInfo> campusCalendars = new ArrayList<CampusCalendarInfo>();
@@ -470,15 +443,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<String> searchForCampusCalendarKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForCampusCalendarKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<CampusCalendarInfo> searchForCampusCalendars(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<CampusCalendarInfo> searchForCampusCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<CampusCalendarInfo>();
     }
@@ -488,8 +459,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateCampusCalendar(String validationType,
-            CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DoesNotExistException,
+    public List<ValidationResultInfo> validateCampusCalendar(String validationType, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
@@ -502,8 +472,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * the AtpService.createAtp() to create an Atp for the AcademicCalendar
      */
     @Override
-    public CampusCalendarInfo createCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo,
-            ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    public CampusCalendarInfo createCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         CampusCalendarInfo ccInfo = new CampusCalendarInfo(campusCalendarInfo);
         ccInfo.setKey(campusCalendarKey);
@@ -517,9 +486,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * AtpService.updateAtp() to update an Atp for the AcademicCalendar
      */
     @Override
-    public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo,
-            ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CampusCalendarInfo ccInfo = new CampusCalendarInfo(campusCalendarInfo);
         ccInfo.setKey(campusCalendarKey);
@@ -537,8 +505,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * CampusCalendar-KeyDate relation
      */
     @Override
-    public StatusInfo deleteCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         StatusInfo statusInfo = new StatusInfo();
         CampusCalendarInfo ccInfo = ccCache.remove(campusCalendarKey);
         statusInfo.setSuccess(ccInfo == null);
@@ -556,8 +524,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * CampusCalendar-KeyDate relation
      */
     @Override
-    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         String termProcessKey = null;
         return this.atpService.getState(termProcessKey, termStateKey, context);
@@ -567,8 +534,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	 * 
 	 */
     @Override
-    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<StateInfo> getTermStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         String termProcessKey = AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_PROCESS_KEY;
         try {
             return this.atpService.getStatesByProcess(termProcessKey, context);
@@ -581,8 +547,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * For real impl - call AtpSerive.getAtp () then convert to TermInfo
      */
     @Override
-    public TermInfo getTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TermInfo getTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return termsCache.get(termKey);
 
     }
@@ -591,8 +557,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * For real impl - for each key in the list call getTerm()
      */
     @Override
-    public List<TermInfo> getTermsByKeyList(List<String> termKeyList, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TermInfo> getTermsByKeyList(List<String> termKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<TermInfo> matchingTerms = new ArrayList<TermInfo>();
         for (TermInfo termInfo : this.termsCache.values()) {
@@ -607,8 +572,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	 * 
 	 */
     @Override
-    public List<String> getTermKeysByType(String termTypeKey, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getTermKeysByType(String termTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> matchingTermKeys = new ArrayList<String>();
         for (TermInfo termInfo : termsCache.values()) {
             if (termInfo.getTypeKey().equals(termTypeKey)) {
@@ -619,14 +583,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public KeyDateInfo getKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return keyDateCache.get(keyDateKey);
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesByKeyList(List<String> keyDateKeyList, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<KeyDateInfo> getKeyDatesByKeyList(List<String> keyDateKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
         for (String keyDate : keyDateKeyList) {
@@ -640,8 +603,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<String> getKeyDateKeysByType(String keyDateTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getKeyDateKeysByType(String keyDateTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         return this.atpService.getMilestoneKeysByType(keyDateTypeKey, context);
@@ -655,8 +617,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * calendar by calling getMilestonesByAtp())
      */
     @Override
-    public List<KeyDateInfo> getKeyDatesForAcademicCalendar(String academicCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<KeyDateInfo> getKeyDatesForAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         AcademicCalendarInfo acInfo = this.acCache.get(academicCalendarKey);
@@ -673,8 +634,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * 1.
      */
     @Override
-    public List<KeyDateInfo> getKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<KeyDateInfo> getKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         List<MilestoneInfo> termMilestones = this.atpService.getMilestonesByAtp(termKey, context);
         // convert milstones to keydates
         List<KeyDateInfo> keyDatesForTerm = new ArrayList<KeyDateInfo>();
@@ -686,8 +647,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 	 * 
 	 */
     @Override
-    public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<KeyDateInfo> getAllKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         List<KeyDateInfo> initialKeyDates = getKeyDatesForTerm(termKey, context);
         List<TermInfo> allTermsForTerm = getIncludedTermsInTerm(termKey, context);
@@ -698,15 +659,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<String> searchForKeyDateKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForKeyDateKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<KeyDateInfo> searchForKeyDates(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<KeyDateInfo> searchForKeyDates(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<KeyDateInfo>();
     }
@@ -716,9 +675,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateKeyDate(String validationType, KeyDateInfo keyDateInfo,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public List<ValidationResultInfo> validateKeyDate(String validationType, KeyDateInfo keyDateInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
@@ -726,8 +684,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo,
-            ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         AtpMilestoneRelationInfo atpMRInfo = new AtpMilestoneRelationInfo();
@@ -742,8 +699,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         MilestoneInfo keyDate = new MilestoneInfo();
@@ -755,15 +711,14 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo deleteKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return this.atpService.deleteMilestone(keyDateKey, context);
 
     }
 
     @Override
-    public List<HolidayInfo> getHolidaysForAcademicCalendar(String academicCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<HolidayInfo> getHolidaysForAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         AcademicCalendarInfo acInfo = acCache.get(academicCalendarKey);
@@ -774,15 +729,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<String> searchForHolidayKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForHolidayKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<HolidayInfo>();
     }
@@ -792,18 +745,16 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateHoliday(String validationType, HolidayInfo holidayInfo,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public List<ValidationResultInfo> validateHoliday(String validationType, HolidayInfo holidayInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
         return validationResult;
     }
 
     @Override
-    public HolidayInfo createHolidayForCampusCalendar(String campusCalendarKey, String holidayKey,
-            HolidayInfo holidayInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public HolidayInfo createHolidayForCampusCalendar(String campusCalendarKey, String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws AlreadyExistsException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         AtpMilestoneRelationInfo amrInfo = new AtpMilestoneRelationInfo();
         amrInfo.setMilestoneKey(holidayKey);
@@ -826,8 +777,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public HolidayInfo updateHoliday(String holidayKey, HolidayInfo holidayInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public HolidayInfo updateHoliday(String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
@@ -843,11 +793,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo deleteHoliday(String holidayKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteHoliday(String holidayKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
-        List<AtpMilestoneRelationInfo> atpMilestoneRelations = this.atpService.getAtpMilestoneRelationsByMilestone(
-                holidayKey, context);
+        List<AtpMilestoneRelationInfo> atpMilestoneRelations = this.atpService.getAtpMilestoneRelationsByMilestone(holidayKey, context);
 
         for (AtpMilestoneRelationInfo atpMilestoneRelation : atpMilestoneRelations) {
             this.atpService.deleteAtpMilestoneRelation(atpMilestoneRelation.getId(), context);
@@ -857,15 +806,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public Integer getInstructionalDaysForTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Integer getInstructionalDaysForTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         DateRange classDates = getRegistrationDateGroup(termKey, context).getClassDateRange();
         int numInstructionalDays = 0;
-        Calendar startCalendar = new GregorianCalendar(classDates.getStart().getYear(), classDates.getStart()
-                .getMonth(), classDates.getStart().getDate());
-        Calendar endCalendar = new GregorianCalendar(classDates.getEnd().getYear(), classDates.getStart().getMonth(),
-                classDates.getEnd().getDate());
+        Calendar startCalendar = new GregorianCalendar(classDates.getStart().getYear(), classDates.getStart().getMonth(), classDates.getStart().getDate());
+        Calendar endCalendar = new GregorianCalendar(classDates.getEnd().getYear(), classDates.getStart().getMonth(), classDates.getEnd().getDate());
 
         // TODO Use some open source library like joda-time to compute these
         //
@@ -877,9 +824,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(String academicCalendarKey, Date startDate,
-            Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(String academicCalendarKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<MilestoneInfo> mileStoneInfos = this.atpService.getMilestonesByAtp(academicCalendarKey, context);
         // convert MileStones to KeyDateInfo
@@ -888,9 +834,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesForTermByDate(String termKey, Date startDate, Date endDate, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public List<KeyDateInfo> getKeyDatesForTermByDate(String termKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
         List<MilestoneInfo> milestones = this.atpService.getMilestonesByAtp(termKey, context);
         for (MilestoneInfo milestoneInfo : milestones) {
@@ -903,9 +848,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesForAllTermsByDate(String termKey, Date startDate, Date endDate,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public List<KeyDateInfo> getKeyDatesForAllTermsByDate(String termKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
 
@@ -930,13 +874,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<TermInfo> getIncludedTermsInTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TermInfo> getIncludedTermsInTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         TermInfo termInfo = termsCache.get(termKey);
         List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
-        List<TypeTypeRelationInfo> typesRelations = this.atpService.getTypeRelationsByOwnerType(termInfo.getTypeKey(),
-                "kuali.relationtype.contains", context);
+        List<TypeTypeRelationInfo> typesRelations = this.atpService.getTypeRelationsByOwnerType(termInfo.getTypeKey(), "kuali.relationtype.contains", context);
 
         for (TypeTypeRelationInfo typeRelation : typesRelations) {
 
@@ -953,21 +896,19 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TermInfo> getContainingTerms(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return new ArrayList<TermInfo>();
     }
 
     @Override
-    public List<String> searchForTermKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForTermKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<String>();
     }
 
     @Override
-    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<TermInfo>();
     }
@@ -977,8 +918,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateTerm(String validationType, TermInfo termInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<ValidationResultInfo> validateTerm(String validationType, TermInfo termInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
@@ -986,9 +926,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TermInfo createTerm(String termKey, TermInfo termInfo, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public TermInfo createTerm(String termKey, TermInfo termInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         TermInfo newTermInfo = new TermInfo(termInfo);
         newTermInfo.setKey(termKey);
@@ -998,8 +937,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TermInfo updateTerm(String termKey, TermInfo termInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public TermInfo updateTerm(String termKey, TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         TermInfo tInfo = new TermInfo(termInfo);
@@ -1010,8 +948,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo deleteTerm(String termKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         termsCache.remove(termKey);
 
         StatusInfo status = new StatusInfo();
@@ -1020,8 +958,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo addTermToAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
         AtpAtpRelationInfo atpAtpRelation = new AtpAtpRelationInfo();
         atpAtpRelation.setAtpKey(termKey);
@@ -1037,9 +974,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public StatusInfo removeTermFromAcademicCalendar(String academicCalendarKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<AtpAtpRelationInfo> atpRelInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
         for (AtpAtpRelationInfo atpRelInfo : atpRelInfos) {
@@ -1052,8 +988,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo addTermToTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
         AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
         aarInfo.setAtpKey(termKey);
@@ -1069,8 +1004,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public StatusInfo removeTermFromTerm(String termKey, String includedTermKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo removeTermFromTerm(String termKey, String includedTermKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<AtpAtpRelationInfo> atpAtpRelations = this.atpService.getAtpAtpRelationsByAtp(termKey, context);
@@ -1086,8 +1020,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return this.registrationDateGroupInfoCache.get(termKey);
     }
@@ -1097,8 +1030,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * decor 3. let this method be just a pass-through
      */
     @Override
-    public List<ValidationResultInfo> validateRegistrationDateGroup(String validationType,
-            RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DoesNotExistException,
+    public List<ValidationResultInfo> validateRegistrationDateGroup(String validationType, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResult = new ArrayList<ValidationResultInfo>();
 
@@ -1106,10 +1038,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey,
-            RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         this.registrationDateGroupInfoCache.remove(termKey);
         this.registrationDateGroupInfoCache.put(termKey, registrationDateGroupInfo);
         return registrationDateGroupInfo;
@@ -1122,14 +1052,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
      * getTerm() for the list of related keys
      */
     @Override
-    public List<TermInfo> getTermsForAcademicCalendar(String academicCalendarKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TermInfo> getTermsForAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<TermInfo> termsToReturn = new ArrayList<TermInfo>();
 
-        List<AtpAtpRelationInfo> termACRelationInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey,
-                context);
+        List<AtpAtpRelationInfo> termACRelationInfos = this.atpService.getAtpAtpRelationsByAtp(academicCalendarKey, context);
 
         for (AtpAtpRelationInfo termACRelationInfo : termACRelationInfos) {
 
@@ -1143,8 +1071,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         AcademicCalendarInfo acInfo = acCache.get(academicCalendarTypeKey);
         return this.atpService.getType(acInfo.getTypeKey(), context);
@@ -1152,8 +1079,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<TypeInfo> getAcademicCalendarTypes(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getAcademicCalendarTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<TypeInfo> types = new ArrayList<TypeInfo>();
         TypeInfo typeInfo = new TypeInfo();
@@ -1163,8 +1089,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TypeInfo getCampusCalendarType(String campusCalendarTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public TypeInfo getCampusCalendarType(String campusCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
         CampusCalendarInfo ccInfo = ccCache.get(campusCalendarTypeKey);
@@ -1173,8 +1098,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<TypeInfo> getCampusCalendarTypes(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getCampusCalendarTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<TypeInfo> types = new ArrayList<TypeInfo>();
         TypeInfo typeInfo = new TypeInfo();
@@ -1184,15 +1108,13 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         TermInfo tInfo = termsCache.get(termTypeKey);
         return this.atpService.getType(tInfo.getTypeKey(), context);
     }
 
     @Override
-    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<TypeInfo> types = new ArrayList<TypeInfo>();
         TypeInfo typeInfo1 = new TypeInfo();
@@ -1205,44 +1127,37 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
         return getTermTypes(context);
     }
 
     @Override
-    public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         return getTermTypes(context);
     }
 
     @Override
-    public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         return this.atpService.getType(keyDateTypeKey, context);
     }
 
     @Override
-    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getKeyDateTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return this.atpService.getAllowedTypesForType(termTypeKey, AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
-    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return this.atpService.getType(holidayTypeKey, context);
     }
 
     @Override
-    public List<TypeInfo> getHolidayTypesForCampusCalendarType(String campusCalendarTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<TypeInfo> getHolidayTypesForCampusCalendarType(String campusCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return new ArrayList<TypeInfo>();
     }
@@ -1259,9 +1174,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     }
 
     @Override
-    public TermInfo getCurrentTermForAcademicCalendar(String academicCalendarKey, String processKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
