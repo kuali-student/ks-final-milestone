@@ -15,4 +15,10 @@
         PERSONID="admin" RELATION_STATE_ID="kuali.lpr.state.assigned"
         RELATION_TYPE_ID="kuali.lpr.type.instructor.main"
         UPDATEID="admin" UPDATETIME="20120618000000" VER_NBR="0"/>
+    <KSEN_LPR COMMITMENTPERCENT="1" CREATEID="admin"
+        CREATETIME="20120618000000" EFFECTIVEDATE="20000101000000"
+        EXPIRATIONDATE="20001231000000" ID="testLprId3" LUIID="Lui-3"
+        PERSONID="admin" RELATION_STATE_ID="kuali.lpr.state.assigned"
+        RELATION_TYPE_ID="kuali.lpr.type.instructor.main"
+        UPDATEID="admin" UPDATETIME="20120618000000" VER_NBR="0"/>
 </dataset>
