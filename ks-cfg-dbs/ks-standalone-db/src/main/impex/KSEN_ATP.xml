@@ -63,7 +63,7 @@
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.Fall" END_DT="20111216000000"
         ID="testTermId1" NAME="Fall 2011" RT_DESCR_ID="RICHTEXT-201"
-        START_DT="20110928000000" VER_NBR="0"/>
+        START_DT="20110915000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.Winter" END_DT="20120316000000"
         ID="testTermId2" NAME="Winter 2012" RT_DESCR_ID="RICHTEXT-202"
