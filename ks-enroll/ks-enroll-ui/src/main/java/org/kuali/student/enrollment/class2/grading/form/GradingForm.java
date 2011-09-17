@@ -85,16 +85,8 @@ public class GradingForm extends UifFormBase{
     private TermInfo getCurrentACal(){
         ContextInfo context = ContextInfo.newInstance();
 
-        List<TermInfo> terms = new ArrayList<TermInfo>();
-        List<AcademicCalendarInfo> acals;
-        try {
-            Calendar nowCal = Calendar.getInstance();
-            nowCal.setTime(new Date());
-            int year = nowCal.get(Calendar.YEAR);
-            acals = getAcalService().getAcademicCalendarsByStartYear(year, context);
-            if (!acals.isEmpty()){
-                return getAcalService().getCurrentTermForAcademicCalendar(acals.get(0).getKey(),null,context);
-            }
+        try{
+                return getAcalService().getCurrentTerms(null,context).get(0);
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
         } catch (InvalidParameterException e) {
@@ -106,9 +98,6 @@ public class GradingForm extends UifFormBase{
         } catch (PermissionDeniedException e) {
             throw new RuntimeException(e);
         }
-
-
-        throw new RuntimeException("No current term found");
 
     }
 
