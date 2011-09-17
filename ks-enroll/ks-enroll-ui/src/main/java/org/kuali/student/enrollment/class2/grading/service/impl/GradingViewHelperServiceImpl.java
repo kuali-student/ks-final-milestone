@@ -11,12 +11,6 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
  * governing permissions and limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -41,7 +35,14 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implements GradingViewHelperService {
+
+
 
     @Override
     public void populateGradeOptions(AttributeField field, GradingForm gradingForm) {
@@ -140,5 +141,6 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         return students;
     }
+
 
 }

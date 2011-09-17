@@ -47,7 +47,6 @@
   			    <value>classpath:CourseOfferingInfoUI.xml</value>
   			    <value>classpath:CourseInfoUI.xml</value>
 				<value>classpath:GradingView.xml</value>
-                <value>classpath:CourseOfferingGradingLookup.xml</value>
                 <value>classpath:StudentGradeView.xml</value>
 
                 <value>classpath:RegistrationGroupInfoUI.xml</value>

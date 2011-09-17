@@ -415,7 +415,6 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
             assertEquals(PERSONID2, info.get(0).getPersonId());
 
         } catch (Exception e) {
-            e.printStackTrace();
             fail(e.getMessage());
         }
 

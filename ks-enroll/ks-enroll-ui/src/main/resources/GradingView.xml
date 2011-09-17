@@ -57,20 +57,36 @@ limitations under the License.
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedCourse" p:label="Select course to grade" p:required="true" p:maxLength="50">
-            <property name="control">
-              <bean parent="TextControl"/>
-            </property>
-            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
-            <property name="fieldLookup.viewName" value="courseOfferingLookupForGrading"/>
-            <property name="fieldLookup.fieldConversions">
-              <map>
-                <entry key="id" value="selectedCourse"/>
-              </map>
-            </property>
-          </bean>
+          <ref bean="courseOfferingList"/>
         </list>
       </property>
+   </bean>
+
+    <bean id="courseOfferingList" parent="CollectionGroup">
+      <property name="title" value="My Courses"/>
+      <property name="accordion.render" value="false"/>
+      <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+      <property name="propertyName" value="courseOfferingInfoList"/>
+      <property name="renderAddLine" value="false"/>
+      <property name="bindingInfo.bindToForm" value="true"/>
+      <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
+      <property name="layoutManager.lineGroupPrototype.header">
+          <bean parent="HeaderThree"/>
+      </property>
+        <property name="items">
+          <list>
+            <bean parent="AttributeField" p:propertyName="courseTitle" p:labelField.render="false" p:readOnly="true" p:width="auto">
+              <property name="control">
+                 <bean parent="TextControl" p:size="100" />
+              </property>
+            </bean>
+          </list>
+        </property>
+        <property name="actionFields">
+          <list>
+              <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="Select" />
+          </list>
+        </property>
    </bean>
 
     <bean id="GradingView-page2" parent="GroupGridLayout">
@@ -131,7 +147,6 @@ limitations under the License.
       <property name="items">
 
         <list>
-          <bean parent="ActionField_Secondary" p:methodToCall="loadGradeRoster" p:actionLabel="Load Grade Roster"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
       </property>
