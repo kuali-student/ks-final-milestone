@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
@@ -16,6 +17,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiTypeEntity;
 import org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -272,7 +274,16 @@ public class LuiServiceImpl implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-	    return new ArrayList<LuiInfo>();
+        List<LuiEntity> entityList = luiLuiRelationDao.getLuisByRelation(relatedLuiId, luLuRelationTypeKey);
+        
+        List<LuiInfo> infoList = new ArrayList<LuiInfo>();
+        if(entityList != null && !entityList.isEmpty()){
+	        for (LuiEntity entity : entityList){
+	             infoList.add(entity.toDto());
+	        }
+       
+        }
+        return infoList;
 	}
 
 	@Override
@@ -280,7 +291,10 @@ public class LuiServiceImpl implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-	    return new ArrayList<String>();
+        List<String> returnVals = new ArrayList<String>();
+
+        returnVals.addAll(luiLuiRelationDao.getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey));
+        return returnVals;
 	}
 
 	@Override

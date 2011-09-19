@@ -91,6 +91,34 @@ public class TestLuiServiceImpl {
     }
 
     @Test
+    @Ignore
+    public void testGetLuiIdsByRelation()throws InvalidParameterException, MissingParameterException,
+		OperationFailedException {
+    	 try {
+    		 List<String> luiIds = luiServiceValidation.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 assertNotNull(luiIds);
+    	     assertEquals(1, luiIds.size());
+    	     assertEquals("Lui-2", luiIds.get(0));
+    	 } catch (Exception e) {
+    		 fail(e.getMessage());
+    	 }
+    }
+    
+    @Test
+    @Ignore
+    public void testGetLuisByRelation()throws InvalidParameterException, MissingParameterException,
+		OperationFailedException {
+    	 try {
+    		 List<LuiInfo> luis = luiServiceValidation.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 assertNotNull(luis);
+    	     assertEquals(1, luis.size());
+    	     assertEquals("Lui-2", luis.get(0).getId());
+    	 } catch (Exception e) {
+    		 fail(e.getMessage());
+    	 }
+    }
+    
+    @Test
     public void testCreateLui() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LuiInfo info = new LuiInfo();
