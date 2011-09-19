@@ -633,6 +633,29 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves the LPR Roster Entries for the specified list of LPR Roster Entry Ids
+     *
+     * @param lprRosterEntryIdList
+     *            List of identifiers for LPR Roster Entries
+     * @param context
+     * @return List of LPR Roster Entry information
+     * @throws DoesNotExistException
+     *             One or more lprRosterEntryIds not found
+     * @throws InvalidParameterException
+     *             One or more invalid lprRosterEntryIds
+     * @throws MissingParameterException
+     *             missing lprRosterEntryIdList
+     * @throws OperationFailedException
+     *             unable to complete request
+     * @throws PermissionDeniedException
+     *             authorization failure
+     */
+    public List<LprRosterEntryInfo> getLprRosterEntriesByIdList(
+            @WebParam(name = "lprRosterEntryIdList") List<String> lprRosterEntryIdList,
+            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * This method returns a list of LprRosterInfo by LUI and Roster Type. A
      * type and LUI are mandatory parameters to retrieve a desired kind of
      * roster.

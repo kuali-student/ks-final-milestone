@@ -622,6 +622,23 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    public List<LprRosterEntryInfo> getLprRosterEntriesByIdList(List<String> lprRosterEntryIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        List<LprRosterEntryEntity> entities = lprRosterEntryDao.findByIds(lprRosterEntryIdList);
+
+        List<LprRosterEntryInfo> infos = new ArrayList<LprRosterEntryInfo>();
+        if (entities != null) {
+            for (LprRosterEntryEntity entry : entities) {
+                infos.add(entry.toDto());
+            }
+        }
+
+        return infos;
+    }
+
+    @Override
     public List<LprRosterInfo> getLprRostersByLuiAndRosterType(String luiId, String lprRosterTypeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

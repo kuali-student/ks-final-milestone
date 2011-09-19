@@ -1,15 +1,8 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jws.WebParam;
-
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -19,24 +12,30 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
+import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
-    private GradeRosterAssembler gradeRosterAssembler;
     private CourseOfferingService courseOfferingService;
+    private LRCService lrcService;
+    private LearningResultRecordService lrrService;
+    private GradeRosterAssembler gradeRosterAssembler;
+    private GradeRosterEntryAssembler gradeRosterEntryAssembler;
 
     public LuiPersonRelationService getLprService() {
         return lprService;
@@ -54,12 +53,36 @@ public class GradingServiceImpl implements GradingService {
         this.courseOfferingService = courseOfferingService;
     }
 
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    public LearningResultRecordService getLrrService() {
+        return lrrService;
+    }
+
+    public void setLrrService(LearningResultRecordService lrrService) {
+        this.lrrService = lrrService;
+    }
+
     public GradeRosterAssembler getGradeRosterAssembler() {
         return gradeRosterAssembler;
     }
 
     public void setGradeRosterAssembler(GradeRosterAssembler gradeRosterAssembler) {
         this.gradeRosterAssembler = gradeRosterAssembler;
+    }
+
+    public GradeRosterEntryAssembler getGradeRosterEntryAssembler() {
+        return gradeRosterEntryAssembler;
+    }
+
+    public void setGradeRosterEntryAssembler(GradeRosterEntryAssembler gradeRosterEntryAssembler) {
+        this.gradeRosterEntryAssembler = gradeRosterEntryAssembler;
     }
 
     /**
@@ -378,7 +401,80 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "gradeRosterEntryIdList") List<String> gradeRosterEntryIdList,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // TODO implement method.
+
+        final String STUDENT_ID = "studentId";
+        final String ACTIVITY_OFFERING_ID = "activityOfferingId";
+        final String ASSIGNED_GRADE = "assignedGrade";
+        final String ADMINISTRATIVE_GRADE = "administrativeGrade";
+        final String CREDITS_EARNED = "creditsEarned";
+        final String CALCULATED_GRADE = "calculatedGrade";
+
+        List<GradeRosterEntryInfo> gradeRosterEntryInfos = new ArrayList<GradeRosterEntryInfo>();
+        Map<LprRosterEntryInfo, Map<String, String>> entryKeysMap = new HashMap<LprRosterEntryInfo, Map<String, String>>();
+
+        List<LprRosterEntryInfo> entries = lprService.getLprRosterEntriesByIdList(gradeRosterEntryIdList, context);
+        Map<String, LprRosterEntryInfo> lprIdToEntryMap = new HashMap<String, LprRosterEntryInfo>();
+        for (LprRosterEntryInfo lprRosterEntryInfo : entries) {
+            lprIdToEntryMap.put(lprRosterEntryInfo.getLprId(), lprRosterEntryInfo);
+            entryKeysMap.put(lprRosterEntryInfo, new HashMap<String, String>());
+        }
+
+        List<String> lprIds = new ArrayList(lprIdToEntryMap.keySet());
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(lprIds, context);
+        
+        for (LuiPersonRelationInfo lpr : lprs) {
+            Map<String, String> entryAttributes = entryKeysMap.get(lprIdToEntryMap.get(lpr.getId()));
+            entryAttributes.put(STUDENT_ID, lpr.getPersonId());
+            entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
+        }
+
+        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+        Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
+        List<String> resultValueKeys = new ArrayList<String>();
+        for (LearningResultRecordInfo lrr : lrrs) {
+            lrrToLprIdMap.put(lrr, lrr.getLprId());
+            resultValueKeys.add(lrr.getResultValueKey());
+        }
+
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        for (int i = 0; i < resultValues.size(); i++) {
+            LearningResultRecordInfo lrr = lrrs.get(i);
+            ResultValueInfo resultValue = resultValues.get(i);
+            String lprId = lrrToLprIdMap.get(lrr);
+            LprRosterEntryInfo entry = lprIdToEntryMap.get(lprId);
+            Map<String, String> entryAttributes = entryKeysMap.get(entry);
+            
+            String resultValuetypeKey = resultValue.getTypeKey();
+            String entryAttributesKey = null;
+            if ("kuali.result.scale.type.grade".equals(resultValuetypeKey)) {
+                entryAttributesKey = ASSIGNED_GRADE;
+            } else if ("kuali.result.scale.grade.admin".equals(resultValuetypeKey)) {
+                entryAttributesKey = ADMINISTRATIVE_GRADE;
+            } else if ("kuali.result.scale.type.credit".equals(resultValuetypeKey)) {
+                entryAttributesKey = CREDITS_EARNED;
+            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
+                entryAttributesKey = CALCULATED_GRADE;
+            }
+            
+            if (entryAttributesKey != null) {
+                entryAttributes.put(entryAttributesKey, resultValue.getValue());
+            }
+        }
+
+        for (LprRosterEntryInfo lprRosterEntry : entryKeysMap.keySet()) {
+            Map<String, String> entryAttributes = entryKeysMap.get(lprRosterEntry);
+            String studentId = entryAttributes.get(STUDENT_ID);
+            String activityOfferingId = entryAttributes.get(ACTIVITY_OFFERING_ID);
+            String assignedGradeKey = entryAttributes.get(ASSIGNED_GRADE);
+            String calculatedGradeKey = entryAttributes.get(CALCULATED_GRADE);
+            String administrativeGradeKey = entryAttributes.get(ADMINISTRATIVE_GRADE);
+            String creditsEarnedKey = entryAttributes.get(CREDITS_EARNED);
+
+            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, context);
+            gradeRosterEntryInfos.add(gradeRosterEntry);
+        }
+
+        return gradeRosterEntryInfos;
     }
 
     /**
