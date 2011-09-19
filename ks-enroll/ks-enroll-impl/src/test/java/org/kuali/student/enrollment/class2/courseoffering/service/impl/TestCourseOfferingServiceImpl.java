@@ -155,6 +155,15 @@ public class TestCourseOfferingServiceImpl {
 		schedules.add(schedule2);
 		ao.setMeetingSchedules(schedules);
 		
+    	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+    	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+    	instructor.setPersonId("Pers-1");
+    	instructor.setPercentageEffort(Float.valueOf("60"));
+    	instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+    	instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+    	instructors.add(instructor);
+    	ao.setInstructors(instructors);
+    	
 		 try {
 			 ActivityOfferingInfo created = coServiceValidation.createActivityOffering(courseOfferingIdList, ao, callContext);
 			 assertNotNull(created);
@@ -166,6 +175,7 @@ public class TestCourseOfferingServiceImpl {
 		     assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
 		     assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey()); 
 		     assertTrue(retrieved.getMeetingSchedules().size()== 2);
+		     assertTrue(retrieved.getInstructors().size() == 1);
 		     
 		     //test getActivitiesForCourseOffering
 		     List<ActivityOfferingInfo> activities = coServiceValidation.getActivitiesForCourseOffering("Lui-1", callContext);
@@ -174,6 +184,8 @@ public class TestCourseOfferingServiceImpl {
 		     assertEquals(activities.get(0).getActivityId(), "CLU-1");
 		     assertEquals(activities.get(0).getId(), created.getId());
 		     assertTrue(activities.get(0).getMeetingSchedules().size() == 2);
+		     assertTrue(activities.get(0).getInstructors().size() == 1);
+				
 		 } catch (Exception ex) {
 	    		fail("exception from service call :" + ex.getMessage());
     	 }  
@@ -214,7 +226,7 @@ public class TestCourseOfferingServiceImpl {
 	}
     
 	@Test
-    @Ignore
+	@Ignore
     public void testUpdateCourseOffering() throws DataValidationErrorException, 
     		DoesNotExistException, InvalidParameterException, MissingParameterException, 
     		OperationFailedException, PermissionDeniedException,VersionMismatchException {
@@ -239,6 +251,27 @@ public class TestCourseOfferingServiceImpl {
 		    	assertNotNull(retrieved);
 		    	assertTrue(retrieved.getIsHonorsOffering());
 		    	assertTrue(retrieved.getInstructors().size() == 1);
+		    	
+		    	retrieved.setIsHonorsOffering(false);
+		    	List<OfferingInstructorInfo> instructors1 = new ArrayList<OfferingInstructorInfo>();
+		    	OfferingInstructorInfo instructor1 = new OfferingInstructorInfo();
+		    	instructor1.setPersonId("Pers-2");
+		    	instructor1.setPercentageEffort(Float.valueOf("60"));
+		    	instructor1.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+		    	instructor1.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+		    	instructors1.add(instructor1);
+		    	OfferingInstructorInfo instructor2 = new OfferingInstructorInfo();
+		    	instructor2.setPersonId("Pers-1");
+		    	instructor2.setPercentageEffort(Float.valueOf("30"));
+		    	instructor2.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+		    	instructor2.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+		    	instructors1.add(instructor2);
+		    	retrieved.setInstructors(instructors1);
+		    	CourseOfferingInfo updated1 = coServiceValidation.updateCourseOffering("Lui-1", retrieved, callContext);
+		    	assertNotNull(updated1);
+		    	CourseOfferingInfo retrieved1 = coServiceValidation.getCourseOffering("Lui-1", callContext);
+		    	assertNotNull(retrieved1);
+		    	assertTrue(retrieved1.getInstructors().size() == 2);
 	    	} catch (Exception ex) {
 	    		fail("exception from service call :" + ex.getMessage());
 			}

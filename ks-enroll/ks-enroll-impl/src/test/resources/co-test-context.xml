@@ -209,6 +209,7 @@
     
     <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
     	<property name="luiService" ref="luiService"/>
+    	<property name="lprService" ref="lprPersistenceService"/>
     </bean>
  
      <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">

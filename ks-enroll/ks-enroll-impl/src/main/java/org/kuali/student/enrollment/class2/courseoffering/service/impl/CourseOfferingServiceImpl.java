@@ -325,9 +325,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 	
 	private void processRelationsForCourseOffering(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
-			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+			PermissionDeniedException, VersionMismatchException{
 
-		processInstructors(co.getId(), co.getInstructors(), context);
+		processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
 		
 		//TODO: hasFinalExam -- ignore for core slice
 		//how to determine that the lui already exist?
@@ -367,53 +368,86 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		}
 	}
 	
-	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, ContextInfo context) 
+	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpKey, ContextInfo context) 
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
-		PermissionDeniedException, DataValidationErrorException{
+		PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
+		
+		List<String> currrentInstructors = lprService.getPersonIdsByLui(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
+		
 		if(instructors != null && !instructors.isEmpty()){
 			for(OfferingInstructorInfo instructor : instructors){
-				if (!checkExistenceForInstructor(instructor.getPersonId(), courseOfferingId, context)){
-					LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
-					lpr.setPersonId(instructor.getPersonId());
-					lpr.setCommitmentPercent(instructor.getPercentageEffort());
-					lpr.setId(UUIDHelper.genStringUUID());
-					lpr.setLuiId(courseOfferingId);
-					lpr.setTypeKey(instructor.getTypeKey());
-					lpr.setStateKey(instructor.getStateKey());
-
-						try {
-							lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), lpr, context);
-						} catch (AlreadyExistsException e) {
-							throw new OperationFailedException();
-						} catch (DisabledIdentifierException e) {
-							throw new OperationFailedException();
-						} catch (ReadOnlyException e) {
-							throw new OperationFailedException();
+				try{
+					if(currrentInstructors.contains(instructor.getPersonId())){
+						LuiPersonRelationInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
+						existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
+						if (existingLpr != null){
+							lprService.updateLpr(existingLpr.getId(), existingLpr, context);
+							currrentInstructors.remove(instructor.getPersonId());
 						}
-					
+					}	
+					else{
+						lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), getNewLpr(instructor, courseOfferingId), context);
+					}
+				} catch (AlreadyExistsException e) {
+					throw new OperationFailedException();
+				} catch (DisabledIdentifierException e) {
+					throw new OperationFailedException();
+				} catch (ReadOnlyException e) {
+					throw new OperationFailedException();
+				}
+			}
+		}
+		
+		if (currrentInstructors != null && currrentInstructors.size() > 0){
+			if(atpKey != null){
+				for(String instructorId: currrentInstructors){
+					LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
+					if(lpr != null )
+						lprService.deleteLpr(lpr.getId(), context);
 				}
 			}
 		}
 	}
-
-	private boolean checkExistenceForInstructor(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
-		InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		boolean existing = false;
+	
+	private LuiPersonRelationInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId){
+		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+		lpr.setPersonId(instructor.getPersonId());
+		lpr.setCommitmentPercent(instructor.getPercentageEffort());
+		lpr.setId(UUIDHelper.genStringUUID());
+		lpr.setLuiId(courseOfferingId);
+		lpr.setTypeKey(instructor.getTypeKey());
+		lpr.setStateKey(instructor.getStateKey());		
+		return lpr;
+	}
+	
+	private LuiPersonRelationInfo getModifiedLpr(OfferingInstructorInfo instructor, String courseOfferingId){
+		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+		lpr.setPersonId(instructor.getPersonId());
+		lpr.setCommitmentPercent(instructor.getPercentageEffort());
+		lpr.setId(UUIDHelper.genStringUUID());
+		lpr.setLuiId(courseOfferingId);
+		lpr.setTypeKey(instructor.getTypeKey());
+		lpr.setStateKey(instructor.getStateKey());		
+		return lpr;
+	}
+	
+	private LuiPersonRelationInfo getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+			InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		LuiPersonRelationInfo lpr = null;
 		try {
-			List<String> lprs = lprService.getLprIdsByLuiAndPerson(instructor, courseOfferingId, context);
+			List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(instructor, courseOfferingId, context);
 			
 			if(lprs != null && !lprs.isEmpty()){
-				for(String lpr : lprs){
-					LuiPersonRelationInfo lprInfo = lprService.getLpr(lpr, context);
-					if(lprInfo != null && lprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY))
-						return true;
+				for(LuiPersonRelationInfo lpri : lprs){
+					if(lpri.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY))
+						 lpr = lpri;
 				}
-			}
+			}			
 		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
 		}
 		
-		return existing;
+		return lpr;
 	}
 	
 	@Override
@@ -588,7 +622,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		
 		processLuiluiRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
 		
-		//TODO: ao.getInstructors() -- wire up with LuiPersonRelationService
+		try {
+			processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermKey(), context);
+	
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException();
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException();
+		}
 		
 		//TODO: ao.setGradingOptionIds -- ignore for core slice
 }

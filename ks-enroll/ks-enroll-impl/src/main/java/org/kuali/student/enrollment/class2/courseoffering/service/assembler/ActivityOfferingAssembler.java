@@ -1,13 +1,26 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingInfo, LuiInfo>{
 	private LuiService luiService;
+	private LuiPersonRelationService lprService;
 	
 	public LuiService getLuiService() {
 		return luiService;
@@ -15,6 +28,14 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 
 	public void setLuiService(LuiService luiService) {
 		this.luiService = luiService;
+	}
+
+	public LuiPersonRelationService getLprService() {
+		return lprService;
+	}
+
+	public void setLprService(LuiPersonRelationService lprService) {
+		this.lprService = lprService;
 	}
 	
 	@Override
@@ -30,9 +51,11 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			ao.setActivityId(lui.getCluId());
 			ao.setTermKey(lui.getAtpKey());
             ao.setMeetingSchedules(lui.getMeetingSchedules());
-						
+			
+			//instructors
+			assembleInstructors(ao, lui.getId(), context);
+			
 			//TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call LRCService.getResultValuesByIdList
-			//TODO: ao.setInstructors(instructors) -- call LPRService.findPersonIdsRelatedToLui?
 			
 			//rest fields no mapping doc
 			
@@ -40,6 +63,39 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 		}
 		else
 			return null;
+	}
+	
+	private void assembleInstructors(ActivityOfferingInfo ao, String luiId, ContextInfo context){
+		List<LuiPersonRelationInfo> lprs = null;;
+		try {
+			lprs = lprService.getLprsByLui(luiId, context);
+		} catch (DoesNotExistException e) {
+			e.printStackTrace();
+		} catch (InvalidParameterException e) {
+			e.printStackTrace();
+		} catch (MissingParameterException e) {
+			e.printStackTrace();
+		} catch (OperationFailedException e) {
+			e.printStackTrace();
+		} catch (PermissionDeniedException e) {
+			e.printStackTrace();
+		}
+		
+		if(lprs != null && !lprs.isEmpty()){
+			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+			for (LuiPersonRelationInfo lpr : lprs){
+				if(lpr != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
+					OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+					instructor.setPersonId(lpr.getPersonId());
+					instructor.setPercentageEffort(lpr.getCommitmentPercent());
+					instructor.setId(lpr.getId());
+					instructor.setTypeKey(lpr.getTypeKey());
+					instructor.setStateKey(lpr.getStateKey());
+					instructors.add(instructor);
+				}
+			}
+			ao.setInstructors(instructors);
+		}		
 	}
 	
 	@Override
