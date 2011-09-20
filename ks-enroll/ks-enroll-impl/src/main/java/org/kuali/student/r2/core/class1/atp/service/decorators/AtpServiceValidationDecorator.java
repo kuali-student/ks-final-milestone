@@ -21,6 +21,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService
 {
@@ -77,7 +78,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, atpInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, atpInfo, context);
     		List<ValidationResultInfo> nextDecorationErrors =
     				getNextDecorator().validateAtp(validationType, atpInfo, context);
     		if (null != nextDecorationErrors) {
@@ -122,7 +123,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, atpAtpRelationInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, atpAtpRelationInfo, context);
     		List<ValidationResultInfo> nextDecorationErrors =
     				getNextDecorator().validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
     		if (null != nextDecorationErrors) {
@@ -167,7 +168,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, atpMilestoneRelationInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, atpMilestoneRelationInfo, context);
     		List<ValidationResultInfo> nextDecorationErrors =
     				getNextDecorator().validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
     		if (null != nextDecorationErrors) {
@@ -212,7 +213,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, milestoneInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, milestoneInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -225,17 +226,4 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     	return errors;
     }
 
-    
-
-    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-    		throws InvalidParameterException, MissingParameterException, OperationFailedException  {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
-    }
-    
 }

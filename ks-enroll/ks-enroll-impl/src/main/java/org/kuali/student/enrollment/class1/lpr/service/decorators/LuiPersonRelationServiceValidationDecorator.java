@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 /**
  * An example Validation decorator for the {@link LuiPersonRelationService}.
@@ -56,28 +57,12 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprsByLui(luiId, context);
-    }
-
-    @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState,
-            String luiPersonRelationTypeKey, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
-            throws DataValidationErrorException, AlreadyExistsException, DoesNotExistException,
-            DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createBulkRelationshipsForPerson(personId, luiIdList, relationState,
-                luiPersonRelationTypeKey, luiPersonRelationInfo, context);
-    }
-
-    @Override
     public List<ValidationResultInfo> validateLpr(String validationType, LuiPersonRelationInfo luiPersonRelationInfo,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> errors;
         try {
-            errors = _validateInfo(validationType, luiPersonRelationInfo, context);
+            errors = ValidationUtils.validateInfo(validator, validationType, luiPersonRelationInfo, context);
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateLpr(validationType,
                     luiPersonRelationInfo, context);
             if (null != nextDecoratorErrors) {
@@ -188,18 +173,6 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         }
         throw new ReadOnlyException(field + " is read only but the original value " + origStr
                 + " and the supplied new=" + suppliedStr);
-    }
-
-    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info,
-                    context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
     }
 
 }

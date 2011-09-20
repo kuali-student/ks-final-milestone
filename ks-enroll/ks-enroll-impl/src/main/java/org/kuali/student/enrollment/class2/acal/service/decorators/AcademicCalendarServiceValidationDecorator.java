@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 
 public class AcademicCalendarServiceValidationDecorator extends AcademicCalendarServiceDecorator  implements HoldsValidator, HoldsDataDictionaryService
@@ -95,7 +96,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, academicCalendarInfo, context);
+            errors = ValidationUtils.validateInfo(validator, validationType, academicCalendarInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateAcademicCalendar(validationType, academicCalendarInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -141,7 +142,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, campusCalendarInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, campusCalendarInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateCampusCalendar(validationType, campusCalendarInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -188,7 +189,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, termInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, termInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateTerm(validationType, termInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -235,7 +236,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, keyDateInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, keyDateInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateKeyDate(validationType, keyDateInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -281,7 +282,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 	        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, holidayInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, holidayInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateHoliday(validationType, holidayInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -320,7 +321,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, registrationDateGroupInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, registrationDateGroupInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateRegistrationDateGroup(validationType, registrationDateGroupInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -333,17 +334,4 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
     	return errors;
 	}
 
- 
- 
-	private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-			throws OperationFailedException, MissingParameterException, InvalidParameterException {
-		List<ValidationResultInfo> errors;
-		try {
-	    	errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-	    }
-		catch(PermissionDeniedException ex) {
-			throw new OperationFailedException("Validation failed due to permission exception", ex);
-		}
-		return errors;
-	}
 }

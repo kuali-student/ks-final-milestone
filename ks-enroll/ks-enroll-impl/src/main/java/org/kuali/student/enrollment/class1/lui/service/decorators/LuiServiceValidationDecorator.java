@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 public class LuiServiceValidationDecorator extends LuiServiceDecorator implements HoldsValidator, HoldsDataDictionaryService{
     private DataDictionaryValidator validator;
@@ -65,7 +66,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			OperationFailedException {
         List<ValidationResultInfo> errors;
         try {
-            errors = _validateInfo(validationType, luiInfo, context);
+            errors = ValidationUtils.validateInfo(validator, validationType, luiInfo, context);
             List<ValidationResultInfo> nextDecoratorErrors =
                     getNextDecorator().validateLui(validationType, luiInfo, context);
             if (null != nextDecoratorErrors) {
@@ -119,7 +120,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 			OperationFailedException {
         List<ValidationResultInfo> errors;
         try {
-            errors = _validateInfo(validationType, luiLuiRelationInfo, context);
+            errors = ValidationUtils.validateInfo(validator, validationType, luiLuiRelationInfo, context);
             List<ValidationResultInfo> nextDecoratorErrors =
                     getNextDecorator().validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
             if (null != nextDecoratorErrors) {
@@ -167,17 +168,5 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
 		_luiLuiRelationFullValidation(luiLuiRelationInfo, context);
 		return getNextDecorator().updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
 	}
-
-
-    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
-    }
 
 }

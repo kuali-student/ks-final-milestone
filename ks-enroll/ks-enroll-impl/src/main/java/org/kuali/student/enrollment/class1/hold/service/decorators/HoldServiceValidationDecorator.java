@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 public class HoldServiceValidationDecorator extends HoldServiceDecorator implements HoldsDataDictionaryService, HoldsValidator
 {
@@ -63,7 +64,7 @@ public class HoldServiceValidationDecorator extends HoldServiceDecorator impleme
     public List<ValidationResultInfo> validateHold(String validationTypeKey, HoldInfo holdInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationTypeKey, holdInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationTypeKey, holdInfo, context);
     		List<ValidationResultInfo> nextDecorationErrors =
     				getNextDecorator().validateHold(validationTypeKey, holdInfo, context);
     		if (null != nextDecorationErrors) {
@@ -100,18 +101,6 @@ public class HoldServiceValidationDecorator extends HoldServiceDecorator impleme
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating hold", ex);
         }
-    }
-
-
-    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-    		throws OperationFailedException, MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
     }
 
 }

@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 public class CourseOfferingServiceValidationDecorator extends CourseOfferingServiceDecorator  implements HoldsValidator, HoldsDataDictionaryService{
 	private DataDictionaryValidator validator;
@@ -64,7 +65,7 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
     		OperationFailedException {
     	List<ValidationResultInfo> errors;
     	try {
-    		errors = _validateInfo(validationType, courseOfferingInfo, context);
+    		errors = ValidationUtils.validateInfo(validator, validationType, courseOfferingInfo, context);
     		List<ValidationResultInfo> nextDecoratorErrors =
     				getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
     		if (null != nextDecoratorErrors) {
@@ -101,17 +102,5 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 		_courseOfferingFullValidation(courseOfferingInfo, context);
 		return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
 	}
-
-
-    private List<ValidationResultInfo> _validateInfo(String validationType, Object info, ContextInfo context)
-                throws OperationFailedException, MissingParameterException, InvalidParameterException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = this.validator.validate(DataDictionaryValidator.ValidationType.fromString(validationType), info, context);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("Validation failed due to permission exception", ex);
-        }
-        return errors;
-    }
 
 }
