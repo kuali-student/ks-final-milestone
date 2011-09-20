@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.EngineResults;
@@ -74,7 +75,7 @@ public class ResultsReportTest {
         contextQualifiers.put("docTypeName", "Course.PreRequisities");
         
         Map<String, String> empty = Collections.emptyMap();
-        selectionCriteria = SelectionCriteria.createCriteria(Constants.STATEMENT_EVENT_NAME, new Date(), contextQualifiers, empty);
+        selectionCriteria = SelectionCriteria.createCriteria(Constants.STATEMENT_EVENT_NAME, new DateTime(), contextQualifiers, empty);
         
         xOptions = new ExecutionOptions();
         xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
@@ -264,7 +265,8 @@ public class ResultsReportTest {
     		System.out.println("--- Req Component: " + statementTranslator.getReqComponentPropositionMap().get(proposition));
     	
     		System.out.println("--- Terms: ");
-    		
+
+            /*
     		if(results.getTermPropositionMap() == null) {
     			System.out.println("--- --- no terms associated with " + proposition);
     		} else {
@@ -280,8 +282,10 @@ public class ResultsReportTest {
 	    			}
     			
     			}
-    			
+
+
     		}
+    	    */
     		
     	}
     	

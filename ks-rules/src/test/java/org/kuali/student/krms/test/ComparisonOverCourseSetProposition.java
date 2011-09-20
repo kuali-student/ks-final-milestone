@@ -54,18 +54,18 @@ public abstract class ComparisonOverCourseSetProposition extends AbstractProposi
             
             // if all courses must meet the comparison, and any one of them does not, the evaluation is false
             if(checkAllCourses && !singleCourseComparison) {
-                return new PropositionResult(false, "");
+                return new PropositionResult(false);
             }
             
         }
         
         // if no single comparison failed and we are checking all courses, return true
         if(checkAllCourses) {
-            return new PropositionResult(true, "");
+            return new PropositionResult(true);
         }
         // otherwise compare the number of true comparisons to the expected amount
         else {
-            return new PropositionResult(trueComparisonCount >= expectedCompareCount, "");
+            return new PropositionResult(trueComparisonCount >= expectedCompareCount);
         }
         
     }

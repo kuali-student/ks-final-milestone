@@ -36,7 +36,7 @@ public class TestScoreCompareProposition extends AbstractProposition implements 
         }
         
         
-        return new PropositionResult(operator.compare(testScore, compareScore), "");
+        return new PropositionResult(operator.compare(testScore, compareScore));
     }
 
 }

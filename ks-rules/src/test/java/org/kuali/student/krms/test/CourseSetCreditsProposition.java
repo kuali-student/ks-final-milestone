@@ -36,7 +36,7 @@ public class CourseSetCreditsProposition extends AbstractProposition implements 
         
         boolean result = Boolean.valueOf(operator.compare(termValue, compareCreditCount));
         
-        return new PropositionResult(result, "");
+        return new PropositionResult(result);
     }
 
 }

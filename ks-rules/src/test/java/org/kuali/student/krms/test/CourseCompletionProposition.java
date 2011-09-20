@@ -41,11 +41,11 @@ public abstract class CourseCompletionProposition extends AbstractProposition im
         Collection<String> termCourses = getTermCourseIds(environment);
                
         if(checkForAllCompleted) {
-            return new PropositionResult(enrolledCourses.containsAll(termCourses), "");
+            return new PropositionResult(enrolledCourses.containsAll(termCourses));
         }
        
         else {
-            return new PropositionResult(CollectionUtils.intersection(enrolledCourses, termCourses).size() >= minToComplete, "");
+            return new PropositionResult(CollectionUtils.intersection(enrolledCourses, termCourses).size() >= minToComplete);
         }
     
     }

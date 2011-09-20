@@ -17,7 +17,7 @@ public class OrgPermissionProposition extends AbstractProposition implements Pro
     
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        return new PropositionResult(hasPermission, "");
+        return new PropositionResult(hasPermission);
     }
     
     public static void setHasPermission(boolean permission) {

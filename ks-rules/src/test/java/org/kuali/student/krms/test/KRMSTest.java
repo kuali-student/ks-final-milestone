@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
@@ -60,6 +62,7 @@ public class KRMSTest {
     StatementService statementService;
     
 	@Test
+    @Ignore
 	public void integrationTest() {
 
 		// build a simple rule
@@ -91,7 +94,7 @@ public class KRMSTest {
 		Context context = new BasicContext(Arrays.asList(agenda), resolvers);
 		ContextProvider contextProvider = new ManualContextProvider(context);
 		
-		SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria("test", new Date(), contextQualifiers, Collections.EMPTY_MAP);
+		SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria("test", new DateTime(), contextQualifiers, Collections.EMPTY_MAP);
 		
 		ProviderBasedEngine engine = new ProviderBasedEngine();
 		engine.setContextProvider(contextProvider);
