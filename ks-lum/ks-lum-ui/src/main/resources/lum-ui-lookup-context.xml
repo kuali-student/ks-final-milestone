@@ -2516,7 +2516,7 @@
   <property name="widget" value="SUGGEST_BOX"/>
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="cluset.resultColumn.description" />
   <property name="params">
    <list>
     <bean parent="param">
