@@ -49,10 +49,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendarInfoUI.key" parent="AcademicCalendarInfo.key-parent">
         <property name="label" value="Key" />
         <property name="required" value="false"/>
-        <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
+        <property name="unique" value="true"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
@@ -82,10 +81,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="AcademicCalendarInfoUI.credentialProgramTypeKey" parent="AcademicCalendarInfo.credentialProgramTypeKey-parent">
         <property name="label" value="Credential Program"/>
         <property name="required" value="true"/>
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-        </property>          		
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
+        </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
