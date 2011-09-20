@@ -19,13 +19,18 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-impl</artifactId>
-      <version>2.0.0-m5-SNAPSHOT</version>
+      <version>2.0.0-M7</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-impl</artifactId>
       <version>1.2-SNAPSHOT</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-krms-framework</artifactId>
+      <version>2.0.0-M7</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
@@ -42,7 +47,7 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krms-api</artifactId>
-      <version>2.0.0-m5-SNAPSHOT</version>
+      <version>2.0.0-M7</version>
     </dependency>
   </dependencies>
 </project>
