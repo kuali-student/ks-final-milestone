@@ -102,7 +102,7 @@
     </bean>
 
 
-    <bean id="gradingService" class="org.kuali.student.enrollment.classII.grading.service.GradingServiceMockImpl" scope="singleton"/>
+    <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl" scope="singleton"/>
 
     <bean id="ks.exp.gradingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
