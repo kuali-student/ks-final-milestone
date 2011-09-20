@@ -266,6 +266,7 @@ public class ResultsReportTest {
     	
     		System.out.println("--- Terms: ");
 
+            // TODO
             /*
     		if(results.getTermPropositionMap() == null) {
     			System.out.println("--- --- no terms associated with " + proposition);
