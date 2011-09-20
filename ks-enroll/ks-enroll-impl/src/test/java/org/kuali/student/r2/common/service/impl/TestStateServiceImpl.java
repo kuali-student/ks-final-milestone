@@ -8,11 +8,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
@@ -22,18 +18,26 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-@Daos( { @Dao(value = "org.kuali.student.r2.common.dao.StateDao", testSqlFile = "classpath:ks-common.sql"),
-	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessDao"),
-	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessRelationDao")} )
-@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
-public class TestStateServiceImpl  extends AbstractServiceTest{
-	@Client(value = "org.kuali.student.r2.common.service.impl.StateServiceImpl")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:state-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
+public class TestStateServiceImpl {
 	
-	public StateService stateService;	
+    @Autowired
+    private StateService stateService;
+
 	public static String principalId = "123";
+
     public ContextInfo callContext = ContextInfo.newInstance();
-    
+
+
     @Before
     public void setUp() {
         callContext = ContextInfo.getInstance(callContext);

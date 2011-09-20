@@ -25,6 +25,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator.ValidationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -40,8 +41,13 @@ import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class holds tests for the validation methods in AtpService that are implemented in AtpServiceValidationDecorator
@@ -49,24 +55,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Ignore
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestAtpServiceValidationDecorator {
 
-    public AtpService atpService;
-    public ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"acal-test-context.xml"});
+    @Autowired
+    private AtpServiceValidationDecorator atpService;
+
+    //public ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"acal-test-context.xml"});
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
     
     @Before
     public void setUp() {
-        principalId = "123";
         callContext = ContextInfo.getInstance(callContext);
-        callContext.setPrincipalId(principalId);
-        
-        atpService = appContext.getBean(AtpServiceValidationDecorator.class);
+        callContext.setPrincipalId(principalId);        
+        //atpService = appContext.getBean(AtpServiceValidationDecorator.class);
     }
     
     @Test
+    @Ignore
     public void testValidateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpMilestoneRelationInfo rel = new AtpMilestoneRelationInfo();
         
@@ -94,6 +104,7 @@ public class TestAtpServiceValidationDecorator {
     }
     
     @Test
+    @Ignore
     public void testValidateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
         // validating a fully populated milestone should return an empty list
@@ -121,6 +132,7 @@ public class TestAtpServiceValidationDecorator {
     }
     
     @Test
+    @Ignore
     public void testValidateAtp()throws DoesNotExistException, InvalidParameterException, MissingParameterException,OperationFailedException {
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setKey("newId");

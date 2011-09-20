@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -34,25 +35,30 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//Note: un-ignore and test within eclipse because the data for courseservice are not working via command-line: mvn clean install
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+// Note: un-ignore and test within eclipse because the data for courseservice are
+// not working via command-line: mvn clean install
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestCourseOfferingServiceImpl {
+
+    @Autowired
+    @Qualifier("coServiceValidationDecorator")
 	private CourseOfferingService coServiceValidation;
-	
+
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
-    
-    @Autowired
-	public void setCoServiceValidation(CourseOfferingService coServiceValidation) {
-		this.coServiceValidation = coServiceValidation;
-	}
-  
+
 	@Before
     public void setUp() {
-        principalId = "123";    
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
@@ -69,9 +75,10 @@ public class TestCourseOfferingServiceImpl {
 			OperationFailedException, PermissionDeniedException {
 
     	try{
-    		try{
-    			coServiceValidation.getCourseOffering("Lui-blah", callContext);
-    		}catch (DoesNotExistException enee){}
+    		// why was this put in?
+            //try{
+    		//	coServiceValidation.getCourseOffering("Lui-blah", callContext);
+    		//}catch (DoesNotExistException enee){}
     		
     		CourseOfferingInfo obj = coServiceValidation.getCourseOffering("Lui-1", callContext);
     		assertNotNull(obj);
@@ -112,7 +119,7 @@ public class TestCourseOfferingServiceImpl {
         assertEquals("CHEM123", retrieved.getCourseOfferingCode());
         assertEquals("Chemistry 123", retrieved.getCourseTitle());
       
-        //test update
+        // test update
         retrieved.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
         ResultValuesGroupInfo rv = new ResultValuesGroupInfo();
         rv.setStateKey("test");
@@ -177,7 +184,7 @@ public class TestCourseOfferingServiceImpl {
 		     assertTrue(retrieved.getMeetingSchedules().size()== 2);
 		     assertTrue(retrieved.getInstructors().size() == 1);
 		     
-		     //test getActivitiesForCourseOffering
+		     // test getActivitiesForCourseOffering
 		     List<ActivityOfferingInfo> activities = coServiceValidation.getActivitiesForCourseOffering("Lui-1", callContext);
 		     assertNotNull(activities);
 		     assertTrue(activities.size() == 1);
@@ -213,7 +220,7 @@ public class TestCourseOfferingServiceImpl {
 		    assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
 		    assertEquals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, retrieved.getTypeKey());
 		    
-		    //test getRegGroupsForCourseOffering
+		    // test getRegGroupsForCourseOffering
 		    List<RegistrationGroupInfo> rgs = coServiceValidation.getRegGroupsForCourseOffering(courseOfferingId, callContext);
 		    assertNotNull(rgs);
 		    assertTrue(rgs.size() == 1);

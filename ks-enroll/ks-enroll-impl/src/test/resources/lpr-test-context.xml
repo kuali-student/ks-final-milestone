@@ -90,11 +90,14 @@
   <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
     <property name="em" ref="entityManager" />
   </bean>
+
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
-        <property name="validator" ref="validator"/>
-        <property name="nextDecorator" ref="lprServiceImpl"/>
-    </bean>
+
+  <bean id="lprServiceValidationDecorator"
+        class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+    <property name="validator" ref="validator"/>
+    <property name="nextDecorator" ref="lprServiceImpl"/>
+  </bean>
 
   <bean id="lprServiceImpl" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />

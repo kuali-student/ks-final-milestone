@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -49,8 +50,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -64,13 +67,11 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
+public class TestLuiPersonRelationServiceImpl {
 
+    @Autowired
+    @Qualifier("lprServiceValidationDecorator")
     private LuiPersonRelationService lprService;
-
-    public void setLprService(LuiPersonRelationServiceValidationDecorator lprService) {
-        this.lprService = lprService;
-    }
 
     private static String principalId = "123";
     private static String LPRID1 = "testLprId1";
@@ -95,71 +96,44 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
     public ContextInfo callContext = ContextInfo.newInstance();
 
-    private LprTransactionInfo createLprTransaction() {
-        LprTransactionInfo lprTransactionInfo = new LprTransactionInfo();
-        lprTransactionInfo.setName(LPR_TRANSACTION_NAME);
-        lprTransactionInfo.setRequestingPersonId(PERSONID1);
-        lprTransactionInfo.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
-        lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        LprTransactionItemInfo lprTransactionItem = new LprTransactionItemInfo();
-        lprTransactionItem.setExistingLuiId(LUIID1);
-        lprTransactionItem.setNewLuiId(LUIID2);
-        lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
-
-        lprTransactionItem.setResultOptionIds(RESULT_OPTION_IDS);
-        List<LprTransactionItemInfo> lprTransItemList = new ArrayList<LprTransactionItemInfo>();
-        lprTransItemList.add(lprTransactionItem);
-        lprTransactionInfo.setLprTransactionItems(lprTransItemList);
-
-        return lprTransactionInfo;
-    }
-
-    private LprRosterInfo createLprRosterInfo() {
-
-        LprRosterInfo lprRosterInfo = new LprRosterInfo();
-        lprRosterInfo.setMaximumCapacity(MAX_CPTY);
-        lprRosterInfo.setCheckInRequired(true);
-
-        TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
-        timeAmountInfo.setAtpDurationTypeKey(ATP_DURATION_KEY);
-        timeAmountInfo.setTimeQuantity(TIME_QTY);
-        lprRosterInfo.setCheckInFrequency(timeAmountInfo);
-
-        RichTextInfo desc = new RichTextInfo();
-        desc.setPlain(LPR_ROSTER_DESC);
-        lprRosterInfo.setDescr(desc);
-
-        lprRosterInfo.setName(LPR_ROSTER_NAME);
-        List<String> luiIds = new ArrayList<String>();
-        luiIds.add(LUI_ID);
-        lprRosterInfo.setAssociatedLuiIds(luiIds);
-        lprRosterInfo.setStateKey(STATE_KEY);
-        lprRosterInfo.setTypeKey(TYPE_KEY);
-
-        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-        AttributeInfo attribute = new AttributeInfo();
-        attribute.setKey(ATTRIBUTE_KEY);
-        attribute.setValue(ATTRIBUTE_VALUE);
-        attributes.add(attribute);
-        lprRosterInfo.setAttributes(attributes);
-
-        return lprRosterInfo;
-    }
-
-    @Autowired
-    public void setLuiPersonRelationService(LuiPersonRelationService lprService) {
-        this.lprService = lprService;
-    }
-
+    
     @Before
     public void setUp() {
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
 
-    // @Test
-    public void testGetLuiPersonRelation() {
+    
+    @Test
+    public void testLprServiceSetup() {
+        assertNotNull(lprService);
+    }
+
+    @Test
+    public void testGetInitialValidStates() throws InvalidParameterException, MissingParameterException,
+            DoesNotExistException, OperationFailedException {
+
+        List<StateInfo> validStates = lprService.getInitialValidStates(
+                LuiPersonRelationServiceConstants.STUDENT_COURSE_REGISTRATION_PROCESS_KEY, callContext);
+
+        assertNotNull(validStates);
+        assertEquals(1, validStates.size());
+
+        StateInfo state = validStates.get(0);
+        assertEquals(LuiPersonRelationServiceConstants.PLANNED_STATE_KEY, state.getKey());
+
+        // assert that an invalid process throws the expected exception
+        List<StateInfo> fakeValidStates = null;
+        try {
+            fakeValidStates = lprService.getInitialValidStates("bogusProcess", callContext);
+            fail("Did not get an expected DoesNotExistException");
+        } catch (DoesNotExistException e) {
+            assertNull(fakeValidStates);
+        }
+    }
+    
+    @Test
+    public void testGetLpr() {
         try {
             LuiPersonRelationInfo lpr = lprService.getLpr(LPRID1, callContext);
             assertNotNull(lpr);
@@ -170,8 +144,9 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         }
     }
 
-    // TODO implement @Test
-    public void testCreateLuiPersonRelation() {
+    @Test
+    @Ignore
+    public void testCreateLpr() {
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
         lprInfo.setPersonId(PERSONID2);
@@ -193,7 +168,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         assertEquals(PERSONID2, lpr2.getPersonId());
     }
 
-    // @Test
+    @Test
+    @Ignore
     public void testGetLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprInfoList = lprService.getLprsByLui(LUIID1, ContextInfo.newInstance());
@@ -208,7 +184,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         // assertEquals(2, personRelationInfo.getAttributes().size());
     }
 
-    // TODO implement @Test
+    @Test
+    @Ignore
     public void testCreateBulkRelationshipsForPerson() {
         try {
             List<String> createResults = lprService.createBulkRelationshipsForPerson(principalId,
@@ -220,7 +197,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         }
     }
 
-    // TODO implement @Test
+    @Test
+    @Ignore
     public void testCreateBulkRelationshipsForPersonExceptions() {
         try {
             lprService.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "",
@@ -231,7 +209,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         }
     }
 
-    // @Test
+    @Test
+    @Ignore
     public void testDeleteLuiPersonRelation() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, AlreadyExistsException, DisabledIdentifierException, ReadOnlyException {
@@ -250,14 +229,14 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         lprService.createLpr(lpr.getPersonId(), lpr.getLuiId(), lpr.getTypeKey(), lpr, callContext);
     }
 
-    // TODO implement @Test
+    @Test
+    @Ignore
     public void testGetLuiPersonRelations() throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprList = lprService.getLprsByLuiAndPerson(PERSONID1, LUIID1, callContext);
-        assertNotNull("Method LuiPersonRelationServiceImpl.getLuiPersonRelations() is not implemented yet", lprList);
+        assertNotNull(lprList);
         assertEquals(1, lprList.size());
-        // add asserts
-        fail("Test method not implemented yet");
+        // TODO add asserts
     }
 
     // TODO implement @Test
@@ -272,8 +251,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         fail("Test method not implemented yet");
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void testUpdateLuiPersonRelation() throws DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
@@ -350,8 +329,8 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
 
         LprRosterInfo lprRosterInfo = createLprRosterInfo();
         String lprRosterId = lprService.createLprRoster(lprRosterInfo, callContext);
-        StatusInfo status = lprService.deleteLprRoster(lprRosterId, callContext);
 
+        StatusInfo status = lprService.deleteLprRoster(lprRosterId, callContext);
         assertTrue(status.getIsSuccess());
 
         // Just make sure it's really not there
@@ -393,7 +372,7 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testGetLprsByPersonAndTypeForAtp() {
+    public void testGetLprsByPersonAndTypeForAtp()  {
 
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId("Lui-1");
@@ -408,12 +387,13 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         try {
             lprId = lprService.createLpr(PERSONID2, "Lui-1",
                     LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, lprInfo, callContext);
+            LuiPersonRelationInfo newInfo = lprService.getLpr(lprId,callContext);
             List<LuiPersonRelationInfo> info = lprService.getLprsByPersonAndTypeForAtp(PERSONID2, "testTermId4",
                     LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, callContext);
+            assertNotNull(info);
             assertEquals(1, info.size());
             assertEquals("Lui-1", info.get(0).getLuiId());
             assertEquals(PERSONID2, info.get(0).getPersonId());
-
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -551,6 +531,60 @@ public class TestLuiPersonRelationServiceImpl extends AbstractServiceTest {
         List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(lprRosterId, callContext);
         assertEquals(0, entries.size());
 
+    }
+
+
+
+    private LprTransactionInfo createLprTransaction() {
+        LprTransactionInfo lprTransactionInfo = new LprTransactionInfo();
+        lprTransactionInfo.setName(LPR_TRANSACTION_NAME);
+        lprTransactionInfo.setRequestingPersonId(PERSONID1);
+        lprTransactionInfo.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        LprTransactionItemInfo lprTransactionItem = new LprTransactionItemInfo();
+        lprTransactionItem.setExistingLuiId(LUIID1);
+        lprTransactionItem.setNewLuiId(LUIID2);
+        lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+
+        lprTransactionItem.setResultOptionIds(RESULT_OPTION_IDS);
+        List<LprTransactionItemInfo> lprTransItemList = new ArrayList<LprTransactionItemInfo>();
+        lprTransItemList.add(lprTransactionItem);
+        lprTransactionInfo.setLprTransactionItems(lprTransItemList);
+
+        return lprTransactionInfo;
+    }
+
+    private LprRosterInfo createLprRosterInfo() {
+
+        LprRosterInfo lprRosterInfo = new LprRosterInfo();
+        lprRosterInfo.setMaximumCapacity(MAX_CPTY);
+        lprRosterInfo.setCheckInRequired(true);
+
+        TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
+        timeAmountInfo.setAtpDurationTypeKey(ATP_DURATION_KEY);
+        timeAmountInfo.setTimeQuantity(TIME_QTY);
+        lprRosterInfo.setCheckInFrequency(timeAmountInfo);
+
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain(LPR_ROSTER_DESC);
+        lprRosterInfo.setDescr(desc);
+
+        lprRosterInfo.setName(LPR_ROSTER_NAME);
+        List<String> luiIds = new ArrayList<String>();
+        luiIds.add(LUI_ID);
+        lprRosterInfo.setAssociatedLuiIds(luiIds);
+        lprRosterInfo.setStateKey(STATE_KEY);
+        lprRosterInfo.setTypeKey(TYPE_KEY);
+
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attribute = new AttributeInfo();
+        attribute.setKey(ATTRIBUTE_KEY);
+        attribute.setValue(ATTRIBUTE_VALUE);
+        attributes.add(attribute);
+        lprRosterInfo.setAttributes(attributes);
+
+        return lprRosterInfo;
     }
 
 }

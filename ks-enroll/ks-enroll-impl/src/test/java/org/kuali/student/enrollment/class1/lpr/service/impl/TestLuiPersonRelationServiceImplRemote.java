@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator;
@@ -21,23 +22,24 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
+@Ignore  // obsolete, all methods now in TestAtpServiceImpl.java
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lpr-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestLuiPersonRelationServiceImplRemote {
+
+    @Autowired
     private LuiPersonRelationServiceValidationDecorator lprService;
 
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
 
-    @Autowired
-    public void setLprService(LuiPersonRelationServiceValidationDecorator lprService) {
-        this.lprService = lprService;
-    }
-
     @Before
     public void setUp() {
-        principalId = "123";
         callContext = ContextInfo.getInstance(callContext);
         callContext.setPrincipalId(principalId);
     }
