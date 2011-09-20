@@ -190,7 +190,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="items">
             <list merge="true">
                 <bean parent="MaintenanceGroupSectionGridLayout">
-                    <property name="title" value="creat a new Academic Calendar"/>
+                    <property name="title" value="Create a new Academic Calendar"/>
                     <property name="items">
                         <list>
                             <bean parent="AttributeField" p:propertyName="startDate"/>
