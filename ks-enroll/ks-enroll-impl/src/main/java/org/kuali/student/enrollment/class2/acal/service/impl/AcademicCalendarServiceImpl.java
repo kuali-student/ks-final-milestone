@@ -488,7 +488,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<AcademicCalendarInfo>  currentACInfos =  getAcademicCalendarsByStartYear( new Integer( new Date().getYear()), context );
+        List<AcademicCalendarInfo>  currentACInfos =  getAcademicCalendarsByStartYear( new Integer( Calendar.getInstance().get(Calendar.YEAR)), context );
         List<TermInfo> terms = getTermsForAcademicCalendar(currentACInfos.get(0).getKey(), context);
         if (terms == null || terms.size() == 0) {
             throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + currentACInfos.get(0).getKey());
