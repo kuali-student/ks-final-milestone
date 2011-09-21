@@ -53,7 +53,7 @@ public class ResultRow implements IsSerializable, Idable,Comparable<ResultRow>{
  	@Override
 	public int compareTo(ResultRow row) {
 		// TODO Auto-generated method stub
- 	   if(columnValues.get(NAME_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(NAME_COLUMN_KEY))==0)
+ 	   if(columnValues.get(TYPE_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(TYPE_COLUMN_KEY))==0)
  	     return columnValues.get(NAME_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(NAME_COLUMN_KEY));
  	   else
  		 return columnValues.get(TYPE_COLUMN_KEY).compareToIgnoreCase(row.getColumnValues().get(TYPE_COLUMN_KEY));
