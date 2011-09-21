@@ -17,25 +17,45 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-       <!-- these used to be imports but I found including an import simply inserts
-        the common file over and over again
-        *****
-        The following files are required for this file to load:
-        *****
-        (1) org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml"
-       -->
-       <import resource="classpath:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml"/>
+    <!-- these used to be imports but I found including an import simply inserts
+     the common file over and over again
+     *****
+     The following files are required for this file to load:
+     *****
+     (1) org/kuali/rice/kns/bo/datadictionary/DataDictionaryBaseTypes.xml"
+    -->
+    <import resource="classpath:org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml"/>
 
 
-    <bean id="AlphanumericHyphenPeriod" parent="ValidCharactersConstraint">
-        <property name="value"   value="[A-Za-z0-9.\-]*" />
-        <property name="applyClientSide" value="true" />
-        <property name="labelKey" value="validation.validChars.alphanumericHyphenPeriod"/>
+    <bean id="AlphanumericHyphenPeriod" parent="AlphaNumericPatternConstraint"
+          p:allowDash="true" p:allowPeriod="true"/>
+    <bean id="Digits" parent="NumericPatternConstraint"/>
+    <bean id="Positive.integer" parent="ValidCharactersConstraint">
+        <property name="value" value="[1-9][0-9]*"/>
+        <property name="applyClientSide" value="true"/>
+        <property name="labelKey" value="validation.validChars.positive.integer"/>
     </bean>
-    <bean id="Digits" parent="ValidCharactersConstraint">
-        <property name="value"   value="[0-9]*"/>
-        <property name="applyClientSide" value="true" />
-        <property name="labelKey" value="validation.validChars.digits"/>
+    <bean id="RelationalOperator" parent="ValidCharactersConstraint">
+        <property name="value" value="\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
+        <property name="applyClientSide" value="true"/>
+        <property name="labelKey" value="validation.validChars.relationalOperator"/>
+    </bean>
+    <bean id="Alpha" parent="AlphaPatternConstraint"/>
+    <bean id="UpperCase" parent="ValidCharactersConstraint">
+        <property name="value" value="[A-Z0-9.\-]*"/>
+        <property name="applyClientSide" value="true"/>
+    </bean>
+    <bean id="UpperAlpha" parent="ValidCharactersConstraint">
+        <property name="value" value="[A-Z]*"/>
+        <property name="applyClientSide" value="true"/>
+    </bean>
+    <bean id="LineText" parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+    <bean id="MultiLineText" parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+
+    <bean id="Gpa4.0" parent="ValidCharactersConstraint">
+        <property name="value" value="[0-4]\.[0-9]"/>
+        <property name="applyClientSide" value="true"/>
+        <property name="labelKey" value="validation.validChars.gpa9.9"/>
     </bean>
     <bean id="Numeric" parent="ValidCharactersConstraint">
         <!--
@@ -45,60 +65,26 @@
    it allows for .1 and 0.1 but not 00.1 (too many leading zeros)
    It does not allow for embedded commas so 200,000 is not valid but 200000 is
   -->
-        <property name="value"   value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
-        <property name="applyClientSide" value="true" />
+        <property name="value" value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
+        <property name="applyClientSide" value="true"/>
         <property name="labelKey" value="validation.validChars.numeric"/>
     </bean>
     <bean id="Numeric.range" parent="ValidCharactersConstraint">
         <!--
    same as numeric above but allows for a 2nd number separated by a hyphen
   -->
-        <property name="value"   value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
-        <property name="applyClientSide" value="true" />
+        <property name="value"
+                  value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="applyClientSide" value="true"/>
         <property name="labelKey" value="validation.validChars.numeric.range"/>
     </bean>
     <bean id="Positive.numeric.range" parent="ValidCharactersConstraint">
         <!--
    same as numeric above but allows for a 2nd number separated by a hyphen
   -->
-        <property name="value"   value="^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
-        <property name="applyClientSide" value="true" />
+        <property name="value"
+                  value="^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+        <property name="applyClientSide" value="true"/>
         <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
     </bean>
-    <bean id="Gpa4.0" parent="ValidCharactersConstraint">
-        <property name="value"   value="[0-4]\.[0-9]"/>
-        <property name="applyClientSide" value="true" />
-        <property name="labelKey" value="validation.validChars.gpa9.9"/>
-    </bean>
-    <bean id="Positive.integer" parent="ValidCharactersConstraint">
-        <property name="value"   value="[1-9][0-9]*"/>
-        <property name="applyClientSide" value="true" />
-        <property name="labelKey" value="validation.validChars.positive.integer"/>
-    </bean>
-    <bean id="RelationalOperator" parent="ValidCharactersConstraint">
-        <property name="value"   value="\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
-        <property name="applyClientSide" value="true" />
-        <property name="labelKey" value="validation.validChars.relationalOperator"/>
-    </bean>
-    <bean id="Alpha" parent="ValidCharactersConstraint">
-        <property   name="value" value="[A-Za-z]*"/>
-        <property name="applyClientSide" value="true" />
-    </bean>
-    <bean id="UpperCase" parent="ValidCharactersConstraint">
-        <property name="value"   value="[A-Z0-9.\-]*"/>
-        <property name="applyClientSide" value="true" />
-    </bean>
-    <bean id="UpperAlpha" parent="ValidCharactersConstraint">
-        <property name="value"   value="[A-Z]*"/>
-        <property name="applyClientSide" value="true" />
-    </bean>
-    <bean id="LineText" parent="ValidCharactersConstraint">
-        <property name="value"  value="[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t ]*"/>
-        <property name="applyClientSide" value="true" />
-    </bean>
-    <bean id="MultiLineText" parent="ValidCharactersConstraint">
-        <property name="value"   value="[A-Za-z0-9.,&gt;&lt;_\\/\-\?\+=()\[\];:'&quot;&amp;%$#@!\t\n\r ]*"/>
-        <property name="applyClientSide" value="true" />
-    </bean>
-
 </beans>
