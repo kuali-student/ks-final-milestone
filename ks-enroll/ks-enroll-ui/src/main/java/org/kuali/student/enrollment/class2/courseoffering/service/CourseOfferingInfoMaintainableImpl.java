@@ -19,6 +19,7 @@ import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -95,9 +96,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
-        //for each instructor, set personId to Id field.
+        //for each instructor, set personId to Id field, state, and type
         for (OfferingInstructorInfo instructor : instructors) {
             instructor.setId(instructor.getPersonId());
+            instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+            instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
         }
         //set the list of instructors to the CourseOfferingInfo coi
         if (coi != null) {
