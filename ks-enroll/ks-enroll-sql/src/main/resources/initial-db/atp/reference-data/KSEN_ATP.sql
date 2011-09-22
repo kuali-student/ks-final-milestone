@@ -11,6 +11,18 @@ Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,
 Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('testDeleteAtpId2',null,0,null,null,null,null, to_timestamp('01-JAN-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('31-DEC-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'testDeleteAtp2', 'kuali.atp.state.Draft','kuali.atp.type.CampusCalendar','RICHTEXT-104')
 /
 
+Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('testTermId1',null,0,null,null,null,null, to_timestamp('15-SEP-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('16-DEC-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'Fall 2011', 'kuali.atp.state.Draft','kuali.atp.type.Fall','RICHTEXT-201')
+/
+
+Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('testTermId2',null,0,null,null,null,null, to_timestamp('03-JAN-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('16-MAR-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'Winter 2012', 'kuali.atp.state.Draft','kuali.atp.type.Winter','RICHTEXT-202')
+/
+
+Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('testTermId3',null,0,null,null,null,null, to_timestamp('26-MAR-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('08-JUN-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring 2012', 'kuali.atp.state.Draft','kuali.atp.type.Spring','RICHTEXT-301')
+/
+
+Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('testTermId4',null,0,null,null,null,null, to_timestamp('18-JUN-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('17-AUG-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'Summer 2012', 'kuali.atp.state.Draft','kuali.atp.type.Summer','RICHTEXT-401')
+/
+
 Insert into KSEN_ATP (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,START_DT,END_DT,NAME,ATP_STATE_ID,ATP_TYPE_ID,RT_DESCR_ID) values ('termRelationTestingTerm1',null,0,null,null,null,null, to_timestamp('01-SEP-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), to_timestamp('31-DEC-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'testingTerm1', 'kuali.atp.state.Draft','kuali.atp.type.Fall','RICHTEXT-TRT-1')
 /
 
