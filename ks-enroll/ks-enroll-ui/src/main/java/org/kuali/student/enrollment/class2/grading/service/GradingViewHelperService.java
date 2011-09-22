@@ -17,13 +17,12 @@ package org.kuali.student.enrollment.class2.grading.service;
  */
 
 import org.kuali.rice.krad.uif.field.AttributeField;
+import org.kuali.rice.krad.uif.service.ViewHelperService;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 
 import java.util.List;
-import org.kuali.rice.krad.uif.container.View;
-import org.kuali.rice.krad.uif.core.Component;
-import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 
 public interface GradingViewHelperService extends ViewHelperService{
 

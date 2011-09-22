@@ -317,7 +317,7 @@ public class KsPerson implements Person {
                 firstName = unNullify(entityName.getFirstNameUnmasked());
                 middleName = unNullify(entityName.getMiddleNameUnmasked());
                 lastName = unNullify(entityName.getLastNameUnmasked());
-                name = unNullify(entityName.getFormattedNameUnmasked());
+                name = unNullify(entityName.getCompositeNameUnmasked());
             } else {
                 firstName = "";
                 middleName = "";

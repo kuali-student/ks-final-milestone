@@ -16,6 +16,9 @@
 package org.kuali.student.lum.kim.role.type;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
@@ -139,10 +142,10 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				if (INITIATOR_ROLE_NAME.equals(roleName)) {
-				    String principalId = getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber);
+				    String principalId = getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentNumber);
 	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build());
 				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
-					String[] ids = getWorkflowUtility().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
+					List<String> ids = getWorkflowDocumentActionsService().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
 					if (ids != null) {
 					    for ( String id : ids ) {
 					    	if ( StringUtils.isNotBlank(id) ) {
@@ -151,7 +154,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 					    }
 					}
 				} else if(ROUTER_ROLE_NAME.equals(roleName)) {
-				    String principalId = getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber);
+				    String principalId = getWorkflowDocumentService().getRoutedByPrincipalIdByDocumentId(documentNumber);
 	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build() );
 				}
 			}
@@ -176,11 +179,11 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				if (INITIATOR_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber));
+					isUserInRouteLog = principalId.equals(getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentNumber));
 				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = getWorkflowUtility().isUserInRouteLog(documentNumber, principalId, isCheckFutureRequests());
+					isUserInRouteLog = getWorkflowDocumentActionsService().isUserInRouteLog(documentNumber, principalId, isCheckFutureRequests());
 				} else if(ROUTER_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber));
+					isUserInRouteLog = principalId.equals(getWorkflowDocumentService().getRoutedByPrincipalIdByDocumentId(documentNumber));
 				}
 			}
 		} catch (WorkflowException wex) {
@@ -200,8 +203,13 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 		return false;
 	}
 
-	protected WorkflowUtility getWorkflowUtility() {
-		return KEWServiceLocator.getWorkflowUtilityService();
-	}
+
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        return KewApiServiceLocator.getWorkflowDocumentService();
+    }
+
+    public WorkflowDocumentActionsService getWorkflowDocumentActionsService() {
+        return KewApiServiceLocator.getWorkflowDocumentActionsService();
+    }
 
 }

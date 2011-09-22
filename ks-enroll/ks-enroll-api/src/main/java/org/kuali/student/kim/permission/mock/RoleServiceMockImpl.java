@@ -427,38 +427,6 @@ public class RoleServiceMockImpl implements RoleService {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
-    /**
-     * Flushes an internal role cache used by the base implementation to prevent repeated database I/O.
-     */
-    @Override
-    public void flushInternalRoleCache() {
-        throw new UnsupportedOperationException("Not supported Yet");
-    }
-
-    /**
-     * Flushes an internal role member cache used by the base implementation to prevent repeated database I/O.
-     */
-    @Override
-    public void flushInternalRoleMemberCache() {
-        throw new UnsupportedOperationException("Not supported Yet");
-    }
-
-    /**
-     * Flushes an internal delegation cache used by the base implementation to prevent repeated database I/O.
-     */
-    @Override
-    public void flushInternalDelegationCache() {
-        throw new UnsupportedOperationException("Not supported Yet");
-    }
-
-    /**
-     * Flushes an internal delegation member cache used by the base implementation to prevent repeated database I/O.
-     */
-    @Override
-    public void flushInternalDelegationMemberCache() {
-        throw new UnsupportedOperationException("Not supported Yet");
-    }
-
     @Override
     public void assignGroupToRole(String groupId, String namespaceCode,
             String roleName, Map<String,String> qualifications)

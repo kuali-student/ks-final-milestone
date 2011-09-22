@@ -22,12 +22,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.junit.Test;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -55,7 +50,6 @@ import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
@@ -313,10 +307,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		List<Org> orgs = dao.getOrganizationsByIdList(orgIdList);
 		assertEquals(3, orgs.size());
 		Collections.sort(orgs, new Comparator<Org>() {
-			@Override
-			public int compare(Org o1, Org o2) {
-				return o1.getId().compareTo(o2.getId());
-			}});
+            @Override
+            public int compare(Org o1, Org o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
 		assertEquals("BORG", orgs.get(0).getShortName());
 		assertEquals("ChancellorsOffice", orgs.get(1).getShortName());
 		assertEquals("KU", orgs.get(2).getShortName());

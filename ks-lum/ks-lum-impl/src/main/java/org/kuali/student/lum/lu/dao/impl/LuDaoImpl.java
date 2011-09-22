@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.lu.dao.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,6 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 

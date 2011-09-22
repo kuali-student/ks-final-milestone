@@ -81,7 +81,7 @@
                                 <supportFile>org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/bo/datadictionary/AttributeReferenceDummy.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/uif/UifControlDefinitions.xml</supportFile>
-                                <supportFile>org/kuali/rice/krad/uif/UifMiscDefinitions.xml</supportFile>
+                                <supportFile>org/kuali/rice/krad/uif/UifWidgetDefinitions.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/uif/UifFieldDefinitions.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/uif/UifGroupDefinitions.xml</supportFile>
                                 <supportFile>org/kuali/rice/krad/uif/UifHeaderFooterDefinitions.xml</supportFile>

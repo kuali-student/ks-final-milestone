@@ -32,6 +32,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -39,6 +40,7 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
     
     private ApplicationContext applicationContext;
     private ServletContext servletContext;
+
 
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -236,4 +238,9 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
 	public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
 		return AnnotationUtils.findAnnotation(getType(beanName), annotationType);
 	}
+
+    @Override
+    public Environment getEnvironment() {
+        return applicationContext.getEnvironment();
+    }
 }

@@ -137,13 +137,14 @@ public class TestAuthorizationFilter {
 	public List<Permission> getDobEditPermission(){
 		List<Permission> permList = new ArrayList<Permission>();
 		String namespaceCode = "test-namespace";
-                String permissionName = "test-permission-name";
-                String templateName = "test-templateName";
-                String kimTypeId = "test-kimTypeId";
+        String permissionName = "test-permission-name";
+        String templateName = "test-templateName";
+        String kimTypeId = "test-kimTypeId";
                        
-                Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
-		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName, template);
-                Map<String,String> attrs = new LinkedHashMap <String,String> ();
+        Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
+		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName);
+        dobEditPerm.setTemplate(template);
+        Map<String,String> attrs = new LinkedHashMap <String,String> ();
 		attrs.put("dtoFieldKey", "dob");
 		attrs.put("fieldAccessLevel", PermissionEnum.EDIT.toString());                
 		dobEditPerm.setAttributes(attrs);		
@@ -155,13 +156,14 @@ public class TestAuthorizationFilter {
 		List<Permission> permList = new ArrayList<Permission>();
 
 		String namespaceCode = "test-namespace";
-                String permissionName = "test-permission-name";
-                String templateName = "test-templateName";
-                String kimTypeId = "test-kimTypeId";
+        String permissionName = "test-permission-name";
+        String templateName = "test-templateName";
+        String kimTypeId = "test-kimTypeId";
                 
-                Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
-		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName, template);
-                Map<String,String> attrs = new LinkedHashMap <String,String> ();               
+        Template.Builder template = Template.Builder.create (namespaceCode, templateName, kimTypeId);
+		Permission.Builder dobEditPerm = Permission.Builder.create (namespaceCode, permissionName);
+        dobEditPerm.setTemplate(template);
+        Map<String,String> attrs = new LinkedHashMap <String,String> ();
 		attrs.put("dtoFieldKey", "ssn");
 		attrs.put("fieldAccessLevel", perm.toString());
 		dobEditPerm.setAttributes(attrs);		

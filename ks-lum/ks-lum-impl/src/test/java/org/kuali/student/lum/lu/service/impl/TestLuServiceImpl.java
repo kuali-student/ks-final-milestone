@@ -24,11 +24,7 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -88,7 +84,6 @@ import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
 																										 * ,
@@ -1328,11 +1323,11 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		luiInfos = client.getLuisByIdList(Arrays.asList("LUI-1", "LUI-4"));
 		Collections.sort(luiInfos, new Comparator<LuiInfo>() {
-			@Override
+            @Override
             public int compare(LuiInfo o1, LuiInfo o2) {
-				return o1.getId().compareTo(o2.getId());
-			}
-		});
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
 		assertEquals("CLU-1", luiInfos.get(0).getCluId());
 		assertEquals("CLU-2", luiInfos.get(1).getCluId());
 	}

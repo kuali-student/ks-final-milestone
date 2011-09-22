@@ -25,7 +25,7 @@ import org.kuali.rice.kew.engine.node.Branch;
 import org.kuali.rice.kew.engine.node.DynamicNode;
 import org.kuali.rice.kew.engine.node.DynamicResult;
 import org.kuali.rice.kew.engine.node.NodeState;
-import org.kuali.rice.kew.engine.node.Process;
+import org.kuali.rice.kew.engine.node.ProcessDefinitionBo;
 import org.kuali.rice.kew.engine.node.RoleNode;
 import org.kuali.rice.kew.engine.node.RouteNode;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
@@ -324,8 +324,8 @@ public class OrganizationDynamicNode implements DynamicNode {
         return roleNode;
     }
 
-    protected Process getPrototypeProcess(RouteNode node, DocumentType documentType) {
-        Process process = new Process();
+    protected ProcessDefinitionBo getPrototypeProcess(RouteNode node, DocumentType documentType) {
+        ProcessDefinitionBo process = new ProcessDefinitionBo();
         process.setDocumentType(documentType);
         process.setInitial(false);
         process.setInitialRouteNode(node);

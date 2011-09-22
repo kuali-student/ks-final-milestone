@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.classII.grading.conformance.tests;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +16,6 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * Conformance test for Grading Service
@@ -61,9 +61,7 @@ public class TestGradingServiceConformance {
 
         Set<String> keys = serviceMock.gradeRosterEntriesCache.keySet();
 
-        List<String> keysList = Arrays.asList(keys.toArray());
-
-        for (String key : keysList) {
+        for (String key : keys) {
             GradeRosterInfo grInfo = serviceMock.getGradeRoster(key, TestHelper.getContext1());
             assertTrue(serviceMock.gradeRostersCache.containsValue(grInfo));
         }

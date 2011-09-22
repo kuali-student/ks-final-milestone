@@ -17,6 +17,8 @@ package org.kuali.rice.test.lifecycles;
 
 import java.net.BindException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.Config;
@@ -26,6 +28,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
 import org.kuali.rice.core.web.jetty.JettyServer;
+import org.mortbay.jetty.webapp.WebAppClassLoader;
 
 
 /**
@@ -136,8 +139,18 @@ public class JettyServerLifecycle implements Lifecycle {
             }
             GlobalResourceLoader.addResourceLoader(rl);
 	    }
-	    Config webappConfig = ConfigContext.getConfig(webappClassLoader);
-	    WEBAPP_CONFIGS.put(jettyServer.getPort(), webappConfig);
+
+        // TODO: RICE-2.0 UPGRADE had to jump through hoops with M8 because getConfig was made private.  Uncomment the following and remove the next block
+	    // Config webappConfig = ConfigContext.getConfig(webappClassLoader);
+
+        Config webappConfig = null;
+        for (Map.Entry<ClassLoader, Config> configEntry : ConfigContext.getConfigs()) {
+            if (configEntry.getKey() instanceof WebAppClassLoader) {
+                webappConfig = configEntry.getValue();
+            }
+        }
+
+        WEBAPP_CONFIGS.put(jettyServer.getPort(), webappConfig);
 	    if (ConfigMode.OVERRIDE == configMode) {
             // this overrides the test harness classloader config with the webapp's config...
             ConfigContext.overrideConfig(Thread.currentThread().getContextClassLoader(), webappConfig);

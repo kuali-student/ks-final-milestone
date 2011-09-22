@@ -192,8 +192,8 @@
             <bean parent="Group" p:layoutManager.orientation="VERTICAL"
                   p:styleClasses="courseOffering-item" p:footer-ref="Footer"/>
         </property>
-        <property name="layoutManager.subCollectionGroupFieldPrototype">
-            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        <property name="layoutManager.subCollectionFieldGroupPrototype">
+            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
         </property>
         <property name="layoutManager.summaryFields">
             <list>
@@ -262,8 +262,8 @@
             <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
                   p:styleClasses="activityOffering-item" p:footer-ref="Footer"/>
         </property>
-        <property name="layoutManager.subCollectionGroupFieldPrototype">
-            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        <property name="layoutManager.subCollectionFieldGroupPrototype">
+            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
         </property>
         <property name="items">
             <list>
@@ -291,8 +291,8 @@
             <bean parent="Group" p:header.render="false" p:layoutManager.orientation="VERTICAL"
                   p:styleClasses="meetingTime-item" p:footer-ref="Footer"/>
         </property>
-        <property name="layoutManager.subCollectionGroupFieldPrototype">
-            <bean parent="GroupField" p:labelField.render="false" p:group.header.render="false"/>
+        <property name="layoutManager.subCollectionFieldGroupPrototype">
+            <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
         </property>
         <property name="items">
             <list>

@@ -31,7 +31,9 @@
     <import resource="classpath:ks-base-dictionary-validchars.xml"/>
     <import resource="classpath:ks-base-dictionary-controls.xml"/>
     <import resource="classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
-    <import resource="classpath:org/kuali/rice/krad/uif/UifMiscDefinitions.xml"/>
+    <import resource="classpath:org/kuali/rice/krad/uif/UifWidgetDefinitions.xml"/>
+    <import resource="classpath:org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+    <import resource="classpath:org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
 <!--    <import resource="org/kuali/rice/krad/bo/datadictionary/DataDictionaryBaseTypes.xml" />-->
     
     <bean id="BaseKuali.readOnlyAttributeSecurity" parent="AttributeSecurity">

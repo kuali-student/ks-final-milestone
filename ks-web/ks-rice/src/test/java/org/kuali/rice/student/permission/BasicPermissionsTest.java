@@ -18,20 +18,21 @@
  */
 package org.kuali.rice.student.permission;
 
+import org.junit.Test;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.student.StudentStandaloneTestBase;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kew.api.action.ActionRequestType;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.student.StudentStandaloneTestBase;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test case to verify permissions work properly

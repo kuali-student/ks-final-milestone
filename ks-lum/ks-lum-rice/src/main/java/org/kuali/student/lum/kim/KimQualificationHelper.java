@@ -18,30 +18,23 @@
  */
 package org.kuali.student.lum.kim;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+
+import javax.xml.namespace.QName;
+import java.util.*;
+
+//import org.kuali.rice.kew.api.doctype.DocumentType;
 
 /**
  * Class to allow convenience methods to help with qualification verification and translation

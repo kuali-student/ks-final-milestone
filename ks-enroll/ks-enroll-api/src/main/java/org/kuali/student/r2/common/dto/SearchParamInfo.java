@@ -18,6 +18,7 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,8 +31,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.SearchParam;
 import org.w3c.dom.Element;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Search Parameter
@@ -66,7 +65,7 @@ public class SearchParamInfo implements SearchParam, Serializable {
             this.values = null;
         } else {
             this.values = new ArrayList<String>();
-            Collections.copy(this.values ,infc.getValues());
+            Collections.copy(this.values, infc.getValues());
         }
         this._futureElements = null;
     }
