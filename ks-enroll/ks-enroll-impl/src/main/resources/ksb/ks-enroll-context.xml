@@ -101,8 +101,16 @@
         </property>
     </bean>
 
+    <bean  id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler"></bean>
 
-    <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl" scope="singleton"/>
+    <bean  id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler"></bean>
+
+    <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl" scope="singleton">
+         <property name="lprService" ref="lprServiceValidation" />
+        <property name="courseOfferingService" ref="coService" />
+        <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
+        <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
+    </bean>
 
     <bean id="ks.exp.gradingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
@@ -386,6 +394,8 @@
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     	<property name="lprDao" ref="lprDao"/>
         <property name="luiDao" ref="luiDao"/>
+        <property name="lprRosterDao" ref="lprRosterDao"/>
+        <property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
     	<property name="lprStateDao" ref="lprStateDao"/>
     	<property name="lprTypeDao" ref="lprTypeDao"/>
         <property name="lprTransDao" ref="lprTrasactionDao"/>
@@ -399,6 +409,14 @@
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
