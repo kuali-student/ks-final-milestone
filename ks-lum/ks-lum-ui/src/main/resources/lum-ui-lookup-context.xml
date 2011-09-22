@@ -774,6 +774,7 @@
   </property>
   <property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
   <property name="resultSortKey" value="person.resultColumn.DisplayName" />
+  <property name="sortDirection" value="ASC" />
   <property name="id" value="ks.common.lookup.person.suggest" />
  </bean>
 
