@@ -62,12 +62,10 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
     	{
-    		VerticalSection section = new VerticalSection();
-    		section.addSection(createIdentifyingDetailsSectionEdit());
-    		section.addSection(createProgramTitleSectionEdit());
-    		section.addSection(createDatesSectionEdit());
-    		section.addSection(createOtherInformationSectionEdit());
-            rootSection.addSection(section);    		
+            rootSection.addSection(createIdentifyingDetailsSectionEdit());    		
+            rootSection.addSection(createProgramTitleSectionEdit());    		
+            rootSection.addSection(createDatesSectionEdit());    		
+            rootSection.addSection(createOtherInformationSectionEdit());    		
     	} else
     	{
        		HorizontalSection section = new HorizontalSection();

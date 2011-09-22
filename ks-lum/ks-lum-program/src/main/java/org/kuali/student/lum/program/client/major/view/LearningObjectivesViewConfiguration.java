@@ -56,11 +56,7 @@ public class LearningObjectivesViewConfiguration extends AbstractSectionConfigur
 
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-       	{
-    		VerticalSection section = new VerticalSection();
-       		section.addSection(createLearningObjectivesSectionEdit());
-       		rootSection.addSection(section);       		
-       	}
+       		rootSection.addSection(createLearningObjectivesSectionEdit());       		
     	else	
     		configurer.addReadOnlyField(rootSection, ProgramConstants.LEARNING_OBJECTIVES, new MessageKeyInfo(""), new KSListPanel()).setWidgetBinding(new TreeStringBinding());       	
     }

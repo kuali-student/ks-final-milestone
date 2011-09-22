@@ -61,11 +61,7 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
     @Override
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController)
-    	{	
-    		VerticalSection section = new VerticalSection();
-    		section.addSection(createProgramRequirementsSectionEdit());
-    		rootSection.addSection(section);
-    	}	
+    		rootSection.addSection(createProgramRequirementsSectionEdit());
     	else  	
             rootSection = progReqcontroller.getProgramRequirementsView(); 	
     }

@@ -48,13 +48,11 @@ public class ProposalChangeImpactViewConfiguration extends AbstractSectionConfig
 
     @Override
     protected void buildLayout() {
-        Section section = null;
         if (controller instanceof MajorProposalController) {
-            section = createEditableSection();
+        	rootSection.addSection(createEditableSection());
         } else {
-            section = createReadOnlySection();
+        	rootSection.addSection(createReadOnlySection());
         }
-        rootSection.addSection(section);
     }  
     
     private Section createEditableSection() {
