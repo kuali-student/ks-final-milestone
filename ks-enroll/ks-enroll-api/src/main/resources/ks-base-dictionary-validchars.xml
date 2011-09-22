@@ -49,8 +49,14 @@
         <property name="value" value="[A-Z]*"/>
         <property name="applyClientSide" value="true"/>
     </bean>
-    <bean id="LineText" parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
-    <bean id="MultiLineText" parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
+    <bean id="LineText" parent="ValidCharactersConstraint">
+        <property name="value"  value="[A-Za-z0-9.,\&gt;\&lt;_\\/\-\?\+=()\[\];:'\&quot;\&amp;%$#@!\t ]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
+    <bean id="MultiLineText" parent="ValidCharactersConstraint">
+        <property name="value"   value="[A-Za-z0-9.,\&gt;\&lt;_\\/\-\?\+=()\[\];:'\&quot;\&amp;%$#@!\t\n\r ]*"/>
+        <property name="applyClientSide" value="true" />
+    </bean>
 
     <bean id="Gpa4.0" parent="ValidCharactersConstraint">
         <property name="value" value="[0-4]\.[0-9]"/>
