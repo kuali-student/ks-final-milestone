@@ -1042,7 +1042,7 @@ public class MajorProposalController extends MajorController implements Workflow
                             		heading.setFieldValue(programModel.getModelName());
                             		heading.setFieldValue2(comparisonModel.getModelName());
                             		subList.add(heading);
-                            		subList = ExportUtils.getDetailsForWidget(tableSection, subList);                        		
+                            		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
                         		} else if (sectionList.get(j) instanceof CollapsableSection)
                         		{
                         			List<Section> sectionColList = sectionList.get(j).getSections();
@@ -1053,7 +1053,7 @@ public class MajorProposalController extends MajorController implements Workflow
                                 		heading.setFieldValue(programModel.getModelName());
                                 		heading.setFieldValue2(comparisonModel.getModelName());
                                 		subList.add(heading);
-                                		subList = ExportUtils.getDetailsForWidget(tableSection, subList);                        		
+                                		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
                                 	}	
                         		}	
                         	}	
