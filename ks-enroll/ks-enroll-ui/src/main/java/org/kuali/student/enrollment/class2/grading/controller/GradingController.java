@@ -77,7 +77,7 @@ public class GradingController extends UifControllerBase {
             selectedLineIndex = Integer.parseInt(selectedLine);
         }
 
-        String courseId = gradingForm.getCourseOfferingInfoList().get(selectedLineIndex).getCourseId();
+        String courseId = gradingForm.getCourseOfferingInfoList().get(selectedLineIndex).getId();
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId);
         gradingForm.setStudents(students);

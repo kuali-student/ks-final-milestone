@@ -18,21 +18,25 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.AttributeField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
@@ -43,7 +47,8 @@ import java.util.List;
 
 public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implements GradingViewHelperService {
 
-
+    private AcademicCalendarService acalService;
+    private CourseOfferingService coService;
 
     @Override
     public void populateGradeOptions(AttributeField field, GradingForm gradingForm) {
@@ -143,5 +148,62 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         return students;
     }
 
+    private TermInfo getCurrentACal(){
+        ContextInfo context = ContextInfo.newInstance();
 
+        try{
+                return getAcalService().getCurrentTerms(null,context).get(0);
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public void performApplyModel(View view, Object model){
+
+        TermInfo term = getCurrentACal();
+        if (term == null){
+            throw new RuntimeException("No current Term found");
+        }
+
+        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
+        ContextInfo context = ContextInfo.newInstance();
+        List courseOfferingInfoList = new ArrayList();
+
+        try{
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), currentUser, context);
+            if (!coIds.isEmpty()){
+                courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
+                ((GradingForm)model).setCourseOfferingInfoList(courseOfferingInfoList);
+            }
+        }catch(Exception e){
+            //FIXME: Change it to use proper error handling
+            throw new RuntimeException(e);
+        }
+
+        super.performApplyModel(view,model);
+    }
+
+    protected AcademicCalendarService getAcalService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
+        }
+        return this.acalService;
+    }
+
+    protected CourseOfferingService getCOService(){
+        if (coService == null){
+            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
+        }
+        return coService;
+    }
 }

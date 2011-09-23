@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -50,12 +51,6 @@ public class GradingForm extends UifFormBase{
 
     public GradingForm(){
         super();
-    }
-
-    @Override
-    public void postBind(HttpServletRequest request) {
-        super.postBind(request);
-        loadCourseOfferings();
     }
 
     public String getSelectedCourse() {
@@ -82,59 +77,6 @@ public class GradingForm extends UifFormBase{
         this.courseOfferingInfoList = courseOfferingInfoList;
     }
 
-    private TermInfo getCurrentACal(){
-        ContextInfo context = ContextInfo.newInstance();
 
-        try{
-                return getAcalService().getCurrentTerms(null,context).get(0);
-        } catch (DoesNotExistException e) {
-            throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    protected void loadCourseOfferings(){
-        TermInfo term = getCurrentACal();
-        if (term == null){
-            throw new RuntimeException("No current Term found");
-        }
-
-        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
-        ContextInfo context = ContextInfo.newInstance();
-        courseOfferingInfoList = new ArrayList();
-
-        try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), currentUser, context);
-            if (!coIds.isEmpty()){
-                courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
-            }
-        }catch(Exception e){
-            //FIXME: Change it to use proper error handling
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    protected AcademicCalendarService getAcalService() {
-        if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
-        }
-        return this.acalService;
-    }
-
-    protected CourseOfferingService getCOService(){
-        if (coService == null){
-            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
-        }
-        return coService;
-    }
 
 }
