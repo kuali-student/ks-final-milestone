@@ -127,7 +127,7 @@
     <ks.cxf.javadoc.version>2.2.8</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <gwt.version>2.0.4</gwt.version>
+    <gwt.version>2.3.0</gwt.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
@@ -153,7 +153,7 @@
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
     
     <!-- plugin versions -->
-    <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
+    <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
     <!-- build properties -->
@@ -824,7 +824,7 @@
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-incubator</artifactId>
-        <version>2.0.1</version>
+        <version>2.3.0</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -861,6 +861,12 @@
         <artifactId>gwtx</artifactId>
         <version>1.5.3</version>
         <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>gwt-user</artifactId>
+            <groupId>com.google.gwt</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.kuali.rice</groupId>
