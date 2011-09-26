@@ -49,7 +49,6 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                 String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
                 academicCalendarInfo.setKey(academicCalendarKey);
                 academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-                System.out.println(">>>>credentialProgramTypeKey = "+academicCalendarInfo.getCredentialProgramTypeKey());
         		academicCalendarService.createAcademicCalendar(academicCalendarKey, academicCalendarInfo, context);
         		
                 //If we can successfully create a AcademicCalendarInfo, prepare a list of TermWrapper and persist them one by one
@@ -58,7 +57,6 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                 	//prepare termInfo
                 	TermInfo termInfo = termWrapper.getTermInfo();
                     String termKey = getTermInfoKey (termInfo);
-                    System.out.println(">>>termKey = "+termKey);
                     termInfo.setKey(termKey);
                     String termName = getTermInfoName(termInfo);
                     termInfo.setName(termName);
@@ -320,9 +318,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
       * (such as Fall from kuali.atp.type.Fall) plus the year info from the startDate of a TermInfo.
       */
     private String getTermInfoName(TermInfo termInfo){
-
         String theType;
-
         String theTypeKey = termInfo.getTypeKey();
         if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
      	   theType = theTypeKey.substring(15);
@@ -333,7 +329,6 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
         String termName = new String (theType+" "+yearOfStartDate);
         return termName;
-
     }
 
     //A helper class
