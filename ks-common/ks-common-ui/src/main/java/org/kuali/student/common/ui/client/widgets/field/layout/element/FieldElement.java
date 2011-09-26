@@ -15,13 +15,16 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTitleDescPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -135,7 +138,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
      * @param info key for the messages used in this field element - see class description
      */
     public FieldElement(String key, MessageKeyInfo info){
-    	init(key, info, null);
+    	init(key, info, null, null);
     }
 
     /**
@@ -144,34 +147,34 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
      * @param info key for the messages used in this field element - see class description
      * @param widget widget used for input/display on this field
      */
-    public FieldElement(String key, MessageKeyInfo info, Widget widget){
-    	init(key, info, widget);
-
+    public FieldElement(String key, MessageKeyInfo info, Widget widget, Metadata metadata){
+        init(key, info, widget, metadata);
+    
     }
     
-    private void init(String key, MessageKeyInfo info, Widget widget){
+    private void init(String key, MessageKeyInfo info, Widget widget, Metadata metadata ){
     	String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
-    	
+
     	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + HELP_MESSAGE_KEY);
+    			info.getId() + HELP_MESSAGE_KEY, metadata);
     	if(help.equals(info.getId() + HELP_MESSAGE_KEY)){
     		help = null;
     	}
     	
     	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + INSTRUCT_MESSAGE_KEY);
+    			info.getId() + INSTRUCT_MESSAGE_KEY, metadata);
     	if(instructions.equals(info.getId() + INSTRUCT_MESSAGE_KEY)){
     		instructions = null;
     	}
     	
-    	String constraints = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + CONSTRAINT_MESSAGE_KEY);
+        String constraints = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
+                info.getId() + CONSTRAINT_MESSAGE_KEY, metadata);
     	if(constraints.equals(info.getId() + CONSTRAINT_MESSAGE_KEY)){
     		constraints = null;
     	}
     	
     	watermarkText = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + WATERMARK_MESSAGE_KEY);
+    			info.getId() + WATERMARK_MESSAGE_KEY, metadata);
     	if(watermarkText.equals(info.getId() + WATERMARK_MESSAGE_KEY)){
     		watermarkText = null;
     	}

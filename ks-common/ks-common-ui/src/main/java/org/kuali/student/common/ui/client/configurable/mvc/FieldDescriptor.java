@@ -115,7 +115,7 @@ public class FieldDescriptor {
     		messageKey = new MessageKeyInfo("");
     	}
     	setMessageKey(messageKey);
-    	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget());
+    	fieldElement = new FieldElement(fieldKey, messageKey, createFieldWidget(), metadata);
     	setupField();
     	
     	//Add mapping from path to field definition
@@ -149,8 +149,8 @@ public class FieldDescriptor {
     	}
         setMessageKey(messageKey);
     	addStyleToWidget(fieldWidget);
-    	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget);
-    	setupField();
+    	fieldElement = new FieldElement(fieldKey, messageKey, fieldWidget, metadata);
+        setupField();
     	
     	//Add mapping from path to field definition if the definition has a data value
     	if((fieldWidget instanceof HasDataValue || fieldWidget instanceof KSTextBox) &&!(this instanceof FieldDescriptorReadOnly)){

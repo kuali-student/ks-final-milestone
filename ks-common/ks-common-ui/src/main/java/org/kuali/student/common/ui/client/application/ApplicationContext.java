@@ -23,12 +23,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.validator.ValidationMessageKeys;
+import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
@@ -200,6 +204,33 @@ public class ApplicationContext {
 	        return label;
 	        
 	}
+	
+    public String getUILabel(String groupName, String type, String state, String fieldId, Metadata metadata) {
+
+        String label = getMessage(groupName, type + ":" + state + ":" + fieldId);
+
+        if (label == null)
+            label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, getConstraintInfo(metadata, label));
+
+    }
+	
+    public String getUILabel(String groupName, String fieldId, Metadata metadata) {
+
+        String label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, getConstraintInfo(metadata, label));
+
+    }
+	
+	
 
     /**
      * Get the security context for the app
@@ -391,6 +422,45 @@ public class ApplicationContext {
 	public void setParentPath(String parentPath) {
 		this.parentPath = parentPath;
 	}
-
+	
+    private Map<String, Object> getConstraintInfo(Metadata metadata, String label) {
+        Map<String, Object> constraintInfo = new HashMap<String, Object>();
+        
+        if (metadata != null) {
+            for (ValidationMessageKeys vKey : ValidationMessageKeys.values()) {
+                if (!vKey.getProperty().isEmpty() && label.contains("${" + vKey.getProperty() + "}")) {
+                    switch (vKey) {
+                        case MIN_OCCURS:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinOccurs(metadata));
+                            break;
+                        case MAX_OCCURS:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxOccurs(metadata));
+                            break;
+                        case MAX_VALUE:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxValue(metadata));
+                            break;
+                        case MIN_VALUE:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinValue(metadata));
+                            break;
+                        case MAX_LENGTH:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxLength(metadata));
+                            break;
+                        case MIN_LENGTH:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinLength(metadata));
+                            break;                         
+                        case VALID_CHARS:
+                            String validChars = metadata.getConstraints().get(0).getValidChars();
+                            if (validChars.startsWith("regex:")) {
+                                validChars = validChars.substring(6);
+                            }
+                            constraintInfo.put(vKey.getProperty(), validChars);
+                        default :
+                            break;
+                    }
+                }
+            }
+        }
+        return constraintInfo;
+    }
 	
 }
