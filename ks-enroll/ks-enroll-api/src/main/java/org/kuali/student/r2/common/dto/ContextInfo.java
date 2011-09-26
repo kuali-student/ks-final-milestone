@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.infc.Context;
 import org.w3c.dom.Element;
 
@@ -53,7 +54,10 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
 
 
     public static ContextInfo newInstance() {
-        return new ContextInfo();
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+
+        return contextInfo;
     }
 
     public static ContextInfo getInstance(ContextInfo callContext) {

@@ -175,12 +175,11 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
             throw new RuntimeException("No current Term found");
         }
 
-        String currentUser = GlobalVariables.getUserSession().getPrincipalId();
         ContextInfo context = ContextInfo.newInstance();
         List courseOfferingInfoList = new ArrayList();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), currentUser, context);
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
             if (!coIds.isEmpty()){
                 courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
                 ((GradingForm)model).setCourseOfferingInfoList(courseOfferingInfoList);
