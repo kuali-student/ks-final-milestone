@@ -6730,7 +6730,8 @@
   </property>
   <property name="resultReturnKey" value="org.resultColumn.orgId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="org.resultColumn.orgShortName" />
+  <property name="sortDirection" value="ASC" />
   <property name="results">
    <list>
     <bean parent="result">
