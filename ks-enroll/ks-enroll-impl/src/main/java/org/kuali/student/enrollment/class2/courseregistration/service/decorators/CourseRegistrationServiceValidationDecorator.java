@@ -1,12 +1,14 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -44,5 +46,11 @@ public class CourseRegistrationServiceValidationDecorator extends CourseRegistra
 
         return getNextDecorator().createRegRequest(regRequestInfo, context);
     }
-
+    
+    @Override
+    public RegResponseInfo submitRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException,
+    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+    DataValidationErrorException, AlreadyExistsException {
+        return getNextDecorator().submitRegRequest(regRequestId, context);
+    }
 }

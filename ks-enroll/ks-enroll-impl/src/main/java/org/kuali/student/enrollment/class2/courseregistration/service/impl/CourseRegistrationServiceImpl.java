@@ -266,15 +266,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public Boolean checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return true;
     }
 
     @Override
-    public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
+    public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
             String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
@@ -346,7 +344,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public Integer getAvailableSeatsForStudentInRegGroup(String studentId, String regGroupId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return null;
+        // TODO - rules and waitlist implementation needed
+        return new Integer(3);
 
     }
 
@@ -386,8 +385,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<ValidationResultInfo> verifyRegRequest(RegRequestInfo regRequestInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
@@ -452,10 +450,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
         }
 
-        LprTransactionInfo multpleItemsTransaction = createModifiedTransactionItems(storedLprTransaction,
+        LprTransactionInfo multipleItemsTransaction = createModifiedTransactionItems(storedLprTransaction,
                 storedRegRequest, context);
 
-        LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multpleItemsTransaction.getId(),
+        LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multipleItemsTransaction.getId(),
                 context);
 
         RegResponseInfo returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);

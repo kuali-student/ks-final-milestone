@@ -50,7 +50,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -145,7 +144,6 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testCreateLpr() {
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
@@ -169,7 +167,6 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testGetLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprInfoList = lprService.getLprsByLui(LUIID1, ContextInfo.newInstance());
@@ -210,7 +207,7 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
-    @Ignore
+    
     public void testDeleteLuiPersonRelation() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, AlreadyExistsException, DisabledIdentifierException, ReadOnlyException {
@@ -226,11 +223,11 @@ public class TestLuiPersonRelationServiceImpl {
         LuiPersonRelationInfo deletedLpr = lprService.getLpr(LPRID1, callContext);
         assertNull("LPR entity '" + LPRID1 + "' was not deleted", deletedLpr);
         // put it back for later test(s)
-        lprService.createLpr(lpr.getPersonId(), lpr.getLuiId(), lpr.getTypeKey(), lpr, callContext);
+        
     }
 
     @Test
-    @Ignore
+    
     public void testGetLuiPersonRelations() throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprList = lprService.getLprsByLuiAndPerson(PERSONID1, LUIID1, callContext);
@@ -251,8 +248,7 @@ public class TestLuiPersonRelationServiceImpl {
         fail("Test method not implemented yet");
     }
 
-    @Test
-    @Ignore
+    @Test    
     public void testUpdateLuiPersonRelation() throws DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {

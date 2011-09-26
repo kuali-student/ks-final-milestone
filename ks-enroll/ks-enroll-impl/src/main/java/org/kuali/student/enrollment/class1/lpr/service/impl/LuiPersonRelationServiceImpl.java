@@ -161,7 +161,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         if (null != luiPersonRelationInfo.getTypeKey()) {
             lpr.setPersonRelationType(lprTypeDao.find(luiPersonRelationInfo.getTypeKey()));
         }
-        // TODO - Attributes?
+        
+         // TODO - Attributes?
         return lpr;
     }
 
@@ -762,7 +763,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         LprTransactionEntity lprTransactionEntity = new LprTransactionEntity(lprTransactionInfo);
-        lprTransactionEntity.setId(UUIDHelper.genStringUUID());
+        if(lprTransactionEntity.getId()==null){        
+            lprTransactionEntity.setId(UUIDHelper.genStringUUID());
+        }
         if (null != lprTransactionInfo.getStateKey()) {
             lprTransactionEntity.setLprTransState(stateDao.find(lprTransactionInfo.getStateKey()));
         }
@@ -1026,7 +1029,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             OperationFailedException, PermissionDeniedException {
 
         List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPersonAndType(personId, typeKey);
-        List<LuiPersonRelationInfo> infoList = new ArrayList();
+        List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : entityList) {
             LuiEntity lui = luiDao.find(entity.getLuiId());
             if (StringUtils.equals(lui.getAtpKey(), atpKey)) {
@@ -1041,8 +1044,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpKey,
             String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
+        
+        List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
+        for (LuiPersonRelationEntity entity : entityList) {
+            LuiEntity lui = luiDao.find(entity.getLuiId());
+            if ((lui.getAtpKey().equals( atpKey)) && (lui.getLuiType().equals(luiTypeKey) ) ) {
+                infoList.add(entity.toDto());
+            }
+        }
+        
+        return infoList;
     }
 
     @Override

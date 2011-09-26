@@ -70,7 +70,7 @@ public class TestCourseRegistrationServiceImpl {
         assertNotNull(courseRegServiceValidation);
     }
 
-    @Ignore
+    
     @Test
     public void testCreateRegRequestFromExisting() {
 
@@ -94,10 +94,7 @@ public class TestCourseRegistrationServiceImpl {
     public void testSubmitRegRequest() {
 
         try {
-            RegRequestInfo regRequest = createDummyRegRequest();
-            RegRequestInfo regRequestNew = courseRegServiceValidation.createRegRequest(regRequest, callContext);
-            assertNotNull(regRequestNew);
-            RegResponseInfo regResponse = courseRegServiceValidation.submitRegRequest(regRequestNew.getId(),
+            RegResponseInfo regResponse = courseRegServiceValidation.submitRegRequest("testLprTransId1",
                     callContext);
             assertNotNull(regResponse);
             assertTrue(regResponse.getOperationStatus().equals("SUCCESS"));
