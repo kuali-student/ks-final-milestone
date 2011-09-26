@@ -143,7 +143,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                             <bean parent="AttributeField" p:propertyName="termKey">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
                                 <property name="fieldLookup.fieldConversions" value="key:termKey"/>
-                                <property name="controlField">
+                                <property name="control">
               			            <bean parent="SelectControl"/>
             		            </property>
                                 <property name="optionsFinder">
