@@ -318,7 +318,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 			public void onClick(ClickEvent event) {
 	            
 				//Create a dialog for course selection
-	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
+	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"),KSLightBox.Size.MEDIUM);
 	            final VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            
