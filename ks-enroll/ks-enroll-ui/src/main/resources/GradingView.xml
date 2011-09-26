@@ -68,6 +68,7 @@ limitations under the License.
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>
       <property name="renderAddLine" value="false"/>
+      <property name="renderLineActions" value="false"/>
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.header">
@@ -75,16 +76,7 @@ limitations under the License.
       </property>
         <property name="items">
           <list>
-            <bean parent="AttributeField" p:propertyName="courseTitle" p:labelField.render="false" p:readOnly="true" p:width="auto">
-              <property name="control">
-                 <bean parent="TextControl" p:size="100" />
-              </property>
-            </bean>
-          </list>
-        </property>
-        <property name="actionFields">
-          <list>
-              <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="Select" />
+            <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:labelField.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
           </list>
         </property>
    </bean>
