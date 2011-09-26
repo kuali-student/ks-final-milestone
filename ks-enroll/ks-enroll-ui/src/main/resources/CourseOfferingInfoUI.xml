@@ -65,9 +65,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <bean id="CourseOfferingInfoUI.id" parent="CourseOfferingInfo.id-parent">
         <property name="label" value="Course Offering ID" />
         <property name="required" value="false"/>
-					<property name="validCharactersConstraint">
-						<bean parent="NoWhitespacePatternConstraint" />
-					</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
@@ -77,9 +77,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Course ID" />
         <property name="required" value="true"/>
         <property name="summary" value=""/>
-					<property name="validCharactersConstraint">
-						<bean parent="NoWhitespacePatternConstraint" />
-					</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
@@ -89,9 +89,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="summary" value=""/>
-					<property name="validCharactersConstraint">
-						<bean parent="NoWhitespacePatternConstraint" />
-					</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
         <property name="controlField">
             <bean parent="SelectControl"/>
         </property>
@@ -142,16 +142,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <list>
                             <bean parent="AttributeField" p:propertyName="termKey">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions" value="key:termKey"/> 
-		     <!--   <property name="viewName" value=""/>           
-                     <property name="control">
-              			<bean parent="SelectControl"/>
-            		</property>
-            		<property name="optionsFinder">
-              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-            		</property>
-              --> 	
-                            </bean>		                
+                                <property name="fieldLookup.fieldConversions" value="key:termKey"/>
+                                <property name="controlField">
+              			            <bean parent="SelectControl"/>
+            		            </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
+                                </property>
+                             </bean>
                             <bean parent="AttributeField" p:propertyName="courseId">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
                                 <property name="fieldLookup.fieldConversions">
