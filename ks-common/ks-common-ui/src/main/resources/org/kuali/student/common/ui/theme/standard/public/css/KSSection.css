@@ -426,6 +426,7 @@ position:relative;
 }
 
 .ks-form-module-elements {
+	min-width:415px;
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
