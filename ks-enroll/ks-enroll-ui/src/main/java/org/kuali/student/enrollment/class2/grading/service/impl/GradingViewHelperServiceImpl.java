@@ -170,26 +170,32 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     @Override
     public void performApplyModel(View view, Object model){
 
-        TermInfo term = getCurrentACal();
-        if (term == null){
-            throw new RuntimeException("No current Term found");
-        }
-
-        ContextInfo context = ContextInfo.newInstance();
-        List courseOfferingInfoList = new ArrayList();
-
-        try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
-            if (!coIds.isEmpty()){
-                courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
-                ((GradingForm)model).setCourseOfferingInfoList(courseOfferingInfoList);
-            }
-        }catch(Exception e){
-            //FIXME: Change it to use proper error handling
-            throw new RuntimeException(e);
+        if (model instanceof GradingForm){
+            loadCourses((GradingForm)model);
         }
 
         super.performApplyModel(view,model);
+    }
+
+    protected void loadCourses(GradingForm form){
+        TermInfo term = getCurrentACal();
+            if (term == null){
+                throw new RuntimeException("No current Term found");
+            }
+
+            ContextInfo context = ContextInfo.newInstance();
+            List courseOfferingInfoList = new ArrayList();
+
+            try{
+                List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
+                if (!coIds.isEmpty()){
+                    courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
+                    form.setCourseOfferingInfoList(courseOfferingInfoList);
+                }
+            }catch(Exception e){
+                //FIXME: Change it to use proper error handling
+                throw new RuntimeException(e);
+            }
     }
 
     protected AcademicCalendarService getAcalService() {
