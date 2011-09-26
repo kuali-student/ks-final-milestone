@@ -60,6 +60,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                     String termKey = getTermInfoKey (termInfo);
                     System.out.println(">>>termKey = "+termKey);
                     termInfo.setKey(termKey);
+                    String termName = getTermInfoName(termInfo);
+                    termInfo.setName(termName);
                     termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
                     
                     //prepare classesMeetDates
@@ -214,19 +216,20 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
   
     /**
      * @see org.kuali.rice.krad.maintenance.MaintainableImpl#prepareForSave()
-     
+
     @Override
     public void prepareForSave() {
-    	System.out.println (">>> in prepareForSave ");
-        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) ||
-            getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
-        	AcademicCalendarInfo newAcal = (AcademicCalendarInfo)getDataObject();   	
-        	newAcal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        	newAcal.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        	
-        	//Interesting, why typeKey and stateKey for TermInfo and KeyDateInfo are not required???
-        	
-        }
+    	System.out.println (">>> in prepareForSave for AcademicCalendarWrapperMaintainableImpl:");
+//        if (getMaintenanceAction().equalsIgnoreCase(KNSConstants.MAINTENANCE_NEW_ACTION) ||
+//            getMaintenanceAction().equals(KNSConstants.MAINTENANCE_COPY_ACTION)) {
+//        	AcademicCalendarInfo newAcal = (AcademicCalendarInfo)getDataObject();
+//        	newAcal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+//        	newAcal.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+//
+//        	//Interesting, why typeKey and stateKey for TermInfo and KeyDateInfo are not required???
+//
+//        }
+        AcademicCalendarWrapper newAcalWrapper = (AcademicCalendarWrapper)getDataObject();
         super.prepareForSave();
     }
     */
@@ -310,6 +313,27 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         keyDateInfoKey = keyDateInfoKey.concat(theKeyDateInfoType.toLowerCase()+"."+termKey.substring(6));
         return keyDateInfoKey.toLowerCase();       
         
+    }
+
+     /*
+      * The value of the NAME of an TermInfo is constructed by the last part of the typeKey of a TermInfo
+      * (such as Fall from kuali.atp.type.Fall) plus the year info from the startDate of a TermInfo.
+      */
+    private String getTermInfoName(TermInfo termInfo){
+
+        String theType;
+
+        String theTypeKey = termInfo.getTypeKey();
+        if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
+     	   theType = theTypeKey.substring(15);
+        }
+        else {
+     	   theType = theTypeKey;
+        }
+        String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
+        String termName = new String (theType+" "+yearOfStartDate);
+        return termName;
+
     }
 
     //A helper class
