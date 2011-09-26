@@ -14,15 +14,15 @@ public class GradeRosterAssembler implements DTOAssembler<GradeRosterInfo, LprRo
 
         GradeRosterInfo gradeRosterInfo = new GradeRosterInfo();
         gradeRosterInfo.setId(lprRosterInfo.getId());
-        gradeRosterInfo.setActivityOfferingIds(lprRosterInfo.getAssociatedLuiIds());
-
         return gradeRosterInfo;
     }
-    public GradeRosterInfo assemble(LprRosterInfo lprRosterInfo, List<String> lprRosterEntryIds, List<String> graderIds, String courseOfferingId, ContextInfo context) {
+
+    public GradeRosterInfo assemble(LprRosterInfo lprRosterInfo, List<String> lprRosterEntryIds, List<String> graderIds, String courseOfferingId, List<String> activityOfferingIds, ContextInfo context) {
         GradeRosterInfo gradeRosterInfo = assemble(lprRosterInfo, context);
         gradeRosterInfo.setGradeRosterEntryIds(lprRosterEntryIds);
         gradeRosterInfo.setGraderIds(graderIds);
         gradeRosterInfo.setCourseOfferingId(courseOfferingId);
+        gradeRosterInfo.setActivityOfferingIds(activityOfferingIds);
         return gradeRosterInfo;
     }
 

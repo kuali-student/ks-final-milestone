@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
 
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
@@ -14,12 +15,16 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
@@ -34,6 +39,7 @@ public class GradingServiceImpl implements GradingService {
     private CourseOfferingService courseOfferingService;
     private LRCService lrcService;
     private LearningResultRecordService lrrService;
+    private LuiService luiService;
     private GradeRosterAssembler gradeRosterAssembler;
     private GradeRosterEntryAssembler gradeRosterEntryAssembler;
 
@@ -67,6 +73,14 @@ public class GradingServiceImpl implements GradingService {
 
     public void setLrrService(LearningResultRecordService lrrService) {
         this.lrrService = lrrService;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
     }
 
     public GradeRosterAssembler getGradeRosterAssembler() {
@@ -745,10 +759,28 @@ public class GradingServiceImpl implements GradingService {
             }
         }
 
-        List<CourseOfferingInfo> courseOfferings = courseOfferingService.getCourseOfferingsByIdList(lprRosterInfo.getAssociatedLuiIds(), context);
-        String courseOfferingId = courseOfferings.get(0).getCourseId();
+        String courseOfferingId = null;
+        List<String> activityOfferingIds = null;
 
-        GradeRosterInfo gradeRosterInfo = gradeRosterAssembler.assemble(lprRosterInfo, lprRosterEntryIds, graderIds, courseOfferingId, context);
+        List<String> associatedLuiIds = lprRosterInfo.getAssociatedLuiIds();
+
+        if (associatedLuiIds == null || associatedLuiIds.size() ==  0) {
+            throw new OperationFailedException("LPR Roster does not contain any associated LUI IDs.");
+        } else if (associatedLuiIds.size() ==  1) {
+            CourseOfferingInfo courseOffering = courseOfferingService.getCourseOffering(associatedLuiIds.get(0), context);
+            courseOfferingId = courseOffering.getId();
+            activityOfferingIds = new ArrayList<String>();
+        } else if (associatedLuiIds.size() >  1) {
+            activityOfferingIds = associatedLuiIds;
+
+            List<String> relatedLuis = luiService.getRelatedLuiIdsByLuiId(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+            if (relatedLuis == null || relatedLuis.size() != 1) {
+                throw new OperationFailedException("The provided activity offering is not related to 1 and only 1 course offering.");
+            }
+            courseOfferingId = relatedLuis.get(0);
+        }
+
+        GradeRosterInfo gradeRosterInfo = gradeRosterAssembler.assemble(lprRosterInfo, lprRosterEntryIds, graderIds, courseOfferingId, activityOfferingIds, context);
         return gradeRosterInfo;
     }
 
