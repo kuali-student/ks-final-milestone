@@ -145,8 +145,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			break;
 	    		case DROP_DOWN:
 	    		case CHECKBOX_LIST:
-	    			setupListWidget(inLookupMetadata);
-	    			break;
 	    		case RADIO:
 	    			setupListWidget(inLookupMetadata);
 	    			break;

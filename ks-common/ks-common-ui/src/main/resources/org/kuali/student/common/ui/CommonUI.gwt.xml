@@ -49,6 +49,9 @@
 	
 	<!-- Inherit a ks version of widgetideas module to cut down on gwt compile warnings.-->
 	<inherits name="com.google.gwt.widgetideas.KSWidgetIdeas"/>
+	
+	<!-- Inherit debug module to be able to use ensureDebugIds for Selenium tests -->
+	<inherits name="com.google.gwt.user.Debug"/>
  
 	<script src="http://www.google.com/jsapi"/>
     

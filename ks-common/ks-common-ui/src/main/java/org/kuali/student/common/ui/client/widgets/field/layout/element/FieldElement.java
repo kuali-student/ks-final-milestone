@@ -185,10 +185,8 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     private void generateLayout(String key, String title, String helpText, String instructText, String constraintText, Widget widget){
     	this.setKey(key);
 		fieldName = title;
-
 		fieldHTMLId = HTMLPanel.createUniqueId();
 		fieldTitle = new LabelPanel(title, fieldHTMLId);
-
 		required.setVisible(false);
 		fieldTitle.add(required);
 		if(helpText != null){
@@ -197,7 +195,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		else{
 			help.setVisible(false);
 		}
-
 		fieldTitle.add(help);
 		layout.add(fieldTitle);
 		if(instructText != null){
@@ -216,16 +213,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		instructions.setStyleName("ks-form-module-elements-instruction");
 		layout.add(instructions);
 		layout.add(widgetSpan);
-		if(widget != null){
-			this.setWidget(widget);
-		}
 		constraints.setStyleName("ks-form-module-elements-help-text");
 		layout.add(constraints);
-
-
         initWidget(layout);
         layout.addStyleName("ks-form-module-elements");
         layout.addStyleName("ks-form-module-single-line-margin");
+        layout.ensureDebugId(fieldKey != null ? fieldKey : title);
+        //Set the widget here to ensure the debug Ids are set properly
+        if(widget != null){
+            this.setWidget(widget);
+        }
     }
 
     /**
@@ -249,9 +246,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	    				((HasWatermark)input).setWatermarkText(watermarkText);
 	    			}
 	    			input.getElement().setAttribute("id", fieldHTMLId);
+	    			input.ensureDebugId(layout.getElement().getId());
     			}
     			else{
     				fieldWidget.getElement().setAttribute("id", fieldHTMLId);
+    				fieldWidget.ensureDebugId(layout.getElement().getId());
     			}
     		}
     		else{
@@ -259,6 +258,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         			((HasWatermark)fieldWidget).setWatermarkText(watermarkText);
         		}
     			fieldWidget.getElement().setAttribute("id", fieldHTMLId);
+    			fieldWidget.ensureDebugId(layout.getElement().getId());
     		}
     		
     		widgetSpan.add(fieldWidget);

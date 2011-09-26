@@ -135,10 +135,9 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
 //            col=0;
 
             for (String id:super.getListItems().getItemIds()){
-
-               layout.setWidget(row, col, createCheckbox(id));
                SearchResultListItems searchList = (SearchResultListItems)super.getListItems();
                String value = searchList.getItemAttribute(id, searchList.getAttrKeys().get(searchList.getItemTextAttrNdx()));
+               layout.setWidget(row, col, createRadioButton(id, value));
                layout.setWidget(row,++col, new KSLabel(value));
 //                for (String attr:super.getListItems().getAttrKeys()){
 ////                    String value = super.getListItems().getItemAttribute(id, attr);
@@ -158,7 +157,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
                 row = (currCount % maxRows);
                 row = ((row == 0) ? maxRows:row) - 1;
 
-                layout.setWidget(row, col, createCheckboxWithLabel(id));                    
+                layout.setWidget(row, col, createRadioButtonWithLabel(id));                    
 
                 col += ((row + 1)/ maxRows) * 1;
 
@@ -170,7 +169,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
                 col = currCount % maxCols;
                 col = ((col == 0) ? maxCols:col) - 1;
 
-                layout.setWidget(row, col, createCheckboxWithLabel(id));
+                layout.setWidget(row, col, createRadioButtonWithLabel(id));
 
                 row += ((col + 1 )/ maxCols) * 1;
             }
@@ -200,8 +199,9 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         redraw();
     }
 
-    private KSRadioButton createCheckbox(String id){
+    private KSRadioButton createRadioButton(String id, String debugId){
         KSRadioButton radiobutton = new KSRadioButton(groupName);
+        radiobutton.ensureDebugId(debugId);//Have to override debug Id here since groupName is a generated string number pair
         radiobutton.setFormValue(id);
         radiobutton.addValueChangeHandler(this);
         radiobutton.addKeyUpHandler(this);
@@ -209,8 +209,9 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
         return radiobutton;
     }
 
-    private KSRadioButton createCheckboxWithLabel(String id){
+    private KSRadioButton createRadioButtonWithLabel(String id){
         KSRadioButton radiobutton = new KSRadioButton(groupName, getListItems().getItemText(id));
+        radiobutton.ensureDebugId(getListItems().getItemText(id));//Have to override debug Id here since groupName is a generated string number pair
         radiobutton.setFormValue(id);
         radiobutton.addValueChangeHandler(this);
         radiobutton.addKeyUpHandler(this);

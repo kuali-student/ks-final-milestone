@@ -41,6 +41,7 @@ public class KSRadioButton extends RadioButton{
      */
     public KSRadioButton(String group, String label, boolean asHTML) {
         super(group, label, asHTML);
+        ensureDebugId(group + "-" + label);
         setupDefaultStyle();
     }
 
@@ -52,6 +53,7 @@ public class KSRadioButton extends RadioButton{
      */
     public KSRadioButton(String group, String label) {
         super(group, label);
+        ensureDebugId(group + "-" + label);
         setupDefaultStyle();
     }
 

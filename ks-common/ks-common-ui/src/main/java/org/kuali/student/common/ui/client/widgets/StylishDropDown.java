@@ -236,7 +236,9 @@ public class StylishDropDown extends Composite{
 		namePanel.getElement().setAttribute("id", HTMLPanel.createUniqueId());
 		parentPanel.add(namePanel);
 		this.initWidget(parentPanel);
+		titleLabel.ensureDebugId(titleLabel.getText() + "label");
 		titleLabel.addStyleName("KS-CutomDropDown-TitleLabel");
+		layout.ensureDebugId(titleLabel.getText() + "-panel");
 		layout.addStyleName("KS-CustomDropDown-TitlePanel");
 		defaultArrow.addStyleName("KS-CustomDropDown-Arrow");
 	}

@@ -389,6 +389,19 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             return;
         }
         final TableCellWidget widget = new TableCellWidget(v);
+        final StringBuilder debugId = new StringBuilder();
+        if ("RowHeader".equals(columnId)) {
+            //Setup debug id
+            for (int i = 0; i < columnCount; i++) {
+                Column column = tableModel.getColumn(i);
+                Object value = row.getCellData(column.getId());
+                debugId.append(value);
+                if (i != columnCount - 1) {
+                    debugId.append("-");
+                }
+            }
+            widget.getDefaultTableEditor().ensureDebugId(debugId.toString());
+        }
         widget.setCellEditorValue(v);
         if (widget instanceof HasClickHandlers) {
             ((HasClickHandlers) widget).addClickHandler(new ClickHandler() {

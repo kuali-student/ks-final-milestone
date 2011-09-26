@@ -48,6 +48,7 @@ public class KSCheckBox extends CheckBox{
      */
     public KSCheckBox(String label){
         super(label);
+        ensureDebugId(label);
         setupDefaultStyle();
     }
 
