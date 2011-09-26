@@ -51,7 +51,8 @@
                     <!-- This generates the the dictionary documentation docs on the site-->                    
                     <execution>
                         <id>generate-dictionary-documentation</id>
-                        <phase>${ks.dictionarydoc.phase}</phase>
+                        <phase>none</phase>
+<!--                        <phase>${ks.dictionarydoc.phase}</phase>                        -->
                         <goals>
                             <goal>ksdictionarydoc</goal>                            
                         </goals>
