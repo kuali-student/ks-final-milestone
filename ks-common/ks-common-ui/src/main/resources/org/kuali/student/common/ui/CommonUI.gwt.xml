@@ -79,6 +79,8 @@
 	<!-- GWT attempts to serialize all subclasses of Exception when RPC method throws Exception, -->
 	<extend-configuration-property name="rpc.blacklist" value="com.google.gwt.user.client.rpc.SerializableException"/>
 	
+	<set-configuration-property name="UiBinder.useSafeHtmlTemplates" value="true"/>
+	
 	<source path='client' />
 	<source path='shared' />	
 </module>
