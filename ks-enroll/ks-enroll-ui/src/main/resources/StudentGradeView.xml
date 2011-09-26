@@ -57,12 +57,13 @@ limitations under the License.
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedTerm" p:label="Select Term" p:required="true" p:maxLength="50" p:defaultValue="201108" >
+          <bean parent="AttributeField_Form" p:propertyName="selectedTerm" p:label="Select Term" p:required="true">
             <property name="control">
-              <bean parent="TextControl"/>
+              <bean parent="SelectControl"/>
             </property>
-            <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-		    <property name="fieldLookup.fieldConversions" value="key:selectedTerm"/>
+            <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
+            </property>
           </bean>
         </list>
       </property>
