@@ -82,6 +82,13 @@
         ID="kuali.lpr.state.waitlisted" NAME="Waitlisted"
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
     <KSEN_COMM_STATE
+        DESCR="The student is attemptng to enroll in this course or section."
+        ID="kuali.lpr.trans.item.new" NAME="New"
+        PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="This hold is active and should be enforced"
+        ID="kuali.lpr.trans.registered" NAME="Active"
+        PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
+    <KSEN_COMM_STATE
         DESCR="The relationship between the two LUIs is active "
         ID="kuali.lui.lui.relation.state.active" NAME="Active"
         PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>
