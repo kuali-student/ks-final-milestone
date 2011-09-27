@@ -40,7 +40,7 @@
         TYPE_DESC="The exchange of opinions or questions on course material."
         TYPE_KEY="kuali.lu.type.activity.Discussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Homework"
-        OBJ_ID="ADF0E879339FE1AAE040C60AF05B05B5"
+        OBJ_ID="ADF4001BC59DC1E0E040C60AF05B1C0B"
         TYPE_DESC="Student's doing homework, problem sets and reading assignments and writing"
         TYPE_KEY="kuali.lu.type.activity.Homework" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Lab"
@@ -56,7 +56,7 @@
         TYPE_DESC="Instructor or assistant walking through a learning practice."
         TYPE_KEY="kuali.lu.type.activity.Tutorial" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Discuss"
-        OBJ_ID="ADF0E879339EE1AAE040C60AF05B05B5"
+        OBJ_ID="ADF4001BC59CC1E0E040C60AF05B1C0B"
         TYPE_DESC="Web-based or technologically-mediated activities replacing standard discussion sections"
         TYPE_KEY="kuali.lu.type.activity.WebDiscussion" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Web Lecture"
@@ -67,13 +67,21 @@
         OBJ_ID="6A33734B7426482792951DD942080C05"
         TYPE_DESC="A Baccalaureate"
         TYPE_KEY="kuali.lu.type.credential.Baccalaureate" VER_NBR="0"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Masters"
+        OBJ_ID="6A33734B7426482792951DD942080C05"
+        TYPE_DESC="Masters level program"
+        TYPE_KEY="kuali.lu.type.credential.Masters" VER_NBR="0"/>
+    <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Professional"
+        OBJ_ID="ADF3FD469EBA0EABE040C60AF05B1C01"
+        TYPE_DESC="A program leading to a professional degree"
+        TYPE_KEY="kuali.lu.type.credential.Professional" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Standardized Test"
-        OBJ_ID="ADF0E87933A0E1AAE040C60AF05B05B5"
+        OBJ_ID="ADF4001BC59EC1E0E040C60AF05B1C0B"
         TYPE_DESC="Standardized Test"
         TYPE_KEY="kuali.lu.type.standardized.test" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000"
         NAME="Standardized Test Component"
-        OBJ_ID="ADF0E87933A1E1AAE040C60AF05B05B5"
+        OBJ_ID="ADF4001BC59FC1E0E040C60AF05B1C0B"
         TYPE_DESC="Standardized Test Component"
         TYPE_KEY="kuali.lu.type.standardized.test.component" VER_NBR="0"/>
     <KSLU_LUTYPE EFF_DT="20000101000000" NAME="Course"
