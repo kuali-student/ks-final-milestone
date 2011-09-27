@@ -280,7 +280,6 @@ public class CollaboratorSectionView extends SectionView {
         // person = new FieldDescriptor("collaboratorInfo", generateMessageInfo("Name"), personIdMeta);
         person = new FieldDescriptor(null, generateMessageInfo("Name"), personIdMeta);
         final KSPicker personPicker = (KSPicker) person.getFieldElement().getFieldWidget();
-        personPicker.getInputWidget().ensureDebugId("Collaborator-Name");
         personPicker.addFocusLostCallback(new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
@@ -297,13 +296,10 @@ public class CollaboratorSectionView extends SectionView {
         });
         permissions = new FieldDescriptor(null, generateMessageInfo("Permission"), permissionMeta);
         permissions.setFieldWidget(permissionList);
-        permissions.getFieldWidget().ensureDebugId("Permission");
         actionRequests = new FieldDescriptor(null, generateMessageInfo("Action Request"), actionMeta);
         actionRequests.setFieldWidget(actionRequestList);
-        actionRequests.getFieldWidget().ensureDebugId("Action Request");
         authorNotation = new FieldDescriptor(null, generateMessageInfo("Author Notation"), actionMeta);
         authorNotation.setFieldWidget(new KSCheckBox("Add Author Notation"));
-        authorNotation.getFieldWidget().ensureDebugId("Author Notation");
         section.addField(person);
         section.addField(permissions);
         section.addField(actionRequests);

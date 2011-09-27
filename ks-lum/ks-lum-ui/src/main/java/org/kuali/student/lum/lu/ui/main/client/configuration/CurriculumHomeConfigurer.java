@@ -311,8 +311,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     }
 
     protected ClickHandler getCreateCourseClickHandler() {
-        adminOptionCheckbox.ensureDebugId(adminOptionCheckbox.getText());
-    	return new ClickHandler(){
+        return new ClickHandler(){
     		
 			@Override
 			public void onClick(ClickEvent event) {

@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -218,7 +219,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         initWidget(layout);
         layout.addStyleName("ks-form-module-elements");
         layout.addStyleName("ks-form-module-single-line-margin");
-        layout.ensureDebugId(fieldKey != null ? fieldKey : title);
+        layout.ensureDebugId(key != null ? key : title);
         //Set the widget here to ensure the debug Ids are set properly
         if(widget != null){
             this.setWidget(widget);
@@ -246,11 +247,11 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	    				((HasWatermark)input).setWatermarkText(watermarkText);
 	    			}
 	    			input.getElement().setAttribute("id", fieldHTMLId);
-	    			input.ensureDebugId(layout.getElement().getId());
-    			}
+	    			setDebugId(input);
+	    		}
     			else{
     				fieldWidget.getElement().setAttribute("id", fieldHTMLId);
-    				fieldWidget.ensureDebugId(layout.getElement().getId());
+    				setDebugId(fieldWidget);
     			}
     		}
     		else{
@@ -258,11 +259,22 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         			((HasWatermark)fieldWidget).setWatermarkText(watermarkText);
         		}
     			fieldWidget.getElement().setAttribute("id", fieldHTMLId);
-    			fieldWidget.ensureDebugId(layout.getElement().getId());
+    			setDebugId(fieldWidget);
     		}
     		
     		widgetSpan.add(fieldWidget);
     	}
+    }
+
+
+    private void setDebugId(final Widget widget) {
+        String debugId = layout.getElement().getId();
+        //Remove the GWT debug Id prefix to avoid 'gwt-debug-gwt-debug' id setting
+        if (debugId != null && debugId.startsWith(UIObject.DEBUG_ID_PREFIX)) {
+            debugId = debugId.substring(UIObject.DEBUG_ID_PREFIX.length());
+            
+        }
+        widget.ensureDebugId(debugId);
     }
     
     /**
