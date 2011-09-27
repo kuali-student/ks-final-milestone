@@ -1,9 +1,12 @@
 package org.kuali.student.core.workflow.ui.client.views;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -442,6 +445,23 @@ public class CollaboratorSectionView extends SectionView {
         Map<QueryPath, Object> collabs = model.query("collaboratorInfo/collaborators/*");
 
         table.clear();
+        Collections.sort(newCollaborators, new Comparator<Data>() {
+          
+            @Override
+            public int compare(Data personData1, Data personData2) {
+            	 return personName(personData1).compareToIgnoreCase(personName(personData2));
+            }
+            
+            String personName(Data personData){
+        	   String personName = "";
+               if (personData.query("lastName") != null) {
+                   personName = personData.query("lastName") + ", " + personData.query("firstName");
+               } else {
+                   personName = personData.query("principalId");
+               }
+               return personName;
+           }
+        });
         numCollabs = 0;
         for (int i = 0; i < newCollaborators.size(); i++) {
             addPersonRow(newCollaborators.get(i), new Integer(i));
