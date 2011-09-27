@@ -60,8 +60,7 @@ public class GradingController extends UifControllerBase {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String selectedCourse = gradingForm.getSelectedCourse();
-        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService())
-                .loadStudents(selectedCourse);
+        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse,gradingForm);
         gradingForm.setStudents(students);
 
         return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
@@ -79,7 +78,7 @@ public class GradingController extends UifControllerBase {
 
         String courseId = gradingForm.getCourseOfferingInfoList().get(selectedLineIndex).getId();
 
-        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId);
+        List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
         gradingForm.setStudents(students);
 
         return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);

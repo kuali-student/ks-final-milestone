@@ -442,22 +442,23 @@ public class GradingServiceImpl implements GradingService {
             entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
         }
 
-        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+        //TODO - Just commenting out for time being to get the UI working. Once we're done with these method impls, can take out the comment
+        /*List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
         for (LearningResultRecordInfo lrr : lrrs) {
             lrrToLprIdMap.put(lrr, lrr.getLprId());
             resultValueKeys.add(lrr.getResultValueKey());
-        }
+        }*/
 
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        /*List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             LearningResultRecordInfo lrr = lrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
             String lprId = lrrToLprIdMap.get(lrr);
             LprRosterEntryInfo entry = lprIdToEntryMap.get(lprId);
             Map<String, String> entryAttributes = entryKeysMap.get(entry);
-            
+
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
             if ("kuali.result.scale.type.grade".equals(resultValuetypeKey)) {
@@ -469,11 +470,11 @@ public class GradingServiceImpl implements GradingService {
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
             }
-            
+
             if (entryAttributesKey != null) {
                 entryAttributes.put(entryAttributesKey, resultValue.getValue());
             }
-        }
+        }*/
 
         for (LprRosterEntryInfo lprRosterEntry : entryKeysMap.keySet()) {
             Map<String, String> entryAttributes = entryKeysMap.get(lprRosterEntry);

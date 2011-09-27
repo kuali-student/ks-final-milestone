@@ -14,6 +14,11 @@ public class GradeRosterAssembler implements DTOAssembler<GradeRosterInfo, LprRo
 
         GradeRosterInfo gradeRosterInfo = new GradeRosterInfo();
         gradeRosterInfo.setId(lprRosterInfo.getId());
+        gradeRosterInfo.setStateKey(lprRosterInfo.getStateKey());
+        gradeRosterInfo.setTypeKey(lprRosterInfo.getTypeKey());
+        gradeRosterInfo.setDescr(lprRosterInfo.getDescr());
+        gradeRosterInfo.setAttributes(lprRosterInfo.getAttributes());
+        gradeRosterInfo.setName(lprRosterInfo.getName());
         return gradeRosterInfo;
     }
 

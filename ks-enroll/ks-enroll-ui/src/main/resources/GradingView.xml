@@ -44,7 +44,7 @@ limitations under the License.
                        </list>
                    </property>
                   <property name="footer">
-                    <ref bean="Footer_SaveCloseCancel" />
+                    <ref bean="Grading_Footer_page2" />
                   </property>
                </bean>
           </list>
@@ -139,6 +139,18 @@ limitations under the License.
         <list>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
+      </property>
+  </bean>
+
+   <bean id="Grading_Footer_page2" parent="Footer">
+      <property name="items">
+
+        <list>
+          <bean parent="NavigationActionField" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
+          <bean parent="NavigationActionField" p:actionLabel="Submit" p:render="@{submitEnabled eq true}"/>
+          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+        </list>
+
       </property>
   </bean>
 

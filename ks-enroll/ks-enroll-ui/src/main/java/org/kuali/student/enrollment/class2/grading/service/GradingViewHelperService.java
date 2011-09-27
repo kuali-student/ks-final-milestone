@@ -30,6 +30,6 @@ public interface GradingViewHelperService extends ViewHelperService{
 
     public void unAssignGrade(View view,Object model,String selectedCollectionPath, Integer selectedLine );
 
-    public List<GradeStudent> loadStudents(String selectedCourse) throws  Exception;
+    public List<GradeStudent> loadStudents(String selectedCourse,GradingForm gradingForm) throws  Exception;
 
 }

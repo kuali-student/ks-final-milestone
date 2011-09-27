@@ -46,6 +46,9 @@ public class GradingForm extends UifFormBase{
 
     private List<CourseOfferingInfo> courseOfferingInfoList;
 
+    private boolean saveEnabled;
+    private boolean submitEnabled;
+
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;
 
@@ -77,6 +80,20 @@ public class GradingForm extends UifFormBase{
         this.courseOfferingInfoList = courseOfferingInfoList;
     }
 
+    public boolean isSaveEnabled() {
+        return saveEnabled;
+    }
 
+    public void setSaveEnabled(boolean saveEnabled) {
+        this.saveEnabled = saveEnabled;
+    }
+
+    public boolean isSubmitEnabled() {
+        return submitEnabled;
+    }
+
+    public void setSubmitEnabled(boolean submitEnabled) {
+        this.submitEnabled = submitEnabled;
+    }
 
 }

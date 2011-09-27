@@ -11,6 +11,7 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
  * governing permissions and limitations under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -81,7 +82,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     }
 
     @Override
-    public List<GradeStudent> loadStudents(String selectedCourse) throws Exception {
+    public List<GradeStudent> loadStudents(String selectedCourse,GradingForm gradingForm) throws Exception {
 
         ContextInfo context = TestHelper.getContext1();
 
@@ -95,17 +96,22 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 context);
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
+                if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey())){
+                    gradingForm.setSaveEnabled(true);
+                }
+                if (StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
+                    gradingForm.setSubmitEnabled(true);
+                }
                 List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(
                         rosterInfo.getGradeRosterEntryIds(), context);
                 int i = 0;
                 for (GradeRosterEntryInfo entryInfo : entryInfos) {
                     GradeStudent student = new GradeStudent();
-                    if (i == 0 || i == 2) {
-                        student.setPercentGrade(true);
-                    }
-                    i++;
+                    //FIXME:Temp flag set for testing, have to delete
+                    student.setPercentGrade(true);
+
                     student.setStudentId(entryInfo.getStudentId());
-                    Entity entityInfo = identityService.getEntity(entryInfo.getStudentId());
+                    Entity entityInfo = identityService.getEntityByPrincipalId(entryInfo.getStudentId());
                     List<EntityName> entityNameInfos = entityInfo.getNames();
                     for (EntityName entityNameInfo : entityNameInfos) {
                         if (entityNameInfo.isDefaultValue()) {
@@ -113,7 +119,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setLastName(entityNameInfo.getLastNameUnmasked());
                         }
                     }
-                    List<String> grades = gradingService.getValidGradeGroupKeysForStudentByRoster(
+                    /*List<String> grades = gradingService.getValidGradeGroupKeysForStudentByRoster(
                             entryInfo.getStudentId(), rosterInfo.getId(), context);
 
                     List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(grades, context);
@@ -127,9 +133,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setPercentGrade(false);
                             // Populate the range info to the form.
                         }
-                    }
+                    }*/
 
-                    String assignedGrade = null;
+                    /*String assignedGrade = null;
                     String assignedGradeKey = entryInfo.getAssignedGradeKey();
 
                     // TODO change key to actual value - need to call Grading
@@ -138,7 +144,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                         assignedGrade = assignedGradeKey;
 
                     }
-                    student.setSelectedGrade(assignedGrade);
+                    student.setSelectedGrade(assignedGrade);*/
 
                     students.add(student);
                 }
