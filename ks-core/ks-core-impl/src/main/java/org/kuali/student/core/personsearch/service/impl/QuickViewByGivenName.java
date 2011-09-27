@@ -183,7 +183,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
 
             cell = new SearchResultCell();
             cell.setKey(DISPLAY_NAME_RESULT);
-            cell.setValue(person.getName() + "(" + person.getPrincipalName() + ")");
+            cell.setValue(person.getName() + " (" + person.getPrincipalName() + ")");
             resultRow.getCells().add(cell);
 
             result.getRows().add(resultRow);
