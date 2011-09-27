@@ -12,6 +12,9 @@
         TYPE_KEY="kuali.lpr.exam.proctor" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Supervisor" TYPE_DESC="Supervisor"
         TYPE_KEY="kuali.lpr.instructor.supervisor" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Automatic Roster Entry"
+        TYPE_DESC="Roster Entry Automatic"
+        TYPE_KEY="kuali.lpr.roster.entry.type.automatic" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Student" TYPE_DESC="Student"
         TYPE_KEY="kuali.lpr.trans.item.add" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Assistant Instructor"
@@ -26,4 +29,6 @@
     <KSEN_LPR_TYPE NAME="Registrant"
         TYPE_DESC="Registrant who is taking the course"
         TYPE_KEY="kuali.lpr.type.registrant" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Final Grade" TYPE_DESC="Final Grade"
+        TYPE_KEY="kuali.lpr.type.roster.grade.final" VER_NBR="0"/>
 </dataset>
