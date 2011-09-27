@@ -1716,7 +1716,7 @@
   <property name="id" value="kuali.lu.lookup.findProgram.suggest" />
   <property name="widget" value="SUGGEST_BOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
   <property name="results">
    <list>
     <bean parent="result">
