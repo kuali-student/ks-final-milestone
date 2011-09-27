@@ -64,6 +64,7 @@ limitations under the License.
 
     <bean id="courseOfferingList" parent="CollectionGroup">
       <property name="title" value="My Courses"/>
+      <property name="summary" value="Click to view/edit roster or enter grades"/>
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>
@@ -71,9 +72,6 @@ limitations under the License.
       <property name="renderLineActions" value="false"/>
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
-      <property name="layoutManager.lineGroupPrototype.header">
-          <bean parent="HeaderThree"/>
-      </property>
         <property name="items">
           <list>
             <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:labelField.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
