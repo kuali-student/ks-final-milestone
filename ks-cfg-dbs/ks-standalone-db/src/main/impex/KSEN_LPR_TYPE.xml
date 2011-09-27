@@ -12,6 +12,8 @@
         TYPE_KEY="kuali.lpr.exam.proctor" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Supervisor" TYPE_DESC="Supervisor"
         TYPE_KEY="kuali.lpr.instructor.supervisor" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Student" TYPE_DESC="Student"
+        TYPE_KEY="kuali.lpr.trans.item.add" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Assistant Instructor"
         TYPE_DESC="Person who assists the main instructor but is still considered an &quot;instructor&quot;"
         TYPE_KEY="kuali.lpr.type.instructor.assistant" VER_NBR="0"/>
