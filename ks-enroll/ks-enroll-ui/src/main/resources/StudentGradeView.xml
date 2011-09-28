@@ -88,11 +88,6 @@ limitations under the License.
               <bean parent="TextControl" p:size="50"/>
             </property>
           </bean>
-          <bean parent="AttributeField_Form" p:propertyName="birthDate" p:label="Birthdate" p:readOnly="true">
-            <property name="control">
-              <bean parent="TextControl" p:size="50"/>
-            </property>
-          </bean>
           <bean parent="AttributeField_Form" p:propertyName="firstTerm" p:label="First Term" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="50"/>

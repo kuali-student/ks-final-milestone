@@ -191,7 +191,6 @@ public class GradingController extends UifControllerBase {
             credit2.setCredits("2.0");
             creditList.add(credit2);
 
-            studentGradeForm.setBirthDate("September 1, 1992");
             studentGradeForm.setName("Mary");
             studentGradeForm.setFirstTerm("Fall, 2011");
         }

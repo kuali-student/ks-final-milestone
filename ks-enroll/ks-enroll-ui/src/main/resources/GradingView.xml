@@ -72,6 +72,8 @@ limitations under the License.
       <property name="renderLineActions" value="false"/>
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
+      <property name="layoutManager.lineGroupPrototype.footer.styleClasses" value=""/>
+      <property name="layoutManager.lineGroupPrototype.header.styleClasses" value=""/>
         <property name="items">
           <list>
             <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:labelField.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
@@ -144,10 +146,9 @@ limitations under the License.
 
    <bean id="Grading_Footer_page2" parent="Footer">
       <property name="items">
-
         <list>
-          <bean parent="NavigationActionField" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
-          <bean parent="NavigationActionField" p:actionLabel="Submit" p:render="@{submitEnabled eq true}"/>
+          <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
+          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
 

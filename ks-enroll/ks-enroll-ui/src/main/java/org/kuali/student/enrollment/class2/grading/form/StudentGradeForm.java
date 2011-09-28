@@ -27,7 +27,6 @@ public class StudentGradeForm extends UifFormBase {
     private static final long serialVersionUID = -1054046347823982329L;
 
     private String name;
-    private String birthDate;
     private String firstTerm;
     private List<StudentCredit> creditList;
 
@@ -35,14 +34,6 @@ public class StudentGradeForm extends UifFormBase {
 
     public StudentGradeForm(){
         creditList = new ArrayList<StudentCredit>();
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
     }
 
     public List<StudentCredit> getCreditList() {

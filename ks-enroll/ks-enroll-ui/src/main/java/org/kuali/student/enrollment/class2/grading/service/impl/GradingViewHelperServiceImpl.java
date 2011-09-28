@@ -96,11 +96,10 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 context);
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
-                if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey())){
-                    gradingForm.setSaveEnabled(true);
-                }
-                if (StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
+                if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey()) ||
+                    StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
                     gradingForm.setSubmitEnabled(true);
+                    gradingForm.setSaveEnabled(true);
                 }
                 List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(
                         rosterInfo.getGradeRosterEntryIds(), context);
