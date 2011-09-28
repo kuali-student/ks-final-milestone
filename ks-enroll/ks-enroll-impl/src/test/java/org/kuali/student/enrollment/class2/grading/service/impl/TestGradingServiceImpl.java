@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:acal-test-context.xml"}) // TODO create own config file
+@ContextConfiguration(locations = {"classpath:grading-test-context.xml"})
 public class TestGradingServiceImpl {
 
     private GradingService gradingService;
@@ -21,7 +21,7 @@ public class TestGradingServiceImpl {
     public static String principalId = "123";
     public ContextInfo contextInfo = ContextInfo.newInstance();
 
-    //@Autowired // TODO autowire
+    @Autowired
 	public void setAcalServiceValidation(GradingService gradingService) {
 		this.gradingService = gradingService;
 	}
@@ -34,7 +34,6 @@ public class TestGradingServiceImpl {
     }
     
     @Test
-    @Ignore("Need to get service wired")
     public void testSetup() {
         assertNotNull(gradingService);
     }
