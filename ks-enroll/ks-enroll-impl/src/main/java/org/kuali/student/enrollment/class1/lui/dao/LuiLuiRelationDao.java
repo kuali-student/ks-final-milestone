@@ -27,4 +27,13 @@ public class LuiLuiRelationDao extends GenericEntityDao<LuiLuiRelationEntity>{
 		.setParameter("luLuRelationTypeKey", luLuRelationTypeKey)
 		.getResultList();
 	}
+
+    @SuppressWarnings({"unchecked"})
+	public List<String> getRelatedLuisByLuiId(String luiId, String luLuRelationTypeKey){
+		return (List<String>) em.createQuery("select rel.lui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId and rel.luiLuiRelationType.id=:luLuRelationTypeKey")
+		.setParameter("luiId", luiId)
+		.setParameter("luLuRelationTypeKey", luLuRelationTypeKey)
+		.getResultList();
+	}
+
 }

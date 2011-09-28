@@ -308,7 +308,9 @@ public class LuiServiceImpl implements LuiService {
 			String luLuRelationTypeKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-	    return new ArrayList<String>();
+        List<String> returnVals = new ArrayList<String>();
+        returnVals.addAll(luiLuiRelationDao.getRelatedLuisByLuiId(luiId, luLuRelationTypeKey));
+	    return returnVals;
 	}
 
 	@Override
