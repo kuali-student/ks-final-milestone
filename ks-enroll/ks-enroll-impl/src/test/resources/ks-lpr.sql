@@ -67,8 +67,6 @@ INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kua
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.dropped.late', 'Dropped Late', 'kuali.lpr.process.student.course.registration', 'The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.active', 'Active', 'kuali.lpr.process.student.course.registration', 'The student plans on taking this course or program', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.assigned', 'Assigned', 'kuali.lpr.process.instructor.course.assignment', 'The instructor is assigned to teach this course or section.', 0)
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.assessment.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.assessment.process.course.grading')
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.assessment.process.course.grading')
 
 //LPR Trans States
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.trans.item.new', 'New', 'kuali.lpr.process.student.course.registration', 'The student is attemptng to enroll in this course or section.', 0)
@@ -186,10 +184,6 @@ INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lp
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.trans.registrant', 'Student', 'Student', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.trans.item.add', 'Student', 'Student', 0)
 
-//For Grading
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.roster.grade.final', 'Final Grade', 'Final Grade', 0)
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.roster.entry.type.automatic', 'Automatic Roster Entry', 'Roster Entry Automatic', 0)
-
 // LuiPersonRelationEntity
 INSERT INTO KSEN_LPR (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, PERSONID, LUIID, COMMITMENTPERCENT, EFFECTIVEDATE, EXPIRATIONDATE, RELATION_TYPE_ID, RELATION_STATE_ID, VER_NBR) VALUES ('testLprId1', 'admin', {ts '1900-01-01 00:00:00.0'}, 'admin', {ts '2000-01-01 00:00:00.0'}, 'testPersonId1', 'testLuiId1', .5, {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.lpr.type.registrant', 'kuali.lpr.state.registered', 0)
 
@@ -198,25 +192,3 @@ INSERT INTO KSEN_LPR_TRANS (ID, REQ_PERSON_ID, LPR_TYPE_ID, STATE_ID, CREATETIME
 
 
 INSERT INTO KSEN_LPR_TRANS_ITEMS (ID, PERSON_ID, NEW_LUI_ID, EXIST_LUI_ID, TYPE_ID, STATE_ID, LPR_TRANS_ID) VALUES ('testLprTransItemId1', 'Student1','Lui-1',null, 'kuali.lpr.trans.item.add','kuali.lpr.trans.item.new', 'testLprTransId1')
-
-//Related to Grading
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.assessment.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.assessment.process.course.grading')
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.assessment.process.course.grading')
-
-INSERT INTO KSEN_LPR_ROSTER (ID,CREATEID,CREATETIME,UPDATEID,UPDATETIME,OBJ_ID,VER_NBR,NAME,RT_DESCR_ID,MAX_CAPACITY,CHECK_IN_REQ,STATE_ID,TYPE_ID,ATP_DUR_TYP_KEY,TM_QUANTITY) VALUES ('testLprRoster1',null,null,null,null,null,null,'Chemistry I Roster','RICHTEXT-TRT-9',5,0,'kuali.assessment.roster.state.ready','kuali.lpr.type.roster.grade.final','testTermId1',null)
-INSERT INTO KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID,LUI_ID) VALUES ('testLprRoster1','Lui-1')
-INSERT INTO KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID,LUI_ID) VALUES ('testLprRoster1','Lui-2')
-
-INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry1',null,null,null,null,null,null,null,null,'testLprRoster1','instructor1','1','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
-INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry2',null,null,null,null,null,null,null,null,'testLprRoster1','student1','1','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
-INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry3',null,null,null,null,null,null,null,null,'testLprRoster1','student2','2','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
-INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry4',null,null,null,null,null,null,null,null,'testLprRoster1','student3','3','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
-INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry5',null,null,null,null,null,null,null,null,'testLprRoster1','student4','4','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
-
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('instructor1',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','admin',1,'kuali.lpr.state.assigned','kuali.lpr.type.instructor.main')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('instructor11',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-3','admin',1,'kuali.lpr.state.assigned','kuali.lpr.type.instructor.main')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student1',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','testPersonId1',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student2',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','testuser1',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student3',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','testuser2',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student4',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','testuser3',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
-INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student5',null,0,'admin',{ts '2012-06-18 00:00:00'},'admin',{ts '2012-06-18 00:00:00'},{ts '2000-01-01 00:00:00'},{ts '2000-12-31 00:00:00'},'Lui-1','testuser4',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
