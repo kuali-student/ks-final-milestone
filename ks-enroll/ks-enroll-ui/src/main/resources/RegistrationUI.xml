@@ -221,6 +221,7 @@
                   value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>
         <property name="propertyName" value="registrationGroupWrappers"/>
         <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="false"/>
         <property name="layoutManager.lineGroupPrototype.styleClasses" value="regGroup-item"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="actionFields">
