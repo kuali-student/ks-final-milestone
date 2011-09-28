@@ -30,6 +30,8 @@ import java.util.Random;
 
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final long serialVersionUID = 1L;
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING =
+                                                            "Create a new course offering";
 
     private transient CourseService courseService;
     private transient CourseOfferingService courseOfferingService;
@@ -37,11 +39,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     @Override
     public void saveDataObject() {
         CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getDataObject();
-
+//        System.out.println(">>>>> in CourseOfferingInfoMaintainableImpl.saveDataObject method");
 
         //get termKey from the user input through UI
         String termKey = courseOfferingInfo.getTermKey();
-        //get courseId from the user input through UI
+        //get courseId from courseOfferingInfo, which is retrieved based on course Code that the user input through UI
         String courseId = courseOfferingInfo.getCourseId();
 
         CourseInfo course = null;
@@ -96,12 +98,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
-        //for each instructor, set personId to Id field, state, and type
-        for (OfferingInstructorInfo instructor : instructors) {
-            instructor.setId(instructor.getPersonId());
-            instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-            instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-        }
+
         //set the list of instructors to the CourseOfferingInfo coi
         if (coi != null) {
             coi.setInstructors(instructors);
@@ -210,9 +207,22 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     @Override
     public void prepareForSave() {
         if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
+//          System.out.println(">>>>> in CourseOfferingInfoMaintainableImpl.prepareForSave method");
+            //set documentDescription to document.documentHeader.documentDescription
+            //document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING);
+
+            //set state and type value for the courseOfferingInfo
             CourseOfferingInfo newCourseOffering = (CourseOfferingInfo) getDataObject();
             newCourseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
             newCourseOffering.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+
+            //for each instructor, set personId to Id field, state, and type
+            List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();
+            for(OfferingInstructorInfo instructor: instructors){
+                instructor.setId(instructor.getPersonId());
+                instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+                instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+            }
         }
         super.prepareForSave();
     }
