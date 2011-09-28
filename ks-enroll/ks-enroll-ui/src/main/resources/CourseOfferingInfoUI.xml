@@ -30,11 +30,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfoUI.courseId"/>
                 <ref bean="CourseOfferingInfoUI.termKey"/>
                 <ref bean="CourseOfferingInfoUI.subjectArea"/>
+                <ref bean="CourseOfferingInfoUI.courseOfferingCode"/>
                 
                 <!--  other attributes not used by UI -->		
                 <ref bean="CourseOfferingInfo.typeKey"/>
                 <ref bean="CourseOfferingInfo.stateKey"/>
-                <ref bean="CourseOfferingInfo.courseOfferingCode"/>
                 <ref bean="CourseOfferingInfo.courseNumberSuffix"/>
                 <ref bean="CourseOfferingInfo.courseTitle"/>
                 <ref bean="CourseOfferingInfo.isHonorsOffering"/>
@@ -75,7 +75,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
     <bean id="CourseOfferingInfoUI.courseId" parent="CourseOfferingInfo.courseId-parent">
         <property name="label" value="Course ID" />
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
         <property name="summary" value=""/>
         <property name="validCharactersConstraint">
             <bean parent="NoWhitespacePatternConstraint" />
@@ -83,6 +83,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property> 
+    </bean>
+
+    <bean id="CourseOfferingInfoUI.courseOfferingCode" parent="CourseOfferingInfo.courseOfferingCode-parent">
+        <property name="label" value="Course Code" />
+        <property name="required" value="true"/>
+        <property name="summary" value=""/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
+        <property name="controlField">
+            <bean parent="TextControl" p:size="16"/>
+        </property>
     </bean>
 
     <bean id="CourseOfferingInfoUI.termKey" parent="CourseOfferingInfo.termKey-parent">
@@ -136,6 +148,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl" />
         <property name="items">
             <list merge="true">
+            <!-- remove merge="true" would not inherit Document Overview section -->
+            <!--<list>-->
                 <bean parent="MaintenanceGroupSectionGridLayout">
                     <property name="title" value="Create a New Course Offering"/>
                     <property name="items">
@@ -150,11 +164,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
                                 </property>
                              </bean>
-                            <bean parent="AttributeField" p:propertyName="courseId">
+                            <bean parent="AttributeField" p:propertyName="courseOfferingCode">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
-                                        <entry key="id" value="courseId"/>
+                                        <entry key="code" value="courseOfferingCode"/>
                                     </map>
                                 </property> 
                             </bean>
