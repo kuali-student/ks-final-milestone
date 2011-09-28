@@ -5,5 +5,5 @@
     <KSEN_LPR_ROSTER ATP_DUR_TYP_KEY="testTermId1" CHECK_IN_REQ="0"
         ID="testLprRoster1" MAX_CAPACITY="5" NAME="Chemistry I Roster"
         RT_DESCR_ID="RICHTEXT-TRT-9"
-        STATE_ID="kuali.lpr.type.roster.grade.final" TYPE_ID="kuali.assessment.roster.state.ready"/>
+        STATE_ID="kuali.assessment.roster.state.ready" TYPE_ID="kuali.lpr.type.roster.grade.final"/>
 </dataset>
