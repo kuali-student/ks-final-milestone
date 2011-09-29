@@ -86,6 +86,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //wait until req. comp. types are loaded and user actually selects a type from drop down
         reqCompTypesList.setEnabled(false);
+        reqCompTypesList.ensureDebugId("Rule Type");
         setEnableAddRuleButtons(false);
 
         setupReqCompTypesList();

@@ -63,6 +63,7 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
+            checkBox.ensureDebugId(checkBox.getHTML());
             return;
         }
 
@@ -79,6 +80,10 @@ public class RuleNodeWidget extends FocusPanel {
             }
             toggle.setText(userObject.getType() == Token.Or ? Token.createOrToken().value.toUpperCase() : Token.createAndToken().value.toUpperCase());
             toggle.addStyleName("KS-Rules-Table-Cell-ANDOR");
+            if (userObject instanceof StatementVO) {
+                StatementVO statementVO = (StatementVO)userObject;
+                checkBox.ensureDebugId(toggle.getText() + "-" + statementVO.getReqComponentVOCount());
+            }
             checkBoxAndToggle.add(toggle);
             if (ruleTable != null) {
                 ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);
@@ -99,9 +104,11 @@ public class RuleNodeWidget extends FocusPanel {
             if (showCheckbox) {
                 checkBoxAndEdit.add(checkBox);
                 checkBox.setHTML(node.getUserObject().toString());
+                checkBox.ensureDebugId(checkBox.getHTML());
             } else {
                 checkBoxAndEdit.add(new KSLabel(node.getUserObject().toString()));
             }
+            edit.ensureDebugId(node.getUserObject().toString() + "-Edit");
             edit.addStyleName("KS-Rules-URL-Link");
             checkBoxAndEdit.add(edit);
             if (ruleTable != null) {

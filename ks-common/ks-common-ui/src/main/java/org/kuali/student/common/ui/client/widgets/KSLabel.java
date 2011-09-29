@@ -41,6 +41,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text){
         super(text);
+        ensureDebugId(text);
         setupDefaultStyle();
     }
 
@@ -53,6 +54,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text, boolean wordWrap){
         super(text, wordWrap);
+        ensureDebugId(text);
         setupDefaultStyle();
     }
 

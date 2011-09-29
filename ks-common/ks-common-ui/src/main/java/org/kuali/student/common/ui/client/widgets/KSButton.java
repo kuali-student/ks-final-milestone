@@ -51,21 +51,25 @@ public class KSButton extends KSButtonAbstract{
 	public KSButton(String text, ClickHandler handler){
 		this.init(text, handler);
 		this.initWidget(button);
+		this.ensureDebugId(text);
 	}	
 	
 	public KSButton(String text){
 		this.init(text);
 		this.initWidget(button);
+		this.ensureDebugId(text);
 	}
 	
 	public KSButton(String text, ButtonStyle style){
 		this.init(text, style);
 		this.initWidget(button);
+		this.ensureDebugId(text);
 	}
 
     public KSButton(String text, ButtonStyle style, ClickHandler handler){
         this.init(text, style, handler);
         this.initWidget(button);
+        this.ensureDebugId(text);
     }   
     
     public void setText(String text){

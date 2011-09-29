@@ -392,7 +392,8 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
         final StringBuilder debugId = new StringBuilder();
         if ("RowHeader".equals(columnId)) {
             //Setup debug id
-            for (int i = 0; i < columnCount; i++) {
+            //Skip the first 'row selection' column
+            for (int i = 1; i < columnCount; i++) {
                 Column column = tableModel.getColumn(i);
                 Object value = row.getCellData(column.getId());
                 debugId.append(value);
