@@ -990,6 +990,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if(lprTransactionInfo.getLprTransactionItems()!=null){
                 for(LprTransactionItemInfo lprItemInfo: lprTransactionInfo.getLprTransactionItems()){
                     LprTransactionItemEntity lprItemEntity =  new LprTransactionItemEntity(lprItemInfo);
+                    
+                    if (null != lprItemInfo.getStateKey()) {
+                        lprItemEntity.setLprTransactionItemState(stateDao.find(lprItemInfo.getStateKey()));
+                    }
+
+                    if (null != lprItemInfo.getTypeKey()) {
+                        lprItemEntity.setLprTransactionItemType(lprTypeDao.find(lprItemInfo.getTypeKey()));
+                    }
+                    if (null != lprItemInfo.getDescr()) {
+                        lprItemEntity.setDescr(new LprRichTextEntity(lprItemInfo.getDescr()));
+                    }
                     lprTransItemDao.merge(lprItemEntity);
                     lprTransItemEntityList.add(lprTransItemDao.find(lprItemEntity.getId()));
                     
