@@ -188,6 +188,8 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 throw new RuntimeException("No current Term found");
             }
 
+        form.setCurrentTerm(term.getName());
+
             ContextInfo context = ContextInfo.newInstance();
             List courseOfferingInfoList = new ArrayList();
 

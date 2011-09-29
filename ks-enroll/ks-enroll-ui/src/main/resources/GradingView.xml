@@ -19,12 +19,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-   <bean id="gradingView" parent="KSFormView">
+   <bean id="gradingView" parent="KSFormView" p:header.styleClasses="border-bottom: 2px solid #000000">
    	  <property name="id" value="GradingView"/>
-      <property name="title" value="Grading" />
+      <property name="title" value="@{title}" />
 	  <property name="entryPageId" value="page1"/>
       <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
-       
+
+      <property name="header">
+        <bean parent="HeaderTwo"/>
+      </property>
+
+      <!--<property name="propertyReplacers">
+        <list>
+            <bean parent="PropertyReplacer" p:propertyName="title"
+              p:condition="#view.currentPageId eq 'page2'" p:replacement="@{selectedCourseOffering.courseTitle}"/>
+        </list>
+      </property>-->
+      <property name="additionalCssFiles">
+      <list >
+        <value>/krad/css/ks/ks-theme.css</value>
+        <value>/krad/css/ks/fss-theme-ks.css</value>
+        <value>/ks-enroll/css/grading.css</value>
+      </list>
+    </property>
+
       <property name="items">
           <list>
           	<bean parent="Page" p:id="page1">
@@ -49,7 +67,7 @@ limitations under the License.
                </bean>
           </list>
       </property>
-       <property name="footer.render" value="false"/>
+      <property name="footer.render" value="false"/>
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.GradingForm" />
    </bean>
    
@@ -62,9 +80,10 @@ limitations under the License.
       </property>
    </bean>
 
-    <bean id="courseOfferingList" parent="CollectionGroup">
-      <property name="title" value="My Courses"/>
-      <property name="summary" value="Click to view/edit roster or enter grades"/>
+    <bean id="courseOfferingList" parent="CollectionGroup" p:width="60%">
+      <property name="summary" value="@{currentTerm}"/>
+      <property name="styleClasses" value="group-border"/>
+      <property name="summaryMessageField.styleClasses" value="font-bold"/>
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>
@@ -72,13 +91,35 @@ limitations under the License.
       <property name="renderLineActions" value="false"/>
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
-      <property name="layoutManager.lineGroupPrototype.footer.styleClasses" value=""/>
-      <property name="layoutManager.lineGroupPrototype.header.styleClasses" value=""/>
-        <property name="items">
-          <list>
+      <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
+      <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+      <property name="header.styleClasses" value="header-borderBottom"/>
+      <property name="header.group">
+         <bean parent="GroupBodyOnly">
+             <property name="layoutManager.orientation" value="VERTICAL"/>
+             <property name="items">
+                <list>
+                   <bean parent="MessageField" p:messageText="My Courses" p:styleClasses="title-bold"/>
+                   <bean parent="MessageField" p:messageText="Click to view/edit roster or enter grades" p:styleClasses="font-light"/>
+                </list>
+             </property>
+         </bean>
+      </property>
+      <property name="items">
+         <list>
             <bean parent="ActionLinkField" p:methodToCall="loadStudents" p:actionLabel="@{#line.courseTitle}" p:labelField.render="false" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
-          </list>
-        </property>
+         </list>
+      </property>
+      <property name="footer">
+          <bean parent="Footer" p:styleClasses="header-borderTop">
+            <property name="items">
+                <list>
+                    <bean parent="MessageField" p:messageText="Grades are due:" p:styleClasses="font-light12"/>
+                    <bean parent="MessageField" p:messageText="@{gradeDueDate}" p:styleClasses="font-light"/>
+                </list>
+            </property>
+          </bean>
+      </property>
    </bean>
 
     <bean id="GradingView-page2" parent="GroupGridLayout">
@@ -91,7 +132,6 @@ limitations under the License.
    </bean>
 
     <bean id="gradeStudentGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
-      <property name="title" value="Grade Roster"/>
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent"/>
       <property name="propertyName" value="students"/>
@@ -137,7 +177,6 @@ limitations under the License.
 
    <bean id="Grading_Footer_page1" parent="Footer">
       <property name="items">
-
         <list>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>

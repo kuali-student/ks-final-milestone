@@ -49,6 +49,14 @@ public class GradingForm extends UifFormBase{
     private boolean saveEnabled;
     private boolean submitEnabled;
 
+    private String currentTerm;
+
+    private CourseOfferingInfo selectedCourseOffering;
+
+    private String title = "Grading";
+
+    private String gradeDueDate = " ";
+
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;
 
@@ -96,4 +104,35 @@ public class GradingForm extends UifFormBase{
         this.submitEnabled = submitEnabled;
     }
 
+    public String getCurrentTerm() {
+        return currentTerm;
+    }
+
+    public void setCurrentTerm(String currentTerm) {
+        this.currentTerm = currentTerm;
+    }
+
+    public CourseOfferingInfo getSelectedCourseOffering() {
+        return selectedCourseOffering;
+    }
+
+    public void setSelectedCourseOffering(CourseOfferingInfo selectedCourseOffering) {
+        this.selectedCourseOffering = selectedCourseOffering;
+    }
+
+    public String getTitle() {
+       return title;
+    }
+
+    public void setTitle(String title) {
+       this.title = title;
+    }
+
+    public String getGradeDueDate() {
+        return gradeDueDate;
+    }
+
+    public void setGradeDueDate(String gradeDueDate) {
+        this.gradeDueDate = gradeDueDate;
+    }
 }

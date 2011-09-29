@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
@@ -76,7 +77,12 @@ public class GradingController extends UifControllerBase {
             selectedLineIndex = Integer.parseInt(selectedLine);
         }
 
-        String courseId = gradingForm.getCourseOfferingInfoList().get(selectedLineIndex).getId();
+        CourseOfferingInfo selectedCourse = gradingForm.getCourseOfferingInfoList().get(selectedLineIndex);
+        String courseId = selectedCourse.getId();
+        gradingForm.setSelectedCourseOffering(selectedCourse);
+
+        //FIXME: Just a workaround as the propertyreplacer not working
+        gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseTitle());
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
         gradingForm.setStudents(students);
