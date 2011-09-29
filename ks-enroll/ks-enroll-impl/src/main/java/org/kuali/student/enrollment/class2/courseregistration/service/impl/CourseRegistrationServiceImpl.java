@@ -47,7 +47,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+@Transactional(noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
     private LuiPersonRelationService lprService;
