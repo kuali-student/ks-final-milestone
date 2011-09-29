@@ -979,15 +979,28 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
-
+        List<LprTransactionItemEntity> lprTransItemEntityList = new ArrayList<LprTransactionItemEntity>();
         if (null != lprTrans) {
             LprTransactionEntity modifiedLprTrans = new LprTransactionEntity(lprTransactionInfo);
             if (lprTransactionInfo.getStateKey() != null)
                 modifiedLprTrans.setLprTransState(stateDao.find(lprTransactionInfo.getStateKey()));
             if (lprTransactionInfo.getTypeKey() != null)
                 modifiedLprTrans.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
+            
+            if(lprTransactionInfo.getLprTransactionItems()!=null){
+                for(LprTransactionItemInfo lprItemInfo: lprTransactionInfo.getLprTransactionItems()){
+                    LprTransactionItemEntity lprItemEntity =  new LprTransactionItemEntity(lprItemInfo);
+                    lprTransItemDao.merge(lprItemEntity);
+                    lprTransItemEntityList.add(lprTransItemDao.find(lprItemEntity.getId()));
+                    
+                }
+            }
+            
             lprTransDao.merge(modifiedLprTrans);
-            return lprTransDao.find(modifiedLprTrans.getId()).toDto();
+            LprTransactionEntity lprTransToReturn =  lprTransDao.find(modifiedLprTrans.getId());
+            lprTransToReturn.setLprTransactionItems(lprTransItemEntityList);
+            return lprTransToReturn.toDto();
+            
 
         } else
             throw new DoesNotExistException(lprTransactionId);

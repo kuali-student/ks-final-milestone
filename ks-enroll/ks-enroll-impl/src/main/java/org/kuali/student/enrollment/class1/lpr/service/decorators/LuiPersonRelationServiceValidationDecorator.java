@@ -81,6 +81,8 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         if (lprTransactionInfo.getId() == null) {
             throw new DataValidationErrorException("Id is mandatory on an update");
         }
+        if(lprTransactionId==null || !lprTransactionId.equals(lprTransactionInfo.getId()))
+            throw new DataValidationErrorException("Ids are not same in the update parameter");
 
         return getNextDecorator().updateLprTransaction(lprTransactionId, lprTransactionInfo, context);
     }
