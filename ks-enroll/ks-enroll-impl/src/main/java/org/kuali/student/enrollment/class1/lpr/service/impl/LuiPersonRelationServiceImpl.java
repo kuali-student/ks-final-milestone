@@ -502,6 +502,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
      *      org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo deleteLprTransaction(String lprTransactionId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -757,7 +758,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = false)
     public LprTransactionInfo createLprTransaction(LprTransactionInfo lprTransactionInfo, ContextInfo context)
             throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -818,6 +819,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -971,7 +973,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return null;
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     @Override
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo,
             ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
