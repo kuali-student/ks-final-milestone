@@ -121,6 +121,7 @@
 
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao"/>
+        <property name="luiDao" ref="luiDao"/>
     </bean>
 
     <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler"></bean>
@@ -134,5 +135,6 @@
     </bean>
 
     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao"></bean>
+    <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao"></bean>
 
 </beans>
