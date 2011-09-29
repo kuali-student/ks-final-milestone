@@ -19,7 +19,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-   <bean id="gradingView" parent="KSFormView" p:header.styleClasses="border-bottom: 2px solid #000000">
+   <bean id="gradingView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="GradingView"/>
       <property name="title" value="@{title}" />
 	  <property name="entryPageId" value="page1"/>
