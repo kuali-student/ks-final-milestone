@@ -136,7 +136,8 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     @Override
     public SearchResult search(final IdentityManagementService identityService, final SearchRequest searchRequest) {
         final SearchResult result = new SearchResult();
-
+        searchRequest.setSortDirection(SortDirection.ASC);
+        
         List<Person> persons = findPersons(identityService, searchRequest);
         // TODO finish sorting
         if (searchRequest.getSortDirection() != null) {
