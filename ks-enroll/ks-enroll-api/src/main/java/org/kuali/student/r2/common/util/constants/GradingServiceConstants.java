@@ -15,13 +15,20 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
+
 /**
  * Grading Service Constants
  */
 public class GradingServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "grading";
-    
+    public static final String REF_OBJECT_URI_GRADE_ROSTER = NAMESPACE + "/" + GradeRosterInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_GRADE_ROSTER_ENTRY = NAMESPACE + "/" + GradeRosterEntryInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_GRADE_VALUES_GROUP = NAMESPACE + "/" + GradeValuesGroupInfo.class.getSimpleName();    
+    // grade values group type keys
     public static final String  RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
     
     public static final String RESULT_VALUE_LETTER_GRADE_TYPE  = "kuali.lrc.type.letter.grade";
