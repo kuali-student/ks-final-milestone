@@ -42,6 +42,14 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
 
 
     @Override
+    /*
+     * Return a list of terms that belong to the Academic Year with the start year equal to the current year.
+     *
+     * From Bonnie: The current implementation has some problems.
+     * For instance, in Jan 2012, although we are still in Academic Calendar 2011 - 2012, probably the term of
+     * Spring 2012, the current implementation can't display terms of Academic Calendar 2011 - 2012, but can
+     * only display terms of Academic Calendar 2012 - 2013.
+     */
     public List<KeyValue> getKeyValues() {
 
         List<AcademicCalendarInfo> acals;
