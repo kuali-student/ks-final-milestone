@@ -48,10 +48,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property> 
@@ -64,10 +63,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property>
