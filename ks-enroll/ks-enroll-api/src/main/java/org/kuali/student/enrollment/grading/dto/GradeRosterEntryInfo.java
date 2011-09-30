@@ -11,6 +11,7 @@
 package org.kuali.student.enrollment.grading.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -28,7 +29,7 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "GradeRosterEntryInfo", propOrder = {"id", "studentId", "activityOfferingId", "assignedGradeKey",
+@XmlType(name = "GradeRosterEntryInfo", propOrder = {"id", "studentId", "validGradeGroupKeys", "activityOfferingId", "assignedGradeKey",
         "administrativeGradeKey", "calculatedGradeKey", "creditsEarnedKey", "meta", "attributes", "_futureElements"})
 public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements GradeRosterEntry, Serializable {
 
@@ -54,12 +55,22 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
 
     @XmlElement
     private String creditsEarnedKey;
+    
+    @XmlElement
+    private List<String> validGradeGroupKeys;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public GradeRosterEntryInfo() {
         super();
+        this.activityOfferingId = null;
+        this.studentId = null;
+        this.assignedGradeKey = null;
+        this.administrativeGradeKey = null;
+        this.calculatedGradeKey = null;
+        this.creditsEarnedKey = null;
+        this.validGradeGroupKeys = new ArrayList<String>();
     }
 
     @Override
@@ -123,5 +134,13 @@ public class GradeRosterEntryInfo extends HasAttributesAndMetaInfo implements Gr
 
     public void setAdministrativeGradeKey(String administrativeGradeKey) {
         this.administrativeGradeKey = administrativeGradeKey;
+    }
+
+    public void setValidGradeGroupKeys(List<String> validGradeGroupKeys) {
+        this.validGradeGroupKeys = validGradeGroupKeys;
+    }
+    @Override
+    public List<String> getValidGradeGroupKeys() {
+        return validGradeGroupKeys;
     }
 }

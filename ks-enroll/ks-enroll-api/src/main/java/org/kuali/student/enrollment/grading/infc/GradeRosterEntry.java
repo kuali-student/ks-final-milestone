@@ -11,6 +11,8 @@
 
 package org.kuali.student.enrollment.grading.infc;
 
+import java.util.List;
+
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.HasPrimaryKey;
@@ -26,7 +28,7 @@ public interface GradeRosterEntry extends HasId, HasPrimaryKey, HasAttributesAnd
     public String getStudentId();
 
     /**
-     * This method ...
+     * This method gets the actvity offering id for the roster entry
      * 
      * @return
      */
@@ -60,4 +62,13 @@ public interface GradeRosterEntry extends HasId, HasPrimaryKey, HasAttributesAnd
      * @return
      */
     public String getCreditsEarnedKey();
+    
+    
+    /**
+     * 
+     *Gets the valid grade for a student
+     * 
+     * @return
+     */
+    public List<String> getValidGradeGroupKeys();
 }

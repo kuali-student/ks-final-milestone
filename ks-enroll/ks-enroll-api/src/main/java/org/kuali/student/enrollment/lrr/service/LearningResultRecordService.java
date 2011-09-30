@@ -79,6 +79,21 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
 	 */
     public List<LearningResultRecordInfo> getLearningResultRecordsForLpr(@WebParam(name="lprId")String lprId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+    
+    /**
+     * 
+     * Retrieves a list of learning result records based on LPR and the type of LRR
+     * 
+     * @param lprId
+     * @param lrrType
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprAndType(@WebParam(name="lprId")String lprId, @WebParam(name="lrrType")String lrrType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
 
     /** 

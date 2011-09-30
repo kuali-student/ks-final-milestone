@@ -370,28 +370,7 @@ public class GradingServiceMockImpl implements GradingService {
 
     }
 
-    @Override
-    public List<String> getValidGradeGroupKeysForStudentByRoster(String studentId, String rosterId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        List<String> rvgIds = new ArrayList<String>();
-
-        if (studentId.equals("1100")) {
-            rvgIds.add("letter");
-        } else if (studentId.equals("1101")) {
-            rvgIds.add("percent");
-        } else if (studentId.equals("1102")) {
-            rvgIds.add("passFail");
-        } else if (studentId.equals("1103")) {
-            rvgIds.add("satisfactory");
-        } else {
-            rvgIds.add("letter");
-        }
-
-        return rvgIds;
-    }
-
+   
     @Override
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,

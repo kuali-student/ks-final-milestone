@@ -143,13 +143,6 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public List<String> getValidGradeGroupKeysForStudentByRoster(String studentId, String rosterId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getValidGradeGroupKeysForStudentByRoster(studentId, rosterId, context);
-    }
-
-    @Override
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

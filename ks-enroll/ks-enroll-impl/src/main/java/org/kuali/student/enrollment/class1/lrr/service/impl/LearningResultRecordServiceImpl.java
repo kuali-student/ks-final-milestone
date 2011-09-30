@@ -16,6 +16,8 @@ import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 
 import javax.jws.WebParam;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LearningResultRecordServiceImpl implements LearningResultRecordService {
@@ -158,6 +160,13 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
+    }
+
+    @Override
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprAndType(String lprId, String lrrType) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<LearningResultRecordInfo>();
     }
 
 }

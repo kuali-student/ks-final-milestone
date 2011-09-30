@@ -473,30 +473,6 @@ public class GradingServiceImpl implements GradingService {
      * This method ...
      * 
      * @param studentId
-     * @param rosterId
-     * @param context
-     *            Context information containing the principalId and locale
-     *            information about the caller of service operation
-     * @return
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             authorization failure
-     */
-    @Override
-    public List<String> getValidGradeGroupKeysForStudentByRoster(@WebParam(name = "studentId") String studentId,
-            @WebParam(name = "rosterId") String rosterId, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return null; // TODO implement method.
-    }
-
-    /**
-     * This method ...
-     * 
-     * @param studentId
      * @param courseOfferingId
      * @param context
      *            Context information containing the principalId and locale
