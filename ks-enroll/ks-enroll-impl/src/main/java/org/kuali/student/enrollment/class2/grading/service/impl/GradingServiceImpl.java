@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -40,62 +42,6 @@ public class GradingServiceImpl implements GradingService {
     private LuiService luiService;
     private GradeRosterAssembler gradeRosterAssembler;
     private GradeRosterEntryAssembler gradeRosterEntryAssembler;
-
-    public LuiPersonRelationService getLprService() {
-        return lprService;
-    }
-
-    public void setLprService(LuiPersonRelationService lprService) {
-        this.lprService = lprService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-    public LRCService getLrcService() {
-        return lrcService;
-    }
-
-    public void setLrcService(LRCService lrcService) {
-        this.lrcService = lrcService;
-    }
-
-    public LearningResultRecordService getLrrService() {
-        return lrrService;
-    }
-
-    public void setLrrService(LearningResultRecordService lrrService) {
-        this.lrrService = lrrService;
-    }
-
-    public LuiService getLuiService() {
-        return luiService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
-
-    public GradeRosterAssembler getGradeRosterAssembler() {
-        return gradeRosterAssembler;
-    }
-
-    public void setGradeRosterAssembler(GradeRosterAssembler gradeRosterAssembler) {
-        this.gradeRosterAssembler = gradeRosterAssembler;
-    }
-
-    public GradeRosterEntryAssembler getGradeRosterEntryAssembler() {
-        return gradeRosterEntryAssembler;
-    }
-
-    public void setGradeRosterEntryAssembler(GradeRosterEntryAssembler gradeRosterEntryAssembler) {
-        this.gradeRosterEntryAssembler = gradeRosterEntryAssembler;
-    }
 
     /**
      * This method returns the TypeInfo for a given grade roster type key.
@@ -347,7 +293,17 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "newStateKey") String stateKey, @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return null; // TODO implement method.
+
+        LprRosterInfo lprRosterInfo = lprService.getLprRoster(gradeRosterId,context);
+        lprRosterInfo.setStateKey(stateKey);
+
+        try {
+            LprRosterInfo newRoster = lprService.updateLprRoster(gradeRosterId,lprRosterInfo,context);
+            return assembleGradeRoster(newRoster,context);
+        } catch (ReadOnlyException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
@@ -634,7 +590,25 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "assignedGrade") String assignedGradeKey, @WebParam(name = "context") ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return false; // TODO implement method.
+
+        List<String> lprRosterEntryIds = new ArrayList();
+        lprRosterEntryIds.add(gradeRosterEntryId);
+
+        List<LprRosterEntryInfo> entryInfoList = lprService.getLprRosterEntriesByIdList(lprRosterEntryIds,context);
+        if (entryInfoList.isEmpty()){
+            throw new DoesNotExistException("Lpr Roster Entry not exists for the id " + gradeRosterEntryId);
+        }
+
+        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLpr(entryInfoList.get(0).getLprId());
+        for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
+            if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY,lrrInfo.getTypeKey())){
+                 lrrInfo.setResultValueKey(assignedGradeKey);
+                 lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
+                 return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -783,4 +757,59 @@ public class GradingServiceImpl implements GradingService {
         return gradeRosterInfo;
     }
 
+    public LuiPersonRelationService getLprService() {
+        return lprService;
+    }
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    public LearningResultRecordService getLrrService() {
+        return lrrService;
+    }
+
+    public void setLrrService(LearningResultRecordService lrrService) {
+        this.lrrService = lrrService;
+    }
+
+    public LuiService getLuiService() {
+        return luiService;
+    }
+
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
+    public GradeRosterAssembler getGradeRosterAssembler() {
+        return gradeRosterAssembler;
+    }
+
+    public void setGradeRosterAssembler(GradeRosterAssembler gradeRosterAssembler) {
+        this.gradeRosterAssembler = gradeRosterAssembler;
+    }
+
+    public GradeRosterEntryAssembler getGradeRosterEntryAssembler() {
+        return gradeRosterEntryAssembler;
+    }
+
+    public void setGradeRosterEntryAssembler(GradeRosterEntryAssembler gradeRosterEntryAssembler) {
+        this.gradeRosterEntryAssembler = gradeRosterEntryAssembler;
+    }
 }

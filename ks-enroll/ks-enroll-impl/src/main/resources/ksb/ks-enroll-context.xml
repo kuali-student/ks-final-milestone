@@ -110,6 +110,7 @@
         <property name="courseOfferingService" ref="coService" />
         <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
         <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
+        <property name="lrrService" ref="lrrPersistenceService" />
     </bean>
 
     <bean id="ks.exp.gradingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -194,6 +195,11 @@
     <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
+    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
   <!--   
     <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
         <property name="em" ref="enrollEntityManager"/>
@@ -396,7 +402,7 @@
         <property name="luiDao" ref="luiDao"/>
         <property name="lprRosterDao" ref="lprRosterDao"/>
         <property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
-    	<property name="lprStateDao" ref="lprStateDao"/>
+    	<property name="lprStateDao" ref="stateDao"/>
     	<property name="lprTypeDao" ref="lprTypeDao"/>
         <property name="lprTransDao" ref="lprTrasactionDao"/>
         <property name="lprTransItemDao" ref="lprTrasactionItemDao"/>
@@ -406,6 +412,12 @@
     <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
         <property name="nextDecorator" ref="lprPersistenceService"/>
         <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="lrrPersistenceService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+    	<property name="lrrDao" ref="lrrDao"/>
+        <property name="lrrTypeDao" ref="lrrTypeDao" />
+    	<property name="stateService" ref="stateService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -420,11 +432,11 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-   <bean id="lprStateDao" class="org.kuali.student.r2.common.dao.StateDao">
+    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-   <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
+    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

@@ -62,6 +62,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -426,7 +427,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;
+        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+        return stateInfo;
     }
 
     @Override
@@ -511,8 +513,37 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Override
     public LprRosterInfo updateLprRoster(String lprRosterId, LprRosterInfo lprRosterInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        LprRosterEntity lprRosterEntity = lprRosterDao.find(lprRosterId);
+
+        if (lprRosterEntity == null){
+            throw new DoesNotExistException(lprRosterId);
+        }
+
+        LprRosterEntity modifiedLprRoster = new LprRosterEntity(lprRosterInfo);
+        if (lprRosterInfo.getStateKey() != null)
+            modifiedLprRoster.setLprRosterState(findState("kuali.assessment.process.course.grading", lprRosterInfo.getStateKey(), context));
+        if (lprRosterInfo.getTypeKey() != null)
+            modifiedLprRoster.setLprRosterType(lprTypeDao.find(lprRosterInfo.getTypeKey()));
+        lprRosterDao.merge(modifiedLprRoster);
+
+        return lprRosterDao.find(modifiedLprRoster.getId()).toDto();
+    }
+
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException{
+		StateEntity state = null;
+		try {
+			StateInfo stInfo = getState(processKey, stateKey, context);
+			if(stInfo != null){
+				state = new StateEntity(stInfo);
+				return state;
+			}
+			else
+				throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}
     }
 
     @Override
