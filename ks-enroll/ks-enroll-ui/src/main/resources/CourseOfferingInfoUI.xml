@@ -147,9 +147,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl" />
         <property name="items">
-            <list merge="true">
+            <!--<list merge="true">-->
             <!-- remove merge="true" would not inherit Document Overview section -->
-            <!--<list>-->
+            <list>
                 <bean parent="MaintenanceGroupSectionGridLayout">
                     <property name="title" value="Create a New Course Offering"/>
                     <property name="items">
@@ -201,6 +201,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 </bean>  
            
             </list>
+        </property>
+        <property name="footer">
+	        <ref bean="KSFooter_SubmitCancel" />
         </property>
     </bean>  
 
