@@ -15,10 +15,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseRecordInfo, CourseRegistrationInfo> {
 	private AtpService atpService;
 	private GradingService gradingService;
+	
+	//wiring LRCServiceImpl in r2 when it's ready
+	private LRCService lrcService;
 	
 	public AtpService getAtpService() {
 		return atpService;
@@ -36,6 +41,14 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 		this.gradingService = gradingService;
 	}
 
+	public LRCService getLrcService() {
+		return lrcService;
+	}
+
+	public void setLrcService(LRCService lrcService) {
+		this.lrcService = lrcService;
+	}
+
 	@Override
 	public StudentCourseRecordInfo assemble(CourseRegistrationInfo courseReg, ContextInfo context) {
 		StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
@@ -45,6 +58,12 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 		
 		CourseOfferingInfo co = courseReg.getCourseOffering();
 		courseRecord.setCourseTitle(co.getCourseTitle());
+		courseRecord.setCourseCode(co.getCourseOfferingCode());
+		
+		//TODO:The code or number of the primary activity. how to determine which activity is primary?
+		RegGroupRegistrationInfo regGroup = courseReg.getRegGroupRegistration();
+		if(regGroup.getActivityRegistrations()!= null && !regGroup.getActivityRegistrations().isEmpty())
+			courseRecord.setActivityCode(regGroup.getActivityRegistrations().get(0).getActivityOffering().getActivityCode());
 		
 		try{
 			if(co.getTermKey() != null){
@@ -56,7 +75,13 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 			}
 			
 			GradeRosterEntryInfo finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), co.getId(), context);
-			courseRecord.setAssignedGradeValue(finalRosterEntry.getAssignedGradeKey());
+			courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
+			courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
+			courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
+			courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
+			courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
+			courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
+
 		} catch (DoesNotExistException e) {
 			e.printStackTrace();
 		} catch (InvalidParameterException e) {
@@ -69,9 +94,6 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 			e.printStackTrace();
 		}	
 		
-		
-		RegGroupRegistrationInfo regGroup = courseReg.getRegGroupRegistration();
-
 		return courseRecord;
 	}
 
@@ -79,5 +101,53 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 	public CourseRegistrationInfo disassemble(
 			StudentCourseRecordInfo businessDTO, ContextInfo context) {
 		return null;
+	}
+	
+	private String getValue(String key, ContextInfo context){
+		String value = null;
+		if(key != null){
+			try {
+				if(lrcService != null){
+					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
+					value = resultValue.getValue();
+				}
+			} catch (DoesNotExistException e) {
+				e.printStackTrace();
+			} catch (InvalidParameterException e) {
+				e.printStackTrace();
+			} catch (MissingParameterException e) {
+				e.printStackTrace();
+			} catch (OperationFailedException e) {
+				e.printStackTrace();
+			} catch (PermissionDeniedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return value;
+	}
+	
+	private String getScaleKey(String key, ContextInfo context){
+		String scaleKey = null;
+		if(key != null){
+			try {
+				if(lrcService != null){
+					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
+					scaleKey = resultValue.getResultScaleKey();
+				}
+			} catch (DoesNotExistException e) {
+				e.printStackTrace();
+			} catch (InvalidParameterException e) {
+				e.printStackTrace();
+			} catch (MissingParameterException e) {
+				e.printStackTrace();
+			} catch (OperationFailedException e) {
+				e.printStackTrace();
+			} catch (PermissionDeniedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return scaleKey;
 	}
 }

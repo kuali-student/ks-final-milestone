@@ -7,7 +7,6 @@ import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -70,7 +69,17 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			String personId, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		throw new UnsupportedOperationException("Method not yet implemented!");
+		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
+		try {
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudent(personId, context);
+			getCompletedCourseRecords(courseRecords, regs, context);
+		} catch (PermissionDeniedException e) {
+			throw new OperationFailedException();
+		} catch (DisabledIdentifierException e) {
+			throw new OperationFailedException();
+		}
+
+		return courseRecords;
 	}
 
 	@Override
@@ -81,15 +90,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
 			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termKey, context);
-			if(regs != null && !regs.isEmpty()){
-				for (CourseRegistrationInfo reg : regs ){
-					StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
-					if (courseRecord != null) {
-						if(courseRecord.getAssignedGradeValue()!= null)
-							courseRecords.add(courseRecord);
-					}
-				}
-			}
+			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();
 		} catch (DisabledIdentifierException e) {
@@ -99,6 +100,18 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		return courseRecords;
 	}
 
+	private void getCompletedCourseRecords(List<StudentCourseRecordInfo> courseRecords, List<CourseRegistrationInfo> regs, ContextInfo context){			
+		if(regs != null && !regs.isEmpty()){
+			for (CourseRegistrationInfo reg : regs ){
+				StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
+				if (courseRecord != null) {
+					if(courseRecord.getAssignedGradeValue()!= null || courseRecord.getAdministrativeGradeValue() != null)
+						courseRecords.add(courseRecord);
+				}
+			}
+		}		
+	}
+	
 	@Override
 	public GPAInfo getGPAForTerm(String personId, String termKey,
 			String calculationTypeKey, ContextInfo context)
