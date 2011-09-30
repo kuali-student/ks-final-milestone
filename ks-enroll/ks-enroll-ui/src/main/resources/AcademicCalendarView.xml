@@ -57,7 +57,8 @@ limitations under the License.
    </bean>
    -->
    <bean id="AcademicCalendarView-AcalInfo" parent="GroupGridLayout">
-      <property name="title" value="Academic Calendar"/> 
+      <property name="accordion.render" value="false"/>
+      <property name="title" value="Academic Calendar"/>
       <property name="items">
         <list>
           <bean parent="AttributeField_Form" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
