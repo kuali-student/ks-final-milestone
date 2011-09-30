@@ -630,7 +630,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         for (LuiPersonRelationInfo courseLpr : courseLprList) {
 
-            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getId(), context));
+            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getLuiId(), context));
 
         }
 
@@ -773,8 +773,26 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    	List<LuiPersonRelationInfo> courseLprList = new ArrayList<LuiPersonRelationInfo>();
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByPerson(studentId, context);
+
+        if(lprs != null && !lprs.isEmpty()){
+        	for(LuiPersonRelationInfo lpr : lprs){
+        		if(lpr.getTypeKey() != null && lpr.getTypeKey().equals("kuali.lpr.type.registrant")){
+        			courseLprList.add(lpr);
+        		}
+        	}
+        }
+        
+        List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
+
+        for (LuiPersonRelationInfo courseLpr : courseLprList) {
+
+            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getLuiId(), context));
+
+        }
+
+        return courseRegistrationList;
     }
 
     @Override
