@@ -50,7 +50,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="forceUppercase" value="false"/>
     <property name="maxLength" value="10"/>
     <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
+        <bean parent="NoWhitespacePatternConstraint" />
     </property>
     <property name="controlField">
       <bean parent="TextControl" p:size="10"/>
@@ -98,7 +98,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="forceUppercase" value="false"/>
     <property name="maxLength" value="10"/>
     <property name="validCharactersConstraint">
-      <bean parent="AnyCharacterPatternConstraint"/>
+        <bean parent="NoWhitespacePatternConstraint" />
     </property>
     <property name="controlField">
       <bean parent="TextControl" p:size="10"/>
