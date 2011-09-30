@@ -11,16 +11,21 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseregistration.infc.RegRequestItem;
 import org.kuali.student.r2.common.dto.EntityInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegRequestItemInfo", propOrder = {"name", "descr", "typeKey", "stateKey", "studentId",
+@XmlType(name = "RegRequestItemInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "studentId",
         "newRegGroupId", "existingRegGroupId", "okToWaitlist", "okToHoldList", "gradingOptionKey", "creditOptionKey",
         "meta", "attributes", "_futureElements"})
-public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Serializable {
+public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+  
+    @XmlElement
     private String studentId;
 
     @XmlElement
@@ -138,5 +143,5 @@ public class RegRequestItemInfo extends EntityInfo implements RegRequestItem, Se
     public String getStudentId() {
         return studentId;
     }
-
+  
 }

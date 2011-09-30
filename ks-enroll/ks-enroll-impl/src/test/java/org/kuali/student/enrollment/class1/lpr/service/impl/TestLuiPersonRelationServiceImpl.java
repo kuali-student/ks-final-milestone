@@ -543,7 +543,7 @@ public class TestLuiPersonRelationServiceImpl {
         lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
 
-        lprTransactionItem.setResultOptionIds(RESULT_OPTION_IDS);
+        lprTransactionItem.setResultOptionKeys(RESULT_OPTION_IDS);
         List<LprTransactionItemInfo> lprTransItemList = new ArrayList<LprTransactionItemInfo>();
         lprTransItemList.add(lprTransactionItem);
         lprTransactionInfo.setLprTransactionItems(lprTransItemList);

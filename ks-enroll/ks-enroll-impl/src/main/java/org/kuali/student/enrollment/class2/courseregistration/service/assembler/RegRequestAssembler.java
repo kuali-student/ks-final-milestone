@@ -13,9 +13,22 @@ import org.kuali.student.enrollment.lpr.dto.RequestOptionInfo;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTransactionInfo> {
+
+    private LRCService lrcService;
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
 
     @Override
     public RegRequestInfo assemble(LprTransactionInfo baseDTO, ContextInfo context) {
@@ -40,8 +53,30 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
         RegRequestItemInfo regRequestItemInfo = new RegRequestItemInfo();
         EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo> commonAssembler = new EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo>();
         regRequestItemInfo = commonAssembler.assemble(baseDTO, regRequestItemInfo, context);
+        regRequestItemInfo.setId(baseDTO.getId());
+
+        // TODO - sambit . Post Core Slice, move this logic out of assembler and handle exception properly
+        try {
+            if (baseDTO.getResultOptionKeys() != null) {
+
+                for (String key : baseDTO.getResultOptionKeys()) {
+                    ResultValueInfo resultValue = lrcService.getResultValue(key, context);
+                    if (resultValue.getTypeKey().equals(GradingServiceConstants.RESULT_VALUE_LETTER_GRADE_TYPE)
+                            || resultValue.getTypeKey().equals(GradingServiceConstants.RESULT_VALUE_NUMBER_GRADE_TYPE)) {
+                        regRequestItemInfo.setGradingOptionKey(resultValue.getKey());
+                    }
+                    if (resultValue.getTypeKey().equals(GradingServiceConstants.RESULT_VALUE_CREDIT_TYPE)) {
+                        regRequestItemInfo.setCreditOptionKey(resultValue.getKey());
+
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            // Log exception
+        }
+
         regRequestItemInfo.setCreditOptionKey(null);
-        regRequestItemInfo.setGradingOptionKey(null);
+
         regRequestItemInfo.setStudentId(baseDTO.getPersonId());
         regRequestItemInfo.setExistingRegGroupId(baseDTO.getExistingLuiId());
         regRequestItemInfo.setNewRegGroupId(baseDTO.getNewLuiId());
@@ -49,8 +84,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
             if (option.getOptionKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_HOLDLIST_OPTION_KEY))
                 regRequestItemInfo.setOkToHoldList(Boolean.valueOf(option.getOptionValue()));
 
-            else if (option.getOptionKey().equals(
-                    LuiPersonRelationServiceConstants.LPRTRANS_ITEM__WAILISTIST_OPTION_KEY))
+            else if (option.getOptionKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM__WAILISTIST_OPTION_KEY))
                 regRequestItemInfo.setOkToWaitlist(Boolean.valueOf(option.getOptionValue()));
 
             else
@@ -86,8 +120,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
 
     }
 
-    public LprTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, RegResponseItemInfo responseItem,
-            ContextInfo context) {
+    public LprTransactionItemInfo disassembleItem(RegRequestItemInfo regRequestItem, RegResponseItemInfo responseItem, ContextInfo context) {
 
         LprTransactionItemInfo lprTransactionItemInfo = new LprTransactionItemInfo();
         EntityDTOAssembler<RegRequestItemInfo, LprTransactionItemInfo> commonAssembler = new EntityDTOAssembler<RegRequestItemInfo, LprTransactionItemInfo>();

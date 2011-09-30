@@ -21,4 +21,10 @@ package org.kuali.student.r2.common.util.constants;
 public class GradingServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "grading";
+    
+    public static final String  RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
+    
+    public static final String RESULT_VALUE_LETTER_GRADE_TYPE  = "kuali.lrc.type.letter.grade";
+    
+    public static final String RESULT_VALUE_CREDIT_TYPE  = "kuali.lrc.type.credit";
 }

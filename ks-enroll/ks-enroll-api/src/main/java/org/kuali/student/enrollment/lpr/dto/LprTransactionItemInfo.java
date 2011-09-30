@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionIds",
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionKeys",
         "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes",
         "_futureElements"})
 public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransactionItem, Serializable {
@@ -33,7 +33,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
     private String existingLuiId;
 
     @XmlElement
-    private List<String> resultOptionIds;
+    private List<String> resultOptionKeys;
 
     @XmlElement
     private List<RequestOptionInfo> requestOptions;
@@ -50,7 +50,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
         this.newLuiId = null;
         this.existingLuiId = null;
         this.requestOptions = new ArrayList<RequestOptionInfo>();
-        this.resultOptionIds = new ArrayList<String>();
+        this.resultOptionKeys = new ArrayList<String>();
         this._futureElements = null;
     }
 
@@ -69,9 +69,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
                 }
             }
 
-            this.resultOptionIds = new ArrayList<String>();
-            if (null != lprTransactionItem.getResultOptionIds()) {
-                resultOptionIds.addAll(lprTransactionItem.getResultOptionIds());
+            this.resultOptionKeys = new ArrayList<String>();
+            if (null != lprTransactionItem.getResultOptionKeys()) {
+                resultOptionKeys.addAll(lprTransactionItem.getResultOptionKeys());
             }
 
             this.lprTransactionItemResult = new LprTransactionItemResultInfo(
@@ -127,12 +127,12 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
     }
 
     @Override
-    public List<String> getResultOptionIds() {
-        return resultOptionIds;
+    public List<String> getResultOptionKeys() {
+        return resultOptionKeys;
     }
 
-    public void setResultOptionIds(List<String> resultOptions) {
-        this.resultOptionIds = resultOptions;
+    public void setResultOptionKeys(List<String> resultOptions) {
+        this.resultOptionKeys = resultOptions;
     }
 
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {

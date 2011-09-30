@@ -73,6 +73,6 @@ public interface LPRTransactionItem extends IdEntity {
      * 
      * @return
      */
-    public List<String> getResultOptionIds();
+    public List<String> getResultOptionKeys();
 
 }
