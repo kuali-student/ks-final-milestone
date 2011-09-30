@@ -114,4 +114,10 @@
       </property>
     </bean>
 
+    <bean id="KSHeader_Empty" parent="Header">
+      <property name="items">
+          <list/>
+      </property>
+    </bean>
+
 </beans>
