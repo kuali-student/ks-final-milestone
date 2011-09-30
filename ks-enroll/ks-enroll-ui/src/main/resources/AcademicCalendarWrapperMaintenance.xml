@@ -176,6 +176,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      <property name="title" value="Academic Calendar Maintenance"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl" />
+     <property name="header">
+        <ref bean="KSHeader_Empty" />
+     </property>
      <property name="items">
        <list>
           <bean parent="MaintenanceGroupSectionGridLayout">
