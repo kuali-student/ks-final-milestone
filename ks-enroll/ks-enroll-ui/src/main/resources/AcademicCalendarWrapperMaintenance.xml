@@ -52,9 +52,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           <property name="label" value="Academic Calendar Key" />
           <property name="required" value="false"/>
           <property name="unique" value="true"/>
-          <property name="validationPattern" >
-                <bean parent="AnyCharacterValidationPattern"
-                    p:allowWhitespace="false" />
+          <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
           </property>
           <property name="controlField">
                 <bean parent="TextControl" p:size="60"/>
@@ -78,12 +77,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="criteriaFields">
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
+        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.name"/>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
       </list>
     </property>
     <property name="resultFields">
       <list>
 		<bean parent="AttributeField" p:propertyName="key" />
+        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.name"/>
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate" />
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate" />
         <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />        
@@ -104,6 +105,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="items">
                <list>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.name"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
@@ -175,7 +177,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperMaintainableImpl" />
      <property name="items">
-       <list merge="true">
+       <list>
           <bean parent="MaintenanceGroupSectionGridLayout">
           	 <property name="title" value="Academic Calendar"/>
              <property name="items">
@@ -183,6 +185,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                <!-- 
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
                 -->
+                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.name"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
                 <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
@@ -214,8 +217,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                  
                   <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
                   <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
-                  
-                  <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
+
+                  <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" />
 				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
 
                   <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
@@ -239,7 +242,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                   <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
                 	<property name="label" value="Date" />
                   </bean>                                     
-            
+
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Term"/> 
@@ -250,6 +253,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               </property>
            </bean>    
        </list>
+     </property>
+     <property name="footer">
+	    <ref bean="KSFooter_SubmitCancel" />
      </property>
   </bean>  
 
