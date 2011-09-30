@@ -52,10 +52,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/>
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint" />
+        </property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property>
@@ -271,68 +270,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="title" value="Term Dates"/>
                     <property name="summary" value="Key dates for a Term"/>
                 </bean>
-
-<!--				<bean parent="Header" p:headerText="Term Dates" p:colSpan="2"/>
-				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2"/>-->
-				<!-- <bean parent="BlankField"/> -->
-<!--
-				<bean parent="AttributeField" p:propertyName="classesMeetDates.startDate" p:constraint="Required when End Date has a value">
-                    <property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:attributePath="classesMeetDates.endDate" />
-						</list>
-					</property>
-                </bean>
-                <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate" p:constraint="Required when Start Date has a value">
-                     <property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:attributePath="classesMeetDates.startDate" />
-						</list>
-					 </property>
-                </bean>
-
-                <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
-                <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate" p:constraint="Required when End Date has a value">
-                     <property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:attributePath="registrationPeriod.endDate" />
-						</list>
-					 </property>
-                </bean>
-                <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate" p:constraint="Required when Start Date has a value">
-                     <property name="dependencyConstraints">
-                        <list>
-                            <bean parent="PrerequisiteConstraint" p:attributePath="registrationPeriod.startDate" />
-                        </list>
-                     </property>
-                </bean>
-
-				<bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
-                <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
-                	 <property name="label" value="Date" />
-                </bean>
-
-				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/>
-                <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate" p:constraint="Required when End Date has a value">
-                     <property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:attributePath="finalExaminationsDates.endDate" />
-						</list>
-					 </property>
-                </bean>
-                <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate" p:constraint="Required when Start Date has a value">
-                     <property name="dependencyConstraints">
-						<list>
-							<bean parent="PrerequisiteConstraint" p:attributePath="finalExaminationsDates.StartDate" />
-						</list>
-					 </property>
-                </bean>
-
-				<bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
-                <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
-                	<property name="label" value="Date" />
-                </bean>                                     
--->
 
                </list>
              </property>             
