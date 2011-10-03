@@ -207,6 +207,8 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setAtpKey(co.getTermKey());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
+			lui.setMaximumEnrollment(co.getMaximumEnrollment());
+			lui.setMinimumEnrollment(co.getMinimumEnrollment());
 		
 			lui.setFees(co.getFees());
 			lui.setExpenditure(co.getExpenditure());
