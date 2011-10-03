@@ -574,13 +574,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     }
 
-    private LuiPersonRelationInfo filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
-
-        for (LuiPersonRelationInfo lprInfo : lprInfoList) {
+    // TODO - post core slice need to ensure that the list has one 
+    private List<LuiPersonRelationInfo> filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
+        List<LuiPersonRelationInfo>  filteredLprInfoList = new ArrayList<LuiPersonRelationInfo>();
+        for (LuiPersonRelationInfo lprInfo : filteredLprInfoList) {
             if (lprInfo.getStateKey().equals(stateKey))
-                return lprInfo;
+                filteredLprInfoList.add(lprInfo);
         }
-       return null;
+       return filteredLprInfoList;
     }
 
     @Override
@@ -588,7 +589,20 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
         List<LuiPersonRelationInfo> courseOfferingLprList = lprService.getLprsByLuiAndPerson(studentId, courseOfferingId, context);
-        LuiPersonRelationInfo courseOfferingLpr = filterLprByState(courseOfferingLprList, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY);
+        LuiPersonRelationInfo courseOfferingLpr = new LuiPersonRelationInfo();
+        
+        List<LuiPersonRelationInfo>  filteredList = filterLprByState(courseOfferingLprList, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY)  ;
+     
+        if(filteredList!=null &&filteredList.size() == 1){
+             courseOfferingLpr = filteredList.get(0);
+        }
+         else
+              throw new DoesNotExistException("No unique active registration was found for the course offering id and student");
+        
+        if(courseOfferingLpr == null){
+            throw new DoesNotExistException("No active course regitrations were found for student id: " +studentId + "+ course offering id: "+courseOfferingId ); 
+        }
+       
         List<RegistrationGroupInfo> regGroupsInEnrolledCourse = courseOfferingService.getRegGroupsForCourseOffering(courseOfferingId, context);
 
         List<LuiPersonRelationInfo> regGroupLprsForTerm = lprService.getLprsByPersonForAtpAndLuiType(studentId, courseOfferingId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
@@ -612,9 +626,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         for (String registeredActivityOfferingId : registeredActivityOfferingIds) {
 
             List<LuiPersonRelationInfo> registeredActivityLprs = lprService.getLprsByLuiAndPerson(studentId, registeredActivityOfferingId, context);
-            LuiPersonRelationInfo filteredLpr =  filterLprByState(registeredActivityLprs, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY);
-            if(filteredLpr!=null)
-                registeredActivityOfferingLprs.add(filteredLpr);
+            
+            List<LuiPersonRelationInfo>  filteredLists  =  filterLprByState(registeredActivityLprs, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY);
+            
+            if(filteredLists!=null)
+                registeredActivityOfferingLprs.addAll(filteredLists);
             
         }
 
