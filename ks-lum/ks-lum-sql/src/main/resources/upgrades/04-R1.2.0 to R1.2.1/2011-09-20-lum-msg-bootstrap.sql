@@ -16,3 +16,9 @@ where 	msg_id = 'cluSubjectCode-constraints'
 update 	ksmg_message 
 set 	msg_value = '${maxLength} characters max for each Learning Objective'
 where 	msg_id = 'cluLOInstructions'
+/
+
+update 	ksmg_message 
+set 	msg_value = 'My Action List'
+where 	msg_id = 'actionList'
+/
