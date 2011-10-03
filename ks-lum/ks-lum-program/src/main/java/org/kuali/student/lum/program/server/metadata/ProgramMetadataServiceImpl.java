@@ -25,7 +25,11 @@ import org.kuali.student.lum.lu.LUConstants;
  */
 public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
 
-    public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
+    public ProgramMetadataServiceImpl() {
+		super();
+	}
+
+	public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
         super(dictionaryServices);
     }
 

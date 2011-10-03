@@ -16,7 +16,6 @@
 package org.kuali.student.common.util.spring;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.sf.ehcache.CacheManager;
@@ -100,7 +99,11 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 	    List<Object> keyList = new ArrayList<Object>();
 	    keyList.add(pjp.getSignature().getName());
 	    for(Object arg : pjp.getArgs()){
-	        keyList.add(arg.toString());
+	    	if(arg==null){
+	    		keyList.add("_null_");
+	    	}else{
+	    		keyList.add(arg.toString());
+	    	}
 	    }
 	    return new MultiKey(keyList.toArray());
 	}

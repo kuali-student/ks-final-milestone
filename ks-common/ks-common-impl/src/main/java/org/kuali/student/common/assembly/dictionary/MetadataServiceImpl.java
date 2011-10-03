@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.data.UILookupConfig;
 import org.kuali.student.common.assembly.data.UILookupData;
 import org.kuali.student.common.assembly.data.Data.DataType;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.LookupMetadata.WidgetOption;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.common.dictionary.dto.CommonLookupParam;
@@ -41,6 +42,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 /**
  * This class provides metadata lookup for service dto objects.
  * 
@@ -49,7 +52,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
-    private Map<String, DictionaryService> dictionaryServiceMap;
+    private Map<String, DictionaryService> dictionaryServiceMap = new HashMap<String, DictionaryService>();
     private List<UILookupConfig> lookupObjectStructures;
     private String uiLookupContext;
 
@@ -81,24 +84,33 @@ public class MetadataServiceImpl {
         }
     }
 
+	public MetadataServiceImpl() {
+		super();
+	}
+
     /**
      * Create a metadata service initializing it with all known dictionary services
      * 
      * @param dictionaryServices
      */
     public MetadataServiceImpl(DictionaryService... dictionaryServices) {
-        if (dictionaryServices != null) {
-            this.dictionaryServiceMap = new HashMap<String, DictionaryService>();
+    	setDictionaryServices(Arrays.asList(dictionaryServices));
+    }
+
+    public synchronized void setDictionaryServices(List<DictionaryService> dictionaryServices) {
+    	if (dictionaryServices != null) {
+    		this.dictionaryServiceMap.clear();
             for (DictionaryService d : dictionaryServices) {
                 List<String> objectTypes = d.getObjectTypes();
                 for (String objectType : objectTypes) {
                     dictionaryServiceMap.put(objectType, d);
                 }
             }
-        }
-    }
+    	}
+	}
 
-    /**
+
+	/**
      * This method gets the metadata for the given object key, type, state and nextState
      * 
      * @param objectKey
@@ -731,7 +743,7 @@ public class MetadataServiceImpl {
             lookupMetadata.setUsage(org.kuali.student.common.assembly.data.LookupMetadata.Usage.valueOf(lookupData.getUsage().toString()));
         }
         if (lookupData.getWidgetOptions () != null) {
-         lookupMetadata.setWidgetOptions (new HashMap ());
+         lookupMetadata.setWidgetOptions (new HashMap<WidgetOption, String> ());
          for (UILookupData.WidgetOption wo: lookupData.getWidgetOptions ().keySet ()) {
           String value = lookupData.getWidgetOptions ().get (wo);
           LookupMetadata.WidgetOption key = LookupMetadata.WidgetOption.valueOf(wo.toString());

@@ -21,11 +21,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:simple="http://cxf.apache.org/simple"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
-		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
@@ -672,21 +674,21 @@
     </bean>
 
     <bean id="metadataServiceImpl" class="org.kuali.student.common.assembly.dictionary.MetadataServiceImpl">
-        <constructor-arg>
+        <property name="dictionaryServices">
             <list>
                 <ref bean="courseClient"/>
                 <ref bean="proposalClient"/>
             </list>
-        </constructor-arg>
+        </property>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
     <bean id="programMetadataServiceImpl" class="org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl">
-        <constructor-arg>
+        <property name="dictionaryServices">
             <list>
                 <ref bean="programClient"/>
             </list>
-        </constructor-arg>
+        </property>
         <property name="uiLookupContext" value="${ks.lum.ui.lookupContextLocations}"/>
     </bean>
 
@@ -919,4 +921,25 @@
 	<bean id="ReportProcessor"
           class="org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl">
     </bean>
+    
+   	<!-- metadata caching config -->
+   	<bean id="ksLumGwtCacheManager" class="net.sf.ehcache.CacheManager">
+		<constructor-arg index="0" type="java.net.URL" value="${ks.lum.gwt.cache.config.file}" />
+	</bean>
+
+	<bean id="metadataMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
+		<property name="cacheName" value="metadataCache" />
+		<property name="cacheManager" ref="ksLumGwtCacheManager"/>
+		<property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/>
+	</bean>
+	
+	<aop:config>
+		<aop:aspect id="metadataCacheAroundSearch" ref="metadataMethodCacheAdvisor">
+			<aop:around pointcut="execution(*  org.kuali.student.common.assembly.dictionary.MetadataServiceImpl.getMetadata(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.common.assembly.dictionary.MetadataServiceImpl.getMetadataByWorkflowNode(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl.getMetadata(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.lum.program.server.metadata.ProgramMetadataServiceImpl.getMetadataByWorkflowNode(..))" method="getFromCache" />
+		</aop:aspect>
+	</aop:config>
+    
 </beans>
