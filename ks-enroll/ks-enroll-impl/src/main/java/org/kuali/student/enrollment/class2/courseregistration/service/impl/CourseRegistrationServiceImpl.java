@@ -574,13 +574,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     }
 
-    private LuiPersonRelationInfo filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) throws DoesNotExistException {
+    private LuiPersonRelationInfo filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
 
         for (LuiPersonRelationInfo lprInfo : lprInfoList) {
             if (lprInfo.getStateKey().equals(stateKey))
                 return lprInfo;
         }
-        throw new DoesNotExistException("No LPR with state " + stateKey + " exists in the input list :" + lprInfoList.toString());
+       return null;
     }
 
     @Override
@@ -612,8 +612,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         for (String registeredActivityOfferingId : registeredActivityOfferingIds) {
 
             List<LuiPersonRelationInfo> registeredActivityLprs = lprService.getLprsByLuiAndPerson(studentId, registeredActivityOfferingId, context);
-
-            registeredActivityOfferingLprs.add(filterLprByState(registeredActivityLprs, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY));
+            LuiPersonRelationInfo filteredLpr =  filterLprByState(registeredActivityLprs, LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY);
+            if(filteredLpr!=null)
+                registeredActivityOfferingLprs.add(filteredLpr);
+            
         }
 
         CourseRegistrationInfo courseRegInfo = courseRegistrationAssembler.assemble(courseOfferingLpr, registeredActivityOfferingLprs, registeredRegGroupLpr, context);

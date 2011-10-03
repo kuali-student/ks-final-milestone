@@ -43,12 +43,11 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
 
     public List<CourseRegistrationInfo> assembleList(List<LuiPersonRelationInfo> baseDTOs, ContextInfo context) {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<CourseRegistrationInfo>();
     }
 
     public List<CourseRegistrationInfo> assembleList(List<String> luiPersonRelationIdsForLui) {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return new ArrayList<CourseRegistrationInfo>();
     }
 
     private RegGroupRegistrationInfo assembleRegGroup(LuiPersonRelationInfo regGroupRegLPR,
@@ -60,7 +59,7 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
         regGroupRegistrationInfo.setStudentId(regGroupRegLPR.getPersonId());
         regGroupRegistrationInfo.setActivityRegistrations(assembleActivityRegistrations(activityRegLPRs, context));
 
-        return null;
+        return regGroupRegistrationInfo;
     }
 
     private List<ActivityRegistrationInfo> assembleActivityRegistrations(List<LuiPersonRelationInfo> activtyRegLprs,
@@ -73,6 +72,6 @@ public class CourseRegistrationAssembler implements DTOAssembler<CourseRegistrat
             activityRegistrations.add(activityRegistrationInfo);
 
         }
-        return null;
+        return activityRegistrations;
     }
 }
