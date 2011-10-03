@@ -914,7 +914,7 @@
 		<property name="searchTypeId" value="lo.search.loCategories" />
 		<property name="searchParamIdKey" value="lo.queryParam.loOptionalCategoryName" />
 		<property name="resultDisplayKey" value="lo.resultColumn.categoryName" />
-		<property name="resultSortKey" value="" />
+		<property name="resultSortKey" value="lo.resultColumn.categoryName" />
 		<property name="resultReturnKey" value="lo.resultColumn.categoryName" />
 		<property name="params">
 			<list>
