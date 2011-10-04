@@ -15,7 +15,7 @@ INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,
 /
 INSERT INTO KSEN_LPR (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LUIID,PERSONID,COMMITMENTPERCENT,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('student5',null,0,'admin',to_timestamp('18-JUN-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),'admin',to_timestamp('18-JUN-12 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),to_timestamp('01-JAN-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),to_timestamp('31-DEC-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),'Lui-1','testuser5',1,'kuali.lpr.state.registered','kuali.lpr.type.registrant')
 /
-INSERT INTO KSEN_LPR_TRANS (ID, REQ_PERSON_ID, LPR_TYPE_ID, STATE_ID, CREATETIME, UPDATEID, UPDATETIME) VALUES ('testLprTransId1', 'admin-1', 'kuali.lpr.trans.registrant', 'kuali.lpr.trans.registered', to_timestamp('28-SEP-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'admin', to_timestamp('28-SEP-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'))
+INSERT INTO KSEN_LPR_TRANS (ID, REQ_PERSON_ID, LPR_TYPE_ID, STATE_ID, CREATETIME, UPDATEID, UPDATETIME) VALUES ('testLprTransId1', 'admin-1', 'kuali.lpr.trans.type.register', 'kuali.lpr.trans.registered', to_timestamp('28-SEP-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'), 'admin', to_timestamp('28-SEP-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'))
 /
-INSERT INTO KSEN_LPR_TRANS_ITEMS (ID, PERSON_ID, NEW_LUI_ID, EXIST_LUI_ID, TYPE_ID, STATE_ID, LPR_TRANS_ID) VALUES ('testLprTransItemId1', 'Student1','Lui-1',null, 'kuali.lpr.trans.item.add','kuali.lpr.trans.item.new', 'testLprTransId1')
+INSERT INTO KSEN_LPR_TRANS_ITEMS (ID, PERSON_ID, NEW_LUI_ID, EXIST_LUI_ID, TYPE_ID, STATE_ID, LPR_TRANS_ID) VALUES ('testLprTransItemId1', 'Student1','Lui-1',null, 'kuali.lpr.trans.item.type.add','kuali.lpr.trans.item.state.new', 'testLprTransId1')
 /

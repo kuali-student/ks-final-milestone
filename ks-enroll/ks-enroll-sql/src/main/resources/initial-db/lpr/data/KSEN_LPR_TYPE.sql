@@ -23,7 +23,7 @@ Insert into KSEN_LPR_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 Insert into KSEN_LPR_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.lpr.exam.proctor',null,0,'Person who administers a test or examination',null,null,'Proctor')
 /
 
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.trans.item.add', 'Student', 'Student', 0)
+INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.trans.item.type.add', 'Add', 'Add student to course registration group', 0)
 /
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.roster.grade.final', 'Final Grade', 'Final Grade', 0)
 /
