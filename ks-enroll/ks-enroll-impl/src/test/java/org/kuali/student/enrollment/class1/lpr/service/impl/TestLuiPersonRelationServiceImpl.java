@@ -89,7 +89,7 @@ public class TestLuiPersonRelationServiceImpl {
     private final static String ATTRIBUTE_VALUE = "Value";
     private final static String STATE_KEY = "kuali.lpr.state.registered";
     private final static List<String> RESULT_OPTION_IDS = new ArrayList<String>();
-    private final static String TYPE_KEY = "kuali.lpr.type.registrant";
+    private final static String TYPE_KEY = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
     private final static String LUI_ID = "Lui-1";
     private final static int MAX_CPTY = 10;
 
@@ -148,14 +148,14 @@ public class TestLuiPersonRelationServiceImpl {
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
         lprInfo.setPersonId(PERSONID2);
-        lprInfo.setTypeKey("kuali.lpr.type.registrant");
+        lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey("kuali.lpr.state.registered");
         lprInfo.setEffectiveDate(new Date());
         lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
         String lprId = null;
         LuiPersonRelationInfo lpr2 = null;
         try {
-            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+            lprId = lprService.createLpr(PERSONID2, LUIID2, LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY, lprInfo, callContext);
             assertNotNull(lprId);
             lpr2 = lprService.getLpr(lprId, callContext);
         } catch (Exception e) {
@@ -453,7 +453,7 @@ public class TestLuiPersonRelationServiceImpl {
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
         lprInfo.setPersonId(PERSONID2);
-        lprInfo.setTypeKey("kuali.lpr.type.registrant");
+        lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey("kuali.lpr.state.registered");
         lprInfo.setEffectiveDate(new Date());
         lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
@@ -461,7 +461,7 @@ public class TestLuiPersonRelationServiceImpl {
         LuiPersonRelationInfo lpr2 = null;
 
         try {
-            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+            lprId = lprService.createLpr(PERSONID2, LUIID2, LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY, lprInfo, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -499,14 +499,14 @@ public class TestLuiPersonRelationServiceImpl {
         LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
         lprInfo.setLuiId(LUIID2);
         lprInfo.setPersonId(PERSONID2);
-        lprInfo.setTypeKey("kuali.lpr.type.registrant");
+        lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey("kuali.lpr.state.registered");
         lprInfo.setEffectiveDate(new Date());
         lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
         String lprId = null;
 
         try {
-            lprId = lprService.createLpr(PERSONID2, LUIID2, "kuali.lpr.type.registrant", lprInfo, callContext);
+            lprId = lprService.createLpr(PERSONID2, LUIID2, LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY, lprInfo, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -535,8 +535,8 @@ public class TestLuiPersonRelationServiceImpl {
         LprTransactionInfo lprTransactionInfo = new LprTransactionInfo();
         lprTransactionInfo.setName(LPR_TRANSACTION_NAME);
         lprTransactionInfo.setRequestingPersonId(PERSONID1);
-        lprTransactionInfo.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
-        lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        lprTransactionInfo.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
         LprTransactionItemInfo lprTransactionItem = new LprTransactionItemInfo();
         lprTransactionItem.setExistingLuiId(LUIID1);
         lprTransactionItem.setNewLuiId(LUIID2);

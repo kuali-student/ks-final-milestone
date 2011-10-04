@@ -812,8 +812,19 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             newLprTransactionEntity.setId(UUIDHelper.genStringUUID());
             newLprTransactionEntity.setAttributes(existingLprTransactionEntity.getAttributes());
             newLprTransactionEntity.setDescr(existingLprTransactionEntity.getDescr());
-            newLprTransactionEntity.setLprTransactionItems(existingLprTransactionEntity.getLprTransactionItems());
-            newLprTransactionEntity.setLprTransState(stateDao.find(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY));
+            List<LprTransactionItemEntity> newItems = new ArrayList (existingLprTransactionEntity.getLprTransactionItems ().size ());
+            for (LprTransactionItemEntity existingItem : existingLprTransactionEntity.getLprTransactionItems()) {
+               LprTransactionItemEntity newItem = new LprTransactionItemEntity ();
+               newItem.setId(UUIDHelper.genStringUUID());
+               newItem.setExistingLuiId(lprTransactionId);
+               newItem.setLprTransactionItemState(stateDao.find(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY));
+               newItem.setLprTransactionItemType(existingItem.getLprTransactionItemType());
+               newItem.setNewLuiId(existingItem.getNewLuiId());
+               newItem.setPersonId(existingItem.getPersonId());
+               newItem.setDescr(existingItem.getDescr());
+            }
+            newLprTransactionEntity.setLprTransactionItems(newItems);
+            newLprTransactionEntity.setLprTransState(stateDao.find(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY));
             newLprTransactionEntity.setLprTransType(existingLprTransactionEntity.getLprTransType());
             newLprTransactionEntity.setRequestingPersonId(existingLprTransactionEntity.getRequestingPersonId());
             lprTransDao.persist(newLprTransactionEntity);
@@ -854,11 +865,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         for (LprTransactionItemInfo lprTransactionItemInfo : lprTransaction.getLprTransactionItems()) {
             LprTransactionItemResultInfo lprTransResultInfo = new LprTransactionItemResultInfo();
             if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
-                    || lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY)) {
+                    || lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
                 
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");
+                lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);                
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
                 LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
@@ -867,6 +879,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 deleteLprTransaction(toBeDroppedLPR.getId(), context);
                 lprTransResultInfo.setResultingLprId(toBeDroppedLPR.getId());
                 lprTransResultInfo.setStatus("SUCCESS");
+                lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);                
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
 
@@ -876,17 +889,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");
+                lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);                
 
             } else {
 
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
-            lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUBMITTED_STATE_KEY);
             lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
       
         }
         try{
-            lprTransaction.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUBMITTED_STATE_KEY);
+            lprTransaction.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
             updateLprTransaction(lprTransactionId, lprTransaction, context);
         }catch(DataValidationErrorException ex){
             throw new OperationFailedException(ex.getMessage());

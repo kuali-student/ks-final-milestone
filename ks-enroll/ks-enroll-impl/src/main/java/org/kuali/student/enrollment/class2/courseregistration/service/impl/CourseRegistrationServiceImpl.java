@@ -114,7 +114,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         for (RegRequestItemInfo regRequestItem : regRequestItems) {
             if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
                     || regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)
-                    || regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SAVE_TYPE_KEY)) {
+                    || regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
                 if (regRequestItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
 
                     String regGroupId = regRequestItem.getNewRegGroupId();
@@ -138,8 +138,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         newTransactionItems.add(courseOfferingItemInfo);
 
                     } else {
+                        // TODO: copy the transaction item and change the type of the new one to be ADD TO WAITLIST  
+//                        and then on that item mark the original with a state of failed
                         LprTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem, null, context);
-                        lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY);
+                        lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY);
                         lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                     }
 
@@ -428,7 +430,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
         for (LprTransactionItemInfo lprItem : submittedLprTransaction.getLprTransactionItems()) {
-            if (lprItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY)) {
+            if (lprItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
                 LprRosterEntryInfo newLprRosterEntry = new LprRosterEntryInfo();
                 newLprRosterEntry.setLprId(lprItem.getLprTransactionItemResult().getResultingLprId());
 
@@ -796,7 +798,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         if(lprs != null && !lprs.isEmpty()){
         	for(LuiPersonRelationInfo lpr : lprs){
-        		if(lpr.getTypeKey() != null && lpr.getTypeKey().equals("kuali.lpr.type.registrant")){
+        		if(lpr.getTypeKey() != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)){
         			courseLprList.add(lpr);
         		}
         	}

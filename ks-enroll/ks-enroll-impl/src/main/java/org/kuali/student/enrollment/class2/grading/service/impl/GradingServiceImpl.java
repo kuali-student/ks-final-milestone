@@ -25,7 +25,6 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
@@ -700,9 +700,9 @@ public class GradingServiceImpl implements GradingService {
         List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByIdList(lprIds, context);
         for (LuiPersonRelationInfo lprInfo : lprInfos) {
             String lprInfoType = lprInfo.getTypeKey();
-            if ("kuali.lpr.type.instructor.main".equals(lprInfoType)) {
+            if (LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY.equals(lprInfoType)) {
                 graderIds.add(lprInfo.getPersonId());
-            } else if ("kuali.lpr.type.registrant".equals(lprInfoType)) {
+            } else if (LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY.equals(lprInfoType)) {
                 LprRosterEntryInfo lprRosterEntryInfo = lprIdToRosterEntriesMap.get(lprInfo.getId());
                 lprRosterEntryIds.add(lprRosterEntryInfo.getId());
             }
