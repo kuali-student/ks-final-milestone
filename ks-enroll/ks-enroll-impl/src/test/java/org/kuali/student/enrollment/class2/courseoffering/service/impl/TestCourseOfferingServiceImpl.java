@@ -243,6 +243,8 @@ public class TestCourseOfferingServiceImpl {
 		    	
 		    	obj.setTermKey("testAtpId1");
 		    	obj.setIsHonorsOffering(true);
+		    	obj.setMaximumEnrollment(40);
+		    	obj.setMinimumEnrollment(10);
 		    	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 		    	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 		    	instructor.setPersonId("Pers-1");
@@ -258,6 +260,8 @@ public class TestCourseOfferingServiceImpl {
 		    	assertNotNull(retrieved);
 		    	assertTrue(retrieved.getIsHonorsOffering());
 		    	assertTrue(retrieved.getInstructors().size() == 1);
+		    	assertEquals(Integer.valueOf(40), retrieved.getMaximumEnrollment());
+		    	assertEquals(Integer.valueOf(10), retrieved.getMinimumEnrollment());
 		    	
 		    	retrieved.setIsHonorsOffering(false);
 		    	List<OfferingInstructorInfo> instructors1 = new ArrayList<OfferingInstructorInfo>();
