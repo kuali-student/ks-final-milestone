@@ -86,7 +86,7 @@
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="The student is attemptng to enroll in this course or section."
-        ID="kuali.lpr.trans.item.new" NAME="New"
+        ID="kuali.lpr.trans.item.state.new" NAME="New"
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="This hold is active and should be enforced"
         ID="kuali.lpr.trans.registered" NAME="Active"

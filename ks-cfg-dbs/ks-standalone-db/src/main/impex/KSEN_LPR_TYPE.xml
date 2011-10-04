@@ -15,8 +15,9 @@
     <KSEN_LPR_TYPE NAME="Automatic Roster Entry"
         TYPE_DESC="Roster Entry Automatic"
         TYPE_KEY="kuali.lpr.roster.entry.type.automatic" VER_NBR="0"/>
-    <KSEN_LPR_TYPE NAME="Student" TYPE_DESC="Student"
-        TYPE_KEY="kuali.lpr.trans.item.add" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Add"
+        TYPE_DESC="Add student to course registration group"
+        TYPE_KEY="kuali.lpr.trans.item.type.add" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Assistant Instructor"
         TYPE_DESC="Person who assists the main instructor but is still considered an &quot;instructor&quot;"
         TYPE_KEY="kuali.lpr.type.instructor.assistant" VER_NBR="0"/>
