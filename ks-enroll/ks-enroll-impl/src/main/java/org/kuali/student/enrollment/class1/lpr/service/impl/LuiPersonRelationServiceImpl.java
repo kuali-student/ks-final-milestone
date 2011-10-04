@@ -856,7 +856,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)
                     || lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY)) {
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
-                lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUBMITTED_STATE_KEY);
+                
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");
 
@@ -881,12 +881,15 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");
             }
+            lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUBMITTED_STATE_KEY);
             lprTransactionItemInfo.setLprTransactionItemResult(lprTransResultInfo);
-            try{
-                updateLprTransaction(lprTransactionId, lprTransaction, context);
-            }catch(DataValidationErrorException ex){
-                throw new OperationFailedException(ex.getMessage());
-            }
+      
+        }
+        try{
+            lprTransaction.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUBMITTED_STATE_KEY);
+            updateLprTransaction(lprTransactionId, lprTransaction, context);
+        }catch(DataValidationErrorException ex){
+            throw new OperationFailedException(ex.getMessage());
         }
         return lprTransaction;
     }
