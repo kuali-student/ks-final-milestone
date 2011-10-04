@@ -129,6 +129,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-krms-impl</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
   </dependencies>
   <profiles>
     <profile>
