@@ -42,7 +42,7 @@
 --  Constraints for Table KSEN_LRC_RES_SCALE
 --------------------------------------------------------
 
-  ALTER TABLE "KSEN_LRC_RES_SCALE" ("ID" NOT NULL ENABLE)
+  ALTER TABLE "KSEN_LRC_RES_SCALE" MODIFY ("ID" NOT NULL ENABLE)
 /
 
   ALTER TABLE "KSEN_LRC_RES_SCALE" ADD PRIMARY KEY ("ID") ENABLE
