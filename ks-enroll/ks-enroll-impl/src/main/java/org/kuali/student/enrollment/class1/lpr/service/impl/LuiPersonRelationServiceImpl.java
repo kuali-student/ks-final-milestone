@@ -876,7 +876,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
 
-                deleteLprTransaction(toBeDroppedLPR.getId(), context);
+                deleteLpr(toBeDroppedLPR.getId(), context);
                 lprTransResultInfo.setResultingLprId(toBeDroppedLPR.getId());
                 lprTransResultInfo.setStatus("SUCCESS");
                 lprTransactionItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SUCCEEDED_STATE_KEY);                
@@ -885,7 +885,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
                 LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
-                deleteLprTransaction(toBeDroppedLPR.getId(), context);
+                deleteLpr(toBeDroppedLPR.getId(), context);
                 String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");

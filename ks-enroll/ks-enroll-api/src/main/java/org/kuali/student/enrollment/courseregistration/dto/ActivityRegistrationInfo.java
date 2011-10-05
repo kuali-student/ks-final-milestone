@@ -64,4 +64,8 @@ public class ActivityRegistrationInfo extends RelationshipInfo implements Activi
         return studentId;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
 }

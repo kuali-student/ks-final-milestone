@@ -125,6 +125,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
         LprTransactionItemInfo lprTransactionItemInfo = new LprTransactionItemInfo();
         EntityDTOAssembler<RegRequestItemInfo, LprTransactionItemInfo> commonAssembler = new EntityDTOAssembler<RegRequestItemInfo, LprTransactionItemInfo>();
         lprTransactionItemInfo = commonAssembler.assemble(regRequestItem, lprTransactionItemInfo, context);
+        lprTransactionItemInfo.setId(regRequestItem.getId());
         lprTransactionItemInfo.setExistingLuiId(regRequestItem.getExistingRegGroupId());
         lprTransactionItemInfo.setNewLuiId(regRequestItem.getNewRegGroupId());
         lprTransactionItemInfo.setName(regRequestItem.getName());
