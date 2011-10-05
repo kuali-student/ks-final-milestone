@@ -40,3 +40,12 @@ ALTER TABLE "KSEN_LRR_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 ALTER TABLE "KSEN_LRR_ATTR" ADD CONSTRAINT "FKSF4BE635DC3CD510" FOREIGN KEY ("OWNER")
 	  REFERENCES "KSEN_LRR" ("ID") ENABLE
 /
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_LRR_RES_SOURCE
+--------------------------------------------------------
+ALTER TABLE "KSEN_LRR_RES_SOURCE" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_LRR_RES_SOURCE" ADD PRIMARY KEY ("ID") ENABLE
+/

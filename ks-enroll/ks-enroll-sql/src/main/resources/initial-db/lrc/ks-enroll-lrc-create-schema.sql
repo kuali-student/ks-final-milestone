@@ -128,6 +128,7 @@ BEGIN
 END;
 /
 
+
 create table KSEN_LRC_RES_SCALE
 (
    ID VARCHAR2(255),

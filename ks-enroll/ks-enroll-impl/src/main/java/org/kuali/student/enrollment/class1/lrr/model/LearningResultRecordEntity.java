@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lrr.model;
 
+import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -7,6 +8,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,12 +36,12 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
     @Column(name = "LPR_ID")
     private String lprId;
 
-    @Column(name = "RESULT_VALUE_KEY")
-    private String resultvaluekey;
+    @Column(name = "RESULT_VALUE_ID")
+    private String resultValueId;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LRR_LRC_RELTN", joinColumns = @JoinColumn(name = "LRR_ID"), inverseJoinColumns = @JoinColumn(name = "LRC_ID"))
-    private List<String> resultSourceIdList;
+    @JoinTable(name = "KSEN_LRR_RES_SRC_RELTN", joinColumns = @JoinColumn(name = "LRR_ID"), inverseJoinColumns = @JoinColumn(name = "RES_SRC_ID"))
+    private List<ResultSourceEntity> resultSourceIdList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LrrAttributeEntity> attributes;
@@ -54,8 +56,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         this.setId(dto.getId());
         this.setName(dto.getName());
         this.setLprId(dto.getLprId());
-        this.setResultvaluekey(dto.getResultValueKey());
-        this.setResultSourceIdList(dto.getResultSourceIdList());
+        this.setResultValueId(dto.getResultValueKey());
 
         if(dto.getDescr() != null){
 	        this.setDescr(new LrrRichTextEntity(dto.getDescr()));
@@ -109,20 +110,12 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         this.lprId = lprId;
     }
 
-    public String getResultvaluekey() {
-        return resultvaluekey;
+    public String getResultValueId() {
+        return resultValueId;
     }
 
-    public void setResultvaluekey(String resultvaluekey) {
-        this.resultvaluekey = resultvaluekey;
-    }
-
-    public List<String> getResultSourceIdList() {
-        return resultSourceIdList;
-    }
-
-    public void setResultSourceIdList(List<String> resultSourceIdList) {
-        this.resultSourceIdList = resultSourceIdList;
+    public void setResultValueId(String resultValueId) {
+        this.resultValueId = resultValueId;
     }
 
     @Override
@@ -145,8 +138,13 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
             info.setDescr(getDescr().toDto());
         }
 
-        info.setResultValueKey(getResultvaluekey());
-        info.setResultSourceIdList(getResultSourceIdList());
+        info.setResultValueKey(getResultValueId());
+
+        List<String> resSource = new ArrayList();
+        for(ResultSourceEntity resultSourceEntity : resultSourceIdList){
+            resSource.add(resultSourceEntity.getId());
+        }
+        info.setResultSourceIdList(resSource);
 
         if (getLrrState() != null){
             info.setStateKey(getLrrState().getId());
