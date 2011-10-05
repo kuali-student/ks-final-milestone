@@ -119,7 +119,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         String regGroupId = regRequestItem.getNewRegGroupId();
         RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(regGroupId, context);
-
+        LprTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem, null, context);
         if (getAvailableSeatsForStudentInRegGroup(regRequestItem.getStudentId(), regGroupId, context) > 0) {
             List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
             for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
@@ -144,11 +144,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             // of the new one to be ADD TO WAITLIST
             // and then on that item mark the original with a state
             // of failed
-            LprTransactionItemInfo lprTransactionItem = regRequestAssembler.disassembleItem(regRequestItem, null, context);
+          
             lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY);
             lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         }
-        newTransactionItems.add(regRequestAssembler.disassembleItem(regRequestItem, null, context));
+        lprTransactionItem.setGroupId(lprTransactionItem.getGroupId());
+        newTransactionItems.add(lprTransactionItem);
         return newTransactionItems;
 
     
