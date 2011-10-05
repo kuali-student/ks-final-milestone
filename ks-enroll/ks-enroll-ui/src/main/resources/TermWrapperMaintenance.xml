@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:p="http://www.springframework.org/schema/p" 
-xsi:schemaLocation="http://www.springframework.org/schema/beans  
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 <!--
  Copyright 2007-2009 The Kuali Foundation
- 
+
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl2.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,8 +65,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <bean id="TermWrapper.termInfo" parent="ComplexAttributeDefinition">
   	<property name="name" value="termInfo"/>
-  	<property name="dataObjectEntry" ref="TermInfoUI"/>  	
-  </bean>	
+  	<property name="dataObjectEntry" ref="TermInfoUI"/>
+  </bean>
   <bean id="TermWrapper.classesMeetDates" parent="ComplexAttributeDefinition">
   	<property name="name" value="classesMeetDates"/>
   	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
@@ -77,16 +77,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   </bean>
   <bean id="TermWrapper.dropPeriodEndsDate" parent="ComplexAttributeDefinition">
   	<property name="name" value="registrationPeriod"/>
-  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>  
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
   </bean>
   <bean id="TermWrapper.finalExaminationsDates" parent="ComplexAttributeDefinition">
   	<property name="name" value="finalExaminationsDates"/>
-  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>    
-  </bean> 
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
   <bean id="TermWrapper.gradesDueDate" parent="ComplexAttributeDefinition">
   	<property name="name" value="gradesDueDate"/>
-  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>     
-  </bean>   
+  	<property name="dataObjectEntry" ref="KeyDateInfoUI"/>
+  </bean>
 
   <!-- LookupView -->
   <bean id="TermWrapper-LookupView" parent="KSLookupView">
@@ -103,7 +103,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       <list>
         <bean parent="AttributeField" p:propertyName="key" />
 		<!-- <bean parent="AttributeField" p:propertyName="termInfo.key" />    -->
-        <bean parent="AttributeField" p:propertyName="termInfo.typeKey" /> 		
+        <bean parent="AttributeField" p:propertyName="termInfo.typeKey" />
         <bean parent="AttributeField" p:propertyName="termInfo.startDate" />
         <bean parent="AttributeField" p:propertyName="termInfo.endDate" />
         <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate">
@@ -145,7 +145,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      <property name="title" value="Term with Key Dates Inquiry"/>
      <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
      <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperInquiryViewHelperServiceImpl" />
-     
+
      <property name="Items">
          <list>
            <bean parent="GroupSectionGridLayout">
@@ -157,7 +157,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="AttributeField" p:propertyName="termInfo.typeKey"/>
                 <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
                 <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
-                <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
+                <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" />
 				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
                 <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
                 <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>
@@ -168,118 +168,178 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
                 	<property name="label" value="Date" />
                 </bean>
-				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
+				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/>
                 <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
                 <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
-			    <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
+			    <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/>
                 <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
                		<property name="label" value="Date" />
-                </bean>   
+                </bean>
                </list>
-             </property>             
+             </property>
            </bean>
          </list>
      </property>
   </bean>
- 
-   
-  <bean id="TermWrapper-MaintenanceView" parent="KSMaintenanceView">
-     <property name="title" value="Term Wrapper Maintenance"/>
-     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
-     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl" />
-     <property name="items">
-       <list merge="true">
-          <bean parent="MaintenanceGroupSectionGridLayout">
-          	 <property name="title" value="Term Wrapper"/>
-             <property name="items">
-               <list>
-                 <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
-                    <property name="control">
-              			<bean parent="SelectControl"/>
-            		</property>
-            		<property name="optionsFinder">
-              			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
-            		</property>
-                </bean>
-                <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
 
-                <bean parent="Group">
+
+    <bean id="TermWrapper-MaintenanceView" parent="KSMaintenanceView">
+        <property name="title" value="Term Wrapper Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
+        <property name="viewHelperServiceClassName"
+                  value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
+        <property name="items">
+            <list merge="true">
+
+                <bean parent="MaintenanceGroupSectionGridLayout">
+                    <property name="layoutManager.styleClasses" value=""/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="accordion.render" value="false"/>
+                    <property name="title" value="Term Wrapper"/>
                     <property name="items">
-                    <list>
-                        <bean parent="MessageField" p:messageText="Dates between which classes should meet" />
-                        <!-- <bean parent="BlankField"/> -->
-                        <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate" p:constraint="Required when End Date has a value">
-                            <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.endDate" />
-                                </list>
-                            </property>
-                        </bean>
-                        <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate" p:constraint="Required when Start Date has a value">
-                             <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.startDate" />
-                                </list>
-                             </property>
-                        </bean>
-
-                        <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
-                        <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate" p:constraint="Required when End Date has a value">
-                             <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.endDate" />
-                                </list>
-                             </property>
-                        </bean>
-                        <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate" p:constraint="Required when Start Date has a value">
-                             <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.startDate" />
-                                </list>
-                             </property>
-                        </bean>
-
-                        <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
-                        <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
-                             <property name="label" value="Date" />
-                        </bean>
-
-                        <bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/>
-                        <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate" p:constraint="Required when End Date has a value">
-                             <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.endDate" />
-                                </list>
-                             </property>
-                        </bean>
-                        <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate" p:constraint="Required when Start Date has a value">
-                             <property name="dependencyConstraints">
-                                <list>
-                                    <bean parent="PrerequisiteConstraint" p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.StartDate" />
-                                </list>
-                             </property>
-                        </bean>
-
-                        <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/>
-                        <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
-                            <property name="label" value="Date" />
-                        </bean>
-                    </list>
+                        <list>
+                            <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
+                                <property name="control">
+                                    <bean parent="SelectControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
+                                </property>
+                            </bean>
+                            <bean parent="FieldGroup" p:label="Term Start/End">
+                                <property name="group.layoutManager.orientation" value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="AttributeField" p:propertyName="termInfo.startDate"
+                                              p:labelField.render="false" p:summaryMessageField.render="false"/>
+                                        <bean parent="MessageField" p:messageText=" to "/>
+                                        <bean parent="AttributeField" p:propertyName="termInfo.endDate"
+                                              p:labelField.render="false" p:summaryMessageField.render="false"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
+
+                </bean>
+
+                <bean parent="MaintenanceGroupSectionGridLayout">
                     <property name="title" value="Term Dates"/>
                     <property name="summary" value="Key dates for a Term"/>
+                    <property name="layoutManager.styleClasses" value="ks-termDates-table"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="accordion.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="FieldGroup" p:label="Class Meeting Dates">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="classesMeetDates.startDate"
+                                              p:constraint="Required when End Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="MessageField" p:messageText=" to "/>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="classesMeetDates.endDate"
+                                              p:constraint="Required when Start Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.classesMeetDates.startDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="FieldGroup" p:label="Registration Period">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="registrationPeriod.startDate"
+                                              p:constraint="Required when End Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="MessageField" p:messageText=" to "/>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="registrationPeriod.endDate"
+                                              p:constraint="Required when Start Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.startDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="AttributeField"
+                                  p:propertyName="dropPeriodEndsDate.endDate" p:summaryMessageField.render="false">
+                                <property name="label" value="Drop Period ends"/>
+                            </bean>
+
+                            <bean parent="FieldGroup" p:label="Final Examinations">
+                                <property name="group.layoutManager.orientation"
+                                          value="HORIZONTAL"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="finalExaminationsDates.startDate"
+                                              p:constraint="Required when End Date has a value"
+                                              p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.endDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="MessageField" p:messageText=" to "/>
+                                        <bean parent="AttributeField"
+                                              p:propertyName="finalExaminationsDates.endDate"
+                                              p:constraint="Required when Start Date has a value"
+                                              p:labelField.render="false" p:summaryMessageField.render="false">
+                                            <property name="dependencyConstraints">
+                                                <list>
+                                                    <bean parent="PrerequisiteConstraint"
+                                                          p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.StartDate"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="AttributeField"
+                                  p:propertyName="gradesDueDate.endDate" p:summaryMessageField.render="false">
+                                <property name="label" value="Grades Due Date"/>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
-
-               </list>
-             </property>             
-          </bean> 
-       </list>
-     </property>
-  </bean>  
+            </list>
+        </property>
+    </bean>
 
 
-  <bean id="TermWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <bean id="TermWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
     <property name="documentTypeName" value="TermWrapperMaintenanceDocument"/>
@@ -289,5 +349,5 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <value>termInfo.key</value>
       </list>
     </property>
-  </bean>  
-</beans>   
+  </bean>
+</beans>
