@@ -33,7 +33,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @Column(name = "EXIST_LUI_ID")
     private String existingLuiId;
     
-    @Column(name = "RESULTING_LUI_ID")
+    @Column(name = "RESULTING_LPR_ID")
     private String resultingLprId;
     
     @Column(name = "STATUS")
