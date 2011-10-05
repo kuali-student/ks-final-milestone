@@ -24,5 +24,9 @@ public class LprTransactionDao extends GenericEntityDao<LprTransactionEntity> {
         return em.createQuery("from AtpEntity a where a.startDate >= :startDate and a.endDate <= :endDate")
                 .setParameter("startDate", startDate, DATE).setParameter("endDate", endDate).getResultList();
     }
+    public LprTransactionEntity getByLprTransactionItemId(String lprTransactionItemId) {
+        return (LprTransactionEntity) ( em.createQuery("from LprTransactionEntity a  where :lprTransactionId  IN a.lprTransactionItems")
+                .setParameter("lprTransactionItemId", lprTransactionItemId).getSingleResult()) ;
+    }
 
 }

@@ -16,9 +16,8 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionKeys",
-        "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey", "stateKey", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
+        "stateKey", "meta", "attributes", "groupId", "_futureElements"})
 public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +30,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
 
     @XmlElement
     private String existingLuiId;
+
+    @XmlElement
+    private String groupId;
 
     @XmlElement
     private List<String> resultOptionKeys;
@@ -74,8 +76,7 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
                 resultOptionKeys.addAll(lprTransactionItem.getResultOptionKeys());
             }
 
-            this.lprTransactionItemResult = new LprTransactionItemResultInfo(
-                    lprTransactionItem.getLprTransactionItemResult());
+            this.lprTransactionItemResult = new LprTransactionItemResultInfo(lprTransactionItem.getLprTransactionItemResult());
 
             this._futureElements = null;
         }
@@ -137,5 +138,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransacti
 
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
         this.lprTransactionItemResult = lprTransactionItemResult;
+    }
+
+    @Override
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

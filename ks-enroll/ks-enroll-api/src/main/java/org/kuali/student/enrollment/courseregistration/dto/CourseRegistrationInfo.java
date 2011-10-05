@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseRegistrationInfo", propOrder = {"id", "typeKey", "stateKey", "courseOffering", "studentId",
-        "regGroupRegistration", "credits", "gradingOptionId", "effectiveDate", "expirationDate", "meta",
+        "regGroupRegistration", "credits", "gradingOptionKey", "effectiveDate", "expirationDate", "meta",
         "attributes", "_futureElements"})
 public class CourseRegistrationInfo extends RelationshipInfo implements CourseRegistration, Serializable {
 
@@ -35,7 +35,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     private String credits;
 
     @XmlElement
-    private String gradingOptionId;
+    private String gradingOptionKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -45,6 +45,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
         this.courseOffering = null;
         this.studentId = null;
         this.credits = null;
+        this.gradingOptionKey = null;
         this._futureElements = null;
     }
 
@@ -54,6 +55,7 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
             this.courseOffering = new CourseOfferingInfo(courseRegistration.getCourseOffering());
             this.studentId = courseRegistration.getStudentId();
             this.credits = courseRegistration.getCredits();
+            this.gradingOptionKey = courseRegistration.getGradingOptionKey();
             this._futureElements = null;
         }
     }
@@ -69,12 +71,12 @@ public class CourseRegistrationInfo extends RelationshipInfo implements CourseRe
     }
 
     @Override
-    public String getGradingOptionId() {
-        return gradingOptionId;
+    public String getGradingOptionKey() {
+        return gradingOptionKey;
     }
 
-    public void setGradingOption(String gradingOption) {
-        this.gradingOptionId = gradingOption;
+    public void setGradingOptionKey(String gradingOptionKey) {
+        this.gradingOptionKey = gradingOptionKey;
     }
 
     @Override

@@ -42,7 +42,7 @@ public interface CourseRegistration extends Relationship {
      * 
      * @return
      */
-    public String getGradingOptionId();
+    public String getGradingOptionKey();
 
     /**
      * Returns the registration group associated with this course offering.
