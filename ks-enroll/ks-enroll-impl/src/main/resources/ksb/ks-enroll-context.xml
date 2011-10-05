@@ -106,11 +106,13 @@
     <bean  id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler"></bean>
 
     <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl" scope="singleton">
-         <property name="lprService" ref="lprServiceValidation" />
+        <property name="lprService" ref="lprServiceValidation" />
         <property name="courseOfferingService" ref="coService" />
         <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
         <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
         <property name="lrrService" ref="lrrPersistenceService" />
+        <property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler"/>
+        <property name="lrcService" ref="lrcPersistenceService"/>
     </bean>
 
     <bean id="ks.exp.gradingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -420,7 +422,22 @@
     	<property name="stateService" ref="stateService"/>
     </bean>
 
+    <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+    	<property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
+        <property name="resultValueDao" ref="resultValueDao"/>
+    </bean>
+
+    <bean id="gradeValuesGroupAssembler" class="org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler"/>
+
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 

@@ -1,5 +1,9 @@
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
+import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
+import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
+import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
+import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
@@ -7,11 +11,17 @@ import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
 import java.util.List;
 
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LRCServiceImpl implements LRCService {
+
+    private ResultValuesGroupDao resultValuesGroupDao;
+    private ResultValueDao resultValueDao;
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -20,7 +30,12 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        List<ResultValuesGroupEntity> entities = resultValuesGroupDao.findByIds(resultValuesGroupIdList);
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = new ArrayList<ResultValuesGroupInfo>();
+        for (ResultValuesGroupEntity entity : entities){
+            resultValuesGroupInfos.add(entity.toDto());
+        }
+        return resultValuesGroupInfos;
     }
 
     @Override
@@ -60,7 +75,12 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public List<ResultValueInfo> getResultValuesByIdList(@WebParam(name = "resultValueIdList") List<String> resultValueIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        List<ResultValueEntity> entities = resultValueDao.findByIds(resultValueIdList);
+        List<ResultValueInfo> infos = new ArrayList<ResultValueInfo>();
+        for (ResultValueEntity entity : entities){
+            infos.add(entity.toDto());
+        }
+        return infos;
     }
 
     @Override
@@ -157,4 +177,21 @@ public class LRCServiceImpl implements LRCService {
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
+
+    public ResultValuesGroupDao getResultValuesGroupDao() {
+        return resultValuesGroupDao;
+    }
+
+    public void setResultValuesGroupDao(ResultValuesGroupDao resultValuesGroupDao) {
+        this.resultValuesGroupDao = resultValuesGroupDao;
+    }
+
+    public ResultValueDao getResultValueDao() {
+        return resultValueDao;
+    }
+
+    public void setResultValueDao(ResultValueDao resultValueDao) {
+        this.resultValueDao = resultValueDao;
+    }
+
 }

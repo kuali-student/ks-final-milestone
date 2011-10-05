@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
+import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
@@ -42,6 +44,7 @@ public class GradingServiceImpl implements GradingService {
     private LuiService luiService;
     private GradeRosterAssembler gradeRosterAssembler;
     private GradeRosterEntryAssembler gradeRosterEntryAssembler;
+    private GradeValuesGroupAssembler gradeValuesGroupAssembler;
 
     /**
      * This method returns the TypeInfo for a given grade roster type key.
@@ -670,11 +673,19 @@ public class GradingServiceImpl implements GradingService {
     }
 
     @Override
-    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIdList, ContextInfo context)
+    public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIdList(gradeGroupKeyList, context);
+        List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
+
+        for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
+            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIdList(resultValuesGroupInfo.getResultValueKeys(),context);
+            gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
+        }
+
+        return gradeValuesGroupInfos;
     }
 
     @Override
@@ -787,5 +798,13 @@ public class GradingServiceImpl implements GradingService {
 
     public void setGradeRosterEntryAssembler(GradeRosterEntryAssembler gradeRosterEntryAssembler) {
         this.gradeRosterEntryAssembler = gradeRosterEntryAssembler;
+    }
+
+    public GradeValuesGroupAssembler getGradeValuesGroupAssembler() {
+        return gradeValuesGroupAssembler;
+    }
+
+    public void setGradeValuesGroupAssembler(GradeValuesGroupAssembler gradeValuesGroupAssembler) {
+        this.gradeValuesGroupAssembler = gradeValuesGroupAssembler;
     }
 }
