@@ -18,13 +18,17 @@
     </bean>
     <bean id="testLuiInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-test-LuiInfo-dictionary.xml" />
-    </bean>  
+    </bean> 
+        <bean id="testCourseOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
+    </bean> 
     <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="testAtpInfoDictionaryLocation" />                 
                 <bean parent="testAcalInfoDictionaryLocation" /> 
                 <bean parent="testLuiInfoDictionaryLocation" />   
+                <bean parent="testCourseOfferingInfoDictionaryLocation" />                   
             </list>
         </constructor-arg>
     </bean>

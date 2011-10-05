@@ -27,6 +27,10 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
@@ -72,10 +76,10 @@ public class TestServiceDictionaries {
         inputFiles.add(calculateXmlFileName(LuiLuiRelationInfo.class));
         inputFiles.add(calculateXmlFileName(LuiCapacityInfo.class));
 //       Course Offering Service"
-//        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
-//        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
-//        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
-//        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
+        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
+        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
+        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
+        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
         return inputFiles;
     }
 
