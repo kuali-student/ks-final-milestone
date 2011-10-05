@@ -1171,6 +1171,9 @@
         <column name="PERSON_ID" size="255" type="VARCHAR"/>
         <column name="NEW_LUI_ID" size="255" type="VARCHAR"/>
         <column name="EXIST_LUI_ID" size="255" type="VARCHAR"/>
+        <column name="RESULTING_LPR_ID" size="255" type="VARCHAR"/>
+        <column name="GROUP_ID" size="255" type="VARCHAR"/>
+        <column name="STATUS" size="255" type="VARCHAR"/>
         <column name="LPR_TRANS_ID" size="255" type="VARCHAR"/>
         <column name="STATE_ID" size="255" type="VARCHAR"/>
         <column name="TYPE_ID" size="255" type="VARCHAR"/>
