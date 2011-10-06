@@ -134,5 +134,9 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+        <dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+	</dependencies>
 </project>

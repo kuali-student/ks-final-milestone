@@ -151,6 +151,8 @@
     <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
     <org.apache.poi.version>3.6</org.apache.poi.version>
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
+    <selenium.version>2.7.0</selenium.version>
+    <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
@@ -316,6 +318,21 @@
         <artifactId>openjpa</artifactId>
         <version>1.2.1</version>
       </dependency>
+      <dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-java</artifactId>
+		<version>${selenium.version}</version>
+		<scope>test</scope>
+	  </dependency>
+	<!-- This httpclient dependency works with the Selenium tests, but must 
+		have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml 
+		for more info. -->
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>${httpcomponents.httpclient.version}</version>
+		<scope>compile</scope>
+	</dependency>
 
       <!-- Hibernate -->
       <dependency>
