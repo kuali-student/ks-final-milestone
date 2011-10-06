@@ -1014,6 +1014,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             throw new DoesNotExistException(lprTransactionId);
     }
     
+    @Transactional(readOnly = false)
     private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo , ContextInfo context ){
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
         lprTransItemEntity.setId(UUIDHelper.genStringUUID());
