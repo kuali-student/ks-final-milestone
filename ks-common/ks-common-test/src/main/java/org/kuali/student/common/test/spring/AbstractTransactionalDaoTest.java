@@ -134,7 +134,7 @@ public abstract class AbstractTransactionalDaoTest {
 	@Autowired
 	private JtaTransactionManager jtaTxManager;	
 	
-	private boolean preloadedData=false;
+	private static boolean preloadedData=false;
 
 	/**
 	 * Loads the application context defined in the &#064;Dao testDataFile
