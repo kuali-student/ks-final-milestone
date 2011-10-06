@@ -927,7 +927,7 @@
 		<constructor-arg index="0" type="java.net.URL" value="${ks.lum.gwt.cache.config.file}" />
 	</bean>
 
-	<bean id="metadataMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MetadataMethodEhcacheAdvice">
+	<bean id="metadataMethodCacheAdvisor" class="org.kuali.student.common.assembly.util.spring.MetadataMethodEhcacheAdvice">
 		<property name="cacheName" value="metadataCache" />
 		<property name="cacheManager" ref="ksLumGwtCacheManager"/>
 		<property name="enabled" value="${ks.lum.gwt.metadata.enable.caching}"/>

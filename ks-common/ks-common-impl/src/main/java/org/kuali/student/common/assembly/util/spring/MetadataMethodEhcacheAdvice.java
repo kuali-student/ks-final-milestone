@@ -1,7 +1,8 @@
-package org.kuali.student.common.util.spring;
+package org.kuali.student.common.assembly.util.spring;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice;
 
 public class MetadataMethodEhcacheAdvice extends MethodArgsToObjectEhcacheAdvice {
 
