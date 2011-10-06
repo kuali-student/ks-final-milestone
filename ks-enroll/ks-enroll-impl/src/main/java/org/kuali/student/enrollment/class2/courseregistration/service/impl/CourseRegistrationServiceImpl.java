@@ -103,7 +103,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
             for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
                 LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
-                regRequestItem.setId(null);
+                activtyItemInfo.setId(null);
                 activtyItemInfo.setNewLuiId(activityOfferingId);
                 newTransactionItems.add(activtyItemInfo);
             }
@@ -111,7 +111,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             String courseOfferingId = regGroup.getCourseOfferingId();
             LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             courseOfferingItemInfo.setNewLuiId(courseOfferingId);
-            regRequestItem.setId(null);
+            courseOfferingItemInfo.setId(null);
             lprActivityTransactionItems.add(courseOfferingItemInfo);
             newTransactionItems.add(courseOfferingItemInfo);
 
