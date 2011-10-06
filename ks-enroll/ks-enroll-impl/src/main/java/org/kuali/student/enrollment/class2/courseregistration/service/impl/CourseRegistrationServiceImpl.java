@@ -1,10 +1,5 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
@@ -14,45 +9,26 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
+import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Transactional(noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
@@ -444,11 +420,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         RegResponseInfo returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);
 
-        if (checkSuccessfulRegCriteria(returnRegResponse)) {
+/*        if (checkSuccessfulRegCriteria(returnRegResponse)) {
 
             createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
 
-        }
+        }*/
 
         return returnRegResponse;
 

@@ -110,24 +110,27 @@ public class RegistrationForm extends UifFormBase {
 
     protected List<MeetingScheduleWrapper> getRegisteredCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        // first loop all the items in the course registration list
-        for (CourseRegistrationInfo courseRegistrationInfo : getCourseRegistrations()) {
-            // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
-            CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
-            RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
-            for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
-                ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
-                for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
-                    MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
-                    meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                    meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
-                    meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
-                    // TODO - convert type key to actual activity type
-                    String key = activityOfferingInfo.getTypeKey();
-                    String name = key.substring(key.lastIndexOf(".") + 1);
-                    name = String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
-                    meetingScheduleWrapper.setTimeTypeName(name);
-                    meetingScheduleWrappers.add(meetingScheduleWrapper);
+        List<CourseRegistrationInfo> courses = getCourseRegistrations();
+        if(courses != null){
+            // first loop all the items in the course registration list
+            for (CourseRegistrationInfo courseRegistrationInfo : courses) {
+                // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
+                CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
+                RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
+                for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
+                    ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
+                    for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
+                        MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
+                        meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+                        meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                        meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
+                        // TODO - convert type key to actual activity type
+                        String key = activityOfferingInfo.getTypeKey();
+                        String name = key.substring(key.lastIndexOf(".") + 1);
+                        name = String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
+                        meetingScheduleWrapper.setTimeTypeName(name);
+                        meetingScheduleWrappers.add(meetingScheduleWrapper);
+                    }
                 }
             }
         }
@@ -136,24 +139,26 @@ public class RegistrationForm extends UifFormBase {
 
     protected List<MeetingScheduleWrapper> getCartCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        // first loop all the items in the reg request
-        for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
-            // find the regGroupId of the current item
-            String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegGroupId())) ? regRequestItemInfo.getNewRegGroupId() : regRequestItemInfo.getExistingRegGroupId();
-            // find the regGroupWrapper that matches the id from the supplemental list
-            RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
-            // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart
-            if (regGroupWrapper == null) {
-                throw new RuntimeException("Cannot find RegistrationGroup in RegistrationForm for registrationGroupId: " + regGroupId);
-            }
-            // look at the activityOfferingInfos from the regGroup to get all the Schedule information into one single list
-            for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
-                for(MeetingScheduleWrapper meetingScheduleWrapper: activityOfferingWrapper.getMeetingScheduleWrappers()){
-                    meetingScheduleWrapper.setRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
-                    meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getTypeName());
-                    meetingScheduleWrappers.add(meetingScheduleWrapper);
+        if(this.regRequest != null){
+            // first loop all the items in the reg request
+            for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
+                // find the regGroupId of the current item
+                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegGroupId())) ? regRequestItemInfo.getNewRegGroupId() : regRequestItemInfo.getExistingRegGroupId();
+                // find the regGroupWrapper that matches the id from the supplemental list
+                RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
+                // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart
+                if (regGroupWrapper == null) {
+                    throw new RuntimeException("Cannot find RegistrationGroup in RegistrationForm for registrationGroupId: " + regGroupId);
                 }
+                // look at the activityOfferingInfos from the regGroup to get all the Schedule information into one single list
+                for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
+                    for(MeetingScheduleWrapper meetingScheduleWrapper: activityOfferingWrapper.getMeetingScheduleWrappers()){
+                        meetingScheduleWrapper.setRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
+                        meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getTypeName());
+                        meetingScheduleWrappers.add(meetingScheduleWrapper);
+                    }
 
+                }
             }
         }
         return meetingScheduleWrappers;

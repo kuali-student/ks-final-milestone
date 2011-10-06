@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.assembler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseItemInfo;
@@ -17,6 +14,9 @@ import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTransactionInfo> {
 
@@ -54,6 +54,8 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
         EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo> commonAssembler = new EntityDTOAssembler<LprTransactionItemInfo, RegRequestItemInfo>();
         regRequestItemInfo = commonAssembler.assemble(baseDTO, regRequestItemInfo, context);
         regRequestItemInfo.setId(baseDTO.getId());
+/*        regRequestItemInfo.setTypeKey(baseDTO.getTypeKey());
+        regRequestItemInfo.setStateKey(baseDTO.getStateKey());*/
 
         // TODO - sambit . Post Core Slice, move this logic out of assembler and handle exception properly
         try {

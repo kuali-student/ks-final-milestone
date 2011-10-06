@@ -67,7 +67,7 @@ public class LuiPersonRelationServiceConstants {
      * Student states to courses
      */
     public static final String PLANNED_STATE_KEY = "kuali.lpr.state.planned";
-    public static final String REGISTERED_STATE_KEY = "kuali.lpr.state.registered ";
+    public static final String REGISTERED_STATE_KEY = "kuali.lpr.state.registered";
     public static final String WAITLISTED_STATE_KEY = "kuali.lpr.state.waitlisted";
     public static final String DROPPED_STATE_KEY = "kuali.lpr.state.dropped.early";
     public static final String DROPPED_LATE_STATE_KEY = "kuali.lpr.state.dropped.late";

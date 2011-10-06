@@ -1,10 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -19,14 +14,13 @@ import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo, LuiInfo>{
 	private LuiService luiService;
@@ -129,7 +123,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		if(lprs != null && !lprs.isEmpty()){
 			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 			for (LuiPersonRelationInfo lpr : lprs){
-				if(lpr != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
+				if(lpr != null && lpr.getTypeKey() != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
 					OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 					instructor.setPersonId(lpr.getPersonId());
 					instructor.setPercentageEffort(lpr.getCommitmentPercent());

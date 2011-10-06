@@ -977,7 +977,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if (lprTransactionInfo.getLprTransactionItems() != null) {
                 for (LprTransactionItemInfo lprItemInfo : lprTransactionInfo.getLprTransactionItems()) {
 
-                    if (lprTransItemDao.find(lprItemInfo.getId()) != null) {
+                    if (lprItemInfo.getId() != null && lprTransItemDao.find(lprItemInfo.getId()) != null) {
 
                         LprTransactionItemEntity lprItemEntity = new LprTransactionItemEntity(lprItemInfo);
 
@@ -1086,7 +1086,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : entityList) {
             LuiEntity lui = luiDao.find(entity.getLuiId());
-            if ((lui.getAtpKey().equals(atpKey)) && (lui.getLuiType().equals(luiTypeKey))) {
+            if ((lui.getAtpKey().equals(atpKey)) && (lui.getLuiType().getId().equals(luiTypeKey))) {
                 infoList.add(entity.toDto());
             }
         }
