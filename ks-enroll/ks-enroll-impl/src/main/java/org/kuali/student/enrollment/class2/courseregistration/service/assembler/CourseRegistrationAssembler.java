@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationI
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.r2.common.assembler.RelationshipDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 public class CourseRegistrationAssembler {
 
@@ -38,6 +39,17 @@ public class CourseRegistrationAssembler {
 
     public LuiPersonRelationInfo disassemble(CourseRegistrationInfo businessDTO, ContextInfo context) {
         return null;
+    }
+
+    //FIXME: Needs sure whether this ResultValuesGroup loading should be a part of the above assemble methods
+    public CourseRegistrationInfo assemble(LuiPersonRelationInfo baseDTO, ResultValuesGroup resultValuesGroup, ContextInfo context) {
+        CourseRegistrationInfo courseRegInfo = new CourseRegistrationInfo();
+
+        courseRegInfo.setStudentId(baseDTO.getPersonId());
+        if (resultValuesGroup != null){
+            courseRegInfo.setGradingOptionKey(resultValuesGroup.getKey());
+        }
+        return courseRegInfo;
     }
 
     public List<CourseRegistrationInfo> assembleList(List<LuiPersonRelationInfo> baseDTOs, ContextInfo context) {

@@ -27,7 +27,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @Column(name = "RES_SCALE_ID")
     private String resultScaleId;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "KSEN_LRC_RVGP_RV_RELTN", joinColumns = @JoinColumn(name = "RES_VAL_GRP_ID"), inverseJoinColumns = @JoinColumn(name = "RES_VAL_ID"))
     private List<ResultValueEntity> resultValues;
 

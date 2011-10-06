@@ -27,6 +27,22 @@ CREATE TABLE KSEN_LPR
 /
 
 -----------------------------------------------------------------------------
+-- KSEN_LPR_RV_GRP_RELTN
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LPR_RV_GRP_RELTN';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LPR_RV_GRP_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+create table KSEN_LPR_RV_GRP_RELTN(
+	LPR_ID VARCHAR2(255),
+	RV_GRP_ID VARCHAR2(255)
+)
+/
+
+-----------------------------------------------------------------------------
 -- KSEN_LPR_ATTR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;

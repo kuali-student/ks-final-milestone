@@ -39,6 +39,16 @@
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_LRC_RES_VALUE_ATTR
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_LRC_RES_VALUE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_LRC_RES_VALUE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_LRC_RES_SCALE
 --------------------------------------------------------
 

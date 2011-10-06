@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
@@ -46,8 +47,10 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -601,7 +604,20 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return courseRegistrationAssembler.assembleList(lprService.getLprsByIdList(courseRegistrationIds, context), context);
+        List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList();
+        ResultValuesGroup rvGroup = null;
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(courseRegistrationIds, context);
+        for (LuiPersonRelationInfo lpr : lprs){
+            for(String rvGroupKey : lpr.getResultValuesGroupKeys()){
+                rvGroup = lrcService.getResultValuesGroup(rvGroupKey,context);
+                if(StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE,rvGroup.getTypeKey())){
+                    break;
+                }
+            }
+            courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr,rvGroup, context));
+        }
+
+        return courseRegistrationInfos;
 
     }
 

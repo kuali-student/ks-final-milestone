@@ -118,10 +118,10 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setLastName(entityNameInfo.getLastNameUnmasked());
                         }
                     }
-                    /*List<String> grades = gradingService.getValidGradeGroupKeysForStudentByRoster(
-                            entryInfo.getStudentId(), rosterInfo.getId(), context);
 
-                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(grades, context);
+                    /*List<String> validGradeGroupKeys = entryInfo.getValidGradeGroupKeys();
+
+                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(validGradeGroupKeys, context);
                     student.setGradeValuesGroupInfoList(gradeValueInfos);
 
                     for (GradeValuesGroupInfo grade : gradeValueInfos) {
@@ -132,9 +132,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setPercentGrade(false);
                             // Populate the range info to the form.
                         }
-                    }*/
+                    }
 
-                    /*String assignedGrade = null;
+                    String assignedGrade = null;
                     String assignedGradeKey = entryInfo.getAssignedGradeKey();
 
                     // TODO change key to actual value - need to call Grading

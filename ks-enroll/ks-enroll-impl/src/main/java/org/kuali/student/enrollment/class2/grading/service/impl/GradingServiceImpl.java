@@ -6,6 +6,8 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEnt
 import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
@@ -28,6 +30,7 @@ import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
@@ -46,6 +49,7 @@ public class GradingServiceImpl implements GradingService {
     private GradeRosterAssembler gradeRosterAssembler;
     private GradeRosterEntryAssembler gradeRosterEntryAssembler;
     private GradeValuesGroupAssembler gradeValuesGroupAssembler;
+    private CourseRegistrationService courseRegistrationService;
 
     /**
      * This method returns the TypeInfo for a given grade roster type key.
@@ -400,6 +404,13 @@ public class GradingServiceImpl implements GradingService {
             entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
         }
 
+
+        List<CourseRegistrationInfo> courseRegistrationInfos = courseRegistrationService.getCourseRegistrationsByIdList(lprIds,context);
+        Map<String,CourseRegistrationInfo> courseRegistrationMap = new HashMap();
+        for (CourseRegistrationInfo courseRegistrationInfo : courseRegistrationInfos){
+            courseRegistrationMap.put(courseRegistrationInfo.getStudentId(),courseRegistrationInfo);
+        }
+
         //TODO - Just commenting out for time being to get the UI working. Once we're done with these method impls, can take out the comment
         /*List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
@@ -443,7 +454,12 @@ public class GradingServiceImpl implements GradingService {
             String administrativeGradeKey = entryAttributes.get(ADMINISTRATIVE_GRADE);
             String creditsEarnedKey = entryAttributes.get(CREDITS_EARNED);
 
-            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, context);
+            List<String> gradingOptionKeys = new ArrayList<String>();
+            if (courseRegistrationMap.get(lprRosterEntry.getLprId()) != null){
+               gradingOptionKeys.add(courseRegistrationMap.get(lprRosterEntry.getLprId()).getGradingOptionKey());
+            }
+
+            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
             gradeRosterEntryInfos.add(gradeRosterEntry);
         }
 
@@ -807,5 +823,13 @@ public class GradingServiceImpl implements GradingService {
 
     public void setGradeValuesGroupAssembler(GradeValuesGroupAssembler gradeValuesGroupAssembler) {
         this.gradeValuesGroupAssembler = gradeValuesGroupAssembler;
+    }
+
+    public CourseRegistrationService getCourseRegistrationService() {
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
     }
 }
