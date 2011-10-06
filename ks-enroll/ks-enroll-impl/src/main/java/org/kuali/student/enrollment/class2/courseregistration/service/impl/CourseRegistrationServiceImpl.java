@@ -124,18 +124,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
             for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
                 LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
+                regRequestItem.setId(null);
                 activtyItemInfo.setNewLuiId(activityOfferingId);
-                activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-                activtyItemInfo.setGroupId(regRequestItem.getId());
                 newTransactionItems.add(activtyItemInfo);
-
             }
 
             String courseOfferingId = regGroup.getCourseOfferingId();
             LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             courseOfferingItemInfo.setNewLuiId(courseOfferingId);
-            courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-            courseOfferingItemInfo.setGroupId(regRequestItem.getId());
+            regRequestItem.setId(null);
             lprActivityTransactionItems.add(courseOfferingItemInfo);
             newTransactionItems.add(courseOfferingItemInfo);
 
@@ -148,7 +145,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             lprTransactionItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY);
             lprTransactionItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         }
-        lprTransactionItem.setGroupId(lprTransactionItem.getGroupId());
         newTransactionItems.add(lprTransactionItem);
         return newTransactionItems;
 
