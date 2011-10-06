@@ -56,6 +56,9 @@
         DESCR="The hold was active and the issue has been resolved"
         ID="kuali.hold.state.released" NAME="Released"
         PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="New roster entry"
+        ID="kuali.lpr.roster.state.course.new" NAME="New roster entry"
+        PROCESS_KEY="kuali.assessment.process.course.grading" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="The instructor is assigned to teach this course or section."
         ID="kuali.lpr.state.assigned" NAME="Assigned"
