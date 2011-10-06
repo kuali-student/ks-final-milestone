@@ -33,10 +33,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.TagInfo;
-import org.kuali.student.core.comment.dto.TagTypeInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.comment.dto.TagTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
