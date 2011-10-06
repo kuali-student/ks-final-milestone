@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService", serviceName = "EnumerationManagementService", portName = "EnumerationManagementService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationManagementService")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationManagementServiceImpl implements EnumerationManagementService{
     
@@ -67,6 +66,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     }
      
 	@Override
+    @Transactional(readOnly=true)
 	public EnumerationInfo getEnumeration(String enumerationKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -83,6 +83,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<EnumerationInfo> getEnumerations()
 			throws OperationFailedException {
         List<Enumeration> entities =  this.enumDAO.findEnumerations();
@@ -128,6 +129,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey,
 			String contextType, String contextValue, Date contextDate)
 			throws DoesNotExistException, InvalidParameterException,

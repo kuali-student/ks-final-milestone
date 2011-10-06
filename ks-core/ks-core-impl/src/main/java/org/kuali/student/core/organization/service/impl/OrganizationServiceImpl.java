@@ -61,7 +61,6 @@ import org.kuali.student.core.organizationsearch.service.impl.OrganizationSearch
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
 
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
@@ -78,7 +77,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgPositionRestrictionInfo addPositionRestrictionToOrg(String orgId, String orgPersonRelationTypeKey, OrgPositionRestrictionInfo orgPositionRestrictionInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Check Missing params
@@ -106,7 +105,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgOrgRelationInfo createOrgOrgRelation(String orgId, String relatedOrgId, String orgOrgRelationTypeKey, OrgOrgRelationInfo orgOrgRelationInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         // Check Missing params
@@ -136,7 +135,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgPersonRelationInfo createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         // Check Missing params
@@ -216,7 +215,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo deleteOrganization(String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         checkForMissingParameter(orgId, "orgId");
@@ -235,6 +234,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<String> getAllDescendants(String orgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         checkForMissingParameter(orgId, "orgId");
@@ -245,6 +245,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByOrg(String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
 
@@ -252,6 +253,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByPerson(String personId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(personId, "personId");
 
@@ -260,6 +262,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<String> getAllAncestors(String orgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(orgHierarchy, "orgHierarchy");
@@ -269,12 +272,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgHierarchyInfo> getOrgHierarchies() throws OperationFailedException {
         return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
 
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgHierarchyKey, "orgHierarchyKey");
 
@@ -282,6 +287,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgOrgRelationInfo getOrgOrgRelation(String orgOrgRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
 
@@ -290,6 +296,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgOrgRelationTypeInfo getOrgOrgRelationType(String orgOrgRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
 
@@ -297,6 +304,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypes() throws OperationFailedException {
         List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.find(OrgOrgRelationType.class);
         return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
@@ -311,6 +319,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgType(String orgTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
@@ -319,6 +328,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByIdList(List<String> orgOrgRelationIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgOrgRelationIdList, "orgOrgRelationIdList");
 
@@ -327,6 +337,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Flush out exceptions
         checkForMissingParameter(orgId, "orgId");
@@ -336,6 +347,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(String relatedOrgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(relatedOrgId, "relatedOrgId");
 
@@ -344,6 +356,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgPersonRelationInfo getOrgPersonRelation(String orgPersonRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
 
@@ -352,6 +365,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgPersonRelationTypeInfo getOrgPersonRelationType(String orgPersonRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
 
@@ -360,12 +374,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypes() throws OperationFailedException {
         List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
         return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationTypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
@@ -374,6 +390,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByIdList(List<String> orgPersonRelationIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPersonRelationIdList, "orgPersonRelationIdList");
 
@@ -382,6 +399,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
 
@@ -390,6 +408,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(String personId, String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(personId, "personId");
         checkForMissingParameter(orgId, "orgId");
@@ -399,6 +418,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgTypeInfo getOrgType(String orgTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
@@ -406,11 +426,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgTypeInfo> getOrgTypes() throws OperationFailedException {
         return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
     }
 
     @Override
+    @Transactional(readOnly=true)
     public OrgInfo getOrganization(String orgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
 
@@ -418,6 +440,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgInfo> getOrganizationsByIdList(List<String> orgIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgIdList, "orgIdList");
 
@@ -426,6 +449,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<String> getPersonIdsForOrgByRelationType(String orgId, String orgPersonRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
@@ -434,6 +458,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(String orgId) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         checkForMissingParameter(orgId, "orgId");
 
@@ -442,6 +467,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public Boolean hasOrgOrgRelation(String orgId, String comparisonOrgId, String orgOrgRelationTypeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Check Missing params
         checkForMissingParameter(orgId, "orgId");
@@ -453,6 +479,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public Boolean hasOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(personId, "personId");
@@ -462,6 +489,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public Boolean isDescendant(String orgId, String descendantOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(descendantOrgId, "descendantOrgId");
@@ -474,7 +502,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo removeOrgOrgRelation(String orgOrgRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
 
@@ -483,7 +511,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo removeOrgPersonRelation(String orgPersonRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
 
@@ -492,7 +520,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public StatusInfo removePositionRestrictionFromOrg(String orgId, String orgPersonRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         checkForMissingParameter(orgId, "orgId");
@@ -511,7 +539,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId, OrgOrgRelationInfo orgOrgRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Check Missing params
         checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
@@ -535,7 +563,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgPersonRelationInfo updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Check Missing params
         checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
@@ -563,7 +591,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgInfo updateOrganization(String orgId, OrgInfo orgInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         // Check Missing params
@@ -588,7 +616,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(String orgId, String orgPersonRelationTypeKey, OrgPositionRestrictionInfo orgPositionRestrictionInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         // Check Missing params
@@ -715,6 +743,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgTreeInfo> getOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(rootOrgId, "rootOrgId");
         checkForMissingParameter(orgHierarchyId, "orgHierarchyId");

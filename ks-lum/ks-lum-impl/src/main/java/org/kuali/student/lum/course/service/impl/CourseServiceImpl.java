@@ -66,7 +66,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseServiceImpl implements CourseService {
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
@@ -147,6 +146,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CourseInfo getCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CluInfo clu = luService.getClu(courseId);
@@ -164,21 +164,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseActivities");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<FormatInfo> getCourseFormats(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseFormats");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LoDisplayInfo> getCourseLos(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseLos");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
 
@@ -199,6 +203,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
@@ -275,6 +280,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
@@ -431,6 +437,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -442,6 +449,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -453,6 +461,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -465,6 +474,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -477,6 +487,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,
@@ -489,6 +500,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -500,6 +512,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
 			String refObjectTypeURI, String refObjectId, Date from, Date to)
 			throws DoesNotExistException, InvalidParameterException,

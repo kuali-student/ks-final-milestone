@@ -72,7 +72,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lo.service.LearningObjectiveService", serviceName = "LearningObjectiveService", portName = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     private LoDao loDao;
 	private SearchManager searchManager;
@@ -108,6 +107,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
      * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoRepositories()
      */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoRepositoryInfo> getLoRepositories()
 			throws OperationFailedException {
 	    List<LoRepository> repositories = loDao.find(LoRepository.class);
@@ -119,6 +119,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoRepository(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public LoRepositoryInfo getLoRepository(String loRepositoryKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -131,6 +132,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoTypes()
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoTypeInfo> getLoTypes() throws OperationFailedException {
 	    List<LoType> find = loDao.find(LoType.class);
 		return LearningObjectiveServiceAssembler.toLoTypeInfos(find);
@@ -141,6 +143,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoType(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public LoTypeInfo getLoType(String loTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -154,6 +157,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationTypes()
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoLoRelationTypeInfo> getLoLoRelationTypes()
 			throws OperationFailedException {
 	    List<LoLoRelationType> fetch = loDao.find(LoLoRelationType.class);
@@ -165,6 +169,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationType(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public LoLoRelationTypeInfo getLoLoRelationType(String loLoRelationTypeKey)
 			throws OperationFailedException, MissingParameterException, DoesNotExistException {
 	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
@@ -172,6 +177,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 					MissingParameterException, OperationFailedException {
@@ -286,6 +292,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLo(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public LoInfo getLo(String loId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -298,6 +305,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoByIdList(java.util.List)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoInfo> getLoByIdList(List<String> loIds)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -311,6 +319,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategories(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoCategoryInfo> getLoCategories(String loRepositoryKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -323,6 +332,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategoriesForLo(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoCategoryInfo> getLoCategoriesForLo(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -335,6 +345,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategory(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public LoCategoryInfo getLoCategory(String loCategoryId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -358,6 +369,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLosByLoCategory(java.lang.String)
 	 */
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoInfo> getLosByLoCategory(String loCategoryId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -893,6 +905,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LoLoRelationInfo getLoLoRelation(String loLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -901,6 +914,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -909,6 +923,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoInfo> getLosByRelatedLoId(String relatedLoId,
 			String loLoRelationType) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -918,6 +933,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoInfo> getRelatedLosByLoId(String loId, String loLoRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -985,6 +1001,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -994,6 +1011,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoCategoryTypeInfo> getLoCategoryTypes()
 			throws OperationFailedException {
 		List<LoCategoryType> categoryTypes = loDao.find(LoCategoryType.class);
@@ -1001,6 +1019,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoInfo> getLosByRepository(String loRepositoryKey,
 			String loTypeKey, String loStateKey)
 			throws InvalidParameterException, MissingParameterException,

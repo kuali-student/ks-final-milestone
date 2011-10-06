@@ -58,7 +58,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.core.document.service.DocumentService", serviceName = "DocumentService", portName = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/documentService")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class DocumentServiceImpl implements DocumentService {
     private DocumentDao dao;
     private DictionaryService dictionaryServiceDelegate;
@@ -128,45 +127,53 @@ public class DocumentServiceImpl implements DocumentService {
         return new StatusInfo();
     }
     @Override
+    @Transactional(readOnly=true)
     public List<DocumentCategoryInfo> getCategoriesByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         List<DocumentCategory> categories = dao.getCategoriesByDocument(documentId);
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     @Override
+    @Transactional(readOnly=true)
     public DocumentInfo getDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         return DocumentServiceAssembler.toDocumentInfo(dao.fetch(Document.class, documentId));
     }
     @Override
+    @Transactional(readOnly=true)
     public List<DocumentCategoryInfo> getDocumentCategories() throws OperationFailedException {
         List<DocumentCategory> categories = dao.find(DocumentCategory.class);
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     
     @Override
+    @Transactional(readOnly=true)
     public DocumentCategoryInfo getDocumentCategory(String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         return DocumentServiceAssembler.toDocumentCategoryInfo(dao.fetch(DocumentCategory.class, documentCategoryKey));
     }
     
     @Override
+    @Transactional(readOnly=true)
     public DocumentTypeInfo getDocumentType(String documentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
         return DocumentServiceAssembler.toGenericTypeInfo(DocumentTypeInfo.class,(dao.fetch(DocumentType.class, documentTypeKey)));
     }
     
     @Override
+    @Transactional(readOnly=true)
     public List<DocumentTypeInfo> getDocumentTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeInfoList(DocumentTypeInfo.class,dao.find(DocumentType.class));
     }
     
     @Override
+    @Transactional(readOnly=true)
     public List<String> getRefObjectTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeKeyList(dao.find(RefObjectType.class));
     }
     
     @Override
+    @Transactional(readOnly=true)
     public List<String> getRefObjectSubTypes(String refObjectTypeKey) throws MissingParameterException, OperationFailedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         RefObjectType refOjectType;
@@ -179,11 +186,13 @@ public class DocumentServiceImpl implements DocumentService {
     }
     
     @Override
+    @Transactional(readOnly=true)
     public List<RefDocRelationTypeInfo> getRefDocRelationTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, dao.find(RefDocRelationType.class));
     }
     
     @Override
+    @Transactional(readOnly=true)
 	public List<RefDocRelationTypeInfo> getRefDocRelationTypesForRefObjectSubType(String refSubTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(refSubTypeKey, "refSubTypeKey");
         
@@ -191,6 +200,7 @@ public class DocumentServiceImpl implements DocumentService {
         return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, refObjectSubType.getRefDocRelationTypes());
     }
     @Override
+    @Transactional(readOnly=true)
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentIdList, "documentIdList");
         checkForEmptyList(documentIdList, "documentIdList");
@@ -198,17 +208,20 @@ public class DocumentServiceImpl implements DocumentService {
         return DocumentServiceAssembler.toDocumentInfos(documents);
     }
     @Override
+    @Transactional(readOnly=true)
     public RefDocRelationInfo getRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         return DocumentServiceAssembler.toRefDocRelationInfo(dao.fetch(RefDocRelation.class, refDocRelationId));
     }
     @Override
+    @Transactional(readOnly=true)
 	public List<RefDocRelationInfo> getRefDocRelationsByRef(String refObjectTypeKey, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         checkForMissingParameter(refObjectId, "refObjectId");
         return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByRef(refObjectTypeKey, refObjectId));       
     }
     @Override
+    @Transactional(readOnly=true)
     public List<RefDocRelationInfo> getRefDocRelationsByDoc(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByDoc(documentId));       
