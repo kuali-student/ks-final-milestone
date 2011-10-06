@@ -53,12 +53,6 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>org.kuali.student.common</groupId>
-            <artifactId>ks-rice-lessdep</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-        </dependency>-->
 
         <!-- LUM Dependencies -->
         <dependency>
