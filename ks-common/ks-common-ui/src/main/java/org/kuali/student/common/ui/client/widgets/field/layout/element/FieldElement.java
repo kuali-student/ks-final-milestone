@@ -273,13 +273,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 
 
     private void setDebugId(final Widget widget) {
-        String debugId = layout.getElement().getId();
-        //Remove the GWT debug Id prefix to avoid 'gwt-debug-gwt-debug' id setting
-        if (debugId != null && debugId.startsWith(UIObject.DEBUG_ID_PREFIX)) {
-            debugId = debugId.substring(UIObject.DEBUG_ID_PREFIX.length());
-            
-        }
-        widget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(debugId));
+        widget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(layout.getElement().getId()));
     }
     
     /**
