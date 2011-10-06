@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.comment.service;
+package org.kuali.student.r2.core.comment.service;
 
 import java.util.List;
 
