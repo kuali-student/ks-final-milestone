@@ -125,6 +125,9 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
 
     @Override
     public List<LrrAttributeEntity> getAttributes() {
+        if (attributes == null) {
+            attributes = new ArrayList<LrrAttributeEntity>();
+        }
         return attributes;
     }
 
@@ -132,6 +135,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
 
         LearningResultRecordInfo info = new LearningResultRecordInfo();
         info.setId(getId());
+        info.setLprId(lprId);
         info.setName(getName());
 
         if (getDescr() != null){

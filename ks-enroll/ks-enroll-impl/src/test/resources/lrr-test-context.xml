@@ -22,7 +22,7 @@
     <property name="shouldLoadData" value="true" />
     <property name="preloadMap">
       <map>
-        <entry key="Acal">
+        <entry key="lrrPersistentUnit">
           <value>classpath:ks-lrr.sql</value>
         </entry>
       </map>
@@ -73,8 +73,8 @@
   </bean>
 
   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-    <property name="persistenceUnitName" value="Acal" />
-    <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+    <property name="persistenceUnitName" value="lrrPersistentUnit" />
+    <property name="persistenceXmlLocation" value="classpath:META-INF/lrr-persistence.xml" />
     <property name="dataSource" ref="dataSource" />
   </bean>
 
@@ -85,7 +85,12 @@
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-  <bean id="lrrServiceImpl" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
-  </bean>
+    <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+        <property name="lrrDao" ref="lrrDao"/>
+        <property name="lrrTypeDao" ref="lrrTypeDao"/>
+    </bean>
+
+    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
+    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao"/>
 
 </beans>
