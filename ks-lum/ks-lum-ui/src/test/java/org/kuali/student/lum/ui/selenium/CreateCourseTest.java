@@ -85,7 +85,6 @@ public class CreateCourseTest {
 
         WebElement proposalName = driver.findElement(byProposalName);
         typeValue(proposalName, "Selenium Tester");
-        //proposalName.click();
         WebElement courseTitle = driver.findElement(By.xpath("//input[@id='gwt-debug-courseTitle']"));
         typeValue(courseTitle, "Selenium Tester");
         WebElement transcriptTitle = driver.findElement(By.xpath("//input[@id='gwt-debug-transcriptTitle']"));
@@ -126,7 +125,6 @@ public class CreateCourseTest {
         Thread.sleep(1000);
         driver.findElement(By.id("gwt-debug-instructors-Add-to-list-anchor")).click();
         WebElement description = driver.findElement(By.xpath("//textarea[@id='gwt-debug-descr-plain']"));
-        //description.click();
         typeValue(description, "Selenium Description");
         WebElement rationale = driver.findElement(By.xpath("//textarea[@id='gwt-debug-proposal-rationale']"));
         typeValue(rationale, "Selenium Rationale");
@@ -145,10 +143,8 @@ public class CreateCourseTest {
 
         driver.findElement(By.id("gwt-debug-All-input")).click();
         WebElement unitContentOwner = driver.findElement(By.xpath("//select[@id='gwt-debug-unitsContentOwner']"));
-        //unitContentOwner.click();
         // ERROR: Caught exception [ERROR: Unsupported command [select]]
         clickOptionInSelectList(unitContentOwner, "68");
-        //driver.findElement(By.cssSelector("option[value=\"68\"]")).click();
         //Always sleep before 'Add to list' buttons
         Thread.sleep(1000);
         driver.findElement(By.id("gwt-debug-unitsContentOwner-Add-to-list-anchor")).click();
@@ -229,9 +225,7 @@ public class CreateCourseTest {
 
         WebElement ruleType = driver.findElement(By.id("gwt-debug-Rule-Type"));
         clickOptionInSelectList(ruleType, "19");
-        //ruleType.click();
         // ERROR: Caught exception [ERROR: Unsupported command [select]]
-        //driver.findElement(By.cssSelector("option[value=\"19\"]")).click();
         for (int second = 0;; second++) {
             if (second >= 60)
                 fail("timeout");
@@ -386,7 +380,7 @@ public class CreateCourseTest {
         webElement.sendKeys(keysToSend);
     }
 
-    private void clickOptionInSelectList(WebElement selectElement, String optionValue) {
+    private void clickOptionInSelectList(final WebElement selectElement, String optionValue) {
         List<WebElement> selectOptions = selectElement.findElements(By.tagName("option"));
         for (WebElement option : selectOptions) {
             if (optionValue != null) {
