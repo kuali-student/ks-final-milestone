@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
@@ -63,7 +64,7 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
-            checkBox.ensureDebugId(checkBox.getHTML());
+            checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(checkBox.getHTML()));
             return;
         }
 
@@ -82,7 +83,7 @@ public class RuleNodeWidget extends FocusPanel {
             toggle.addStyleName("KS-Rules-Table-Cell-ANDOR");
             if (userObject instanceof StatementVO) {
                 StatementVO statementVO = (StatementVO)userObject;
-                checkBox.ensureDebugId(toggle.getText() + "-" + statementVO.getReqComponentVOCount());
+                checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(toggle.getText() + "-" + statementVO.getReqComponentVOCount()));
             }
             checkBoxAndToggle.add(toggle);
             if (ruleTable != null) {
@@ -104,11 +105,11 @@ public class RuleNodeWidget extends FocusPanel {
             if (showCheckbox) {
                 checkBoxAndEdit.add(checkBox);
                 checkBox.setHTML(node.getUserObject().toString());
-                checkBox.ensureDebugId(checkBox.getHTML());
+                checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(checkBox.getHTML()));
             } else {
                 checkBoxAndEdit.add(new KSLabel(node.getUserObject().toString()));
             }
-            edit.ensureDebugId(node.getUserObject().toString() + "-Edit");
+            edit.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(node.getUserObject().toString() + "-Edit"));
             edit.addStyleName("KS-Rules-URL-Link");
             checkBoxAndEdit.add(edit);
             if (ruleTable != null) {

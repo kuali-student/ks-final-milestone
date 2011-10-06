@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
@@ -205,7 +206,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             else{
             	this.addStyleName("KS-Basic-Menu-Item-Panel");
             }
-            itemLabel.ensureDebugId(item.getLabel() + "-label");
+            itemLabel.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(item.getLabel() + "-label"));
             itemLabel.addStyleName("KS-Basic-Menu-Item-Label");
             itemLabel.getElement().setAttribute("style", "white-space: nowrap");
             if(item.getClickHandler() != null){
@@ -238,7 +239,7 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
             });
 
             a.setTabIndex(itemNum + 1);
-            contentPanel.ensureDebugId(item.getLabel() + "-panel");	
+            contentPanel.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(item.getLabel() + "-panel"));	
             contentPanel.add(itemLabel);
             if(item.getShownIcon() != null){
             	if(imgLoc == MenuImageLocation.RIGHT){
@@ -259,8 +260,8 @@ public class KSListMenuImpl extends KSBasicMenuAbstract{
                 anchorPanel.add(contentPanel, id + "anchor");
                 this.add(anchorPanel);
             }
-            a.ensureDebugId(item.getLabel() + "-anchor");
-            anchorPanel.ensureDebugId(item.getLabel() + "-anchorPanel");
+            a.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(item.getLabel() + "-anchor"));
+            anchorPanel.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(item.getLabel() + "-anchorPanel"));
         }
 
         public void addImage(Image shownIcon) {

@@ -19,6 +19,7 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -219,7 +220,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         initWidget(layout);
         layout.addStyleName("ks-form-module-elements");
         layout.addStyleName("ks-form-module-single-line-margin");
-        layout.ensureDebugId(key != null ? key : title);
+        layout.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(key != null ? key : title));
         //Set the widget here to ensure the debug Ids are set properly
         if(widget != null){
             this.setWidget(widget);
@@ -247,6 +248,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	    				((HasWatermark)input).setWatermarkText(watermarkText);
 	    			}
 	    			input.getElement().setAttribute("id", fieldHTMLId);
+	    			setDebugId(fieldWidget);
+	    			//The fieldWidget debugId might have set the input field debug id to something different depending on how 'onEnsureDebugId' was overridden.
+	    			//Override the input widget to have same id as fieldWidget
 	    			setDebugId(input);
 	    		}
     			else{
@@ -260,6 +264,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         		}
     			fieldWidget.getElement().setAttribute("id", fieldHTMLId);
     			setDebugId(fieldWidget);
+    			
     		}
     		
     		widgetSpan.add(fieldWidget);
@@ -274,7 +279,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
             debugId = debugId.substring(UIObject.DEBUG_ID_PREFIX.length());
             
         }
-        widget.ensureDebugId(debugId);
+        widget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(debugId));
     }
     
     /**

@@ -711,4 +711,14 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		return advancedSearchCallback;
 	}
 
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        Widget basicInputWidget = getInputWidget();
+        if (basicInputWidget != null) {
+            basicInputWidget.ensureDebugId(baseID + "-KSPicker-widget");
+        }
+        advSearchLink.ensureDebugId(baseID + "-Advanced-Search-anchor");
+    }
+
 }

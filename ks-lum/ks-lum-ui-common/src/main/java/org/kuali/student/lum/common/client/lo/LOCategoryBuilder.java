@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -540,6 +541,13 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return suggestBox.addSelectionChangeHandler(handler);
         }
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            suggestBox.getTextBox().ensureDebugId(baseID);
+        }
+        
     }
 
     private class LOCategoryTypeInfoList implements ListItems {
@@ -806,4 +814,14 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             return null;
         }
     }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        picker.ensureDebugId(baseID);
+        addButton.ensureDebugId(baseID + "-Add");
+        browseCategoryLink.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + browseCategoryLink.getText()));
+    }
+    
+    
 }

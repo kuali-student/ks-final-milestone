@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.util.BrowserUtils;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -401,7 +402,7 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
                     debugId.append("-");
                 }
             }
-            widget.getDefaultTableEditor().ensureDebugId(debugId.toString());
+            widget.getDefaultTableEditor().ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(debugId.toString()));
         }
         widget.setCellEditorValue(v);
         if (widget instanceof HasClickHandlers) {

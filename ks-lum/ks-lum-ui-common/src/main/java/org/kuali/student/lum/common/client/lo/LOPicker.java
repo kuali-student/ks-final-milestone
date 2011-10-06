@@ -100,4 +100,12 @@ public class LOPicker extends HorizontalPanel implements HasSelectionChangeHandl
     private void fireChangeEvent(){
     	SelectionChangeEvent.fire(this);
     }
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        loTextArea.ensureDebugId(baseID);
+        loCategoryBuilder.ensureDebugId(baseID);
+    }
+    
+    
 }

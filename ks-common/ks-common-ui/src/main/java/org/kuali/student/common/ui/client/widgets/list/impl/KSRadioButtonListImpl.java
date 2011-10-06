@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
@@ -201,7 +202,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
 
     private KSRadioButton createRadioButton(String id, String debugId){
         KSRadioButton radiobutton = new KSRadioButton(groupName);
-        radiobutton.ensureDebugId(debugId);//Have to override debug Id here since groupName is a generated string number pair
+        radiobutton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(debugId));//Have to override debug Id here since groupName is a generated string number pair
         radiobutton.setFormValue(id);
         radiobutton.addValueChangeHandler(this);
         radiobutton.addKeyUpHandler(this);
@@ -211,7 +212,7 @@ public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements
 
     private KSRadioButton createRadioButtonWithLabel(String id){
         KSRadioButton radiobutton = new KSRadioButton(groupName, getListItems().getItemText(id));
-        radiobutton.ensureDebugId(getListItems().getItemText(id));//Have to override debug Id here since groupName is a generated string number pair
+        radiobutton.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(getListItems().getItemText(id)));//Have to override debug Id here since groupName is a generated string number pair
         radiobutton.setFormValue(id);
         radiobutton.addValueChangeHandler(this);
         radiobutton.addKeyUpHandler(this);
