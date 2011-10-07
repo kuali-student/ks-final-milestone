@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
+import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -27,18 +27,20 @@ import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+
+import javax.jws.WebParam;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
@@ -144,7 +146,7 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
 
-        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, "kuali.lpr.type.roster.grade.final", context);
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         for (LprRosterInfo lprRoster : lprRosters) {
             GradeRosterInfo gradeRosterInfo = assembleGradeRoster(lprRoster, context);
             gradeRosterInfos.add(gradeRosterInfo);
@@ -597,7 +599,7 @@ public class GradingServiceImpl implements GradingService {
 
         List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLpr(entryInfoList.get(0).getLprId());
         for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
-            if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY,lrrInfo.getTypeKey())){
+            if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY, lrrInfo.getTypeKey())){
                  lrrInfo.setResultValueKey(assignedGradeKey);
                  lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
                  return true;

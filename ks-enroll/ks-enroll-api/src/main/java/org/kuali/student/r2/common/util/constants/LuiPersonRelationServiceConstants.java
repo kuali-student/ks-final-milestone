@@ -61,8 +61,17 @@ public class LuiPersonRelationServiceConstants {
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
         INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
     public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_TYPE_KEY};
-    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.final";
-    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY = "kuali.lpr.roster.state.course.new";
+    /**
+     * LprRoster types
+     */
+    // public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.final"; // Is this needed/to-be-used?
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.roster.type.course.assessment.final ";
+
+    /**
+     * LprRoster states
+     */
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY = "kuali.lpr.roster.state.course.new"; // Is this needed/to-be-used?
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY = "kuali.assessment.roster.state.ready";
     /**
      * Student states to courses
      */

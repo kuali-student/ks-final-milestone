@@ -442,7 +442,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 LprRosterEntryInfo newLprRosterEntry = new LprRosterEntryInfo();
                 newLprRosterEntry.setLprId(lprItem.getLprTransactionItemResult().getResultingLprId());
 
-                newLprRosterEntry.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY);
+                newLprRosterEntry.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
 
                 List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(lprItem.getNewLuiId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
                         context);

@@ -41,6 +41,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     private transient CourseService courseService;
     private transient CourseOfferingService courseOfferingService;
 
+    // TODO - all exception handling in this method needs to 'manually' roll back what has been
+    // changed in the database before the exception was caught
     @Override
     public void saveDataObject() {
         CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getDataObject();
@@ -65,6 +67,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         } catch (org.kuali.student.common.exceptions.MissingParameterException mpe) {
             System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  " + mpe.toString());
         }
+        // TODO - this entire method needs more complete exception handling; then remove this
+        if (null == course) return;
 
         //form the formatIdList
         List<String> formatIdList = new ArrayList<String>();
@@ -100,6 +104,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         } catch (DataValidationErrorException dvee) {
             System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DataValidationErrorException:  " + dvee.toString());
         }
+        // TODO - this entire method needs more complete exception handling; then remove this
+        if (null == coi) return;
 
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
@@ -205,7 +211,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
             }
         }
-
     }
 
     /**

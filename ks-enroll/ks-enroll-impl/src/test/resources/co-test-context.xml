@@ -191,7 +191,13 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-	<bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+    <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
+        <property name="lprService" ref="lprPersistenceService"/>
+        <property name="courseOfferingService" ref="coService"/>
+        <property name="gradeRosterAssembler" ref="grAssembler" />
+    </bean>
+
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
 		<property name="luiService" ref="luiService"/>
 		<property name="coAssembler" ref="coAssembler"/>
 		<property name="aoAssembler" ref="aoAssembler" />
@@ -215,8 +221,11 @@
      <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
      	<property name="luiService" ref="luiService"/>
     </bean>
-         
-   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+
+    <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
+    </bean>
+
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     	<property name="atpService" ref="atpService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
@@ -245,8 +254,13 @@
     	<property name="lprDao" ref="lprDao"/>
     	<property name="lprStateDao" ref="stateDao"/>
     	<property name="lprTypeDao" ref="lprTypeDao"/>
-    </bean>      
-    
+        <property name="lprRosterDao" ref="lprRosterDao"/>
+        <property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
+        <property name="luiDao" ref="luiDao"/>
+    </bean>
+
+    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.LRCServiceMockImpl"/>
+
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
         <property name="em" ref="entityManager"/>
     </bean>	   
@@ -258,8 +272,16 @@
    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
         <property name="em" ref="entityManager"/>
     </bean>
-      
-	<tx:annotation-driven transaction-manager="JtaTxManager"
+
+    <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		
 </beans>

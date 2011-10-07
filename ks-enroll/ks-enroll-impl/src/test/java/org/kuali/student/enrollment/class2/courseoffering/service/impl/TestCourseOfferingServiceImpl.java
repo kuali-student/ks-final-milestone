@@ -1,10 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +14,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
@@ -34,12 +31,15 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.*;
 
 // Note: un-ignore and test within eclipse because the data for courseservice are
 // not working via command-line: mvn clean install
@@ -53,6 +53,14 @@ public class TestCourseOfferingServiceImpl {
     @Autowired
     @Qualifier("coServiceValidationDecorator")
 	private CourseOfferingService coServiceValidation;
+
+    @Autowired
+    @Qualifier("gradingService")  // gradingServiceValidationDecorator"
+    private GradingService gradingService;
+
+    @Autowired
+    @Qualifier("lrcService")
+    private LRCService lrcService;
 
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
@@ -92,7 +100,6 @@ public class TestCourseOfferingServiceImpl {
     }
 
     @Test
-    @Ignore
     //in ks-courseOffering.sql, if I add one atp
     //INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-101', 0)
     //i got error: The course does not exist. course: CLU-1. 
@@ -118,7 +125,12 @@ public class TestCourseOfferingServiceImpl {
 
         assertEquals("CHEM123", retrieved.getCourseOfferingCode());
         assertEquals("Chemistry 123", retrieved.getCourseTitle());
-      
+
+        // make sure a roster was created
+        List<GradeRosterInfo> rosters = gradingService.getFinalGradeRostersForCourseOffering(retrieved.getId(), callContext);
+        assertNotNull(rosters);
+        assertEquals(1, rosters.size());
+
         // test update
         retrieved.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
         ResultValuesGroupInfo rv = new ResultValuesGroupInfo();
@@ -128,6 +140,7 @@ public class TestCourseOfferingServiceImpl {
         rv.setName("test");
         ResultValueRangeInfo rvr = new ResultValueRangeInfo();
         rv.setResultValueRange(rvr);
+        lrcService.createResultValuesGroup(rv, callContext);
         retrieved.setCreditOptions(rv);
         try {
 			coServiceValidation.updateCourseOffering(retrieved.getId(), retrieved, callContext);

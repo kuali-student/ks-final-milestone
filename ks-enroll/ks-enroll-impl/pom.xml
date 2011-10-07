@@ -27,6 +27,22 @@
     </profile>
 	</profiles>
 	-->
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <!--
+          Setting forkMode to always. Multiple dao tests using Spring
+          junit class runner doesn't play nice with each other
+          -->
+          <configuration>
+            <forkMode>always</forkMode>
+            <argLine>-Xms256m -Xmx512m</argLine>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
 	<dependencies>
 			<dependency>
 				<groupId>org.kuali.student.enroll</groupId>

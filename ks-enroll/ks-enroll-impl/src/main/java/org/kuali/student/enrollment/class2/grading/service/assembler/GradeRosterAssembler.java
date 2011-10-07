@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.acal.service.assembler;
+package org.kuali.student.enrollment.class2.grading.service.assembler;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
