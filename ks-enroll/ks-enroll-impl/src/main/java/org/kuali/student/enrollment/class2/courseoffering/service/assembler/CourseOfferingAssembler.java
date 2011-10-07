@@ -68,7 +68,23 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			
 			co.setFees(lui.getFees());
 			co.setRevenues(lui.getRevenues());
-			co.setExpenditure(lui.getExpenditure());
+
+            /*
+             * From Bonnie: Comment out setting for Expenditure since we got  DataValidationErrorException:
+             * Error(s) validating course offering Validation Results:
+             *             [2] Path: [expenditure.id] - error.outOfRange data=[null]
+             * the value of expenditure.id looks like this org.kuali.student.lum.course.dto.CourseExpenditureInfo@16a3516.
+             * Norm's input:
+             *  the problem is in the code I wrote a long time ago...
+             *  // TODO: worry about using the toString method for the id
+             *  r2.setId(r1.toString());
+             *  well I should have worried about it more... :(
+             *  I was using that as part of a mock impl where I needed a fake id but we should remove it
+             * it is in the R1ToR2CopyHelper.java
+             *
+             * After the above issue is fixed, we can revisit about   co.setExpenditure(lui.getExpenditure());
+             */
+//			co.setExpenditure(lui.getExpenditure());
 			co.setFormatIds(lui.getCluCluRelationIds());
 			
 			assembleIdentifier(lui, co);
