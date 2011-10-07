@@ -95,6 +95,18 @@
         ID="kuali.lpr.trans.registered" NAME="Active"
         PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
     <KSEN_COMM_STATE
+        DESCR="The result (grade) has been vetted and is ready to be published to the student"
+        ID="kuali.lrr.state.accepted" NAME="Accepted"
+        PROCESS_KEY="kuali.lrr.course.final.grading.lifecycle" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The result (grade) has been entered and has been saved but not yet been submitted"
+        ID="kuali.lrr.state.saved" NAME="Saved"
+        PROCESS_KEY="kuali.lrr.course.final.grading.lifecycle" VER_NBR="0"/>
+    <KSEN_COMM_STATE
+        DESCR="The result (grade) has been formally submitted"
+        ID="kuali.lrr.state.submitted" NAME="Submitted"
+        PROCESS_KEY="kuali.lrr.course.final.grading.lifecycle" VER_NBR="0"/>
+    <KSEN_COMM_STATE
         DESCR="The relationship between the two LUIs is active "
         ID="kuali.lui.lui.relation.state.active" NAME="Active"
         PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>
