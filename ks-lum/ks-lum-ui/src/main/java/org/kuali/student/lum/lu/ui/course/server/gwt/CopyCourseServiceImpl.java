@@ -221,7 +221,8 @@ public class CopyCourseServiceImpl {
 		}
 	}
 
-	private void copyStatements(String originalCluId, String newCluId, String newState,
+    @SuppressWarnings("unused")
+    private void copyStatements(String originalCluId, String newCluId, String newState,
 			StatementService statementService, LuService luService, CourseService courseService) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
 		//Get the course statements
 		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null);
@@ -262,7 +263,8 @@ public class CopyCourseServiceImpl {
 		}
 		
 		CourseInfo newCourse = courseService.createCourse(originalCourse);
-		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
+        // Do not copy rules - KSLAB-2365
+        //		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
 		return newCourse;
 	}
 
