@@ -857,7 +857,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    @Transactional(readOnly = false, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = false)
     public LprTransactionInfo processLprTransaction(String lprTransactionId, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprTransaction(lprTransactionId, context);
