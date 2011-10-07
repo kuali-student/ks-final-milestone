@@ -87,10 +87,18 @@
         DESCR="The student attempted to join but has been put on the waitlist"
         ID="kuali.lpr.state.waitlisted" NAME="Waitlisted"
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="Transaction Item failed"
+        ID="kuali.lpr.trans.item.state.failed"
+        NAME="Transaction Item Failed"
+        PROCESS_KEY="kuali.lpr.trans.item.process" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="The student is attemptng to enroll in this course or section."
         ID="kuali.lpr.trans.item.state.new" NAME="New"
         PROCESS_KEY="kuali.lpr.process.student.course.registration" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="Transaction Item Succeeded"
+        ID="kuali.lpr.trans.item.state.succeeded"
+        NAME="Transaction Item Succeeded"
+        PROCESS_KEY="kuali.lpr.trans.item.process" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="This hold is active and should be enforced"
         ID="kuali.lpr.trans.registered" NAME="Active"
         PROCESS_KEY="kuali.hold.process.student" VER_NBR="0"/>
