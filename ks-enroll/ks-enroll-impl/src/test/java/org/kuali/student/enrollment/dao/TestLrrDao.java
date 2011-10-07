@@ -28,10 +28,17 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         // Read
         LearningResultRecordEntity lrr = dao.find("student1-grade-final-lecture");
         assertNotNull(lrr);
-        StateEntity lrrState = lrr.getLrrState();
-        LrrTypeEntity lrrType = lrr.getLrrType();
+        assertNotNull(lrr.getResultValueId());
+        assertNotNull(lrr.getName());
+        assertNotNull(lrr.getDescr());
+        assertNotNull(lrr.getLprId());
+        assertNotNull(lrr.getLrrState());
+        assertNotNull(lrr.getLrrType());
+        assertNotNull(lrr.getId());
 
         // Create
+        StateEntity lrrState = lrr.getLrrState();
+        LrrTypeEntity lrrType = lrr.getLrrType();
         lrr = new LearningResultRecordEntity();
 
         String id = "new-lrr";
@@ -42,7 +49,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         List<LrrAttributeEntity> attributes = new ArrayList<LrrAttributeEntity>();
         attributes.add(attribute);
         LrrRichTextEntity descr = new LrrRichTextEntity("plain", "formatted");
-        String resultValueKey = null; // TODO
+        String resultValueId = "resultValueId";
 
         lrr.setId(id);
         lrr.setName(name);
@@ -51,7 +58,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         lrr.setDescr(descr);
         lrr.setLrrState(lrrState);
         lrr.setLrrType(lrrType);
-        lrr.setResultValueId(resultValueKey);
+        lrr.setResultValueId(resultValueId);
 
         dao.persist(lrr);
 
@@ -64,7 +71,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         assertEquals("Descr does not match after create.", descr, lrr.getDescr());
         assertEquals("LRR State does not match after create.", lrrState, lrr.getLrrState());
         assertEquals("LRR Type does not match after create.", lrrType, lrr.getLrrType());
-        assertEquals("Result Value Key does not match after create.", null, lrr.getResultValueId());
+        assertEquals("Result Value Key does not match after create.", resultValueId, lrr.getResultValueId());
         
         // Update
         lrr.setName("Updated LRR");

@@ -17,8 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lrr-test-context.xml"})
@@ -67,6 +66,15 @@ public class TestLearningResultRecordServiceImpl {
         assertNotNull("Null list returned.", lrrs);
         assertEquals("Unexpected number of results.", lrrIdsToLprIds.size(), lrrs.size());
         for (LearningResultRecordInfo lrr : lrrs) {
+            assertNotNull("Result has no LPR ID.", lrr.getLprId());
+            assertNotNull("Result has no ID.", lrr.getId());
+            assertNotNull("Result has no Result Source ID List.", lrr.getResultSourceIdList());
+            assertFalse("Result has populated Result Source ID List.", lrr.getResultSourceIdList().size() > 0); // TODO change when added.
+            assertNotNull("Result has no Result Value Key.", lrr.getResultValueKey());
+            assertNotNull("Result has no Name.", lrr.getName());
+            assertNotNull("Result has no State Key.", lrr.getStateKey());
+            assertNotNull("Result has no Type Key.", lrr.getTypeKey());
+
             assertEquals("Returned LRR doesn't match correct LPR.", lrrIdsToLprIds.get(lrr.getId()), lrr.getLprId());
         }
     }
