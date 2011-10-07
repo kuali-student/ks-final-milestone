@@ -25,7 +25,12 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", "courseOfferingId", "registrationCode", "formatId", "isHonorsOffering", "maximumEnrollment", "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
+    "courseOfferingId", "registrationCode", "termKey", "formatId", 
+    "isHonorsOffering", "maximumEnrollment", 
+    "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
+    "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
+    "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
 public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationGroup {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +53,9 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     @XmlElement
     private String registrationCode;
 
+    @XmlElement
+    private String termKey;
+    
     @XmlElement
     private Boolean isHonorsOffering;
 
@@ -79,6 +87,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
         this.registrationCode = null;
+        this.termKey = null;
         this.waitlistCheckinFrequency = null;
         this.waitlistMaximum = null;
         this.waitlistTypeKey = null;
@@ -99,6 +108,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
         this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
         this.registrationCode = registrationGroup.getRegistrationCode();
+                this.termKey = registrationGroup.getTermKey();
         this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
         this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
         this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
@@ -134,6 +144,11 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         return registrationCode;
     }
 
+   @Override
+    public String getTermKey() {
+        return termKey;
+    }
+    
     @Override
     public Boolean getIsHonorsOffering() {
         return isHonorsOffering;
@@ -186,6 +201,10 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
 
     public void setRegistrationCode(String registrationCode) {
         this.registrationCode = registrationCode;
+    }
+
+    public void setTermKey(String termKey) {
+        this.termKey = termKey;
     }
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {

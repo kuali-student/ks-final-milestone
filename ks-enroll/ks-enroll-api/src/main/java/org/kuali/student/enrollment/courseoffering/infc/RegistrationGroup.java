@@ -47,6 +47,15 @@ public interface RegistrationGroup extends IdEntity {
     public String getFormatId();
     
     /**
+     * Academic term the registration group is being offered in. Should be same as CourseOffering unless changed, then must 
+     * be nested term of courseOffering
+     * @required
+     * @name Term Key
+     * @impl map to Lui.getAtpKey
+     */
+    public String getTermKey();
+        
+    /**
      * Uniquely identifies an instance of the course for the purposes of registration
      * @name Registration Code
      * @impl maps to lui code in Lui
@@ -108,4 +117,5 @@ public interface RegistrationGroup extends IdEntity {
      */
     public TimeAmount getWaitlistCheckinFrequency();
 
+    
 }
