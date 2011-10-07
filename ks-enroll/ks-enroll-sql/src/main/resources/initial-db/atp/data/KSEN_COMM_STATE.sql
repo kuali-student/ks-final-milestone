@@ -93,3 +93,7 @@ INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 /
 INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.roster.state.course.new', 'New roster entry', 'New roster entry', 'kuali.assessment.process.course.grading', 0)
 /
+INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.trans.item.state.succeeded', 'Transaction Item Succeeded', 'Transaction Item Succeeded', 'kuali.lpr.trans.item.process', 0)
+/
+INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.trans.item.state.failed', 'Transaction Item Failed', 'Transaction Item failed', 'kuali.lpr.trans.item.process', 0)
+/
