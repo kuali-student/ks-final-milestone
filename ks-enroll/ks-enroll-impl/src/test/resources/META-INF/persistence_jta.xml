@@ -58,6 +58,16 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
+
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
@@ -69,7 +79,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
             <property name="hiberante.cache_provider" value="org.hibernate.cache.NoCacheProvider"/>
 
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>
     </persistence-unit>
 
