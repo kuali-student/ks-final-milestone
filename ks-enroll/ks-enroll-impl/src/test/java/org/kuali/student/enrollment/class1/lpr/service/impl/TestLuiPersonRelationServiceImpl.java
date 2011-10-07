@@ -152,6 +152,7 @@ public class TestLuiPersonRelationServiceImpl {
         lprInfo.setStateKey("kuali.lpr.state.registered");
         lprInfo.setEffectiveDate(new Date());
         lprInfo.setExpirationDate(DateUtils.addYears(new Date(), 20));
+        lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
         String lprId = null;
         LuiPersonRelationInfo lpr2 = null;
         try {

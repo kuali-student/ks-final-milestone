@@ -171,10 +171,11 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
             lprInfo.setStateKey(personRelationState.getId());
 
         List<String> rvGroupIds = new ArrayList();
-        for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
-            rvGroupIds.add(rvGroup.getId());
+        if (null != getResultValuesGroups()) {
+            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
+                rvGroupIds.add(rvGroup.getId());
+            }
         }
-
         lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
         lprInfo.setMeta(super.toDTO());
