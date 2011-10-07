@@ -114,7 +114,50 @@
 
             </dependencies>
         </profile>
+        
+        <profile>
+			<id>selenium</id>
+			<build>
+				<plugins>
+					<!-- Setup Selenium browser configuration -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<forkMode>always</forkMode>
+							<systemPropertyVariables>
+								<selenium.remote>false</selenium.remote>
+								<selenium.browser>firefox</selenium.browser>
+								<selenium.browser.version>7</selenium.browser.version>
+								<selenium.platform>ANY</selenium.platform>
+								<selenium.baseurl>http://dev.ks.kuali.org</selenium.baseurl>
+							</systemPropertyVariables>
+							<excludes>
+								<exclude>org/kuali/student/lum/lu/assembly/*.java</exclude>
+								<exclude>org/kuali/student/lum/ui/*.java</exclude>
+								<exclude>org/kuali/student/lum/ui/requirements/uti/*.java</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<!-- Publish jar in order to inherit tests in different module -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>test-jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
     </profiles>
+    
+    
+
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
