@@ -25,7 +25,7 @@ import java.util.*;
  */
 public class PropositionBuilder {
     
-    private static final String COREQUISITE_STATMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
+    private static final String PREREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
     
     private StatementService statementService;
     
@@ -41,22 +41,23 @@ public class PropositionBuilder {
     
     static {
         String[] REQ_COM_TYPE_SEED_DATA = {
-            "kuali.reqComponent.type.course.courseset.grade.max",
-            "kuali.reqComponent.type.course.permission.org.required",
-            "kuali.reqComponent.type.course.permission.instructor.required",
-            "kuali.reqComponent.type.course.test.score.min",
+            //"kuali.reqComponent.type.course.courseset.grade.max",
+            //"kuali.reqComponent.type.course.permission.org.required",
+            //"kuali.reqComponent.type.course.permission.instructor.required",
+            //"kuali.reqComponent.type.course.test.score.min",
             "kuali.reqComponent.type.course.courseset.completed.all",
-            "kuali.reqComponent.type.course.courseset.nof.grade.min",
+            //"kuali.reqComponent.type.course.courseset.nof.grade.min",
             "kuali.reqComponent.type.course.completed",
             "kuali.reqComponent.type.course.courseset.completed.nof",
-            "kuali.reqComponent.type.course.courseset.credits.completed.nof",
-            "kuali.reqComponent.type.course.courseset.gpa.min",
-            "kuali.reqComponent.type.course.courseset.grade.min"};
+            //"kuali.reqComponent.type.course.courseset.credits.completed.nof",
+            //"kuali.reqComponent.type.course.courseset.gpa.min",
+            //"kuali.reqComponent.type.course.courseset.grade.min"
+            };
         
         validRequirementComponentTypes = Collections.unmodifiableList(Arrays.asList(REQ_COM_TYPE_SEED_DATA));
     }
     
-    public Agenda translateStatement(String statmentId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+    public Agenda translateStatement(String statmentId, Map<String, String> qualifierMap) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
         
         StatementTreeViewInfo statementTreeView = statementService.getStatementTreeView(statmentId);
                 
@@ -71,11 +72,13 @@ public class PropositionBuilder {
         List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>();
         treeEntries.add(new BasicAgendaTreeEntry(rule));
         
-        AgendaTree agendaTree = new BasicAgendaTree(treeEntries); 
-        
-        Map<String, String> emptyStringMap = Collections.emptyMap();
-        
-        Agenda result = new BasicAgenda(RulesExecutionConstants.STATEMENT_EVENT_NAME, emptyStringMap, agendaTree);
+        AgendaTree agendaTree = new BasicAgendaTree(treeEntries);
+
+        if (qualifierMap == null) {
+            qualifierMap = Collections.emptyMap();
+        }
+
+        Agenda result = new BasicAgenda(RulesExecutionConstants.STATEMENT_EVENT_NAME, qualifierMap, agendaTree);
         
         return result;
         
@@ -86,7 +89,7 @@ public class PropositionBuilder {
     }
         
     private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
-        if(statementTreeView.getType().equals(COREQUISITE_STATMENT_TYPE)) {
+        if(statementTreeView.getType().equals(PREREQUISITE_STATEMENT_TYPE)) {
             if(statementTreeView.getStatements().isEmpty()) {
                 // if no sub-statements, there are only one or two req components
             	

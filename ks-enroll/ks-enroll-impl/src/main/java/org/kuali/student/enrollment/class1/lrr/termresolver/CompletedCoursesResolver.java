@@ -23,6 +23,13 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     private LuiPersonRelationService lprService;
     private LuiService luiService;
 
+    private final static Set<TermSpecification> prerequisites = new HashSet<TermSpecification>(2);
+
+    static {
+        prerequisites.add(RulesExecutionConstants.studentIdTermSpec);
+        prerequisites.add(RulesExecutionConstants.contextInfoTermSpec);
+    }
+
     public void setLrrService(LearningResultRecordService lrrService) {
         this.lrrService = lrrService;
     }
@@ -33,7 +40,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public Set<TermSpecification> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.studentIdTermSpec);
+        return prerequisites;
     }
 
     @Override
@@ -55,8 +62,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     @Override
     public Collection<String> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = resolvedPrereqs.get(RulesExecutionConstants.studentIdTermSpec).toString();
-
-        ContextInfo context = null;
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
 
         Collection<String> results = null;
 

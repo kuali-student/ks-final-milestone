@@ -46,7 +46,7 @@ public class TestCourseSetResolver {
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, "1");
 
-        Map<TermSpecification, Object> prereqs = new HashMap<TermSpecification, Object>();
+        Map<TermSpecification, Object> prereqs = Collections.singletonMap(RulesExecutionConstants.contextInfoTermSpec, (Object)callContext);
 
         Collection<String> courseIds = resolver.resolve(prereqs, parameters);
 

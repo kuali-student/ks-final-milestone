@@ -54,6 +54,7 @@ public class TestCompletedCoursesResolver {
 
         Map<TermSpecification, Object> prereqs = new HashMap<TermSpecification, Object>();
         prereqs.put(RulesExecutionConstants.studentIdTermSpec, "1001");
+        prereqs.put(RulesExecutionConstants.contextInfoTermSpec, callContext);
 
         Collection<String> completedCourses = resovler.resolve(prereqs, new HashMap<String, String>());
 
