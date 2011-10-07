@@ -71,7 +71,6 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
@@ -641,6 +640,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CredentialProgramInfo getCredentialProgram(String credentialProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -704,6 +704,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public MajorDisciplineInfo getMajorDiscipline(String majorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -758,6 +759,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -778,6 +780,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
 			String majorDisciplineId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1267,6 +1270,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CoreProgramInfo getCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CoreProgramInfo coreProgramInfo = null;
 
@@ -1395,6 +1399,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1406,6 +1411,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1417,6 +1423,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1429,6 +1436,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1441,6 +1449,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1453,6 +1462,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1464,6 +1474,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
 			String refObjectTypeURI, String refObjectId, Date from, Date to)
 			throws DoesNotExistException, InvalidParameterException,

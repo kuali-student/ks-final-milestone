@@ -147,7 +147,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements LuService {
 
 	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
@@ -185,6 +184,7 @@ public class LuServiceImpl implements LuService {
 	 **************************************************************************/
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toDeliveryMethodTypeInfos(luDao
@@ -192,6 +192,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public DeliveryMethodTypeInfo getDeliveryMethodType(
 			String deliveryMethodTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -204,6 +205,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<InstructionalFormatTypeInfo> getInstructionalFormatTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toInstructionalFormatTypeInfos(luDao
@@ -211,6 +213,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public InstructionalFormatTypeInfo getInstructionalFormatType(
 			String instructionalFormatTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -223,11 +226,13 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuTypeInfo> getLuTypes() throws OperationFailedException {
 		return LuServiceAssembler.toLuTypeInfos(luDao.find(LuType.class));
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuTypeInfo getLuType(String luTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -238,6 +243,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuCodeTypeInfo getLuCodeType(String luCodeTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -247,6 +253,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuCodeTypeInfo> getLuCodeTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toLuCodeTypeInfos(luDao
@@ -254,6 +261,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuLuRelationTypeInfo> getLuLuRelationTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toLuLuRelationTypeInfos(luDao
@@ -261,6 +269,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuLuRelationTypeInfo getLuLuRelationType(String luLuRelationTypeKey)
 			throws OperationFailedException, MissingParameterException,
 			DoesNotExistException {
@@ -272,6 +281,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey,
 			String relatedLuTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -284,6 +294,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuPublicationTypeInfo> getLuPublicationTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toLuPublicationTypeInfos(luDao
@@ -291,6 +302,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuPublicationTypeInfo getLuPublicationType(
 			String luPublicationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -302,6 +314,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -309,6 +322,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluResultTypeInfo> getCluResultTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toCluResultTypeInfos(luDao
@@ -316,6 +330,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluResultTypeInfo getCluResultType(String cluResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -324,6 +339,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluResultTypeInfo> getCluResultTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -333,6 +349,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<ResultUsageTypeInfo> getResultUsageTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toResultUsageTypeInfos(luDao
@@ -340,6 +357,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public ResultUsageTypeInfo getResultUsageType(String resultUsageTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -349,6 +367,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -358,6 +377,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedResultComponentTypesForResultUsageType(
 			String resultUsageTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -370,6 +390,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluLoRelationTypeInfo getCluLoRelationType(
 			String cluLoRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -382,6 +403,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluLoRelationTypeInfo> getCluLoRelationTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toCluLoRelationTypeInfos(luDao
@@ -389,6 +411,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -399,6 +422,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluSetTypeInfo> getCluSetTypes()
 			throws OperationFailedException {
 		return LuServiceAssembler.toCluSetTypeInfos(luDao
@@ -406,6 +430,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluSetTypeInfo getCluSetType(String cluSetTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -420,6 +445,7 @@ public class LuServiceImpl implements LuService {
 
 	// **** Core **********
 	@Override
+    @Transactional(readOnly=true)
 	public CluInfo getClu(String cluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -431,6 +457,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getClusByIdList(List<String> cluIdList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -441,6 +468,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getClusByLuType(String luTypeKey, String luState)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -451,6 +479,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluIdsByLuType(String luTypeKey, String luState)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -467,6 +496,7 @@ public class LuServiceImpl implements LuService {
 	// ****** Relations
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
 			String relatedCluId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -478,6 +508,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getClusByRelation(String relatedCluId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -493,6 +524,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluIdsByRelation(String relatedCluId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -505,6 +537,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getRelatedClusByCluId(String cluId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -517,6 +550,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getRelatedCluIdsByCluId(String cluId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -529,6 +563,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluCluRelationInfo getCluCluRelation(String cluCluRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -538,6 +573,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluCluRelationInfo> getCluCluRelationsByClu(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -549,6 +585,7 @@ public class LuServiceImpl implements LuService {
 
 	// **** Publication
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -558,6 +595,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluPublicationInfo> getCluPublicationsByType(
 			String luPublicationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -568,6 +606,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluPublicationInfo getCluPublication(String cluPublicationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -579,6 +618,7 @@ public class LuServiceImpl implements LuService {
 	// **** Results
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluResultInfo getCluResult(String cluResultId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -590,6 +630,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluResultInfo> getCluResultByClu(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -601,6 +642,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -608,6 +650,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluIdsByResultComponent(String resultComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -617,6 +660,7 @@ public class LuServiceImpl implements LuService {
 	// **** Learning Objectives
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluLoRelationInfo getCluLoRelation(String cluLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -630,6 +674,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -642,6 +687,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluLoRelationInfo> getCluLoRelationsByLo(String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -662,6 +708,7 @@ public class LuServiceImpl implements LuService {
 	// *** Sets
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluSetInfo getCluSetInfo(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -674,6 +721,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public CluSetTreeViewInfo getCluSetTreeView(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -748,6 +796,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluSetInfo> getCluSetInfoByIdList(List<String> cluSetIdList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -759,6 +808,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluSetIdsFromCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -783,6 +833,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getClusFromCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -797,6 +848,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluIdsFromCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -811,6 +863,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<CluInfo> getAllClusInCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -827,6 +880,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllCluIdsInCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -839,6 +893,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public Boolean isCluInCluSet(String cluId, String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -852,6 +907,7 @@ public class LuServiceImpl implements LuService {
 	// *** Core
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuiInfo getLui(String luiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -863,6 +919,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuiInfo> getLuisByIdList(List<String> luiIdList)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -880,6 +937,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getLuiIdsByCluId(String cluId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -890,6 +948,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -902,6 +961,7 @@ public class LuServiceImpl implements LuService {
 	// *** Relations
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getAllowedLuLuRelationTypesByLuiId(String luiId,
 			String relatedLuiId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -914,6 +974,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuiInfo> getLuisByRelation(String luiId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -926,6 +987,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getLuiIdsByRelation(String luiId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -937,6 +999,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuiInfo> getRelatedLuisByLuiId(String luiId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -949,6 +1012,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<String> getRelatedLuiIdsByLuiId(String luiId,
 			String luLuRelationTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -961,6 +1025,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -971,6 +1036,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -3023,6 +3089,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         
@@ -3954,6 +4021,7 @@ public class LuServiceImpl implements LuService {
     }   
 	
     @Override
+    @Transactional(readOnly=true)
     public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -3969,6 +4037,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -3984,6 +4053,7 @@ public class LuServiceImpl implements LuService {
 	}
 
     @Override
+    @Transactional(readOnly=true)
     public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -3999,6 +4069,7 @@ public class LuServiceImpl implements LuService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -4014,6 +4085,7 @@ public class LuServiceImpl implements LuService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -4029,6 +4101,7 @@ public class LuServiceImpl implements LuService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
@@ -4043,6 +4116,7 @@ public class LuServiceImpl implements LuService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
