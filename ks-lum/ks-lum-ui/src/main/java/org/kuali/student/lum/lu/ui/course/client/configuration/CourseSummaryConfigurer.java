@@ -202,10 +202,14 @@ public class CourseSummaryConfigurer extends Configurer implements
             final WarnContainer infoContainer1; // Header widget (with warnings if necessary)
             final WarnContainer infoContainer2; // Footer widget (with warnings if necessary)
             //WarnContainers initialized with buttons common to all states (error or otherwise)
-            infoContainer1 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController) controller)
-                        .getWfUtilities().getWorkflowActionsWidget());
-            infoContainer2 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController) controller)
-                        .getWfUtilities().getWorkflowActionsWidget());
+            Widget topWorkflowActionWidget = ((WorkflowEnhancedNavController) controller)
+                    .getWfUtilities().getWorkflowActionsWidget();
+            topWorkflowActionWidget.ensureDebugId("Top-Workflow-Actions");
+            infoContainer1 = generateWorkflowWidgetContainer(topWorkflowActionWidget);
+            Widget bottomWorkflowActionWidget = ((WorkflowEnhancedNavController) controller)
+                    .getWfUtilities().getWorkflowActionsWidget();
+            bottomWorkflowActionWidget.ensureDebugId("Bottom-Workflow-Actions");
+            infoContainer2 = generateWorkflowWidgetContainer(bottomWorkflowActionWidget);
 
             ((WorkflowEnhancedNavController) controller).getWfUtilities()
                     .addSubmitCallback(new Callback<Boolean>() {
