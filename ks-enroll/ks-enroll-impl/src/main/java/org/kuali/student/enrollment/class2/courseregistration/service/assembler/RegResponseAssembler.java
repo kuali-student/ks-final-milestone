@@ -40,7 +40,7 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
         } else {
             regResponseItem.setCourseRegistrationId(baseDTO.getLprTransactionItemResult().getResultingLprId());
         }
-
+        regResponseItem.setRegRequestItemId(baseDTO.getId());
         OperationStatusInfo operationStatus = new OperationStatusInfo();
         operationStatus.setStatus(baseDTO.getLprTransactionItemResult().getStatus());
         operationStatus.setMessages(baseDTO.getLprTransactionItemResult().getMessages());

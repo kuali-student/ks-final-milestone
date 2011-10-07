@@ -22,7 +22,6 @@ public class RegResponseItemInfo implements RegResponseItem, Serializable {
     @XmlElement
     private String regRequestItemId;
    
-
     @XmlElement
     private String courseRegistrationId;
     @XmlElement
