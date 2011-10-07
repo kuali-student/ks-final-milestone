@@ -44,14 +44,10 @@ import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.binding.KSMultiplicityGroupBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListOfStringBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.CompositeConditionOperator;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.KSMultiplicityConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.KSMultiplicityFieldConfiguration;
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.KSMultiplicityGroup;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityFieldWidgetInitializer;
@@ -79,10 +75,6 @@ import org.kuali.student.common.ui.client.widgets.KSCharCount;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldTitle;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
@@ -301,48 +293,9 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     	FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY));
         instructorsFd.setWidgetBinding(new KeyListModelWigetBinding("personId"));
 
-        generateInstructors(section);
-
         section.addSection(generateDescriptionRationaleSection());
         
         return section;
-    }
-
-    private void generateInstructors(Section section) {
-
-
-        FieldTitle fieldTitle2 = new LabelPanel("Intructor(s)");
-        AbbrButton help2 = new AbbrButton(AbbrButtonType.HELP);
-        help2.setVisible(true);
-        help2.setHoverHTML(getLabel(LUUIConstants.INSTRUCTORS_LABEL_KEY + "-help"));
-        fieldTitle2.add(help2);
-
-        VerticalSection instructorsSection = new VerticalSection();
-        instructorsSection.addStyleName("instructors");
-        instructorsSection.addWidget(fieldTitle2);
-
-        QueryPath parentPath = QueryPath.concat(COURSE + QueryPath.getPathSeparator() + INSTRUCTORS);
-        KSMultiplicityConfiguration config = new KSMultiplicityConfiguration(getMetaData(parentPath.toString()));
-        config.setAddItemLabel(getLabel("Include Another Instructor"));
-
-        QueryPath fieldPath = QueryPath.concat(parentPath.toString(), QueryPath.getWildCard(), "personId");
-        KSMultiplicityFieldConfiguration fc = new KSMultiplicityFieldConfiguration(
-                fieldPath.toString(), null, modelDefinition.getMetadata(fieldPath));
-
-        config.addFieldConfiguration(fc);
-
-        FieldDescriptor parentFd = new FieldDescriptor(parentPath.toString(), null,
-                modelDefinition.getMetadata(parentPath));
-        parentFd.hideLabel();
-        parentFd.setFieldWidget(new KSMultiplicityGroup(config));
-        parentFd.setWidgetBinding(new KSMultiplicityGroupBinding());
-
-        VerticalSection vs = new VerticalSection();
-        vs.addField(parentFd);
-
-        instructorsSection.addSection(vs);
-        section.addSection(instructorsSection);
-
     }
             
 
@@ -395,10 +348,10 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 LUUIConstants.JOINT_OFFER_ITEM_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                CreditCourseJointsConstants.COURSE_ID,
+                                CreditCourseJointsConstants.COURSE_ID, 
                                 LUUIConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null, true)),
-                null,
-                null, 0);
+                                null,
+                                null,0);
         SpanPanel vsnlabelpan = new SpanPanel();
         vsnlabelpan.setStyleName("ks-multiplicity-section-label");
         vsnlabelpan.setHTML("Version Codes");
