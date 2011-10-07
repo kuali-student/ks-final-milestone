@@ -834,21 +834,44 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		if(courseOfferingId != null){
 			LuiInfo lui = rgAssembler.disassemble(registrationGroupInfo, context);
 			try {
-				LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), null, lui, context);
+				String termKey = null;
 				
-				if(created != null){
-					registrationGroupInfo.setId(created.getId());
+				if(registrationGroupInfo.getTermKey()!= null)
+					termKey = registrationGroupInfo.getTermKey();
+				else
+					termKey = getTermkeyByCourseOffering(courseOfferingId, context);
+				
+				if(termKey != null){
+					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
 					
-					processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+					if(created != null){
+						registrationGroupInfo.setId(created.getId());
+						registrationGroupInfo.setTermKey(termKey);
+						processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+					}
+					
+					return registrationGroupInfo;
 				}
-				
-				return registrationGroupInfo;
+				else
+					throw new OperationFailedException("termkey is missing.");
 			} catch (DoesNotExistException e) {
 				throw new OperationFailedException();
 			}
 		}
 		else
 			return null;
+	}
+	
+	private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+		InvalidParameterException, MissingParameterException, OperationFailedException{
+		String termKey = null;
+		
+		LuiInfo co = luiService.getLui(courseOfferingId, context);
+		if(co != null){
+			termKey = co.getAtpKey();
+		}
+		
+		return termKey;
 	}
 
 	private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 

@@ -41,7 +41,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			rg.setMinimumEnrollment(lui.getMinimumEnrollment());
 			rg.setName(lui.getName());
 			rg.setFormatId(lui.getCluId());
-			
+			rg.setTermKey(lui.getAtpKey());
 			//TODO: co.setIsHonorsOffering(isHonorsOffering) -- lui.getLuiCodes() ?
 			
 			//below undecided
@@ -114,6 +114,8 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			lui.setCluId(rg.getFormatId());
 			lui.setMaximumEnrollment(rg.getMaximumEnrollment());
 			lui.setMinimumEnrollment(rg.getMinimumEnrollment());
+			lui.setAtpKey(rg.getTermKey());
+			
 			//TODO: co.getIsHonorsOffering() --store in a generic lui luCodes type of field?
 			
 			//below undecided
