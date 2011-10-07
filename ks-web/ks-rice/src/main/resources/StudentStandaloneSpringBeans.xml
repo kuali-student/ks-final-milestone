@@ -80,9 +80,15 @@
 		<property name="namespaceCode" value="KS-SYS" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="dataDictionaryPackages">
+			<!-- this doesn't work when loaded from a jar -->
+			<!-- 
 			<list>
 				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
 			</list>
+			-->
+			<list>
+				<value>classpath:org/kuali/rice/student/bo/datadictionary/KualiStudentKimAttributes.xml</value>
+			</list>			
 		</property>
 		<property name="packagePrefixes">
 			<list>
