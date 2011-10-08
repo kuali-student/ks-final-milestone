@@ -101,8 +101,8 @@
         </property>
     </bean>
 
-    <bean  id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler"></bean>
-
+    <bean  id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
+<!-- TODO: refactor to ...class2.grading... -->
     <bean  id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler"></bean>
 
     <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl" scope="singleton">
