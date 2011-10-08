@@ -35,11 +35,11 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "RELATION_TYPE_ID")
     private LuiPersonRelationTypeEntity personRelationType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "RELATION_STATE_ID")
     private StateEntity personRelationState;
 
@@ -47,7 +47,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
     private List<ResultValuesGroupEntity> resultValuesGroups;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     // @JoinColumn(name = "LPR_ATTR_ID")
     // @JoinTable(name="LPR_ATTR_JOIN",
     // joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
