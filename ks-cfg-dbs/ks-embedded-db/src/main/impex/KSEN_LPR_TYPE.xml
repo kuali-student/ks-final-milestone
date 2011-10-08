@@ -15,9 +15,6 @@
     <KSEN_LPR_TYPE NAME="Automatic Roster Entry"
         TYPE_DESC="Roster Entry Automatic"
         TYPE_KEY="kuali.lpr.roster.entry.type.automatic" VER_NBR="0"/>
-    <KSEN_LPR_TYPE NAME="Roster final type"
-        TYPE_DESC="Roster final type"
-        TYPE_KEY="kuali.lpr.roster.type.course.final" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Add"
         TYPE_DESC="Add student to course registration group"
         TYPE_KEY="kuali.lpr.trans.item.type.add" VER_NBR="0"/>
@@ -41,4 +38,7 @@
         TYPE_KEY="kuali.lpr.type.registrant" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Final Grade" TYPE_DESC="Final Grade"
         TYPE_KEY="kuali.lpr.type.roster.grade.final" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Roster final type"
+        TYPE_DESC="Roster final type"
+        TYPE_KEY="kuali.roster.type.course.assessment.final" VER_NBR="0"/>
 </dataset>
