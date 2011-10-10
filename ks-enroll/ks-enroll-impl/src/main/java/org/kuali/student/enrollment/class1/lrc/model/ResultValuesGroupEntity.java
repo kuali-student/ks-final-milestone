@@ -57,9 +57,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ResultValuesGroupAttributeEntity> attributes;
 
-    public ResultValuesGroupEntity(){
-
-    }
+    public ResultValuesGroupEntity(){ }
 
     public ResultValuesGroupEntity(ResultValuesGroupInfo dto){
         super(dto);

@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
@@ -586,11 +587,17 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         for (LuiPersonRelationInfo lpr : lprs){
             for(String rvGroupKey : lpr.getResultValuesGroupKeys()){
                 rvGroup = lrcService.getResultValuesGroup(rvGroupKey,context);
-                if(StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE,rvGroup.getTypeKey())){
-                    break;
+                if (rvGroup != null){
+                    ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(),context);
+                    if (resScale != null){
+                        if(StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE,resScale.getTypeKey())){
+                            courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr,rvGroup, context));
+                            break;
+                        }
+                    }
                 }
+
             }
-            courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr,rvGroup, context));
         }
 
         return courseRegistrationInfos;

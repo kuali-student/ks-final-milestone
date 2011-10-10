@@ -20,10 +20,6 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao"/>
-
-    <bean id="lprStateDao" class="org.kuali.student.r2.common.dao.StateDao"/>
-
     <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
@@ -102,5 +98,46 @@
     
    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
-    </bean>   
+    </bean>
+
+    <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+     <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+   <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="lprTrasactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="lprTrasactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
 </beans>

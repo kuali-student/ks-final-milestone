@@ -45,6 +45,7 @@ public class CourseRegistrationAssembler {
     public CourseRegistrationInfo assemble(LuiPersonRelationInfo baseDTO, ResultValuesGroup resultValuesGroup, ContextInfo context) {
         CourseRegistrationInfo courseRegInfo = new CourseRegistrationInfo();
 
+        courseRegInfo.setId(baseDTO.getId());
         courseRegInfo.setStudentId(baseDTO.getPersonId());
         if (resultValuesGroup != null){
             courseRegInfo.setGradingOptionKey(resultValuesGroup.getKey());

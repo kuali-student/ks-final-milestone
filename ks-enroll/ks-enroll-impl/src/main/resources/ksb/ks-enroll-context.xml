@@ -78,29 +78,6 @@
         <property name="password" value="${ks.enroll.datasource.password}"/>
     </bean>
 
-    <!-- Default JPA EntityManagerFactory -->
-    <bean id="enrollDefaultEntityManagerFactory" abstract="true"
-          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="jpaVendorAdapter">
-            <bean
-                    class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="databasePlatform" value="${ks.enroll.jpa.DatabasePlatform}"/>
-                <property name="showSql" value="${ks.enroll.jpa.showSql}"/>
-                <property name="generateDdl" value="${ks.enroll.jpa.generateDdl}"/>
-            </bean>
-        </property>
-        <property name="jpaPropertyMap">
-            <map>
-                <entry key="hibernate.transaction.manager_lookup_class"
-                       value="${ks.enroll.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
-                <entry key="hibernate.hbm2ddl.auto"
-                       value="${ks.enroll.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
-                <entry key="hibernate.connection.release_mode"
-                	   value="${ks.enroll.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-            </map>
-        </property>
-    </bean>
-
     <bean  id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
 <!-- TODO: refactor to ...class2.grading... -->
     <bean  id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler"></bean>
@@ -178,74 +155,12 @@
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 	
-    
-    <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpStateDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpStateDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpRichTextDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-  <!--   
-    <bean id="atpAtpRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
- -->   
-    <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-    
-<!--     <bean id="milestoneTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
--->    
-    <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-<!--     
-    <bean id="atpMilestoneRelationTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
--->
-    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-        
 	<bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao"/>
         <property name="spDao" ref="stateProcessDao"/>
         <property name="sprDao" ref="stateProcessRelationDao"/>
     </bean>
     
-    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
- 
-     <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-              	   
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 
@@ -426,45 +341,10 @@
     <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
     	<property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
         <property name="resultValueDao" ref="resultValueDao"/>
+        <property name="resultScaleDao" ref="resultScaleDao"/>
     </bean>
 
     <bean id="gradeValuesGroupAssembler" class="org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler"/>
-
-    <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao">
-        <property name="em" ref="enrollEntityManager"/>
-    </bean>
-
-    <bean id="lprTrasactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
-        <property name="em" ref="enrollEntityManager" />
-    </bean>
-
-    <bean id="lprTrasactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
-        <property name="em" ref="enrollEntityManager" />
-    </bean>
 
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
         <property name="validator" ref="validator"/>
@@ -477,6 +357,7 @@
         <property name="regRequestAssembler" ref="regRequestAssembler" />
         <property name="regResponseAssembler" ref="regResponseAssembler" />
         <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
+        <property name="lrcService" ref="lrcPersistenceService"/>
     </bean>
 
     <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />

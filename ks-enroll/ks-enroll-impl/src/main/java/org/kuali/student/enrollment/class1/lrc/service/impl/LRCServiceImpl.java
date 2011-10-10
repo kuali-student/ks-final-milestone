@@ -1,7 +1,10 @@
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
+import org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -22,10 +25,15 @@ public class LRCServiceImpl implements LRCService {
 
     private ResultValuesGroupDao resultValuesGroupDao;
     private ResultValueDao resultValueDao;
+    private ResultScaleDao resultScaleDao;
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        ResultValuesGroupEntity entity = resultValuesGroupDao.find(resultValuesGroupId);
+        if (entity != null){
+            return entity.toDto();
+        }
+        return null;
     }
 
     @Override
@@ -70,7 +78,11 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+         ResultValueEntity entity = resultValueDao.find(resultValueId);
+        if (entity != null){
+            return entity.toDto();
+        }
+        return null;
     }
 
     @Override
@@ -110,7 +122,11 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        ResultScaleEntity entity = resultScaleDao.find(resultScaleKey);
+        if (entity != null){
+            return entity.toDto();
+        }
+        return null;
     }
 
     @Override
@@ -192,6 +208,14 @@ public class LRCServiceImpl implements LRCService {
 
     public void setResultValueDao(ResultValueDao resultValueDao) {
         this.resultValueDao = resultValueDao;
+    }
+
+    public ResultScaleDao getResultScaleDao() {
+        return resultScaleDao;
+    }
+
+    public void setResultScaleDao(ResultScaleDao resultScaleDao) {
+        this.resultScaleDao = resultScaleDao;
     }
 
 }

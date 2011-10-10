@@ -60,7 +60,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 && field.getControl() instanceof SelectControl) {
             GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
             for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
-                keyValues.add(new ConcreteKeyValue(option.getValue(), option.getValue()));
+                keyValues.add(new ConcreteKeyValue(option.getKey(), option.getName()));
             }
             ((SelectControl) field.getControl()).setOptions(keyValues);
         }
@@ -108,7 +108,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     GradeStudent student = new GradeStudent();
                     //FIXME:Temp flag set for testing, have to delete
                     student.setPercentGrade(true);
-
+                    student.setGradeRosterEntryInfo(entryInfo);
                     student.setStudentId(entryInfo.getStudentId());
                     Entity entityInfo = identityService.getEntityByPrincipalId(entryInfo.getStudentId());
                     List<EntityName> entityNameInfos = entityInfo.getNames();
@@ -119,7 +119,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                         }
                     }
 
-                    /*List<String> validGradeGroupKeys = entryInfo.getValidGradeGroupKeys();
+                    List<String> validGradeGroupKeys = entryInfo.getValidGradeGroupKeys();
 
                     List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(validGradeGroupKeys, context);
                     student.setGradeValuesGroupInfoList(gradeValueInfos);
@@ -127,23 +127,20 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     for (GradeValuesGroupInfo grade : gradeValueInfos) {
                         if (grade.getResultValueInfos() != null && !grade.getResultValueInfos().isEmpty()) {
                             student.getAvailabeGradingOptions().addAll(grade.getResultValueInfos());
-                            student.setPercentGrade(true);
-                        } else if (grade.getResultValueRange() != null) {
                             student.setPercentGrade(false);
-                            // Populate the range info to the form.
+                        } else if (grade.getResultValueRange() != null) {
+                            student.setPercentGrade(true);
                         }
                     }
 
                     String assignedGrade = null;
                     String assignedGradeKey = entryInfo.getAssignedGradeKey();
 
-                    // TODO change key to actual value - need to call Grading
-                    // Service getGrade method
                     if (assignedGradeKey != null) {
                         assignedGrade = assignedGradeKey;
 
                     }
-                    student.setSelectedGrade(assignedGrade);*/
+                    student.setSelectedGrade(assignedGrade);
 
                     students.add(student);
                 }

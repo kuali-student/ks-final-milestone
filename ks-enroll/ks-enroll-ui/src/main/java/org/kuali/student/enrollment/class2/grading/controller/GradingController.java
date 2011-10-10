@@ -11,14 +11,6 @@ package org.kuali.student.enrollment.class2.grading.controller;
  * governing permissions and limitations under the License.
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -32,7 +24,6 @@ import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperServ
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.test.utilities.TestHelper;
@@ -42,6 +33,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/grading")
@@ -127,43 +123,11 @@ public class GradingController extends UifControllerBase {
         GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(
                 "http://student.kuali.org/wsdl/grading", "GradingService"));
 
-        // Get the GradeRosterEntryInfo objects mapped by studentId
-        List<GradeRosterInfo> gradeRosterInfoList = gradingService.getFinalGradeRostersForCourseOffering(
-                selectedCourse, context);
-        Map<String, GradeRosterEntryInfo> gradeRosterEntryInfoMap = new HashMap<String, GradeRosterEntryInfo>();
-        if (gradeRosterInfoList != null) {
-            for (GradeRosterInfo rosterInfo : gradeRosterInfoList) {
-                List<GradeRosterEntryInfo> gradeRosterEntryInfoList = gradingService.getGradeRosterEntriesByIdList(
-                        rosterInfo.getGradeRosterEntryIds(), context);
-                for (GradeRosterEntryInfo gradeRosterEntryInfo : gradeRosterEntryInfoList) {
-                    String gradeRosterEntryStudentId = gradeRosterEntryInfo.getStudentId();
-                    gradeRosterEntryInfoMap.put(gradeRosterEntryStudentId, gradeRosterEntryInfo);
-                }
-            }
-        }
-
-        // Update the assigned grade for each student in form.
         List<GradeStudent> gradeStudentList = gradingForm.getStudents();
         for (GradeStudent gradeStudent : gradeStudentList) {
-            GradeRosterEntryInfo gradeRosterEntryInfo = gradeRosterEntryInfoMap.get(gradeStudent.getStudentId());
-            if (gradeRosterEntryInfo == null) {
-                // TODO Do we need to throw an error?
-            }
-
-            // TODO review this block since assigned grade is key now - not an
-            // object
-
-            String assignedGradeKey = gradeRosterEntryInfo.getAssignedGradeKey();
-            if (assignedGradeKey == null) {
-                // TODO not sure if this is how to get a new one.
-                // TODO Sambit Commented out - assignedGradeKey = new
-                // AssignedGradeInfo();
-            }
-            String grade = gradeStudent.getSelectedGrade();
-            String gradeRosterEntryId = gradeRosterEntryInfo.getId();
-
-            // TODO Sambit Commented out - assignedGradeKey.setGrade(grade);
-            gradingService.updateGrade(gradeRosterEntryId, assignedGradeKey, context);
+            GradeRosterEntryInfo gradeRosterEntryInfo = gradeStudent.getGradeRosterEntryInfo();
+            String assignedGradeKey = gradeStudent.getSelectedGrade();
+            gradingService.updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
 
         }
 
