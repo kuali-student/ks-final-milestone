@@ -158,6 +158,31 @@
         DESCR="Indicates that this milestone has been established"
         ID="kuali.milestone.state.Official" NAME="Official"
         PROCESS_KEY="kuali.milestone.process" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="Approved"
+        ID="kuali.result.scale.state.approved"
+        NAME="The result scale has been approved to be used and awarded" PROCESS_KEY="kuali.result.scale.process"/>
+    <KSEN_COMM_STATE DESCR="Draft" ID="kuali.result.scale.state.draft "
+        NAME="The result scale is just draft and cannot yet be used" PROCESS_KEY="kuali.result.scale.process"/>
+    <KSEN_COMM_STATE DESCR="Retired"
+        ID="kuali.result.scale.state.retired"
+        NAME="The result scale has been retired and can still exist on records but can no longer be used" PROCESS_KEY="kuali.result.scale.process"/>
+    <KSEN_COMM_STATE DESCR="Approved"
+        ID="kuali.result.value.state.approved"
+        NAME="The result value has been approved to be used and awarded" PROCESS_KEY="kuali.result.value.process"/>
+    <KSEN_COMM_STATE DESCR="Draft" ID="kuali.result.value.state.draft "
+        NAME="The result value is just draft and cannot yet be used" PROCESS_KEY="kuali.result.value.process"/>
+    <KSEN_COMM_STATE DESCR="Retired"
+        ID="kuali.result.value.state.retired"
+        NAME="The result value has been retired and can still exist on records but can no longer be used" PROCESS_KEY="kuali.result.value.process"/>
+    <KSEN_COMM_STATE DESCR="Approved"
+        ID="kuali.result.values.group.state.approved"
+        NAME="The result has been approved to be used and awarded" PROCESS_KEY="kuali.result.values.group.process"/>
+    <KSEN_COMM_STATE DESCR="Draft"
+        ID="kuali.result.values.group.state.draft"
+        NAME="The result is just draft and cannot yet be used" PROCESS_KEY="kuali.result.values.group.process"/>
+    <KSEN_COMM_STATE
+        DESCR="The result has been retired and can still exist on records but can no longer be used"
+        ID="kuali.result.values.group.state.retired" NAME="Retired" PROCESS_KEY="kuali.result.values.group.process"/>
     <KSEN_COMM_STATE
         DESCR="The roster has been created and is ready to have grades entered"
         ID="kuali.roster.entry.state.active" NAME="Ready"

@@ -6,4 +6,16 @@
         NAME="student1 grade final" RT_DESCR_ID="grade-final-desc"
         STATE_ID="kuali.lrr.state.saved"
         TYPE_ID="kuali.lrr.type.final.grade.assigned" VER_NBR="0"/>
+    <KSEN_LRR ID="student2-grade-final" LPR_ID="student2"
+        NAME="student2 grade final" RT_DESCR_ID="grade-final-desc"
+        STATE_ID="kuali.lrr.state.saved"
+        TYPE_ID="kuali.lrr.type.final.grade.assigned" VER_NBR="0"/>
+    <KSEN_LRR ID="student3-grade-final" LPR_ID="student3"
+        NAME="student3 grade final" RT_DESCR_ID="grade-final-desc"
+        STATE_ID="kuali.lrr.state.saved"
+        TYPE_ID="kuali.lrr.type.final.grade.assigned" VER_NBR="0"/>
+    <KSEN_LRR ID="student4-grade-final" LPR_ID="student4"
+        NAME="student4 grade final" RT_DESCR_ID="grade-final-desc"
+        STATE_ID="kuali.lrr.state.saved"
+        TYPE_ID="kuali.lrr.type.final.grade.assigned" VER_NBR="0"/>
 </dataset>
