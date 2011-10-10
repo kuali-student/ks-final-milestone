@@ -410,7 +410,7 @@ public class GradingServiceImpl implements GradingService {
         List<CourseRegistrationInfo> courseRegistrationInfos = courseRegistrationService.getCourseRegistrationsByIdList(lprIds,context);
         Map<String,CourseRegistrationInfo> courseRegistrationMap = new HashMap();
         for (CourseRegistrationInfo courseRegistrationInfo : courseRegistrationInfos){
-            courseRegistrationMap.put(courseRegistrationInfo.getStudentId(),courseRegistrationInfo);
+            courseRegistrationMap.put(courseRegistrationInfo.getId(),courseRegistrationInfo);
         }
 
         //TODO - Just commenting out for time being to get the UI working. Once we're done with these method impls, can take out the comment
