@@ -703,8 +703,7 @@ update KSLU_CLU set PRI_INSTR_ID = 'c9047e2a-151a-4838-a16a-c500ca4fbc6b', EXP_F
 
 // LuiPersonRelationTypeEntity
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.instructor.main', 'Main Instructor', 'Main instructor(s) responsible for course or section', 0)
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.roster.type.course.final', 'LprRoster', 'Main instructor(s) responsible for course or section', 0)
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.roster.type.course.assessment.final', 'Final Grade Roster', 'Final grade roster.', 0)
+INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.roster.type.course.final', 'Final Grade Roster', 'Final grade roster.', 0)
 
 // LuiPersonRelationStateEntity
 INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, VER_NBR) VALUES ('kuali.lpr.state.assigned', 'Assigned', 'The instructor is assigned to teach this course or section', 0)

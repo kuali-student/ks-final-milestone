@@ -64,8 +64,8 @@ public class LuiPersonRelationServiceConstants {
     /**
      * LprRoster types
      */
-    // public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.final"; // Is this needed/to-be-used?
-    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.roster.type.course.assessment.final ";
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.lpr.roster.type.course.final";
+    // reverted public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY = "kuali.roster.type.course.assessment.final ";
 
     /**
      * LprRoster states
