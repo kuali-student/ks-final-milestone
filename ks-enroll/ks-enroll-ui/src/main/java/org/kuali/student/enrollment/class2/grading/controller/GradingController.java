@@ -24,8 +24,10 @@ import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperServ
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -120,15 +122,46 @@ public class GradingController extends UifControllerBase {
 
         String selectedCourse = gradingForm.getSelectedCourse();
         ContextInfo context = TestHelper.getContext1(); // TODO replace
-        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(
-                "http://student.kuali.org/wsdl/grading", "GradingService"));
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
 
         List<GradeStudent> gradeStudentList = gradingForm.getStudents();
+        boolean updateRoster = false;
         for (GradeStudent gradeStudent : gradeStudentList) {
             GradeRosterEntryInfo gradeRosterEntryInfo = gradeStudent.getGradeRosterEntryInfo();
             String assignedGradeKey = gradeStudent.getSelectedGrade();
-            gradingService.updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
+            boolean returnValue = gradingService.updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
+            if (returnValue){
+                updateRoster = true;
+            }
+        }
 
+        /*if (updateRoster){
+            for (GradeRosterInfo info : gradingForm.getRosterInfos()){
+                gradingService.updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
+            }
+        }*/
+
+        return close(gradingForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=submit")
+    public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ContextInfo context = TestHelper.getContext1(); // TODO replace
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/grading", "GradingService"));
+
+        List<GradeStudent> gradeStudentList = gradingForm.getStudents();
+        boolean updateRoster = false;
+        for (GradeStudent gradeStudent : gradeStudentList) {
+            GradeRosterEntryInfo gradeRosterEntryInfo = gradeStudent.getGradeRosterEntryInfo();
+            String assignedGradeKey = gradeStudent.getSelectedGrade();
+            //TODO:Not sure what to do with this return value
+            boolean returnValue = gradingService.updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
+        }
+
+        for (GradeRosterInfo info : gradingForm.getRosterInfos()){
+            gradingService.updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,context);
         }
 
         return close(gradingForm, result, request, response);

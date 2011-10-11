@@ -15,3 +15,5 @@ INSERT INTO KSEN_LRR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lr
 /
 INSERT INTO KSEN_LRR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lrr.type.standardized.test.score', 'Standardized Test Score', 'A score a student got by taking standardized test.', 0)
 /
+INSERT INTO KSEN_LRR_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('result.source.type.notdefined.yet',1,'Not defined yet.','NA')
+/

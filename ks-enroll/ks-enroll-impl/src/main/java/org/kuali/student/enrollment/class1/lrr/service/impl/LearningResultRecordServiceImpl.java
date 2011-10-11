@@ -2,11 +2,12 @@ package org.kuali.student.enrollment.class1.lrr.service.impl;
 
 import org.kuali.student.enrollment.class1.lrr.dao.LrrDao;
 import org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao;
+import org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao;
 import org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity;
+import org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
-import org.kuali.student.r2.common.dao.StateDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -14,17 +15,21 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
-
+import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
 
+@WebService(endpointInterface = "org.kuali.student.enrollment.lrr.service.LearningResultRecordService", serviceName = "LearningResultRecordService", portName = "LearningResultRecordService", targetNamespace = "http://student.kuali.org/wsdl/lrr")
+@Transactional(readOnly=true,noRollbackFor={org.kuali.student.common.exceptions.DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LearningResultRecordServiceImpl implements LearningResultRecordService {
 
     private LrrDao lrrDao;
     private LrrTypeDao lrrTypeDao;
-
+    private ResultSourceDao resultSourceDao;
     private StateService stateService;
 
     @Override
@@ -59,6 +64,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
+    @Transactional(readOnly=false)
     public LearningResultRecordInfo updateLearningResultRecord(@WebParam(name = "learningResultRecordId") String learningResultRecordId, @WebParam(name = "learningResultRecordInfo") LearningResultRecordInfo learningResultRecordInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         LearningResultRecordEntity lrr = lrrDao.find(learningResultRecordId);
@@ -68,8 +74,17 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         }
 
         LearningResultRecordEntity modifiedLrr = new LearningResultRecordEntity(learningResultRecordInfo);
+        List<ResultSourceEntity> resultSourceEntities = new ArrayList();
+        if (learningResultRecordInfo.getResultSourceIdList() != null){
+            for (String resSourceId : learningResultRecordInfo.getResultSourceIdList()){
+                ResultSourceEntity resultSourceEntity = resultSourceDao.find(resSourceId);
+                resultSourceEntities.add(resultSourceEntity);
+            }
+        }
+        modifiedLrr.setResultSourceIdList(resultSourceEntities);
+
         if (learningResultRecordInfo.getStateKey() != null)
-            modifiedLrr.setLrrState(findState("kuali.assessment.process.course.grading", learningResultRecordInfo.getStateKey(), context));
+            modifiedLrr.setLrrState(findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY, learningResultRecordInfo.getStateKey(), context));
         if (learningResultRecordInfo.getTypeKey() != null)
             modifiedLrr.setLrrType(lrrTypeDao.find(learningResultRecordInfo.getTypeKey()));
         lrrDao.merge(modifiedLrr);
@@ -166,6 +181,14 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
+    }
+
+    public ResultSourceDao getResultSourceDao() {
+        return resultSourceDao;
+    }
+
+    public void setResultSourceDao(ResultSourceDao resultSourceDao) {
+        this.resultSourceDao = resultSourceDao;
     }
 
     @Override

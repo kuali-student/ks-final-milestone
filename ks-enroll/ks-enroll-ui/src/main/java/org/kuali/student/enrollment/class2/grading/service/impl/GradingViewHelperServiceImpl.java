@@ -38,6 +38,7 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
@@ -92,12 +93,12 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
 
         List<GradeStudent> students = new ArrayList();
-        List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse,
-                context);
+        List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse,context);
+        gradingForm.setRosterInfos(rosterInfos);
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
-                if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey()) ||
-                    StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
+                if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY,rosterInfo.getStateKey()) ||
+                    StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,rosterInfo.getStateKey())){
                     gradingForm.setSubmitEnabled(true);
                     gradingForm.setSaveEnabled(true);
                 }
@@ -106,8 +107,6 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 int i = 0;
                 for (GradeRosterEntryInfo entryInfo : entryInfos) {
                     GradeStudent student = new GradeStudent();
-                    //FIXME:Temp flag set for testing, have to delete
-                    student.setPercentGrade(true);
                     student.setGradeRosterEntryInfo(entryInfo);
                     student.setStudentId(entryInfo.getStudentId());
                     Entity entityInfo = identityService.getEntityByPrincipalId(entryInfo.getStudentId());
@@ -133,14 +132,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                         }
                     }
 
-                    String assignedGrade = null;
-                    String assignedGradeKey = entryInfo.getAssignedGradeKey();
-
-                    if (assignedGradeKey != null) {
-                        assignedGrade = assignedGradeKey;
-
+                    if (StringUtils.isNotBlank(entryInfo.getAssignedGradeKey())) {
+                        student.setSelectedGrade(entryInfo.getAssignedGradeKey());
                     }
-                    student.setSelectedGrade(assignedGrade);
 
                     students.add(student);
                 }

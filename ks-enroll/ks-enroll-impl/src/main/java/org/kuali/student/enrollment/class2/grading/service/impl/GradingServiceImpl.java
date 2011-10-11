@@ -414,15 +414,15 @@ public class GradingServiceImpl implements GradingService {
         }
 
         //TODO - Just commenting out for time being to get the UI working. Once we're done with these method impls, can take out the comment
-        /*List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
+        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
         for (LearningResultRecordInfo lrr : lrrs) {
             lrrToLprIdMap.put(lrr, lrr.getLprId());
             resultValueKeys.add(lrr.getResultValueKey());
-        }*/
+        }
 
-        /*List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
             LearningResultRecordInfo lrr = lrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
@@ -443,9 +443,9 @@ public class GradingServiceImpl implements GradingService {
             }
 
             if (entryAttributesKey != null) {
-                entryAttributes.put(entryAttributesKey, resultValue.getValue());
+                entryAttributes.put(entryAttributesKey, resultValue.getKey());
             }
-        }*/
+        }
 
         for (LprRosterEntryInfo lprRosterEntry : entryKeysMap.keySet()) {
             Map<String, String> entryAttributes = entryKeysMap.get(lprRosterEntry);
@@ -597,7 +597,10 @@ public class GradingServiceImpl implements GradingService {
             throw new DoesNotExistException("Lpr Roster Entry not exists for the id " + gradeRosterEntryId);
         }
 
-        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLpr(entryInfoList.get(0).getLprId());
+        List<String> lprIdList = new ArrayList();
+        lprIdList.add(entryInfoList.get(0).getLprId());
+
+        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
         for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
             if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY, lrrInfo.getTypeKey())){
                  lrrInfo.setResultValueKey(assignedGradeKey);

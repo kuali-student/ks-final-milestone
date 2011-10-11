@@ -72,6 +72,8 @@ public class LuiPersonRelationServiceConstants {
      */
     public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_NEW_STATE_KEY = "kuali.lpr.roster.state.course.new"; // Is this needed/to-be-used?
     public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY = "kuali.assessment.roster.state.ready";
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY = "kuali.assessment.roster.state.saved";
+    public static final String LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY = "kuali.assessment.roster.state.submitted";
     /**
      * Student states to courses
      */

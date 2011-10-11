@@ -140,4 +140,8 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="resultSourceDao" class="org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
 </beans>

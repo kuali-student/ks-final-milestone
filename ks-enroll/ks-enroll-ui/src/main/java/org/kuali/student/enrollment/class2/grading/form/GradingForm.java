@@ -31,6 +31,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
@@ -52,6 +53,8 @@ public class GradingForm extends UifFormBase{
     private String currentTerm;
 
     private CourseOfferingInfo selectedCourseOffering;
+
+    private List<GradeRosterInfo> rosterInfos;
 
     private String title = "Grading";
 
@@ -134,5 +137,13 @@ public class GradingForm extends UifFormBase{
 
     public void setGradeDueDate(String gradeDueDate) {
         this.gradeDueDate = gradeDueDate;
+    }
+
+    public List<GradeRosterInfo> getRosterInfos() {
+        return rosterInfos;
+    }
+
+    public void setRosterInfos(List<GradeRosterInfo> rosterInfos) {
+        this.rosterInfos = rosterInfos;
     }
 }

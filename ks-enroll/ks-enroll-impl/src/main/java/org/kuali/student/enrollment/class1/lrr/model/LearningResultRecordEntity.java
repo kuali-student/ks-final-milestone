@@ -131,6 +131,14 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         return attributes;
     }
 
+    public List<ResultSourceEntity> getResultSourceIdList() {
+        return resultSourceIdList;
+    }
+
+    public void setResultSourceIdList(List<ResultSourceEntity> resultSourceIdList) {
+        this.resultSourceIdList = resultSourceIdList;
+    }
+
     public LearningResultRecordInfo toDto() {
 
         LearningResultRecordInfo info = new LearningResultRecordInfo();

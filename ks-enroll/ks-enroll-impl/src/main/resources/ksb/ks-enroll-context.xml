@@ -335,6 +335,7 @@
     	<property name="lrrDao" ref="lrrDao"/>
         <property name="lrrTypeDao" ref="lrrTypeDao" />
     	<property name="stateService" ref="stateService"/>
+        <property name="resultSourceDao" ref="resultSourceDao"/>
     </bean>
 
     <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
