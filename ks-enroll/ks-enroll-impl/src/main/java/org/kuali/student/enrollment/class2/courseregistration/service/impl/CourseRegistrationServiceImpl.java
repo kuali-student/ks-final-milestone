@@ -24,14 +24,12 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Transactional(noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
     private LuiPersonRelationService lprService;
@@ -634,43 +632,47 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         for (LuiPersonRelationInfo courseOfferinglprInfo : courseLprList) {
 
-            CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(courseOfferinglprInfo.getLuiId(), context);
+            if(courseOfferinglprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)){
+                CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(courseOfferinglprInfo.getLuiId(), context);
 
-            List<RegistrationGroupInfo> regGroupList = courseOfferingService.getRegGroupsForCourseOffering(courseOfferinglprInfo.getLuiId(), context);
+                List<RegistrationGroupInfo> regGroupList = courseOfferingService.getRegGroupsForCourseOffering(courseOfferinglprInfo.getLuiId(), context);
 
-            for (RegistrationGroupInfo regGroup : regGroupList) {
+                for (RegistrationGroupInfo regGroup : regGroupList) {
 
-                RegistrationGroupInfo reg = new RegistrationGroupInfo();
+                    RegistrationGroupInfo reg = new RegistrationGroupInfo();
 
-                Map<LuiPersonRelationInfo, ActivityOfferingInfo> activtiesLprInfoMap = new HashMap<LuiPersonRelationInfo, ActivityOfferingInfo>();
+                    Map<LuiPersonRelationInfo, ActivityOfferingInfo> activtiesLprInfoMap = new HashMap<LuiPersonRelationInfo, ActivityOfferingInfo>();
 
-                for (LuiPersonRelationInfo regGroupLprInfo : regGroupLprList) {
+                    for (LuiPersonRelationInfo regGroupLprInfo : regGroupLprList) {
 
-                    if (regGroup.getId().equals(regGroupLprInfo.getLuiId())) {
+                        if (regGroup.getId().equals(regGroupLprInfo.getLuiId())
+                                && regGroupLprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)) {
 
-                        reg = courseOfferingService.getRegistrationGroup(regGroup.getId(), context);
+                            reg = courseOfferingService.getRegistrationGroup(regGroup.getId(), context);
 
-                        for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
+                            for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
 
-                            List<LuiPersonRelationInfo> lprsForActivity = lprService.getLprsByLuiAndPerson(studentId, activityOfferingId, context);
+                                List<LuiPersonRelationInfo> lprsForActivity = lprService.getLprsByLuiAndPerson(studentId, activityOfferingId, context);
 
-                            for (LuiPersonRelationInfo activityLpr : lprsForActivity) {
+                                for (LuiPersonRelationInfo activityLpr : lprsForActivity) {
 
-                                if (activityLpr.getStateKey().equals(regGroupLprInfo.getStateKey())) {
+                                    if (activityLpr.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)
+                                            && activityLpr.getStateKey().equals(regGroupLprInfo.getStateKey())) {
 
-                                    ActivityOfferingInfo activityOffering = courseOfferingService.getActivityOffering(activityOfferingId, context);
+                                        ActivityOfferingInfo activityOffering = courseOfferingService.getActivityOffering(activityOfferingId, context);
 
-                                    activtiesLprInfoMap.put(activityLpr, activityOffering);
+                                        activtiesLprInfoMap.put(activityLpr, activityOffering);
+                                    }
                                 }
+
                             }
 
+                            courseRegistrationList.add(courseRegistrationAssembler.assemble(courseOfferinglprInfo, courseOfferingInfo, activtiesLprInfoMap, regGroupLprInfo, reg, context));
                         }
+
                     }
 
-                    courseRegistrationList.add(courseRegistrationAssembler.assemble(courseOfferinglprInfo, courseOfferingInfo, activtiesLprInfoMap, regGroupLprInfo, reg, context));
-
                 }
-
             }
 
         }

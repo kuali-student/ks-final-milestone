@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,19 +118,21 @@ public class RegistrationForm extends UifFormBase {
                 // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
                 RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
-                for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
-                    ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
-                    for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
-                        MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
-                        meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
-                        meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
-                        meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
-                        // TODO - convert type key to actual activity type
-                        String key = activityOfferingInfo.getTypeKey();
-                        String name = key.substring(key.lastIndexOf(".") + 1);
-                        name = String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
-                        meetingScheduleWrapper.setTimeTypeName(name);
-                        meetingScheduleWrappers.add(meetingScheduleWrapper);
+                if(regGroupRegistrationInfo.getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)){
+                    for (ActivityRegistrationInfo activityRegistrationInfo : regGroupRegistrationInfo.getActivityRegistrations()) {
+                        ActivityOfferingInfo activityOfferingInfo = activityRegistrationInfo.getActivityOffering();
+                        for (MeetingScheduleInfo meetingScheduleInfo : activityOfferingInfo.getMeetingSchedules()) {
+                            MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
+                            meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
+                            meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
+                            meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
+                            // TODO - convert type key to actual activity type
+                            String key = activityOfferingInfo.getTypeKey();
+                            String name = key.substring(key.lastIndexOf(".") + 1);
+                            name = String.format( "%s%s", Character.toUpperCase(name.charAt(0)), name.substring(1));
+                            meetingScheduleWrapper.setTimeTypeName(name);
+                            meetingScheduleWrappers.add(meetingScheduleWrapper);
+                        }
                     }
                 }
             }
