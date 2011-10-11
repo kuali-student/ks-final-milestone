@@ -17,7 +17,11 @@
         <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
-
+    <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+    <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+    <class>org.kuali.student.enrollment.class1.lpr.model.LprTransItemAttributeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lpr.model.LprTransAttributeEntity</class>
+    
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpStateEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity</class>
