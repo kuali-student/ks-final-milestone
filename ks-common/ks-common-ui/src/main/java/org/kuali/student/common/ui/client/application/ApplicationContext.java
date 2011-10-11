@@ -51,7 +51,7 @@ public class ApplicationContext {
 	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 	
 	private boolean loggedIn = true;
-	private String userId = "testuser";
+	private String userId = "testuser";		
 	private String version = "KS";
 	private List<String> roles = new ArrayList<String>();
 	
@@ -94,6 +94,11 @@ public class ApplicationContext {
 		this.loggedIn = loggedIn;
 	}
 
+	/**
+	 * Set the user "id" of user, this is the same as the KIM principalName
+	 *
+	 * @param userId
+	 */
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
@@ -106,6 +111,9 @@ public class ApplicationContext {
 		return loggedIn;
 	}
 
+	/**
+	 * @return the userId of user logged into the system. This is the same as the KIM principalName
+	 */
 	public String getUserId() {
 		return userId;
 	}
