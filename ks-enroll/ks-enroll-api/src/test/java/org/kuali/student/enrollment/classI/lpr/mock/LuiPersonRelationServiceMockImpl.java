@@ -804,4 +804,11 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         return null;
     }
 
+    @Override
+    public List<LuiPersonRelationInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
 }

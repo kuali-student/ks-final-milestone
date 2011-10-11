@@ -77,7 +77,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprDao lprDao;
     private LuiDao luiDao;
     private LprRosterDao lprRosterDao;
-    private LprTransactionDao lprTransDao;
+    private LprTransactionDao lprTransDao; 
     private LprTransactionItemDao lprTransItemDao;
     private StateDao stateDao;
     private LprTypeDao lprTypeDao;
@@ -1106,6 +1106,22 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
+    }
+
+    @Override
+    public List<LuiPersonRelationInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiPersonRelationEntity> entityList = lprDao.getLprsByPerson(personId);
+
+        List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
+        for (LuiPersonRelationEntity entity : entityList) {
+            LuiEntity lui = luiDao.find(entity.getLuiId());
+            if ((lui.getLuiType().getId().equals(luiTypeKey))) {
+                infoList.add(entity.toDto());
+            }
+        }
+
+        return infoList;
     }
 
 }
