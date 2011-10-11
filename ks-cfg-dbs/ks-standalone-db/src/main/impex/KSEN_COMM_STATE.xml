@@ -6,6 +6,13 @@
         ID="kuali.assessment.roster.state.ready" NAME="Assigned"
         PROCESS_KEY="kuali.assessment.process.course.grading" VER_NBR="0"/>
     <KSEN_COMM_STATE
+        DESCR="The roster has had information entered against it and it has been saved"
+        ID="kuali.assessment.roster.state.saved" NAME="Saved"
+        PROCESS_KEY="kuali.assessment.process.course.grading" VER_NBR="0"/>
+    <KSEN_COMM_STATE DESCR="The roster has has been submitted"
+        ID="kuali.assessment.roster.state.submitted" NAME="Submitted"
+        PROCESS_KEY="kuali.assessment.process.course.grading" VER_NBR="0"/>
+    <KSEN_COMM_STATE
         DESCR="Indicates that this Atp-Atp relation is active"
         ID="kuali.atp.atp.relation.state.active" NAME="Active"
         PROCESS_KEY="kuali.atp.atp.relation.process" VER_NBR="0"/>
