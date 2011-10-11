@@ -630,7 +630,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         List<LuiPersonRelationInfo> regGroupLprList = lprService.getLprsByPersonForAtpAndLuiType(studentId, termKey, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
 
-        for (LuiPersonRelationInfo courseOfferinglprInfo : courseLprList) {
+        getCourseRegistration(studentId, courseRegistrationList, courseLprList, regGroupLprList, context);
+
+        return courseRegistrationList;
+    }
+
+    private void getCourseRegistration(String studentId, List<CourseRegistrationInfo> courseRegistrationList, List<LuiPersonRelationInfo> courseLprList, List<LuiPersonRelationInfo> regGroupLprList, ContextInfo context) 
+	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException{
+      if (courseLprList != null && !courseLprList.isEmpty()){ 
+    	for (LuiPersonRelationInfo courseOfferinglprInfo : courseLprList) {
 
             if(courseOfferinglprInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)){
                 CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(courseOfferinglprInfo.getLuiId(), context);
@@ -676,10 +684,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             }
 
         }
-
-        return courseRegistrationList;
+      }
     }
-
+    
     @Override
     public List<CourseRegistrationInfo> getActiveCourseRegistrationsByCourseOfferingId(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -816,24 +823,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsForStudent(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        List<LuiPersonRelationInfo> courseLprList = new ArrayList<LuiPersonRelationInfo>();
-        List<LuiPersonRelationInfo> lprs = lprService.getLprsByPerson(studentId, context);
-
-        if (lprs != null && !lprs.isEmpty()) {
-            for (LuiPersonRelationInfo lpr : lprs) {
-                if (lpr.getTypeKey() != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY)) {
-                    courseLprList.add(lpr);
-                }
-            }
-        }
-
         List<CourseRegistrationInfo> courseRegistrationList = new ArrayList<CourseRegistrationInfo>();
 
-        for (LuiPersonRelationInfo courseLpr : courseLprList) {
+        List<LuiPersonRelationInfo> courseLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
 
-            courseRegistrationList.add(getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseLpr.getLuiId(), context));
+        List<LuiPersonRelationInfo> regGroupLprList = lprService.getLprsByPersonAndLuiType(studentId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, context);
 
-        }
+        getCourseRegistration(studentId, courseRegistrationList, courseLprList, regGroupLprList, context);
 
         return courseRegistrationList;
     }

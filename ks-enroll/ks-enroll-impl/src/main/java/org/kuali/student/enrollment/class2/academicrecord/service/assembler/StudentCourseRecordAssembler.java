@@ -21,8 +21,6 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseRecordInfo, CourseRegistrationInfo> {
 	private AtpService atpService;
 	private GradingService gradingService;
-	
-	//wiring LRCServiceImpl in r2 when it's ready
 	private LRCService lrcService;
 	
 	public AtpService getAtpService() {
