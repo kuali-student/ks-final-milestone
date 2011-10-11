@@ -26,4 +26,6 @@
     <KSEN_LRR_TYPE NAME="Standardized Test Score"
         TYPE_DESC="A score a student got by taking standardized test."
         TYPE_KEY="kuali.lrr.type.standardized.test.score" VER_NBR="0"/>
+    <KSEN_LRR_TYPE NAME="NA" TYPE_DESC="Not defined yet."
+        TYPE_KEY="result.source.type.notdefined.yet" VER_NBR="1"/>
 </dataset>
