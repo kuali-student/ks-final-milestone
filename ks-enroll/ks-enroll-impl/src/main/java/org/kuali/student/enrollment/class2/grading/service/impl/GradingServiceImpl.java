@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
+import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
