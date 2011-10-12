@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -141,6 +142,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         co = this.getDefaultCourseOfferingInfo();
+        co.setExpenditure(new ExpenditureInfo ());
         context = getContext1();
         result = intstance.validate(validationType, co, context);
         for (ValidationResult vri : result) {
