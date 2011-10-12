@@ -529,10 +529,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             modifiedLprRoster.setAssociatedLuis(luiEntities);
         }
 
-        if (lprRosterInfo.getStateKey() != null)
-            modifiedLprRoster.setLprRosterState(findState("kuali.assessment.process.course.grading", lprRosterInfo.getStateKey(), context));
-        if (lprRosterInfo.getTypeKey() != null)
+        if (lprRosterInfo.getStateKey() != null){
+            modifiedLprRoster.setLprRosterState(findState(LuiPersonRelationServiceConstants.LPRROSTER_GRADING_POCESS_KEY, lprRosterInfo.getStateKey(), context));
+        }
+
+        if (lprRosterInfo.getTypeKey() != null){
             modifiedLprRoster.setLprRosterType(lprTypeDao.find(lprRosterInfo.getTypeKey()));
+        }
+
         lprRosterDao.merge(modifiedLprRoster);
 
         LprRosterEntity entity = lprRosterDao.find(modifiedLprRoster.getId());
