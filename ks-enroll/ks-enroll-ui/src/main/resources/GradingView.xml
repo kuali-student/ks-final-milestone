@@ -187,7 +187,7 @@ limitations under the License.
       <property name="items">
         <list>
           <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
-          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}" p:methodToCall="save"/>
+          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}" p:methodToCall="submit"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
 

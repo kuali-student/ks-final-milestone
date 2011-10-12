@@ -59,8 +59,32 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
+    @Transactional(readOnly=false)
     public LearningResultRecordInfo createLearningResultRecord(@WebParam(name = "learningResultRecord") LearningResultRecordInfo learningResultRecord, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        LearningResultRecordEntity lrr = lrrDao.find(learningResultRecord.getId());
+        if (lrr != null){
+            throw new AlreadyExistsException("Record already exists for " + learningResultRecord.getId());
+        }else{
+            LearningResultRecordEntity newLrr = new LearningResultRecordEntity(learningResultRecord);
+
+            List<ResultSourceEntity> resultSourceEntities = new ArrayList();
+            if (learningResultRecord.getResultSourceIdList() != null && !learningResultRecord.getResultSourceIdList().isEmpty()){
+                resultSourceEntities = resultSourceDao.findByIds(learningResultRecord.getResultSourceIdList());
+            }
+            newLrr.setResultSourceList(resultSourceEntities);
+
+            if (learningResultRecord.getStateKey() != null)  {
+                newLrr.setLrrState(findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY, learningResultRecord.getStateKey(), context));
+            }
+
+            if (learningResultRecord.getTypeKey() != null) {
+                newLrr.setLrrType(lrrTypeDao.find(learningResultRecord.getTypeKey()));
+            }
+
+            lrrDao.merge(newLrr);
+            return lrrDao.find(newLrr.getId()).toDto();
+        }
+
     }
 
     @Override
@@ -75,13 +99,10 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
         LearningResultRecordEntity modifiedLrr = new LearningResultRecordEntity(learningResultRecordInfo);
         List<ResultSourceEntity> resultSourceEntities = new ArrayList();
-        if (learningResultRecordInfo.getResultSourceIdList() != null){
-            for (String resSourceId : learningResultRecordInfo.getResultSourceIdList()){
-                ResultSourceEntity resultSourceEntity = resultSourceDao.find(resSourceId);
-                resultSourceEntities.add(resultSourceEntity);
-            }
+        if (learningResultRecordInfo.getResultSourceIdList() != null && !learningResultRecordInfo.getResultSourceIdList().isEmpty()){
+            resultSourceEntities = resultSourceDao.findByIds(learningResultRecordInfo.getResultSourceIdList());
         }
-        modifiedLrr.setResultSourceIdList(resultSourceEntities);
+        modifiedLrr.setResultSourceList(resultSourceEntities);
 
         if (learningResultRecordInfo.getStateKey() != null)
             modifiedLrr.setLrrState(findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY, learningResultRecordInfo.getStateKey(), context));
@@ -115,6 +136,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
+    @Transactional(readOnly=false)
     public StatusInfo deleteLearningResultRecord(@WebParam(name = "learningResultRecordId") String learningResultRecordId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
@@ -140,16 +162,19 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
+    @Transactional(readOnly=false)
     public ResultSourceInfo createResultSource(@WebParam(name = "resultSourceInfo") ResultSourceInfo sourceInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
+    @Transactional(readOnly=false)
     public ResultSourceInfo updateResultSource(@WebParam(name = "resultSourceId") String resultSourceId, @WebParam(name = "resultSourceInfo") ResultSourceInfo resultSourceInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
     @Override
+    @Transactional(readOnly=false)
     public StatusInfo deleteResultSource(@WebParam(name = "deleteResultSourceId") String resultSourceId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }

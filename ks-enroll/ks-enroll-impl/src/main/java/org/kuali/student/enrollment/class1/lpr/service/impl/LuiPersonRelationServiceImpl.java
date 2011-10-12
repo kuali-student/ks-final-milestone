@@ -524,13 +524,20 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         }
 
         LprRosterEntity modifiedLprRoster = new LprRosterEntity(lprRosterInfo);
+        if (lprRosterInfo.getAssociatedLuiIds() != null && !lprRosterInfo.getAssociatedLuiIds().isEmpty()){
+            List<LuiEntity> luiEntities = luiDao.findByIds(lprRosterInfo.getAssociatedLuiIds());
+            modifiedLprRoster.setAssociatedLuis(luiEntities);
+        }
+
         if (lprRosterInfo.getStateKey() != null)
             modifiedLprRoster.setLprRosterState(findState("kuali.assessment.process.course.grading", lprRosterInfo.getStateKey(), context));
         if (lprRosterInfo.getTypeKey() != null)
             modifiedLprRoster.setLprRosterType(lprTypeDao.find(lprRosterInfo.getTypeKey()));
         lprRosterDao.merge(modifiedLprRoster);
 
-        return lprRosterDao.find(modifiedLprRoster.getId()).toDto();
+        LprRosterEntity entity = lprRosterDao.find(modifiedLprRoster.getId());
+        LprRosterInfo info = entity.toDto();
+        return info;
     }
 
     private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {

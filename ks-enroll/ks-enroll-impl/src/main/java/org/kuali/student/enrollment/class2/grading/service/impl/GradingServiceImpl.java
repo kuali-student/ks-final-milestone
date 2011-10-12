@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
@@ -21,10 +23,7 @@ import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
@@ -34,10 +33,8 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import javax.jws.WebParam;
@@ -413,13 +410,14 @@ public class GradingServiceImpl implements GradingService {
             courseRegistrationMap.put(courseRegistrationInfo.getId(),courseRegistrationInfo);
         }
 
-        //TODO - Just commenting out for time being to get the UI working. Once we're done with these method impls, can take out the comment
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
         for (LearningResultRecordInfo lrr : lrrs) {
             lrrToLprIdMap.put(lrr, lrr.getLprId());
-            resultValueKeys.add(lrr.getResultValueKey());
+            if (StringUtils.isNotBlank(lrr.getResultValueKey())){
+                resultValueKeys.add(lrr.getResultValueKey());
+            }
         }
 
         List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
@@ -597,10 +595,38 @@ public class GradingServiceImpl implements GradingService {
             throw new DoesNotExistException("Lpr Roster Entry not exists for the id " + gradeRosterEntryId);
         }
 
+        LprRosterEntryInfo entryInfo = entryInfoList.get(0);
         List<String> lprIdList = new ArrayList();
-        lprIdList.add(entryInfoList.get(0).getLprId());
+        lprIdList.add(entryInfo.getLprId());
 
         List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
+
+        //If an entry not exists for a student, create one
+        if (learningResultRecordInfoList == null || learningResultRecordInfoList.isEmpty()){
+            LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
+            lrrInfo.setId(UUIDHelper.genStringUUID());
+            lrrInfo.setLprId(entryInfo.getLprId());
+            lrrInfo.setName("LRR for " + entryInfo.getLprId());
+            lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);
+            lrrInfo.setTypeKey(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY);
+            //FIXME: Just for core slice
+            List<String> resultSource = new ArrayList();
+            resultSource.add("ResultSource-Sample1");
+            lrrInfo.setResultSourceIdList(resultSource);
+            lrrInfo.setResultValueKey(assignedGradeKey);
+            MetaInfo meta = new MetaInfo();
+            meta.setCreateId(GlobalVariables.getUserSession().getPrincipalId());
+            meta.setCreateTime(new Date());
+            lrrInfo.setMeta(meta);
+            try{
+                lrrService.createLearningResultRecord(lrrInfo,context);
+                return true;
+            }catch(AlreadyExistsException e){
+                //Someone already created in the mean time.. let's get that one.
+                learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
+            }
+        }
+
         for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
             if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY, lrrInfo.getTypeKey())){
                  lrrInfo.setResultValueKey(assignedGradeKey);

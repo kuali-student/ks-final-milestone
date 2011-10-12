@@ -32,4 +32,8 @@ public interface GradingViewHelperService extends ViewHelperService{
 
     public List<GradeStudent> loadStudents(String selectedCourse,GradingForm gradingForm) throws  Exception;
 
+    public boolean saveGrades(GradingForm gradingForm)throws Exception;
+
+    public boolean submitGradeRoster(GradingForm gradingForm)throws Exception;
+
 }

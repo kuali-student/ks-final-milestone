@@ -41,7 +41,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "KSEN_LRR_RES_SRC_RELTN", joinColumns = @JoinColumn(name = "LRR_ID"), inverseJoinColumns = @JoinColumn(name = "RES_SRC_ID"))
-    private List<ResultSourceEntity> resultSourceIdList;
+    private List<ResultSourceEntity> resultSourceList;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LrrAttributeEntity> attributes;
@@ -131,12 +131,12 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         return attributes;
     }
 
-    public List<ResultSourceEntity> getResultSourceIdList() {
-        return resultSourceIdList;
+    public List<ResultSourceEntity> getResultSourceList() {
+        return resultSourceList;
     }
 
-    public void setResultSourceIdList(List<ResultSourceEntity> resultSourceIdList) {
-        this.resultSourceIdList = resultSourceIdList;
+    public void setResultSourceList(List<ResultSourceEntity> resultSourceList) {
+        this.resultSourceList = resultSourceList;
     }
 
     public LearningResultRecordInfo toDto() {
@@ -153,7 +153,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         info.setResultValueKey(getResultValueId());
 
         List<String> resSource = new ArrayList();
-        for(ResultSourceEntity resultSourceEntity : resultSourceIdList){
+        for(ResultSourceEntity resultSourceEntity : getResultSourceList()){
             resSource.add(resultSourceEntity.getId());
         }
         info.setResultSourceIdList(resSource);
