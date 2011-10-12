@@ -158,7 +158,7 @@ limitations under the License.
             </property>
               <property name="propertyReplacers">
              <list>
-                <bean parent="PropertyReplacer" p:propertyName="control" p:condition="#line.percentGrade eq false">
+                <bean parent="PropertyReplacer" p:propertyName="control" p:condition="#line.percentGrade eq true">
                     <property name="replacement">
                     <bean parent="TextControl" p:size="26"/>
               </property>
@@ -187,7 +187,7 @@ limitations under the License.
       <property name="items">
         <list>
           <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
-          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}"/>
+          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}" p:methodToCall="submit"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
 

@@ -16,6 +16,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -32,6 +33,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -44,8 +46,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private RegistrationGroupAssembler rgAssembler;
 	private StateService stateService;
 	private LuiPersonRelationService lprService;
-	
-	public LuiService getLuiService() {
+
+    // TODO - remove when KSENROLL-247 is resolved
+    private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
+
+    public LuiService getLuiService() {
 		return luiService;
 	}
 
@@ -247,8 +252,29 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
         LuiInfo created = luiService.createLui(courseId, termKey, luiInfo, context);
         
-        if (created != null)
+        if (created != null) {
         	courseOfferingInfo.setId(created.getId());
+
+            // Create an LprRoster for this CourseOffering
+            LprRosterInfo lprrInfo = new LprRosterInfo();
+            lprrInfo.setAssociatedLuiIds(Arrays.asList(new String[] { created.getId()} ));
+            lprrInfo.setTypeKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY);
+            lprrInfo.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
+            // TODO - does LprRoster.maximumCapacity equate to CourseOffering.maximumEnrollment?
+            // TODO - remove constant when KSENROLL-247 is resolved
+            lprrInfo.setMaximumCapacity(null != courseOfferingInfo.getMaximumEnrollment() ? courseOfferingInfo.getMaximumEnrollment() : TEMP_MAX_ENROLLMENT_DEFAULT);
+            // TODO - where does this come from?
+            lprrInfo.setCheckInRequired(false);
+            // lprrInfo.setCheckInFrequency(???);
+            // ...
+            try {
+                lprService.createLprRoster(lprrInfo, context);
+            } catch (DisabledIdentifierException die) {
+                throw new OperationFailedException(die.getClass().getCanonicalName() + ": " + die.getMessage());
+            } catch (ReadOnlyException roe) {
+                throw new OperationFailedException(roe.getClass() + ": " + roe.getMessage());
+            }
+        }
 		return courseOfferingInfo;
 	}
 
@@ -834,21 +860,44 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		if(courseOfferingId != null){
 			LuiInfo lui = rgAssembler.disassemble(registrationGroupInfo, context);
 			try {
-				LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), null, lui, context);
+				String termKey = null;
 				
-				if(created != null){
-					registrationGroupInfo.setId(created.getId());
+				if(registrationGroupInfo.getTermKey()!= null)
+					termKey = registrationGroupInfo.getTermKey();
+				else
+					termKey = getTermkeyByCourseOffering(courseOfferingId, context);
+				
+				if(termKey != null){
+					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
 					
-					processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+					if(created != null){
+						registrationGroupInfo.setId(created.getId());
+						registrationGroupInfo.setTermKey(termKey);
+						processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+					}
+					
+					return registrationGroupInfo;
 				}
-				
-				return registrationGroupInfo;
+				else
+					throw new OperationFailedException("termkey is missing.");
 			} catch (DoesNotExistException e) {
 				throw new OperationFailedException();
 			}
 		}
 		else
 			return null;
+	}
+	
+	private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+		InvalidParameterException, MissingParameterException, OperationFailedException{
+		String termKey = null;
+		
+		LuiInfo co = luiService.getLui(courseOfferingId, context);
+		if(co != null){
+			termKey = co.getAtpKey();
+		}
+		
+		return termKey;
 	}
 
 	private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 
@@ -1015,7 +1064,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        // TODO - DavidE needs this implemented
         return null;
     }
 

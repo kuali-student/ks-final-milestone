@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.courseregistration.infc;
 
 import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * Represents a single reg group in the request to register. This request is
@@ -25,7 +26,7 @@ import org.kuali.student.r2.common.infc.Entity;
  * 
  * @author Kuali Student Team (sambit)
  */
-public interface RegRequestItem extends Entity {
+public interface RegRequestItem extends IdEntity {
 
     /**
      * The possible types of RegRequestItem are ADD, DROP, SWAP or UPDATE. Those

@@ -80,7 +80,7 @@ public class TestGradingServiceImpl {
         String courseOfferingId = "Lui-1";
         List<GradeRosterInfo> gradeRosters = gradingService.getFinalGradeRostersForCourseOffering(courseOfferingId, contextInfo);
         assertNotNull("Roster list is null.", gradeRosters);
-        assertTrue("Number of rosters not as expected.", gradeRosters.size() == 1);
+        assertEquals("Number of rosters not as expected.", 1, gradeRosters.size());
 
         GradeRosterInfo roster = gradeRosters.get(0);
         assertEquals("Course Offering ID not as expected.", courseOfferingId, roster.getCourseOfferingId());

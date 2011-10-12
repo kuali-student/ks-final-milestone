@@ -37,7 +37,7 @@ public class TestCourseRegistrationServiceImpl {
         RegRequestInfo regRequest = new RegRequestInfo();
         regRequest.setRequestorId("Student1");
         regRequest.setTermKey(AtpServiceConstants.ATP_SENIOR_YEAR_TERM_1_TYPE_KEY);
-        regRequest.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        regRequest.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
         regRequest.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
         RegRequestItemInfo regRequestItem = new RegRequestItemInfo();

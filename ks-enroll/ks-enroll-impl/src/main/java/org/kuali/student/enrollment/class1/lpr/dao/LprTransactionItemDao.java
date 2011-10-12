@@ -7,16 +7,12 @@ import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 
 public class LprTransactionItemDao extends GenericEntityDao<LprTransactionItemEntity> {
-    public List<LprTransactionItemEntity> getLprTransactionItemByLpr(String lprId) {
-        return em.createQuery("from LprTransactionItemEntity a  where a.lprId=:lprId").setParameter("lprId", lprId)
+    public List<LprTransactionItemEntity> getLprTransactionItemsByLpr(String lprId) {
+        return em.createQuery("from LprTransactionItemEntity a  where a.resultingLprId=:lprId").setParameter("lprId", lprId)
                 .getResultList();
     }
 
-    public List<LprTransactionEntity> getByLprTransactionItemId(String lprTransactionItemId) {
-        return em.createQuery("from LprTransactionEntity a  where :lprTransactionItemId  IN a.lprTransactionItems")
-                .setParameter("lprId", lprTransactionItemId).getResultList();
-    }
-
+    
     public List<LprTransactionItemEntity> getLprTransactionItemByPerson(String personId) {
         return em.createQuery("from LprTransactionItemEntity a where  a.personId = :personId")
                 .setParameter("personId", personId).getResultList();

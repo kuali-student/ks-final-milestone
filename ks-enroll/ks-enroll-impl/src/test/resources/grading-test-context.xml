@@ -124,7 +124,7 @@
         <property name="luiDao" ref="luiDao"/>
     </bean>
 
-    <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler"></bean>
+    <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
     <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao"></bean>
     <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao"></bean>
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao"></bean>

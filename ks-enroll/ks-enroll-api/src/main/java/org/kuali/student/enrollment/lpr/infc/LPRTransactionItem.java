@@ -73,6 +73,14 @@ public interface LPRTransactionItem extends IdEntity {
      * 
      * @return
      */
-    public List<String> getResultOptionIds();
+    public List<String> getResultOptionKeys();
+
+    /**
+     * The transaction item group id to link the LPR transaction items of the
+     * related LUIs (if any) created as part of a single transaction item.
+     * 
+     * @return
+     */
+    public String getGroupId();
 
 }

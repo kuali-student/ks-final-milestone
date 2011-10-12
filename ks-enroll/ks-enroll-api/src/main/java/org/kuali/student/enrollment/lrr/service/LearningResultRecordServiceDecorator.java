@@ -165,5 +165,12 @@ public abstract class LearningResultRecordServiceDecorator implements LearningRe
 			OperationFailedException {
 		return getNextDecorator().validateResultSource(validationType, resultSourceInfo, context);
 	}
+    @Override
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprAndType(
+            String lprId, String lrrType) throws DoesNotExistException, 
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        return getNextDecorator().getLearningResultRecordsForLprAndType(lprId, lrrType) ;
+    }
 
 }

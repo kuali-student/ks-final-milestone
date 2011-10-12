@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -292,6 +293,25 @@ public interface LuiPersonRelationService extends DataDictionaryService, TypeSer
     public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(@WebParam(name = "personId") String personId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "typeKey") String typeKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+   
+    /**
+     * 
+     * Returns the {@link LuiPersonRelationInfo} for a person and the type of a {@link LuiInfo}. 
+     * 
+     * @param personId person identifier
+     * @param luiTypeKey type of the LUI
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<LuiPersonRelationInfo> getLprsByPersonAndLuiType(@WebParam(name = "personId") String personId, 
+    @WebParam(name = "luiTypeKey") String luiTypeKey, @WebParam(name = "context") ContextInfo context)throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    OperationFailedException, PermissionDeniedException;
+    
     /**
      * This method ...
      * 

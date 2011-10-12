@@ -229,6 +229,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseOfferingInfo.creditOptions.effectiveDate" parent="CourseOfferingInfo.creditOptions.effectiveDate-parent"/>
 	<bean id="CourseOfferingInfo.creditOptions.effectiveDate-parent" abstract="true" parent="CourseOfferingInfo.creditOptions.effectiveDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.creditOptions.expirationDate" parent="CourseOfferingInfo.creditOptions.expirationDate-parent"/>
@@ -334,6 +335,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseOfferingInfo.expenditure.id" parent="CourseOfferingInfo.expenditure.id-parent"/>
 	<bean id="CourseOfferingInfo.expenditure.id-parent" abstract="true" parent="CourseOfferingInfo.expenditure.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
+        <!--<property name="minLength" value="0"/>  -->
+        <property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.expenditure.affiliatedOrgs" parent="CourseOfferingInfo.expenditure.affiliatedOrgs-parent"/>

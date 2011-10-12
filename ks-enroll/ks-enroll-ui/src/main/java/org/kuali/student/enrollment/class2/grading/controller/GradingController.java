@@ -11,16 +11,7 @@ package org.kuali.student.enrollment.class2.grading.controller;
  * governing permissions and limitations under the License.
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -31,17 +22,16 @@ import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/grading")
@@ -122,50 +112,16 @@ public class GradingController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String selectedCourse = gradingForm.getSelectedCourse();
-        ContextInfo context = TestHelper.getContext1(); // TODO replace
-        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(
-                "http://student.kuali.org/wsdl/grading", "GradingService"));
+        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).saveGrades(gradingForm);
 
-        // Get the GradeRosterEntryInfo objects mapped by studentId
-        List<GradeRosterInfo> gradeRosterInfoList = gradingService.getFinalGradeRostersForCourseOffering(
-                selectedCourse, context);
-        Map<String, GradeRosterEntryInfo> gradeRosterEntryInfoMap = new HashMap<String, GradeRosterEntryInfo>();
-        if (gradeRosterInfoList != null) {
-            for (GradeRosterInfo rosterInfo : gradeRosterInfoList) {
-                List<GradeRosterEntryInfo> gradeRosterEntryInfoList = gradingService.getGradeRosterEntriesByIdList(
-                        rosterInfo.getGradeRosterEntryIds(), context);
-                for (GradeRosterEntryInfo gradeRosterEntryInfo : gradeRosterEntryInfoList) {
-                    String gradeRosterEntryStudentId = gradeRosterEntryInfo.getStudentId();
-                    gradeRosterEntryInfoMap.put(gradeRosterEntryStudentId, gradeRosterEntryInfo);
-                }
-            }
-        }
+        return close(gradingForm, result, request, response);
+    }
 
-        // Update the assigned grade for each student in form.
-        List<GradeStudent> gradeStudentList = gradingForm.getStudents();
-        for (GradeStudent gradeStudent : gradeStudentList) {
-            GradeRosterEntryInfo gradeRosterEntryInfo = gradeRosterEntryInfoMap.get(gradeStudent.getStudentId());
-            if (gradeRosterEntryInfo == null) {
-                // TODO Do we need to throw an error?
-            }
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=submit")
+    public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-            // TODO review this block since assigned grade is key now - not an
-            // object
-
-            String assignedGradeKey = gradeRosterEntryInfo.getAssignedGradeKey();
-            if (assignedGradeKey == null) {
-                // TODO not sure if this is how to get a new one.
-                // TODO Sambit Commented out - assignedGradeKey = new
-                // AssignedGradeInfo();
-            }
-            String grade = gradeStudent.getSelectedGrade();
-            String gradeRosterEntryId = gradeRosterEntryInfo.getId();
-
-            // TODO Sambit Commented out - assignedGradeKey.setGrade(grade);
-            gradingService.updateGrade(gradeRosterEntryId, assignedGradeKey, context);
-
-        }
+        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).submitGradeRoster(gradingForm);
 
         return close(gradingForm, result, request, response);
     }

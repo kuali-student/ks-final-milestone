@@ -32,9 +32,13 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:hold-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestHoldServiceImpl {
 
     private HoldServiceValidationDecorator holdService;
@@ -148,13 +152,13 @@ public class TestHoldServiceImpl {
     	info.setEffectiveDate(Calendar.getInstance().getTime());
     	
     	HoldInfo created = null;
-//    	try{
-    	created = holdService.createHold(info, callContext);
-    	assertNotNull(created);
-        assertEquals("Test hold one", created.getName());
-//    	} catch (Exception e) {
-//            fail(e.getMessage());
-//        }
+   	try {
+            created = holdService.createHold(info, callContext);
+            assertNotNull(created);
+            assertEquals("Test hold one", created.getName());
+    	} catch (Exception e) {
+            fail(e.getMessage());
+        }
     	
     	try {
 			HoldInfo retrieved = holdService.getHold(created.getId(), callContext);

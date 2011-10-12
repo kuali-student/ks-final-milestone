@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -32,10 +34,15 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING =
                                                             "Create a new course offering";
-
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_EDITING_COURSE_OFFERING =
+                                                            "Edit an existing course offering";
+    private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_COURSE_OFFERING =
+                                                            "Copy from an existing course offering to create a new one";
     private transient CourseService courseService;
     private transient CourseOfferingService courseOfferingService;
 
+    // TODO - all exception handling in this method needs to 'manually' roll back what has been
+    // changed in the database before the exception was caught
     @Override
     public void saveDataObject() {
         CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getDataObject();
@@ -60,6 +67,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         } catch (org.kuali.student.common.exceptions.MissingParameterException mpe) {
             System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  " + mpe.toString());
         }
+        // TODO - this entire method needs more complete exception handling; then remove this
+        if (null == course) return;
 
         //form the formatIdList
         List<String> formatIdList = new ArrayList<String>();
@@ -95,6 +104,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         } catch (DataValidationErrorException dvee) {
             System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DataValidationErrorException:  " + dvee.toString());
         }
+        // TODO - this entire method needs more complete exception handling; then remove this
+        if (null == coi) return;
 
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
@@ -103,6 +114,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         if (coi != null) {
             coi.setInstructors(instructors);
             coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
+            coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
+            coi.setExpenditure(null);
 
             //update the CourseOfferingInfo coi in DB with instructors info
             try {
@@ -198,7 +211,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
             }
         }
-
     }
 
     /**
@@ -208,8 +220,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     public void prepareForSave() {
         if (getMaintenanceAction().equalsIgnoreCase(KRADConstants.MAINTENANCE_NEW_ACTION)) {
 //          System.out.println(">>>>> in CourseOfferingInfoMaintainableImpl.prepareForSave method");
-            //set documentDescription to document.documentHeader.documentDescription
-            //document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING);
 
             //set state and type value for the courseOfferingInfo
             CourseOfferingInfo newCourseOffering = (CourseOfferingInfo) getDataObject();
@@ -225,6 +235,35 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             }
         }
         super.prepareForSave();
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterCopy
+     */
+    @Override
+    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_COPYING_COURSE_OFFERING);
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterEdit
+     */
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_EDITING_COURSE_OFFERING);
+
+    }
+
+    /**
+     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterNew
+     */
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+        //set documentDescription to document.documentHeader.documentDescription
+        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING);
+
     }
 
     protected CourseService getCourseService() {

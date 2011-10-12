@@ -201,4 +201,10 @@ public class LRRServiceMockImpl implements LearningResultRecordService {
     	return new ArrayList<ValidationResultInfo>();
 	}
 
+    @Override
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprAndType(String lprId, String lrrType) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        return new ArrayList<LearningResultRecordInfo>();
+    }
+
 }
