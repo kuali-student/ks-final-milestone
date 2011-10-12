@@ -13,7 +13,7 @@
 -- permissions and limitations under the License.
 --
 
-INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.roster.type.course.final', 'Final Grade Roster', 'Final grade roster.', 0)
+INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.roster.type.course.grade.final', 'Final Grade Roster', 'Final grade roster.', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.instructor.main', 'Main Instructor', 'Main instructor(s) responsible for course or section', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.type.registrant', 'Registrant', 'Registrant who is taking the course', 0)
 INSERT INTO KSEN_LPR_TYPE (TYPE_KEY, NAME, TYPE_DESC, VER_NBR) VALUES ('kuali.lpr.trans.type.register', 'Register', 'Register Student for a Course', 0)
@@ -30,8 +30,8 @@ INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kua
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.trans.registered', 'Active', 'kuali.hold.process.student', 'This hold is active and should be enforced', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.assigned', 'Assigned', 'kuali.lpr.process.instructor.course.assignment', 'The instructor is assigned to teach this course or section.', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.state.registered', 'Registered', 'kuali.lpr.process.student.course.registration', 'The student is officially registered for the course or section', 0)
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.assessment.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.assessment.process.course.grading')
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.assessment.process.course.grading')
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.lpr.roster.process.course.grading')
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.lpr.roster.process.course.grading')
 
 
 
@@ -45,7 +45,7 @@ INSERT INTO KSEN_LPR_TRANS (ID, REQ_PERSON_ID, LPR_TYPE_ID, STATE_ID, CREATETIME
 INSERT INTO KSEN_LPR_TRANS_ITEMS (ID, PERSON_ID, NEW_LUI_ID, EXIST_LUI_ID, TYPE_ID, STATE_ID, LPR_TRANS_ID) VALUES ('testLprTransItemId1', 'Student1','Lui-1',null, 'kuali.lpr.trans.item.type.add','kuali.lpr.trans.item.state.new', 'testLprTransId1')
 
 INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-TRT-9', '<p>Roster</p>', 'Roster',0)
-INSERT INTO KSEN_LPR_ROSTER (ID,CREATEID,CREATETIME,UPDATEID,UPDATETIME,OBJ_ID,VER_NBR,NAME,RT_DESCR_ID,MAX_CAPACITY,CHECK_IN_REQ,STATE_ID,TYPE_ID,ATP_DUR_TYP_KEY,TM_QUANTITY) VALUES ('testLprRoster1',null,null,null,null,null,null,'Chemistry I Roster','RICHTEXT-TRT-9',5,0,'kuali.assessment.roster.state.ready','kuali.lpr.roster.type.course.final','testTermId1',null)
+INSERT INTO KSEN_LPR_ROSTER (ID,CREATEID,CREATETIME,UPDATEID,UPDATETIME,OBJ_ID,VER_NBR,NAME,RT_DESCR_ID,MAX_CAPACITY,CHECK_IN_REQ,STATE_ID,TYPE_ID,ATP_DUR_TYP_KEY,TM_QUANTITY) VALUES ('testLprRoster1',null,null,null,null,null,null,'Chemistry I Roster','RICHTEXT-TRT-9',5,0,'kuali.lpr.roster.state.ready','kuali.lpr.roster.type.course.grade.final','testTermId1',null)
 INSERT INTO KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID,LUI_ID) VALUES ('testLprRoster1','Lui-1')
 
 INSERT INTO KSEN_LPR_ROSTER_ENTRY (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFFECTIVEDATE,EXPIRATIONDATE,LPRROSTER_ID,LPR_ID,POSITION,RELATION_STATE_ID,RELATION_TYPE_ID) VALUES ('lprRosterEntry1',null,null,null,null,null,null,null,null,'testLprRoster1','instructor1','1','kuali.roster.entry.state.active','kuali.lpr.roster.entry.type.automatic')
