@@ -30,12 +30,9 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.*;
-
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import javax.jws.WebParam;
 
@@ -377,6 +374,8 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        //FIXME : This method needs some code refactoring
+
         final String STUDENT_ID = "studentId";
         final String ACTIVITY_OFFERING_ID = "activityOfferingId";
         final String ASSIGNED_GRADE = "assignedGrade";
@@ -413,16 +412,22 @@ public class GradingServiceImpl implements GradingService {
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
+        List<LearningResultRecordInfo> filteredLrrs = new ArrayList();
+
         for (LearningResultRecordInfo lrr : lrrs) {
-            lrrToLprIdMap.put(lrr, lrr.getLprId());
-            if (StringUtils.isNotBlank(lrr.getResultValueKey())){
-                resultValueKeys.add(lrr.getResultValueKey());
+            //Skip deleted LRR
+            if (!StringUtils.equals(lrr.getStateKey(),LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY)){
+                lrrToLprIdMap.put(lrr, lrr.getLprId());
+                if (StringUtils.isNotBlank(lrr.getResultValueKey())){
+                    resultValueKeys.add(lrr.getResultValueKey());
+                    filteredLrrs.add(lrr);
+                }
             }
         }
 
         List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
-            LearningResultRecordInfo lrr = lrrs.get(i);
+            LearningResultRecordInfo lrr = filteredLrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
             String lprId = lrrToLprIdMap.get(lrr);
             LprRosterEntryInfo entry = lprIdToEntryMap.get(lprId);
@@ -602,17 +607,19 @@ public class GradingServiceImpl implements GradingService {
         List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
 
         //If an entry not exists for a student, create one
-        if (learningResultRecordInfoList == null || learningResultRecordInfoList.isEmpty()){
+        if ((learningResultRecordInfoList == null || learningResultRecordInfoList.isEmpty()) && StringUtils.isNotBlank(assignedGradeKey)){
             LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
             lrrInfo.setId(UUIDHelper.genStringUUID());
             lrrInfo.setLprId(entryInfo.getLprId());
             lrrInfo.setName("LRR for " + entryInfo.getLprId());
             lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);
             lrrInfo.setTypeKey(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY);
-            //FIXME: Just for core slice
+
+            //FIXME: Hardcoded for core slice
             List<String> resultSource = new ArrayList();
             resultSource.add("ResultSource-Sample1");
             lrrInfo.setResultSourceIdList(resultSource);
+
             lrrInfo.setResultValueKey(assignedGradeKey);
             MetaInfo meta = new MetaInfo();
             meta.setCreateId(GlobalVariables.getUserSession().getPrincipalId());
@@ -629,9 +636,17 @@ public class GradingServiceImpl implements GradingService {
 
         for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
             if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY, lrrInfo.getTypeKey())){
-                 lrrInfo.setResultValueKey(assignedGradeKey);
-                 lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
-                 return true;
+                //If assigned grade key is empty, change the state to deleted
+                if (StringUtils.isBlank(assignedGradeKey)){
+                    StatusInfo status = lrrService.deleteLearningResultRecord(lrrInfo.getId(),context);
+                    return status.getIsSuccess();
+                }else{
+                    lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);//If cancelled before
+                    lrrInfo.setResultValueKey(assignedGradeKey);
+                    lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
+                    return true;
+                }
+
             }
         }
 

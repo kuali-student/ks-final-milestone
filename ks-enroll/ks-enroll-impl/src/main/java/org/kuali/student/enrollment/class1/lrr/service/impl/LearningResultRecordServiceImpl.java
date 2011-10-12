@@ -136,9 +136,29 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly = false)
     public StatusInfo deleteLearningResultRecord(@WebParam(name = "learningResultRecordId") String learningResultRecordId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        LearningResultRecordEntity lrr = lrrDao.find(learningResultRecordId);
+
+        if (lrr == null) {
+            throw new DoesNotExistException(learningResultRecordId);
+        }
+
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        StateEntity state = findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY,LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY,context);
+
+        if (state == null){
+            throw new DoesNotExistException(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY + " state not found");
+        }
+
+        lrr.setLrrState(state);
+        lrr.setResultValueId("");
+        lrrDao.merge(lrr);
+
+        return status;
+
     }
 
     @Override

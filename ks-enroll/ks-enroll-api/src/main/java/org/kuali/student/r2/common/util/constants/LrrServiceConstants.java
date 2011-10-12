@@ -39,6 +39,7 @@ public class LrrServiceConstants {
     public static final String RESULT_RECORD_SAVED_STATE_KEY = "kuali.lrr.state.saved";
     public static final String RESULT_RECORD_SUBMITTED_STATE_KEY = "kuali.lrr.state.submitted";
     public static final String RESULT_RECORD_ACCEPTED_STATE_KEY = "kuali.lrr.state.accepted";
+    public static final String RESULT_RECORD_DELETED_STATE_KEY = "kuali.lrr.state.deleted";
     public static final String[] CCOURSE_FINAL_GRADING_LIFECYCLE = {RESULT_RECORD_SAVED_STATE_KEY,
         RESULT_RECORD_SUBMITTED_STATE_KEY,
         RESULT_RECORD_ACCEPTED_STATE_KEY};

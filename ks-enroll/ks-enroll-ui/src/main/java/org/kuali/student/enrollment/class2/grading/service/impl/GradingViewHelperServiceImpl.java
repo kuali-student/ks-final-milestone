@@ -152,11 +152,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         for (GradeStudent gradeStudent : gradeStudentList) {
             GradeRosterEntryInfo gradeRosterEntryInfo = gradeStudent.getGradeRosterEntryInfo();
             String assignedGradeKey = gradeStudent.getSelectedGrade();
-            if (StringUtils.isNotBlank(assignedGradeKey)){
-                boolean returnValue = getGradingService().updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
-                if (returnValue){
-                    updateRoster = true;
-                }
+            boolean returnValue = getGradingService().updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
+            if (returnValue){
+                updateRoster = true;
             }
         }
 
