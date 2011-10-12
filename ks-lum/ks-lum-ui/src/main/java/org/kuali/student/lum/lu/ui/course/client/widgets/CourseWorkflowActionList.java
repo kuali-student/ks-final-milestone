@@ -444,7 +444,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
             items.add(activateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
             items.add(modifyCourseActionItem);
-            items.add(inactivateCourseActionItem);
+//            items.add(inactivateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
             items.add(activateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_RETIRED)){
@@ -468,7 +468,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
             }
         } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
             items.add(modifyCourseActionItem);
-            items.add(inactivateCourseActionItem);
+//            items.add(inactivateCourseActionItem);
             items.add(retireCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
             items.add(activateCourseActionItem);
