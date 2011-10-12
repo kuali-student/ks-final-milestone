@@ -608,49 +608,65 @@ public class GradingServiceImpl implements GradingService {
 
         //If an entry not exists for a student, create one
         if ((learningResultRecordInfoList == null || learningResultRecordInfoList.isEmpty()) && StringUtils.isNotBlank(assignedGradeKey)){
-            LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
-            lrrInfo.setId(UUIDHelper.genStringUUID());
-            lrrInfo.setLprId(entryInfo.getLprId());
-            lrrInfo.setName("LRR for " + entryInfo.getLprId());
-            lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);
-            lrrInfo.setTypeKey(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY);
-
-            //FIXME: Hardcoded for core slice
-            List<String> resultSource = new ArrayList();
-            resultSource.add("ResultSource-Sample1");
-            lrrInfo.setResultSourceIdList(resultSource);
-
-            lrrInfo.setResultValueKey(assignedGradeKey);
-            MetaInfo meta = new MetaInfo();
-            meta.setCreateId(GlobalVariables.getUserSession().getPrincipalId());
-            meta.setCreateTime(new Date());
-            lrrInfo.setMeta(meta);
+            LearningResultRecordInfo lrrInfo = constructLearningResultRecordInfo(entryInfo, assignedGradeKey);
             try{
                 lrrService.createLearningResultRecord(lrrInfo,context);
                 return true;
             }catch(AlreadyExistsException e){
-                //Someone already created in the mean time.. let's get that one.
-                learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIdList,context);
+                throw new OperationFailedException("Someone updated the grade. Please refresh to get the latest",e);
             }
         }
 
         for (LearningResultRecordInfo lrrInfo : learningResultRecordInfoList){
             if (StringUtils.equals(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY, lrrInfo.getTypeKey())){
-                //If assigned grade key is empty, change the state to deleted
-                if (StringUtils.isBlank(assignedGradeKey)){
-                    StatusInfo status = lrrService.deleteLearningResultRecord(lrrInfo.getId(),context);
-                    return status.getIsSuccess();
-                }else{
-                    lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);//If cancelled before
-                    lrrInfo.setResultValueKey(assignedGradeKey);
-                    lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
-                    return true;
+                if (!StringUtils.equals(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY,lrrInfo.getStateKey())){
+                     if (StringUtils.isBlank(assignedGradeKey)){
+                        StatusInfo status = lrrService.deleteLearningResultRecord(lrrInfo.getId(),context);
+                        return status.getIsSuccess();
+                    }else{
+                        lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);//If cancelled before
+                        lrrInfo.setResultValueKey(assignedGradeKey);
+                        lrrService.updateLearningResultRecord(lrrInfo.getId(),lrrInfo,context);
+                        return true;
+                    }
                 }
+            }
+        }
 
+        //Create a new LRR as there are no active LRRs found
+        if (StringUtils.isNotBlank(assignedGradeKey)){
+            LearningResultRecordInfo newLrr = constructLearningResultRecordInfo(entryInfo, assignedGradeKey);
+            try{
+                lrrService.createLearningResultRecord(newLrr,context);
+                return true;
+            }catch(AlreadyExistsException e){
+                throw new OperationFailedException("Someone updated the grade. Please refresh to get the latest",e);
             }
         }
 
         return false;
+    }
+
+    private LearningResultRecordInfo constructLearningResultRecordInfo(LprRosterEntryInfo entryInfo, String assignedGradeKey){
+        LearningResultRecordInfo lrrInfo = new LearningResultRecordInfo();
+        lrrInfo.setId(UUIDHelper.genStringUUID());
+        lrrInfo.setLprId(entryInfo.getLprId());
+        lrrInfo.setName("LRR for " + entryInfo.getLprId());
+        lrrInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY);
+        lrrInfo.setTypeKey(LrrServiceConstants.RESULT_RECORD_FINAL_GRADE_ASSIGNED_TYPE_KEY);
+
+        //FIXME: Hardcoded for core slice
+        List<String> resultSource = new ArrayList();
+        resultSource.add("ResultSource-Sample1");
+        lrrInfo.setResultSourceIdList(resultSource);
+
+        lrrInfo.setResultValueKey(assignedGradeKey);
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(GlobalVariables.getUserSession().getPrincipalId());
+        meta.setCreateTime(new Date());
+        lrrInfo.setMeta(meta);
+
+        return lrrInfo;
     }
 
     /**

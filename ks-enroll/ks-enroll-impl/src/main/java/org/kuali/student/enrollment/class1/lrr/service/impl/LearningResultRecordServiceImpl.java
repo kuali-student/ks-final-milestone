@@ -154,7 +154,6 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         }
 
         lrr.setLrrState(state);
-        lrr.setResultValueId("");
         lrrDao.merge(lrr);
 
         return status;
