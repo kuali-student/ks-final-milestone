@@ -403,6 +403,14 @@ public class SearchPanel extends Composite{
                 } 
             }
             
+            for(LookupParamMetadata param:customParams){
+               String id = param.getKey()+"-name";
+               if(Application.getApplicationContext().getMessage(id)!=null)
+               {
+            	param.setName(Application.getApplicationContext().getMessage(id));  
+               }
+              }
+            
             ParamListItems customParamList = new ParamListItems(customParams);
             
             this.listItems = customParamList;
@@ -594,7 +602,11 @@ public class SearchPanel extends Composite{
         public SearchField(LookupParamMetadata param){
             meta = param;
             //TODO use message call here
-            fieldName = param.getName();
+            if(getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
+            	fieldName = getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY);
+            else
+                fieldName = param.getName();
+            
             widget = DefaultWidgetFactory.getInstance().getWidget(param);
             if(param.getDefaultValueString() != null){
                 //TODO Add handling of default value lists here

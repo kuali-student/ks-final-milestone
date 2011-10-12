@@ -21,6 +21,7 @@ public interface FieldLayoutComponent {
     public static final String INSTRUCT_MESSAGE_KEY = "-instruct";
     public static final String CONSTRAINT_MESSAGE_KEY = "-constraints";
     public static final String WATERMARK_MESSAGE_KEY = "-watermark";
+    public static final String NAME_MESSAGE_KEY = "-name";
 	public String getKey();
 	public void setKey(String key);
 }

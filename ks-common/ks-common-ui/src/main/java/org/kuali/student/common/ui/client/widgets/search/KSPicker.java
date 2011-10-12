@@ -149,7 +149,11 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			setupListWidget(inLookupMetadata);
 	    			break;
 	    		case NO_WIDGET:
-	                if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
+	    			if(getMessage(inLookupMetadata.getId()+"-name")!=null){
+	    			   advSearchLink.setText(getMessage(inLookupMetadata.getId()+"-name"));
+	    			}   
+	    			else
+	    			if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
 	                    advSearchLink.setText(inLookupMetadata.getName().trim());
 	                }
 	                basicWidget = new BasicWidget(new SelectionContainerWidget());
@@ -243,10 +247,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         	//Title for advanced search window
         	String advSearchTitle;
+        	advSearchTitle = getMessage(advancedLightboxLookupdata.get(0).getId()+"-title");
         	if (basicWidget.get() instanceof SelectionContainerWidget){
-        		advSearchTitle = advancedLightboxLookupdata.get(0).getTitle();
+        		if(advSearchTitle==null)
+        		   advSearchTitle = advancedLightboxLookupdata.get(0).getTitle();
         	} else {
-        		advSearchTitle = "Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle();
+        		if(advSearchTitle==null)
+        		   advSearchTitle = "Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle();
+        		else
+        		   advSearchTitle = "Advanced Search: " + advSearchTitle; 
         	}
         	
             //for multiple searches, show a drop down for user to select from

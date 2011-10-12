@@ -118,6 +118,7 @@
   <property name="path" value="courseInfo.courseSpecificLOs.loInfo.desc" />
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
+    <property name="id" value="kuali.lu.lookup.advanced.learningObjectives" />
     <property name="name" value="Search for Learning Objectives" />
     <property name="desc" value="Search for Learning Objectives" />
     <property name="widget" value="NO_WIDGET"/>
@@ -4545,6 +4546,7 @@
  <bean id="programLo-lookup-binding-parent" parent="uilookupconfig-parent" abstract="true">
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
+    <property name="id" value="kuali.lu.lookup.advanced.learningObjectives" />
     <property name="name" value="Search for Learning Objectives" />
     <property name="desc" value="Search for Learning Objectives" />
     <property name="widget" value="NO_WIDGET"/>
