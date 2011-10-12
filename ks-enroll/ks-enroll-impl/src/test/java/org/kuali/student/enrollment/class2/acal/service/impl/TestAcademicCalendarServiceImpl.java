@@ -830,15 +830,20 @@ public class TestAcademicCalendarServiceImpl{
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
         acal.setKey("testAcal-CPT-Id1");
         acal.setName("testGetAcalByCpt");
-        acal.setCredentialProgramTypeKey("credentialProgramType-Key");
+        acal.setCredentialProgramTypeKey("kuali.lu.type.credential.Baccalaureate");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try{
             AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcal-CPT-Id1", acal, callContext);
             assertNotNull(created);
 
-            List<AcademicCalendarInfo> acals = acalServiceValidation.getAcademicCalendarsByCredentialProgramType("credentialProgramTypeKey", callContext);
+            AcademicCalendarInfo retrieved = acalServiceValidation.getAcademicCalendar("testAcal-CPT-Id1", callContext);
+            assertNotNull(retrieved);
+            
+            List<AcademicCalendarInfo> acals = acalServiceValidation.getAcademicCalendarsByCredentialProgramType("kuali.lu.type.credential.Baccalaureate", callContext);
             assertNotNull(acals);
+            assertEquals(1, acals.size());
+            assertEquals("kuali.lu.type.credential.Baccalaureate", acals.get(0).getCredentialProgramTypeKey());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }    	
