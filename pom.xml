@@ -97,9 +97,9 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.2</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.2</developerConnection>
-    <url>https://test.kuali.org/svn/student/tags/student-1.2</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</developerConnection>
+    <url>https://test.kuali.org/svn/student/branches/ks-1.2-perf</url>
   </scm>
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3
