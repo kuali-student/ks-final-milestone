@@ -59,8 +59,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>
 
     <bean id="AcademicCalendarInfoUI.name" parent="AcademicCalendarInfo.name-parent">
-        <property name="label" value="Academic Calendar Name" />
-        <property name="required" value="false"/>
+        <property name="label" value="Name" />
+        <property name="required" value="true"/>
         <property name="unique" value="true"/>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="true"/>
@@ -91,7 +91,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </bean>  
     
     <bean id="AcademicCalendarInfoUI.credentialProgramTypeKey" parent="AcademicCalendarInfo.credentialProgramTypeKey-parent">
-        <property name="label" value="Credential Program"/>
+        <property name="label" value="Type"/>
         <property name="required" value="true"/>
         <property name="validCharactersConstraint">
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
