@@ -16,7 +16,7 @@
 <%@ include file="/krad/WEB-INF/jsp/tldHeader.jsp" %>
 
 <tiles:useAttribute name="control"
-                    classname="org.kuali.rice.krad.uif.control.TimePreviewControl"/>
+                    classname="org.kuali.student.enrollment.uif.control.TimePreviewControl"/>
 <tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
 
 <form:hidden id="${control.id}-times" path="${field.bindingInfo.bindingPath}"/>
