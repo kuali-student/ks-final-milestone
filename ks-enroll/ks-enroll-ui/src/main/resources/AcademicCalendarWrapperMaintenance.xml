@@ -197,8 +197,44 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="HorizontalFieldGroup">
                   <property name="items">
                     <list>
-                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.startDate" />
-                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.endDate" />
+                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.startDate" >
+                            <property name="control">
+                                <bean parent="DateControl">
+                                    <property name="datePicker.componentOptions">
+                                        <map>
+                                            <entry key="showOn" value="both" />
+                                            <entry key="buttonImage"
+                                                value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif" />
+                                            <entry key="buttonImageOnly" value="true" />
+                                            <entry key="showAnim" value="fadeIn" />
+                                            <entry key="showButtonPanel" value="true" />
+                                            <entry key="changeMonth" value="true" />
+                                            <entry key="changeYear" value="true" />
+                                            <entry key="numberOfMonths" value="2" />
+                                        </map>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.endDate">
+                            <property name="control">
+                                <bean parent="DateControl">
+                                    <property name="datePicker.componentOptions">
+                                        <map>
+                                            <entry key="showOn" value="both" />
+                                            <entry key="buttonImage"
+                                                value="@{#ConfigProperties['krad.externalizable.images.url']}cal.gif" />
+                                            <entry key="buttonImageOnly" value="true" />
+                                            <entry key="showAnim" value="fadeIn" />
+                                            <entry key="showButtonPanel" value="true" />
+                                            <entry key="changeMonth" value="true" />
+                                            <entry key="changeYear" value="true" />
+                                            <entry key="numberOfMonths" value="2" />
+                                        </map>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
                     </list>
                   </property>
                 </bean>
@@ -254,7 +290,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                             <list>
                                 <bean parent="AttributeField"
                                       p:propertyName="registrationPeriod.startDate"
-                                      p:constraint="Required when End Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraint="Required when End Date has a value"
+                                      p:labelField.render="false" p:summaryMessageField.render="false"
+                                      p:summary="First allowable day of Registration for the Term"  >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -265,7 +303,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 <bean parent="MessageField" p:messageText=" to "/>
                                 <bean parent="AttributeField"
                                       p:propertyName="registrationPeriod.endDate"
-                                      p:constraint="Required when Start Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraint="Required when Start Date has a value"
+                                      p:labelField.render="false" p:summaryMessageField.render="false"
+                                      p:summary="Last allowable day of Registration for the Term"   >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
