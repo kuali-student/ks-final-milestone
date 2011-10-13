@@ -68,6 +68,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
         </property>
+        <property name="summary"  value="Name of the Academic Calendar"/>
     </bean>
 
     <bean id="AcademicCalendarInfoUI.startDate" parent="AcademicCalendarInfo.startDate-parent">
@@ -78,6 +79,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official start date of the Academic Calendar" />
     </bean>
 
     <bean id="AcademicCalendarInfoUI.endDate" parent="AcademicCalendarInfo.endDate-parent">
@@ -88,6 +90,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official end date of the Academic Calendar" />
     </bean>  
     
     <bean id="AcademicCalendarInfoUI.credentialProgramTypeKey" parent="AcademicCalendarInfo.credentialProgramTypeKey-parent">
@@ -98,7 +101,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         </property>
         <property name="controlField">
             <bean parent="TextControl" p:size="60"/>
-        </property> 
+        </property>
+        <property name="summary"  value="Type of Academic Calendar" />
     	<!-- 
         <property name="control">
              <bean parent="SelectControl"/>
