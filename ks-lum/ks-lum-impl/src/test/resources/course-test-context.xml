@@ -479,7 +479,6 @@
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="statementService" ref="statementServiceImpl"/>
 		<property name="atpService" ref="atpServiceImpl"/>
-		<property name="orgService" ref="orgServiceImpl"/>
 		<property name="lrcService" ref="lrcServiceImpl"/>
 	</bean>
 

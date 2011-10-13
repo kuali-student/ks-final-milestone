@@ -976,6 +976,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
     @Override
+    @Transactional(readOnly=true)
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
@@ -984,6 +985,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);

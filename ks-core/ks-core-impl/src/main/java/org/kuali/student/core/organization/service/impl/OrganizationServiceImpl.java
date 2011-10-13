@@ -9,7 +9,6 @@
 package org.kuali.student.core.organization.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -311,6 +310,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<OrgOrgRelationTypeInfo> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(orgHierarchyKey, "orgHierarchyKey");
 
