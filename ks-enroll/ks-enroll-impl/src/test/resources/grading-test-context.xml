@@ -105,7 +105,11 @@
 	  	<property name="lprService" ref="lprService"/>
 	  	<property name="courseOfferingService" ref="courseOfferingService"/>
 	  	<property name="luiService" ref="luiService"/>
-	  	<property name="gradeRosterAssembler" ref="gradeRosterAssembler"/>
+        <property name="gradeRosterAssembler" ref="gradeRosterAssembler"/>
+        <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler"/>
+        <property name="courseRegistrationService" ref="courseRegistrationService"/>
+        <property name="lrrService" ref="lrrService"/>
+        <property name="lrcService" ref="lrcService"/>
     </bean>
 
     <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
@@ -125,9 +129,28 @@
     </bean>
 
     <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
+    <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
     <bean id="lprRosterDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao"></bean>
     <bean id="lprRosterEntryDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao"></bean>
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao"></bean>
+
+    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+        <property name="lprService" ref="lprService"/>
+    </bean>
+
+    <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+        <property name="lrrDao" ref="lrrDao"/>
+        <property name="lrrTypeDao" ref="lrrTypeDao"/>
+    </bean>
+    <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
+    <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao"/>
+
+    <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+        <property name="resultValueDao" ref="resultValueDao"/>
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
+    </bean>
+    <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao"/>
+    <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao"/>
 
     <bean id="coAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler">
         <property name="lprService" ref="lprService"/>

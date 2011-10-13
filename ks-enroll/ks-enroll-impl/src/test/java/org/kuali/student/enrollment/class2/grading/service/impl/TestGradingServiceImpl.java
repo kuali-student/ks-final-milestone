@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,9 +158,23 @@ public class TestGradingServiceImpl {
     }
 
     @Test
-    @Ignore("Not implemented.") // TODO implement method
     public void testGetGradeRosterEntriesByRosterId() throws Exception {
+        String rosterId = "testLprRoster1";
+        List<String> expcStudentIds = new ArrayList<String>();
+        expcStudentIds.add("admin");
+        expcStudentIds.add("testPersonId1");
 
+        List<GradeRosterEntryInfo> gradeRosterEntries = gradingService.getGradeRosterEntriesByRosterId(rosterId, contextInfo);
+        assertNotNull("Result list is null.", gradeRosterEntries);
+
+        List<String> studentIds = new ArrayList<String>();
+        for (GradeRosterEntryInfo entry : gradeRosterEntries) {
+            studentIds.add(entry.getStudentId());
+        }
+
+        assertEquals("Number of results not as expected.", expcStudentIds.size(), studentIds.size());
+        assertTrue("Expected results not returned.", studentIds.containsAll(expcStudentIds));
+        assertTrue("Unexpected results returned.", expcStudentIds.containsAll(studentIds));
     }
 
     @Test
