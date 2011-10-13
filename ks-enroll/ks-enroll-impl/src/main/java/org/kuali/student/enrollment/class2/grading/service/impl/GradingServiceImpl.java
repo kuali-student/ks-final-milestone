@@ -773,16 +773,22 @@ public class GradingServiceImpl implements GradingService {
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
         Map<LearningResultRecordInfo, String> lrrToLprIdMap = new HashMap<LearningResultRecordInfo, String>();
         List<String> resultValueKeys = new ArrayList<String>();
+        List<LearningResultRecordInfo> filteredLrrs = new ArrayList();
+
         for (LearningResultRecordInfo lrr : lrrs) {
-            lrrToLprIdMap.put(lrr, lrr.getLprId());
-            if (StringUtils.isNotBlank(lrr.getResultValueKey())){
-                resultValueKeys.add(lrr.getResultValueKey());
+            //Skip deleted LRR
+            if (!StringUtils.equals(lrr.getStateKey(),LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY)){
+                lrrToLprIdMap.put(lrr, lrr.getLprId());
+                if (StringUtils.isNotBlank(lrr.getResultValueKey())){
+                    resultValueKeys.add(lrr.getResultValueKey());
+                    filteredLrrs.add(lrr);
+                }
             }
         }
 
         List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
         for (int i = 0; i < resultValues.size(); i++) {
-            LearningResultRecordInfo lrr = lrrs.get(i);
+            LearningResultRecordInfo lrr = filteredLrrs.get(i);
             ResultValueInfo resultValue = resultValues.get(i);
             String lprId = lrrToLprIdMap.get(lrr);
             LprRosterEntryInfo entry = lprIdToEntryMap.get(lprId);
@@ -790,11 +796,11 @@ public class GradingServiceImpl implements GradingService {
 
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if ("kuali.result.scale.type.grade".equals(resultValuetypeKey)) {
                 entryAttributesKey = ASSIGNED_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if ("kuali.result.scale.grade.admin".equals(resultValuetypeKey)) {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if ("kuali.result.scale.type.credit".equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
