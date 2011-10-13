@@ -139,6 +139,7 @@ limitations under the License.
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
       <property name="bindingInfo.bindToForm" value="true"/>
+      <property name="renderLineActions" value="@{readOnly eq false}"/>
       <property name="items">
         <list>
           <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:readOnly="true">
@@ -170,7 +171,7 @@ limitations under the License.
       </property>
         <property name="actionFields">
               <list>
-                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade" p:readOnly="@{readOnly}"/>
+                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade"/>
               </list>
         </property>
    </bean>
