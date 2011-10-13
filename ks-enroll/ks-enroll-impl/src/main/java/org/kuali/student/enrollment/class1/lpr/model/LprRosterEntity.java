@@ -65,26 +65,25 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     }
 
     public LprRosterEntity(LprRosterInfo dto) {
-        if (dto != null) {
-            this.setCheckInRequired(dto.getCheckInRequired());
-            this.setMaximumCapacity(dto.getMaximumCapacity());
-            this.setId(dto.getId());
-            if (dto.getCheckInFrequency() != null) {
-                this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
-                this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
-            }
-            this.setName(dto.getName());
-            if (dto.getDescr() != null) {
-                LprRichTextEntity entityDesc = new LprRichTextEntity(dto.getDescr());
-                this.setDescr(entityDesc);
-            }
+        super(dto);
+        this.setCheckInRequired(dto.getCheckInRequired());
+        this.setMaximumCapacity(dto.getMaximumCapacity());
+        this.setId(dto.getId());
+        if (dto.getCheckInFrequency() != null) {
+            this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
+            this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
+        }
+        this.setName(dto.getName());
+        if (dto.getDescr() != null) {
+            LprRichTextEntity entityDesc = new LprRichTextEntity(dto.getDescr());
+            this.setDescr(entityDesc);
+        }
 
-            this.setAttributes(new ArrayList<LprRosterAttributeEntity>());
-            if (null != dto.getAttributes()) {
-                for (Attribute att : dto.getAttributes()) {
-                    LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
-                    this.getAttributes().add(attEntity);
-                }
+        this.setAttributes(new ArrayList<LprRosterAttributeEntity>());
+        if (null != dto.getAttributes()) {
+            for (Attribute att : dto.getAttributes()) {
+                LprRosterAttributeEntity attEntity = new LprRosterAttributeEntity(att);
+                this.getAttributes().add(attEntity);
             }
         }
     }

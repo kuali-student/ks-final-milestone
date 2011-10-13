@@ -87,7 +87,6 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         ContextInfo context = TestHelper.getContext1();
 
-
         IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName(
                 GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
 
@@ -96,10 +95,8 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         gradingForm.setRosterInfos(rosterInfos);
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
-                if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY,rosterInfo.getStateKey()) ||
-                    StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,rosterInfo.getStateKey())){
-                    gradingForm.setSubmitEnabled(true);
-                    gradingForm.setSaveEnabled(true);
+                if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
+                    gradingForm.setReadOnly(true);
                 }
                 List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(
                         rosterInfo.getGradeRosterEntryIds(), context);
@@ -159,9 +156,9 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         }
 
         if (updateRoster){
-//            for (GradeRosterInfo info : gradingForm.getRosterInfos()){
-//                getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
-//            }
+            for (GradeRosterInfo info : gradingForm.getRosterInfos()){
+                getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
+            }
             return true;
         }
 

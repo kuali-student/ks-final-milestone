@@ -151,7 +151,7 @@ limitations under the License.
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions">
+          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions" p:readOnly="@{readOnly}">
             <property name="control">
               <bean parent="SelectControl">
               </bean>
@@ -170,7 +170,7 @@ limitations under the License.
       </property>
         <property name="actionFields">
               <list>
-                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade" />
+                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade" p:readOnly="@{readOnly}"/>
               </list>
         </property>
    </bean>
@@ -186,8 +186,8 @@ limitations under the License.
    <bean id="Grading_Footer_page2" parent="Footer">
       <property name="items">
         <list>
-          <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
-          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}" p:methodToCall="submit"/>
+          <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{readOnly eq false}"/>
+          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
 

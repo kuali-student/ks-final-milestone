@@ -47,9 +47,7 @@ public class GradingForm extends UifFormBase{
 
     private List<CourseOfferingInfo> courseOfferingInfoList;
 
-    private boolean saveEnabled;
-    private boolean submitEnabled;
-
+    private boolean readOnly;
     private String currentTerm;
 
     private CourseOfferingInfo selectedCourseOffering;
@@ -91,22 +89,6 @@ public class GradingForm extends UifFormBase{
         this.courseOfferingInfoList = courseOfferingInfoList;
     }
 
-    public boolean isSaveEnabled() {
-        return saveEnabled;
-    }
-
-    public void setSaveEnabled(boolean saveEnabled) {
-        this.saveEnabled = saveEnabled;
-    }
-
-    public boolean isSubmitEnabled() {
-        return submitEnabled;
-    }
-
-    public void setSubmitEnabled(boolean submitEnabled) {
-        this.submitEnabled = submitEnabled;
-    }
-
     public String getCurrentTerm() {
         return currentTerm;
     }
@@ -145,5 +127,13 @@ public class GradingForm extends UifFormBase{
 
     public void setRosterInfos(List<GradeRosterInfo> rosterInfos) {
         this.rosterInfos = rosterInfos;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }
