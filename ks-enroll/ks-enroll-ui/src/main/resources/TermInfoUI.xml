@@ -71,7 +71,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
-	    </property>    	    	
+	    </property>
+        <property name="summary"  value="Type of the Term"/>
     </bean>
     
     <bean id="TermInfoUI.startDate" parent="TermInfo.startDate-parent">
@@ -82,6 +83,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official start date of the Term"/>
     </bean>
 
     <bean id="TermInfoUI.endDate" parent="TermInfo.endDate-parent">
@@ -92,6 +94,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official end date of the Term"/>
     </bean>
 
   <bean id="TermInfo-LookupView" parent="KSLookupView">
