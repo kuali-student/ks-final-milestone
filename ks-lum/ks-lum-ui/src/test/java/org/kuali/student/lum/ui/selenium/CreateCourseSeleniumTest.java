@@ -25,7 +25,7 @@ public class CreateCourseSeleniumTest {
     //private StringBuffer verificationErrors = new StringBuffer();
     private String browser;
 
-    @Before
+    //@Before
     public void setUp() throws Exception {
         String remoteTest = System.getProperty("selenium.remote");
         String baseURL = System.getProperty("selenium.baseurl");
@@ -50,7 +50,7 @@ public class CreateCourseSeleniumTest {
         }
     }
 
-    @Test
+    //@Test
     public void testCreateCourse() throws Exception {
         driver.get("http://dev.ks.kuali.org/login.jsp");
         //driver.get("http://localhost:8081/ks-embedded-dev/login.jsp");
@@ -405,7 +405,7 @@ public class CreateCourseSeleniumTest {
         //Finally the Review Proposal Section is displayed
     }
 
-    @After
+    //@After
     public void tearDown() throws Exception {
         driver.quit();
 //        String verificationErrorString = verificationErrors.toString();
