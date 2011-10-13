@@ -216,9 +216,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
               <property name="layoutManager.lineGroupPrototype.styleClasses" value="ks-termDates-table,ks-termDates-collectionItem"/>
               <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
+              <property name="layoutManager.lineGroupPrototype.layoutManager.styleClasses" value=""/>
+              <property name="layoutManager.lineGroupPrototype.layoutManager.applyDefaultCellWidths" value="false"/>
 
               <property name="layoutManager.addLineGroup.styleClasses" value="ks-termDates-table,ks-termDates-collectionItem"/>
               <property name="layoutManager.addLineGroup.accordion.render" value="false"/>
+              <property name="layoutManager.addLineGroup.layoutManager.styleClasses" value=""/>
+              <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
               <property name="items">
                 <list>
 
@@ -251,23 +255,23 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 <bean parent="AttributeField"
                                       p:propertyName="registrationPeriod.startDate"
                                       p:constraint="Required when End Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
-                                    <property name="dependencyConstraints">
+<!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
                                                   p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.endDate"/>
                                         </list>
-                                    </property>
+                                    </property>-->
                                 </bean>
                                 <bean parent="MessageField" p:messageText=" to "/>
                                 <bean parent="AttributeField"
                                       p:propertyName="registrationPeriod.endDate"
                                       p:constraint="Required when Start Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
-                                    <property name="dependencyConstraints">
+<!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
                                                   p:attributePath="document.newMaintainableObject.dataObject.registrationPeriod.startDate"/>
                                         </list>
-                                    </property>
+                                    </property>-->
                                 </bean>
                             </list>
                         </property>
@@ -319,24 +323,24 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                       p:propertyName="finalExaminationsDates.startDate"
                                       p:constraint="Required when End Date has a value"
                                       p:labelField.render="false" p:summaryMessageField.render="false">
-                                    <property name="dependencyConstraints">
+<!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
                                                   p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.endDate"/>
                                         </list>
-                                    </property>
+                                    </property>-->
                                 </bean>
                                 <bean parent="MessageField" p:messageText=" to "/>
                                 <bean parent="AttributeField"
                                       p:propertyName="finalExaminationsDates.endDate"
                                       p:constraint="Required when Start Date has a value"
                                       p:labelField.render="false" p:summaryMessageField.render="false">
-                                    <property name="dependencyConstraints">
+<!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
                                                   p:attributePath="document.newMaintainableObject.dataObject.finalExaminationsDates.StartDate"/>
                                         </list>
-                                    </property>
+                                    </property>-->
                                 </bean>
                             </list>
                         </property>

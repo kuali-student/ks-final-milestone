@@ -24,6 +24,7 @@
         <property name="title" value="Registration"/>
         <property name="singlePageView" value="true"/>
         <property name="styleClasses" value="registration"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.registration.service.RegistrationViewHelperServiceImpl"/>
         <property name="page">
             <bean parent="Page"/>
         </property>
@@ -100,12 +101,13 @@
         <property name="items">
             <list>
                 <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
-                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
+                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray" p:finalizeMethodToCall="checkSubmitItemRender">
                     <property name="control">
                         <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable"/>
                     </property>
                 </bean>
-                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP"
+                <bean parent="MessageField" p:messageText="Your cart is empty" p:finalizeMethodToCall="checkRenderCartEmpty"/>
+                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP" p:finalizeMethodToCall="checkSubmitItemRender"
                       p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
             </list>
         </property>
@@ -215,20 +217,25 @@
     </bean>
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup"
-          p:layoutManager.lineGroupPrototype.accordion.render="false">
+          p:layoutManager.lineGroupPrototype.accordion.render="false" p:summary="Add a course to your cart or register with a single click:">
         <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>
         <property name="propertyName" value="registrationGroupWrappers"/>
         <property name="renderAddLine" value="false"/>
+        <property name="finalizeMethodToCall" value="checkRegElements"/>
         <property name="readOnly" value="false"/>
         <property name="layoutManager.lineGroupPrototype.styleClasses" value="regGroup-item"/>
+        <property name="layoutManager.lineGroupPrototype.footer.summary" value="Add a course to your cart or register with a single click:"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="actionFields">
             <list>
+                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="addToCart"
+                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionLabel="Add to Cart"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
-                      p:clientSideJs="updateCollectionAndRelatedItem('ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:jumpToIdAfterSubmit="TOP" p:actionLabel="Add to Cart"/>
+                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionLabel="1-Click Registration"/>
             </list>
         </property>
         <property name="items">

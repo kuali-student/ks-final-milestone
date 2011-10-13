@@ -999,7 +999,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                         if (null != lprItemInfo.getTypeKey()) {
                             lprItemEntity.setLprTransactionItemType(lprTypeDao.find(lprItemInfo.getTypeKey()));
                         }
-                        lprTransItemDao.merge(lprItemEntity);
+                        //lprTransItemDao.merge(lprItemEntity);
                         lprTransItemEntityList.add(lprItemEntity);
 
                     } else {

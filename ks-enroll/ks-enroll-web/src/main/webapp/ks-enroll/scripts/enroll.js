@@ -1,7 +1,7 @@
-function updateCollectionAndRelatedItem(collectionGroupId, updateAfterId){
-    if(collectionGroupId){
-        var lineIndex = jq("input[name='actionParameters[selectedLineIndex]']").val();
-        collectionGroupId = collectionGroupId + "_" + lineIndex;
+function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
+    if(jqObject && collectionGroupId){
+        collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
+        collectionGroupId = collectionGroupId.replace("_group", "");
 		var otherElementToBlock = jq("#" + updateAfterId + "_div");
         var updateComponentCallback = function(htmlContent){
 	    	var component = jq("#" + updateAfterId + "_div", htmlContent);
