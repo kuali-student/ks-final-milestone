@@ -122,7 +122,7 @@
 
     <bean id="KSAttributeField" abstract="true" parent="AttributeField"
           p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
-          p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="RIGHT"
+          p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
           p:summaryMessageField.render="false" />
 
 </beans>
