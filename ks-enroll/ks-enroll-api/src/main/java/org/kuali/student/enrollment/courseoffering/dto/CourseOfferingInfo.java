@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
         "formatIds", "termKey", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
-        "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionIds", "gradeRosterLevelTypeKey",
+        "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
         "fundingSource", "fees", "revenues", "expenditure", "isFinancialAidEligible", "registrationOrderTypeKey",
         "meta", "attributes", "_futureElements"})
@@ -98,7 +98,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private ResultValuesGroupInfo creditOptions;
 
     @XmlElement
-    private List<String> gradingOptionIds;
+    private List<String> gradingOptionKeys;
 
     @XmlElement
     private String gradeRosterLevelTypeKey;
@@ -152,7 +152,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.minimumEnrollment = null;
         this.jointOfferingIds = new ArrayList<String>();
         this.creditOptions = null;
-        this.gradingOptionIds = new ArrayList<String>();
+        this.gradingOptionKeys = new ArrayList<String>();
         this.gradeRosterLevelTypeKey = null;
         this.hasWaitlist = false;
         this.isWaitlistCheckinRequired = false;
@@ -193,8 +193,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
                 course.getJointOfferingIds()) : null;
         this.creditOptions = (null != course.getCreditOptions()) ? new ResultValuesGroupInfo(course.getCreditOptions())
                 : null;
-        this.gradingOptionIds = (null != course.getGradingOptionIds()) ? new ArrayList<String>(
-                course.getGradingOptionIds()) : null;
+        this.gradingOptionKeys = (null != course.getGradingOptionKeys()) ? new ArrayList<String>(
+                course.getGradingOptionKeys()) : null;
         this.gradeRosterLevelTypeKey = course.getGradeRosterLevelTypeKey();
         this.hasWaitlist = (null != course.getHasWaitlist()) ? new Boolean(course.getHasWaitlist()) : null;
         this.isWaitlistCheckinRequired = course.getIsWaitlistCheckinRequired();
@@ -364,8 +364,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public List<String> getGradingOptionIds() {
-        return this.gradingOptionIds;
+    public List<String> getGradingOptionKeys() {
+        return this.gradingOptionKeys;
     }
 
     @Override
@@ -445,8 +445,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.creditOptions = creditOptions;
     }
 
-    public void setGradingOptionIds(List<String> gradingOptionIds) {
-        this.gradingOptionIds = gradingOptionIds;
+    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
+        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     public void setGradeRosterLevelTypeKey(String gradeRosterLevelTypeKey) {

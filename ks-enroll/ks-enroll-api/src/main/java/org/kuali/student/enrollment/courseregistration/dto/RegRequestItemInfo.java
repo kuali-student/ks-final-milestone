@@ -91,8 +91,8 @@ public class RegRequestItemInfo extends IdEntityInfo implements RegRequestItem, 
         this.okToHoldList = okToHoldList;
     }
 
-    public void setGradingOptionKey(String gradingOptionId) {
-        this.gradingOptionKey = gradingOptionId;
+    public void setGradingOptionKey(String gradingOptionKey) {
+        this.gradingOptionKey = gradingOptionKey;
     }
 
     public void setCreditOptionKey(String creditOptionId) {

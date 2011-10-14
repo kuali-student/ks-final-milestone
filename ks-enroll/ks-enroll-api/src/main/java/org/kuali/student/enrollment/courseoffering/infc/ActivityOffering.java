@@ -112,13 +112,13 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     
     /**
      * The options/scales that indicate the allowable grades that can be awarded.
-     * If the value is set here then the Clu must have a grading option set on the
+     * If the value is set here then the canonical course must have a grading option set on the
      * canonical activity
      * 
-     * @name: Grading Options
+     * @name: Grading Option Keys
      * @impl maps to Lui.gradingOptions
      */
-    public List<String> getGradingOptions();
+    public List<String> getGradingOptionKeys();
     
 
     /**

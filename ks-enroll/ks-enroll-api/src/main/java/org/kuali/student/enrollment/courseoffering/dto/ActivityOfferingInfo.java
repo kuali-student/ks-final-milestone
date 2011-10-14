@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {"activityId",
-        "activityCode", "termKey", "isHonorsOffering", "gradingOptions", "instructors",
+        "activityCode", "termKey", "isHonorsOffering", "gradingOptionKeys", "instructors",
         "finalExamStartTime", "finalExamEndTime", "finalExamSpaceCode", "meetingSchedules", "weeklyInclassContactHours",
         "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
         "id", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
@@ -72,7 +72,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     private List<OfferingInstructorInfo> instructors;
     
     @XmlElement
-    private List<String> gradingOptions;
+    private List<String> gradingOptionKeys;
        
     @XmlElement
     private Date finalExamStartTime;
@@ -114,7 +114,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();
         this.instructors = new ArrayList<OfferingInstructorInfo>();
         this.finalExamStartTime = null;
-        this.gradingOptions = new ArrayList<String>();
+        this.gradingOptionKeys = new ArrayList<String>();
         this.isHonorsOffering = new Boolean(false);
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
@@ -137,7 +137,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.finalExamSpaceCode = activity.getFinalExamSpaceCode();
         this.finalExamEndTime = (null != activity.getFinalExamEndTime()) ? new Date(activity.getFinalExamEndTime().getTime()) : null;
         this.finalExamStartTime = (null != activity.getFinalExamStartTime()) ? new Date(activity.getFinalExamStartTime().getTime()) : null;
-        this.gradingOptions = (null != activity.getGradingOptions()) ? new ArrayList<String>(activity.getGradingOptions()) : null;
+        this.gradingOptionKeys = (null != activity.getGradingOptionKeys()) ? new ArrayList<String>(activity.getGradingOptionKeys()) : null;
         this.isHonorsOffering = (null != activity.getIsHonorsOffering()) ? new Boolean(activity.getIsHonorsOffering()) : null;
         this.maximumEnrollment = activity.getMaximumEnrollment();
         this.minimumEnrollment = activity.getMinimumEnrollment();        
@@ -194,8 +194,8 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     }
 
     @Override
-    public List<String> getGradingOptions() {
-        return gradingOptions;
+    public List<String> getGradingOptionKeys() {
+        return gradingOptionKeys;
     }
 
     @Override
@@ -277,8 +277,8 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.isHonorsOffering = isHonorsOffering;
     }
 
-    public void setGradingOptions(List<String> gradingOptions) {
-        this.gradingOptions = gradingOptions;
+    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
+        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     public void setFinalExamStartTime(Date finalExamStartTime) {

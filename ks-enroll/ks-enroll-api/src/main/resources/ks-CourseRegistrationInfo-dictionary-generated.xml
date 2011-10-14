@@ -61,7 +61,7 @@ This is a description of what this class does - sambit don't forget to fill this
 				<ref bean="CourseRegistrationInfo.stateKey"/>
 				<ref bean="CourseRegistrationInfo.studentId"/>
 				<ref bean="CourseRegistrationInfo.credits"/>
-				<ref bean="CourseRegistrationInfo.gradingOptionId"/>
+				<ref bean="CourseRegistrationInfo.gradingOptionKey"/>
 				<ref bean="CourseRegistrationInfo.effectiveDate"/>
 				<ref bean="CourseRegistrationInfo.expirationDate"/>
 			</list>
@@ -1014,8 +1014,8 @@ being thrown.
 		<property name="name" value="updateId"/>
 	</bean>
 
-	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptionIds"/>
+	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptionKeys"/>
 		<property name="shortLabel" value="Grading Option Ids"/>
 		<property name="summary">
 			<value>
@@ -2309,9 +2309,9 @@ Returns the credit count for this registration
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseRegistrationInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOptionId"/>
-		<property name="shortLabel" value="Grading Option Id"/>
+	<bean id="CourseRegistrationInfo.gradingOptionKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionKey"/>
+		<property name="shortLabel" value="Grading Option Key"/>
 		<property name="summary">
 			<value>
 Returns the grading option

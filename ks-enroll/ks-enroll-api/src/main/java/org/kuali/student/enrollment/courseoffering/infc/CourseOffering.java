@@ -240,7 +240,7 @@ public interface CourseOffering extends IdEntity {
      *       returns a list of resultOptions. Filter options with grading type
      *       and those should give the resultValueGroupIds
      */
-    public List<String> getGradingOptionIds();
+    public List<String> getGradingOptionKeys();
 
     /**
      * Type of credit of course offering. This field is initially copied from
