@@ -65,7 +65,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getDataDictionaryEntryKeys", null, null)) {
 	        return getNextDecorator().getDataDictionaryEntryKeys(context);
         }
         else {
@@ -77,88 +77,183 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
     throws OperationFailedException, MissingParameterException, 
     PermissionDeniedException, DoesNotExistException {
-
-        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getDataDictionaryEntry", null, null)) {
+        	return getNextDecorator().getDataDictionaryEntry(entryKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
     }
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getType(typeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getType", null, null)) {
+            return getNextDecorator().getType(typeKey, context);
+        }
+        else {
+           throw new OperationFailedException("Permission Denied.");
+        }
     }
 
     @Override
     public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
     throws DoesNotExistException,InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getTypesByRefObjectURI", null, null)) {
+            return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
+        }
+        else {
+        	 throw new OperationFailedException("Permission Denied.");
+        }
     }
 
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAllowedTypesForType", null, null)) {
+        	return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getTypeRelationsByOwnerType", null, null)) {
+        	return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getProcessByKey(processKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getProcessByKey", null, null)) {
+        	return getNextDecorator().getProcessByKey(processKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getProcessByObjectType(refObjectUri, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getProcessByObjectType", null, null)) {
+        	return getNextDecorator().getProcessByObjectType(refObjectUri, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
     }
 
     @Override
     public StateInfo getState(String processKey, String stateKey, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getState(processKey, stateKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getState", null, null)) {
+        	return getNextDecorator().getState(processKey, stateKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getStatesByProcess(processKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getStatesByProcess", null, null)) {
+        	return getNextDecorator().getStatesByProcess(processKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public List<StateInfo> getInitialValidStates(String processKey,  ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getInitialValidStates(processKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getInitialValidStates", null, null)) {
+        	return getNextDecorator().getInitialValidStates(processKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
     public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getNextHappyState", null, null)) {
+        	return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
@@ -166,64 +261,136 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByKeyList(atpKeyList, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByKeyList", null, null)) {
+        	return getNextDecorator().getAtpsByKeyList(atpKeyList, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpKeysByType(atpTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpKeysByType", null, null)) {
+        	return getNextDecorator().getAtpKeysByType(atpTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByDate(Date searchDate, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByDate(searchDate, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDate", null, null)) {
+        	return getNextDecorator().getAtpsByDate(searchDate, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByDateAndType(searchDate, searchTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDateAndType", null, null)) {
+        	return getNextDecorator().getAtpsByDateAndType(searchDate, searchTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByDates(startDate, endDate, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDates", null, null)) {
+        	return getNextDecorator().getAtpsByDates(startDate, endDate, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByDatesAndType(startDate, endDate, searchTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDatesAndType", null, null)) {
+        	return getNextDecorator().getAtpsByDatesAndType(startDate, endDate, searchTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByStartDateRange(searchDateRangeStart, searchDateRangeEnd, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByStartDateRange", null, null)) {
+        	return getNextDecorator().getAtpsByStartDateRange(searchDateRangeStart, searchDateRangeEnd, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByStartDateRangeAndType", null, null)) {
+        	return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -231,8 +398,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getMilestone(milestoneKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestone", null, null)) {
+        	return getNextDecorator().getMilestone(milestoneKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -240,64 +416,135 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getMilestonesByKeyList(milestoneKeyList, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByKeyList", null, null)) {
+        	return getNextDecorator().getMilestonesByKeyList(milestoneKeyList, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
     }
 
     @Override
     public List<String> getMilestoneKeysByType(String milestoneTypeKey, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getMilestoneKeysByType(milestoneTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestoneKeysByType", null, null)) {
+        	return getNextDecorator().getMilestoneKeysByType(milestoneTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByAtp(String atpKey, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getMilestonesByAtp(atpKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByAtp", null, null)) {
+        	return getNextDecorator().getMilestonesByAtp(atpKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByDates(Date startDate, Date endDate, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getMilestonesByDates(startDate, endDate, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByDates", null, null)) {
+        	return getNextDecorator().getMilestonesByDates(startDate, endDate, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByDatesAndType", null, null)) {
+        	return getNextDecorator().getMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> searchForAtpKeys(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpKeys(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpKeys", null, null)) {
+        	return getNextDecorator().searchForAtpKeys(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtps(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtps", null, null)) {
+        	return getNextDecorator().searchForAtps(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<ValidationResultInfo> validateAtp(String validationType, AtpInfo atpInfo, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().validateAtp(validationType, atpInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtp", null, null)) {
+        	return getNextDecorator().validateAtp(validationType, atpInfo, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
@@ -305,8 +552,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().createAtp(atpKey, atpInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtp", null, null)) {
+        	return getNextDecorator().createAtp(atpKey, atpInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -315,8 +571,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-
-        return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtp", null, null)) {
+        	return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -324,32 +589,68 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().deleteAtp(atpKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtp", null, null)) {
+        	return getNextDecorator().deleteAtp(atpKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> searchForMilestoneKeys(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForMilestoneKeys(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForMilestoneKeys", null, null)) {
+        	return getNextDecorator().searchForMilestoneKeys(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<MilestoneInfo> searchForMilestones(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForMilestones(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForMilestones", null, null)) {
+        	return getNextDecorator().searchForMilestones(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<ValidationResultInfo> validateMilestone(String validationType, MilestoneInfo milestoneInfo, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateMilestone", null, null)) {
+        	return getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
@@ -357,8 +658,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().createMilestone(milestoneKey, milestoneInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createMilestone", null, null)) {
+        	return getNextDecorator().createMilestone(milestoneKey, milestoneInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -367,8 +677,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-
-        return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateMilestone", null, null)) {
+        	return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -376,8 +695,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().deleteMilestone(milestoneKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteMilestone", null, null)) {
+        	return getNextDecorator().deleteMilestone(milestoneKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -385,8 +713,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelation(atpAtpRelationId, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelation", null, null)) {
+        	return getNextDecorator().getAtpAtpRelation(atpAtpRelationId, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -394,16 +731,34 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelationsByIdList(atpAtpRelationIdList, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByIdList", null, null)) {
+        	return getNextDecorator().getAtpAtpRelationsByIdList(atpAtpRelationIdList, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationIdsByType", null, null)) {
+        	return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -411,32 +766,68 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelationsByAtp(atpKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByAtp", null, null)) {
+        	return getNextDecorator().getAtpAtpRelationsByAtp(atpKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpAtpRelationIds(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpAtpRelationIds", null, null)) {
+        	return getNextDecorator().searchForAtpAtpRelationIds(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpAtpRelations(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpAtpRelations", null, null)) {
+        	return getNextDecorator().searchForAtpAtpRelations(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<ValidationResultInfo> validateAtpAtpRelation(String validationType, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtpAtpRelation", null, null)) {
+        	return getNextDecorator().validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
@@ -444,8 +835,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().createAtpAtpRelation(atpAtpRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtpAtpRelation", null, null)) {
+        	 return getNextDecorator().createAtpAtpRelation(atpAtpRelationInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+       
     }
 
     @Override
@@ -454,8 +854,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-
-        return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtpAtpRelation", null, null)) {
+        	return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -463,8 +872,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
-
-        return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtpAtpRelation", null, null)) {
+        	return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -472,8 +890,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpMilestoneRelation(atpMilestoneRelationId, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelation", null, null)) {
+        	return getNextDecorator().getAtpMilestoneRelation(atpMilestoneRelationId, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -481,16 +908,34 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpMilestoneRelationsByIdList(atpMilestoneRelationIdList, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByIdList", null, null)) {
+        	return getNextDecorator().getAtpMilestoneRelationsByIdList(atpMilestoneRelationIdList, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> getAtpMilestoneRelationIdsByType(String atpMilestoneRelationTypeKey, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().getAtpMilestoneRelationIdsByType(atpMilestoneRelationTypeKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationIdsByType", null, null)) {
+        	return getNextDecorator().getAtpMilestoneRelationIdsByType(atpMilestoneRelationTypeKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -498,8 +943,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpMilestoneRelationsByAtp(atpKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByAtp", null, null)) {
+        	return getNextDecorator().getAtpMilestoneRelationsByAtp(atpKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -507,32 +961,68 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByMilestone", null, null)) {
+        	return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<String> searchForAtpMilestoneRelationIds(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpMilestoneRelationIds(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpMilestoneRelationIds", null, null)) {
+        	return getNextDecorator().searchForAtpMilestoneRelationIds(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<AtpMilestoneRelationInfo> searchForAtpMilestoneRelations(QueryByCriteria criteria, ContextInfo context) 
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpMilestoneRelations(criteria, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpMilestoneRelations", null, null)) {
+        	return getNextDecorator().searchForAtpMilestoneRelations(criteria, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
     public List<ValidationResultInfo> validateAtpMilestoneRelation(String validationType, AtpMilestoneRelationInfo atpMilestoneRelationInfo, ContextInfo context) 
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtpMilestoneRelation", null, null)) {
+        	return getNextDecorator().validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
+        }
+        else {
+        	throw new OperationFailedException("Permission Denied.");
+        }
+        
     }
 
     @Override
@@ -540,8 +1030,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws AlreadyExistsException, DataValidationErrorException, 
     InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtpMilestoneRelation", null, null)) {
+        	return getNextDecorator().createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -550,8 +1049,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException,
     VersionMismatchException {
-
-        return getNextDecorator().updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtpMilestoneRelation", null, null)) {
+        	return getNextDecorator().updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -559,8 +1067,17 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
-
-        return getNextDecorator().deleteAtpMilestoneRelation(atpMilestoneRelationId, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtpMilestoneRelation", null, null)) {
+        	return getNextDecorator().deleteAtpMilestoneRelation(atpMilestoneRelationId, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+        
     }
 
     @Override
@@ -568,8 +1085,16 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelationsByAtpAndRelationType(atpKey, relationType, context);
+        if (null == context) {
+            throw new MissingParameterException();
+        }
+           
+        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByAtpAndRelationType", null, null)) {
+        	return getNextDecorator().getAtpAtpRelationsByAtpAndRelationType(atpKey, relationType, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
     }
 
 }
