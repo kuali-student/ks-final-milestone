@@ -270,6 +270,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                             <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
                         </property>
                     </bean>
+                    <!--
                     <bean parent="FieldGroup" p:label="Term Start/End">
                         <property name="group.layoutManager.orientation" value="HORIZONTAL"/>
                         <property name="items">
@@ -281,7 +282,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                       p:labelField.render="false" p:summaryMessageField.render="false"/>
                             </list>
                         </property>
-                    </bean>
+                    </bean>  -->
+                    <bean parent="AttributeField" p:propertyName="termInfo.startDate" p:summaryMessageField.render="false"/>
+                    <bean parent="AttributeField" p:propertyName="termInfo.endDate" p:summaryMessageField.render="false"/>
 
                     <bean parent="FieldGroup" p:label="Registration Period">
                         <property name="group.layoutManager.orientation"
