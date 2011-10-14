@@ -344,6 +344,20 @@
         <property name="resultScaleDao" ref="resultScaleDao"/>
     </bean>
 
+    <bean id="ks.exp.LRCService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+       <property name="serviceDefinition">
+           <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+               <property name="jaxWsService" value="true"/>
+               <property name="service" ref="lrcPersistenceService"/>
+               <property name="serviceInterface"
+                         value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
+               <property name="localServiceName" value="LrcService"/>
+               <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc"/>
+               <property name="busSecurity" value="${ks.lum.bus.security}"/>
+           </bean>
+       </property>
+    </bean>
+
     <bean id="gradeValuesGroupAssembler" class="org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler"/>
 
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
