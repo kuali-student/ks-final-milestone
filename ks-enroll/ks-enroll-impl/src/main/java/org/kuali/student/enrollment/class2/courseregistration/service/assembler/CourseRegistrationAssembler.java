@@ -24,7 +24,7 @@ public class CourseRegistrationAssembler {
 
         courseRegInfo.setStudentId(baseDTO.getPersonId());
         // courseRegInfo.setCreditCount(creditCount);
-        // courseRegInfo.setGradingOption(gradingOption);
+        // courseRegInfo.setGradingOptionKey(gradingOptionKey);
         courseRegInfo.setCourseOffering(courseOfferingInfo);
         return courseRegInfo;
     }

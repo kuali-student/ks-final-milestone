@@ -364,7 +364,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 		//TODO: creditOptions -- ignore for core slice
 		
-		//TODO: gradingOptionIds -- ignore for core slice
+		//TODO: gradingOptionKeys -- ignore for core slice
 	}
 
 	private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
@@ -657,7 +657,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throw new OperationFailedException();
 		}
 		
-		//TODO: ao.setGradingOptionIds -- ignore for core slice
+		//TODO: ao.setGradingOptionKeys -- ignore for core slice
 }
 
 	
