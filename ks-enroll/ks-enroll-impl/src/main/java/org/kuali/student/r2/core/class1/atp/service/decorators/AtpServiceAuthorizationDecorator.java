@@ -32,6 +32,9 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     
     private PermissionService permissionService;
 
+    public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
+    public static final String SERVICE_NAME = "AtpService.";
+    
     @Override
     public PermissionService getPermissionService() {
         return permissionService;
@@ -49,7 +52,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtp", null, null)) {
 	        return getNextDecorator().getAtp(atpKey, context);
         }
         else {
@@ -65,7 +68,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getDataDictionaryEntryKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntryKeys", null, null)) {
 	        return getNextDecorator().getDataDictionaryEntryKeys(context);
         }
         else {
@@ -81,7 +84,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getDataDictionaryEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntry", null, null)) {
         	return getNextDecorator().getDataDictionaryEntry(entryKey, context);
         }
         else {
@@ -97,7 +100,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getType", null, null)) {
             return getNextDecorator().getType(typeKey, context);
         }
         else {
@@ -113,7 +116,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getTypesByRefObjectURI", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypesByRefObjectURI", null, null)) {
             return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
         }
         else {
@@ -129,7 +132,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAllowedTypesForType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAllowedTypesForType", null, null)) {
         	return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
         }
         else {
@@ -146,7 +149,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getTypeRelationsByOwnerType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypeRelationsByOwnerType", null, null)) {
         	return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
         }
         else {
@@ -163,7 +166,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getProcessByKey", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getProcessByKey", null, null)) {
         	return getNextDecorator().getProcessByKey(processKey, context);
         }
         else {
@@ -180,7 +183,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getProcessByObjectType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getProcessByObjectType", null, null)) {
         	return getNextDecorator().getProcessByObjectType(refObjectUri, context);
         }
         else {
@@ -196,7 +199,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getState", null, null)) {
         	return getNextDecorator().getState(processKey, stateKey, context);
         }
         else {
@@ -213,7 +216,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getStatesByProcess", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getStatesByProcess", null, null)) {
         	return getNextDecorator().getStatesByProcess(processKey, context);
         }
         else {
@@ -230,7 +233,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getInitialValidStates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getInitialValidStates", null, null)) {
         	return getNextDecorator().getInitialValidStates(processKey, context);
         }
         else {
@@ -247,7 +250,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getNextHappyState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getNextHappyState", null, null)) {
         	return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
         }
         else {
@@ -265,7 +268,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null, null)) {
         	return getNextDecorator().getAtpsByKeyList(atpKeyList, context);
         }
         else {
@@ -282,7 +285,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpKeysByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpKeysByType", null, null)) {
         	return getNextDecorator().getAtpKeysByType(atpTypeKey, context);
         }
         else {
@@ -299,7 +302,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDate", null, null)) {
         	return getNextDecorator().getAtpsByDate(searchDate, context);
         }
         else {
@@ -316,7 +319,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDateAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDateAndType", null, null)) {
         	return getNextDecorator().getAtpsByDateAndType(searchDate, searchTypeKey, context);
         }
         else {
@@ -333,7 +336,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDates", null, null)) {
         	return getNextDecorator().getAtpsByDates(startDate, endDate, context);
         }
         else {
@@ -350,7 +353,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByDatesAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByDatesAndType", null, null)) {
         	return getNextDecorator().getAtpsByDatesAndType(startDate, endDate, searchTypeKey, context);
         }
         else {
@@ -367,7 +370,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByStartDateRange", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRange", null, null)) {
         	return getNextDecorator().getAtpsByStartDateRange(searchDateRangeStart, searchDateRangeEnd, context);
         }
         else {
@@ -384,7 +387,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpsByStartDateRangeAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByStartDateRangeAndType", null, null)) {
         	return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
         }
         else {
@@ -402,7 +405,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestone", null, null)) {
         	return getNextDecorator().getMilestone(milestoneKey, context);
         }
         else {
@@ -420,7 +423,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByKeyList", null, null)) {
         	return getNextDecorator().getMilestonesByKeyList(milestoneKeyList, context);
         }
         else {
@@ -436,7 +439,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestoneKeysByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestoneKeysByType", null, null)) {
         	return getNextDecorator().getMilestoneKeysByType(milestoneTypeKey, context);
         }
         else {
@@ -453,7 +456,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByAtp", null, null)) {
         	return getNextDecorator().getMilestonesByAtp(atpKey, context);
         }
         else {
@@ -470,7 +473,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByDates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByDates", null, null)) {
         	return getNextDecorator().getMilestonesByDates(startDate, endDate, context);
         }
         else {
@@ -487,7 +490,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getMilestonesByDatesAndType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByDatesAndType", null, null)) {
         	return getNextDecorator().getMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate, context);
         }
         else {
@@ -504,7 +507,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpKeys", null, null)) {
         	return getNextDecorator().searchForAtpKeys(criteria, context);
         }
         else {
@@ -521,7 +524,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtps", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtps", null, null)) {
         	return getNextDecorator().searchForAtps(criteria, context);
         }
         else {
@@ -538,7 +541,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtp", null, null)) {
         	return getNextDecorator().validateAtp(validationType, atpInfo, context);
         }
         else {
@@ -556,7 +559,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtp", null, null)) {
         	return getNextDecorator().createAtp(atpKey, atpInfo, context);
         }
         else {
@@ -575,7 +578,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtp", null, null)) {
         	return getNextDecorator().updateAtp(atpKey, atpInfo, context);
         }
         else {
@@ -593,7 +596,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtp", null, null)) {
         	return getNextDecorator().deleteAtp(atpKey, context);
         }
         else {
@@ -610,7 +613,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForMilestoneKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestoneKeys", null, null)) {
         	return getNextDecorator().searchForMilestoneKeys(criteria, context);
         }
         else {
@@ -627,7 +630,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForMilestones", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestones", null, null)) {
         	return getNextDecorator().searchForMilestones(criteria, context);
         }
         else {
@@ -644,7 +647,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateMilestone", null, null)) {
         	return getNextDecorator().validateMilestone(validationType, milestoneInfo, context);
         }
         else {
@@ -662,7 +665,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createMilestone", null, null)) {
         	return getNextDecorator().createMilestone(milestoneKey, milestoneInfo, context);
         }
         else {
@@ -681,7 +684,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateMilestone", null, null)) {
         	return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
         }
         else {
@@ -699,7 +702,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteMilestone", null, null)) {
         	return getNextDecorator().deleteMilestone(milestoneKey, context);
         }
         else {
@@ -717,7 +720,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelation", null, null)) {
         	return getNextDecorator().getAtpAtpRelation(atpAtpRelationId, context);
         }
         else {
@@ -735,7 +738,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByIdList", null, null)) {
         	return getNextDecorator().getAtpAtpRelationsByIdList(atpAtpRelationIdList, context);
         }
         else {
@@ -752,7 +755,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationIdsByType", null, null)) {
         	return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
         }
         else {
@@ -770,7 +773,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByAtp", null, null)) {
         	return getNextDecorator().getAtpAtpRelationsByAtp(atpKey, context);
         }
         else {
@@ -787,7 +790,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpAtpRelationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelationIds", null, null)) {
         	return getNextDecorator().searchForAtpAtpRelationIds(criteria, context);
         }
         else {
@@ -804,7 +807,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpAtpRelations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpAtpRelations", null, null)) {
         	return getNextDecorator().searchForAtpAtpRelations(criteria, context);
         }
         else {
@@ -821,7 +824,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtpAtpRelation", null, null)) {
         	return getNextDecorator().validateAtpAtpRelation(validationType, atpAtpRelationInfo, context);
         }
         else {
@@ -839,7 +842,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtpAtpRelation", null, null)) {
         	 return getNextDecorator().createAtpAtpRelation(atpAtpRelationInfo, context);
         }
         else {
@@ -858,7 +861,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtpAtpRelation", null, null)) {
         	return getNextDecorator().updateAtpAtpRelation(atpAtpRelationId, atpAtpRelationInfo, context);
         }
         else {
@@ -876,7 +879,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtpAtpRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtpAtpRelation", null, null)) {
         	return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, context);
         }
         else {
@@ -894,7 +897,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelation", null, null)) {
         	return getNextDecorator().getAtpMilestoneRelation(atpMilestoneRelationId, context);
         }
         else {
@@ -912,7 +915,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelationsByIdList", null, null)) {
         	return getNextDecorator().getAtpMilestoneRelationsByIdList(atpMilestoneRelationIdList, context);
         }
         else {
@@ -929,7 +932,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelationIdsByType", null, null)) {
         	return getNextDecorator().getAtpMilestoneRelationIdsByType(atpMilestoneRelationTypeKey, context);
         }
         else {
@@ -947,7 +950,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByAtp", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelationsByAtp", null, null)) {
         	return getNextDecorator().getAtpMilestoneRelationsByAtp(atpKey, context);
         }
         else {
@@ -965,7 +968,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpMilestoneRelationsByMilestone", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelationsByMilestone", null, null)) {
         	return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey, context);
         }
         else {
@@ -982,7 +985,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpMilestoneRelationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpMilestoneRelationIds", null, null)) {
         	return getNextDecorator().searchForAtpMilestoneRelationIds(criteria, context);
         }
         else {
@@ -999,7 +1002,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "searchForAtpMilestoneRelations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpMilestoneRelations", null, null)) {
         	return getNextDecorator().searchForAtpMilestoneRelations(criteria, context);
         }
         else {
@@ -1016,7 +1019,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "validateAtpMilestoneRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtpMilestoneRelation", null, null)) {
         	return getNextDecorator().validateAtpMilestoneRelation(validationType, atpMilestoneRelationInfo, context);
         }
         else {
@@ -1034,7 +1037,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "createAtpMilestoneRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtpMilestoneRelation", null, null)) {
         	return getNextDecorator().createAtpMilestoneRelation(atpMilestoneRelationInfo, context);
         }
         else {
@@ -1053,7 +1056,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "updateAtpMilestoneRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtpMilestoneRelation", null, null)) {
         	return getNextDecorator().updateAtpMilestoneRelation(atpMilestoneRelationId, atpMilestoneRelationInfo, context);
         }
         else {
@@ -1071,7 +1074,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "deleteAtpMilestoneRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtpMilestoneRelation", null, null)) {
         	return getNextDecorator().deleteAtpMilestoneRelation(atpMilestoneRelationId, context);
         }
         else {
@@ -1089,7 +1092,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), "KS-ENROLL", "getAtpAtpRelationsByAtpAndRelationType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByAtpAndRelationType", null, null)) {
         	return getNextDecorator().getAtpAtpRelationsByAtpAndRelationType(atpKey, relationType, context);
         }
         else {
