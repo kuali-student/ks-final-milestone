@@ -125,7 +125,7 @@ public class RegistrationForm extends UifFormBase {
                             MeetingScheduleWrapper meetingScheduleWrapper = new MeetingScheduleWrapper(meetingScheduleInfo);
                             meetingScheduleWrapper.setCourseOfferingCode(courseOfferingInfo.getCourseOfferingCode());
                             meetingScheduleWrapper.setCourseTitle(courseOfferingInfo.getCourseTitle());
-                            meetingScheduleWrapper.setRegGroupId(regGroupRegistrationInfo.getId());
+                            meetingScheduleWrapper.setItemId(regGroupRegistrationInfo.getId());
                             // TODO - convert type key to actual activity type
                             String key = activityOfferingInfo.getTypeKey();
                             String name = key.substring(key.lastIndexOf(".") + 1);
@@ -156,7 +156,7 @@ public class RegistrationForm extends UifFormBase {
                 // look at the activityOfferingInfos from the regGroup to get all the Schedule information into one single list
                 for (ActivityOfferingWrapper activityOfferingWrapper : regGroupWrapper.getActivityOfferingWrappers()) {
                     for(MeetingScheduleWrapper meetingScheduleWrapper: activityOfferingWrapper.getMeetingScheduleWrappers()){
-                        meetingScheduleWrapper.setRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
+                        meetingScheduleWrapper.setItemId(regRequestItemInfo.getId());
                         meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getTypeName());
                         meetingScheduleWrappers.add(meetingScheduleWrapper);
                     }

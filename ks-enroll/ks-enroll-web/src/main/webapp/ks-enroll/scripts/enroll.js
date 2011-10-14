@@ -36,3 +36,16 @@ function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfter
 				elementToBlock);
 	}
 }
+
+    function removeFromCart(){
+        var row = jq(this).closest("tr.keyRow");
+        var name = jq(row).find(".timeKeyName").html();
+        if(confirm("Remove "+ name +" from your cart?")){
+            var id = jq(row).attr("name");
+            writeHiddenToForm("methodToCall", "removeFromCart");
+            writeHiddenToForm('jumpToId' , 'TOP');
+            writeHiddenToForm('renderFullView' , 'true');
+            writeHiddenToForm('actionParameters[itemId]' , id);
+            jq('#kualiForm').submit();
+        }
+    }

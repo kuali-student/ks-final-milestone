@@ -36,6 +36,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.*;
+import org.kuali.student.enrollment.courseregistration.infc.RegRequest;
+import org.kuali.student.enrollment.courseregistration.infc.RegRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
@@ -53,10 +55,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/registration")
@@ -436,6 +435,61 @@ public class RegistrationController extends UifControllerBase {
         } catch (DisabledIdentifierException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * After the document is loaded calls method to setup the maintenance object
+     */
+    @RequestMapping(params = "methodToCall=removeFromCart")
+    public ModelAndView removeFromCart(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        ContextInfo context = ContextInfo.newInstance();
+
+        RegRequest regRequest = registrationForm.getRegRequest();
+        String id = registrationForm.getActionParamaterValue("itemId");
+        if(regRequest != null && StringUtils.isNotBlank(id)){
+            List<? extends RegRequestItem> items = regRequest.getRegRequestItems();
+            if(items != null && !items.isEmpty()){
+                Iterator<? extends RegRequestItem> it = items.iterator();
+                while(it.hasNext()){
+                    RegRequestItem item = it.next();
+                    if(item.getId().equals(id)){
+                        it.remove();
+                        break;
+                    }
+                }
+            }
+        }
+
+        try {
+
+            List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
+            if (CollectionUtils.isEmpty(validationResultInfos)) {
+                registrationForm.setRegRequest(saveRegRequest(registrationForm.getRegRequest(), context));
+            } else {
+                StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
+                for (ValidationResultInfo resultInfo : validationResultInfos) {
+                    builder.append(resultInfo.getMessage()).append("\n");
+                }
+                throw new RuntimeException(builder.toString());
+            }
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(e);
+        } catch (DataValidationErrorException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        } catch (VersionMismatchException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        }
+
+        return getUIFModelAndView(registrationForm);
     }
 
     /**

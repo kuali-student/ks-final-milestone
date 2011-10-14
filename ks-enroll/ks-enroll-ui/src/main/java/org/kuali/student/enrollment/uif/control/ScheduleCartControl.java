@@ -12,6 +12,8 @@ import org.kuali.rice.krad.uif.field.HeaderField;
  */
 public class ScheduleCartControl extends ControlBase{
     private HeaderField headerField;
+    private String removeText;
+    private String removeJsFunction;
     private String scheduleId;
 
     public HeaderField getHeaderField() {
@@ -28,5 +30,21 @@ public class ScheduleCartControl extends ControlBase{
 
     public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId;
+    }
+
+    public String getRemoveText() {
+        return removeText;
+    }
+
+    public void setRemoveText(String removeText) {
+        this.removeText = removeText;
+    }
+
+    public String getRemoveJsFunction() {
+        return removeJsFunction;
+    }
+
+    public void setRemoveJsFunction(String removeJsFunction) {
+        this.removeJsFunction = removeJsFunction;
     }
 }

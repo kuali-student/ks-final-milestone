@@ -17,7 +17,7 @@ public class MeetingScheduleWrapper implements Serializable {
     private List<String> days;
     private String startTime;
     private String endTime;
-    private String regGroupId;
+    private String itemId;
     private String timeTypeName;
     private String regGroupTimesJsObject;
 
@@ -99,14 +99,14 @@ public class MeetingScheduleWrapper implements Serializable {
         if (et.length() == 3) {
             et = "0" + et;
         }
-        if (regGroupId == null) {
-            regGroupId = "";
+        if (itemId == null) {
+            itemId = "";
         }
         if (timeTypeName == null) {
             timeTypeName = "";
         }
 
-        return "{timeId:'" + regGroupId + "', timeType:'" + timeTypeName + "', days:" + daysArray + ", startTime: '" + st + "', endTime: '" + et
+        return "{timeId:'" + itemId + "', timeType:'" + timeTypeName + "', days:" + daysArray + ", startTime: '" + st + "', endTime: '" + et
                 + "', name: '" + courseOfferingCode + " " + courseTitle + "', displayableTime:'"+getDisplayableTime()+"' }";
     }
 
@@ -182,12 +182,12 @@ public class MeetingScheduleWrapper implements Serializable {
         return time;
     }
 
-    public String getRegGroupId() {
-        return regGroupId;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setRegGroupId(String regGroupId) {
-        this.regGroupId = regGroupId;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getTimeTypeName() {

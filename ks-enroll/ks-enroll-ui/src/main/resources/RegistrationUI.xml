@@ -103,7 +103,7 @@
                 <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
                       p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray" p:finalizeMethodToCall="checkSubmitItemRender">
                     <property name="control">
-                        <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable"/>
+                        <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable" p:removeText="Remove" p:removeJsFunction="removeFromCart"/>
                     </property>
                 </bean>
                 <bean parent="MessageField" p:messageText="Your cart is empty" p:finalizeMethodToCall="checkRenderCartEmpty"/>
