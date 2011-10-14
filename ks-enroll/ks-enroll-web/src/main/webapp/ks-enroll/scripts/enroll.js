@@ -39,7 +39,7 @@ function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfter
 
     function removeFromCart(){
         var row = jq(this).closest("tr.keyRow");
-        var name = jq(row).find(".timeKeyName").html();
+        var name = jq(row).find(".timeKeyName").text();
         if(confirm("Remove "+ name +" from your cart?")){
             var id = jq(row).attr("name");
             writeHiddenToForm("methodToCall", "removeFromCart");

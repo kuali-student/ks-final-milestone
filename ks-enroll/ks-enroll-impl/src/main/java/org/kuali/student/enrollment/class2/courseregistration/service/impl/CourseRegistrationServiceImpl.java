@@ -174,13 +174,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     
                     newTransactionItems.addAll(createModifiedLprTransactionItemsForDrop(regRequestItem, context ));
                 }
-                storedLprTransaction.setLprTransactionItems(newTransactionItems);
 
-                storedLprTransaction = lprService.updateLprTransaction(storedLprTransaction.getId(), storedLprTransaction, context);
 
             }
 
         }
+        storedLprTransaction.setLprTransactionItems(newTransactionItems);
+
+        storedLprTransaction = lprService.updateLprTransaction(storedLprTransaction.getId(), storedLprTransaction, context);
 
         return storedLprTransaction;
     }
