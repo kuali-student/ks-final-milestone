@@ -51,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TestAtpServiceImpl {
 
     @Autowired
-    @Qualifier("atpServiceValidationDecorator")
+    @Qualifier("atpServiceAuthDecorator")
     public AtpService atpService;
 
     public static String principalId = "123";
