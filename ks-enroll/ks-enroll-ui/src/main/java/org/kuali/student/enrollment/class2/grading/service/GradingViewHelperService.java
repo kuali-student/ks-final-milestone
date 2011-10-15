@@ -21,6 +21,7 @@ import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
+import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 
 import java.util.List;
 
@@ -35,5 +36,7 @@ public interface GradingViewHelperService extends ViewHelperService{
     public boolean saveGrades(GradingForm gradingForm)throws Exception;
 
     public boolean submitGradeRoster(GradingForm gradingForm)throws Exception;
+
+    public void loadStudentGrades(StudentGradeForm studentGradeForm) throws Exception;
 
 }

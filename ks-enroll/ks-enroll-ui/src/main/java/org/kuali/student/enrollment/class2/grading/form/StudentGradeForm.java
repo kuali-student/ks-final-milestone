@@ -32,6 +32,8 @@ public class StudentGradeForm extends UifFormBase {
 
     private String selectedTerm;
 
+    private String title = "Term Record";
+
     public StudentGradeForm(){
         creditList = new ArrayList<StudentCredit>();
     }
@@ -66,5 +68,13 @@ public class StudentGradeForm extends UifFormBase {
 
     public void setSelectedTerm(String selectedTerm) {
         this.selectedTerm = selectedTerm;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

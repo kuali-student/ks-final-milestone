@@ -80,7 +80,7 @@ limitations under the License.
       </property>
    </bean>
 
-    <bean id="courseOfferingList" parent="CollectionGroup" p:width="60%">
+    <bean id="courseOfferingList" parent="CollectionGroup">
       <property name="summary" value="@{currentTerm}"/>
       <property name="styleClasses" value="group-border"/>
       <property name="summaryMessageField.styleClasses" value="font-bold"/>
@@ -138,6 +138,12 @@ limitations under the License.
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
+      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>
+      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.inquiryParameters">
+        <map>
+          <entry key="form.studentId" value="principalId"/>
+        </map>
+      </property>
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="renderLineActions" value="@{readOnly eq false}"/>
       <property name="items">
@@ -190,6 +196,7 @@ limitations under the License.
           <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{readOnly eq false}"/>
           <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+          <bean parent="ActionLinkField" p:methodToCall="backToGrading" p:actionLabel="Back to Grading" p:style="text-align:center;"/>
         </list>
 
       </property>

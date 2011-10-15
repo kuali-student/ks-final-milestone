@@ -19,11 +19,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-   <bean id="studentGradeView" parent="KSFormView">
+   <bean id="studentGradeView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="StudentGradeView"/>
-      <property name="title" value="Term Record" />
+      <property name="title" value="@{title}" />
 	  <property name="entryPageId" value="page1"/>
       <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
+
+      <property name="header">
+        <bean parent="HeaderTwo"/>
+      </property>
+
+       <property name="additionalCssFiles">
+           <list >
+                <value>/krad/css/ks/ks-theme.css</value>
+                <value>/krad/css/ks/fss-theme-ks.css</value>
+                <value>/ks-enroll/css/grading.css</value>
+           </list>
+       </property>
 
       <property name="items">
           <list>
@@ -73,7 +85,7 @@ limitations under the License.
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
-          <ref bean="studentInfo"/>
+          <!--<ref bean="studentInfo"/>-->
           <ref bean="creditGroup"/>
         </list>
       </property>
@@ -98,7 +110,6 @@ limitations under the License.
    </bean>
 
     <bean id="creditGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
-      <property name="title" value="Credit"/>
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit"/>
       <property name="propertyName" value="creditList"/>
@@ -144,6 +155,7 @@ limitations under the License.
 
         <list>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+          <bean parent="ActionLinkField" p:methodToCall="backToTerm" p:actionLabel="Back to Term Records"/>
         </list>
       </property>
   </bean>

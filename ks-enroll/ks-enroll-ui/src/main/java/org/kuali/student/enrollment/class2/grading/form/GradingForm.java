@@ -42,21 +42,16 @@ public class GradingForm extends UifFormBase{
 
     private static final long serialVersionUID = -1054046347823986329L;
 
-    private String selectedCourse;
-    private List<GradeStudent> students;
-
-    private List<CourseOfferingInfo> courseOfferingInfoList;
-
-    private boolean readOnly;
-    private String currentTerm;
-
-    private CourseOfferingInfo selectedCourseOffering;
-
-    private List<GradeRosterInfo> rosterInfos;
-
     private String title = "Grading";
-
     private String gradeDueDate = " ";
+    private String selectedCourse;
+    private String currentTerm;
+    private boolean readOnly;
+
+    private List<GradeStudent> students;
+    private List<CourseOfferingInfo> courseOfferingInfoList;
+    private CourseOfferingInfo selectedCourseOffering;
+    private List<GradeRosterInfo> rosterInfos;
 
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;

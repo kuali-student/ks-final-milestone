@@ -13,10 +13,10 @@ package org.kuali.student.enrollment.class2.grading.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
-import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
@@ -100,64 +100,60 @@ public class GradingController extends UifControllerBase {
                     "Selected line index was not set for delete unassign action, cannot unassign grade");
         }
 
-        // TODO: Needs to be a client side method instead of handling at server
-        // side
+        // TODO: Needs to be a client side method instead of handling at server side
         ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),
                 gradingForm, selectedCollectionPath, selectedLineIndex);
 
         return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_GRADING_METHOD)
+    public ModelAndView backToGrading(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_TERM)
+    public ModelAndView backToTerm(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), GradingConstants.STUDENT_TERM_RECORD_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.SAVE_METHOD)
     public ModelAndView save(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).saveGrades(gradingForm);
 
-        return close(gradingForm, result, request, response);
+        if (success){
+            GlobalVariables.getMessageMap().putInfo("firstName", GradingConstants.INFO_GRADE_ROSTER_SAVED);
+        }
+        // only refreshing page
+        gradingForm.setRenderFullView(false);
+
+        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=submit")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.SUBMIT_METHOD)
     public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).submitGradeRoster(gradingForm);
 
-        return close(gradingForm, result, request, response);
+        if (success){
+            GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_ROSTER_SUBMITTED);
+        }
+
+        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.SELECT_COURSE_OFFERING_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.VIEW_GRADES)
     public ModelAndView viewGrades(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm,
             BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List creditList = studentGradeForm.getCreditList();
-        if (creditList.isEmpty()) {
-            StudentCredit credit = new StudentCredit();
-            credit.setCourseId("PHY121");
-            credit.setCourseName("Fundamentals of Physics I");
-            credit.setGrade("A");
-            credit.setCredits("3.0");
-            creditList.add(credit);
+        ((GradingViewHelperService) studentGradeForm.getView().getViewHelperService()).loadStudentGrades(studentGradeForm);
 
-            StudentCredit credit1 = new StudentCredit();
-            credit1.setCourseId("MUSIC200");
-            credit1.setCourseName("Music, Children and Family");
-            credit1.setGrade("A-");
-            credit1.setCredits("2.0");
-            creditList.add(credit1);
-
-            StudentCredit credit2 = new StudentCredit();
-            credit2.setCourseId("ENG222");
-            credit2.setCourseName("English I");
-            credit2.setGrade("B+");
-            credit2.setCredits("2.0");
-            creditList.add(credit2);
-
-            studentGradeForm.setName("Mary");
-            studentGradeForm.setFirstTerm("Fall, 2011");
-        }
-
-        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), "page2");
+        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
     }
 
 }

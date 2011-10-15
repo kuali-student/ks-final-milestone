@@ -18,6 +18,11 @@ package org.kuali.student.enrollment.class2.grading.util;
 
 public class GradingConstants {
 
+    public static final String CLOSE_METHOD = "close";
+    public static final String BACK_TO_GRADING_METHOD = "backToGrading";
+    public static final String BACK_TO_TERM = "backToTerm";
+    public static final String SAVE_METHOD = "save";
+    public static final String SUBMIT_METHOD = "submit";
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
     public static final String UNASSIGN_GRADE_METHOD = "unassignGrade";
     public static final String VIEW_GRADES = "viewGrades";
@@ -28,7 +33,11 @@ public class GradingConstants {
 
     public static final String SELECT_COURSE_OFFERING_PAGE = "page1";
     public static final String GRADE_ROSTER_PAGE = "page2";
+    public static final String STUDENT_TERM_RECORD_PAGE = "page1";
+    public static final String STUDENT_CREDIT_DETAILS_PAGE = "page2";
 
     public static final String CURRENT_TERM = "201108";
+    public static final String INFO_GRADE_ROSTER_SAVED = "info.enroll.grading.saved";
+    public static final String INFO_GRADE_ROSTER_SUBMITTED = "info.enroll.grading.submitted";
 
 }

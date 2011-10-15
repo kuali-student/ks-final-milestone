@@ -27,7 +27,9 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
+import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
+import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -93,6 +95,11 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<GradeStudent> students = new ArrayList();
         List<GradeRosterInfo> rosterInfos = getGradingService().getFinalGradeRostersForCourseOffering(selectedCourse, context);
         gradingForm.setRosterInfos(rosterInfos);
+
+        if (rosterInfos == null || rosterInfos.isEmpty()){
+            gradingForm.setReadOnly(true);
+        }
+
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
                 if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
@@ -174,6 +181,43 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         }
 
         return true;
+    }
+
+    public void loadStudentGrades(StudentGradeForm studentGradeForm)
+    throws Exception {
+
+        List creditList = studentGradeForm.getCreditList();
+
+        if (creditList.isEmpty()) {
+            StudentCredit credit = new StudentCredit();
+            credit.setCourseId("PHY121");
+            credit.setCourseName("Fundamentals of Physics I");
+            credit.setGrade("A");
+            credit.setCredits("3.0");
+            creditList.add(credit);
+
+            StudentCredit credit1 = new StudentCredit();
+            credit1.setCourseId("MUSIC200");
+            credit1.setCourseName("Music, Children and Family");
+            credit1.setGrade("A-");
+            credit1.setCredits("2.0");
+            creditList.add(credit1);
+
+            StudentCredit credit2 = new StudentCredit();
+            credit2.setCourseId("ENG222");
+            credit2.setCourseName("English I");
+            credit2.setGrade("B+");
+            credit2.setCredits("2.0");
+            creditList.add(credit2);
+
+            studentGradeForm.setName("Mary");
+            studentGradeForm.setFirstTerm("Fall, 2011");
+        }
+
+        ContextInfo context = ContextInfo.newInstance();
+        String termName = getAcalService().getTerm(studentGradeForm.getSelectedTerm(),context).getName();
+
+        studentGradeForm.setTitle(termName + " Grades");
     }
 
     private TermInfo getCurrentACal(){
