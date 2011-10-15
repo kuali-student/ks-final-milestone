@@ -26,8 +26,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -36,21 +36,16 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestAcademicCalendarServiceImpl{
-    
-    private AcademicCalendarService acalServiceValidation;
+    @Autowired
+    @Qualifier("acalServiceAuthDecorator")
+    private AcademicCalendarService acalService;
     
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
-  
-    @Autowired
-	public void setAcalServiceValidation(AcademicCalendarService acalServiceValidation) {
-		this.acalServiceValidation = acalServiceValidation;
-	}
 
 	@Before
     public void setUp() {
@@ -61,13 +56,13 @@ public class TestAcademicCalendarServiceImpl{
 
 	@Test
     public void testAcademicCalendarServiceSetup() {
-    	assertNotNull(acalServiceValidation);
+    	assertNotNull(acalService);
     }
 
 	@Test 
     public void testGetAcademicCalendarFromDerby()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
-		AcademicCalendarInfo acal = acalServiceValidation.getAcademicCalendar("testAtpId1",callContext);
+		AcademicCalendarInfo acal = acalService.getAcademicCalendar("testAtpId1",callContext);
 		assertNotNull(acal);
 		assertEquals("testAtpId1", acal.getKey());
 		assertEquals("testAtp1", acal.getName());
@@ -86,11 +81,11 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testAcalId", created.getKey());
                 
-                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testAcalId", callContext);
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testAcalId", callContext);
 
                 assertNotNull(existed);
                 assertEquals("testAcalId", existed.getKey());
@@ -114,7 +109,7 @@ public class TestAcademicCalendarServiceImpl{
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         
         try{
-        	List<ValidationResultInfo> vris= acalServiceValidation.validateAcademicCalendar("FULL_VALIDATION", acal, callContext);
+        	List<ValidationResultInfo> vris= acalService.validateAcademicCalendar("FULL_VALIDATION", acal, callContext);
                 if ( ! vris.isEmpty()) {
                     StringBuilder buf = new StringBuilder ();
                     buf.append(vris.size()).append (" validaton errors found did not expect any");
@@ -148,14 +143,14 @@ public class TestAcademicCalendarServiceImpl{
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try{
-            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcalId1", acal, callContext);
+            AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId1", acal, callContext);
             assertNotNull(created);
             assertEquals("testAcalId1", created.getKey());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
         try {
-            acalServiceValidation.createAcademicCalendar("testAcalId1", acal, callContext);
+            acalService.createAcademicCalendar("testAcalId1", acal, callContext);
             fail("AcademicCalendarService.createAcademicCalendar() did not throw expected AlreadyExistsException");
         } catch (AlreadyExistsException aee) { /* expected */ }
     }
@@ -171,19 +166,19 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testNewAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testNewAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testNewAcalId", created.getKey());
                 
                 
-                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testNewAcalId", callContext);
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testNewAcalId", callContext);
 
                 assertNotNull(existed);
                 
                 existed.setName("testUpdatedAcal");
                 // TODO - need actual ProgramTypeKey attribute in test database sql
                 existed.setCredentialProgramTypeKey(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM);
-                AcademicCalendarInfo updated = acalServiceValidation.updateAcademicCalendar("testNewAcalId", existed, callContext);
+                AcademicCalendarInfo updated = acalService.updateAcademicCalendar("testNewAcalId", existed, callContext);
                 assertEquals("testUpdatedAcal", updated.getName());
             } catch (Exception ex) {
                 fail("exception from service call :" + ex.getMessage());
@@ -201,14 +196,14 @@ public class TestAcademicCalendarServiceImpl{
             acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
             try{
-                AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testDeletedAcalId", acal, callContext);
+                AcademicCalendarInfo created = acalService.createAcademicCalendar("testDeletedAcalId", acal, callContext);
                 assertNotNull(created);
                 assertEquals("testDeletedAcalId", created.getKey());
 
-                StatusInfo ret = acalServiceValidation.deleteAcademicCalendar("testDeletedAcalId", callContext);
+                StatusInfo ret = acalService.deleteAcademicCalendar("testDeletedAcalId", callContext);
                 assertTrue(ret.getIsSuccess());
 
-                AcademicCalendarInfo existed = acalServiceValidation.getAcademicCalendar("testDeletedAcalId", callContext);
+                AcademicCalendarInfo existed = acalService.getAcademicCalendar("testDeletedAcalId", callContext);
                 assertNull(existed);
             } catch (DoesNotExistException dnee) {
             	//this is expected
@@ -220,7 +215,7 @@ public class TestAcademicCalendarServiceImpl{
     @Test
     public void testGetAcademicCalendarsByStartYear()throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, AlreadyExistsException{
-        List<AcademicCalendarInfo> acalInfos = acalServiceValidation.getAcademicCalendarsByStartYear(1980, callContext);
+        List<AcademicCalendarInfo> acalInfos = acalService.getAcademicCalendarsByStartYear(1980, callContext);
         assertNotNull("No Calendars returned.", acalInfos);
 
         Set<String> acalNames = new HashSet<String>();
@@ -260,7 +255,7 @@ public class TestAcademicCalendarServiceImpl{
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         
         try{
-        	List<ValidationResultInfo> vri= acalServiceValidation.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", term, callContext);
+        	List<ValidationResultInfo> vri= acalService.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", term, callContext);
         	assertTrue(vri.isEmpty());
         }catch (OperationFailedException ex){
         	//dictionary not ready, this is expected
@@ -282,17 +277,17 @@ public class TestAcademicCalendarServiceImpl{
         	TermInfo created;
         	
         	try{
-        		created = acalServiceValidation.createTerm("testTermId2", term, callContext);
+        		created = acalService.createTerm("testTermId2", term, callContext);
         	 } catch (AlreadyExistsException ex) {
                  //expected);
              }   	
         	 
         	term.setKey("testNewTermId");
-        	created = acalServiceValidation.createTerm("testNewTermId", term, callContext);
+        	created = acalService.createTerm("testNewTermId", term, callContext);
             assertNotNull(created);
             assertEquals("testNewTermId", created.getKey());
             
-            TermInfo existed = acalServiceValidation.getTerm("testNewTermId", callContext);
+            TermInfo existed = acalService.getTerm("testNewTermId", callContext);
 
             assertNotNull(existed);
             assertEquals("testNewTermId", existed.getKey());
@@ -307,18 +302,18 @@ public class TestAcademicCalendarServiceImpl{
     OperationFailedException, PermissionDeniedException, AlreadyExistsException{
     	try{
 	    	try{
-	    	acalServiceValidation.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
+	    	acalService.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
 	    	} catch (AlreadyExistsException ex) {
 	            //expected);
 	        } 
 	    	
-	    	StatusInfo status = acalServiceValidation.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
+	    	StatusInfo status = acalService.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
 	    	assertTrue(status.getIsSuccess());
     	} catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
     	}
     	
-    	List<TermInfo> terms = acalServiceValidation.getTermsForAcademicCalendar("testAtpId1", callContext);
+    	List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
     	
     	assertEquals(2, terms.size());
     }
@@ -328,12 +323,12 @@ public class TestAcademicCalendarServiceImpl{
     OperationFailedException, PermissionDeniedException, AlreadyExistsException{
     	try{
     		try{
-    			acalServiceValidation.getTermsForAcademicCalendar("testTermId1", callContext);
+    			acalService.getTermsForAcademicCalendar("testTermId1", callContext);
     		}catch (OperationFailedException ex){
     			//expected because it's not an acal
     		}
     		
-    		List<TermInfo> terms = acalServiceValidation.getTermsForAcademicCalendar("testAtpId1", callContext);
+    		List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
     		assertNotNull(terms);
     		
     		// make sure an expected term is in the list of returned terms
@@ -354,7 +349,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetKeyDatesForTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<KeyDateInfo> results = acalServiceValidation.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
+        List<KeyDateInfo> results = acalService.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
         
         assertNotNull(results);
         assertEquals(1, results.size());
@@ -372,7 +367,7 @@ public class TestAcademicCalendarServiceImpl{
         List<KeyDateInfo> fakeKeyDates = null;
         
         try {
-            fakeKeyDates = acalServiceValidation.getKeyDatesForTerm("fakeKey", callContext);
+            fakeKeyDates = acalService.getKeyDatesForTerm("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -382,7 +377,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetContainingTerms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TermInfo> results = acalServiceValidation.getContainingTerms("termRelationTestingTerm2", callContext);
+        List<TermInfo> results = acalService.getContainingTerms("termRelationTestingTerm2", callContext);
         
         assertNotNull(results);
         assertEquals(1, results.size());
@@ -400,7 +395,7 @@ public class TestAcademicCalendarServiceImpl{
         List<TermInfo> fakeResults = null;
         
         try {
-            fakeResults = acalServiceValidation.getContainingTerms("fakeKey", callContext);
+            fakeResults = acalService.getContainingTerms("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -412,13 +407,13 @@ public class TestAcademicCalendarServiceImpl{
     public void testGetTermKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         String expectedTermType = "kuali.atp.type.HalfFall1";
         
-        List<String> termKeys = acalServiceValidation.getTermKeysByType(expectedTermType, callContext);
+        List<String> termKeys = acalService.getTermKeysByType(expectedTermType, callContext);
         
         assertTrue(termKeys.contains("termRelationTestingTerm4"));
         
         String expectedEmptyTermType = "kuali.atp.type.SessionG2";
         
-        termKeys = acalServiceValidation.getTermKeysByType(expectedEmptyTermType, callContext);
+        termKeys = acalService.getTermKeysByType(expectedEmptyTermType, callContext);
         
         assertTrue(termKeys == null || termKeys.isEmpty());
         
@@ -426,7 +421,7 @@ public class TestAcademicCalendarServiceImpl{
         
         List<String> shouldBeNull = null;
         try {
-            shouldBeNull = acalServiceValidation.getTermKeysByType(fakeTermType, callContext);
+            shouldBeNull = acalService.getTermKeysByType(fakeTermType, callContext);
             fail("Did not get a InvalidParameterException when expected");
         }
         catch(InvalidParameterException e) {
@@ -439,7 +434,7 @@ public class TestAcademicCalendarServiceImpl{
         List<String> termKeys = new ArrayList<String>();
         termKeys.addAll(Arrays.asList("termRelationTestingTerm1", "termRelationTestingTerm2"));
         
-        List<TermInfo> terms = acalServiceValidation.getTermsByKeyList(termKeys, callContext);
+        List<TermInfo> terms = acalService.getTermsByKeyList(termKeys, callContext);
         
         assertNotNull(terms);
         assertEquals(termKeys.size(), terms.size());
@@ -457,7 +452,7 @@ public class TestAcademicCalendarServiceImpl{
         
         List<TermInfo> shouldBeNull = null;
         try {
-            shouldBeNull = acalServiceValidation.getTermsByKeyList(fakeKeys, callContext);
+            shouldBeNull = acalService.getTermsByKeyList(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -467,7 +462,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermsForAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TermInfo> results = acalServiceValidation.getTermsForAcademicCalendar("termRelationTestingAcal1", callContext);
+        List<TermInfo> results = acalService.getTermsForAcademicCalendar("termRelationTestingAcal1", callContext);
         
         assertNotNull(results);
         assertEquals(1, results.size());
@@ -485,7 +480,7 @@ public class TestAcademicCalendarServiceImpl{
         List<TermInfo> fakeResults = null;
         
         try {
-            fakeResults = acalServiceValidation.getTermsForAcademicCalendar("fakeKey", callContext);
+            fakeResults = acalService.getTermsForAcademicCalendar("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -495,7 +490,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetIncludedTermsInTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm1", callContext);
+        List<TermInfo> results = acalService.getIncludedTermsInTerm("termRelationTestingTerm1", callContext);
         
         assertNotNull(results);
         assertEquals(1, results.size());
@@ -513,7 +508,7 @@ public class TestAcademicCalendarServiceImpl{
         List<TermInfo> fakeResults = null;
         
         try {
-            fakeResults = acalServiceValidation.getIncludedTermsInTerm("fakeKey", callContext);
+            fakeResults = acalService.getIncludedTermsInTerm("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -523,14 +518,14 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        StateInfo result = acalServiceValidation.getTermState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+        StateInfo result = acalService.getTermState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
         
         assertNotNull(result);
         assertEquals(result.getName(), "Draft");
         
         StateInfo fakeState = null;
         try {
-            fakeState = acalServiceValidation.getTermState("fakeKey", callContext);
+            fakeState = acalService.getTermState("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -540,7 +535,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermStates() throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
-        List<StateInfo> result = acalServiceValidation.getTermStates(callContext);
+        List<StateInfo> result = acalService.getTermStates(callContext);
         
         assertNotNull(result);
         assertTrue(!result.isEmpty());
@@ -560,14 +555,14 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        TypeInfo result = acalServiceValidation.getTermType(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, callContext);
+        TypeInfo result = acalService.getTermType(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, callContext);
         
         assertNotNull(result);
         assertEquals(result.getName(), "Fall Half-Semester 1");
         
         TypeInfo fakeType = null;
         try {
-            fakeType = acalServiceValidation.getTermType("fakeKey", callContext);
+            fakeType = acalService.getTermType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -577,7 +572,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermTypes() throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<TypeInfo> result = acalServiceValidation.getTermTypes(callContext);
+        List<TypeInfo> result = acalService.getTermTypes(callContext);
         
         assertNotNull(result);
         assertTrue(!result.isEmpty());
@@ -585,7 +580,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetTermTypesForAcademicCalendarType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<TypeInfo> results = acalServiceValidation.getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, callContext);
+        List<TypeInfo> results = acalService.getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, callContext);
         
         assertNotNull(results);
         List<String> expectedIds = new ArrayList<String>(2);
@@ -600,7 +595,7 @@ public class TestAcademicCalendarServiceImpl{
         
         List<TypeInfo> fakeTypes = null;
         try {
-            fakeTypes = acalServiceValidation.getTermTypesForAcademicCalendarType("fakeKey", callContext);
+            fakeTypes = acalService.getTermTypesForAcademicCalendarType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -612,7 +607,7 @@ public class TestAcademicCalendarServiceImpl{
     @Test
     public void testGetTermTypesForTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO
-        List<TypeInfo> results = acalServiceValidation.getTermTypesForTermType(AtpServiceConstants.ATP_SPRING_TYPE_KEY, callContext);
+        List<TypeInfo> results = acalService.getTermTypesForTermType(AtpServiceConstants.ATP_SPRING_TYPE_KEY, callContext);
         
         assertNotNull(results);
         List<String> expectedIds = new ArrayList<String>(2);
@@ -627,27 +622,27 @@ public class TestAcademicCalendarServiceImpl{
         
         List<TypeInfo> fakeTypes = null;
         try {
-            fakeTypes = acalServiceValidation.getTermTypesForTermType("fakeKey", callContext);
+            fakeTypes = acalService.getTermTypesForTermType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
             assertNull(fakeTypes);
         }
         
-        List<TypeInfo> expectedEmpty = acalServiceValidation.getTermTypesForTermType(AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY, callContext);
+        List<TypeInfo> expectedEmpty = acalService.getTermTypesForTermType(AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY, callContext);
         
         assertTrue(expectedEmpty == null || expectedEmpty.isEmpty());
     }
     
     @Test
     public void testRemoveTermFromAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo status = acalServiceValidation.removeTermFromAcademicCalendar("termRelationTestingAcal2", "termRelationTestingTerm2", callContext);
+        StatusInfo status = acalService.removeTermFromAcademicCalendar("termRelationTestingAcal2", "termRelationTestingTerm2", callContext);
         
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the acal and make sure it does not include the removed term
-        List<TermInfo> results = acalServiceValidation.getTermsForAcademicCalendar("termRelationTestingAcal2", callContext);
+        List<TermInfo> results = acalService.getTermsForAcademicCalendar("termRelationTestingAcal2", callContext);
         
         if(results != null) {
             for(TermInfo term : results) {
@@ -657,7 +652,7 @@ public class TestAcademicCalendarServiceImpl{
         
         StatusInfo noStatus = null;
         try {
-            noStatus = acalServiceValidation.removeTermFromAcademicCalendar("termRelationTestingAcal2", "fakeKey", callContext);
+            noStatus = acalService.removeTermFromAcademicCalendar("termRelationTestingAcal2", "fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -667,20 +662,20 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testRemoveTermFromTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo status = acalServiceValidation.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
+        StatusInfo status = acalService.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
         
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the parent term and make sure it does not include the removed term
-        List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm3", callContext);
+        List<TermInfo> results = acalService.getIncludedTermsInTerm("termRelationTestingTerm3", callContext);
         
         assertTrue(results == null || results.isEmpty());
         
         // try to remove the same term again, should get a DoesNotExistException
         StatusInfo noRepeatStatus = null;
         try {
-            noRepeatStatus = acalServiceValidation.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
+            noRepeatStatus = acalService.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -689,7 +684,7 @@ public class TestAcademicCalendarServiceImpl{
         
         StatusInfo noStatus = null;
         try {
-            noStatus = acalServiceValidation.removeTermFromTerm("termRelationTestingTerm3", "fakeKey", callContext);
+            noStatus = acalService.removeTermFromTerm("termRelationTestingTerm3", "fakeKey", callContext);
             fail("Did not get a InvalidParameterException when expected");
         }
         catch(InvalidParameterException e) {
@@ -710,25 +705,25 @@ public class TestAcademicCalendarServiceImpl{
         
         TermInfo fakeTerm = null;
         try {
-            fakeTerm = acalServiceValidation.updateTerm("fakeKey", blankTerm, callContext);
+            fakeTerm = acalService.updateTerm("fakeKey", blankTerm, callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
             assertNull(fakeTerm);
         }
         
-        TermInfo existing = acalServiceValidation.getTerm("termRelationTestingTerm3", callContext);
+        TermInfo existing = acalService.getTerm("termRelationTestingTerm3", callContext);
         String updatedName = "updated " + existing.getName();
         
         existing.setName(updatedName);
         existing.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         
-        TermInfo revised = acalServiceValidation.updateTerm("termRelationTestingTerm3", existing, callContext);
+        TermInfo revised = acalService.updateTerm("termRelationTestingTerm3", existing, callContext);
         
         assertNotNull(revised);
         assertEquals(revised.getKey(), existing.getKey());
         
-        TermInfo retrieved = acalServiceValidation.getTerm("termRelationTestingTerm3", callContext);
+        TermInfo retrieved = acalService.getTerm("termRelationTestingTerm3", callContext);
         
         assertNotNull(retrieved);
         assertEquals(retrieved.getName(), updatedName);
@@ -737,13 +732,13 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testDeleteTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo status = acalServiceValidation.deleteTerm("termRelationTestingTermDelete", callContext);
+        StatusInfo status = acalService.deleteTerm("termRelationTestingTermDelete", callContext);
         
         assertTrue(status.getIsSuccess());
         
         StatusInfo noStatus = null;
         try {
-            noStatus = acalServiceValidation.deleteTerm("fakeKey", callContext);
+            noStatus = acalService.deleteTerm("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -753,7 +748,7 @@ public class TestAcademicCalendarServiceImpl{
         // ensure the delete prevents future gets
         TermInfo shouldBeNull = null;
         try {
-            shouldBeNull = acalServiceValidation.getTerm("termRelationTestingTermDelete", callContext);
+            shouldBeNull = acalService.getTerm("termRelationTestingTermDelete", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -764,13 +759,13 @@ public class TestAcademicCalendarServiceImpl{
     @Test
     public void testAddTermToTerm() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        StatusInfo status = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+        StatusInfo status = acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
         
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         
         // retrieve the terms for the parent term and make sure it does include the added term
-        List<TermInfo> results = acalServiceValidation.getIncludedTermsInTerm("termRelationTestingTerm5", callContext);
+        List<TermInfo> results = acalService.getIncludedTermsInTerm("termRelationTestingTerm5", callContext);
         
         assertNotNull(results);
         assertEquals(1, results.size());
@@ -782,7 +777,7 @@ public class TestAcademicCalendarServiceImpl{
         StatusInfo nullStatus = null;
         
         try { 
-            nullStatus = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+            nullStatus = acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
             fail("Did not get an AlreadyExistsException when expected");
         }
         catch(AlreadyExistsException e) {
@@ -791,7 +786,7 @@ public class TestAcademicCalendarServiceImpl{
         
         // assert that adding an invalid term fails
         try {
-            nullStatus = acalServiceValidation.addTermToTerm("termRelationTestingTerm5", "fakeKey", callContext);
+            nullStatus = acalService.addTermToTerm("termRelationTestingTerm5", "fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
@@ -802,7 +797,7 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        List<String> results = acalServiceValidation.getDataDictionaryEntryKeys(callContext);
+        List<String> results = acalService.getDataDictionaryEntryKeys(callContext);
         
         assertNotNull(results);
         assertTrue(!results.isEmpty());
@@ -812,13 +807,13 @@ public class TestAcademicCalendarServiceImpl{
     
     @Test
     public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        DictionaryEntryInfo value = acalServiceValidation.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
+        DictionaryEntryInfo value = acalService.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
         
         assertNotNull(value);
         
         DictionaryEntryInfo fakeEntry = null;
         try {
-            fakeEntry = acalServiceValidation.getDataDictionaryEntry("fakeKey", callContext);            fail("Did not get a DoesNotExistException when expected");
+            fakeEntry = acalService.getDataDictionaryEntry("fakeKey", callContext);            fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
             assertNull(fakeEntry);
@@ -834,13 +829,13 @@ public class TestAcademicCalendarServiceImpl{
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try{
-            AcademicCalendarInfo created = acalServiceValidation.createAcademicCalendar("testAcal-CPT-Id1", acal, callContext);
+            AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcal-CPT-Id1", acal, callContext);
             assertNotNull(created);
 
-            AcademicCalendarInfo retrieved = acalServiceValidation.getAcademicCalendar("testAcal-CPT-Id1", callContext);
+            AcademicCalendarInfo retrieved = acalService.getAcademicCalendar("testAcal-CPT-Id1", callContext);
             assertNotNull(retrieved);
             
-            List<AcademicCalendarInfo> acals = acalServiceValidation.getAcademicCalendarsByCredentialProgramType("kuali.lu.type.credential.Baccalaureate", callContext);
+            List<AcademicCalendarInfo> acals = acalService.getAcademicCalendarsByCredentialProgramType("kuali.lu.type.credential.Baccalaureate", callContext);
             assertNotNull(acals);
             assertEquals(1, acals.size());
             assertEquals("kuali.lu.type.credential.Baccalaureate", acals.get(0).getCredentialProgramTypeKey());
@@ -870,13 +865,13 @@ public class TestAcademicCalendarServiceImpl{
        
         
         try {
-        	KeyDateInfo created = acalServiceValidation.createKeyDateForTerm("termRelationTestingTerm1", "new-keydate-Id", keyDate, callContext);
+        	KeyDateInfo created = acalService.createKeyDateForTerm("termRelationTestingTerm1", "new-keydate-Id", keyDate, callContext);
             assertNotNull(created);
             assertEquals("new-keydate-Id", created.getKey());
             assertEquals("testCreate", created.getName());
             
             try{
-            	KeyDateInfo retrieved = acalServiceValidation.getKeyDate("new-keydate-Id", callContext);
+            	KeyDateInfo retrieved = acalService.getKeyDate("new-keydate-Id", callContext);
             	assertNotNull(retrieved);
             	assertEquals("new-keydate-Id", retrieved.getKey());
                 assertEquals("testCreate", retrieved.getName());
@@ -885,7 +880,7 @@ public class TestAcademicCalendarServiceImpl{
             }
             
             try{
-            	List<KeyDateInfo> kds = acalServiceValidation.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
+            	List<KeyDateInfo> kds = acalService.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
             	assertNotNull(kds);
             	assertTrue(!kds.isEmpty());
             	List<String> kdIds = new ArrayList<String>();

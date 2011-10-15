@@ -923,6 +923,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 amRelInfo.setMilestoneKey(keyDateKey);
                 amRelInfo.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
                 amRelInfo.setTypeKey(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY);
+                amRelInfo.setEffectiveDate(new Date());
                 atpService.createAtpMilestoneRelation(amRelInfo, context);
             }
         }
