@@ -176,6 +176,11 @@ public class KSLogoutFilter extends SpringSecurityFilter {
         return logoutSuccessUrl;
     }    
     
+    public void setLogoutSuccessUrl(String logoutSuccessUrl){
+        this.logoutSuccessUrl = logoutSuccessUrl;
+        Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");    	
+    }    
+    
     protected String getFilterProcessesUrl() {
         return filterProcessesUrl;
     }
