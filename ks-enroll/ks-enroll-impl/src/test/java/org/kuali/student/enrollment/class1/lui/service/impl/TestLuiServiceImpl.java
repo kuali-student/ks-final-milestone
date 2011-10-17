@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -41,15 +42,12 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestLuiServiceImpl {
-
-    private LuiService luiServiceValidation;
+	@Autowired
+    @Qualifier("luiServiceAuthDecorator")
+    private LuiService luiService;
+	
     public static String principalId = "123";
     public ContextInfo callContext = ContextInfo.newInstance();
-
-    @Autowired
-    public void setLuiServiceValidation(LuiService luiServiceValidation) {
-        this.luiServiceValidation = luiServiceValidation;
-    }
 
     @Before
     public void setUp() {
@@ -60,7 +58,7 @@ public class TestLuiServiceImpl {
 
     @Test
     public void testLuiServiceSetup() {
-        assertNotNull(luiServiceValidation);
+        assertNotNull(luiService);
     }
 
     @Test
@@ -68,11 +66,11 @@ public class TestLuiServiceImpl {
             OperationFailedException {
         try {
             try {
-                luiServiceValidation.getLui("Lui-blah", callContext);
+                luiService.getLui("Lui-blah", callContext);
             } catch (DoesNotExistException enee) {
             }
 
-            LuiInfo obj = luiServiceValidation.getLui("Lui-1", callContext);
+            LuiInfo obj = luiService.getLui("Lui-1", callContext);
             assertNotNull(obj);
             assertEquals("Lui one", obj.getName());
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, obj.getStateKey());
@@ -99,7 +97,7 @@ public class TestLuiServiceImpl {
     public void testGetLuiIdsByRelation()throws InvalidParameterException, MissingParameterException,
 		OperationFailedException {
     	 try {
-    		 List<String> luiIds = luiServiceValidation.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 List<String> luiIds = luiService.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
     		 assertNotNull(luiIds);
     	     assertEquals(1, luiIds.size());
     	     assertEquals("Lui-2", luiIds.get(0));
@@ -113,7 +111,7 @@ public class TestLuiServiceImpl {
     public void testGetLuisByRelation()throws InvalidParameterException, MissingParameterException,
 		OperationFailedException {
     	 try {
-    		 List<LuiInfo> luis = luiServiceValidation.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 List<LuiInfo> luis = luiService.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
     		 assertNotNull(luis);
     	     assertEquals(1, luis.size());
     	     assertEquals("Lui-2", luis.get(0).getId());
@@ -149,7 +147,7 @@ public class TestLuiServiceImpl {
 
         LuiInfo created = null;
         // try{
-        created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
+        created = luiService.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
         assertEquals("Test lui one", created.getName());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
@@ -167,7 +165,7 @@ public class TestLuiServiceImpl {
         // }
 
         try {
-            LuiInfo retrieved = luiServiceValidation.getLui(created.getId(), callContext);
+            LuiInfo retrieved = luiService.getLui(created.getId(), callContext);
             assertNotNull(retrieved);
             assertEquals("Test lui one", retrieved.getName());
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
@@ -190,7 +188,7 @@ public class TestLuiServiceImpl {
     @Test
     public void testUpdateLui() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        LuiInfo info = luiServiceValidation.getLui("Lui-1", callContext);
+        LuiInfo info = luiService.getLui("Lui-1", callContext);
         assertNotNull(info);
         assertEquals("Lui-1", info.getId());
         assertEquals("Lui one", info.getName());
@@ -204,7 +202,7 @@ public class TestLuiServiceImpl {
         modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         
         // try{
-        LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
+        LuiInfo updated = luiService.updateLui("Lui-1", modified, callContext);
         assertNotNull(updated);
         assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
@@ -220,7 +218,7 @@ public class TestLuiServiceImpl {
     public void testGetLuiLuiRelation() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         try {
-            LuiLuiRelationInfo obj = luiServiceValidation.getLuiLuiRelation("LUILUIREL-1", callContext);
+            LuiLuiRelationInfo obj = luiService.getLuiLuiRelation("LUILUIREL-1", callContext);
             assertNotNull(obj);
             assertEquals("Lui-1", obj.getLuiId());
             assertEquals("Lui-2", obj.getRelatedLuiId());
@@ -235,11 +233,11 @@ public class TestLuiServiceImpl {
             MissingParameterException, OperationFailedException {
         try {
             try {
-                luiServiceValidation.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
+                luiService.getLuiLuiRelationsByLui("Lui-Lui-Blah", callContext);
             } catch (DoesNotExistException enee) {
             }
 
-            List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-1", callContext);
+            List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByLui("Lui-1", callContext);
             assertNotNull(objs);
             assertEquals(1, objs.size());
         } catch (Exception ex) {
@@ -259,7 +257,7 @@ public class TestLuiServiceImpl {
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
 
-        LuiInfo newLui = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
+        LuiInfo newLui = luiService.createLui("testCluId", "testAtpId1", info, callContext);
         LuiLuiRelationInfo created = null;
         try {
             LuiLuiRelationInfo rel = new LuiLuiRelationInfo();
@@ -268,7 +266,7 @@ public class TestLuiServiceImpl {
             rel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
             rel.setEffectiveDate(Calendar.getInstance().getTime());
-            created = luiServiceValidation.createLuiLuiRelation("Lui-1", newLui.getId(),
+            created = luiService.createLuiLuiRelation("Lui-1", newLui.getId(),
                     LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, rel, callContext);
 
             assertNotNull(created);
@@ -279,12 +277,12 @@ public class TestLuiServiceImpl {
         }
 
         try {
-            LuiLuiRelationInfo retrieved = luiServiceValidation.getLuiLuiRelation(created.getId(), callContext);
+            LuiLuiRelationInfo retrieved = luiService.getLuiLuiRelation(created.getId(), callContext);
             assertNotNull(retrieved);
             assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, retrieved.getStateKey());
             assertEquals(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
 
-            List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-1", callContext);
+            List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByLui("Lui-1", callContext);
             assertNotNull(objs);
             assertEquals(2, objs.size());
             for (LuiLuiRelationInfo obj : objs) {
@@ -299,29 +297,29 @@ public class TestLuiServiceImpl {
     @Test
     public void testDeleteLui() throws DependentObjectsExistException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LuiInfo info = luiServiceValidation.getLui("Lui-3", callContext);
+        LuiInfo info = luiService.getLui("Lui-3", callContext);
         assertNotNull(info);
 
-        List<LuiLuiRelationInfo> objs = luiServiceValidation.getLuiLuiRelationsByLui("Lui-3", callContext);
+        List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByLui("Lui-3", callContext);
         assertNotNull(objs);
         assertEquals(1, objs.size());
 
         try {
             try {
-                luiServiceValidation.deleteLui("Lui-3-blah", callContext);
+                luiService.deleteLui("Lui-3-blah", callContext);
             } catch (DoesNotExistException ee) {
             }
 
-            StatusInfo status = luiServiceValidation.deleteLui("Lui-3", callContext);
+            StatusInfo status = luiService.deleteLui("Lui-3", callContext);
             assertTrue(status.getIsSuccess());
 
             try {
-                luiServiceValidation.getLuiLuiRelationsByLui("Lui-3", callContext);
+                luiService.getLuiLuiRelationsByLui("Lui-3", callContext);
             } catch (DoesNotExistException ee) {
             }
 
             try {
-                luiServiceValidation.getLui("Lui-3", callContext);
+                luiService.getLui("Lui-3", callContext);
             } catch (DoesNotExistException ee) {
             }
         } catch (Exception e) {
