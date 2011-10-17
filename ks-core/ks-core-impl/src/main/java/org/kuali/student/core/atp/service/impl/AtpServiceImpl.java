@@ -291,6 +291,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<AtpInfo> getAtpsByDate(Date searchDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Atp> atps = atpDao.findAtpsByDate(searchDate);
