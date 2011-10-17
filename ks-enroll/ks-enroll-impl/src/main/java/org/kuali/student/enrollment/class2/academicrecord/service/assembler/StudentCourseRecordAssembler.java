@@ -8,11 +8,7 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -71,15 +67,18 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 					courseRecord.setCourseEndDate(atp.getEndDate());
 						
 			}
-			
-			GradeRosterEntryInfo finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), co.getId(), context);
-			courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
+
+            GradeRosterEntryInfo finalRosterEntry = null;
+            finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), co.getId(), context);
+            courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
 			courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
 			courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
 			courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
 			courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
 			courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
 
+        } catch (DisabledIdentifierException e) {
+            e.printStackTrace();
 		} catch (DoesNotExistException e) {
 			e.printStackTrace();
 		} catch (InvalidParameterException e) {

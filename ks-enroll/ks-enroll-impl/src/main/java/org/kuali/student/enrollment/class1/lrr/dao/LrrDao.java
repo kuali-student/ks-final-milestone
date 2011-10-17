@@ -13,4 +13,10 @@ public class LrrDao extends GenericEntityDao<LearningResultRecordEntity> {
                 .getResultList();
     }
 
+    public List<LearningResultRecordEntity> getLearningResultRecordsForLpr(String lprId) {
+        return em.createQuery("from LearningResultRecordEntity lrr where lrr.lprId = :lprId")
+                .setParameter("lprId", lprId)
+                .getResultList();
+    }
+
 }

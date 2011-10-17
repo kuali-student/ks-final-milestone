@@ -184,9 +184,12 @@ public class TestGradingServiceImpl {
     }
 
     @Test
-    @Ignore("Not implemented.") // TODO implement method
     public void testGetFinalGradeForStudentInCourseOffering() throws Exception {
-
+        String studentId = "testPersonId1";
+        String courseOfferingId = "Lui-1";
+        GradeRosterEntryInfo entry = gradingService.getFinalGradeForStudentInCourseOffering(studentId, courseOfferingId, contextInfo);
+        assertNotNull("Entry not returned.", entry);
+        assertEquals("Student ID does not match.", studentId, entry.getStudentId());
     }
 
     @Test

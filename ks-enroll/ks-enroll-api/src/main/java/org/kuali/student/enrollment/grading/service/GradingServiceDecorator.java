@@ -9,14 +9,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 
 public abstract class GradingServiceDecorator implements GradingService {
     private GradingService nextDecorator;
@@ -145,7 +138,7 @@ public abstract class GradingServiceDecorator implements GradingService {
     @Override
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId, String courseOfferingId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
         return getNextDecorator().getFinalGradeForStudentInCourseOffering(studentId, courseOfferingId, context);
     }
 

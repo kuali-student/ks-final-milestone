@@ -424,8 +424,25 @@ public class GradingServiceImpl implements GradingService {
     public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(@WebParam(name = "studentId") String studentId,
             @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // TODO implement method.
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
+
+
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        Map<String, LprRosterEntryInfo> lprIdToRosterEntryMap = new HashMap<String, LprRosterEntryInfo>();
+        for (LprRosterInfo lprRoster : lprRosters) {
+            String rosterId = lprRoster.getId();
+            List<LprRosterEntryInfo> rosterEntries = lprService.getEntriesForLprRoster(rosterId, context);
+            for (LprRosterEntryInfo rosterEntry : rosterEntries) {
+                String lprId = rosterEntry.getLprId();
+                lprIdToRosterEntryMap.put(lprId, rosterEntry);
+            }
+        }
+
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(studentId, courseOfferingId, context);
+        LuiPersonRelationInfo lpr = lprs.get(0); // TODO throw exception if null?
+        LprRosterEntryInfo entry = lprIdToRosterEntryMap.get(lpr.getId());
+
+        return assembleGradeRosterEntry(entry, context);
     }
 
     /**
@@ -744,6 +761,7 @@ public class GradingServiceImpl implements GradingService {
         final String ADMINISTRATIVE_GRADE = "administrativeGrade";
         final String CREDITS_EARNED = "creditsEarned";
         final String CALCULATED_GRADE = "calculatedGrade";
+        final String GRADING_OPTION = "gradingOption";
 
         List<GradeRosterEntryInfo> gradeRosterEntryInfos = new ArrayList<GradeRosterEntryInfo>();
         Map<LprRosterEntryInfo, Map<String, String>> entryKeysMap = new HashMap<LprRosterEntryInfo, Map<String, String>>();
@@ -761,8 +779,13 @@ public class GradingServiceImpl implements GradingService {
             Map<String, String> entryAttributes = entryKeysMap.get(lprIdToEntryMap.get(lpr.getId()));
             entryAttributes.put(STUDENT_ID, lpr.getPersonId());
             entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
+            try {
+                CourseRegistrationInfo courseRegistration = courseRegistrationService.getActiveCourseRegistrationForStudentByCourseOffering(lpr.getPersonId(), lpr.getLuiId(), context);
+                entryAttributes.put(GRADING_OPTION, courseRegistration.getGradingOptionKey());
+            } catch (DisabledIdentifierException e) {
+                throw new OperationFailedException("Failed to retrieve an active course registration for student by course offering.");
+            }
         }
-
 
         List<CourseRegistrationInfo> courseRegistrationInfos = courseRegistrationService.getCourseRegistrationsByIdList(lprIds,context);
         Map<String,CourseRegistrationInfo> courseRegistrationMap = new HashMap();
@@ -796,11 +819,11 @@ public class GradingServiceImpl implements GradingService {
 
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
-            if ("kuali.result.scale.type.grade".equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ASSIGNED_GRADE;
-            } else if ("kuali.result.scale.grade.admin".equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
-            } else if ("kuali.result.scale.type.credit".equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
@@ -819,17 +842,76 @@ public class GradingServiceImpl implements GradingService {
             String calculatedGradeKey = entryAttributes.get(CALCULATED_GRADE);
             String administrativeGradeKey = entryAttributes.get(ADMINISTRATIVE_GRADE);
             String creditsEarnedKey = entryAttributes.get(CREDITS_EARNED);
+            String gradingOptionKey = entryAttributes.get(GRADING_OPTION);
 
             List<String> gradingOptionKeys = new ArrayList<String>();
-            if (courseRegistrationMap.get(lprRosterEntry.getLprId()) != null){
-               gradingOptionKeys.add(courseRegistrationMap.get(lprRosterEntry.getLprId()).getGradingOptionKey());
-            }
+            gradingOptionKeys.add(gradingOptionKey);
 
             GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
             gradeRosterEntryInfos.add(gradeRosterEntry);
         }
 
         return gradeRosterEntryInfos;
+    }
+
+    private GradeRosterEntryInfo assembleGradeRosterEntry(LprRosterEntryInfo lprRosterEntry, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        String studentId;
+        String activityOfferingId;
+        String assignedGradeKey = null;
+        String administrativeGradeKey = null;
+        String creditsEarnedKey = null;
+        String calculatedGradeKey = null;
+        String gradingOptionKey;
+
+        String lprId = lprRosterEntry.getLprId();
+        LuiPersonRelationInfo lpr = lprService.getLpr(lprId, context);
+
+        studentId = lpr.getPersonId();
+        activityOfferingId = lpr.getLuiId();
+
+        try {
+            CourseRegistrationInfo courseRegistration = courseRegistrationService.getActiveCourseRegistrationForStudentByCourseOffering(lpr.getPersonId(), lpr.getLuiId(), context);
+            gradingOptionKey = courseRegistration.getGradingOptionKey();
+        } catch (DisabledIdentifierException e) {
+            throw new OperationFailedException("Failed to retrieve an active course registration for student by course offering.");
+        }
+
+        List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLpr(lprId);
+        List<String> resultValueKeys = new ArrayList<String>();
+
+        for (LearningResultRecordInfo lrr : lrrs) {
+            //Skip deleted LRR
+            if (StringUtils.isBlank(lrr.getResultValueKey()) ||
+                    StringUtils.equals(lrr.getStateKey(),LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY)) {
+                lrrs.remove(lrr);
+            } else {
+                resultValueKeys.add(lrr.getResultValueKey());
+            }
+        }
+
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByIdList(resultValueKeys, context);
+        for (int i = 0; i < resultValues.size(); i++) {
+            ResultValueInfo resultValue = resultValues.get(i);
+            String resultValuetypeKey = resultValue.getTypeKey();
+            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+                assignedGradeKey = resultValue.getKey();
+            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+                administrativeGradeKey = resultValue.getKey();
+            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+                creditsEarnedKey = resultValue.getKey();
+            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
+                calculatedGradeKey = resultValue.getKey();
+            }
+        }
+
+        List<String> gradingOptionKeys = new ArrayList<String>();
+        gradingOptionKeys.add(gradingOptionKey);
+
+        GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
+
+        return gradeRosterEntry;
     }
 
     public LuiPersonRelationService getLprService() {

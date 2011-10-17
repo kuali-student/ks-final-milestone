@@ -39,7 +39,13 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
     @Override
     public List<LearningResultRecordInfo> getLearningResultRecordsForLpr(@WebParam(name = "lprId") String lprId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        List<LearningResultRecordInfo> dtos = new ArrayList<LearningResultRecordInfo>();
+        List<LearningResultRecordEntity> lrrs = lrrDao.getLearningResultRecordsForLpr(lprId);
+        for (LearningResultRecordEntity lrr : lrrs) {
+            LearningResultRecordInfo dto = lrr.toDto();
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
