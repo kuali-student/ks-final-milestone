@@ -950,7 +950,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public List<LprTransactionInfo> getLprTransactionsForLpr(String lprId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        LuiPersonRelationEntity lprEntity = lprDao.find(lprId);
+
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemsByLpr(lprId);
         List<LprTransactionEntity> lprTrans = new ArrayList<LprTransactionEntity>();
         for (LprTransactionItemEntity lprTransItem : lprTransItems) {
@@ -977,7 +977,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public LprTransactionInfo updateLprTransaction(String lprTransactionId, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LprTransactionEntity lprTrans = lprTransDao.find(lprTransactionId);
-        List<LprTransactionItemEntity> lprTransItemEntityList = new ArrayList<LprTransactionItemEntity>();
+        
         if (null != lprTrans) {
             LprTransactionEntity modifiedLprTrans = new LprTransactionEntity(lprTransactionInfo);
             if (lprTransactionInfo.getStateKey() != null)
@@ -985,34 +985,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if (lprTransactionInfo.getTypeKey() != null)
                 modifiedLprTrans.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
 
-            if (lprTransactionInfo.getLprTransactionItems() != null) {
-                for (LprTransactionItemInfo lprItemInfo : lprTransactionInfo.getLprTransactionItems()) {
-
-                    if (lprItemInfo.getId() != null && lprTransItemDao.find(lprItemInfo.getId()) != null) {
-
-                        LprTransactionItemEntity lprItemEntity = new LprTransactionItemEntity(lprItemInfo);
-
-                        if (null != lprItemInfo.getStateKey()) {
-                            lprItemEntity.setLprTransactionItemState(stateDao.find(lprItemInfo.getStateKey()));
-                        }
-
-                        if (null != lprItemInfo.getTypeKey()) {
-                            lprItemEntity.setLprTransactionItemType(lprTypeDao.find(lprItemInfo.getTypeKey()));
-                        }
-                        //lprTransItemDao.merge(lprItemEntity);
-                        lprTransItemEntityList.add(lprItemEntity);
-
-                    } else {
-
-                        LprTransactionItemEntity lprTransItemEntity = createLprTransactionItem(lprItemInfo, context);
-                        lprTransItemEntityList.add(lprTransItemEntity);
-
-                    }
-
-                }
-            }
-
-           
+         
+            List<LprTransactionItemEntity> lprTransItemEntityList = processLprTransactionItemsModification (lprTransactionInfo, lprTrans, context);
          
             modifiedLprTrans.setLprTransactionItems(lprTransItemEntityList);
             lprTransDao.merge(modifiedLprTrans);
@@ -1023,6 +997,33 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             throw new DoesNotExistException(lprTransactionId);
     }
 
+    @Transactional(readOnly = false)
+    private List<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
+        List<LprTransactionItemEntity> modifiedLprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
+        LprTransactionInfo originalLprTransInfo = originalLprTransEntity.toDto();
+
+        for (LprTransactionItemInfo originalLprTransItemInfo : originalLprTransInfo.getLprTransactionItems()) {
+            boolean deleteItem=true;
+            for (LprTransactionItemInfo modifiedTransactionItemInfo : modifiedTransactionInfo.getLprTransactionItems()) {
+                if (originalLprTransItemInfo.getId().equals(modifiedTransactionItemInfo.getId())) {
+                    LprTransactionItemEntity modifiedLprItemEntity = new LprTransactionItemEntity(modifiedTransactionItemInfo);
+                    lprTransItemDao.merge(modifiedLprItemEntity);
+                    modifiedLprTransItemEntities.add(modifiedLprItemEntity);
+                    deleteItem = false;
+                } 
+                
+                if (modifiedTransactionItemInfo.getId() == null) {
+                    modifiedLprTransItemEntities.add(createLprTransactionItem(modifiedTransactionItemInfo, context));
+                } 
+            }
+            
+            if(deleteItem)
+                lprTransItemDao.remove( lprTransItemDao.find(originalLprTransItemInfo.getId()) );
+        }
+
+        return modifiedLprTransItemEntities;
+
+    }
     @Transactional(readOnly = false)
     private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) {
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
