@@ -41,17 +41,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TestHoldServiceImpl {
 
+    @Autowired
     private HoldServiceValidationDecorator holdService;
     
     public static String principalId = "123";
     
     public ContextInfo callContext = ContextInfo.newInstance();
-    
-    @Autowired
-    public void setHoldServiceValidation(HoldServiceValidationDecorator holdServiceValidationDecorator) {
-        this.holdService = holdServiceValidationDecorator;
-    }
-    
+
     @Before
     public void setUp() {
         principalId = "123";    
@@ -169,7 +165,7 @@ public class TestHoldServiceImpl {
 		}
     }
    
-    @Test 
+    @Test
     public void testGetHold()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
     	try{
     		holdService.getHold("Hold-blah", callContext);

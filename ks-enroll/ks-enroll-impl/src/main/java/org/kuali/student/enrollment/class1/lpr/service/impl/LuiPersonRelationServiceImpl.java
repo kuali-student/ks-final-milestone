@@ -174,11 +174,20 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo,
-            ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return null;
-
+    @Transactional
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList,
+                String relationState, String luiPersonRelationTypeKey,
+                LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
+                DoesNotExistException, InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        String lprId;
+        List<String> lprIdList = new ArrayList<String>();
+        for (String luiId : luiIdList) {
+            lprId = createLpr(personId, luiId, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+            lprIdList.add(lprId);
+        }
+        return lprIdList;
     }
 
     @Override
@@ -288,6 +297,12 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     @Transactional
     public String createLpr(String personId, String luiId, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context) throws AlreadyExistsException,
             DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        // make sure params are consistent with lprInfo:
+        luiPersonRelationInfo.setPersonId(personId);
+        luiPersonRelationInfo.setLuiId(luiId);
+        luiPersonRelationInfo.setTypeKey(luiPersonRelationType);
+
         LuiPersonRelationEntity lpr = toCluForCreate(luiPersonRelationInfo);
         lprDao.persist(lpr);
         return lpr.getId();

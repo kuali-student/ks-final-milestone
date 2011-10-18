@@ -148,6 +148,36 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         return getNextDecorator().getLprTransaction(lprTransactionId, context);
     }
 
+    @Override
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList,
+                String relationState, String luiPersonRelationTypeKey,
+                LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
+                DoesNotExistException, InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        if (null == personId || personId.isEmpty()) {
+            throw new MissingParameterException("Person ID is required");
+        }
+        if (null == luiIdList || luiIdList.isEmpty()) {
+            throw new MissingParameterException("A list of LUI's is required");
+        }
+        if (null == luiPersonRelationTypeKey || luiPersonRelationTypeKey.isEmpty()) {
+            throw new MissingParameterException("Relation state is required");
+        }
+        if (null == relationState || relationState.isEmpty()) {
+            throw new MissingParameterException("LUI-Person relation type key is required");
+        }
+        if (null == luiPersonRelationInfo) {
+            throw new MissingParameterException("LUI-Person relation info is required");
+        }
+
+        return getNextDecorator().createBulkRelationshipsForPerson(
+                personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+    }
+
+
+
     private void _luiPersonRelationFullValidation(LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
