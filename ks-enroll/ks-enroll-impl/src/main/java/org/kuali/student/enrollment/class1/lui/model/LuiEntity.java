@@ -74,11 +74,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuiIdentifierEntity> alternateIdentifiers;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
-	private List<MeetingScheduleEntity> meetingSchedules;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LUI_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
-    private List<ResultValuesGroupEntity> resultValuesGroups;
+	private List<MeetingScheduleEntity> meetingSchedules;   
 	
 //	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
 //	private List<LuiCluRelationEntity> cluCluRelationIds;
@@ -213,15 +209,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	schedules.add(msInfo);
         }
         obj.setMeetingSchedules(schedules);
-
-        List<String> rvGroupIds = new ArrayList();
-        if (null != getResultValuesGroups()) {
-            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
-                rvGroupIds.add(rvGroup.getId());
-            }
-        }
-        obj.setResultValuesGroupKeys(rvGroupIds);
-
+        
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
@@ -385,14 +373,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	public void setMeetingSchedules(List<MeetingScheduleEntity> meetingSchedules) {
 		this.meetingSchedules = meetingSchedules;
 	}
-
-    public List<ResultValuesGroupEntity> getResultValuesGroups() {
-        return resultValuesGroups;
-    }
-
-    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
-        this.resultValuesGroups = resultValuesGroups;
-    }
 
 /*	public List<LuiCluRelationEntity> getCluCluRelationIds() {
 		return cluCluRelationIds;

@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
@@ -48,8 +46,6 @@ import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +59,6 @@ public class LuiServiceImpl implements LuiService {
 	private TypeTypeRelationDao typeTypeRelationDao;
 	private AtpService atpService;
 	private LuService luService;
-    private LRCService lrcService;
 	
 	public LuiDao getLuiDao() {
 		return luiDao;
@@ -120,14 +115,6 @@ public class LuiServiceImpl implements LuiService {
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}
-
-    public LRCService getLrcService() {
-        return lrcService;
-    }
-
-    public void setLrcService(LRCService lrcService) {
-        this.lrcService = lrcService;
-    }
 
 	@Override
 	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
@@ -481,16 +468,6 @@ public class LuiServiceImpl implements LuiService {
         		luiCode.setLui(entity);
         	}
         }
-
-        if (luiInfo.getResultValuesGroupKeys() != null && !luiInfo.getResultValuesGroupKeys().isEmpty()){
-            List<ResultValuesGroupInfo> groupInfos = lrcService.getResultValuesGroupsByIdList(luiInfo.getResultValuesGroupKeys(), context);
-            List<ResultValuesGroupEntity> resultValuesGroupEntities = new ArrayList();
-            for (ResultValuesGroupInfo groupInfo : groupInfos) {
-                resultValuesGroupEntities.add(new ResultValuesGroupEntity(groupInfo));
-            }
-            entity.setResultValuesGroups(resultValuesGroupEntities);
-        }
-
 
         if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()){
         	for (MeetingScheduleEntity schedule : entity.getMeetingSchedules()){

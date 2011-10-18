@@ -280,7 +280,6 @@
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpEnrService"/>
-        <property name="lrcService" ref="lrcPersistenceService"/>
 		</bean>
 
 		<bean id="statementServiceImpl"

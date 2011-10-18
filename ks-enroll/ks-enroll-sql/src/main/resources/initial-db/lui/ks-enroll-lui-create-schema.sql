@@ -330,20 +330,3 @@ END;
       LUI_ID VARCHAR2(255)
    )
  /
-
- --------------------------------------------------------
---  KSEN_LUI_RV_GRP_RELTN
---------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_RV_GRP_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_RV_GRP_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-create table  KSEN_LUI_RV_GRP_RELTN
-  (
-	    LUI_ID varchar2(255),
-	    RV_GRP_ID varchar2(255)
-  )
-/
