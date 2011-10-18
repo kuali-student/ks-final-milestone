@@ -79,6 +79,7 @@ public class TestLuiServiceImpl {
             assertNotNull(obj.getOfficialIdentifier());
             assertEquals("Chem 123", obj.getOfficialIdentifier().getShortName());
 
+            // TODO - remove the following, or fix
             // List<OfferingInstructorInfo> instructors = obj.getInstructors();
             // assertTrue(instructors.size() == 1);
             // assertEquals("Pers-1", instructors.get(0).getPersonId());
@@ -93,28 +94,30 @@ public class TestLuiServiceImpl {
     }
 
     @Test
-    @Ignore
-    public void testGetLuiIdsByRelation()throws InvalidParameterException, MissingParameterException,
-		OperationFailedException {
+    public void testGetLuiIdsByRelation()
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	 try {
-    		 List<String> luiIds = luiServiceValidation.getLuiIdsByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 List<String> luiIds = luiServiceValidation.getLuiIdsByRelation(
+                     "Lui-2", "kuali.lui.lui.relation.associated", callContext);
     		 assertNotNull(luiIds);
-    	     assertEquals(1, luiIds.size());
-    	     assertEquals("Lui-2", luiIds.get(0));
+    	     assertEquals(2, luiIds.size());
+    	     assertEquals("Lui-1", luiIds.get(0));
+             assertEquals("Lui-5", luiIds.get(1));
     	 } catch (Exception e) {
     		 fail(e.getMessage());
     	 }
     }
     
     @Test
-    @Ignore
     public void testGetLuisByRelation()throws InvalidParameterException, MissingParameterException,
 		OperationFailedException {
     	 try {
-    		 List<LuiInfo> luis = luiServiceValidation.getLuisByRelation("Lui-2", "kuali.lui.lui.relation.associated", callContext);
+    		 List<LuiInfo> luis = luiServiceValidation.getLuisByRelation(
+                     "Lui-2", "kuali.lui.lui.relation.associated", callContext);
     		 assertNotNull(luis);
-    	     assertEquals(1, luis.size());
-    	     assertEquals("Lui-2", luis.get(0).getId());
+    	     assertEquals(2, luis.size());
+    	     assertEquals("Lui-1", luis.get(0).getId());
+             assertEquals("Lui-5", luis.get(1).getId());
     	 } catch (Exception e) {
     		 fail(e.getMessage());
     	 }
