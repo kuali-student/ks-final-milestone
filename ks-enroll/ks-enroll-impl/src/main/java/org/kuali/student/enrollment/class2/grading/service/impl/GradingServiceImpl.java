@@ -8,7 +8,6 @@ import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRoster
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -786,6 +785,7 @@ public class GradingServiceImpl implements GradingService {
                 throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
             }
 
+            // TODO Get grading options from courseRegistration instead of courseOffering.
             lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionKeys());
 
         }
@@ -857,7 +857,7 @@ public class GradingServiceImpl implements GradingService {
         String administrativeGradeKey = null;
         String creditsEarnedKey = null;
         String calculatedGradeKey = null;
-        String gradingOptionKey;
+        List<String> gradingOptionKeys = new ArrayList<String>();
 
         String lprId = lprRosterEntry.getLprId();
         LuiPersonRelationInfo lpr = lprService.getLpr(lprId, context);
@@ -865,12 +865,9 @@ public class GradingServiceImpl implements GradingService {
         studentId = lpr.getPersonId();
         activityOfferingId = lpr.getLuiId();
 
-        try {
-            CourseRegistrationInfo courseRegistration = courseRegistrationService.getActiveCourseRegistrationForStudentByCourseOffering(lpr.getPersonId(), lpr.getLuiId(), context);
-            gradingOptionKey = courseRegistration.getGradingOptionKey();
-        } catch (DisabledIdentifierException e) {
-            throw new OperationFailedException("Failed to retrieve an active course registration for student by course offering.");
-        }
+        // TODO Get grading options from courseRegistration instead of courseOffering.
+        CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
+        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionKeys());
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLpr(lprId);
         List<String> resultValueKeys = new ArrayList<String>();
@@ -899,9 +896,6 @@ public class GradingServiceImpl implements GradingService {
                 calculatedGradeKey = resultValue.getKey();
             }
         }
-
-        List<String> gradingOptionKeys = new ArrayList<String>();
-        gradingOptionKeys.add(gradingOptionKey);
 
         GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
 
