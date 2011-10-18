@@ -9,11 +9,6 @@ import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 
 public class LprTransactionDao extends GenericEntityDao<LprTransactionEntity> {
-    @SuppressWarnings("unchecked")
-    public List<LprTransactionEntity> getByAtpTypeId(String atpTypeId) {
-        return em.createQuery("from LprTransactionEntity a where a.atpType.id=:atpTypeId")
-                .setParameter("atpTypeId", atpTypeId).getResultList();
-    }
 
     public List<LprTransactionEntity> getByDate(Date searchDate) {
         return em.createQuery("from AtpEntity a where :searchDate between a.startDate and a.endDate")
@@ -25,7 +20,7 @@ public class LprTransactionDao extends GenericEntityDao<LprTransactionEntity> {
                 .setParameter("startDate", startDate, DATE).setParameter("endDate", endDate).getResultList();
     }
     public LprTransactionEntity getByLprTransactionItemId(String lprTransactionItemId) {
-        return (LprTransactionEntity) ( em.createQuery("from LprTransactionEntity a  where :lprTransactionId  IN a.lprTransactionItems")
+        return (LprTransactionEntity) ( em.createQuery("select distinct a from LprTransactionEntity a, IN (a.lprTransactionItems) item where item.id=:lprTransactionItemId")
                 .setParameter("lprTransactionItemId", lprTransactionItemId).getSingleResult()) ;
     }
 

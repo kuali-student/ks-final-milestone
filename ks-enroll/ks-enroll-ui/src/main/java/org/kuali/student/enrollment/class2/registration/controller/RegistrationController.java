@@ -202,6 +202,47 @@ public class RegistrationController extends UifControllerBase {
         RegistrationForm regForm = (RegistrationForm) formBase;
         try {
             regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermKey(), context));
+
+            //Pull any existing 'new' cart out
+            List<String> states = new ArrayList<String>();
+            states.add(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
+            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermKey(), states, context);
+            RegRequestInfo regRequest = null;
+            if(regRequestInfos != null){
+                for(RegRequestInfo info: regRequestInfos){
+                    if(regRequest != null && regRequest.getMeta().getCreateTime().before(info.getMeta().getCreateTime())){
+                        regRequest = info;
+                    }
+                    else if(regRequest == null){
+                        regRequest = info;
+                    }
+                }
+            }
+
+            regForm.setRegRequest(regRequest);
+            if(regRequest != null && regRequest.getRegRequestItems() != null){
+                for(RegRequestItemInfo item: regRequest.getRegRequestItems()){
+                    if(StringUtils.isNotBlank(item.getNewRegGroupId())){
+                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getNewRegGroupId(), context);
+                        CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
+                        RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
+                        registrationGroupWrapper.setRegistrationGroup(regGroup);
+                        registrationGroupWrapper.setCourseOffering(courseOffering);
+                        registrationGroupWrapper.setActivityOfferingWrappers(getActivityOfferingInfos(regGroup, courseOffering, context));
+                        regForm.getRegistrationGroupWrappersById().put(registrationGroupWrapper.getRegistrationGroup().getId(), registrationGroupWrapper);
+                    }
+                    if(StringUtils.isNotBlank(item.getExistingRegGroupId())){
+                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getExistingRegGroupId(), context);
+                        CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
+                        RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
+                        registrationGroupWrapper.setRegistrationGroup(regGroup);
+                        registrationGroupWrapper.setCourseOffering(courseOffering);
+                        registrationGroupWrapper.setActivityOfferingWrappers(getActivityOfferingInfos(regGroup, courseOffering, context));
+                        regForm.getRegistrationGroupWrappersById().put(registrationGroupWrapper.getRegistrationGroup().getId(), registrationGroupWrapper);
+                    }
+                }
+            }
+
             return getUIFModelAndView(regForm);
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);

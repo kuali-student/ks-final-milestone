@@ -10,62 +10,29 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
-import org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryAttributeEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprRosterEntryEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
+import org.kuali.student.enrollment.class1.lpr.dao.*;
+import org.kuali.student.enrollment.class1.lpr.model.*;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
-import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dao.StateDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Author sambit
@@ -929,21 +896,25 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId, List<String> lprTypes, ContextInfo context) throws DoesNotExistException,
+    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId, List<String> lprTransactionStates, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemByPerson(personId);
-
-        List<LprTransactionItemInfo> lprTransItemInfos = new ArrayList<LprTransactionItemInfo>();
+        List<LprTransactionInfo> lprTransInfos = new ArrayList<LprTransactionInfo>();
 
         for (LprTransactionItemEntity lprTransItem : lprTransItems) {
             LuiInfo lui = luiDao.find(lprTransItem.getNewLuiId()).toDto();
             if (lui.getAtpKey().equals(atpKey)) {
-                lprTransItemInfos.add(lprTransItem.toDto());
+
+                LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
+
+                if (lprTransactionStates.contains(lprTransEntity.getLprTransState().getId()))
+                    lprTransInfos.add(lprTransEntity.toDto());
+
             }
         }
 
-        return new ArrayList<LprTransactionInfo>();
+        return lprTransInfos;
     }
 
     @Override
