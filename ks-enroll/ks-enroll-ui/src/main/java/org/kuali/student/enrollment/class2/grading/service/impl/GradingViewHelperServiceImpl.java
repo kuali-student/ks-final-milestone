@@ -24,6 +24,9 @@ import org.kuali.rice.krad.uif.field.AttributeField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
@@ -39,6 +42,8 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
@@ -53,6 +58,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;
     private GradingService gradingService;
+    private AcademicRecordService academicRecordService;
 
     @Override
     public void populateGradeOptions(AttributeField field, GradingForm gradingForm) {
@@ -188,7 +194,26 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         List creditList = studentGradeForm.getCreditList();
 
+        ContextInfo context = ContextInfo.newInstance();
+
+        TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
+
         if (creditList.isEmpty()) {
+            List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
+            if (null != courseRecords) {
+                for (StudentCourseRecord courseRecord : courseRecords) {
+                    StudentCredit credit = new StudentCredit();
+                    // TODO - is this correct?
+                    credit.setCourseId(courseRecord.getCourseCode());
+                    // TODO - is this correct?
+                    credit.setCourseName(courseRecord.getCourseTitle());
+
+                    credit.setGrade(courseRecord.getAssignedGradeValue());
+                    credit.setCredits(courseRecord.getCreditsEarned());
+                    creditList.add(credit);
+                }
+            }
+            /*
             StudentCredit credit = new StudentCredit();
             credit.setCourseId("PHY121");
             credit.setCourseName("Fundamentals of Physics I");
@@ -212,12 +237,10 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
             studentGradeForm.setName("Mary");
             studentGradeForm.setFirstTerm("Fall, 2011");
+            */
         }
 
-        ContextInfo context = ContextInfo.newInstance();
-        String termName = getAcalService().getTerm(studentGradeForm.getSelectedTerm(),context).getName();
-
-        studentGradeForm.setTitle(termName + " Grades");
+        studentGradeForm.setTitle(term.getName() + " Grades");
     }
 
     private TermInfo getCurrentACal(){
@@ -291,5 +314,12 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
             gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
         }
         return gradingService;
+    }
+
+    protected AcademicRecordService getAcademicRecordService() {
+        if (academicRecordService == null){
+            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME));
+        }
+        return academicRecordService;
     }
 }

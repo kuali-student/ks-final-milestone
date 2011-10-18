@@ -281,7 +281,7 @@
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpEnrService"/>
         <property name="lrcService" ref="lrcPersistenceService"/>
-    </bean>
+		</bean>
 
 		<bean id="statementServiceImpl"
 					class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
@@ -392,5 +392,26 @@
            </bean>
        </property>
     </bean>
+
+
+    <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+        <property name="courseRegService" ref="courseRegistrationService"/>
+        <property name="courseRecordAssembler" ref="courseRecordAssembler"/>
+    </bean>
+
+    <bean id="ks.exp.academicRecordService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+       <property name="serviceDefinition">
+           <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+               <property name="jaxWsService" value="true"/>
+               <property name="service" ref="academicRecordService"/>
+               <property name="serviceInterface"
+                         value="org.kuali.student.enrollment.academicrecord.service.AcademicRecordService"/>
+               <property name="localServiceName" value="AcademicRecordService"/>
+               <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/academicrecord"/>
+               <property name="busSecurity" value="${ks.lum.bus.security}"/>
+           </bean>
+       </property>
+   </bean>
 
 </beans>
