@@ -247,6 +247,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="title" value="Terms"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
               <property name="propertyName" value="termWrapperList"/>
+              <property name="collectionLookup.render" value="false"/>
 <!--                <property name="layoutManager.styleClasses" value="ks-termDates-table"/>
             <property name="layoutManager.applyDefaultCellWidths" value="false"/>     -->
 
