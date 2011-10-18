@@ -54,6 +54,11 @@ public class SpringSecurityLoginDialogHandler implements SessionTimeoutHandler{
     
 	
 	@Override
+	public boolean isSessionTimeout(Throwable error) {
+    	return error.toString().contains("Login");
+    }
+    
+    @Override
 	public void handleSessionTimeout() {
     	if (lightbox == null){
     		createLoginPanel();
