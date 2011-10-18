@@ -44,6 +44,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
@@ -297,21 +299,21 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     protected AcademicCalendarService getAcalService() {
         if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
     }
 
     protected CourseOfferingService getCOService(){
         if (coService == null){
-            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
+            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return coService;
     }
 
     protected GradingService getGradingService() {
         if (gradingService == null){
-            gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
+            gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingServiceConstants.NAMESPACE, GradingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return gradingService;
     }

@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
 import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
@@ -40,7 +41,7 @@ public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
 
         ContextInfo context = TestHelper.getContext1();
 
-        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingServiceConstants.NAMESPACE, GradingServiceConstants.SERVICE_NAME_LOCAL_PART));
 
         String currentUser = GlobalVariables.getUserSession().getPrincipalId();
 

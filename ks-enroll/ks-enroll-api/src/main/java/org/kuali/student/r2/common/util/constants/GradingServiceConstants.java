@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 public class GradingServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "grading";
+    public static final String SERVICE_NAME_LOCAL_PART = "GradingService";
     public static final String REF_OBJECT_URI_GRADE_ROSTER = NAMESPACE + "/" + GradeRosterInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_GRADE_ROSTER_ENTRY = NAMESPACE + "/" + GradeRosterEntryInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_GRADE_VALUES_GROUP = NAMESPACE + "/" + GradeValuesGroupInfo.class.getSimpleName();    
