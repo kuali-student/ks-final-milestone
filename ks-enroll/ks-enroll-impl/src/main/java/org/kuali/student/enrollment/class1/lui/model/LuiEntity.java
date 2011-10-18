@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
@@ -13,17 +14,7 @@ import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.infc.LuCode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -83,7 +74,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuiIdentifierEntity> alternateIdentifiers;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
-	private List<MeetingScheduleEntity> meetingSchedules;   
+	private List<MeetingScheduleEntity> meetingSchedules;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "KSEN_LUI_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LUI_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
+    private List<ResultValuesGroupEntity> resultValuesGroups;
 	
 //	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
 //	private List<LuiCluRelationEntity> cluCluRelationIds;
@@ -218,7 +213,15 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	schedules.add(msInfo);
         }
         obj.setMeetingSchedules(schedules);
-        
+
+        List<String> rvGroupIds = new ArrayList();
+        if (null != getResultValuesGroups()) {
+            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
+                rvGroupIds.add(rvGroup.getId());
+            }
+        }
+        obj.setResultValuesGroupKeys(rvGroupIds);
+
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
@@ -382,6 +385,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	public void setMeetingSchedules(List<MeetingScheduleEntity> meetingSchedules) {
 		this.meetingSchedules = meetingSchedules;
 	}
+
+    public List<ResultValuesGroupEntity> getResultValuesGroups() {
+        return resultValuesGroups;
+    }
+
+    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
+        this.resultValuesGroups = resultValuesGroups;
+    }
 
 /*	public List<LuiCluRelationEntity> getCluCluRelationIds() {
 		return cluCluRelationIds;

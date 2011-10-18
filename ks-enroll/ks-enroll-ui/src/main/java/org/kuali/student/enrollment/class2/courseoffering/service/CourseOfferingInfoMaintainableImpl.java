@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -116,6 +117,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             coi.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
             coi.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
             coi.setExpenditure(null);
+
+            //Grading options - for core slice, default to letter grades
+            List<String> gradingOptions = new ArrayList();
+            gradingOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+            coi.setGradingOptionKeys(gradingOptions);
 
             //update the CourseOfferingInfo coi in DB with instructors info
             try {

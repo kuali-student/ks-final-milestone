@@ -280,7 +280,8 @@
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpEnrService"/>
-		</bean>
+        <property name="lrcService" ref="lrcPersistenceService"/>
+    </bean>
 
 		<bean id="statementServiceImpl"
 					class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">

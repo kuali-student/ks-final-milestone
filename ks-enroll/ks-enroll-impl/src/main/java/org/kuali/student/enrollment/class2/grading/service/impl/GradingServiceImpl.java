@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.grading.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
+import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -20,7 +20,6 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
-
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
@@ -33,9 +32,8 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-import java.util.*;
-
 import javax.jws.WebParam;
+import java.util.*;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
@@ -775,22 +773,21 @@ public class GradingServiceImpl implements GradingService {
         List<String> lprIds = new ArrayList(lprIdToEntryMap.keySet());
         List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(lprIds, context);
 
+        Map<String,List> lprToGradeOptions = new HashMap();
+
         for (LuiPersonRelationInfo lpr : lprs) {
             Map<String, String> entryAttributes = entryKeysMap.get(lprIdToEntryMap.get(lpr.getId()));
             entryAttributes.put(STUDENT_ID, lpr.getPersonId());
             entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
-            try {
-                CourseRegistrationInfo courseRegistration = courseRegistrationService.getActiveCourseRegistrationForStudentByCourseOffering(lpr.getPersonId(), lpr.getLuiId(), context);
-                entryAttributes.put(GRADING_OPTION, courseRegistration.getGradingOptionKey());
-            } catch (DisabledIdentifierException e) {
-                throw new OperationFailedException("Failed to retrieve an active course registration for student by course offering.");
-            }
-        }
 
-        List<CourseRegistrationInfo> courseRegistrationInfos = courseRegistrationService.getCourseRegistrationsByIdList(lprIds,context);
-        Map<String,CourseRegistrationInfo> courseRegistrationMap = new HashMap();
-        for (CourseRegistrationInfo courseRegistrationInfo : courseRegistrationInfos){
-            courseRegistrationMap.put(courseRegistrationInfo.getId(),courseRegistrationInfo);
+            CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
+
+            if (courseOfferingInfo == null){
+                throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
+            }
+
+            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionKeys());
+
         }
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
@@ -842,12 +839,9 @@ public class GradingServiceImpl implements GradingService {
             String calculatedGradeKey = entryAttributes.get(CALCULATED_GRADE);
             String administrativeGradeKey = entryAttributes.get(ADMINISTRATIVE_GRADE);
             String creditsEarnedKey = entryAttributes.get(CREDITS_EARNED);
-            String gradingOptionKey = entryAttributes.get(GRADING_OPTION);
+            List gradingOptionKey = lprToGradeOptions.get(lprRosterEntry.getLprId());
 
-            List<String> gradingOptionKeys = new ArrayList<String>();
-            gradingOptionKeys.add(gradingOptionKey);
-
-            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
+            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKey , context);
             gradeRosterEntryInfos.add(gradeRosterEntry);
         }
 

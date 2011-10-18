@@ -68,6 +68,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			
 			co.setFees(lui.getFees());
 			co.setRevenues(lui.getRevenues());
+            co.setGradingOptionKeys(lui.getResultValuesGroupKeys());
 
             /*
              * From Bonnie: Comment out setting for Expenditure since we got  DataValidationErrorException:
@@ -219,7 +220,8 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setUnitsDeployment(co.getUnitsDeployment());
 			lui.setMaximumEnrollment(co.getMaximumEnrollment());
 			lui.setMinimumEnrollment(co.getMinimumEnrollment());
-		
+
+            lui.setResultValuesGroupKeys(co.getGradingOptionKeys());
 			lui.setFees(co.getFees());
 			lui.setExpenditure(co.getExpenditure());
 			lui.setRevenues(co.getRevenues());
