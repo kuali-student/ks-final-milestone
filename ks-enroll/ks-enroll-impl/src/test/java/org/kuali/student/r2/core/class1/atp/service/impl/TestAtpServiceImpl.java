@@ -123,7 +123,7 @@ public class TestAtpServiceImpl {
          
         // test update
         String atpNameOrig = fetched.getName();
-        AtpInfo modified = AtpInfo.getInstance(fetched);
+        AtpInfo modified = new AtpInfo(fetched);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = null;
         try {
@@ -169,7 +169,7 @@ public class TestAtpServiceImpl {
         assertEquals("testAtpId1", atpInfo.getKey());
         
         String atpNameOrig = atpInfo.getName();
-        AtpInfo modified = AtpInfo.getInstance(atpInfo);
+        AtpInfo modified = new AtpInfo(atpInfo);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = atpService.updateAtp(atpInfo.getKey(), modified, callContext);
         assertNotNull(updated);
@@ -179,7 +179,7 @@ public class TestAtpServiceImpl {
     @Test
     public void testCreateAtp()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException{
-        AtpInfo atpInfo = AtpInfo.newInstance();
+        AtpInfo atpInfo = new AtpInfo();
         atpInfo.setKey("newId2");
         atpInfo.setName("newId2");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
