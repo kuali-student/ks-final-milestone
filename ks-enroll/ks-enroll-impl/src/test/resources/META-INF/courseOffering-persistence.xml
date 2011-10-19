@@ -65,6 +65,7 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
     <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleAttributeEntity</class>
