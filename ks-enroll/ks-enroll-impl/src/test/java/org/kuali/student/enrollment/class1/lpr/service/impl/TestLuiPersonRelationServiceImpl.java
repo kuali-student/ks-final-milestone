@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
@@ -184,10 +185,7 @@ public class TestLuiPersonRelationServiceImpl {
         lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY);
 
-        List<String> luiIdList = new ArrayList<String>();
-        luiIdList.add("Lui-1");
-        luiIdList.add("Lui-2");
-        luiIdList.add("Lui-3");
+        List<String> luiIdList = Arrays.asList("Lui-1", "Lui-2", "Lui-3");
 
         try {
             List<String> createResults = lprServiceValidationDecorator.createBulkRelationshipsForPerson(
@@ -207,18 +205,6 @@ public class TestLuiPersonRelationServiceImpl {
         }
         catch(Exception x) {
             fail(x.getMessage());
-        }
-    }
-
-    @Test
-    @Ignore
-    public void testCreateBulkRelationshipsForPersonExceptions() {
-        try {
-            lprServiceValidationDecorator.createBulkRelationshipsForPerson("", new ArrayList<String>(), "", "",
-                    new LuiPersonRelationInfo(), callContext);
-        } catch (Exception ex) {
-            // ex.printStackTrace();
-            assertTrue(ex instanceof OperationFailedException);
         }
     }
 

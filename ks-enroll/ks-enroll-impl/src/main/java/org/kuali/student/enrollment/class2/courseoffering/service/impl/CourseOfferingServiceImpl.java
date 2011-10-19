@@ -621,25 +621,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-       
-		if(courseOfferingIdList != null && !courseOfferingIdList.isEmpty()){
-			LuiInfo lui = aoAssembler.disassemble(activityOfferingInfo, context);
-			try {
-				LuiInfo created = luiService.createLui(activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermKey(), lui, context);
-				
-				if(created != null){
-					activityOfferingInfo.setId(created.getId());
-					
-					processRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
-				}
-				
-				return activityOfferingInfo;
-			} catch (DoesNotExistException e) {
-				throw new OperationFailedException();
-			}
-		}
-		else
-			return null;
+
+        if (null == courseOfferingIdList || courseOfferingIdList.isEmpty()) {
+            throw new MissingParameterException("Course offering ID list parameter is required");
+        }
+
+        LuiInfo lui = aoAssembler.disassemble(activityOfferingInfo, context);
+        try {
+            LuiInfo created = luiService.createLui(
+                    activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermKey(), lui, context);
+            if (null == created) {
+                throw new OperationFailedException("LUI service did not create LUI");
+            }
+            activityOfferingInfo.setId(created.getId());
+            processRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
+            return activityOfferingInfo;
+        }
+        catch (DoesNotExistException e) {
+            throw new OperationFailedException();
+        }
 	}
 	
 	private void processRelationsForActivityOffering(List<String> courseOfferingIdList, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)  
