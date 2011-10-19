@@ -25,9 +25,11 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="LabelField" p:labelText="Schedule Classes"/>
-                <bean parent="LinkField" p:linkLabel="Schedule Classes" p:target="_self"
-                          p:hrefText="@{#ConfigProperties['application.url']}/spring/lookup?methodToCall=start&amp;id=2&amp;dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo&amp;viewId=ScheduleClasses-LookupView"/>
+                <bean parent="LabelField" p:labelText="Academic Calendar"/>
+                <bean parent="LinkField" p:linkLabel="Academic Calendar with Terms" p:target="_self"
+                          p:hrefText="@{#ConfigProperties['application.url']}/spring/maintenance?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
+                <bean parent="LinkField" p:linkLabel="Academic Calendar Lookup" p:target="_self"
+                          p:hrefText="@{#ConfigProperties['application.url']}/spring/lookup?methodToCall=start&amp;id=2&amp;dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
                 <bean parent="LabelField" p:labelText="Course Offering"/>
                 <bean parent="LinkField" p:linkLabel="Create a Course Offering" p:target="_self"
                           p:hrefText="@{#ConfigProperties['application.url']}/spring/maintenance?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
