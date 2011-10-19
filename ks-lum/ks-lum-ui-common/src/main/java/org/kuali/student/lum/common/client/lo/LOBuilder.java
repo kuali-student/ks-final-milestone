@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.CanProcessValidationResults;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -207,13 +208,14 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 		};
 		
         public LearningObjectiveList() {
-            addNew = new KSButton("Add Learning Objective", ButtonStyle.SECONDARY, new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					setValue(getValue());
-					appendLO("");
-					reDraw();
-				}
-			});
+            addNew = new KSButton(getLabel(LUUIConstants.LEARNING_OBJECTIVE_ADD_LABEL_KEY), ButtonStyle.SECONDARY,
+                    new ClickHandler() {
+                        public void onClick(ClickEvent event) {
+                            setValue(getValue());
+                            appendLO("");
+                            reDraw();
+                        }
+                    });
 			
             addNew.addStyleName("KS-LOBuilder-New");
 
