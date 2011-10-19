@@ -20,6 +20,7 @@ import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -106,6 +107,13 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
         // TODO - this entire method needs more complete exception handling; then remove this
         if (null == coi) return;
+
+        //If grading options not present in course, set a default one in CO
+        if (coi.getGradingOptionKeys() == null || coi.getGradingOptionKeys().isEmpty()){
+            List<String> gradingOptions = new ArrayList();
+            gradingOptions.add(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE);
+            coi.setGradingOptionKeys(gradingOptions);
+        }
 
         //create a list of instructors
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();

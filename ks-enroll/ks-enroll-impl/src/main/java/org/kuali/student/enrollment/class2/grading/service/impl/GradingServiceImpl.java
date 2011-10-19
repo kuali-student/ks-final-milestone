@@ -8,7 +8,6 @@ import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRoster
 import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -48,7 +47,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method returns the TypeInfo for a given grade roster type key.
-     * 
+     *
      * @param gradeRosterTypeKey
      *            Key of the type
      * @param context
@@ -73,7 +72,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieve information about a grade roster
-     * 
+     *
      * @param gradeRosterId
      * @param context
      *            Context information containing the principalId and locale
@@ -95,7 +94,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieve information about grade rosters by grader and term
-     * 
+     *
      * @param graderId
      * @param termKey
      * @param context
@@ -119,7 +118,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieves rosters of final grades for a course offering
-     * 
+     *
      * @param courseOfferingId
      * @param context
      *            Context information containing the principalId and locale
@@ -150,7 +149,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieves rosters of final grade by actvity offerings
-     * 
+     *
      * @param activityOfferingId
      * @param context
      *            Context information containing the principalId and locale
@@ -173,7 +172,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieves all rosters for an activity offering
-     * 
+     *
      * @param activityOfferingId
      * @param context
      *            Context information containing the principalId and locale
@@ -198,7 +197,7 @@ public class GradingServiceImpl implements GradingService {
      * Build an interim roster of given type. Roster type should be used to
      * figure out which students from the activity offerings will be in the
      * roster
-     * 
+     *
      * @param activityOfferingIdList
      * @param rosterTypeKey
      * @param context
@@ -224,7 +223,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Update interim grade roster information
-     * 
+     *
      * @param gradeRoster
      * @param context
      *            Context information containing the principalId and locale
@@ -250,7 +249,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Delete an interim grade roster
-     * 
+     *
      * @param gradeRosterId
      * @param context
      *            Context information containing the principalId and locale
@@ -274,7 +273,7 @@ public class GradingServiceImpl implements GradingService {
      * Update state of final grade roster. Only state can be changed for the
      * final grade roster. Final grade submission is tracked through state
      * change on the roster.
-     * 
+     *
      * @param gradeRosterId
      * @param stateKey
      * @param context
@@ -311,7 +310,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Validate a grade roster information
-     * 
+     *
      * @param gradeRoster
      * @param context
      *            Context information containing the principalId and locale
@@ -331,7 +330,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieve information about a grade roster entry
-     * 
+     *
      * @param gradeRosterEntryId
      * @param context
      *            Context information containing the principalId and locale
@@ -354,7 +353,7 @@ public class GradingServiceImpl implements GradingService {
     /**
      * Retrieve a list of grade roster entries based on their ids. The method
      * should fail if there is an error in retrieving any id from the list.
-     * 
+     *
      * @param gradeRosterEntryIdList
      * @param context
      *            Context information containing the principalId and locale
@@ -380,7 +379,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Retrieve grade roster entries by roster
-     * 
+     *
      * @param gradeRosterId
      * @param context
      *            Context information containing the principalId and locale
@@ -404,7 +403,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method ...
-     * 
+     *
      * @param studentId
      * @param courseOfferingId
      * @param context
@@ -445,7 +444,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method ...
-     * 
+     *
      * @param gradeRosterEntry
      * @param gradeRosterId
      * @param context
@@ -470,7 +469,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method ...
-     * 
+     *
      * @param gradeRosterEntryId
      * @param gradeRosterId
      * @param context
@@ -494,7 +493,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method ...
-     * 
+     *
      * @param gradeRosterEntryId
      * @param assignedGradeKey
      * @param context
@@ -596,7 +595,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * This method ...
-     * 
+     *
      * @param gradeRosterEntryId
      * @param assignedGradeKey
      * @param context
@@ -633,7 +632,7 @@ public class GradingServiceImpl implements GradingService {
      * the object is defined
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
-     * 
+     *
      * @param context
      *            information about the user and locale
      * @return a list of all the known data dictionary entry keys in the ref
@@ -653,7 +652,7 @@ public class GradingServiceImpl implements GradingService {
 
     /**
      * Get the data dictionary entry for the specified entry key
-     * 
+     *
      * @param entryKey
      *            that identifies the dictionary entry, this is done by
      *            specifying a refObjectURI
@@ -773,16 +772,21 @@ public class GradingServiceImpl implements GradingService {
         List<String> lprIds = new ArrayList(lprIdToEntryMap.keySet());
         List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(lprIds, context);
 
+        Map<String,List> lprToGradeOptions = new HashMap();
+
         for (LuiPersonRelationInfo lpr : lprs) {
             Map<String, String> entryAttributes = entryKeysMap.get(lprIdToEntryMap.get(lpr.getId()));
             entryAttributes.put(STUDENT_ID, lpr.getPersonId());
             entryAttributes.put(ACTIVITY_OFFERING_ID, lpr.getLuiId());
-        }
 
-        List<CourseRegistrationInfo> courseRegistrationInfos = courseRegistrationService.getCourseRegistrationsByIdList(lprIds,context);
-        Map<String,CourseRegistrationInfo> courseRegistrationMap = new HashMap();
-        for (CourseRegistrationInfo courseRegistrationInfo : courseRegistrationInfos){
-            courseRegistrationMap.put(courseRegistrationInfo.getId(),courseRegistrationInfo);
+            CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
+
+            if (courseOfferingInfo == null){
+                throw new OperationFailedException("Could not find course offering " + lpr.getLuiId());
+            }
+
+            lprToGradeOptions.put(lpr.getId(),courseOfferingInfo.getGradingOptionKeys());
+
         }
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
@@ -834,14 +838,9 @@ public class GradingServiceImpl implements GradingService {
             String calculatedGradeKey = entryAttributes.get(CALCULATED_GRADE);
             String administrativeGradeKey = entryAttributes.get(ADMINISTRATIVE_GRADE);
             String creditsEarnedKey = entryAttributes.get(CREDITS_EARNED);
-            String gradingOptionKey = entryAttributes.get(GRADING_OPTION);
+            List gradingOptionKey = lprToGradeOptions.get(lprRosterEntry.getLprId());
 
-            List<String> gradingOptionKeys = new ArrayList<String>();
-            if (courseRegistrationMap.get(lprRosterEntry.getLprId()) != null){
-               gradingOptionKeys.add(courseRegistrationMap.get(lprRosterEntry.getLprId()).getGradingOptionKey());
-            }
-
-            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
+            GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKey , context);
             gradeRosterEntryInfos.add(gradeRosterEntry);
         }
 
@@ -857,7 +856,7 @@ public class GradingServiceImpl implements GradingService {
         String administrativeGradeKey = null;
         String creditsEarnedKey = null;
         String calculatedGradeKey = null;
-        String gradingOptionKey;
+        List<String> gradingOptionKeys = new ArrayList<String>();
 
         String lprId = lprRosterEntry.getLprId();
         LuiPersonRelationInfo lpr = lprService.getLpr(lprId, context);
@@ -865,12 +864,9 @@ public class GradingServiceImpl implements GradingService {
         studentId = lpr.getPersonId();
         activityOfferingId = lpr.getLuiId();
 
-        try {
-            CourseRegistrationInfo courseRegistration = courseRegistrationService.getActiveCourseRegistrationForStudentByCourseOffering(lpr.getPersonId(), lpr.getLuiId(), context);
-            gradingOptionKey = courseRegistration.getGradingOptionKey();
-        } catch (DisabledIdentifierException e) {
-            throw new OperationFailedException("Failed to retrieve an active course registration for student by course offering.");
-        }
+        // TODO Get grading options from courseRegistration instead of courseOffering.
+        CourseOfferingInfo courseOfferingInfo = courseOfferingService.getCourseOffering(lpr.getLuiId(),context);
+        gradingOptionKeys.addAll(courseOfferingInfo.getGradingOptionKeys());
 
         List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLpr(lprId);
         List<String> resultValueKeys = new ArrayList<String>();
@@ -899,9 +895,6 @@ public class GradingServiceImpl implements GradingService {
                 calculatedGradeKey = resultValue.getKey();
             }
         }
-
-        List<String> gradingOptionKeys = new ArrayList<String>();
-        gradingOptionKeys.add(gradingOptionKey);
 
         GradeRosterEntryInfo gradeRosterEntry = gradeRosterEntryAssembler.assemble(lprRosterEntry, studentId, activityOfferingId, assignedGradeKey, calculatedGradeKey, administrativeGradeKey, creditsEarnedKey, gradingOptionKeys , context);
 

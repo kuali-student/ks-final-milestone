@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -42,11 +43,7 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.GradingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
@@ -283,13 +280,19 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         form.setCurrentTerm(term.getName());
 
             ContextInfo context = ContextInfo.newInstance();
-            List courseOfferingInfoList = new ArrayList();
+            List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList();
 
             try{
                 List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
+                form.setCourseOfferingInfoList(new ArrayList<CourseOfferingInfo>());
                 if (!coIds.isEmpty()){
                     courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
-                    form.setCourseOfferingInfoList(courseOfferingInfoList);
+                    for (CourseOfferingInfo co : courseOfferingInfoList) {
+                        if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_OFFERED_STATE_KEY) &&
+                            StringUtils.equals(co.getTypeKey(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
+                            form.getCourseOfferingInfoList().add(co);
+                        }
+                    }
                 }
             }catch(Exception e){
                 //FIXME: Change it to use proper error handling
