@@ -5,7 +5,7 @@
     <KSEN_LUI ATP_ID="testTermId1" CLU_ID="cluId1"
         EFF_DT="20110101000000" EXP_DT="20111231000000" ID="Lui-1"
         NAME="Lui one" OFFIC_LUI_ID="LUI-IDENT-1"
-        RT_DESCR_ID="Lui-1-Desc" STATE_ID="kuali.lui.state.draft"
+        RT_DESCR_ID="Lui-1-Desc" STATE_ID="kuali.lui.state.offered"
         TYPE_ID="kuali.lui.type.course.offering" VER_NBR="0"/>
     <KSEN_LUI CLU_ID="cluId2" EFF_DT="20110101000000"
         EXP_DT="20111231000000" ID="Lui-2" NAME="Lui rwo"
@@ -18,6 +18,6 @@
         TYPE_ID="kuali.lui.type.course.offering" VER_NBR="0"/>
     <KSEN_LUI CLU_ID="cluId4" EFF_DT="20110101000000"
         EXP_DT="20111231000000" ID="Lui-4" NAME="Lui four"
-        RT_DESCR_ID="Lui-4-Desc" STATE_ID="kuali.lui.state.draft"
+        RT_DESCR_ID="Lui-4-Desc" STATE_ID="kuali.lui.state.offered"
         TYPE_ID="kuali.lui.type.activity.offering.lecture" VER_NBR="0"/>
 </dataset>
