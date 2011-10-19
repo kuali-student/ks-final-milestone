@@ -39,6 +39,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -110,7 +111,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 
 		instructions = new KSLabel(getLabel(LUUIConstants.LO_INSTRUCTIONS_KEY, descMeta));
 
-        loList = new LearningObjectiveList();
+        loList = GWT.create(LearningObjectiveList.class);
         loList.setLoInfoMaxLength(loListDescLength);
 
 		searchMainPanel.addStyleName("KS-LOBuilder-Search-Panel");
@@ -194,7 +195,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 
     public static class LearningObjectiveList extends VerticalSection implements HasValue<List<OutlineNode<LOPicker>>> {
 		OutlineNodeModel<LOPicker> outlineModel = new OutlineNodeModel<LOPicker>();
-        KSButton addNew;
+        protected KSButton addNew;
         OutlineManager outlineComposite;
         
         private int loInfoMaxLength = 0;
