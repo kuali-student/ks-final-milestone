@@ -1,18 +1,3 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
 package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
@@ -25,23 +10,19 @@ import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 
-public abstract class CocValuesFinder extends StudentKeyValuesBase {
+public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 
 	/**
-	 * Find the curriculum committee Orgs with specified orgType.
-	 * Each org should have a kuali.org.CurriculumParent relationship with
-	 * an org with kuali.org.COC type.
+	 * Find the Orgs with specified orgType.
 	 * 
 	 * @param orgType
 	 * @return
 	 */
-	public static List<KeyLabelPair> findCocOrgs(String orgType) {
+	public static List<KeyLabelPair> findOrgs(String orgType) {
 		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
 
-		SearchRequest searchRequest = new SearchRequest("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
-		searchRequest.addParam("org.queryParam.relationType","kuali.org.CurriculumParent");
-		searchRequest.addParam("org.queryParam.orgType",orgType);
-		searchRequest.addParam("org.queryParam.relatedOrgType","kuali.org.COC");
+		SearchRequest searchRequest = new SearchRequest("org.search.generic");
+		searchRequest.addParam("org.queryParam.orgOptionalType",orgType);
 
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
@@ -66,7 +47,7 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		        else {
 		            /*
 		             * The requirement is that in the RICE portal, when we add a principal to a role
-		             * the drop-down list for DepartmentCoC or DivisionCoC should display the full/long 
+		             * the drop-down list for Department or Division should display the full/long 
 		             * names instead of short names.
 		             */
 		            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
