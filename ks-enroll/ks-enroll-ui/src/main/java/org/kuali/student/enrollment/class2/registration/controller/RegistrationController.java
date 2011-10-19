@@ -18,11 +18,13 @@ package org.kuali.student.enrollment.class2.registration.controller;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
@@ -110,12 +112,6 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException("Selected line index was not set for registration line action, cannot register line");
         }
 
-        View previousView = registrationForm.getPreviousView();
-        CollectionGroup collectionGroup = previousView.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
-        if (collectionGroup == null) {
-            throw new RuntimeException("Unable to get registration group collection component for path: " + selectedCollectionPath);
-        }
-
         // get the collection instance for adding the new line
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(registrationForm, selectedCollectionPath);
         if (collection == null) {
@@ -128,37 +124,6 @@ public class RegistrationController extends UifControllerBase {
         else {
             throw new RuntimeException("Only List collection implementations are supported for findRegGroup by index method");
         }
-    }
-
-    protected RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, PermissionDeniedException, OperationFailedException {
-        if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().createRegRequest(regRequestInfo, context);
-        }
-        return null;
-    }
-
-    protected List<ValidationResultInfo> validateRegRequest(RegRequestInfo regRequest, ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().validateRegRequest(regRequest, context);
-        }
-        // TODO - everything below is a hack to get dummy data into the system
-        return null;
-    }
-
-    protected RegRequestInfo saveRegRequest(RegRequestInfo regRequest, ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException {
-        if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().updateRegRequest(regRequest.getId(), regRequest, context);
-        }
-        // TODO - everything below is a hack to get dummy data into the system
-        return regRequest;
-    }
-
-    protected RegResponseInfo submitRegRequest(RegRequestInfo regRequest, ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException {
-        if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().submitRegRequest(regRequest.getId(), context);
-        }
-        // TODO - everything below is a hack to get dummy data into the system
-        return new RegResponseInfo();
     }
 
     protected List<CourseRegistrationInfo> getCourseRegistrations(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DisabledIdentifierException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -265,11 +230,8 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=searchCourseOfferings")
     public ModelAndView searchCourseOfferings(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
-//        RegistrationForm registrationForm = (RegistrationForm) formBase;
         ContextInfo context = ContextInfo.newInstance();
 
-//        List<CourseOfferingWrapper> courseOfferingWrappers;
-        fakeDataNum = 0;
         try {
             List<String> courseOfferingIds = getCourseOfferingIds(registrationForm, context);
             registrationForm.setCourseOfferingWrappers(new ArrayList<CourseOfferingWrapper>(courseOfferingIds.size()));
@@ -307,19 +269,22 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected List<String> getCourseOfferingIds(RegistrationForm registrationForm, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+        // if the coures offering code is not blank... assume the value in the selectbox is inconsequential
+        if (StringUtils.isNotBlank(registrationForm.getCourseOfferingCode())) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Searching by Course Offering Code is not yet implemented");
+            return new ArrayList<String>();
+        } else {
+            return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+        }
     }
 
     protected List<RegistrationGroupInfo> getRegistrationGroupInfos(String coId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
     }
 
-    private int fakeDataNum = 0;
-
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // TODO right now getOfferingsByIdList throws a not supported exception
 //        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
-        fakeDataNum = 0;
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);
@@ -327,7 +292,6 @@ public class RegistrationController extends UifControllerBase {
             wrapper.setActivityOffering(activityOfferingInfo);
             wrapper.setMeetingScheduleWrappers(setupMeetingScheduleInfos(courseOfferingInfo, activityOfferingInfo));
             activityOfferingWrappers.add(wrapper);
-            fakeDataNum++;
         }
 
         //generate js object that represents the times of the entire reg group
@@ -372,9 +336,9 @@ public class RegistrationController extends UifControllerBase {
 
             regRequest.getRegRequestItems().add(regRequestItem);
 
-            List<ValidationResultInfo> validationResultInfos = validateRegRequest(regRequest, context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
-                regRequest = createRegRequest(regRequest, context);
+                regRequest = getCourseRegistrationService().createRegRequest(regRequest, context);
                 registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
             } else {
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
@@ -413,11 +377,10 @@ public class RegistrationController extends UifControllerBase {
     protected void processSubmitRegRequest(RegRequestInfo regRequest, RegistrationForm registrationForm, boolean oneClick){
        ContextInfo context = ContextInfo.newInstance();
         try {
-            List<ValidationResultInfo> validationResultInfos = validateRegRequest(regRequest, context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 //RegRequestInfo regRequest = saveRegRequest(registrationForm.getRegRequest(), context);
-                // TODO - what to do with the RegResponseInfo object?
-                RegResponseInfo regResponse = submitRegRequest(regRequest, context);
+                RegResponseInfo regResponse = getCourseRegistrationService().submitRegRequest(regRequest.getId(), context);
 
                 if(regResponse.getOperationStatus().getStatus().equalsIgnoreCase("SUCCESS")){
                     GlobalVariables.getMessageMap().putInfo("GLOBAL_INFO", "enroll.registrationSuccessful");
@@ -447,8 +410,6 @@ public class RegistrationController extends UifControllerBase {
                         GlobalVariables.getMessageMap().putInfo("GLOBAL_INFO", message);
                     }
                 }
-
-
             } else {
                 GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
@@ -468,8 +429,6 @@ public class RegistrationController extends UifControllerBase {
         } catch (OperationFailedException e) {
             throw new RuntimeException(e);
         } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
-        } catch (VersionMismatchException e) {
             throw new RuntimeException(e);
         } catch (AlreadyExistsException e) {
             throw new RuntimeException(e);
@@ -504,9 +463,9 @@ public class RegistrationController extends UifControllerBase {
 
         try {
 
-            List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
-                registrationForm.setRegRequest(saveRegRequest(registrationForm.getRegRequest(), context));
+                registrationForm.setRegRequest(getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context));
             } else {
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
                 for (ValidationResultInfo resultInfo : validationResultInfos) {
@@ -554,12 +513,12 @@ public class RegistrationController extends UifControllerBase {
             RegRequestItemInfo regRequestItem = generateRegRequestItem(regGroupWrapper, context);
             registrationForm.getRegRequest().getRegRequestItems().add(regRequestItem);
 
-            List<ValidationResultInfo> validationResultInfos = validateRegRequest(registrationForm.getRegRequest(), context);
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 if (StringUtils.isBlank(registrationForm.getRegRequest().getId())) {
-                    registrationForm.setRegRequest(createRegRequest(registrationForm.getRegRequest(), context));
+                    registrationForm.setRegRequest(getCourseRegistrationService().createRegRequest(registrationForm.getRegRequest(), context));
                 } else {
-                    registrationForm.setRegRequest(saveRegRequest(registrationForm.getRegRequest(), context));
+                    registrationForm.setRegRequest(getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context));
                 }
 
                 registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
@@ -588,8 +547,14 @@ public class RegistrationController extends UifControllerBase {
             throw new RuntimeException(e);
         }
 
-
         return getUIFModelAndView(registrationForm);
+    }
+
+    protected void processValidationResults(List<ValidationResultInfo> validationResultInfos, String operation) {
+        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Found errors while trying to " + operation);
+        for (ValidationResultInfo resultInfo : validationResultInfos) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, resultInfo.getMessage());
+        }
     }
 
     protected CourseOfferingService getCourseOfferingService() {
@@ -602,9 +567,8 @@ public class RegistrationController extends UifControllerBase {
 
     protected CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
-             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseRegistrationService", "CourseRegistrationService"));
+            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseRegistrationService", "CourseRegistrationService"));
         }
-        //TODO return the real service when ready
         return courseRegistrationService;
     }
 }

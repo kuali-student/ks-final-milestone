@@ -39,7 +39,7 @@ public class RegistrationForm extends UifFormBase {
 
     private String termKey;
     private String subjectArea;
-    private String courseNameOrNumber;
+    private String courseOfferingCode;
     private List<CourseOfferingWrapper> courseOfferingWrappers;
 
     private List<CourseRegistrationInfo> courseRegistrations;
@@ -69,12 +69,12 @@ public class RegistrationForm extends UifFormBase {
         this.subjectArea = subjectArea;
     }
 
-    public String getCourseNameOrNumber() {
-        return courseNameOrNumber;
+    public String getCourseOfferingCode() {
+        return courseOfferingCode;
     }
 
-    public void setCourseNameOrNumber(String courseNameOrNumber) {
-        this.courseNameOrNumber = courseNameOrNumber;
+    public void setCourseOfferingCode(String courseOfferingCode) {
+        this.courseOfferingCode = courseOfferingCode;
     }
 
     public List<CourseOfferingWrapper> getCourseOfferingWrappers() {
@@ -111,10 +111,9 @@ public class RegistrationForm extends UifFormBase {
 
     protected List<MeetingScheduleWrapper> getRegisteredCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        List<CourseRegistrationInfo> courses = getCourseRegistrations();
-        if(courses != null){
+        if(getCourseRegistrations() != null){
             // first loop all the items in the course registration list
-            for (CourseRegistrationInfo courseRegistrationInfo : courses) {
+            for (CourseRegistrationInfo courseRegistrationInfo : getCourseRegistrations()) {
                 // TODO - remove this cast below if CourseRegistrationInfo.getCourseOffering() method is fixed
                 CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) courseRegistrationInfo.getCourseOffering();
                 RegGroupRegistrationInfo regGroupRegistrationInfo = courseRegistrationInfo.getRegGroupRegistration();
@@ -142,7 +141,7 @@ public class RegistrationForm extends UifFormBase {
 
     protected List<MeetingScheduleWrapper> getCartCourses() {
         List<MeetingScheduleWrapper> meetingScheduleWrappers = new ArrayList<MeetingScheduleWrapper>();
-        if(this.regRequest != null){
+        if(getRegRequest() != null){
             // first loop all the items in the reg request
             for (RegRequestItemInfo regRequestItemInfo : getRegRequest().getRegRequestItems()) {
                 // find the regGroupId of the current item
@@ -160,7 +159,6 @@ public class RegistrationForm extends UifFormBase {
                         meetingScheduleWrapper.setTimeTypeName(activityOfferingWrapper.getTypeName());
                         meetingScheduleWrappers.add(meetingScheduleWrapper);
                     }
-
                 }
             }
         }

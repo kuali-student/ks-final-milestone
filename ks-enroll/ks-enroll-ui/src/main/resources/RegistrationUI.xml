@@ -152,12 +152,20 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber"
-                      p:label="Enter the Course Name or Number"
+                <bean parent="AttributeField_Form" p:propertyName="courseOfferingCode"
+                      p:label="Enter the Course Code"
                       p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
                     </property>
+<!--
+                    <property name="fieldSuggest.render" value="true" />
+                    <property name="fieldSuggest.sourcePropertyName" value="courseOfferingCode" />
+                    <property name="fieldSuggest.suggestQuery.queryMethodToCall"
+                        value="" />
+                    <property name="fieldSuggest.suggestQuery.queryMethodInvokerConfig"
+                        value="" />
+-->
                 </bean>
             </list>
         </property>
@@ -175,12 +183,7 @@
     </bean>
 
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
-          p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
-          p:layoutManager.lineGroupPrototype.accordion.render="true">
-        <property name="layoutManager.lineGroupPrototype.header">
-            <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
-        </property>
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
         <property name="summary"
                   value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
         <property name="accordion.render" value="false"/>
@@ -192,7 +195,13 @@
         <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Group" p:layoutManager.orientation="VERTICAL"
-                  p:styleClasses="courseOffering-item" p:footer-ref="Footer"/>
+                  p:styleClasses="courseOffering-item" p:footer-ref="Footer">
+                <property name="accordion.defaultOpen" value="false"/>
+                <property name="accordion.render" value="true"/>
+                <property name="header">
+                    <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
+                </property>
+            </bean>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
             <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
