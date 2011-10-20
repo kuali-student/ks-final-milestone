@@ -108,7 +108,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
-    Anchor browseCategoryLink = new Anchor("Browse for categories");
+    Anchor browseCategoryLink;
     private final BlockingTask saving = new BlockingTask("Saving");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
@@ -133,6 +133,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink = new Anchor(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_LABEL_KEY));
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -155,7 +156,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 pop.addButton(cancelButton);
 
                 FlowPanel mainPanel = new FlowPanel();
-                mainPanel.add(SectionTitle.generateH2Title("Select Categories"));
+                mainPanel.add(SectionTitle.generateH2Title(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_POPUP_LABEL_KEY)));
                 mainPanel.add(categoryManagement);
 
                 addButton.addClickHandler(new ClickHandler() {

@@ -228,6 +228,8 @@ public class LUUIConstants {
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
     public static final String LO_CATEGORY_KEY = "cluLOCategory";
+    public static final String LO_CATEGORY_BROWSE_LABEL_KEY = "cluLOCategoryBrowse";
+    public static final String LO_CATEGORY_BROWSE_POPUP_LABEL_KEY = "cluLOCategoryBrowsePopup";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
