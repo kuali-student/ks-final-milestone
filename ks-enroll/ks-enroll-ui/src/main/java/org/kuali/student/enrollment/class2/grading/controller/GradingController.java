@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -71,11 +72,21 @@ public class GradingController extends UifControllerBase {
         String courseId = selectedCourse.getId();
         gradingForm.setSelectedCourseOffering(selectedCourse);
 
+        //Reset all the students and other info from the form, which might be set for some other course selected before
+        resetValuesForPageChange(gradingForm);
+
         //FIXME: Just a workaround as the propertyreplacer not working
         gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseTitle());
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
-        gradingForm.setStudents(students);
+
+        if (students == null || students.isEmpty()){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
+            GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_STUDENTS_NOT_FOUND,selectedCourse.getCourseOfferingCode());
+            gradingForm.setReadOnly(true);
+        }else{
+            gradingForm.setStudents(students);
+        }
 
         return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
     }
@@ -126,6 +137,7 @@ public class GradingController extends UifControllerBase {
         boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).saveGrades(gradingForm);
 
         if (success){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
             GlobalVariables.getMessageMap().putInfo("firstName", GradingConstants.INFO_GRADE_ROSTER_SAVED);
         }
         // only refreshing page
@@ -141,6 +153,7 @@ public class GradingController extends UifControllerBase {
         boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).submitGradeRoster(gradingForm);
 
         if (success){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
             GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_ROSTER_SUBMITTED);
         }
 
@@ -154,6 +167,12 @@ public class GradingController extends UifControllerBase {
         ((GradingViewHelperService) studentGradeForm.getView().getViewHelperService()).loadStudentGrades(studentGradeForm);
 
         return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
+    }
+
+    private void resetValuesForPageChange(GradingForm form){
+        form.setStudents(new ArrayList());
+        form.setReadOnly(false);
+        form.setRosterInfos(new ArrayList());
     }
 
 }

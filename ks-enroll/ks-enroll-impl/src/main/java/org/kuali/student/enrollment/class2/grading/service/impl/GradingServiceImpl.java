@@ -299,13 +299,31 @@ public class GradingServiceImpl implements GradingService {
         LprRosterInfo lprRosterInfo = lprService.getLprRoster(gradeRosterId,context);
         lprRosterInfo.setStateKey(stateKey);
 
+        GradeRosterInfo returnRoster;
         try {
             LprRosterInfo newRoster = lprService.updateLprRoster(gradeRosterId,lprRosterInfo,context);
-            return assembleGradeRoster(newRoster,context);
+            returnRoster = assembleGradeRoster(newRoster,context);
         } catch (ReadOnlyException e) {
             throw new RuntimeException(e);
         }
 
+        //Update LRR State
+        List<LprRosterEntryInfo> rosterEntryInfoList = lprService.getEntriesForLprRoster(lprRosterInfo.getId(),context);
+        List<String> lprIds = new ArrayList();
+        for (LprRosterEntryInfo entryInfo : rosterEntryInfoList) {
+            lprIds.add(entryInfo.getLprId());
+        }
+
+        List<LearningResultRecordInfo> learningResultRecordInfoList = lrrService.getLearningResultRecordsForLprIdList(lprIds,context);
+        for (LearningResultRecordInfo learningResultRecordInfo : learningResultRecordInfoList) {
+            //process only saved state entries (Skipping deleted state)
+            if (StringUtils.equals(learningResultRecordInfo.getStateKey(),LrrServiceConstants.RESULT_RECORD_SAVED_STATE_KEY)){
+                learningResultRecordInfo.setStateKey(LrrServiceConstants.RESULT_RECORD_SUBMITTED_STATE_KEY);
+                lrrService.updateLearningResultRecord(learningResultRecordInfo.getId(),learningResultRecordInfo,context);
+            }
+        }
+
+        return returnRoster;
     }
 
     /**

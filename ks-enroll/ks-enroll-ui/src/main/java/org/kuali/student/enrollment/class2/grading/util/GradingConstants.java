@@ -37,5 +37,7 @@ public class GradingConstants {
     public static final String CURRENT_TERM = "201108";
     public static final String INFO_GRADE_ROSTER_SAVED = "info.enroll.grading.saved";
     public static final String INFO_GRADE_ROSTER_SUBMITTED = "info.enroll.grading.submitted";
+    public static final String INFO_GRADE_STUDENTS_NOT_FOUND = "info.enroll.grading.studentsNotFound";
+    public static final String WARNING_GRADING_OPTIONS_NOT_FOUND = "info.enroll.grading.gradingOptionsnotFound";
 
 }

@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.field.AttributeField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -101,18 +102,23 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<GradeRosterInfo> rosterInfos = getGradingService().getFinalGradeRostersForCourseOffering(selectedCourse, context);
         gradingForm.setRosterInfos(rosterInfos);
 
-        if (rosterInfos == null || rosterInfos.isEmpty()){
-            gradingForm.setReadOnly(true);
-        }
-
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
                 if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
                     gradingForm.setReadOnly(true);
                 }
-                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(
-                        rosterInfo.getGradeRosterEntryIds(), context);
-                int i = 0;
+
+                if (rosterInfo.getGradeRosterEntryIds().isEmpty()){
+                    return students;
+                }
+
+                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
+
+                if (!entryInfos.isEmpty() && entryInfos.get(0).getValidGradeGroupKeys().isEmpty()){
+                    GlobalVariables.getMessageMap().putWarning("selectedGrade",GradingConstants.WARNING_GRADING_OPTIONS_NOT_FOUND,"test");
+                    gradingForm.setReadOnly(true);
+                }
+
                 for (GradeRosterEntryInfo entryInfo : entryInfos) {
                     GradeStudent student = new GradeStudent();
                     student.setGradeRosterEntryInfo(entryInfo);
