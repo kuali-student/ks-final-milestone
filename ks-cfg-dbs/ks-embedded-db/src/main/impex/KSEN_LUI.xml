@@ -14,11 +14,11 @@
     <KSEN_LUI ATP_ID="testTermId1" CLU_ID="cluId3"
         EFF_DT="20110101000000" EXP_DT="20111231000000" ID="Lui-3"
         NAME="Lui three" OFFIC_LUI_ID="LUI-IDENT-2"
-        RT_DESCR_ID="Lui-3-Desc" STATE_ID="kuali.lui.state.draft"
+        RT_DESCR_ID="Lui-3-Desc" STATE_ID="kuali.lui.state.offered"
         TYPE_ID="kuali.lui.type.course.offering" VER_NBR="0"/>
     <KSEN_LUI CLU_ID="cluId4" EFF_DT="20110101000000"
         EXP_DT="20111231000000" ID="Lui-4" NAME="Lui four"
-        RT_DESCR_ID="Lui-4-Desc" STATE_ID="kuali.lui.state.offered"
+        RT_DESCR_ID="Lui-4-Desc" STATE_ID="kuali.lui.state.draft"
         TYPE_ID="kuali.lui.type.activity.offering.lecture" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="testTermId1"
         CLU_ID="2b7f8fee-f003-432c-9b56-9364adac1b00"
