@@ -18,20 +18,19 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
@@ -48,19 +47,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SearchResultsTable extends Composite{
 
-    private final int PAGE_SIZE = 10;
+    protected final int PAGE_SIZE = 10;
     
-    private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
+    protected SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
     
-    private VerticalPanel layout = new VerticalPanel();
+    protected VerticalPanel layout = new VerticalPanel();
     
     private DefaultTableModel tableModel;
-    private String resultIdColumnKey;
-    private SearchRequest searchRequest;
+    protected String resultIdColumnKey;
+    protected SearchRequest searchRequest;
     private Table table = new Table();
-	private boolean isMultiSelect = true;
-	private boolean withMslable = true;
-    private KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
+    protected boolean isMultiSelect = true;
+    protected boolean withMslable = true;
+    protected KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
 	
     public KSButton getMslabel() {
@@ -71,8 +70,8 @@ public class SearchResultsTable extends Composite{
 		this.mslabel = mslabel;
 	}
 
-	public Table getContentTable(){
-		return table;
+    public void removeContent() {
+        table.removeContent();
 	}
 	public SearchResultsTable(){
         super();
@@ -164,7 +163,7 @@ public class SearchResultsTable extends Composite{
         this.performSearch(searchRequest, listResultMetadata, resultIdKey, true);
     }    
     
-    private void performOnDemandSearch(int startAt, int size) {
+    protected void performOnDemandSearch(int startAt, int size) {
                 
     	table.displayLoading(true);
         searchRequest.setStartAt(startAt);
@@ -237,32 +236,32 @@ public class SearchResultsTable extends Composite{
 }
 
 class SearchResultsRow extends Row {
-    
+
     ResultRow row;
-    
-    public SearchResultsRow(ResultRow row){
-       this.row = row;
+
+    public SearchResultsRow(ResultRow row) {
+        this.row = row;
     }
-    
+
     @Override
     public Object getCellData(String columnId) {
-        return row.getValue(columnId);        
+        return row.getValue(columnId);
     }
-    
+
     @Override
     public void setCellData(String columnId, Object newValue) {
         row.setValue(columnId, newValue.toString());
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return row.toString();
     }
-    
+
     public ResultRow getResultRow() {
         return row;
     }
-}   
+}
 
 class FieldAscendingRowComparator extends RowComparator{
     

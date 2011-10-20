@@ -78,7 +78,7 @@ public class SearchPanel extends Composite{
     private CollapsablePanel modifySearchPanel;
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
-    private SearchResultsTable table;
+    protected SearchResultsTable table;
     private boolean isMultiSelect = true;
 
 	public static enum SearchStyle{ADVANCED, CUSTOM}; 
@@ -107,7 +107,7 @@ public class SearchPanel extends Composite{
 		@Override
         public void exec(ButtonEnum result) {
             if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
-            	table.getContentTable().removeContent();
+                table.removeContent();
                 getActionCompleteCallback().exec(true);                                 
             }
        }
@@ -145,7 +145,7 @@ public class SearchPanel extends Composite{
         }    	
     }
     
-    public void setupSearch() {                
+    public void setupSearch() {
         resultsTablePanel.clear();
         layout.clear();
         resultsShown = false;
@@ -200,7 +200,7 @@ public class SearchPanel extends Composite{
         }
         
         //Search Results table
-        table = new SearchResultsTable();
+        table = GWT.create(SearchResultsTable.class);
         table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
         resultsTablePanel.add(table);
