@@ -82,7 +82,7 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
         if(canEdit) {
             delete.getElement().getStyle().setProperty("position", "absolute");
             delete.getElement().getStyle().setProperty("right", "3px");
-            delete.getElement().getStyle().setProperty("top", "8px");
+            delete.getElement().getStyle().setProperty("top", "1px");
             mainPanel.add(delete);
             initDeleteHandlers();
             mainPanel.add(validationPanel);
