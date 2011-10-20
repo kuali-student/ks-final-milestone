@@ -889,6 +889,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
         }
         try {
+            lprTransaction.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_SUCCEEDED_STATE_KEY);
             updateLprTransaction(lprTransactionId, lprTransaction, context);
         } catch (DataValidationErrorException ex) {
             throw new OperationFailedException(ex.getMessage());
@@ -987,25 +988,46 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private List<LprTransactionItemEntity> processLprTransactionItemsModification(LprTransactionInfo modifiedTransactionInfo, LprTransactionEntity originalLprTransEntity, ContextInfo context) {
         List<LprTransactionItemEntity> modifiedLprTransItemEntities = new ArrayList<LprTransactionItemEntity>();
         LprTransactionInfo originalLprTransInfo = originalLprTransEntity.toDto();
-
+        List<String> deletedItems = new ArrayList<String>();
+        //Assume all original items are deleted until matched
         for (LprTransactionItemInfo originalLprTransItemInfo : originalLprTransInfo.getLprTransactionItems()) {
-            boolean deleteItem=true;
-            for (LprTransactionItemInfo modifiedTransactionItemInfo : modifiedTransactionInfo.getLprTransactionItems()) {
-                if (originalLprTransItemInfo.getId().equals(modifiedTransactionItemInfo.getId())) {
+            deletedItems.add(originalLprTransItemInfo.getId());
+        }
+
+        for (LprTransactionItemInfo modifiedTransactionItemInfo : modifiedTransactionInfo.getLprTransactionItems()) {
+            boolean existingItem = false;
+            if(modifiedTransactionItemInfo.getId() != null){
+                for (LprTransactionItemInfo originalLprTransItemInfo : originalLprTransInfo.getLprTransactionItems()) {
+                    if(originalLprTransItemInfo.getId().equals(modifiedTransactionItemInfo.getId())){
+                        existingItem = true;
+                        deletedItems.remove(originalLprTransItemInfo.getId());
+                    }
+                }
+                if (existingItem) {
                     LprTransactionItemEntity modifiedLprItemEntity = new LprTransactionItemEntity(modifiedTransactionItemInfo);
+                    if (null != modifiedTransactionItemInfo.getStateKey()) {
+                        modifiedLprItemEntity.setLprTransactionItemState(stateDao.find(modifiedTransactionItemInfo.getStateKey()));
+                    }
+                    if (null != modifiedTransactionItemInfo.getTypeKey()) {
+                        modifiedLprItemEntity.setLprTransactionItemType(lprTypeDao.find(modifiedTransactionItemInfo.getTypeKey()));
+                    }
+                    if (null != modifiedTransactionItemInfo.getDescr()) {
+                        modifiedLprItemEntity.setDescr(new LprRichTextEntity(modifiedTransactionItemInfo.getDescr()));
+                    }
                     lprTransItemDao.merge(modifiedLprItemEntity);
                     modifiedLprTransItemEntities.add(modifiedLprItemEntity);
-                    deleteItem = false;
-                } 
-                
-                if (modifiedTransactionItemInfo.getId() == null) {
-                    modifiedLprTransItemEntities.add(createLprTransactionItem(modifiedTransactionItemInfo, context));
-                } 
+                }
             }
-            
-            if(deleteItem)
-                lprTransItemDao.remove( lprTransItemDao.find(originalLprTransItemInfo.getId()) );
+
+            if(!existingItem || modifiedTransactionItemInfo.getId() == null){
+                modifiedLprTransItemEntities.add(createLprTransactionItem(modifiedTransactionItemInfo, context));
+            }
         }
+
+        for(String id: deletedItems){
+            lprTransItemDao.remove( lprTransItemDao.find(id) );
+        }
+
 
         return modifiedLprTransItemEntities;
 

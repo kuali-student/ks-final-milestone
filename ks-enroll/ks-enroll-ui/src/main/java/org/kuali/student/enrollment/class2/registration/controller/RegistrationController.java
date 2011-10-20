@@ -20,9 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -87,6 +85,20 @@ public class RegistrationController extends UifControllerBase {
         regRequestItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         regRequestItem.setStudentId(context.getPrincipalId());
         regRequestItem.setNewRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
+        regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1");
+        regRequestItem.setGradingOptionKey("kuali.grading.option.RVG1");
+        regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
+        regRequestItem.setOkToHoldList(false);
+        regRequestItem.setOkToWaitlist(regGroupWrapper.getRegistrationGroup().getHasWaitlist());
+        return regRequestItem;
+    }
+
+    protected RegRequestItemInfo generateDropRegRequestItem(RegistrationGroupWrapper regGroupWrapper, Context context){
+        RegRequestItemInfo regRequestItem = new RegRequestItemInfo();
+        regRequestItem.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
+        regRequestItem.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        regRequestItem.setStudentId(context.getPrincipalId());
+        regRequestItem.setExistingRegGroupId(regGroupWrapper.getRegistrationGroup().getId());
         regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1");
         regRequestItem.setGradingOptionKey("kuali.grading.option.RVG1");
         regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
@@ -447,18 +459,30 @@ public class RegistrationController extends UifControllerBase {
 
         RegRequest regRequest = registrationForm.getRegRequest();
         String id = registrationForm.getActionParamaterValue("itemId");
-        if(regRequest != null && StringUtils.isNotBlank(id)){
+        String regGroupId = "";
+        //Must be being called from course list if blank
+        if(StringUtils.isBlank(id)){
+            RegistrationGroupWrapper regGroupWrapper = findRegGroupByIndex(registrationForm);
+            regGroupId = regGroupWrapper.getRegistrationGroup().getId();
+        }
+
+        if(regRequest != null){
             List<? extends RegRequestItem> items = regRequest.getRegRequestItems();
             if(items != null && !items.isEmpty()){
                 Iterator<? extends RegRequestItem> it = items.iterator();
                 while(it.hasNext()){
                     RegRequestItem item = it.next();
-                    if(item.getId().equals(id)){
+                    if(StringUtils.isNotBlank(id) && item.getId().equals(id)){
                         it.remove();
                         break;
                     }
+                    else if(StringUtils.isNotBlank(regGroupId) && StringUtils.isNotBlank(item.getNewRegGroupId())
+                        && item.getNewRegGroupId().equals(regGroupId)){
+                        it.remove();
+                        break;
                 }
             }
+        }
         }
 
         try {
@@ -550,6 +574,65 @@ public class RegistrationController extends UifControllerBase {
         return getUIFModelAndView(registrationForm);
     }
 
+    /**
+     * After the document is loaded calls method to setup the maintenance object
+     */
+    @RequestMapping(params = "methodToCall=addDropToCart")
+    public ModelAndView addDropToCart(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        ContextInfo context = ContextInfo.newInstance();
+
+        RegistrationGroupWrapper regGroupWrapper = findRegGroupByIndex(registrationForm);
+
+        try {
+            //Create if no reg request or if there is a reg request with an id yet for the Cart
+            if (registrationForm.getRegRequest() == null ||
+                    (registrationForm.getRegRequest() != null && StringUtils.isBlank(registrationForm.getRegRequest().getId()))) {
+                RegRequestInfo regRequest = generateNewRegRequestInfo(context, registrationForm);
+                registrationForm.setRegRequest(regRequest);
+            }
+
+            RegRequestItemInfo regRequestItem = generateDropRegRequestItem(regGroupWrapper, context);
+            registrationForm.getRegRequest().getRegRequestItems().add(regRequestItem);
+
+            List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
+            if (CollectionUtils.isEmpty(validationResultInfos)) {
+                if (StringUtils.isBlank(registrationForm.getRegRequest().getId())) {
+                    registrationForm.setRegRequest(getCourseRegistrationService().createRegRequest(registrationForm.getRegRequest(), context));
+                } else {
+                    registrationForm.setRegRequest(getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context));
+                }
+
+                registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
+            } else {
+                StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
+                for (ValidationResultInfo resultInfo : validationResultInfos) {
+                    builder.append(resultInfo.getMessage()).append("\n");
+                }
+                throw new RuntimeException(builder.toString());
+            }
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
+        } catch (DoesNotExistException e) {
+            throw new RuntimeException(e);
+        } catch (DataValidationErrorException e) {
+            throw new RuntimeException(e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException(e);
+        } catch (VersionMismatchException e) {
+            throw new RuntimeException(e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException(e);
+        } catch (MissingParameterException e) {
+            throw new RuntimeException(e);
+        } catch (AlreadyExistsException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return getUIFModelAndView(registrationForm);
+    }
+
     protected void processValidationResults(List<ValidationResultInfo> validationResultInfos, String operation) {
         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Found errors while trying to " + operation);
         for (ValidationResultInfo resultInfo : validationResultInfos) {
@@ -567,8 +650,9 @@ public class RegistrationController extends UifControllerBase {
 
     protected CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseRegistrationService", "CourseRegistrationService"));
+             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseRegistrationService", "CourseRegistrationService"));
         }
+        //TODO return the real service when ready
         return courseRegistrationService;
     }
 }

@@ -49,7 +49,7 @@ public class LuiPersonRelationServiceConstants {
     public static final String LPRTRANS_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY = "kuali.lpr.trans.item.type.add.to.hold.until.list";
     // transaction states
     public static final String LPRTRANS_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
-    public static final String LPRTRANS_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.state.succeeded";
+    public static final String LPRTRANS_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.item.state.succeeded";
     public static final String LPRTRANS_FAILED_STATE_KEY = "kuali.lpr.trans.state.failed";
     public static final String LPRTRANS_DISCARDED_STATE_KEY = "kuali.lpr.trans.state.discarded";
     // transaction item states

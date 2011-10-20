@@ -235,7 +235,6 @@
         <property name="finalizeMethodToCall" value="checkRegElements"/>
         <property name="readOnly" value="false"/>
         <property name="layoutManager.lineGroupPrototype.styleClasses" value="regGroup-item"/>
-        <property name="layoutManager.lineGroupPrototype.footer.summary" value="Add a course to your cart or register with a single click:"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="actionFields">
             <list>
@@ -245,6 +244,12 @@
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
                       p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="1-Click Registration"/>
+                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="addDropToCart"
+                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionLabel="Drop Course"/>
+                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="removeFromCart"
+                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:actionLabel="Remove From Cart"/>
             </list>
         </property>
         <property name="items">
@@ -257,6 +262,7 @@
                       p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
+
             </list>
         </property>
         <property name="subCollections">
