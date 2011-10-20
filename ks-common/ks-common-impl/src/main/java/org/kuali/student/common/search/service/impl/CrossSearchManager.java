@@ -17,8 +17,6 @@ package org.kuali.student.common.search.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,18 +24,17 @@ import java.util.Map;
 
 import org.kuali.student.common.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.common.search.dto.JoinComparisonInfo;
+import org.kuali.student.common.search.dto.JoinComparisonInfo.ComparisonType;
 import org.kuali.student.common.search.dto.JoinCriteriaInfo;
+import org.kuali.student.common.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.common.search.dto.JoinResultMappingInfo;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.search.dto.SubSearchInfo;
 import org.kuali.student.common.search.dto.SubSearchParamMappingInfo;
-import org.kuali.student.common.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.common.search.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.common.search.service.SearchDispatcher;
 
 /**
@@ -68,6 +65,8 @@ public class CrossSearchManager {
 			
 			subSearchRequest.setSearchKey(subSearch.getSearchkey());
 			subSearchRequest.setParams(new ArrayList<SearchParam>());
+            subSearchRequest.setSortColumn(searchRequest.getSortColumn());
+            subSearchRequest.setSortDirection(searchRequest.getSortDirection());
 			
 			//For each param mapping, map the paramvalue from the cross search to the sub search
 			for(SubSearchParamMappingInfo paramMapping:subSearch.getSubSearchParamMappings()){
@@ -123,8 +122,8 @@ public class CrossSearchManager {
 	private SearchResult metaFilter(SearchResult searchResult,
 		SearchRequest searchRequest) {
 		
-		searchResult.setTotalResults(searchResult.getRows().size());
-		
+        searchResult.setTotalResults(searchResult.getRows().size());
+
 		searchResult.sortRows();		
 		
 		//Paginate if we need to
@@ -140,7 +139,7 @@ public class CrossSearchManager {
 					pagedResult.getRows().add(searchResult.getRows().get(i));
 				}
 			}
-			
+            pagedResult.setTotalResults(searchResult.getRows().size());
 			searchResult = pagedResult;
 		}
 		return searchResult;
