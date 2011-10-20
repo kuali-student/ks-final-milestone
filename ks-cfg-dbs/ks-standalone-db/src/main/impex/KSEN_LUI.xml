@@ -20,4 +20,25 @@
         EXP_DT="20111231000000" ID="Lui-4" NAME="Lui four"
         RT_DESCR_ID="Lui-4-Desc" STATE_ID="kuali.lui.state.offered"
         TYPE_ID="kuali.lui.type.activity.offering.lecture" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="testTermId1"
+        CLU_ID="2b7f8fee-f003-432c-9b56-9364adac1b00"
+        CREATETIME="20111019164226"
+        ID="a72c6f03-5466-4b42-803c-b871bfe48bb3"
+        OBJ_ID="ef4294cd-fbec-448f-a37a-af13ec099691"
+        STATE_ID="kuali.lui.state.offered"
+        TYPE_ID="kuali.lui.type.activity.offering.lecture"
+        UPDATETIME="20111019164226" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="testTermId1" CLU_ID="REFERENCECOURSEGEOG100"
+        CREATETIME="20111019164226"
+        ID="deecef6d-48e7-4804-86ff-5b02e79af2cf" MAX_SEATS="45"
+        OFFIC_LUI_ID="b1ef5c56-5723-4ebf-841c-ac2a53a6a2bc"
+        RT_DESCR_ID="43ded9c9-59d1-45a2-8dc0-e157692a6473"
+        STATE_ID="kuali.lui.state.offered"
+        TYPE_ID="kuali.lui.type.course.offering" VER_NBR="1"/>
+    <KSEN_LUI ATP_ID="testTermId1" CREATETIME="20111019164226"
+        ID="f574b8a7-01eb-4ee3-a66f-3dcf68c1d927"
+        OBJ_ID="f54b93df-a047-4df0-bfc2-8dab1461bd83"
+        STATE_ID="kuali.lui.state.offered"
+        TYPE_ID="kuali.lui.type.registration.group"
+        UPDATETIME="20111019164226" VER_NBR="0"/>
 </dataset>
