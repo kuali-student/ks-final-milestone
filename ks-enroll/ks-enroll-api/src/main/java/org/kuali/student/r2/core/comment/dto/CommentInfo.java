@@ -33,7 +33,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "descr", "commentText", "referenceTypeKey", "referenceId", "effectiveDate",
+        "commentText", "referenceTypeKey", "referenceId", "effectiveDate",
         "expirationDate", "meta", "attributes", "_futureElements"})
 public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serializable {
 
