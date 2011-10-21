@@ -30,18 +30,21 @@ public interface Tag extends IdNamelessEntity {
 
     /**
      * Namespace of the tag.
+     *
      * @name Namespace
      */
     public String getNamespace();
 
     /**
      * Predicate of the tag.
+     *
      * @name Predicate
      */
     public String getPredicate();
 
     /**
      * Value of the tag.
+     *
      * @name Value
      * @required
      */
@@ -49,6 +52,7 @@ public interface Tag extends IdNamelessEntity {
 
     /**
      * Unique identifier for a reference type.
+     *
      * @name Reference Type Key
      * @readOnly
      * @required
@@ -57,6 +61,7 @@ public interface Tag extends IdNamelessEntity {
 
     /**
      * Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.
+     *
      * @name Reference Id
      * @readOnly
      * @required
@@ -65,12 +70,14 @@ public interface Tag extends IdNamelessEntity {
 
     /**
      * Date and time that this tag became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     *
      * @name Effective Date
      */
     public Date getEffectiveDate();
 
     /**
      * Date and time that this tag expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     *
      * @name Expiration Date
      */
     public Date getExpirationDate();
