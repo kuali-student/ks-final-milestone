@@ -29,6 +29,7 @@ import java.util.Date;
 public interface Comment extends IdNamelessEntity {
     /**
      * Narrative text of the comment
+     *
      * @name Comment Text
      * @required
      */
@@ -36,6 +37,7 @@ public interface Comment extends IdNamelessEntity {
 
     /**
      * Unique identifier for a reference type.
+     *
      * @name Reference Type Key
      * @readOnly
      * @required
@@ -44,6 +46,7 @@ public interface Comment extends IdNamelessEntity {
 
     /**
      * Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.
+     *
      * @name Reference Id
      * @readOnly
      * @required
@@ -52,12 +55,14 @@ public interface Comment extends IdNamelessEntity {
 
     /**
      * Date and time that this comment became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     *
      * @name Effective Date
      */
     public Date getEffectiveDate();
 
     /**
      * Date and time that this comment expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     *
      * @name Expiration Date
      */
     public Date getExpirationDate();

@@ -167,7 +167,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
-     * @throws ReadOnlyException     attempted update of readonly data
+     * @throws ReadOnlyException            attempted update of readonly data
      */
     public CommentInfo createComment(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
@@ -186,7 +186,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @throws PermissionDeniedException    authorization failure
      * @throws DoesNotExistException        comment does not exist
      * @throws VersionMismatchException     The action was attempted on an out of date version.
-     * @throws ReadOnlyException     attempted update of readonly data    id or key is readonly
+     * @throws ReadOnlyException            attempted update of readonly data    id or key is readonly
      */
     public CommentInfo updateComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, ReadOnlyException;
 
@@ -361,7 +361,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
-     * @throws ReadOnlyException     attempted update of readonly data
+     * @throws ReadOnlyException            attempted update of readonly data
      */
     public TagInfo createTag(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "tagInfo") TagInfo tagInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
