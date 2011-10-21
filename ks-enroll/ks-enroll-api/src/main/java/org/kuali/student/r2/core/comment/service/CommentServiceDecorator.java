@@ -72,8 +72,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<String> searchForCommentKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForCommentKeys(criteria, contextInfo);
+    public List<String> searchForCommentIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForCommentIds(criteria, contextInfo);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<String> searchForTagKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForTagKeys(criteria, contextInfo);
+    public List<String> searchForTagIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTagIds(criteria, contextInfo);
     }
 
     @Override

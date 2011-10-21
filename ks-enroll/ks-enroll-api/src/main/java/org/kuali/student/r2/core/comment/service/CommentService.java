@@ -64,7 +64,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param referenceTypeKey reference type
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
-     * @return list of comment information
+     * @return Comment information
      * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
      * @throws InvalidParameterException invalid referenceId, referenceTypeKey
      * @throws MissingParameterException referenceId, referenceTypeKey not specified
@@ -81,7 +81,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param commentTypeKey   comment type
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
-     * @return list of comment information
+     * @return list of Comment information
      * @throws DoesNotExistException     specified referenceId, referenceTypeKey, commentTypeKey not found
      * @throws InvalidParameterException invalid referenceId, referenceTypeKey,commentTypeKey
      * @throws MissingParameterException referenceId, referenceTypeKey, commentTypeKey not specified
@@ -93,12 +93,12 @@ public interface CommentService extends DataDictionaryService, TypeService {
 
     /**
      * Retrieves a list of Comments corresponding to the
-     * given list of Comment keys.
+     * given list of Comment Ids
      *
      * @param commentIds  list of Comments to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return List of Comment keys of the given type
+     * @return list of Comment information
      * @throws DoesNotExistException     an commentKey in list not found
      * @throws InvalidParameterException invalid commentKey
      * @throws MissingParameterException missing commentKey
@@ -134,7 +134,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForCommentKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForCommentIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Comments based on the criteria and returns a list of
@@ -143,7 +143,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param criteria    the search criteria
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return list of Comments
+     * @return list of Comment information
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException parameter is missing
      * @throws OperationFailedException  unable to complete request
@@ -243,7 +243,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param referenceTypeKey reference type
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
-     * @return list of tag information
+     * @return list of tag information for the given object ref id and type
      * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
      * @throws InvalidParameterException invalid referenceId, referenceTypeKey
      * @throws MissingParameterException referenceId, referenceTypeKey not specified
@@ -260,7 +260,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param tagTypeKey       tag type
      * @param contextInfo      Context information containing the principalId and locale
      *                         information about the caller of service operation
-     * @return list of tag information
+     * @return list of tag information for the given type
      * @throws DoesNotExistException     specified referenceId, referenceTypeKey, tagTypeKey not found
      * @throws InvalidParameterException invalid referenceId, referenceTypeKey,tagTypeKey
      * @throws MissingParameterException referenceId, referenceTypeKey, tagTypeKey not specified
@@ -292,7 +292,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param tagIds      list of Tags to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return List of Tag keys of the given type
+     * @return list of Tag information for the given list of Tag ids
      * @throws DoesNotExistException     an tagKey in list not found
      * @throws InvalidParameterException invalid tagKey
      * @throws MissingParameterException missing tagKey
@@ -307,7 +307,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param tagTypeKey  type to be retrieved
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return a list of Tag keys
+     * @return a list of Tag ids
      * @throws InvalidParameterException invalid tagTypeKey
      * @throws MissingParameterException missing tagTypeKey
      * @throws OperationFailedException  unable to complete request
@@ -328,7 +328,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForTagKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForTagIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Tags based on the criteria and returns a list of
@@ -337,7 +337,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @param criteria    the search criteria
      * @param contextInfo Context information containing the principalId and locale
      *                    information about the caller of service operation
-     * @return list of Tags
+     * @return list of Tag information
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException parameter is missing
      * @throws OperationFailedException  unable to complete request
