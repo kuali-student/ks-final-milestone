@@ -15,8 +15,6 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -43,7 +41,6 @@ public class KSRadioButton extends RadioButton{
      */
     public KSRadioButton(String group, String label, boolean asHTML) {
         super(group, label, asHTML);
-        ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(group + "-" + label));
         setupDefaultStyle();
     }
 
@@ -55,7 +52,6 @@ public class KSRadioButton extends RadioButton{
      */
     public KSRadioButton(String group, String label) {
         super(group, label);
-        ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(group + "-" + label));
         setupDefaultStyle();
     }
 

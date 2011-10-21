@@ -39,14 +39,8 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(
-                this,
-                CourseRequirementsViews.PREVIEW,
-                (isReadOnly ? "Course Requirements" : ""),
-                COURSE_PROPOSAL_MODEL,
-                (controller instanceof HasRequirements ? ((HasRequirements) controller).getReqDataModel()
-                        : new CourseRequirementsDataModel(this)),
-                isReadOnly, showSaveButtons);
+        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), COURSE_PROPOSAL_MODEL,
+                                                new CourseRequirementsDataModel(this), isReadOnly, showSaveButtons);
         super.addView(preview);
 
         if (!isReadOnly) {

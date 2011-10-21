@@ -100,7 +100,6 @@ public class CopyCourseServiceImpl {
 			originalProposal.getProposalReference().set(0, copiedCourse.getId());
 			originalProposal.getProposerOrg().clear();
 			originalProposal.getProposerPerson().clear();
-            originalProposal.setName(null);
 			
 			//Create the proposal
 			ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal);
@@ -248,7 +247,6 @@ public class CopyCourseServiceImpl {
 		
 		originalCourse.setId(newCluId);
 		originalCourse.setState(newState);
-        originalCourse.setPilotCourse(false);
 		
 		//Loop through the ignore properties and null out the values
 		if(ignoreProperties!=null){

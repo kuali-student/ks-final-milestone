@@ -22,7 +22,7 @@ import org.kuali.student.common.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 
 
-public class LookupParamMetadata implements Serializable, Comparable<LookupParamMetadata> {
+public class LookupParamMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -161,9 +161,4 @@ public class LookupParamMetadata implements Serializable, Comparable<LookupParam
 	public void setFieldPath(String fieldPath) {
 		this.fieldPath = fieldPath;
 	}
-
-    @Override
-    public int compareTo(LookupParamMetadata o) {
-        return this.name.compareTo(o.getName());
-    }
 }

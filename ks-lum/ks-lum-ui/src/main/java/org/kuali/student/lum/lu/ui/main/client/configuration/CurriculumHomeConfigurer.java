@@ -311,13 +311,13 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     }
 
     protected ClickHandler getCreateCourseClickHandler() {
-        return new ClickHandler(){
+    	return new ClickHandler(){
     		
 			@Override
 			public void onClick(ClickEvent event) {
 	            
 				//Create a dialog for course selection
-	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"),KSLightBox.Size.MEDIUM);
+	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
 	            final VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            

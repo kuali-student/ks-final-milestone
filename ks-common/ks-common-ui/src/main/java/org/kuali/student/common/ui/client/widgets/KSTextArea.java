@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -59,13 +61,13 @@ public class KSTextArea extends TextArea implements HasWatermark {
     public KSTextArea(final Label countLabel, final int maximumChar) {
         super();
         setupDefaultStyle();
-        this.setMaxLength(maximumChar);
-        setLabel(countLabel);
+        left = maximumChar;
+        countLabel.setText(left + " characters left");
         this.addKeyUpHandler(new KeyUpHandler() {
 
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                setLabel(countLabel);
+                setLabel(countLabel, maximumChar);
             }
         });
 
@@ -73,29 +75,7 @@ public class KSTextArea extends TextArea implements HasWatermark {
 
             @Override
             public void onValueChange(ValueChangeEvent<String> event) {
-                setLabel(countLabel);
-            }
-        });
-
-    }
-    
-    public KSTextArea(final Label countLabel) {
-        super();
-        setupDefaultStyle();
-        countLabel.setText(this.maxLength + " characters left");
-        this.addKeyUpHandler(new KeyUpHandler() {
-
-            @Override
-            public void onKeyUp(KeyUpEvent event) {
-                setLabel(countLabel);
-            }
-        });
-
-        this.addValueChangeHandler(new ValueChangeHandler<String>() {
-
-            @Override
-            public void onValueChange(ValueChangeEvent<String> event) {
-                setLabel(countLabel);
+                setLabel(countLabel, maximumChar);
             }
         });
 
@@ -137,6 +117,25 @@ public class KSTextArea extends TextArea implements HasWatermark {
 
         });
 
+        this.addKeyDownHandler(new KeyDownHandler() {
+
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                int keyPressed = (int) event.getNativeKeyCode();
+                int textLength = getText().length();
+
+                if ((textLength >= maxLength) && (maxLength > 0)) {
+                    setText(getText().trim().substring(0, maxLength));
+                    if (textLength + 1 > maxLength && (48 <= keyPressed && keyPressed <= 57) || (65 <= keyPressed && keyPressed <= 90)) {
+                        event.getNativeEvent().preventDefault();
+                    }
+                    if (getCursorPos() == maxLength) {
+                        event.getRelativeElement().setScrollTop(getCursorPos());
+                    }
+                }
+            }
+
+        });
     }
 
     @Override
@@ -245,18 +244,19 @@ public class KSTextArea extends TextArea implements HasWatermark {
         ValueChangeEvent.fireIfNotEqual(this, oldValue, text);
     }
 
-    public void setLabel(final Label countLabel) {
-        left = this.maxLength - KSTextArea.this.getText().length();
-        if (KSTextArea.this.getText().length() > this.maxLength) {
-            countLabel.setText("Please remove " + left * -1 + " characters");
+    public void setLabel(final Label countLabel, int maximumChar) {
+        if (KSTextArea.this.getText().length() > maximumChar) {
+            KSTextArea.this.setText(KSTextArea.this.getText().substring(0, maximumChar));
+            left = 0;
         } else {
-            countLabel.setText(left + " characters left");
+            left = maximumChar - KSTextArea.this.getText().length();
         }
-        if ((left <= (this.maxLength * 0.1)) || (left <= 10)) {
+        if (left <= 10) {
             countLabel.getElement().setAttribute("style", "color: red;");
         } else {
             countLabel.getElement().removeAttribute("style");
         }
+        countLabel.setText(left + " characters left");
     }
 
     public void setMaxLength(int maxLength) {

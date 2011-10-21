@@ -58,7 +58,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.core.comment.service.CommentService", serviceName = "CommentService", portName = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/commentService")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CommentServiceImpl implements CommentService {
     
     final Logger logger = Logger.getLogger(CommentServiceImpl.class);
@@ -175,6 +174,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getComment(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public CommentInfo getComment(String commentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(commentId, "commentId");
         Comment comment = commentDao.fetch(Comment.class, commentId);
@@ -187,6 +187,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getCommentTypes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<CommentTypeInfo> getCommentTypes() throws OperationFailedException {
         List<CommentType> commentTypes = commentDao.find(CommentType.class);
         return CommentServiceAssembler.toCommentTypeInfos(commentTypes);
@@ -198,6 +199,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getCommentTypesForReferenceType(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<CommentType> commentTypes = commentDao.getCommentTypesByReferenceTypeId(referenceTypeKey);
         return CommentServiceAssembler.toCommentTypeInfos(commentTypes);
@@ -209,6 +211,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getComments(java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<CommentInfo> getComments(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<Comment> comments = commentDao.getComments(referenceId, referenceTypeKey);
         return CommentServiceAssembler.toCommentInfos(comments);
@@ -220,6 +223,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getCommentsByType(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<CommentInfo> getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<Comment> comments = commentDao.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
         return CommentServiceAssembler.toCommentInfos(comments);
@@ -231,6 +235,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getReferenceTypes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
     	List<ReferenceType> referenceTypes = commentDao.find(ReferenceType.class);
         return CommentServiceAssembler.toReferenceTypeInfos(referenceTypes);
@@ -242,6 +247,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getTag(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public TagInfo getTag(String tagId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(tagId, "tagId");
         Tag tag = commentDao.fetch(Tag.class, tagId);
@@ -254,6 +260,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getTagTypes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<TagTypeInfo> getTagTypes() throws OperationFailedException {
         List<TagType> tagTypes = commentDao.find(TagType.class);
 
@@ -266,6 +273,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getTags(java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<TagInfo> getTags(String referenceId, String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<Tag> tags = commentDao.getTags(referenceId, referenceTypeKey);
@@ -279,6 +287,7 @@ public class CommentServiceImpl implements CommentService {
      * @see org.kuali.student.core.comment.service.CommentService#getTagsByType(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<TagInfo> getTagsByType(String referenceId, String referenceTypeKey, String tagTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<Tag> tags = commentDao.getTagsByType(referenceId, referenceTypeKey, tagTypeKey);

@@ -339,7 +339,6 @@
   <property name="resultReturnKey" value="lu.resultColumn.cluId" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
   <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
-  <property name="sortDirection" value="ASC" />
   <property name="usage" value="DEFAULT" />
  </bean>
  
@@ -775,7 +774,6 @@
   </property>
   <property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
   <property name="resultSortKey" value="person.resultColumn.DisplayName" />
-  <property name="sortDirection" value="ASC" />
   <property name="id" value="ks.common.lookup.person.suggest" />
  </bean>
 
@@ -884,7 +882,7 @@
   <property name="widget" value="SUGGEST_BOX" />
   <property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -914,7 +912,7 @@
 		<property name="searchTypeId" value="lo.search.loCategories" />
 		<property name="searchParamIdKey" value="lo.queryParam.loOptionalCategoryName" />
 		<property name="resultDisplayKey" value="lo.resultColumn.categoryName" />
-		<property name="resultSortKey" value="lo.resultColumn.categoryName" />
+		<property name="resultSortKey" value="" />
 		<property name="resultReturnKey" value="lo.resultColumn.categoryName" />
 		<property name="params">
 			<list>
@@ -1686,7 +1684,7 @@
   <property name="id" value="kuali.lu.lookup.findCourse.suggest" />
   <property name="widget" value="SUGGEST_BOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
+  <property name="resultSortKey" value="" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -1717,7 +1715,7 @@
   <property name="id" value="kuali.lu.lookup.findProgram.suggest" />
   <property name="widget" value="SUGGEST_BOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
+  <property name="resultSortKey" value="" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -2518,7 +2516,7 @@
   <property name="widget" value="SUGGEST_BOX"/>
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
-  <property name="resultSortKey" value="cluset.resultColumn.description" />
+  <property name="resultSortKey" value="" />
   <property name="params">
    <list>
     <bean parent="param">
@@ -2595,7 +2593,7 @@
   <property name="widget" value="SUGGEST_BOX"/>
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
-  <property name="resultSortKey" value="cluset.resultColumn.description" />
+  <property name="resultSortKey" value="" />
   <property name="params">
    <list>
     <bean parent="param">
@@ -4218,8 +4216,6 @@
 		<property name="name" value="Course and Program" />
 		<property name="searchTypeId" value="lo.search.loByCategoryCluCrossSearch" />
 		<property name="desc" value="Search for learning objectives by course." />
-		<property name="resultSortKey" value="lo.resultColumn.loCluCode" />
-		<property name="sortDirection" value="ASC" />
 		<property name="params">
 			<list>
 				<bean parent="param">
@@ -6675,8 +6671,7 @@
   </property>
   <property name="resultReturnKey" value="org.resultColumn.orgId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgShortName" />
-  <property name="sortDirection" value="ASC" />
+  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -6734,8 +6729,7 @@
   </property>
   <property name="resultReturnKey" value="org.resultColumn.orgId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgShortName" />
-  <property name="sortDirection" value="ASC" />
+  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
   <property name="results">
    <list>
     <bean parent="result">

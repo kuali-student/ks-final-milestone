@@ -22,7 +22,6 @@ public class ExportElement implements Serializable {
     public static int LIST = 4;
     public static int ITALIC = 5;
     public static int PROPOSAL = 6;
-    public static int PARAGRAPH = 7;
 
     public ExportElement() {
         super();

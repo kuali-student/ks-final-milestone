@@ -103,8 +103,8 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         view.addSection(governanceSection);
         view.addSection(logisticsSection);
         view.addSection(loSection);
-        view.addSection(this.createHiddenRequisitesSection());
         view.addView(requisitesSection);
+        view.addSection(this.createHiddenRequisitesSection());
         view.addSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY,activeDatesSection);
         view.addSection(financialSection);
         view.addView(documentTool);
@@ -194,7 +194,6 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             public void onClick(ClickEvent event) {
                 requisitesSection.asWidget().setVisible(true);
                 section.getLayout().setVisible(false);
-                section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY + "_Hidden");
             }
         }));
         
@@ -205,11 +204,6 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             public void exec(Boolean result) {
                 requisitesSection.asWidget().setVisible(result);
                 section.getLayout().setVisible(!result);
-                if (result) {
-                    section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY + "_Hidden");
-                } else {
-                    section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY);
-                }
             }
         });
         return section;

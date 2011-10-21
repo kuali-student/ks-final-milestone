@@ -145,6 +145,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			break;
 	    		case DROP_DOWN:
 	    		case CHECKBOX_LIST:
+	    			setupListWidget(inLookupMetadata);
+	    			break;
 	    		case RADIO:
 	    			setupListWidget(inLookupMetadata);
 	    			break;
@@ -710,15 +712,5 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	public Callback<List<SelectedResults>> getAdvancedSearchCallback() {
 		return advancedSearchCallback;
 	}
-
-    @Override
-    protected void onEnsureDebugId(String baseID) {
-        super.onEnsureDebugId(baseID);
-        Widget basicInputWidget = getInputWidget();
-        if (basicInputWidget != null) {
-            basicInputWidget.ensureDebugId(baseID + "-KSPicker-widget");
-        }
-        advSearchLink.ensureDebugId(baseID + "-Advanced-Search-anchor");
-    }
 
 }

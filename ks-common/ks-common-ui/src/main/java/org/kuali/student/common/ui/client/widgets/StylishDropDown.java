@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -320,13 +319,6 @@ public class StylishDropDown extends Composite{
 	public boolean isShowingTitleIcon(){
 		return showTitleIcon;
 	}
-	
-	@Override
-    protected void onEnsureDebugId(String baseID) {
-        super.onEnsureDebugId(baseID);
-        titleLabel.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + titleLabel.getText() + "-label"));
-        layout.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + titleLabel.getText() + "-panel"));
-    }
 	
 	
 }

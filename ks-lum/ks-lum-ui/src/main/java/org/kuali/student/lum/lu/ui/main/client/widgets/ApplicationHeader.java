@@ -206,7 +206,7 @@ public class ApplicationHeader extends Composite{
 
     	navDropDown.setItems(items);
     	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
-    	navDropDown.ensureDebugId("Application-Header");
+
 	}
 
 	public void setContent(Widget wrappedContent){

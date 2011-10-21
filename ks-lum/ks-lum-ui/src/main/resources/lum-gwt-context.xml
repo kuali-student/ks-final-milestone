@@ -302,8 +302,6 @@
 		    	<value>unitsDeployment</value>
 		    	<value>revenues</value>
 		    	<value>expenditure</value>
-		    	<value>startTerm</value>
-		    	<value>endTerm</value>
 			</list>
 	    </property>
     </bean>

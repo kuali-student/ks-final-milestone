@@ -50,10 +50,6 @@ public abstract class KSTabPanelAbstract extends Composite {
     public abstract void removeTabCustomCallbacks(String key);
     
     public abstract String getSelectedTabKey();
-    
-    public abstract Widget getSelectedTab();
-    
-    public abstract String getSelectedTabName();
 
     public abstract boolean hasTabKey(String key);
     

@@ -426,7 +426,6 @@ position:relative;
 }
 
 .ks-form-module-elements {
-	min-width:415px;
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
@@ -435,7 +434,6 @@ position:relative;
 
 @if user.agent ie6 ie7 ie8 {
 	.ks-form-module-elements {
-		min-width:415px;
     	margin-bottom: 1px;
     	float: none;
     	margin-right: 20px;

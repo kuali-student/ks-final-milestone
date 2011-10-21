@@ -38,7 +38,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -283,11 +282,10 @@ public class CourseAdminController extends CourseProposalController{
         KSMenuItemData item = new KSMenuItemData(sectionName);
     	widget.getElement().setId(widgetId);
     	item.setClickHandler(new ClickHandler(){
-			@Override
-    	    public void onClick(ClickEvent event) {
-			    Element element = DOM.getElementById(widgetId);
-			    scrollToSection(element);
-			}
+			public void onClick(ClickEvent event) {		
+				//FIXME: This doesn't scroll to exactly the position stuff
+				DOM.getElementById(widgetId).scrollIntoView();
+			}    		
     	});
 
         if (parentItem != null) {
@@ -298,10 +296,6 @@ public class CourseAdminController extends CourseProposalController{
 
         menu.refresh();
     }
-
-    public native void scrollToSection(Element element) /*-{
-        element.scrollIntoView();
-    }-*/;
 
 	@Override
 	protected void configureScreens(DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback) {

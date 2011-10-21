@@ -61,7 +61,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  */
 @WebService(endpointInterface = "org.kuali.student.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
 
@@ -130,6 +129,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposal(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public ProposalInfo getProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalId, "proposalId");
         Proposal entity = proposalDao.fetch(Proposal.class, proposalId);
@@ -142,6 +142,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalType(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public ProposalTypeInfo getProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
@@ -153,6 +154,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalTypeInfo> getProposalTypes() throws OperationFailedException {
         List<ProposalType> proposalTypes = proposalDao.find(ProposalType.class);
         return ProposalAssembler.toProposalTypeInfos(proposalTypes);
@@ -162,6 +164,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypesForReferenceType(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalTypeInfo> getProposalTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
 
@@ -173,6 +176,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByIdList(java.util.List)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalInfo> getProposalsByIdList(List<String> proposalIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalIdList, "proposalIdList");
         checkForEmptyList(proposalIdList, "proposalIdList");
@@ -188,6 +192,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByProposalType(java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalInfo> getProposalsByProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
@@ -199,6 +204,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByReference(java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalInfo> getProposalsByReference(String referenceTypeKey, String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
         checkForMissingParameter(referenceId, "referenceId");
@@ -211,6 +217,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByState(java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ProposalInfo> getProposalsByState(String proposalState, String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalState, "proposalState");
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
@@ -223,6 +230,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalByWorkflowId()
      */
 	@Override
+    @Transactional(readOnly=true)
 	public ProposalInfo getProposalByWorkflowId(String workflowId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -236,6 +244,7 @@ public class ProposalServiceImpl implements ProposalService {
      * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
      */
     @Override
+    @Transactional(readOnly=true)
     public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
         List<ProposalReferenceType> referenceTypes = proposalDao.find(ProposalReferenceType.class);
         return ProposalAssembler.toReferenceTypeInfos(referenceTypes);

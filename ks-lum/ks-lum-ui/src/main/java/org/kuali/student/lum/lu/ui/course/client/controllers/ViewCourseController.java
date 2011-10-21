@@ -42,7 +42,6 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
@@ -66,7 +65,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -480,24 +478,22 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @Override
     public boolean isExportButtonActive() {
-        return true;
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
+            return true;
+        }
+        return false;
     }
     
     @Override
-    public List<ExportElement> getExportElementsFromView() {
-        List<ExportElement> exportElements = new ArrayList<ExportElement>();
-        ExportElement heading = new ExportElement();
-        heading.setFieldLabel("");
-        heading.setFieldValue(this.tabPanel.getSelectedTabName());
-        exportElements.add(heading);
-        if (this.getCurrentViewEnum() != null) { 
-            if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
-                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", "").get(0).getSubset());
-            } else if (this.getCurrentViewEnum().equals(ViewCourseSections.BRIEF)){
-                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", "").get(0).getSubset());
-            } else if (this.getCurrentViewEnum().equals(ViewCourseSections.CATALOG)){
-                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", ""));
-            }
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(tableSection.getTitle());
+            exportElements.add(heading);
+            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
         }
         return exportElements;
     }

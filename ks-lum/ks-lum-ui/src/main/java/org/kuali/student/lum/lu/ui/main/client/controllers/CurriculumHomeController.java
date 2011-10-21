@@ -30,7 +30,6 @@ import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
@@ -360,34 +359,34 @@ public class CurriculumHomeController extends LayoutController {
     }
 
     private CourseProposalController getCourseProposalController() {
-        courseProposalController = GWT.create(CourseProposalController.class);
+        courseProposalController = new CourseProposalController();
         return courseProposalController;
     }
 
     private CourseAdminController getCourseAdminController() {
-        courseAdminController = GWT.create(CourseAdminController.class);
+        courseAdminController = new CourseAdminController();
         return courseAdminController;
     }
     
     private CourseAdminWithoutVersionController getCourseAdminRetireController(){
-        courseAdminRetireController = GWT.create(CourseAdminRetireController.class);
+        courseAdminRetireController = new CourseAdminRetireController();
         return courseAdminRetireController;
     }
 
     private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
-        courseAdminWithoutVersionController = GWT.create(CourseAdminWithoutVersionController.class);
+        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
         return courseAdminWithoutVersionController;
     }
 
     private LayoutController getViewCourseController() {
         if (viewCourseController == null) {
-            viewCourseController = GWT.create(ViewCourseParentController.class);
+            viewCourseController = new ViewCourseParentController();
         }
         return this.viewCourseController;
     }
 
     private LayoutController getCluSetsController() {
-        manageCluSetsController = GWT.create(CluSetsManagementController.class);
+        manageCluSetsController = new CluSetsManagementController();
         return manageCluSetsController;
     }
 

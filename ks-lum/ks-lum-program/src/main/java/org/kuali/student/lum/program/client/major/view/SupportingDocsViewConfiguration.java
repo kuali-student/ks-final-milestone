@@ -56,7 +56,11 @@ public class SupportingDocsViewConfiguration extends AbstractSectionConfiguratio
     @Override
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-       		rootSection.addSection(createSupportingDocsSectionEdit());       		
+      	{
+    		VerticalSection section = new VerticalSection();
+       		section.addSection(createSupportingDocsSectionEdit());
+       		rootSection.addSection(section);       		
+      	}
       	else
       		configurer.addReadOnlyField(rootSection, ProgramConstants.ID, new MessageKeyInfo(""), new DocumentList(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE, false, false)).setWidgetBinding(new DocumentListBinding("id"));
     }

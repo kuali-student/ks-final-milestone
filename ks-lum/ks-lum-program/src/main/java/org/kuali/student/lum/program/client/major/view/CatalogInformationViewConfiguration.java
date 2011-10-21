@@ -51,11 +51,11 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
 
     @Override
     protected void buildLayout() {
+		TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-    		rootSection.addSection(createCatalogInformationSectionEdit());
+    		section.addSection(createCatalogInformationSectionEdit());
     	else
     	{
-    		TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
        		configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr()));
        		configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
        		configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors()));
@@ -65,8 +65,8 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
        		configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/timeQuantity", new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationCount()));
        		configurer.addReadOnlyField(section, ProgramConstants.DURATION_NOTES, new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationNotes()));
        		configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl()));
-            rootSection.addSection(section);
     	}
+        rootSection.addSection(section);
     }
     
     // Side-by-side comparison (when controller is not null)  

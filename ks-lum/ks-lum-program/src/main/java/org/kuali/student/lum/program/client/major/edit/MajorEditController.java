@@ -16,9 +16,6 @@ import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -29,21 +26,17 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
@@ -724,82 +717,4 @@ public class MajorEditController extends MajorController {
     public ProgramRequirementsDataModel getReqDataModelComp() {
         return reqDataModelComp;
     }
-    
-    @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
-        String viewName = null;
-        String sectionTitle = null;
-        View currentView = this.getCurrentView();
-        if (currentView != null) {
-            
-            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-            if (currentView != null && currentView instanceof Section) {
-                Section currentSection = (Section) currentView;
-                List<Section> nestedSections = currentSection.getSections();
-               	for (int i = 0; i < nestedSections.size(); i++) {
-               		ExportElement sectionExportItem = new ExportElement();
-               		ArrayList<ExportElement> subList = null;
-               		Section nestedSection = nestedSections.get(i);
-                   	if (nestedSection != null && nestedSection instanceof SectionView) {
-                   		SectionView nestedSectionView = (SectionView) nestedSection;
-                      	viewName =  nestedSectionView.getName();
-                      	subList = new ArrayList<ExportElement>();
-                        if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY)) {
-                           	sectionExportItem.setSectionName(viewName);
-
-                           	List<Section> sectionList = nestedSectionView.getSections();
-                        	for (int j = 0; j < sectionList.size(); j++) {
-                        		if (sectionList.get(j) instanceof SummaryTableSection)
-                        		{	
-                        			SummaryTableSection tableSection = (SummaryTableSection) sectionList.get(j);
-                            		ExportElement heading = new ExportElement();
-                            		heading.setFieldLabel("");
-                            		heading.setFieldValue(programModel.getModelName());
-                            		heading.setFieldValue2(comparisonModel.getModelName());
-                            		subList.add(heading);
-                            		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
-                        		} else if (sectionList.get(j) instanceof CollapsableSection)
-                        		{
-                        			List<Section> sectionColList = sectionList.get(j).getSections();
-                                	for (int k = 0; k < sectionColList.size(); k++) {
-                                		SummaryTableSection tableSection = (SummaryTableSection) sectionColList.get(k);
-                                		ExportElement heading = new ExportElement();
-                                		heading.setFieldLabel("");
-                                		heading.setFieldValue(programModel.getModelName());
-                                		heading.setFieldValue2(comparisonModel.getModelName());
-                                		subList.add(heading);
-                                		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
-                                	}	
-                        		}	
-                        	}	
-                        } else { 	
-                           	sectionTitle = nestedSectionView.getTitle();
-                           	sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
-                           	sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
-                           	subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
-                    	}
-                       	if (subList != null && subList.size()> 0) {
-                       		sectionExportItem.setSubset(subList);
-                       		if (i == 0 && this.getCurrentViewEnum().equals(ProgramSections.SUMMARY))
-                       			exportElements.add(sectionExportItem);
-                       		exportElements.add(sectionExportItem);
-                       	}	
-                    }	
-               	}
-            }
-            return exportElements;            
-        } else {
-//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
-        }
-        return null;    
-    }
-
-    @Override
-    public String getExportTemplateName() {
-        if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY))
-        	return "proposal.template";
-
-        return "base.template";        
-    }
-
 }

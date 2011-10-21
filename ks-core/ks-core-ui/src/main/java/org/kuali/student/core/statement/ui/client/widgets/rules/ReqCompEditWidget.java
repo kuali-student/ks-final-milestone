@@ -19,7 +19,6 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
@@ -87,7 +86,6 @@ public class ReqCompEditWidget extends FlowPanel {
 
         //wait until req. comp. types are loaded and user actually selects a type from drop down
         reqCompTypesList.setEnabled(false);
-        reqCompTypesList.ensureDebugId("Rule-Type");
         setEnableAddRuleButtons(false);
 
         setupReqCompTypesList();

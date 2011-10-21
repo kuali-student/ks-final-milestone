@@ -89,7 +89,7 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget, H
     public int getRemCount() {
         int rem = 0;
 
-        if ((this.getText() != null)) {
+        if ((this.getText() != null) && (this.getText().length() <= maxLength)) {
             rem = this.maxLength - ((TextBoxBase) (this.inputWidget)).getText().length();
         }
         if (this.getText() == null) {
@@ -101,21 +101,14 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget, H
 
     public String setLabel() {
         int rem = getRemCount();
-        String message = "";
 
-        if (this.getText().length() > this.maxLength) {
-            message = "Please remove " + rem * -1 + " characters";
-        } else {
-            message = rem + " " + Application.getApplicationContext().getUILabel("common", "remainingChars");
-        }
-        
         if ((rem <= (this.maxLength * 0.1)) || (rem <= 10)) {
             countingLabel.getElement().setAttribute("style", "color: red;");
         } else {
             countingLabel.getElement().removeAttribute("style");
         }
 
-        return message;
+        return (rem + " " + Application.getApplicationContext().getUILabel("common", "remainingChars"));
     }
 
     @Override

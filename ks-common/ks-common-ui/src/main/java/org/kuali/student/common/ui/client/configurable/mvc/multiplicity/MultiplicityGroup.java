@@ -35,7 +35,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
@@ -155,7 +154,6 @@ public class MultiplicityGroup extends Composite {
                 createItem();
             }
         });
-        addWidget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(this.getElement().getId() + "-" + config.getAddItemLabel()));
         return addWidget;
     }
 

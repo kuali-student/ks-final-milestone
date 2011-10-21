@@ -53,7 +53,7 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
     	{
-    		SummaryTableSection section = createMainSectionEdit(); 
+    		VerticalSection section = createMainSectionEdit(); 
     		CollapsableSection collapsableSection = createAdditionalSectionEdit();
             rootSection.addSection(section);
             rootSection.addSection(collapsableSection);

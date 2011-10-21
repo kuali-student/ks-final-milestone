@@ -176,10 +176,10 @@ margin-bottom: 10px;
 margin-bottom: 15px;
 }
 .KS-LONodeIndent {
-	width:49px;
+	width:50px;
 }
 .KS-LONodeIndentToolbar {
-    width:28px;
+    width:47px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {

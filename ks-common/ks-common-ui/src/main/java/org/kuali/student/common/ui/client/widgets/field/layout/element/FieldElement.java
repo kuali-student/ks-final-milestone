@@ -15,17 +15,13 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.HasWatermark;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTitleDescPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
@@ -35,7 +31,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -140,7 +135,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
      * @param info key for the messages used in this field element - see class description
      */
     public FieldElement(String key, MessageKeyInfo info){
-    	init(key, info, null, null);
+    	init(key, info, null);
     }
 
     /**
@@ -149,34 +144,34 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
      * @param info key for the messages used in this field element - see class description
      * @param widget widget used for input/display on this field
      */
-    public FieldElement(String key, MessageKeyInfo info, Widget widget, Metadata metadata){
-        init(key, info, widget, metadata);
-    
+    public FieldElement(String key, MessageKeyInfo info, Widget widget){
+    	init(key, info, widget);
+
     }
     
-    private void init(String key, MessageKeyInfo info, Widget widget, Metadata metadata ){
+    private void init(String key, MessageKeyInfo info, Widget widget){
     	String title = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(), info.getId());
-
+    	
     	String help = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + HELP_MESSAGE_KEY, metadata);
+    			info.getId() + HELP_MESSAGE_KEY);
     	if(help.equals(info.getId() + HELP_MESSAGE_KEY)){
     		help = null;
     	}
     	
     	String instructions = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + INSTRUCT_MESSAGE_KEY, metadata);
+    			info.getId() + INSTRUCT_MESSAGE_KEY);
     	if(instructions.equals(info.getId() + INSTRUCT_MESSAGE_KEY)){
     		instructions = null;
     	}
     	
-        String constraints = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-                info.getId() + CONSTRAINT_MESSAGE_KEY, metadata);
+    	String constraints = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
+    			info.getId() + CONSTRAINT_MESSAGE_KEY);
     	if(constraints.equals(info.getId() + CONSTRAINT_MESSAGE_KEY)){
     		constraints = null;
     	}
     	
     	watermarkText = Application.getApplicationContext().getUILabel(info.getGroup(), info.getType(), info.getState(),
-    			info.getId() + WATERMARK_MESSAGE_KEY, metadata);
+    			info.getId() + WATERMARK_MESSAGE_KEY);
     	if(watermarkText.equals(info.getId() + WATERMARK_MESSAGE_KEY)){
     		watermarkText = null;
     	}
@@ -187,8 +182,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
     private void generateLayout(String key, String title, String helpText, String instructText, String constraintText, Widget widget){
     	this.setKey(key);
 		fieldName = title;
+
 		fieldHTMLId = HTMLPanel.createUniqueId();
 		fieldTitle = new LabelPanel(title, fieldHTMLId);
+
 		required.setVisible(false);
 		fieldTitle.add(required);
 		if(helpText != null){
@@ -197,6 +194,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		else{
 			help.setVisible(false);
 		}
+
 		fieldTitle.add(help);
 		layout.add(fieldTitle);
 		if(instructText != null){
@@ -215,16 +213,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		instructions.setStyleName("ks-form-module-elements-instruction");
 		layout.add(instructions);
 		layout.add(widgetSpan);
+		if(widget != null){
+			this.setWidget(widget);
+		}
 		constraints.setStyleName("ks-form-module-elements-help-text");
 		layout.add(constraints);
+
+
         initWidget(layout);
         layout.addStyleName("ks-form-module-elements");
         layout.addStyleName("ks-form-module-single-line-margin");
-        layout.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(key != null ? key : title));
-        //Set the widget here to ensure the debug Ids are set properly
-        if(widget != null){
-            this.setWidget(widget);
-        }
     }
 
     /**
@@ -248,14 +246,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	    				((HasWatermark)input).setWatermarkText(watermarkText);
 	    			}
 	    			input.getElement().setAttribute("id", fieldHTMLId);
-	    			setDebugId(fieldWidget);
-	    			//The fieldWidget debugId might have set the input field debug id to something different depending on how 'onEnsureDebugId' was overridden.
-	    			//Override the input widget to have same id as fieldWidget
-	    			setDebugId(input);
-	    		}
+    			}
     			else{
     				fieldWidget.getElement().setAttribute("id", fieldHTMLId);
-    				setDebugId(fieldWidget);
     			}
     		}
     		else{
@@ -263,17 +256,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
         			((HasWatermark)fieldWidget).setWatermarkText(watermarkText);
         		}
     			fieldWidget.getElement().setAttribute("id", fieldHTMLId);
-    			setDebugId(fieldWidget);
-    			
     		}
     		
     		widgetSpan.add(fieldWidget);
     	}
-    }
-
-
-    private void setDebugId(final Widget widget) {
-        widget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(layout.getElement().getId()));
     }
     
     /**

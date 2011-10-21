@@ -53,11 +53,13 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
 
     @Override
     protected void buildLayout() {
+        Section section = null;
         if (controller instanceof MajorProposalController) {
-        	rootSection.addSection(createEditableSection());
+            section = createEditableSection();
         } else {
-        	rootSection.addSection(createReadOnlySection());
+            section = createReadOnlySection();
         }
+        rootSection.addSection(section);
     }
     
     private Section createEditableSection() {

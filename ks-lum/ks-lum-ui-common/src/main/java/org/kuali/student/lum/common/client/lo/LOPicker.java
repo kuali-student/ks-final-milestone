@@ -26,10 +26,14 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.TextArea;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
@@ -39,13 +43,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class LOPicker extends HorizontalPanel implements HasSelectionChangeHandlers{
 	KSLabel countLabel = new KSLabel();
-    KSTextArea loTextArea;
+    KSTextArea loTextArea = new KSTextArea(countLabel, 250);
     VerticalFlowPanel vp = new VerticalFlowPanel();
     LOCategoryBuilder loCategoryBuilder;
     Data metaInfoData; // temporary storage of metaInfo data this is needed when LO is updated
-    public LOPicker(String messageGroup, String type, String state, String loRepoKey, int maxLength) {
+    public LOPicker(String messageGroup, String type, String state, String loRepoKey) {
         super();
-        this.loTextArea = new KSTextArea(countLabel, maxLength);
         loCategoryBuilder = new LOCategoryBuilder(messageGroup, type, state, loRepoKey);
         loTextArea.removeStyleName("ks-form-module-elements");
         loTextArea.addStyleName("KS-LOTextArea");
@@ -76,10 +79,10 @@ public class LOPicker extends HorizontalPanel implements HasSelectionChangeHandl
         return loCategoryBuilder.getValue();
     }
     public String getLOText(){
-        return this.loTextArea.getText();
+        return loTextArea.getText();
     }
     public void setLOText(String value){
-        this.loTextArea.setText(value);
+        loTextArea.setText(value);
     }
     public Data getMetaInfoData() {
         return metaInfoData;
@@ -100,12 +103,4 @@ public class LOPicker extends HorizontalPanel implements HasSelectionChangeHandl
     private void fireChangeEvent(){
     	SelectionChangeEvent.fire(this);
     }
-    @Override
-    protected void onEnsureDebugId(String baseID) {
-        super.onEnsureDebugId(baseID);
-        loTextArea.ensureDebugId(baseID);
-        loCategoryBuilder.ensureDebugId(baseID);
-    }
-    
-    
 }

@@ -17,7 +17,6 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -325,7 +324,6 @@ public class CategoryManagement extends Composite {
         if(accreditationCheckBox.getValue() == true){
             bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
         }
-        Collections.sort(bufferList);
         categoryManagementTable.redraw(bufferList);
 
     }
@@ -436,14 +434,7 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
-            if (categoryTypeList != null) {
-                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
-                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getType())) {
-                        categoryTypeLabel.setText(catTypeInfo.getName());
-                        break;
-                    }
-                }
-            }
+            categoryTypeLabel.setText(categoryInfo.getType());
         }
     }
     class UpdateCategoryDialog extends KSLightBox {

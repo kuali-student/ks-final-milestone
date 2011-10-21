@@ -6,18 +6,9 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>1.2-m1-perf-SNAPSHOT</version>
   </parent>
   <dependencies>
-	<!-- This httpclient dependency must be declared above the gwt-dev dependency. 
-		The Selenium tests make use of this newer version of httpclient, but the 
-		gwt-dev dependency contains an older incompatible httpclient dependency that 
-		causes the tests to fail. Also the Selenium tests do work when this dependency 
-		is declared with 'test' scope, it has to be declared with 'compile' scope -->
-	<dependency>
-		<groupId>org.apache.httpcomponents</groupId>
-		<artifactId>httpclient</artifactId>
-	</dependency>
     <!--
 			GWT Dependencies - all dependencies here override "provided" scope
 			from ks-parent so they will be picked up by any project depending on

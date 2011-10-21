@@ -54,17 +54,17 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
 
     @Override
     protected void buildLayout() {
+		VerticalSection section = new VerticalSection();
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-    		rootSection.addSection(createSpecializationsSectionEdit());
+       		section.addSection(createSpecializationsSectionEdit());
     	else
     	{
-    		VerticalSection section = new VerticalSection();
     		KSCheckBox isVariationRequiredCheckBox = new KSCheckBox(ProgramProperties.get().programSpecialization_instructions());
     		isVariationRequiredCheckBox.setEnabled(false);
     		configurer.addReadOnlyField(section, ProgramConstants.IS_VARIATION_REQUIRED, null, isVariationRequiredCheckBox);
     		configurer.addReadOnlyField(section, ProgramConstants.VARIATIONS, new MessageKeyInfo(""), new FlexTable()).setWidgetBinding(new VariationsBinding(AppLocations.Locations.VIEW_VARIATION.getLocation(), false));
-    		rootSection.addSection(section);
     	}
+		rootSection.addSection(section);
     }
     
     // Side-by-side comparison (when controller is not null)  

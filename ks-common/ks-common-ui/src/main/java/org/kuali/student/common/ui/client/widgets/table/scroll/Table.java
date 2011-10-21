@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.util.BrowserUtils;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -390,20 +389,6 @@ public class Table extends Composite implements HasRetrieveAdditionalDataHandler
             return;
         }
         final TableCellWidget widget = new TableCellWidget(v);
-        final StringBuilder debugId = new StringBuilder();
-        if ("RowHeader".equals(columnId)) {
-            //Setup debug id
-            //Skip the first 'row selection' column
-            for (int i = 1; i < columnCount; i++) {
-                Column column = tableModel.getColumn(i);
-                Object value = row.getCellData(column.getId());
-                debugId.append(value);
-                if (i != columnCount - 1) {
-                    debugId.append("-");
-                }
-            }
-            widget.getDefaultTableEditor().ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(debugId.toString()));
-        }
         widget.setCellEditorValue(v);
         if (widget instanceof HasClickHandlers) {
             ((HasClickHandlers) widget).addClickHandler(new ClickHandler() {

@@ -57,14 +57,6 @@ public abstract class Configurer {
     protected String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
-    
-    protected String getLabel(String labelKey, String fieldKey) {
-        String parentPath = Application.getApplicationContext().getParentPath();
-        QueryPath path = QueryPath.concat(parentPath, fieldKey);
-        Metadata metadata = modelDefinition.getMetadata(path);
-        
-        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey, metadata);
-    }
 
     /**
      * Gets a section title which is an h1 element using the label key passed to retrieve the corresponding
