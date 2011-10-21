@@ -268,6 +268,18 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>commentService-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.core.atp.service.CommentService</className>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>courseOfferingService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
