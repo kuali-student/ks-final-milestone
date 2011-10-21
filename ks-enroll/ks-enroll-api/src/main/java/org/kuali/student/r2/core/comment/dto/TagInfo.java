@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * Refer to interface javadoc
+ *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
@@ -61,26 +62,9 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public static TagInfo newInstance() {
-        return new TagInfo();
-    }
-
-    public static TagInfo getInstance(TagInfo tag) {
-        return new TagInfo(tag);
-    }
-
-    /**
-     * Default constructor needs to be provided as we have an explicit parameterized constructor
-     */
     public TagInfo() {
     }
 
-
-    /**
-     * Constructs a new TagInfo from another Tag.
-     *
-     * @param tag the TAG to copy
-     */
     public TagInfo(Tag tag) {
         super(tag);
         if (null != tag) {
@@ -89,16 +73,12 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
             this.value = tag.getValue();
             this.referenceTypeKey = tag.getReferenceTypeKey();
             this.referenceId = tag.getReferenceId();
-            this.effectiveDate = new Date(tag.getEffectiveDate().getTime());
-            this.expirationDate = new Date(tag.getExpirationDate().getTime());
+            this.effectiveDate = (null != tag.getEffectiveDate()) ? new Date(tag.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != tag.getExpirationDate()) ? new Date(tag.getExpirationDate().getTime()) : null;
             this._futureElements = null;
         }
     }
 
-
-    /**
-     * Namespace of the tag.
-     */
     @Override
     public String getNamespace() {
         return namespace;
@@ -108,9 +88,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.namespace = namespace;
     }
 
-    /**
-     * Predicate of the tag.
-     */
     @Override
     public String getPredicate() {
         return predicate;
@@ -120,9 +97,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.predicate = predicate;
     }
 
-    /**
-     * Value of the tag.
-     */
     @Override
     public String getValue() {
         return value;
@@ -132,9 +106,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.value = value;
     }
 
-    /**
-     * Unique identifier for a reference type.
-     */
     @Override
     public String getReferenceTypeKey() {
         return referenceTypeKey;
@@ -144,9 +115,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.referenceTypeKey = referenceTypeKey;
     }
 
-    /**
-     * Identifier component for a reference. This is an external identifier and such may not uniquely identify a particular reference unless combined with the type. A referenceId could be a cluId, a luiId, an orgId, a documentId, etc.
-     */
     @Override
     public String getReferenceId() {
         return referenceId;
@@ -156,9 +124,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.referenceId = referenceId;
     }
 
-    /**
-     * Date and time that this tag became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -168,9 +133,6 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this tag expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
     @Override
     public Date getExpirationDate() {
         return expirationDate;
