@@ -441,6 +441,7 @@ public class WorkflowUtilities{
 		updateWorkflowActionsWidget();
 	}
 	
+    //callback is returned a List<ValidationResultInfo> result through the callback's exec
 	public void doValidationCheck(Callback<List<ValidationResultInfo>> callback){
 		dataModel.validateNextState(callback);
 	}
@@ -457,7 +458,7 @@ public class WorkflowUtilities{
 		if(model!=null){
 			String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
 			
-			//If proposalId in model has been set or changed, get new workflowId and update workfow widget
+			//If proposalId in model has been set or changed, get new workflowId and update workflow widget
 			if (modelProposalId != null && !modelProposalId.isEmpty() && !modelProposalId.equals(proposalId)){
 				proposalId = modelProposalId;
 				workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));

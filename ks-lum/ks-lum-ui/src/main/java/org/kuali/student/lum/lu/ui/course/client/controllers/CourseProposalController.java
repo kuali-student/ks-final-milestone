@@ -935,38 +935,47 @@ public class CourseProposalController extends MenuEditableSectionController impl
     // validation warnings after widget binding
     //This gets called twice which is not optimal
 	@Override
-	public <V extends Enum<?>> void showView(final V viewType,
-			final Callback<Boolean> onReadyCallback) {
+	public <V extends Enum<?>> void showView(final V viewType, final Callback<Boolean> onReadyCallback) {
 		Callback<Boolean> finalizeView = new Callback<Boolean>(){
-			public void exec(Boolean result) {
-				//Update cross constraints
+		    
+			public void exec(Boolean result) {   // Called from at least CourseSumamryConfigurer.generateProposalSummarySection.verticalSection.beforeShow.exec [KSCM-250]
+				
+			    //Update cross constraints
 				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
-		        }
+		        }				
 				
 				//When showing summary section make sure data gets validated in case there are warnings.
 				//TODO: Is it possible to cut down on this validation so it doesn't have to validate every time.
 				if (viewType == CourseSections.SUMMARY){
+				    
 					KSBlockingProgressIndicator.addTask(initializingTask);
-					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+					
+					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){ // server-side call
+					    
 						@Override
 						public void onSuccess(List<ValidationResultInfo> result) {
+						    
 							Application.getApplicationContext().clearValidationWarnings();
 							Application.getApplicationContext().addValidationWarnings(result);
+							
 							showWarnings();
+							
 							KSBlockingProgressIndicator.removeTask(initializingTask);
 						}						
 					});					
 				} else {
+				    
 					showWarnings();					
 				}
 				
 				onReadyCallback.exec(result);
 			}
         };
+        
 		super.showView(viewType, finalizeView);
 	}
- 
+	
 
    @Override
    public void showDefaultView(Callback<Boolean> onReadyCallback) {

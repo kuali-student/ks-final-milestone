@@ -507,6 +507,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	/**
 	 * Shows warnings stored to the application context
+	 * (i.e: dark-yellow highlighting of conflicts during review of a Course Proposal)
 	 */
 	protected void showWarnings(){		
 		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
