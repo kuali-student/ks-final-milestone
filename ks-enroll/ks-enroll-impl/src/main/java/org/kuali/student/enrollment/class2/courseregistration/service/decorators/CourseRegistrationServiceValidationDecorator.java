@@ -26,6 +26,11 @@ public class CourseRegistrationServiceValidationDecorator extends CourseRegistra
 
     private DataDictionaryValidator validator;
     private DataDictionaryService dataDictionaryService;
+
+    public void setLprService(LuiPersonRelationService lprService) {
+        this.lprService = lprService;
+    }
+
     private LuiPersonRelationService lprService;
 
     public DataDictionaryValidator getValidator() {

@@ -170,6 +170,8 @@
   </bean>
   
   <bean id="courseRegServiceValidation" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
+      <property name="lprService" ref="lprService" />
+      <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr" />
       <property name="nextDecorator" ref="courseRegistrationServiceImpl" />
   </bean>
 

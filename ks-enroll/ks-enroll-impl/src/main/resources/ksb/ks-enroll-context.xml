@@ -362,6 +362,8 @@
 
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
         <property name="validator" ref="validator"/>
+        <property name="lprService" ref="lprPersistenceService" />
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForLpr" />
         <property name="nextDecorator" ref="courseRegistrationImpl"/>
     </bean>
 
