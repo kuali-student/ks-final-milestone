@@ -2021,10 +2021,7 @@
        </property>
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="baseString">
-         <property name="minOccurs" value="1" />
-         <property name="maxOccurs" value="unbounded" />
-         <property name="validChars" ref="numeric"/>
+        <bean parent="resultComponentInfo.credit.multiple-constraint">
         </bean>
        </property>
       </bean>
@@ -2034,8 +2031,16 @@
   </property>
  </bean>
  <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
+ 
+ <bean id="resultComponentInfo.credit.multiple-constraint-parent" abstract="true"
+	parent="baseString">
+	<property name="minOccurs" value="1" />
+    <property name="maxOccurs" value="unbounded" />
+    <property name="validChars" ref="numeric"/>
+ </bean>
+ <bean id="resultComponentInfo.credit.multiple-constraint" parent="resultComponentInfo.credit.multiple-constraint-parent" />
 
- <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
+ <bean id="resultComponentInfo.minCreditValue-parent" abstract="true" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>
   <property name="dynamic" value="true"/>
   <property name="caseConstraint">
@@ -2053,11 +2058,7 @@
        </property>
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="baseString">
-         <property name="minOccurs" value="1" />
-         <property name="maxOccurs" value="1" />
-         <property name="validChars" ref="numeric"/>
-        </bean>
+        <ref bean="resultComponentInfo.credit.fixedAndRange-constraint" />
        </property>
       </bean>
      </list>
@@ -2065,8 +2066,9 @@
    </bean>
   </property>
  </bean>
+ <bean id="resultComponentInfo.minCreditValue" parent="resultComponentInfo.minCreditValue-parent" />
  
- <bean id="resultComponentInfo.maxCreditValue" parent="baseNumericString">
+ <bean id="resultComponentInfo.maxCreditValue-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="maxCreditValue"/>
   <property name="dynamic" value="true"/>
   <property name="caseConstraint">
@@ -2084,11 +2086,7 @@
        </property>
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="baseString">
-         <property name="minOccurs" value="1" />
-         <property name="maxOccurs" value="1" />
-         <property name="validChars" ref="numeric"/>
-        </bean>
+        <ref bean="resultComponentInfo.credit.fixedAndRange-constraint" />
        </property>
       </bean>
      </list>
@@ -2096,8 +2094,9 @@
    </bean>
   </property>
  </bean>
+ <bean id="resultComponentInfo.maxCreditValue" parent="resultComponentInfo.maxCreditValue-parent" />
  
- <bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
+ <bean id="resultComponentInfo.fixedCreditValue-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="fixedCreditValue"/>
   <property name="dynamic" value="true"/>
   <property name="caseConstraint">
@@ -2115,11 +2114,7 @@
        </property>
        <property name="constraint">
         <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="baseString">
-         <property name="minOccurs" value="1" />
-         <property name="maxOccurs" value="1" />
-         <property name="validChars" ref="numeric"/>
-        </bean>
+        <ref bean="resultComponentInfo.credit.fixedAndRange-constraint" />
        </property>
       </bean>
      </list>
@@ -2127,6 +2122,16 @@
    </bean>
   </property>
  </bean>
+ <bean id="resultComponentInfo.fixedCreditValue" parent="resultComponentInfo.fixedCreditValue-parent" />
+ 
+ <bean id="resultComponentInfo.credit.fixedAndRange-constraint-parent" abstract="true"
+	parent="baseString">
+	<property name="minOccurs" value="1" />
+	<property name="maxOccurs" value="1" />
+	<property name="validChars" ref="numeric" />
+ </bean>
+ <bean id="resultComponentInfo.credit.fixedAndRange-constraint" parent="resultComponentInfo.credit.fixedAndRange-constraint-parent" />
+ 
  <!-- VersionInfo-->
  <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
