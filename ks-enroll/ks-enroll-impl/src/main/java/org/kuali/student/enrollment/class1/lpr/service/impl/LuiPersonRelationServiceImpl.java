@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Author sambit
+ * @author sambit
  */
 @WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/lpr")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -1004,18 +1004,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                     }
                 }
                 if (existingItem) {
-                    LprTransactionItemEntity modifiedLprItemEntity = new LprTransactionItemEntity(modifiedTransactionItemInfo);
-                    if (null != modifiedTransactionItemInfo.getStateKey()) {
-                        modifiedLprItemEntity.setLprTransactionItemState(stateDao.find(modifiedTransactionItemInfo.getStateKey()));
-                    }
-                    if (null != modifiedTransactionItemInfo.getTypeKey()) {
-                        modifiedLprItemEntity.setLprTransactionItemType(lprTypeDao.find(modifiedTransactionItemInfo.getTypeKey()));
-                    }
-                    if (null != modifiedTransactionItemInfo.getDescr()) {
-                        modifiedLprItemEntity.setDescr(new LprRichTextEntity(modifiedTransactionItemInfo.getDescr()));
-                    }
-                    lprTransItemDao.merge(modifiedLprItemEntity);
-                    modifiedLprTransItemEntities.add(modifiedLprItemEntity);
+
+                    modifiedLprTransItemEntities.add(updateLprTransactionItem(modifiedTransactionItemInfo, context));
                 }
             }
 
@@ -1032,6 +1022,22 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return modifiedLprTransItemEntities;
 
     }
+
+    private LprTransactionItemEntity updateLprTransactionItem(LprTransactionItemInfo modifiedTransactionItemInfo, ContextInfo context){
+           LprTransactionItemEntity modifiedLprItemEntity = new LprTransactionItemEntity(modifiedTransactionItemInfo);
+                    if (null != modifiedTransactionItemInfo.getStateKey()) {
+                        modifiedLprItemEntity.setLprTransactionItemState(stateDao.find(modifiedTransactionItemInfo.getStateKey()));
+                    }
+                    if (null != modifiedTransactionItemInfo.getTypeKey()) {
+                        modifiedLprItemEntity.setLprTransactionItemType(lprTypeDao.find(modifiedTransactionItemInfo.getTypeKey()));
+                    }
+                    if (null != modifiedTransactionItemInfo.getDescr()) {
+                        modifiedLprItemEntity.setDescr(new LprRichTextEntity(modifiedTransactionItemInfo.getDescr()));
+                    }
+                    lprTransItemDao.merge(modifiedLprItemEntity);
+        return modifiedLprItemEntity;
+    }
+
     @Transactional(readOnly = false)
     private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, ContextInfo context) {
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
