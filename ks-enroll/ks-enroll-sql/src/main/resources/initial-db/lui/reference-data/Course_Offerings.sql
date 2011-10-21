@@ -93,6 +93,7 @@ insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, upd
 
 -- CO using previous desc and title
 insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('AFC579834097866CE040F50A8B7D25703', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', 'REFERENCECOURSEGEOG130', 'REFERENCECOURSEOFFERINGGEOG130DESCR', '', '', 'kuali.lui.state.draft', 'kuali.lui.type.course.offering', '', '', '', 'REFERENCECOURSEOFFERINGGEOG130OFFICIALID', '', 'REFERENCECOURSEOFFERINGGEOG130')
+/
 
 -- Honors = false
 insert into KSEN_LUI_LUCD (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, LUI_ID, TYPE, VALUE, ID) values ('AFC579834097866CE040F50A8B7D25704', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 'REFERENCECOURSEOFFERINGGEOG130', 'kuali.lu.code.honorsOffering', 0, 'REFERENCECOURSEOFFERINGGEOG130HONORS')
