@@ -20,4 +20,14 @@
         ID="Lui-3-Desc" PLAIN="Lui Desc 301 for deletion" VER_NBR="0"/>
     <KSEN_LUI_RICH_TEXT FORMATTED="&lt;p>Lui Desc 401&lt;/p>"
         ID="Lui-4-Desc" PLAIN="Lui Desc 401 for deletion" VER_NBR="0"/>
+    <KSEN_LUI_RICH_TEXT
+        FORMATTED="An introduction to the geographic characteristics of the development problems and prospects of developing countries. Spatial distribution of poverty, employment, migration and urban growth, agricultural productivity, rural development, policies and international trade. Portraits of selected developing countries."
+        ID="REFERENCECOURSEOFFERINGGEOG130DESCR"
+        OBJ_ID="AFC579834097866CE040F50A8B7D25701"
+        PLAIN="An introduction to the geographic characteristics of the development problems and prospects of developing countries. Spatial distribution of poverty, employment, migration and urban growth, agricultural productivity, rural development, policies and international trade. Portraits of selected developing countries." VER_NBR="0"/>
+    <KSEN_LUI_RICH_TEXT
+        FORMATTED="An introduction to the geographic characteristics of the development problems and prospects of developing countries. Spatial distribution of poverty, employment, migration and urban growth, agricultural productivity, rural development, policies and international trade. Portraits of selected developing countries."
+        ID="REFERENCECOURSEOFFERINGGEOG130DESCR2"
+        OBJ_ID="AFC579834097866CE040F50A8B7D25706"
+        PLAIN="An introduction to the geographic characteristics of the development problems and prospects of developing countries. Spatial distribution of poverty, employment, migration and urban growth, agricultural productivity, rural development, policies and international trade. Portraits of selected developing countries." VER_NBR="0"/>
 </dataset>
