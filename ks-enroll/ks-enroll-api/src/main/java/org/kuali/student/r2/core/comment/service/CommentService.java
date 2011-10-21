@@ -32,7 +32,8 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
- * The Comment Service allows for the creation and management of user comments and tags associated with other objects across the system.
+ * The Comment Service allows for the creation and management of user comments and tags associated with
+ * other objects across the system.
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
@@ -51,45 +52,11 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return information about a comment
      * @throws DoesNotExistException     specified commentId not found
      * @throws InvalidParameterException invalid commentId
-     * @throws MissingParameterException commentId not specified
+     * @throws MissingParameterException commentId, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public CommentInfo getComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized to invoke the getCommentsByReferenceAndType operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getCommentsByReferenceAndType, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
-     *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
-     * @param contextInfo      Context information containing the principalId and locale
-     *                         information about the caller of service operation
-     * @return Comment information
-     * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
-     * @throws InvalidParameterException invalid referenceId, referenceTypeKey
-     * @throws MissingParameterException referenceId, referenceTypeKey not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves comment information for a reference of a particular type. The expected behavior is that if the caller is not authorized to invoke the getCommentsByType operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getCommentsByType, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
-     *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
-     * @param commentTypeKey   comment type
-     * @param contextInfo      Context information containing the principalId and locale
-     *                         information about the caller of service operation
-     * @return list of Comment information
-     * @throws DoesNotExistException     specified referenceId, referenceTypeKey, commentTypeKey not found
-     * @throws InvalidParameterException invalid referenceId, referenceTypeKey,commentTypeKey
-     * @throws MissingParameterException referenceId, referenceTypeKey, commentTypeKey not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<CommentInfo> getCommentsByType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /**
      * Retrieves a list of Comments corresponding to the
@@ -101,7 +68,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return list of Comment information
      * @throws DoesNotExistException     an commentKey in list not found
      * @throws InvalidParameterException invalid commentKey
-     * @throws MissingParameterException missing commentKey
+     * @throws MissingParameterException commentIds, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -115,11 +82,31 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                       information about the caller of service operation
      * @return a list of Comment keys
      * @throws InvalidParameterException invalid commentTypeKey
-     * @throws MissingParameterException missing commentTypeKey
+     * @throws MissingParameterException commentTypeKey, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getCommentIdsByType(@WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized
+     * to invoke the getCommentsByReferenceAndType operation, a PERMISSION_DENIED error is returned.
+     * Assuming that the caller is authorized to invoke getCommentsByReferenceAndType, only comments that the caller
+     * is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized
+     * to view are filtered out of the return parameter.
+     *
+     * @param referenceId      reference identifier
+     * @param referenceTypeKey reference type
+     * @param contextInfo      Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @return Comment information
+     * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
+     * @throws InvalidParameterException invalid referenceId, referenceTypeKey
+     * @throws MissingParameterException referenceId, referenceTypeKey, contextInfo not specified
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Comments based on the criteria and returns a list
@@ -130,7 +117,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return list of Comment Ids
      * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @throws MissingParameterException criteria, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -145,7 +132,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return list of Comment information
      * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @throws MissingParameterException criteria, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -180,13 +167,14 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return detailed information about the comment
      * @throws DataValidationErrorException One or more values invalid for this operation
+     * @throws DoesNotExistException        comment does not exist
      * @throws InvalidParameterException    One or more parameters invalid
-     * @throws MissingParameterException    One or more parameters missing
+     * @throws MissingParameterException    commentId, commentInfo not specified
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
-     * @throws DoesNotExistException        comment does not exist
+     * @throws ReadOnlyException            attempted update of readonly data
      * @throws VersionMismatchException     The action was attempted on an out of date version.
-     * @throws ReadOnlyException            attempted update of readonly data    id or key is readonly
+
      */
     public CommentInfo updateComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, ReadOnlyException;
 
@@ -199,7 +187,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException     commentId, referenceId does not exist
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
+     * @throws MissingParameterException commentId, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -215,14 +203,20 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException     referenceId does not exist
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
+     * @throws MissingParameterException referenceId, referenceTypeKey not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteCommentsByReference(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates a comment. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the comment (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the comment can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
+     * Validates a comment. Depending on the value of validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects or expanded to perform all tests related
+     * to this object. If an identifier is present for the comment (and/or one of its contained sub-objects)
+     * and a record is found for that identifier, the validation checks if the comment can be shifted to the new
+     * values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the
+     * record does not exist and as such, the checks performed will be much shallower, typically mimicking those
+     * performed by setting the validationType to the current object.
      *
      * @param validationTypeKey identifier of the extent of validation
      * @param commentInfo       comment information to be tested
@@ -231,43 +225,10 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return results from performing the validation
      * @throws DoesNotExistException     validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey, commentInfo
-     * @throws MissingParameterException missing validationTypeKey, commentInfo
+     * @throws MissingParameterException validationTypeKey, commentInfo, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      */
     public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves tag information for a reference. The expected behavior is that if the caller is not authorized to invoke the getTags operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getTags, only tags that the caller is authorized to view are included in the returned tagInfoList; tags that the caller is unauthorized to view are filtered out of the return parameter.
-     *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
-     * @param contextInfo      Context information containing the principalId and locale
-     *                         information about the caller of service operation
-     * @return list of tag information for the given object ref id and type
-     * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
-     * @throws InvalidParameterException invalid referenceId, referenceTypeKey
-     * @throws MissingParameterException referenceId, referenceTypeKey not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<TagInfo> getTagsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves tag information for a reference of a particular type. The expected behavior is that if the caller is not authorized to invoke the getTagsByType operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getTagsByType, only tags that the caller is authorized to view are included in the returned tagInfoList; tags that the caller is unauthorized to view are filtered out of the return parameter.
-     *
-     * @param referenceId      reference identifier
-     * @param referenceTypeKey reference type
-     * @param tagTypeKey       tag type
-     * @param contextInfo      Context information containing the principalId and locale
-     *                         information about the caller of service operation
-     * @return list of tag information for the given type
-     * @throws DoesNotExistException     specified referenceId, referenceTypeKey, tagTypeKey not found
-     * @throws InvalidParameterException invalid referenceId, referenceTypeKey,tagTypeKey
-     * @throws MissingParameterException referenceId, referenceTypeKey, tagTypeKey not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<TagInfo> getTagsByType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "tagTypeKey") String tagTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves information about a tag.
@@ -278,7 +239,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return information about a tag
      * @throws DoesNotExistException     specified tagId not found
      * @throws InvalidParameterException invalid tagId
-     * @throws MissingParameterException tagId not specified
+     * @throws MissingParameterException tagId, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -295,7 +256,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return list of Tag information for the given list of Tag ids
      * @throws DoesNotExistException     an tagKey in list not found
      * @throws InvalidParameterException invalid tagKey
-     * @throws MissingParameterException missing tagKey
+     * @throws MissingParameterException tagIds, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -309,11 +270,30 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return a list of Tag ids
      * @throws InvalidParameterException invalid tagTypeKey
-     * @throws MissingParameterException missing tagTypeKey
+     * @throws MissingParameterException tagTypeKey, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getTagIdsByType(@WebParam(name = "tagTypeKey") String tagTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves tag information for a reference. The expected behavior is that if the caller is not authorized
+     * to invoke the getTags operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized
+     * to invoke getTags, only tags that the caller is authorized to view are included in the returned tagInfoList;
+     * tags that the caller is unauthorized to view are filtered out of the return parameter.
+     *
+     * @param referenceId      reference identifier
+     * @param referenceTypeKey reference type
+     * @param contextInfo      Context information containing the principalId and locale
+     *                         information about the caller of service operation
+     * @return list of tag information for the given object ref id and type
+     * @throws DoesNotExistException     specified referenceId, referenceTypeKey not found
+     * @throws InvalidParameterException invalid referenceId, referenceTypeKey
+     * @throws MissingParameterException referenceId, referenceTypeKey, contextInfo not specified
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TagInfo> getTagsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Tags based on the criteria and returns a list
@@ -324,7 +304,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return list of Tag Ids
      * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @throws MissingParameterException criteria, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -339,7 +319,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      *                    information about the caller of service operation
      * @return list of Tag information
      * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException parameter is missing
+     * @throws MissingParameterException criteria, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -356,9 +336,10 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return detailed information about the tag
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws DoesNotExistException        Id or Key does not exist
-     * @throws AlreadyExistsException       tag of that namespace, predicate and value already exists for that reference id
+     * @throws AlreadyExistsException       tag of that namespace, predicate and value already exists for that
+     *                                      reference id
      * @throws InvalidParameterException    One or more parameters invalid
-     * @throws MissingParameterException    One or more parameters missing
+     * @throws MissingParameterException    referenceId, referenceTypeKey, tagInfo, contextInfo not specified
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempted update of readonly data
@@ -375,7 +356,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException     tagId, referenceId does not exist
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
+     * @throws MissingParameterException referenceId, referenceTypeKey, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
@@ -390,7 +371,7 @@ public interface CommentService extends DataDictionaryService, TypeService {
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException     tagId does not exist
      * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters missing
+     * @throws MissingParameterException tagId, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
