@@ -10,7 +10,7 @@ public class LuiResultValuesGroupRelationEntity{
 	@Column(name = "ID")
 	private String id;
 
-    @ManyToOne
+    @ManyToOne(optional=false)
 	@JoinColumn(name="LUI_ID")
 	private LuiEntity lui;
 
