@@ -40,12 +40,12 @@
           </modules>
         </configuration>
       </plugin>
-      
+
       <!--  added by bonnie -->
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <configuration>        
+        <configuration>
            <systemProperties>
             <systemProperty>
               <name>jetty.port</name>
@@ -70,7 +70,7 @@
         </dependencies>
       </plugin>
       <!-- end -->
-      
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
@@ -79,10 +79,10 @@
 
           <path>/ks-embedded-dev</path>
           <port>8081</port>
-<!--           
+<!--
           <path>/kr-dev</path>
           <port>8080</port>
--->          
+-->
 
         </configuration>
         <dependencies>
@@ -110,6 +110,12 @@
   </build>
   <dependencies>
     <dependency>
+		<groupId>p6spy</groupId>
+		<artifactId>p6spy</artifactId>
+		<version>1.3</version>
+	</dependency>
+
+    <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aspects</artifactId>
     </dependency>
@@ -119,7 +125,7 @@
       <artifactId>commons-lang</artifactId>
       <version>2.6</version>
     </dependency>
-    
+
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-web</artifactId>
@@ -197,7 +203,7 @@
 		<artifactId>ks-enroll-api</artifactId>
 		<version>${project.version}</version>
 	</dependency>
-	
+
 	<!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
 	<dependency>
 		<groupId>org.kuali.student.enroll</groupId>
@@ -309,11 +315,11 @@
       <groupId>net.sf.jsr107cache</groupId>
       <artifactId>jsr107cache</artifactId>
     </dependency>
-    
+
      <dependency>
        <groupId>antlr</groupId>
        <artifactId>antlr</artifactId>
      </dependency>
-    
+
   </dependencies>
 </project>

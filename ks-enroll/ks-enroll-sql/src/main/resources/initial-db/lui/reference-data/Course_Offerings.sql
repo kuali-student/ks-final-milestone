@@ -1,5 +1,140 @@
 -- ---------------------------------------------------
---                   GEOG100
+--                   GEOG100 (Fall 2010)
+-- ---------------------------------------------------
+-- CO Description
+insert into KSEN_LUI_RICH_TEXT (OBJ_ID, VER_NBR, FORMATTED, PLAIN, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB1', 0, 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'REFERENCECOURSEOFFERINGGEOG100DESCR')
+/
+
+-- CO Title
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, CD, DIVISION, LNG_NAME, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB2', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'GEOG100', 'GEOG', 'Introduction to Geography', '', '', '100', '', '', 'REFERENCECOURSEOFFERINGGEOG100OFFICIALID')
+/
+
+-- CO using previous desc and title
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB3', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', 'REFERENCECOURSEGEOG100', 'REFERENCECOURSEOFFERINGGEOG100DESCR', '', '', 'kuali.lui.state.draft', 'kuali.lui.type.course.offering', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100OFFICIALID', '', 'REFERENCECOURSEOFFERINGGEOG100')
+/
+
+-- Honors = false
+insert into KSEN_LUI_LUCD (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, LUI_ID, TYPE, VALUE, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB4', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 'REFERENCECOURSEOFFERINGGEOG100', 'kuali.lu.code.honorsOffering', 0, 'REFERENCECOURSEOFFERINGGEOG100HONORS')
+/
+
+-- Final Grade Roster
+insert into KSEN_LPR_ROSTER (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_DUR_TYP_KEY, CHECK_IN_REQ, RT_DESCR_ID, STATE_ID, TYPE_ID, MAX_CAPACITY, NAME, TM_QUANTITY, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB5', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 0, '', 'kuali.lpr.roster.state.ready', 'kuali.lpr.roster.type.course.grade.final', 60, '', '', 'REFERENCECOURSEOFFERINGGEOG100GRADINGROSTER')
+/
+
+-- New CO Description
+insert into KSEN_LUI_RICH_TEXT (OBJ_ID, VER_NBR, FORMATTED, PLAIN, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB6', 0, 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'REFERENCECOURSEOFFERINGGEOG100DESCR2')
+/
+
+-- New Honors = false
+insert into KSEN_LUI_LUCD (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, LUI_ID, TYPE, VALUE, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB7', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 'REFERENCECOURSEOFFERINGGEOG100', 'kuali.lu.code.honorsOffering', 0, 'REFERENCECOURSEOFFERINGGEOG100HONORS2')
+/
+
+-- New CO Title
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, CD, DIVISION, LNG_NAME, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB8', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'GEOG100', 'GEOG', 'Introduction to Geography', '', '', '100', '', '', 'REFERENCECOURSEOFFERINGGEOG100OFFICIALID2')
+/
+
+-- Assign Instructor for CO
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB9', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG100INSTRUCTOR')
+/
+
+-- update CO
+update KSEN_LUI set OBJ_ID='', VER_NBR=1, updateId='', updateTime='', ATP_ID='testTermId0', CLU_ID='REFERENCECOURSEGEOG100', RT_DESCR_ID='REFERENCECOURSEOFFERINGGEOG100DESCR2', EFF_DT='', EXP_DT='', STATE_ID='kuali.lui.state.offered', TYPE_ID='kuali.lui.type.course.offering', MAX_SEATS=60, MIN_SEATS='', NAME='', OFFIC_LUI_ID='REFERENCECOURSEOFFERINGGEOG100OFFICIALID2', REF_URL='' where ID='REFERENCECOURSEOFFERINGGEOG100' and VER_NBR=0
+/
+
+-- update New Honors = false
+update KSEN_LUI_LUCD set OBJ_ID='2FBF60BD85E448A6AB8A333A6D9A62AB17', VER_NBR=1, updateId='', updateTime=to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), RT_DESCR_ID='', LUI_ID='REFERENCECOURSEOFFERINGGEOG100', TYPE='kuali.lu.code.honorsOffering', VALUE=0 where ID='REFERENCECOURSEOFFERINGGEOG100HONORS2' and VER_NBR=0
+/
+
+-- update New Title
+update KSEN_LUI_IDENT set OBJ_ID='2FBF60BD85E448A6AB8A333A6D9A62AB18', VER_NBR=1, updateId='', updateTime=to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), CD='GEOG100', DIVISION='GEOG', LNG_NAME='Introduction to Geography', SHRT_NAME='', ST='', SUFX_CD='100', TYPE='', VARTN='' where ID='REFERENCECOURSEOFFERINGGEOG100OFFICIALID2' and VER_NBR=0
+/
+
+-- Associate Roster with CO
+insert into KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID, LUI_ID) values ('REFERENCECOURSEOFFERINGGEOG100GRADINGROSTER', 'REFERENCECOURSEOFFERINGGEOG100')
+/
+
+-- Add Lecture AO1
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB10', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1')
+/
+
+-- Set Meeting time for Lecture AO1
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB11', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1', '', 'MO,WE;1300,1400', 'REFERENCECOURSEOFFERINGGEOG100MTGSCHED1')
+/
+
+-- CO delivered by Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB12', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG100', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1RELTN')
+/
+
+-- Assign Instructor for Lecture AO1
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB13', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1INSTRUCTOR')
+/
+
+-- Add DISCUSSION AO2
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB19', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2')
+/
+
+-- Set Meeting time for DISCUSSION AO2
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB20', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2', '', 'TU,TH;1300,1400', 'REFERENCECOURSEOFFERINGGEOG100MTGSCHED2')
+/
+
+-- CO delivered by DISCUSSION AO2
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB21', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG100', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2RELTN')
+/
+
+-- Assign Instructor for DISCUSSION AO2
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB22', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2INSTRUCTOR')
+/
+
+-- Add DISCUSSION AO3
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB23', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3')
+/
+
+-- Set Meeting time for DISCUSSION AO3
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB24', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3', '', 'TU,TH;1500,1600', 'REFERENCECOURSEOFFERINGGEOG100MTGSCHED3')
+/
+
+-- CO delivered by DISCUSSION AO3
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB25', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG100', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3RELTN')
+/
+
+-- Assign Instructor for DISCUSSION AO3
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB26', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3INSTRUCTOR')
+/
+
+-- Create RegGroup1
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB14', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1')
+/
+
+-- Associate RegGroup1 with CO
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB15', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1CORLTN')
+/
+
+-- Associate RegGroup1 with Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB16', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1AO1RLTN')
+/
+
+-- Associate RegGroup1 with DISCUSSION AO2
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB27', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY2', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1AO2RLTN')
+/
+
+-- Create RegGroup2
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB28', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2')
+/
+
+-- Associate RegGroup2 with CO
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB29', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2CORLTN')
+/
+
+-- Associate RegGroup2 with Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB30', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY1', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2AO1RLTN')
+/
+
+-- Associate RegGroup2 with DISCUSSION AO3
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB31', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1AO3RLTN')
+/
+
+-- ---------------------------------------------------
+--                   GEOG100 (Fall 2011)
 -- ---------------------------------------------------
 -- CO Description
 insert into KSEN_LUI_RICH_TEXT (OBJ_ID, VER_NBR, FORMATTED, PLAIN, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB1', 0, 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'An introduction to the broad field of geography as it is applicable to the general education student. The course presents the basic rationale of variations in human occupancy of the earth and stresses geographic concepts relevant to understanding world, regional and local issues.', 'REFERENCECOURSEOFFERINGGEOG100DESCR')
@@ -403,3 +538,137 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('AFC579834097866CE040F50A8B7D257031', 0, '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG130REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG130ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG130REGGROUP1AO3RLTN')
 /
 
+-- ---------------------------------------------------
+--                   GEOG201
+-- ---------------------------------------------------
+-- CO Description
+insert into KSEN_LUI_RICH_TEXT (OBJ_ID, VER_NBR, FORMATTED, PLAIN, ID) values ('F85B5A4A880546D9825F5FD5417FC1951', 0, 'A systematic introduction to the processes and associated forms of the atmosphere and earth''s surfaces emphasizing the interaction between climatology, hydrology and geomorphology.', 'A systematic introduction to the processes and associated forms of the atmosphere and earth''s surfaces emphasizing the interaction between climatology, hydrology and geomorphology.', 'REFERENCECOURSEOFFERINGGEOG201DESCR')
+/
+
+-- CO Title
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, CD, DIVISION, LNG_NAME, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, ID) values ('F85B5A4A880546D9825F5FD5417FC1952', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'GEOG201', 'GEOG', 'Geography of Environmental Systems', '', '', '201', '', '', 'REFERENCECOURSEOFFERINGGEOG201OFFICIALID')
+/
+
+-- CO using previous desc and title
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC1953', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', 'REFERENCECOURSEGEOG201', 'REFERENCECOURSEOFFERINGGEOG201DESCR', '', '', 'kuali.lui.state.draft', 'kuali.lui.type.course.offering', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201OFFICIALID', '', 'REFERENCECOURSEOFFERINGGEOG201')
+/
+
+-- Honors = false
+insert into KSEN_LUI_LUCD (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, LUI_ID, TYPE, VALUE, ID) values ('F85B5A4A880546D9825F5FD5417FC1954', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 'REFERENCECOURSEOFFERINGGEOG201', 'kuali.lu.code.honorsOffering', 0, 'REFERENCECOURSEOFFERINGGEOG201HONORS')
+/
+
+-- Final Grade Roster
+insert into KSEN_LPR_ROSTER (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_DUR_TYP_KEY, CHECK_IN_REQ, RT_DESCR_ID, STATE_ID, TYPE_ID, MAX_CAPACITY, NAME, TM_QUANTITY, ID) values ('F85B5A4A880546D9825F5FD5417FC1955', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 0, '', 'kuali.lpr.roster.state.ready', 'kuali.lpr.roster.type.course.grade.final', 80, '', '', 'REFERENCECOURSEOFFERINGGEOG201GRADINGROSTER')
+/
+
+-- New CO Description
+insert into KSEN_LUI_RICH_TEXT (OBJ_ID, VER_NBR, FORMATTED, PLAIN, ID) values ('F85B5A4A880546D9825F5FD5417FC1956', 0, 'A systematic introduction to the processes and associated forms of the atmosphere and earth''s surfaces emphasizing the interaction between climatology, hydrology and geomorphology.', 'A systematic introduction to the processes and associated forms of the atmosphere and earth''s surfaces emphasizing the interaction between climatology, hydrology and geomorphology.', 'REFERENCECOURSEOFFERINGGEOG201DESCR2')
+/
+
+-- New Honors = false
+insert into KSEN_LUI_LUCD (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, LUI_ID, TYPE, VALUE, ID) values ('F85B5A4A880546D9825F5FD5417FC1957', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', 'REFERENCECOURSEOFFERINGGEOG201', 'kuali.lu.code.honorsOffering', 0, 'REFERENCECOURSEOFFERINGGEOG201HONORS2')
+/
+
+-- New CO Title
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, CD, DIVISION, LNG_NAME, SHRT_NAME, ST, SUFX_CD, TYPE, VARTN, ID) values ('F85B5A4A880546D9825F5FD5417FC1958', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'GEOG201', 'GEOG', 'Geography of Environmental Systems', '', '', '201', '', '', 'REFERENCECOURSEOFFERINGGEOG201OFFICIALID2')
+/
+
+-- Assign Instructor for CO
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC1959', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG201INSTRUCTOR')
+/
+
+-- update CO
+update KSEN_LUI set OBJ_ID='', VER_NBR=1, updateId='', updateTime='', ATP_ID='testTermId1', CLU_ID='REFERENCECOURSEGEOG201', RT_DESCR_ID='REFERENCECOURSEOFFERINGGEOG201DESCR2', EFF_DT='', EXP_DT='', STATE_ID='kuali.lui.state.offered', TYPE_ID='kuali.lui.type.course.offering', MAX_SEATS=80, MIN_SEATS='', NAME='', OFFIC_LUI_ID='REFERENCECOURSEOFFERINGGEOG201OFFICIALID2', REF_URL='' where ID='REFERENCECOURSEOFFERINGGEOG201' and VER_NBR=0
+/
+
+-- update New Honors = false
+update KSEN_LUI_LUCD set OBJ_ID='F85B5A4A880546D9825F5FD5417FC19517', VER_NBR=1, updateId='', updateTime=to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), RT_DESCR_ID='', LUI_ID='REFERENCECOURSEOFFERINGGEOG201', TYPE='kuali.lu.code.honorsOffering', VALUE=0 where ID='REFERENCECOURSEOFFERINGGEOG201HONORS2' and VER_NBR=0
+/
+
+-- update New Title
+update KSEN_LUI_IDENT set OBJ_ID='F85B5A4A880546D9825F5FD5417FC19518', VER_NBR=1, updateId='', updateTime=to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), CD='GEOG201', DIVISION='GEOG', LNG_NAME='Geography of Environmental Systems', SHRT_NAME='', ST='', SUFX_CD='201', TYPE='', VARTN='' where ID='REFERENCECOURSEOFFERINGGEOG201OFFICIALID2' and VER_NBR=0
+/
+
+-- Associate Roster with CO
+insert into KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID, LUI_ID) values ('REFERENCECOURSEOFFERINGGEOG201GRADINGROSTER', 'REFERENCECOURSEOFFERINGGEOG201')
+/
+
+-- Add Lecture AO1
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC19510', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', 'c744103f-adc9-40e4-8b09-be69fd0f9ac8', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1')
+/
+
+-- Set Meeting time for Lecture AO1
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('F85B5A4A880546D9825F5FD5417FC19511', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1', '', 'MO,WE;1100,1200', 'REFERENCECOURSEOFFERINGGEOG201MTGSCHED1')
+/
+
+-- CO delivered by Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19512', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG201', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1RELTN')
+/
+
+-- Assign Instructor for Lecture AO1
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19513', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1INSTRUCTOR')
+/
+
+-- Add DISCUSSION AO2
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC19519', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', 'c744103f-adc9-40e4-8b09-be69fd0f9ac8', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2')
+/
+
+-- Set Meeting time for DISCUSSION AO2
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('F85B5A4A880546D9825F5FD5417FC19520', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2', '', 'TU,TH;1300,1400', 'REFERENCECOURSEOFFERINGGEOG201MTGSCHED2')
+/
+
+-- CO delivered by DISCUSSION AO2
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19521', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG201', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2RELTN')
+/
+
+-- Assign Instructor for DISCUSSION AO2
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19522', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2INSTRUCTOR')
+/
+
+-- Add DISCUSSION AO3
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC19523', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', 'c744103f-adc9-40e4-8b09-be69fd0f9ac8', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3')
+/
+
+-- Set Meeting time for DISCUSSION AO3
+insert into KSEN_LUI_MTG_SCHE (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, LUI_ID, SPACE_ID, TM_PRD, ID) values ('F85B5A4A880546D9825F5FD5417FC19524', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3', '', 'TU,TH;1500,1600', 'REFERENCECOURSEOFFERINGGEOG201MTGSCHED3')
+/
+
+-- CO delivered by DISCUSSION AO3
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19525', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia', '', 'REFERENCECOURSEOFFERINGGEOG201', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3RELTN')
+/
+
+-- Assign Instructor for DISCUSSION AO3
+insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, commitmentPercent, effectiveDate, expirationDate, luiId, personId, RELATION_STATE_ID, RELATION_TYPE_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19526', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3', 'fran', 'kuali.lpr.state.assigned', 'kuali.lpr.type.instructor.main', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3INSTRUCTOR')
+/
+
+-- Create RegGroup1
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC19514', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', 40, '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1')
+/
+
+-- Associate RegGroup1 with CO
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19515', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1CORLTN')
+/
+
+-- Associate RegGroup1 with Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19516', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1AO1RLTN')
+/
+
+-- Associate RegGroup1 with DISCUSSION AO2
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19527', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY2', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1AO2RLTN')
+/
+
+-- Create RegGroup2
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('F85B5A4A880546D9825F5FD5417FC19528', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId1', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', 40, '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2')
+/
+
+-- Associate RegGroup2 with CO
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19529', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2CORLTN')
+/
+
+-- Associate RegGroup2 with Lecture AO1
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19530', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY1', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2AO1RLTN')
+/
+
+-- Associate RegGroup2 with DISCUSSION AO3
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19531', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1AO3RLTN')
+/
