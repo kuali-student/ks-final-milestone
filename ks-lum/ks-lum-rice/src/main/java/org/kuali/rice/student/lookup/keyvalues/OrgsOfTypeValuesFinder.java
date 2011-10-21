@@ -9,6 +9,7 @@ import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SortDirection;
 
 public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 
@@ -23,35 +24,27 @@ public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 
 		SearchRequest searchRequest = new SearchRequest("org.search.generic");
 		searchRequest.addParam("org.queryParam.orgOptionalType",orgType);
-
+		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
+		searchRequest.setSortDirection(SortDirection.ASC);
 		try {
 			SearchResult results = getOrganizationService().search(searchRequest);
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
-				String orgShortName = "";
 				String orgLongName = "";
 				for (SearchResultCell resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
 						orgId = resultCell.getValue();
-					} else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-						orgShortName = resultCell.getValue();
-					} else if("org.resultColumn.orgLongName".equals(resultCell.getKey())){
+					} else if("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())){
 						orgLongName = resultCell.getValue();
 					}
 				}
-		        if (StringUtils.isBlank(orgLongName)) {
-		           //use shortName when longName is blank
-		            orgEntities.add(buildKeyLabelPair(orgId, orgShortName, null, null));
-		        }
-		        else {
-		            /*
-		             * The requirement is that in the RICE portal, when we add a principal to a role
-		             * the drop-down list for Department or Division should display the full/long 
-		             * names instead of short names.
-		             */
-		            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
-		        }
+	            /*
+	             * The requirement is that in the RICE portal, when we add a principal to a role
+	             * the drop-down list for Department or Division should display the full/long 
+	             * names instead of short names.
+	             */
+	            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
 			}
 
 			return orgEntities;
