@@ -78,7 +78,14 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       <list>
         <bean parent="LookupCriteriaAttributeField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
         <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.name"/>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/> 
+        <bean parent="LookupCriteriaAttributeField" p:title="type" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
+            <property name="control">
+                <bean parent="SelectControl"/>
+            </property>
+            <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
+            </property>
+        </bean>
       </list>
     </property>
     <property name="resultFields">

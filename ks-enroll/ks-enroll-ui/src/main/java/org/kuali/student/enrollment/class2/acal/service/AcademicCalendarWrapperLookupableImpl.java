@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
-//    public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "academicCalendarInfo.credentialProgramTypeKey";
-//    public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
+    public final static String CREDENTIAL_PROGRAM_TYPE_KEY = "academicCalendarInfo.credentialProgramTypeKey";
+    public final static String ACADEMIC_CALENDAR_NAME = "academicCalendarInfo.name";
     public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "key";
  	private transient AcademicCalendarService academicCalendarService;
  	
@@ -28,43 +28,67 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
     	List<AcademicCalendarWrapper> academicCalendarWrapperList = new ArrayList<AcademicCalendarWrapper>();
-    	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
-    	List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();    
-    	AcademicCalendarInfo academicCalendarInfo = null;
+        List<AcademicCalendarInfo> academicCalendarInfoList = new ArrayList<AcademicCalendarInfo>();
 
     	String academicCalendarKey = fieldValues.get(ACADEMIC_CALENDAR_WRAPPER_KEY);
+        String academicCalendarName = fieldValues.get(ACADEMIC_CALENDAR_NAME);
+        String credentialProgramType =  fieldValues.get(CREDENTIAL_PROGRAM_TYPE_KEY);
         System.out.println(">>>academicCalendarKey = "+academicCalendarKey);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
-    		academicCalendarInfo = getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context);
-    		academicCalendarWrapper.setAcademicCalendarInfo(academicCalendarInfo);
-            List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarKey, context);
-            for (TermInfo term : terms){
-                TermWrapper termWrapper = new TermWrapper();
-                termWrapper.setTermInfo(term);
-                List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getKey(), context);
-                for (KeyDateInfo keyDateInfo : keyDateInfoList){
-    				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-                        termWrapper.setClassesMeetDates(keyDateInfo);
-    				}
-    				else if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-    					termWrapper.setRegistrationPeriod(keyDateInfo);
-    				}
-    				else if(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-    					termWrapper.setDropPeriodEndsDate(keyDateInfo);
-    				}
-    				else if(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-    					termWrapper.setFinalExaminationsDates(keyDateInfo);
-    				}
-    				else if(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
-    					termWrapper.setGradesDueDate(keyDateInfo);
-    				}
-    		    }
-                termWrapperList.add(termWrapper);
+            if(academicCalendarKey != null && !academicCalendarKey.trim().isEmpty()){
+    		    AcademicCalendarInfo acal = getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context);
+                if (acal != null) academicCalendarInfoList.add(acal);
             }
-            academicCalendarWrapper.setTermWrapperList(termWrapperList);
-    		academicCalendarWrapperList.add(academicCalendarWrapper);
-    		return academicCalendarWrapperList;
+            else {
+                List<AcademicCalendarInfo> acals = getAcademicCalendarService().getAcademicCalendarsByCredentialProgramType(credentialProgramType, context);
+                if(!acals.isEmpty()){
+                    if(academicCalendarName != null && !academicCalendarName.trim().isEmpty()){
+                        for (AcademicCalendarInfo academicCalendarInfo : acals){
+                            if(academicCalendarInfo.getName()!= null && academicCalendarInfo.getName().equals(academicCalendarName))
+                                academicCalendarInfoList.add(academicCalendarInfo);
+                        }
+                    }
+                    else
+                        academicCalendarInfoList = acals;
+                }
+            }
+
+            if(!academicCalendarInfoList.isEmpty()){
+                for(AcademicCalendarInfo academicCalendarInfo : academicCalendarInfoList){
+                    AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
+    	            List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();
+
+                    academicCalendarWrapper.setAcademicCalendarInfo(academicCalendarInfo);
+                    List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarInfo.getKey(), context);
+                    for (TermInfo term : terms){
+                        TermWrapper termWrapper = new TermWrapper();
+                        termWrapper.setTermInfo(term);
+                        List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getKey(), context);
+                        for (KeyDateInfo keyDateInfo : keyDateInfoList){
+                            if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                                termWrapper.setClassesMeetDates(keyDateInfo);
+                            }
+                            else if(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                                termWrapper.setRegistrationPeriod(keyDateInfo);
+                            }
+                            else if(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                                termWrapper.setDropPeriodEndsDate(keyDateInfo);
+                            }
+                            else if(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                                termWrapper.setFinalExaminationsDates(keyDateInfo);
+                            }
+                            else if(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
+                                termWrapper.setGradesDueDate(keyDateInfo);
+                            }
+                        }
+                        termWrapperList.add(termWrapper);
+                    }
+                    academicCalendarWrapper.setTermWrapperList(termWrapperList);
+                    academicCalendarWrapperList.add(academicCalendarWrapper);
+                }
+            }
+
         }catch (DoesNotExistException dnee){
            System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get DoesNotExistException:  "+dnee.toString());
 	    }catch (InvalidParameterException ipe){
@@ -76,7 +100,7 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
 	    }catch (PermissionDeniedException pde){
                 System.out.println("call getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context), and get PermissionDeniedException:  "+pde.toString());
 	    }
-    	return null;
+    	return academicCalendarWrapperList;
         
     }
     
