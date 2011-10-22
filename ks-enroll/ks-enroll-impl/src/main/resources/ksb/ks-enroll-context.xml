@@ -398,6 +398,9 @@
     <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
     <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
         <property name="courseRegService" ref="courseRegistrationService"/>
+        <property name="atpService" ref="atpEnrService" />
+        <property name="gradingService" ref="gradingService" />
+        <property name="lrcService" ref="lrcPersistenceService" />
         <property name="courseRecordAssembler" ref="courseRecordAssembler"/>
     </bean>
 

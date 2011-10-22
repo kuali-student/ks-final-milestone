@@ -9,6 +9,7 @@ import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -16,11 +17,42 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class AcademicRecordServiceImpl implements AcademicRecordService{
 	private CourseRegistrationService courseRegService;
+
+    public GradingService getGradingService() {
+        return gradingService;
+    }
+
+    public void setGradingService(GradingService gradingService) {
+        this.gradingService = gradingService;
+    }
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+
+    private GradingService gradingService;
+    private LRCService lrcService;
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    private AtpService atpService;
 	private StudentCourseRecordAssembler courseRecordAssembler;
 	
 	public CourseRegistrationService getCourseRegService() {
@@ -38,7 +70,10 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 
 	public void setCourseRecordAssembler(
 			StudentCourseRecordAssembler courseRecordAssembler) {
-		this.courseRecordAssembler = courseRecordAssembler;
+		courseRecordAssembler.setAtpService(atpService);
+        courseRecordAssembler.setGradingService(gradingService);
+        courseRecordAssembler.setLrcService(lrcService);
+        this.courseRecordAssembler = courseRecordAssembler;
 	}
 
 	@Override
