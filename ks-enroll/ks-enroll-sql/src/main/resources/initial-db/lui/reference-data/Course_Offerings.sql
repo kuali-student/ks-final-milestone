@@ -133,6 +133,9 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('EF76F01208BB4548ACBA56DB4AAF631631', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100FALL2011REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100FALL2011ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG100FALL2011REGGROUP1AO3RLTN')
 /
 
+-- Set Grading Method on CO
+INSERT INTO KSEN_LUI_RV_GRP_RELTN (ID, LUI_ID, RV_GRP_ID) VALUES ('50D39EC5276B47C49899107D684629EB0', 'REFERENCECOURSEOFFERINGGEOG100FALL2011', 'kuali.resultComponent.grade.letter')
+/
 
 -- ---------------------------------------------------
 --                   GEOG100 (Fall 2011)
@@ -267,6 +270,10 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 
 -- Associate RegGroup2 with DISCUSSION AO3
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('2FBF60BD85E448A6AB8A333A6D9A62AB31', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG100ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG100REGGROUP1AO3RLTN')
+/
+
+-- Set Grading Method on CO
+INSERT INTO KSEN_LUI_RV_GRP_RELTN (ID, LUI_ID, RV_GRP_ID) VALUES ('50D39EC5276B47C49899107D684629EB1', 'REFERENCECOURSEOFFERINGGEOG100', 'kuali.resultComponent.grade.letter')
 /
 
 -- ---------------------------------------------------
@@ -404,6 +411,10 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('BF0242C0827B41138BAF7A4CBECFD43131', 0, '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG123REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG123ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG123REGGROUP1AO3RLTN')
 /
 
+-- Set Grading Method on CO
+INSERT INTO KSEN_LUI_RV_GRP_RELTN (ID, LUI_ID, RV_GRP_ID) VALUES ('50D39EC5276B47C49899107D684629EB2', 'REFERENCECOURSEOFFERINGGEOG123', 'kuali.resultComponent.grade.letter')
+/
+
 -- ---------------------------------------------------
 --                   GEOG130
 -- ---------------------------------------------------
@@ -539,6 +550,10 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('AFC579834097866CE040F50A8B7D257031', 0, '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 1.39.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG130REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG130ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG130REGGROUP1AO3RLTN')
 /
 
+-- Set Grading Method on CO
+INSERT INTO KSEN_LUI_RV_GRP_RELTN (ID, LUI_ID, RV_GRP_ID) VALUES ('50D39EC5276B47C49899107D684629EB3', 'REFERENCECOURSEOFFERINGGEOG130', 'kuali.resultComponent.grade.letter')
+/
+
 -- ---------------------------------------------------
 --                   GEOG201
 -- ---------------------------------------------------
@@ -672,4 +687,8 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 
 -- Associate RegGroup2 with DISCUSSION AO3
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, RT_DESCR_ID, EFF_DT, EXP_DT, LUI_ID, STATE_ID, TYPE_ID, NAME, RELATED_LUI_ID, ID) values ('F85B5A4A880546D9825F5FD5417FC19531', 0, '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('21-Oct-11 3.35.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', '', '', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP2', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia', '', 'REFERENCECOURSEOFFERINGGEOG201ACTIVITY3', 'REFERENCECOURSEOFFERINGGEOG201REGGROUP1AO3RLTN')
+/
+
+-- Set Grading Method on CO
+INSERT INTO KSEN_LUI_RV_GRP_RELTN (ID, LUI_ID, RV_GRP_ID) VALUES ('50D39EC5276B47C49899107D684629EB4', 'REFERENCECOURSEOFFERINGGEOG100', 'kuali.resultComponent.grade.letter')
 /
