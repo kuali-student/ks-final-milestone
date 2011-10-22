@@ -111,8 +111,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             courseOfferingItemInfo.setNewLuiId(courseOfferingId);
             courseOfferingItemInfo.setId(null);
+            ArrayList<String> resultOptions = new ArrayList<String>();
+            resultOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+            courseOfferingItemInfo.setResultOptionKeys(resultOptions);
             lprActivityTransactionItems.add(courseOfferingItemInfo);
             newTransactionItems.add(courseOfferingItemInfo);
+
+
+
 
         } else {
             // TODO: copy the transaction item and change the type
@@ -420,11 +426,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         RegResponseInfo returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);
 
-/*        if (checkSuccessfulRegCriteria(returnRegResponse)) {
+        if (checkSuccessfulRegCriteria(returnRegResponse)) {
 
             createGradeRosterEntryForRegisteredStudent(submittedLprTransaction, context);
 
-        }*/
+        }
 
         return returnRegResponse;
 
@@ -437,6 +443,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private void createGradeRosterEntryForRegisteredStudent(LprTransactionInfo submittedLprTransaction, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException,
             InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
 
+        // TODO: since we're creating at a minimum 3 lprs per course reg we shouldn't loop through all of them.  need a way to get directly to the grade roster
         for (LprTransactionItemInfo lprItem : submittedLprTransaction.getLprTransactionItems()) {
             if (lprItem.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
                 LprRosterEntryInfo newLprRosterEntry = new LprRosterEntryInfo();
@@ -448,10 +455,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         context);
                 if (lprRosters.size() == 1) {
                     newLprRosterEntry.setLprRosterId(lprRosters.get(0).getId());
-                } else {
-                    throw new OperationFailedException("The number of final grade rosters should be one for course offering: " + lprItem.getNewLuiId());
+                    lprService.createLprRosterEntry(newLprRosterEntry, context);
                 }
-                lprService.createLprRosterEntry(newLprRosterEntry, context);
 
             }
 
