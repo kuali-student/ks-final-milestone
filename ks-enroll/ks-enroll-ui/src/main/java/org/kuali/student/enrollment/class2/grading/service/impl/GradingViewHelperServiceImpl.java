@@ -69,7 +69,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 && field.getControl() instanceof SelectControl) {
             GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
             for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
-                keyValues.add(new ConcreteKeyValue(option.getKey(), option.getName()));
+                keyValues.add(new ConcreteKeyValue(option.getKey(), option.getValue()));
             }
             ((SelectControl) field.getControl()).setOptions(keyValues);
         }
