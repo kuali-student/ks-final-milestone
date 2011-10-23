@@ -1369,15 +1369,15 @@
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="AFE46B60ECC9F553E040C60AF05B5822" LOCALE="en"
+        ID="AFEE9EE5D4630C3AE040C60AF05B6E4C" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="AFE46B60ECCAF553E040C60AF05B5822" VER_NBR="1"/>
+        OBJ_ID="AFEE9EE5D4640C3AE040C60AF05B6E4C" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="AFE46B60ECCBF553E040C60AF05B5822" LOCALE="en"
+        ID="AFEE9EE5D4650C3AE040C60AF05B6E4C" LOCALE="en"
         MSG_ID="validation.validChars.positive.numeric.range"
         MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="AFE46B60ECCCF553E040C60AF05B5822" VER_NBR="1"/>
+        OBJ_ID="AFEE9EE5D4660C3AE040C60AF05B6E4C" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
