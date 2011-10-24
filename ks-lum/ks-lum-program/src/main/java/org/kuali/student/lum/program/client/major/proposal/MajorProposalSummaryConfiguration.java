@@ -210,16 +210,16 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 
         warnContainer.add(w);
         w.addStyleName("ks-button-spacing");
-        warnContainer.add(new KSButton("Return to Curriculum Management",
-                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-
-                    @Override
-                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
-                        Application
-                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
-                                        .getLocation());
-                    }
-                }));
+//        warnContainer.add(new KSButton("Return to Curriculum Management",
+//                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+//
+//                    @Override
+//                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+//                        Application
+//                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
+//                                        .getLocation());
+//                    }
+//                }));
 
         // KSLAB-1985:  Warning logic/display moved to generateProposalSummarySection() where error states are established
 
