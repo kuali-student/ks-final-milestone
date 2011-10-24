@@ -93,7 +93,7 @@ public class CourseSummaryConfigurer extends Configurer implements
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
 
-    private static final String OPTIONAL = "o";
+    protected static final String OPTIONAL = "o";
 
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
@@ -101,12 +101,12 @@ public class CourseSummaryConfigurer extends Configurer implements
     private List<StatementTypeInfo> stmtTypes;
 
     private Controller controller;
-    private SummaryTableSection tableSection; // review proposal data display
+    protected SummaryTableSection tableSection; // review proposal data display
     private String modelId;
 
     private List<Anchor> validateLinks = new ArrayList<Anchor>(); //KSLAB-1985
 
-    private class EditHandler implements ClickHandler {
+    protected class EditHandler implements ClickHandler {
 
         Enum<?> view;
 
@@ -119,8 +119,26 @@ public class CourseSummaryConfigurer extends Configurer implements
             controller.showView(view);
         }
     }
+    
+    public CourseSummaryConfigurer(){
+        
+    }
 
     public CourseSummaryConfigurer(String type, String state, String groupName,
+            DataModelDefinition modelDefinition,
+            List<StatementTypeInfo> stmtTypes, Controller controller,
+            String modelId) {
+        this.type = type;
+        this.state = state;
+        this.groupName = groupName;
+        this.modelDefinition = modelDefinition;
+        this.stmtTypes = stmtTypes;
+        this.controller = controller;
+        this.modelId = modelId;
+        tableSection = new SummaryTableSection((Controller) controller);
+    }
+    
+    public void initialize(String type, String state, String groupName,
             DataModelDefinition modelDefinition,
             List<StatementTypeInfo> stmtTypes, Controller controller,
             String modelId) {
@@ -924,13 +942,13 @@ public class CourseSummaryConfigurer extends Configurer implements
         return requisiteField;
     }
 
-    private MultiplicityConfiguration getMultiplicityConfig(String path,
+    protected MultiplicityConfiguration getMultiplicityConfig(String path,
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels) {
         return getMultiplicityConfig(path, itemLabelMessageKey,
                 fieldKeysAndLabels, null);
     }
 
-    private MultiplicityConfiguration getMultiplicityConfig(String path,
+    protected MultiplicityConfiguration getMultiplicityConfig(String path,
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels,
             Map<String, ModelWidgetBinding> customBindings) {
         QueryPath parentPath = QueryPath.concat(path);
