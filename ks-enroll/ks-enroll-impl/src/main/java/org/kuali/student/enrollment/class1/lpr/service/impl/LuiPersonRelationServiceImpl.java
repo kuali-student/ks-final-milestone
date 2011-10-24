@@ -864,6 +864,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 lprTransResultInfo.setResultingLprId(lprCreated);
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                //TODO this needs to be implemented for drop to work
                 LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
 
@@ -919,7 +920,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         List<LprTransactionInfo> lprTransInfos = new ArrayList<LprTransactionInfo>();
 
         for (LprTransactionItemEntity lprTransItem : lprTransItems) {
-            LuiInfo lui = luiDao.find(lprTransItem.getNewLuiId()).toDto();
+            String luiId;
+            if(lprTransItem.getNewLuiId() != null){
+                luiId = lprTransItem.getNewLuiId();
+            }
+            else{
+                luiId = lprTransItem.getExistingLuiId();
+            }
+            LuiInfo lui = luiDao.find(luiId).toDto();
             if (lui.getAtpKey().equals(atpKey)) {
 
                 LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
@@ -977,8 +985,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
          
             modifiedLprTrans.setLprTransactionItems(lprTransItemEntityList);
             lprTransDao.merge(modifiedLprTrans);
-            LprTransactionEntity lprTransToReturn = lprTransDao.find(modifiedLprTrans.getId());
-            return lprTransToReturn.toDto();
+            return lprTransDao.find(modifiedLprTrans.getId()).toDto();
 
         } else
             throw new DoesNotExistException(lprTransactionId);

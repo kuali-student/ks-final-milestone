@@ -114,7 +114,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             ArrayList<String> resultOptions = new ArrayList<String>();
             resultOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
             courseOfferingItemInfo.setResultOptionKeys(resultOptions);
-            lprActivityTransactionItems.add(courseOfferingItemInfo);
             newTransactionItems.add(courseOfferingItemInfo);
 
 
