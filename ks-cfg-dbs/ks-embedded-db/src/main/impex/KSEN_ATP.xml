@@ -4,6 +4,15 @@
 <dataset>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.AcademicCalendar"
+        END_DT="20110831000000" ID="AcademicCalendar20102011"
+        NAME="2010-2011 Academic Calendar"
+        RT_DESCR_ID="AcademicCalendar20102011" START_DT="20100901000000" VER_NBR="0"/>
+    <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
+        ATP_TYPE_ID="kuali.atp.type.Spring" END_DT="20110608000000"
+        ID="Spring2011" NAME="Spring 2011" RT_DESCR_ID="Spring2011"
+        START_DT="20110326000000" VER_NBR="0"/>
+    <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
+        ATP_TYPE_ID="kuali.atp.type.AcademicCalendar"
         END_DT="20010601000000" ID="termRelationTestingAcal1"
         NAME="testingAcal1" RT_DESCR_ID="RICHTEXT-TRT-3"
         START_DT="20000901000000" VER_NBR="0"/>
@@ -61,9 +70,9 @@
         NAME="testDeleteAtp2" RT_DESCR_ID="RICHTEXT-104"
         START_DT="20000101000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.Spring" END_DT="20110608000000"
-        ID="testTermId0" NAME="Spring 2011" RT_DESCR_ID="RICHTEXT-201"
-        START_DT="20110326000000" VER_NBR="0"/>
+        ATP_TYPE_ID="kuali.atp.type.Fall" END_DT="20101216000000"
+        ID="testTermId0" NAME="Fall 2010" RT_DESCR_ID="RICHTEXT-201"
+        START_DT="20100915000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
         ATP_TYPE_ID="kuali.atp.type.Fall" END_DT="20111216000000"
         ID="testTermId1" NAME="Fall 2011" RT_DESCR_ID="RICHTEXT-201"
