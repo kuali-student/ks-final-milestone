@@ -2,11 +2,11 @@ package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -15,10 +15,10 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFiel
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,20 +29,27 @@ public class ProposalChangeImpactViewConfiguration extends AbstractSectionConfig
     
     private Controller controller;
 
-    public static ProposalChangeImpactViewConfiguration create() { 
-        return new ProposalChangeImpactViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, ProgramProperties.get().program_menu_sections_proposalChangeImpact(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static ProposalChangeImpactViewConfiguration create(Configurer configurer) { 
+        return new ProposalChangeImpactViewConfiguration(configurer);
     }
 
-    public static ProposalChangeImpactViewConfiguration createSpecial(Controller controller) { 
-        return new ProposalChangeImpactViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, ProgramProperties.get().program_menu_sections_proposalChangeImpact(), ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(ProgramProperties.get().program_menu_sections_proposalChangeImpact(), ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT)), controller);
+    public static ProposalChangeImpactViewConfiguration createSpecial(Configurer configurer, Controller controller) { 
+        return new ProposalChangeImpactViewConfiguration(configurer, controller);
     }
 
-    private ProposalChangeImpactViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private ProposalChangeImpactViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_PROPOSALCHANGEIMPACT);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, 
+                title, ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private ProposalChangeImpactViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private ProposalChangeImpactViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_PROPOSALCHANGEIMPACT);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_VIEW, 
+                title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, 
+                        ProgramSections.PROGRAM_PROPOSAL_CHANGE_IMPACT_EDIT));
         this.controller = controller;
     }
 
@@ -64,10 +71,10 @@ public class ProposalChangeImpactViewConfiguration extends AbstractSectionConfig
     
     public SummaryTableFieldBlock createSummaryTableFieldBlock() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_RELATED_COURSE_CHANGES_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluRelatedCourseChangesType())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_IMPACTED_UNITS_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedUnitsType())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedArticulationTransferProgramsType())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_STUDENT_TRANSITION_PLANS_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluStudentTransitionPlansType())));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_RELATED_COURSE_CHANGES_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLURELATEDCOURSECHANGESTYPE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_IMPACTED_UNITS_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUIMPACTEDUNITSTYPE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUIMPACTEDARTICULATIONTRANSFERPROGRAMSTYPE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_STUDENT_TRANSITION_PLANS_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUSTUDENTTRANSITIONPLANSTYPE)));
         return block;
     }
     
@@ -107,10 +114,10 @@ public class ProposalChangeImpactViewConfiguration extends AbstractSectionConfig
     
     private VerticalSection createReadOnlySection() {
         VerticalSection section = new VerticalSection(); 
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_RELATED_COURSE_CHANGES_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluRelatedCourseChangesType()));        
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_IMPACTED_UNITS_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedUnitsType()));        
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluImpactedArticulationTransferProgramsType()));
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_STUDENT_TRANSITION_PLANS_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluStudentTransitionPlansType()));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_RELATED_COURSE_CHANGES_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLURELATEDCOURSECHANGESTYPE));        
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_IMPACTED_UNITS_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUIMPACTEDUNITSTYPE));        
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUIMPACTEDARTICULATIONTRANSFERPROGRAMSTYPE));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_STUDENT_TRANSITION_PLANS_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUSTUDENTTRANSITIONPLANSTYPE));
         return section;
     }
 

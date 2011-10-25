@@ -9,6 +9,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -35,10 +36,8 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
@@ -77,7 +76,7 @@ public abstract class ProgramController extends MenuSectionController {
     protected boolean reloadMetadata = false;
 
     protected boolean processBeforeShow = true;
-
+    
     /**
      * Constructor.
      *
@@ -216,7 +215,7 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
-        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -270,13 +269,13 @@ public abstract class ProgramController extends MenuSectionController {
     }
 
     protected void setStatus() {
-        statusLabel.setText(ProgramProperties.get().common_status(getStringProperty(ProgramConstants.STATE)));
+        statusLabel.setText(getLabel(ProgramMsgConstants.COMMON_STATUS,getStringProperty(ProgramConstants.STATE)));
     }
 
     public String getProgramName() {
         String name = getStringProperty(ProgramConstants.LONG_TITLE);
         if (name == null) {
-            name = ProgramProperties.get().common_newProgram();
+            name = getLabel(ProgramMsgConstants.COMMON_NEWPROGRAM);
         }
         return name;
     }
@@ -409,7 +408,7 @@ public abstract class ProgramController extends MenuSectionController {
     protected Widget createCommentPanel() {
         final CommentTool commentTool = new CommentTool(ProgramSections.COMMENTS, "Comments", "kuali.comment.type.generalRemarks", "Program Comments");
         commentTool.setController(this);
-        KSButton commentsButton = new KSButton(ProgramProperties.get().comments_button(), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+        KSButton commentsButton = new KSButton(getLabel(ProgramMsgConstants.COMMENTS_BUTTON), KSButtonAbstract.ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
@@ -448,7 +447,7 @@ public abstract class ProgramController extends MenuSectionController {
      */
      protected void updateState(String state, final Callback<Boolean> okCallback) {
 
-       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
                 @Override
                 public void onSuccess(DataSaveResult result) {
                 	if(result.getValidationResults()==null || result.getValidationResults().isEmpty()){
@@ -567,5 +566,14 @@ public abstract class ProgramController extends MenuSectionController {
     
     }
 
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    protected String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
+    }
     
 }

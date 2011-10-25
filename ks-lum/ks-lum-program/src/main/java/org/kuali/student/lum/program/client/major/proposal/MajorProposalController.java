@@ -57,6 +57,7 @@ import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
@@ -73,7 +74,6 @@ import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
@@ -92,8 +92,8 @@ import com.google.gwt.user.client.Window;
  */
 public class MajorProposalController extends MajorController implements WorkflowEnhancedNavController, RequiresAuthorization{
 
-	private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+	private final KSButton saveButton;
+    private final KSButton cancelButton;
     private final Set<String> existingVariationIds = new TreeSet<String>();
     protected String proposalPath = "";
     protected WorkflowUtilities workflowUtil; 
@@ -121,13 +121,17 @@ public class MajorProposalController extends MajorController implements Workflow
         programModel.setModelName("Proposal");
         initializeComparisonModel();
         configurer = GWT.create(MajorProposalConfigurer.class);
+        
+        saveButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_SAVE));
+        cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+        
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
    				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID);
 
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
-        
+                
         reqDataModel = new ProgramRequirementsDataModel(eventBus);
         reqDataModelComp = new ProgramRequirementsDataModel(eventBus);
     }
@@ -193,8 +197,8 @@ public class MajorProposalController extends MajorController implements Workflow
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
             excludedViews.add(ProgramSections.SUMMARY);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), saveButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -398,7 +402,7 @@ public class MajorProposalController extends MajorController implements Workflow
             	Callback<Boolean> reqCallback = new Callback<Boolean>() {
             		@Override
             		public void exec(Boolean result) {
-            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                             @Override
                             public void onSuccess(Data result) {
                                 super.onSuccess(result);
@@ -546,7 +550,7 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -589,7 +593,7 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -639,7 +643,7 @@ public class MajorProposalController extends MajorController implements Workflow
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -716,7 +720,7 @@ public class MajorProposalController extends MajorController implements Workflow
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -767,7 +771,7 @@ public class MajorProposalController extends MajorController implements Workflow
 	    				isValid(result.getValidationResults(), false, true);	    				
     					KSNotifier.show("Saved with Warnings");
     				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                        KSNotifier.show(getLabel(ProgramMsgConstants.COMMON_SUCCESSFULSAVE));
     				}  				
                     
                     // add to recently viewed now that we're sure to know the program's id

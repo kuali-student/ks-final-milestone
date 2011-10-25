@@ -2,29 +2,25 @@ package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
-import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,21 +31,25 @@ public class SupportingDocsViewConfiguration extends AbstractSectionConfiguratio
 
 	private Controller controller = null;
 
-    public static SupportingDocsViewConfiguration create(){
-        return new SupportingDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, ProgramProperties.get().program_menu_sections_supportingDocuments(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static SupportingDocsViewConfiguration create(Configurer configurer){
+        return new SupportingDocsViewConfiguration(configurer);
     }
 
-    public static SupportingDocsViewConfiguration createSpecial(Controller controller) {
-        String title = ProgramProperties.get().program_menu_sections_supportingDocuments();
-        return new SupportingDocsViewConfiguration(new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title,ProgramSections.SUPPORTING_DOCUMENTS_EDIT)), controller);
+    public static SupportingDocsViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new SupportingDocsViewConfiguration(configurer, controller);
     }
 
-    private SupportingDocsViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private SupportingDocsViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_SUPPORTINGDOCUMENTS);
+        rootSection = new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private SupportingDocsViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private SupportingDocsViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_SUPPORTINGDOCUMENTS);
+        rootSection = new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, 
+                ProgramSections.SUPPORTING_DOCUMENTS_EDIT));
         this.controller = controller;
     }
 
@@ -70,8 +70,7 @@ public class SupportingDocsViewConfiguration extends AbstractSectionConfiguratio
         return section;
     }
 
-    @SuppressWarnings("unchecked")
-  	public SummaryTableFieldBlock createSupportingDocsSectionEditBlock() {
+    public SummaryTableFieldBlock createSupportingDocsSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
 
         block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.ID, new MessageKeyInfo(""), new DocumentList(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE, false, false),
@@ -112,5 +111,5 @@ public class SupportingDocsViewConfiguration extends AbstractSectionConfiguratio
   		SummaryTableFieldRow fieldRow = new SummaryTableFieldRow(fd, fd2);
 
   		return fieldRow;
-  	} 
+  	}
 }

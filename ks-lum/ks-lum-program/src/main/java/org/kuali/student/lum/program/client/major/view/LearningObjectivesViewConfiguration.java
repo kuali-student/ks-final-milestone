@@ -2,13 +2,11 @@ package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
@@ -16,17 +14,13 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFiel
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.variation.VariationsBinding;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -36,21 +30,24 @@ public class LearningObjectivesViewConfiguration extends AbstractSectionConfigur
 
 	private Controller controller = null;
 
-    public static LearningObjectivesViewConfiguration create() {
-        return new LearningObjectivesViewConfiguration(new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, ProgramProperties.get().program_menu_sections_learningObjectives(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static LearningObjectivesViewConfiguration create(Configurer configurer) {
+        return new LearningObjectivesViewConfiguration(configurer);
     }
 
-    public static LearningObjectivesViewConfiguration createSpecial(Controller controller) {
-        String title = ProgramProperties.get().program_menu_sections_learningObjectives();
-        return new LearningObjectivesViewConfiguration(new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.LEARNING_OBJECTIVES_EDIT)), controller);
+    public static LearningObjectivesViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new LearningObjectivesViewConfiguration(configurer, controller);
     }
 
-    private LearningObjectivesViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private LearningObjectivesViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_LEARNINGOBJECTIVES);
+        rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private LearningObjectivesViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private LearningObjectivesViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_LEARNINGOBJECTIVES);
+        rootSection = new VerticalSectionView(ProgramSections.LEARNING_OBJECTIVES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.LEARNING_OBJECTIVES_EDIT));
        	this.controller = controller;        
     }
 
@@ -70,8 +67,7 @@ public class LearningObjectivesViewConfiguration extends AbstractSectionConfigur
         return section;
     }
 
-    @SuppressWarnings("unchecked")
-  	public SummaryTableFieldBlock createLearningObjectivesSectionEditBlock() {
+    public SummaryTableFieldBlock createLearningObjectivesSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
 
         block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.LEARNING_OBJECTIVES, new MessageKeyInfo(""), new KSListPanel(),

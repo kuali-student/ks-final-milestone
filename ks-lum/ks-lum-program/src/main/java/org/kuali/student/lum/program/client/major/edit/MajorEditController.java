@@ -18,7 +18,6 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -43,8 +42,8 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
@@ -61,7 +60,6 @@ import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -77,8 +75,8 @@ import com.google.gwt.user.client.Window;
  */
 public class MajorEditController extends MajorController {
 
-    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_SAVE));
+    private final KSButton cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
 
 	protected final DataModel comparisonModel = new DataModel("Original Program");
@@ -113,8 +111,8 @@ public class MajorEditController extends MajorController {
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
             excludedViews.add(ProgramSections.SUMMARY);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), saveButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -279,7 +277,7 @@ public class MajorEditController extends MajorController {
             		Callback<Boolean> reqCallback = new Callback<Boolean>() {
             			@Override
             			public void exec(Boolean result) {
-                           	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                           	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         		@Override
                         		public void onFailure(Throwable caught) {
@@ -382,7 +380,7 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -425,7 +423,7 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         @Override
                         public void onFailure(Throwable caught) {
@@ -474,7 +472,7 @@ public class MajorEditController extends MajorController {
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -531,7 +529,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -583,7 +581,7 @@ public class MajorEditController extends MajorController {
 	    				isValid(result.getValidationResults(), false, true);	    				
     					KSNotifier.show("Saved with Warnings");
     				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                        KSNotifier.show(getLabel(ProgramMsgConstants.COMMON_SUCCESSFULSAVE));
     				}  				
                     
                     // add to recently viewed now that we're sure to know the program's id
