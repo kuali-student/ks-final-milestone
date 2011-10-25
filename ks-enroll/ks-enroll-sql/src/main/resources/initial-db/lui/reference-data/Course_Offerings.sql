@@ -10,7 +10,7 @@ insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, createId, createTime, updateId, upd
 /
 
 -- CO using previous desc and title
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF63163', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', 'REFERENCECOURSEGEOG100SPRING2010', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011DESCR', '', '', 'kuali.lui.state.draft', 'kuali.lui.type.course.offering', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011OFFICIALID', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF63163', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', 'REFERENCECOURSEGEOG100SPRING2011', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011DESCR', '', '', 'kuali.lui.state.draft', 'kuali.lui.type.course.offering', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011OFFICIALID', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011')
 /
 
 -- Honors = false
@@ -38,7 +38,7 @@ insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTim
 /
 
 -- update CO
-update KSEN_LUI set OBJ_ID='', VER_NBR=1, updateId='', updateTime='', ATP_ID='testTermId0', CLU_ID='REFERENCECOURSEGEOG100SPRING2010', RT_DESCR_ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011DESCR2', EFF_DT='', EXP_DT='', STATE_ID='kuali.lui.state.offered', TYPE_ID='kuali.lui.type.course.offering', MAX_SEATS=60, MIN_SEATS='', NAME='', OFFIC_LUI_ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011OFFICIALID2', REF_URL='' where ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011' and VER_NBR=0
+update KSEN_LUI set OBJ_ID='', VER_NBR=1, updateId='', updateTime='', ATP_ID='Spring2011', CLU_ID='REFERENCECOURSEGEOG100SPRING2011', RT_DESCR_ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011DESCR2', EFF_DT='', EXP_DT='', STATE_ID='kuali.lui.state.offered', TYPE_ID='kuali.lui.type.course.offering', MAX_SEATS=60, MIN_SEATS='', NAME='', OFFIC_LUI_ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011OFFICIALID2', REF_URL='' where ID='REFERENCECOURSEOFFERINGGEOG100SPRING2011' and VER_NBR=0
 /
 
 -- update New Honors = false
@@ -54,7 +54,7 @@ insert into KSEN_LPRROSTER_LUI_RELTN (LPRROSTER_ID, LUI_ID) values ('REFERENCECO
 /
 
 -- Add Lecture AO1
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631610', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY1')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631610', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY1')
 /
 
 -- Set Meeting time for Lecture AO1
@@ -70,7 +70,7 @@ insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTim
 /
 
 -- Add DISCUSSION AO2
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631619', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY2')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631619', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY2')
 /
 
 -- Set Meeting time for DISCUSSION AO2
@@ -86,7 +86,7 @@ insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTim
 /
 
 -- Add DISCUSSION AO3
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631623', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY3')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631623', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', '2b7f8fee-f003-432c-9b56-9364adac1b00', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.activity.offering.lab', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011ACTIVITY3')
 /
 
 -- Set Meeting time for DISCUSSION AO3
@@ -102,7 +102,7 @@ insert into KSEN_LPR (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTim
 /
 
 -- Create RegGroup1
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631614', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011REGGROUP1')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631614', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011REGGROUP1')
 /
 
 -- Associate RegGroup1 with CO
@@ -118,7 +118,7 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, createId, createTime, updateId, 
 /
 
 -- Create RegGroup2
-insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631628', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'testTermId0', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011REGGROUP2')
+insert into KSEN_LUI (OBJ_ID, VER_NBR, createId, createTime, updateId, updateTime, ATP_ID, CLU_ID, RT_DESCR_ID, EFF_DT, EXP_DT, STATE_ID, TYPE_ID, MAX_SEATS, MIN_SEATS, NAME, OFFIC_LUI_ID, REF_URL, ID) values ('EF76F01208BB4548ACBA56DB4AAF631628', 0, '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), '', to_timestamp('19-Oct-11 4.42.26.431 PM','DD-MON-RR HH.MI.SS.FF AM'), 'Spring2011', '', '', '', '', 'kuali.lui.state.offered', 'kuali.lui.type.registration.group', '', '', '', '', '', 'REFERENCECOURSEOFFERINGGEOG100SPRING2011REGGROUP2')
 /
 
 -- Associate RegGroup2 with CO

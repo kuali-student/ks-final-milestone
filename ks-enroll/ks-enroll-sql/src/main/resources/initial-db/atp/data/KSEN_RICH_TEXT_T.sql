@@ -74,3 +74,8 @@ Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTE
 Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('RICHTEXT-Hold-201',null,0,'<p>Hold Desc for deletion test</p>','Hold Desc for deletion test')
 /
 
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('AcademicCalendar20102011',null,0,'<p>2010-2011 Academic Calendar</p>','2010-2011 Academic Calendar')
+/
+
+Insert into KSEN_RICH_TEXT_T (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Spring2011',null,0,'<p>2011 Spring Term</p>','2011 Spring Term')
+/

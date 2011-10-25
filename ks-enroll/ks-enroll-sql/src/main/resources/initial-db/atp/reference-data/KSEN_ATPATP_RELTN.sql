@@ -38,3 +38,5 @@ Insert into KSEN_ATPATP_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UP
 Insert into KSEN_ATPATP_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFF_DT,EXPIR_DT,ATP_ID,ATP_STATE_ID,ATP_RELTN_TYPE_ID,RELATED_ATP_ID) values ('termRelationTestingRel-AcalTerm-2',null,0,null,null,null,null,to_timestamp('01-JAN-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),to_timestamp('01-JAN-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),'termRelationTestingAcal2','kuali.atp.atp.relation.state.active','kuali.atp.atp.relation.includes','termRelationTestingTerm2')
 /
 
+Insert into KSEN_ATPATP_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,EFF_DT,EXPIR_DT,ATP_ID,ATP_STATE_ID,ATP_RELTN_TYPE_ID,RELATED_ATP_ID) values ('AcademicCalendar20102011Spring2011',null,0,null,null,null,null,to_timestamp('01-JAN-11 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),to_timestamp('01-JAN-00 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM'),'AcademicCalendar20102011','kuali.atp.atp.relation.state.active','kuali.atp.atp.relation.includes','Spring2011')
+/
