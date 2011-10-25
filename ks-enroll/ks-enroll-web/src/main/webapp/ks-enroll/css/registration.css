@@ -33,6 +33,11 @@
     padding-left: 10px;
 }
 
+.courseOffering-collection{
+    height: 700px;
+    overflow: auto;
+}
+
 .courseOffering-item-header{
     font-size: 1.2em;
     font-weight: normal;

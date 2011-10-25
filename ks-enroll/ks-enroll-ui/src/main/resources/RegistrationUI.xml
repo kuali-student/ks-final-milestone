@@ -183,7 +183,8 @@
     </bean>
 
 
-    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup">
+    <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
+          p:styleClasses="courseOffering-collection">
         <property name="summary"
                   value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
         <property name="accordion.render" value="false"/>
@@ -198,9 +199,6 @@
                   p:styleClasses="courseOffering-item" p:footer-ref="Footer">
                 <property name="accordion.defaultOpen" value="false"/>
                 <property name="accordion.render" value="true"/>
-                <property name="header">
-                    <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
-                </property>
             </bean>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
@@ -215,6 +213,10 @@
         <property name="items">
             <list>
                 <bean parent="AttributeField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain"
+                      p:readOnly="true"/>
+                <bean parent="AttributeField" p:label="Instructor(s)" p:propertyName="instructorsList"
+                      p:readOnly="true"/>
+                <bean parent="AttributeField" p:label="Prerequisites" p:propertyName="prereq"
                       p:readOnly="true"/>
             </list>
         </property>
@@ -244,7 +246,7 @@
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
                       p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="1-Click Registration"/>
-                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="addDropToCart"
+                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="dropClass"
                       p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
                       p:actionLabel="Drop Course"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="removeFromCart"
@@ -254,8 +256,6 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="AttributeField" p:labelField.renderColon="false"
-                      p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"

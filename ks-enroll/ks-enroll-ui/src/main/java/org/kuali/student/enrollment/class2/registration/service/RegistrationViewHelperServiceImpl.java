@@ -68,7 +68,7 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
                     else if(((ActionField)c).getMethodToCall().equals("removeFromCart")){
                         c.setRender(renderRemoveFromCartButton);
                     }
-                    else if(((ActionField)c).getMethodToCall().equals("addDropToCart")){
+                    else if(((ActionField)c).getMethodToCall().equals("dropClass")){
                         c.setRender(renderDropButton);
                     }
                 }

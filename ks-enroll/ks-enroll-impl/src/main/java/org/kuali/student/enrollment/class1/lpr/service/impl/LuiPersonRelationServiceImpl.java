@@ -864,7 +864,21 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 lprTransResultInfo.setResultingLprId(lprCreated);
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                //TODO this needs to be implemented for drop to work
+                /**TODO this needs to be implemented for drop to work, read below
+                Be careful with the implementation here, because we DO NOT want to delete all lprs that are matched
+                by lui, person, and state, but instead only the ones that are related to the registration group we
+                are dropping.  It is VERY possible that a student could have the same course offering on their schedule
+                twice with different reg groups, therefore deleting every LPR that matches that course offering id
+                would be WRONG.  In addition, it is possible that 2 reg groups that point to the same activity offering
+                could be on the same schedule (this is more unlikely however and may be prevented by the system), and
+                deleting both of those LPRs would be incorrect.  So what we actually want to do is delete only lprs
+                that have a direct relation to the reg group being dropped.  However, there is no easy way currently
+                to link these things together, one possible route is to get the original transactions and use their group
+                id somehow, but this route may be flawed if the there is more than one succeeded transaction for the same
+                reg group (VERY possible).  There is no way currently (that I know of) to link the lprs for courseOffering,
+                reg group, activities, and roster in a way that would be simple to determine by retrieving them from the
+                db.  This may be a possible hole in the service/db design.
+                */
                 LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
 
