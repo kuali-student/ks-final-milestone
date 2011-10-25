@@ -355,16 +355,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			PermissionDeniedException, VersionMismatchException{
 
 		processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
-		
-		//TODO: hasFinalExam -- ignore for core slice
+
 		//how to determine that the lui already exist?
 		if(co.getHasFinalExam()) processFinalExam(co, context);
 			
 		//TODO:jointOfferingIds -- ignore for core slice
 
-		//TODO: creditOptions -- ignore for core slice
-		
-		//TODO: gradingOptionKeys -- ignore for core slice
         processFinalRoster(co.getId(), co.getMaximumEnrollment(), context);
 	}
 
