@@ -197,54 +197,28 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     public void loadStudentGrades(StudentGradeForm studentGradeForm)
     throws Exception {
 
-        List creditList = studentGradeForm.getCreditList();
+        List creditList = new ArrayList();
 
         ContextInfo context = ContextInfo.newInstance();
 
         TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
 
-        if (creditList.isEmpty()) {
-            List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
-            if (null != courseRecords) {
-                for (StudentCourseRecord courseRecord : courseRecords) {
-                    StudentCredit credit = new StudentCredit();
-                    // TODO - is this correct?
-                    credit.setCourseId(courseRecord.getCourseCode());
-                    // TODO - is this correct?
-                    credit.setCourseName(courseRecord.getCourseTitle());
+        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
+        if (null != courseRecords) {
+            for (StudentCourseRecord courseRecord : courseRecords) {
+                StudentCredit credit = new StudentCredit();
+                // TODO - is this correct?
+                credit.setCourseId(courseRecord.getCourseCode());
+                // TODO - is this correct?
+                credit.setCourseName(courseRecord.getCourseTitle());
 
-                    credit.setGrade(courseRecord.getAssignedGradeValue());
-                    credit.setCredits(courseRecord.getCreditsEarned());
-                    creditList.add(credit);
-                }
+                credit.setGrade(courseRecord.getAssignedGradeValue());
+                credit.setCredits(courseRecord.getCreditsEarned());
+                creditList.add(credit);
             }
-            /*
-            StudentCredit credit = new StudentCredit();
-            credit.setCourseId("PHY121");
-            credit.setCourseName("Fundamentals of Physics I");
-            credit.setGrade("A");
-            credit.setCredits("3.0");
-            creditList.add(credit);
-
-            StudentCredit credit1 = new StudentCredit();
-            credit1.setCourseId("MUSIC200");
-            credit1.setCourseName("Music, Children and Family");
-            credit1.setGrade("A-");
-            credit1.setCredits("2.0");
-            creditList.add(credit1);
-
-            StudentCredit credit2 = new StudentCredit();
-            credit2.setCourseId("ENG222");
-            credit2.setCourseName("English I");
-            credit2.setGrade("B+");
-            credit2.setCredits("2.0");
-            creditList.add(credit2);
-
-            studentGradeForm.setName("Mary");
-            studentGradeForm.setFirstTerm("Fall, 2011");
-            */
         }
 
+        studentGradeForm.setCreditList(creditList);
         studentGradeForm.setTitle(term.getName() + " Grades");
     }
 

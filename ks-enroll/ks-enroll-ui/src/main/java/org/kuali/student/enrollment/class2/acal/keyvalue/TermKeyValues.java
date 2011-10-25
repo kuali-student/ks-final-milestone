@@ -16,6 +16,7 @@ package org.kuali.student.enrollment.class2.acal.keyvalue;
  * limitations under the License.
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -25,6 +26,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -63,7 +65,9 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
             int year = nowCal.get(Calendar.YEAR);
             acals = getAcalService().getAcademicCalendarsByStartYear(year, context);
             for (AcademicCalendarInfo acal : acals) {
-                terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
+                if (StringUtils.equals(acal.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
+                    terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
+                }
             }
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
