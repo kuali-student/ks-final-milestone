@@ -257,6 +257,7 @@
         <property name="lprRosterDao" ref="lprRosterDao"/>
         <property name="lprRosterEntryDao" ref="lprRosterEntryDao"/>
         <property name="luiDao" ref="luiDao"/>
+        <property name="stateService" ref="stateService"/>
     </bean>
 
     <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.LRCServiceMockImpl"/>
