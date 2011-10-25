@@ -343,7 +343,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
                 } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
 
-                    final CourseWidget courseWidget = new CourseWidget();
+                    final CourseWidget courseWidget = GWT.create(CourseWidget.class);
                     
                     courseWidget.addGetCluNameCallback(new Callback() {
 
