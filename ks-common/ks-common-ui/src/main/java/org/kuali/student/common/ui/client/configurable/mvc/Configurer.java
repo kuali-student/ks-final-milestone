@@ -45,7 +45,7 @@ public abstract class Configurer {
      * @param labelKey key of the message - must match a message in your messages (stored in the db)
      * @return
      */
-    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+    public MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
     
@@ -54,11 +54,11 @@ public abstract class Configurer {
      * @param labelKey
      * @return
      */
-    protected String getLabel(String labelKey) {
+    public String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
     }
     
-    protected String getLabel(String labelKey, String fieldKey) {
+    public String getLabel(String labelKey, String fieldKey) {
         String parentPath = Application.getApplicationContext().getParentPath();
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata metadata = modelDefinition.getMetadata(path);
