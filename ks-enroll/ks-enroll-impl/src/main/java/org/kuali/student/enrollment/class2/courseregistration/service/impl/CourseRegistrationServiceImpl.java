@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
@@ -15,6 +16,7 @@ import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
 import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
+import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
@@ -39,6 +41,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private CourseRegistrationAssembler courseRegistrationAssembler;
 
     private LRCService lrcService;
+    private CourseService courseService;
+    private StatementService statementService;
 
     public LRCService getLrcService() {
         return lrcService;
@@ -88,8 +92,23 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         this.courseRegistrationAssembler = courseRegistrationAssembler;
     }
 
-    
-    
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+
+    public void setStatementService(StatementService statementService) {
+        this.statementService = statementService;
+    }
+
+    public StatementService getStatementService() {
+        return statementService;
+    }
+
+
     private  List <LprTransactionItemInfo>  createModifiedLprTransactionItemsForNew(RegRequestItemInfo regRequestItem, ContextInfo context )throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
 
@@ -851,5 +870,4 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
 }

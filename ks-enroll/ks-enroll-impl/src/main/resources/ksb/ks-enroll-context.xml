@@ -280,21 +280,20 @@
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpEnrService"/>
-		</bean>
+    </bean>
 
-		<bean id="statementServiceImpl"
-					class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
-			<property name="statementDao" ref="statementDao" />
-					<property name="searchManager" ref="statementSearchManager" />
-					<property name="dictionaryServiceDelegate" ref="dictionaryService" />
-					<property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
-					<property name="statementAssembler" ref="statementAssembler"/>
-			<property name="validatorFactory" ref="validatorFactory"/>
-		</bean>
+    <bean id="statementServiceImpl" class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
+        <property name="statementDao" ref="statementDao" />
+                <property name="searchManager" ref="statementSearchManager" />
+                <property name="dictionaryServiceDelegate" ref="dictionaryService" />
+                <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+                <property name="statementAssembler" ref="statementAssembler"/>
+        <property name="validatorFactory" ref="validatorFactory"/>
+    </bean>
 
-		<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
-			<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
-		</bean>
+    <bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
+    </bean>
 
     <bean id="validatorFactory" class="org.kuali.student.common.validator.ValidatorFactory">
   	    <property name="defaultValidator" ref="businessServiceValidator"/>
@@ -374,6 +373,8 @@
         <property name="regResponseAssembler" ref="regResponseAssembler" />
         <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
         <property name="lrcService" ref="lrcPersistenceService"/>
+        <property name="courseService" ref="courseServiceImpl"/>
+        <property name="statementService" ref="statementServiceImpl"/>
     </bean>
 
     <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
