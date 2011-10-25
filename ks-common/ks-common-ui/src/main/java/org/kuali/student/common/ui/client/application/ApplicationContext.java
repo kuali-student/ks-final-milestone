@@ -238,7 +238,16 @@ public class ApplicationContext {
 
     }
 	
-	
+    public String getUILabel(String groupName, String fieldId, Map<String, Object> parameters) {
+
+        String label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, parameters);
+
+    }
 
     /**
      * Get the security context for the app
