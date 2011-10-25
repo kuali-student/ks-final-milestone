@@ -365,6 +365,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		//TODO: creditOptions -- ignore for core slice
 		
 		//TODO: gradingOptionKeys -- ignore for core slice
+        processFinalRoster(co.getId(), co.getMaximumEnrollment(), context);
 	}
 
 	private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
@@ -434,19 +435,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			}
 		}
 	}
-	
+
+   private void processFinalRoster(String courseOfferingId, Integer maxEnrollment, ContextInfo context) throws DataValidationErrorException,
+           InvalidParameterException, MissingParameterException,
+           DoesNotExistException, PermissionDeniedException,
+           OperationFailedException, VersionMismatchException {
+        List<LprRosterInfo> rosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        if(rosters != null && !rosters.isEmpty()){
+            for(LprRosterInfo roster : rosters){
+                roster.setMaximumCapacity(null != maxEnrollment ? maxEnrollment : TEMP_MAX_ENROLLMENT_DEFAULT );
+                try {
+                    lprService.updateLprRoster(roster.getId(), roster, context);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException();
+                }
+            }
+        }
+    }
+
 	private LuiPersonRelationInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId){
-		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
-		lpr.setPersonId(instructor.getPersonId());
-		lpr.setCommitmentPercent(instructor.getPercentageEffort());
-		lpr.setId(UUIDHelper.genStringUUID());
-		lpr.setLuiId(courseOfferingId);
-		lpr.setTypeKey(instructor.getTypeKey());
-		lpr.setStateKey(instructor.getStateKey());		
-		return lpr;
-	}
-	
-	private LuiPersonRelationInfo getModifiedLpr(OfferingInstructorInfo instructor, String courseOfferingId){
 		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
 		lpr.setPersonId(instructor.getPersonId());
 		lpr.setCommitmentPercent(instructor.getPercentageEffort());
