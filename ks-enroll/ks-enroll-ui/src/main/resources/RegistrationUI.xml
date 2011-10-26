@@ -195,7 +195,7 @@
         <property name="readOnly" value="true"/>
         <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Group" p:layoutManager.orientation="VERTICAL"
+            <bean parent="KSGroup" p:layoutManager.orientation="VERTICAL"
                   p:styleClasses="courseOffering-item" p:footer-ref="Footer">
                 <property name="accordion.defaultOpen" value="false"/>
                 <property name="accordion.render" value="true"/>
