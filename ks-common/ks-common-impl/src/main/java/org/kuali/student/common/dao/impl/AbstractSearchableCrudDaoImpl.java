@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.dao.impl;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -246,8 +247,14 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			for (SearchParam searchParam : internalQueryParms) {
 				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValue());
 			}
-			Long totalResults = (Long) countQuery.getSingleResult();
-			searchResult.setTotalResults(totalResults.intValue());
+            Integer totalRecords = 0;
+            Object resultObject = countQuery.getSingleResult();
+            if (resultObject instanceof BigDecimal) {
+                totalRecords = ((BigDecimal) resultObject).intValue();
+            } else if (resultObject instanceof Long) {
+                totalRecords = ((Long) resultObject).intValue();
+            }
+            searchResult.setTotalResults(totalRecords);
 		}
 
 		return searchResult;
