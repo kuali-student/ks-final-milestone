@@ -110,18 +110,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.unitsContentOwner.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="baseKualiOrgIdRepeatingRequired"/>
 							</property>
@@ -154,6 +143,22 @@
  </bean>
  <bean id="courseInfo.unitsContentOwner" parent="courseInfo.unitsContentOwner-parent" />
 
+<bean id="courseInfo.unitsContentOwner.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+
+
  <bean id="courseInfo.campusLocations-parent" abstract="true" parent="cluInfo.campusLocations-parent">
   <property name="name" value="campusLocations" />
   <property name="caseConstraint">
@@ -179,12 +184,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.campusLocations.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="cluInfo.campusLocations-parent">
 						         <property name="minOccurs" value="1" />
@@ -220,6 +220,15 @@
   </property>
  </bean>
  <bean id="courseInfo.campusLocations" parent="courseInfo.campusLocations-parent" />
+
+<bean id="courseInfo.campusLocations.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.code-parent" abstract="true" parent="cluIdentifierInfo.code-parent">
   <property name="name" value="code" />
@@ -288,14 +297,7 @@
 										<property name="whenConstraint">
 											<list>
 												<bean parent="whenConstraint">
-													<property name="values">
-														<list>
-															<value>Division Review</value>
-															<value>College Review</value>
-															<value>Senate Review</value>
-															<value>Publication Review</value>
-														</list>
-													</property>
+													<property name="values" ref="courseInfo.courseNumberSuffix.requiredByNode"/>
 													<property name="constraint">
 														<bean parent="cluIdentifierInfo.suffixCode-parent">
 															<property name="minOccurs" value="1" />
@@ -338,6 +340,17 @@
 	</property>
 </bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
+
+<bean id="courseInfo.courseNumberSuffix.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
   <property name="name" value="level" />
@@ -412,18 +425,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.creditOptions.requiredByNode"/>
 							<property name="constraint">
 							    <bean parent="baseComplexRepeating">
 						         <property name="minOccurs" value="1" />
@@ -460,6 +462,22 @@
  </bean>
  <bean id="courseInfo.creditOptions" parent="courseInfo.creditOptions-parent"/>
 
+<bean id="courseInfo.creditOptions.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+
+
  <bean id="courseInfo.gradingOptions-parent" abstract="true" parent="baseKualiTypeRepeating">
   <property name="name" value="gradingOptions"/>
   <property name="caseConstraint">
@@ -484,18 +502,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.gradingOptions.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="baseKualiTypeRepeating">
 						         <property name="minOccurs" value="1" />
@@ -531,6 +538,22 @@
   </property>
  </bean>
  <bean id="courseInfo.gradingOptions" parent="courseInfo.gradingOptions-parent"/>
+
+<bean id="courseInfo.gradingOptions.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+
 
  <bean id="courseInfo.audit-parent" abstract="true" parent="baseBoolean">
   <property name="name" value="audit" />
@@ -660,18 +683,7 @@
 			<property name="whenConstraint">
 				<list>
 					<bean parent="whenConstraint">
-						<property name="values">
-							<list>
-								<value>PreRoute</value>
-								<value>Document Organization Review</value>
-								<value>Publication Decision Review</value>
-								<value>Department Review</value>
-								<value>Division Review</value>
-								<value>College Review</value>
-								<value>Senate Review</value>
-								<value>Publication Review</value>
-							</list>
-						</property>
+						<property name="values" ref="courseInfo.descr.plain-case-constraint-parent.requiredByNode"/>
 						<property name="constraint">
 							<ref bean="courseInfo.descr.plain-constraint" />
 						</property>
@@ -682,6 +694,21 @@
 	</property>
  </bean>
  <bean id="courseInfo.descr.plain-case-constraint" parent="courseInfo.descr.plain-case-constraint-parent" />
+ 
+ <bean id="courseInfo.descr.plain-case-constraint-parent.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
  
  <bean id="courseInfo.descr.plain-constraint-parent" abstract="true" parent="richTextInfo.plain-parent">
  	<property name="minOccurs" value="1" />
@@ -863,18 +890,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.startTerm.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="cluInfo.expectedFirstAtp-parent">
 						         <property name="minOccurs" value="1" />
@@ -910,6 +926,21 @@
   </property>
  </bean>
  <bean id="courseInfo.startTerm" parent="courseInfo.startTerm-parent" />
+
+ <bean id="courseInfo.startTerm.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.endTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endTerm" />
@@ -981,15 +1012,7 @@
 		           <property name="whenConstraint">
 		             <list>
 		                <bean parent="whenConstraint">
-		                  <property name="values">
-		                     <list>
-								<value>Department Review</value>
-								<value>Division Review</value>
-								<value>College Review</value>
-								<value>Senate Review</value>
-								<value>Publication Review</value>
-		                     </list>
-		                  </property>
+		                  <property name="values" ref="courseInfo.formats.requiredByNode"/>
 		                  <property name="constraint" ref="baseComplexRepeatingRequired"/>
 		                </bean>
 		             </list>
@@ -1016,6 +1039,18 @@
   </property>
  </bean>
  <bean id="courseInfo.formats" parent="courseInfo.formats-parent" />
+
+ <bean id="courseInfo.formats.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.id-parent" abstract="true" parent="cluInfo.id">
   <property name="name" value="id" />
@@ -1082,18 +1117,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.subjectArea.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="cluIdentifierInfo.division-parent">
 						         <property name="minOccurs" value="1" />
@@ -1135,6 +1159,20 @@
   </property>
  </bean>
  <bean id="courseInfo.subjectArea" parent="courseInfo.subjectArea-parent" />
+ <bean id="courseInfo.subjectArea.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
 
  <bean id="courseInfo.termsOffered-parent" abstract="true" parent="cluInfo.offeredAtpTypes-parent">
   <property name="name" value="termsOffered" />
@@ -1170,13 +1208,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.transcriptTitle.requiredByNode"/>
 							<property name="constraint">
 						        <bean parent="cluIdentifierInfo.shortName-parent">
 						         <property name="minOccurs" value="1" />
@@ -1214,7 +1246,15 @@
   </property>
  </bean>
  <bean id="courseInfo.transcriptTitle" parent="courseInfo.transcriptTitle-parent" />
-
+ <bean id="courseInfo.transcriptTitle.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
  <bean id="courseInfo.type-parent" abstract="true" parent="cluInfo.type-parent">
   <property name="name" value="type" />
   <property name="defaultValue" value="kuali.lu.type.CreditCourse"/>
@@ -1595,15 +1635,7 @@
 		           <property name="whenConstraint">
 		             <list>
 		                <bean parent="whenConstraint">
-		                  <property name="values">
-		                     <list>
-								<value>Department Review</value>
-								<value>Division Review</value>
-								<value>College Review</value>
-								<value>Senate Review</value>
-								<value>Publication Review</value>
-		                     </list>
-		                  </property>
+		                  <property name="values" ref="activityInfo.activityType.requiredByNode"/>
 		                  <property name="constraint">
 					        <bean parent="constraint">
 						         <property name="minOccurs" value="1" />
@@ -1638,7 +1670,17 @@
   </property>
  </bean>
  <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
-
+ <bean id="activityInfo.activityType.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
  <bean id="activityInfo.contactHours-parent" abstract="true" parent="baseComplex">
   <property name="name" value="contactHours" />
   <!-- Should this be new ContactHourInfo data structure object? -->
@@ -1733,18 +1775,7 @@
 		        <property name="whenConstraint">
 					<list>
 						<bean parent="whenConstraint">
-							<property name="values">
-								<list>
-									<value>PreRoute</value>
-									<value>Document Organization Review</value>
-									<value>Publication Decision Review</value>
-									<value>Department Review</value>
-									<value>Division Review</value>
-									<value>College Review</value>
-									<value>Senate Review</value>
-									<value>Publication Review</value>
-								</list>
-							</property>
+							<property name="values" ref="courseInfo.finalExamStatus.requiredByNode"/>
 							<property name="constraint">
 							        <bean parent="baseString">
 							         <property name="minOccurs" value="1" />
@@ -1789,6 +1820,22 @@
    </bean>
   </property>
  </bean>
+ 
+  <bean id="courseInfo.finalExamStatus.requiredByNode" class="java.util.ArrayList">
+    <constructor-arg>
+		<list>
+			<value>PreRoute</value>
+			<value>Document Organization Review</value>
+			<value>Publication Decision Review</value>
+			<value>Department Review</value>
+			<value>Division Review</value>
+			<value>College Review</value>
+			<value>Senate Review</value>
+			<value>Publication Review</value>
+		</list>
+    </constructor-arg>
+</bean>
+ 
  <bean id="courseInfo.pilotCourse" parent="baseBoolean">
   <property name="name" value="pilotCourse" />
   <property name="minOccurs" value="0" />
