@@ -222,7 +222,7 @@ public class TestLuiPersonRelationServiceImpl {
         }
 
         LuiPersonRelationInfo deletedLpr = lprServiceValidationDecorator.getLpr(LPRID1, callContext);
-        assertNull("LPR entity '" + LPRID1 + "' was not deleted", deletedLpr);
+        assertTrue(deletedLpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY));
     }
 
     @Test

@@ -345,14 +345,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
-
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
-        if (null != lprEntity) {
-            lprDao.remove(lprEntity);
-        } else {
-            throw new DoesNotExistException("LPR entity does not exist for id '" + luiPersonRelationId + "'; cannot delete");
-        }
-
+        lprEntity.setPersonRelationState(stateDao.find(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY));
+        lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;

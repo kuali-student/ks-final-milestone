@@ -164,7 +164,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
             LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             activtyItemInfo.setExistingLuiId(activityOfferingId);
-            activtyItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
             activtyItemInfo.setGroupId(regRequestItem.getId());
             newTransactionItems.add(activtyItemInfo);
 
@@ -173,7 +172,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         String courseOfferingId = regGroup.getCourseOfferingId();
         LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
         courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
-        courseOfferingItemInfo.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
         courseOfferingItemInfo.setGroupId(regRequestItem.getId());
         lprActivityTransactionItems.add(courseOfferingItemInfo);
         newTransactionItems.add(courseOfferingItemInfo);
@@ -418,15 +416,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             List<ValidationResultInfo> listValidationResult = validateRegRequest(storedRegRequest, context);
 
             if (listValidationResult != null && listValidationResult.size() > 0) {
-                String message = "";
-                String newline = System.getProperty("line.separator");
-                for (ValidationResultInfo validationResultInfo : listValidationResult) {
-                    if (validationResultInfo.getIsError()) {
-                        message += newline + validationResultInfo.getMessage();
-                        throw new OperationFailedException(message);
-                    }
-                }
-
+                throw new DataValidationErrorException("Reg Request is invalid:",listValidationResult)  ;
             }
             List<ValidationResultInfo> verificationResultList = verifyRegRequest(storedRegRequest, context);
             for (ValidationResultInfo verificationResult : verificationResultList) {
