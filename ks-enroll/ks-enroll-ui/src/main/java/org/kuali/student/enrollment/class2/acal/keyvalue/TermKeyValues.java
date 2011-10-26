@@ -54,7 +54,7 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
      */
     public List<KeyValue> getKeyValues() {
 
-        List<AcademicCalendarInfo> acals;
+        List<AcademicCalendarInfo> acals = new ArrayList<AcademicCalendarInfo>();
         ContextInfo context = ContextInfo.newInstance();
 
 
@@ -63,7 +63,8 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
             Calendar nowCal = Calendar.getInstance();
             nowCal.setTime(new Date());
             int year = nowCal.get(Calendar.YEAR);
-            acals = getAcalService().getAcademicCalendarsByStartYear(year, context);
+            acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year - 1, context));
+            acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year, context));
             for (AcademicCalendarInfo acal : acals) {
                 if (StringUtils.equals(acal.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
                     terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
