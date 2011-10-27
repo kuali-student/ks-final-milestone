@@ -4100,6 +4100,8 @@
 		<property name="name" value="Course Only" />
 		<property name="searchTypeId" value="lo.search.loByCategoryCluCrossSearch" />
 		<property name="desc" value="Search for learning objectives by course." />
+		<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+		<property name="sortDirection" value="ASC" />
 		<property name="params">
 			<list>
 				<bean parent="param">
@@ -4219,7 +4221,7 @@
 		<property name="name" value="Course and Program" />
 		<property name="searchTypeId" value="lo.search.loByCategoryCluCrossSearch" />
 		<property name="desc" value="Search for learning objectives by course." />
-		<property name="resultSortKey" value="lo.resultColumn.loCluCode" />
+		<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.cluCode" />
 		<property name="sortDirection" value="ASC" />
 		<property name="params">
 			<list>
