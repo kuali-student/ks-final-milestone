@@ -32,6 +32,33 @@
     <class>org.kuali.student.r2.common.entity.TypeTypeRelationEntity</class>
     <class>org.kuali.student.r2.common.entity.TypeTypeRelationAttributeEntity</class>
 
+    <!-- Statement Persistence -->
+    <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
+    <class>org.kuali.student.core.statement.entity.RefStatementRelationAttribute</class>
+    <class>org.kuali.student.core.statement.entity.RefStatementRelationType</class>
+    <class>org.kuali.student.core.statement.entity.RefStatementRelationTypeAttribute</class>
+    <class>org.kuali.student.core.statement.entity.ObjectType</class>
+    <class>org.kuali.student.core.statement.entity.ObjectTypeAttribute</class>
+    <class>org.kuali.student.core.statement.entity.ObjectSubType</class>
+    <class>org.kuali.student.core.statement.entity.ObjectSubTypeAttribute</class>
+    <class>org.kuali.student.core.statement.entity.NlUsageType</class>
+    <class>org.kuali.student.core.statement.entity.NlUsageTypeAttribute</class>
+    <class>org.kuali.student.core.statement.entity.Statement</class>
+    <class>org.kuali.student.core.statement.entity.StatementAttribute</class>
+    <class>org.kuali.student.core.statement.entity.StatementRichText</class>
+    <class>org.kuali.student.core.statement.entity.StatementType</class>
+    <class>org.kuali.student.core.statement.entity.OrderedStatementType</class>
+    <class>org.kuali.student.core.statement.entity.StatementTypeAttribute</class>
+    <!--class>org.kuali.student.core.statement.entity.StatementTypeHeaderTemplate</class-->
+    <class>org.kuali.student.core.statement.entity.ReqComponent</class>
+    <class>org.kuali.student.core.statement.entity.ReqComponentField</class>
+    <class>org.kuali.student.core.statement.entity.ReqComponentFieldType</class>
+    <class>org.kuali.student.core.statement.entity.ReqComponentType</class>
+    <class>org.kuali.student.core.statement.entity.OrderedReqComponentType</class>
+    <class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
+    <class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
+
+
     <class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>

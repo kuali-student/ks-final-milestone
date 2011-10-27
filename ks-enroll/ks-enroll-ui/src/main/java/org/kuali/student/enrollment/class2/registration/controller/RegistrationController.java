@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
@@ -240,7 +241,7 @@ public class RegistrationController extends UifControllerBase {
                 CourseOfferingWrapper courseOfferingWrapper = new CourseOfferingWrapper();
                 String prereq = "none";
                 courseOfferingWrapper.setCourseOffering(getCourseOfferingService().getCourseOffering(coId, context));
-/*    TODO statement service wasnt working correctly when tested, commented out for now
+//    TODO statement service wasnt working correctly when tested, commented out for now
                 List<StatementTreeViewInfo> statements = getCourseService().getCourseStatements(courseOfferingWrapper.getCourseOffering().getCourseId(),"KUALI.RULE", "en");
                 if(statements != null && !statements.isEmpty()){
                     for(StatementTreeViewInfo statement: statements){
@@ -249,7 +250,7 @@ public class RegistrationController extends UifControllerBase {
                             break;
                         }
                     }
-                }*/
+                }
                 courseOfferingWrapper.setPrereq(prereq);
                 List<RegistrationGroupInfo> regGroups = getRegistrationGroupInfos(coId, context);
 
