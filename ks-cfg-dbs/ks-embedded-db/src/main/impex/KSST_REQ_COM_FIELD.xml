@@ -781,7 +781,7 @@
     <KSST_REQ_COM_FIELD ID="8d003377-bc45-4afc-9092-e91890d54ddb"
         OBJ_ID="f8dd44e2-5b18-47a8-a7fd-067841c6c126"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
-        VALUE="8df91968-9e50-4790-859c-996827130c8c" VER_NBR="0"/>
+        VALUE="REFERENCECOURSEGEOG123" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="8d473014-fc24-4d87-980d-d89557b2637d"
         OBJ_ID="954597ed-0000-4840-849c-b2886d28f9b9"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
