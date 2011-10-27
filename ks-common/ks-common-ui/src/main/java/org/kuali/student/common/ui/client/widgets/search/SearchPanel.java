@@ -16,7 +16,6 @@
 package org.kuali.student.common.ui.client.widgets.search;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -234,7 +233,6 @@ public class SearchPanel extends Composite{
 
     private Widget createSearchParamPanel(LookupMetadata meta){
         ParamListItems listItems = new ParamListItems(meta);
-        Collections.sort(listItems.getParams());
         final AdvancedSearch advancedSearch = new AdvancedSearch(meta);
         LinkPanel panel = new LinkPanel(SearchStyle.ADVANCED, advancedSearch);
         searchParameterWidgetMap.put(meta.getName(), advancedSearch);
