@@ -24,7 +24,7 @@
         TYPE_DESC="Course repeatable for credit."
         TYPE_KEY="kuali.statement.type.course.credit.repeatable" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000"
-        NAME="Course that Restricts Credits"
+        NAME="Courses that Restrict Credit"
         TYPE_DESC="Enrollment in or completion of another course that will restrict the credits to be awarded."
         TYPE_KEY="kuali.statement.type.course.credit.restriction" VER_NBR="0"/>
     <KSST_STMT_TYPE EFF_DT="20000101000000" NAME="Credit Constraints"

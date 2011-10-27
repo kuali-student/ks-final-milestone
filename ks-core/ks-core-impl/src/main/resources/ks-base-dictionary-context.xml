@@ -188,10 +188,6 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
  </bean>
- <bean id="baseStringRequired" parent="baseString"
-       abstract="true">
-  <property name="minOccurs" value="1" />
- </bean>
  <bean id="baseStringLong" parent="baseFieldDefinition"
        abstract="true">
   <property name="dataType" value="STRING" />
@@ -209,10 +205,6 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseComplexRepeating" parent="baseComplex" abstract="true">
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="baseComplexRepeatingRequired" parent="baseComplexRepeating">
-  <property name="minOccurs" value="1" />
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiId" parent="baseString" abstract="true">
@@ -262,9 +254,6 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
-  <property name="maxOccurs" value="unbounded" />
- </bean>
- <bean id="baseKualiOrgIdRepeatingRequired" parent="baseKualiOrgIdRequired" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">

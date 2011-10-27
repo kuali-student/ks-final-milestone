@@ -144,7 +144,6 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
                             result = new KSTextArea();
                             result.addStyleName("ks-textarea-width");
                             if(config.maxLength != null){
-                                ((KSTextArea)(result)).setMaxLength(config.maxLength);
                             	if(config.maxLength < 250){
                             		result.addStyleName("ks-textarea-small-height");
                             	}

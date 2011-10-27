@@ -53,23 +53,6 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
 
     private static final List<String> FOCUSABLE_TAGS = Arrays.asList("INPUT", "SELECT", "BUTTON", "TEXTAREA");
 
-    public enum Size{
-    	SMALL{
-    		public String toString(){
-    			return "ks-lightbox-small";
-    		}
-    	},
-    	MEDIUM{
-    		public String toString(){
-    			return "ks-lightbox-medium";
-    		}
-    	},
-    	LARGE{
-    		public String toString(){
-    			return "ks-lightbox-large";
-    		}
-    	}
-    }
     private int maxWidth = 800;
     private int maxHeight = 0;
     private int minWidth = 400;
@@ -91,25 +74,8 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         init();
     }
     private void init(){
-    	/*
-    	 * If statements change the size of the layout table to accommodate
-    	 * for different size ks-lightboxes.
-    	 */
-    	if(super.getStyleName().equals("ks-lightbox-small"))
-    		verticalPanel.setStyleName("ks-lightbox-small-layoutTable");
-    	
-    	else if(super.getStyleName().equals("ks-lightbox-medium"))
-    		verticalPanel.setStyleName("ks-lightbox-medium-layoutTable");
-    	
-    	else if(super.getStyleName().equals("ks-lightbox-large"))
-    		verticalPanel.setStyleName("ks-lightbox-large-layoutTable");
-    	
-    	else{
-    		verticalPanel.setStyleName("ks-lightbox-layoutTable");
-    		super.setStyleName("ks-lightbox");
-    	}
-    		
-    	
+        super.setStyleName("ks-lightbox");
+
         mainPanel.setStyleName("ks-lightbox-mainPanel");
         titlePanel.setStyleName("ks-lightbox-titlePanel");
         closeLink.setStyleName("ks-lightbox-title-closeLink");
@@ -121,6 +87,7 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         mainPanel.add(scrollPanel);
         titlePanel.add(closeLink);
 
+        verticalPanel.setStyleName("ks-lightbox-layoutTable");
         verticalPanel.setWidget(1, 0, buttonPanel);
         verticalPanel.getRowFormatter().setStyleName(1, "ks-lightbox-buttonRow");
         scrollPanel.add(verticalPanel);
@@ -142,22 +109,9 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
         init();
         closeLink.setVisible(addCloseLink);
     }
-    /*
-     * Default constructor
-     */
     public KSLightBox(String title) {
         init();
         super.setText(title);
-    }
-    
-    /*Overloaded constructor makes it possible to select one of three sizes
-     * (small,medium,large) and set the size of the KS lightbox accordingly
-     * NOTE: only medium has been implemented in CSS*/
-    public KSLightBox(String title,Size size)
-    {
-    	super.setStyleName(size.toString());
-    	init();
-    	super.setText(title);
     }
     public void uninstallResizeHandler(){
         if(resizeHandlerRegistrater != null){
@@ -284,10 +238,6 @@ public class KSLightBox extends DialogBox /*implements HasCloseHandlers<KSLightB
 
     public void removeCloseLink(){
         closeLink.setVisible(false);
-    }
-    
-    public HandlerRegistration addCloseLinkClickHandler(ClickHandler clickHandler) {
-        return closeLink.addClickHandler(clickHandler);
     }
 //    public HandlerRegistration addCloseHandler(CloseHandler<KSLightBox> handler){
   //      return handlers.addHandler(CloseEvent.getType(), handler);

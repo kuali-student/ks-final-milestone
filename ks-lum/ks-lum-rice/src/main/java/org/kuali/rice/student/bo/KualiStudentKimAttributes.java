@@ -15,10 +15,9 @@
 
 package org.kuali.rice.student.bo;
 
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kns.bo.TransientBusinessObjectBase;
+import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 
 /**
  * Data Dictionary entries for Kuali Student attributes needed by KIM
@@ -28,7 +27,7 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
 
 	private static final long serialVersionUID = 6969156403877595025L;
 
-	public static final String DOCUMENT_TYPE_NAME                   = KimAttributes.DOCUMENT_TYPE_NAME;
+	public static final String DOCUMENT_TYPE_NAME                   = KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME;
 
 	public static final String QUALIFICATION_DEPARTMENT_ID          = "departmentId";
 	public static final String QUALIFICATION_DIVISION_ID            = "divisionId";
@@ -231,10 +230,11 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
         this.ksReferenceTypeKey = ksReferenceTypeKey;
     }
 
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        return m;
-    }
+    // TODO: MARKED AS FINAL!
+//    @Override
+//    protected LinkedHashMap toStringMapper() {
+//        LinkedHashMap m = new LinkedHashMap();
+//        return m;
+//    }
 
 }

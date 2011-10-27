@@ -111,7 +111,7 @@
 
  <bean id="freestanding.cluset.effectiveDate-parent" abstract="true" parent="cluSetInfo.effectiveDate-parent">
   <property name="name" value="effectiveDate"/>
-  <property name="minOccurs" value="0"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.effectiveDate" parent="freestanding.cluset.effectiveDate-parent"/>
 
@@ -127,7 +127,7 @@
 
  <bean id="freestanding.cluset.name-parent" abstract="true" parent="cluSetInfo.name-parent">
   <property name="name" value="name"/>
-  <property name="minOccurs" value="0"/>
+  <property name="minOccurs" value="1"/>
  </bean>
  <bean id="freestanding.cluset.name" parent="freestanding.cluset.name-parent"/>
 

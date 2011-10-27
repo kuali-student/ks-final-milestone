@@ -191,7 +191,7 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
    * 
    * @return translated "Status: {0}"
    */
-    @DefaultMessage("Program status: {0}")
+  @DefaultMessage("Status: {0}")
   @Key("common.status")
   String common_status(String arg0);
 
@@ -268,11 +268,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String major_variationsFailed(String arg0);
 
   /**
-   * Translated "Curriculum Oversight College".
+   * Translated "Curriculum Oversight Division".
    * 
-   * @return translated "Curriculum Oversight College"
+   * @return translated "Curriculum Oversight Division"
    */
-  @DefaultMessage("Curriculum Oversight College")
+  @DefaultMessage("Curriculum Oversight Division")
   @Key("managingBodies.curriculumOversightDivision")
   String managingBodies_curriculumOversightDivision();
 
@@ -286,11 +286,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_curriculumOversightUnit();
 
   /**
-   * Translated "Deployment College".
+   * Translated "Deployment Division".
    * 
-   * @return translated "Deployment College"
+   * @return translated "Deployment Division"
    */
-  @DefaultMessage("Deployment College")
+  @DefaultMessage("Deployment Division")
   @Key("managingBodies.deploymentDivision")
   String managingBodies_deploymentDivision();
 
@@ -304,11 +304,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_deploymentUnit();
 
   /**
-   * Translated "Financial Control College".
+   * Translated "Financial Control Division".
    * 
-   * @return translated "Financial Control College"
+   * @return translated "Financial Control Division"
    */
-  @DefaultMessage("Financial Control College")
+  @DefaultMessage("Financial Control Division")
   @Key("managingBodies.financialControlDivision")
   String managingBodies_financialControlDivision();
 
@@ -322,11 +322,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_financialControlUnit();
 
   /**
-   * Translated "Financial Resources College".
+   * Translated "Financial Resources Division".
    * 
-   * @return translated "Financial Resources College"
+   * @return translated "Financial Resources Division"
    */
-  @DefaultMessage("Financial Resources College")
+  @DefaultMessage("Financial Resources Division")
   @Key("managingBodies.financialResourcesDivision")
   String managingBodies_financialResourcesDivision();
 
@@ -349,11 +349,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String managingBodies_seeAll();
 
   /**
-   * Translated "Student Oversight College".
+   * Translated "Student Oversight Division".
    * 
-   * @return translated "Student Oversight College"
+   * @return translated "Student Oversight Division"
    */
-  @DefaultMessage("Student Oversight College")
+  @DefaultMessage("Student Oversight Division")
   @Key("managingBodies.studentOversightDivision")
   String managingBodies_studentOversightDivision();
 
@@ -366,43 +366,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("managingBodies.studentOversightUnit")
   String managingBodies_studentOversightUnit();
 
-  /**
-   * Translated "Previous Program Entry End Term".
-   * 
-   * @return translated "Previous Program Entry End Term"
-   */
-  @DefaultMessage("Previous Program Entry End Term")
-  @Key("majorDiscipline.prevEndProgramEntryTerm")
-  String majorDiscipline_prevEndProgramEntryTerm();
-  
-  /**
-   * Translated "Previous Program Start Term".
-   * 
-   * @return translated "Previous Program Start Term"
-   */
-  @DefaultMessage("Previous Program Start Term")
-  @Key("majorDiscipline.prevStartTerm")
-  String majorDiscipline_prevStartTerm();
-  
-  /**
-   * Translated "Previous End Inst Admit Term".
-   * 
-   * @return translated "Previous End Inst Admit Term"
-   */
-  @DefaultMessage("Previous End Inst Admit Term")
-  @Key("majorDiscipline.prevEndInstAdmitTerm")
-  String majorDiscipline_prevEndInstAdmitTerm();
-  
-  /**
-   * Translated "Previous End Term".
-   * 
-   * @return translated "Previous End Term"
-   */
-  @DefaultMessage("Previous End Term")
-  @Key("majorDiscipline.prevEndTerm")
-  String majorDiscipline_prevEndTerm();
-  
-  
   /**
    * Translated "Actions".
    * 
@@ -429,20 +392,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @DefaultMessage("Program Sections")
   @Key("program.menu.sections")
   String program_menu_sections();
-  
-  /**
-   * Translated "Supporting Documents".
-   * 
-   * @return translated "Supporting Documents"
-   */
-  @DefaultMessage("Proposal Information")
-  @Key("program.menu.sections.proposalInformation")
-  String program_menu_sections_proposalInformation();
-
-  @DefaultMessage("Change Impact")
-  @Key("program.menu.sections.proposalChangeImpact")
-  String program_menu_sections_proposalChangeImpact();
-
 
   /**
    * Translated "Description and Catalog Information".
@@ -508,24 +457,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_summary();
 
   /**
-   * Translated "Program Summary".
-   * 
-   * @return translated "Program Summary"
-   */
-  @DefaultMessage("Proposal Summary")
-  @Key("proposal.menu.sections.summary")
-  String proposal_menu_sections_summary();
-
-  /**
-   * Translated "Authors and Collaborators".
-   * 
-   * @return translated "Collaborators"
-   */
-  @DefaultMessage("Authors and Collaborators")
-  @Key("program.menu.sections.collaborators")
-  String program_menu_sections_collaborators();
-
-  /**
    * Translated "Supporting Documents".
    * 
    * @return translated "Supporting Documents"
@@ -544,25 +475,14 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String program_menu_sections_viewAll();
 
   /**
-   * Translated "Modify Program".
-   * 
-   * @return translated "Modify (no version)"
-   */
-  @DefaultMessage("Modify Program")
-  @Key("programAction.modify")
-  String programAction_modify();
-
-  /**
    * Translated "Modify (no version)".
    * 
    * @return translated "Modify (no version)"
    */
-  @DefaultMessage("Retire Program")
-  @Key("programAction.retire")
-  String programAction_retire();
+  @DefaultMessage("Modify (no version)")
+  @Key("programAction.modify")
+  String programAction_modify();
 
-  
-  
   /**
    * Translated "Modify (with new version)".
    * 
@@ -573,59 +493,11 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   String programAction_modifyVersion();
 
   /**
-   * Translated "Proposed Program Modification".
-   * 
-   * @return translated "Proposed Program Modification"
-   */
-  @DefaultMessage("Proposed Program Modification")
-  @Key("programAction.proposedProgramModification")
-  String programAction_proposedProgramModification();
-  
-  /**
-   * Translated "Proposed Program Modification".
-   * 
-   * @return translated "Proposed Program Modification"
-   */
-  @DefaultMessage("Proposal Title")
-  @Key("cluProposalTitle")
-  String proposalInformation_cluProgramTitle();
- 
-  @DefaultMessage("Program Rationale")
-  @Key("cluProposalRationale")
-  String proposalInformation_cluProposalRationale();
-  
-  @DefaultMessage("Type of Modification")
-  @Key("cluModificationType")
-  String proposalInformation_cluModificationType();
-  
-  @DefaultMessage("Abstract")
-  @Key("cluAbstractType")
-  String proposalInformation_cluAbstractType();
-  
-  // Proposal - Change Impact Section
-  
-  @DefaultMessage("Related Course Changes")
-  @Key("cluRelatedCourseChangesType")
-  String proposalInformation_cluRelatedCourseChangesType();
- 
-  @DefaultMessage("Impacted Units")
-  @Key("cluImpactedUnitsType")
-  String proposalInformation_cluImpactedUnitsType();
-   
-  @DefaultMessage("Impacted Articulation Transfer Programs")
-  @Key("cluImpactedArticulationTransferProgramsType")
-  String proposalInformation_cluImpactedArticulationTransferProgramsType();
- 
-  @DefaultMessage("Student Transition Plans")
-  @Key("cluStudentTransitionPlansType")
-  String proposalInformation_cluStudentTransitionPlansType();
-  
-   /**
    * Translated "Program Actions: Modify, Retire...".
    * 
    * @return translated "Program Actions: Modify, Retire..."
    */
-  @DefaultMessage("Program Actions")
+  @DefaultMessage("Program Actions: Modify, Retire...")
   @Key("programAction.title")
   String programAction_title();
 
@@ -1097,16 +969,6 @@ public interface Program extends com.google.gwt.i18n.client.Messages {
   @Key("status.draft")
   String status_draft();
 
-  /**
-   * Translated "Not Approved"
-   * 
-   * @return translated "Draft"
-   */
-  @DefaultMessage("NotApproved")
-  @Key("status.notapproved")
-  String status_notapproved();
-
-  
   /**
    * Translated "Superseded".
    * 

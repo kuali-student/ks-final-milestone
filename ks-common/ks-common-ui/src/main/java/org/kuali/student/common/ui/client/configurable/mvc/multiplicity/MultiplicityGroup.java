@@ -127,7 +127,7 @@ public class MultiplicityGroup extends Composite {
         if (!loaded || itemCount == 0){
         	Integer minOccurs = MetadataInterrogator.getLargestMinOccurs(config.getMetaData());
         	
-        	if (minOccurs != null && minOccurs > 0) {
+        	if (minOccurs != null) {
 	            for (int i=0; i < minOccurs; i++){
 	            	createItem();
 	            }
@@ -466,22 +466,18 @@ public class MultiplicityGroup extends Composite {
 
 	public boolean isDirty(){
         isDirty = false;
-        if (removed != null && !removed.isEmpty()){
-        	isDirty = true;
-        } else {
-			for (MultiplicityGroupItem item:items){
-				if (item.isDirty()){
+		for (MultiplicityGroupItem item:items){
+			if (item.isDirty()){
+				isDirty = true;
+				break;
+			} else {
+				Widget itemWidget = item.getItemWidget();
+				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
 					isDirty = true;
 					break;
-				} else {
-					Widget itemWidget = item.getItemWidget();
-					if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
-						isDirty = true;
-						break;
-					}
 				}
 			}
-        }
+		}
 		return isDirty;
 	}
 

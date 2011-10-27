@@ -62,7 +62,7 @@
                 </c:choose>
             </c:when>
             <c:when test="${actionRequest.groupRequest}">
-                <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${actionRequest.groupId}" render="true"><c:out value="${actionRequest.groupName}" /></kul:inquiry>
+                <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${actionRequest.groupId}" render="true"><c:out value="${actionRequest.groupName}" /></kul:inquiry>
                 <c:choose>
                   <c:when test="${actionRequest.delegationType == KEWConstants.DELEGATION_SECONDARY}">
                     <bean-el:message key="routeLog.ActionRequests.actionRequest.label.secondaryDelegate"/>
@@ -88,7 +88,7 @@
                               </kul:inquiry>
                            </c:if>
                           <c:if test="${primDelegateRequest.groupRequest}">
-                              <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${primDelegateRequest.groupId}" render="true"><c:out value="${primDelegateRequest.groupName}" /></kul:inquiry>
+                              <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${primDelegateRequest.groupId}" render="true"><c:out value="${primDelegateRequest.groupName}" /></kul:inquiry>
                           </c:if>
                           <c:if test="${!empty primDelegateRequest.qualifiedRoleNameLabel}">
                             &nbsp;(<c:out value="${primDelegateRequest.qualifiedRoleNameLabel}" />)
@@ -97,7 +97,7 @@
                           </c:forEach>
                        </c:when>
                        <c:when test="${roleRequest.groupRequest}">
-                          <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.GroupImpl" keyValues="groupId=${roleRequest.groupId}" render="true"><c:out value="${roleRequest.groupName}" /></kul:inquiry>
+                          <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${roleRequest.groupId}" render="true"><c:out value="${roleRequest.groupName}" /></kul:inquiry>
                            <c:if test="${!empty actionRequest.qualifiedRoleNameLabel}">
                                &nbsp;(<c:out value="${actionRequest.qualifiedRoleNameLabel}" />)
                            </c:if>

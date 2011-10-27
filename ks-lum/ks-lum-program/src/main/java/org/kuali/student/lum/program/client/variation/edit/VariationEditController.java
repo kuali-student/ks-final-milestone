@@ -26,9 +26,7 @@ import org.kuali.student.lum.program.client.events.SpecializationCreatedEvent;
 import org.kuali.student.lum.program.client.events.SpecializationSaveEvent;
 import org.kuali.student.lum.program.client.events.SpecializationUpdateEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
-import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
-import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.variation.VariationController;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
@@ -49,7 +47,7 @@ public class VariationEditController extends VariationController {
 
     private String currentId;
 
-    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorController majorController) {
+    public VariationEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus, MajorEditController majorController) {
         super(programModel, viewContext, eventBus, majorController);
         configurer = GWT.create(VariationEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
@@ -114,7 +112,6 @@ public class VariationEditController extends VariationController {
             @Override
             public void onEvent(SpecializationCreatedEvent event) {
                 programModel.getRoot().set(ProgramConstants.ID, event.getSpecializationId());
-                showWarnings();
             }
         });
 
@@ -134,9 +131,6 @@ public class VariationEditController extends VariationController {
                         showView(getCurrentViewEnum());
                     }
                 }
-                
-                //update with any new warnings that exist on specialization
-                showWarnings();
             }
         });
 
@@ -263,13 +257,8 @@ public class VariationEditController extends VariationController {
     }
 
     private void navigateToParent(ProgramSections parentSection) {
-    	String appLoc = "";
-    	
-    	if(!(majorController instanceof MajorProposalController))
-    		appLoc = AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation();
-    	else
-    		appLoc = AppLocations.Locations.PROGRAM_PROPOSAL.getLocation();
-        String path = HistoryManager.appendContext(appLoc, getViewContext()) + "/" + parentSection;
+
+        String path = HistoryManager.appendContext(AppLocations.Locations.EDIT_PROGRAM_SPEC.getLocation(), getViewContext()) + "/" + parentSection;
         HistoryManager.navigate(path);
     }
 
@@ -283,34 +272,15 @@ public class VariationEditController extends VariationController {
     	String newParentPath = ProgramConstants.VARIATIONS+"/"+org.kuali.student.lum.program.client.ProgramRegistry.getRow()+"/";
     	Application.getApplicationContext().setParentPath(newParentPath);
 		
-    	//This callback restricts values displayed in widget (eg. dropdowns, pickers) based on a cross field selection
-    	//and updates the warning messages displayed for the variation. A callback is used since we need the parent 
-    	//ProgramController to finish configuring the view before proceeding.
-		Callback<Boolean> finalizeVariationView = new Callback<Boolean>(){
-			public void exec(Boolean result) {
-		        //Update widgets with constraints
-				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
-		        	crossConstraint.reprocessWithUpdatedConstraints();
-		        }
-
-		        onReadyCallback.exec(result);
-			}
-        };
-		super.beforeShow(finalizeVariationView);
-	}
-
-	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
-	//This gets called twice which is not optimal
-	@Override
-	public <V extends Enum<?>> void showView(V viewType,
-			final Callback<Boolean> onReadyCallback) {
 		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
 			public void exec(Boolean result) {
 				onReadyCallback.exec(result);
-		        showWarnings();	
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
 			}
         };
-		super.showView(viewType, updateCrossConstraintsCallback);
+		super.beforeShow(updateCrossConstraintsCallback);
 	}
-	
+
 }

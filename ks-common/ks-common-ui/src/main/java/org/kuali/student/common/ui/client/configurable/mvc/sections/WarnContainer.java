@@ -43,20 +43,9 @@ public class WarnContainer extends Composite{
 		normalLayout.add(w);
 	}
 	
-	//Adds to same line
 	public void addWarnWidget(Widget w){
 		warnLayout.add(w);
 		w.getElement().setAttribute("style", "display: inline");
-	}
-	
-	//Adds to newline
-	public void addWarnWidgetBlock(Widget w){	// KSLAB-1985
-		warnLayout.add(w);
-		w.getElement().setAttribute("style", "display: block");
-	}
-	
-	public void clearWarnLayout(){	
-		warnLayout.clear();
 	}
 	
 	public void showWarningLayout(boolean show){

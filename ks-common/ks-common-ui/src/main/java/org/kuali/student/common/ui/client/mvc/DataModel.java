@@ -351,17 +351,6 @@ public class DataModel implements Model {
     }
 
     /**
-     * Validates this data model against the given metadata and returns the result
-     * to the callback
-     * @param metadata
-     * @param callback
-     */
-    public void validateForMetadata(Metadata metadata, final Callback<List<ValidationResultInfo>> callback) {
-        List<ValidationResultInfo> result = validator.validateForMetadata(metadata, this);
-        callback.exec(result);
-    }
-    
-    /**
      * Validates a single field
      * @param fd
      * @param callback

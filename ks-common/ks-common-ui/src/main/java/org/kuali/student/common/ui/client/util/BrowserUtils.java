@@ -50,13 +50,5 @@ public class BrowserUtils {
     public static native void reload()/*-{
 		$wnd.location.reload();
 	}-*/;
-    
-    public static native String getClassAttr()/*-{
-        if(navigator.appName == "Microsoft Internet Explorer"){
-            return "className";
-        } else {
-            return "class";
-        }
-    }-*/;
 
 }

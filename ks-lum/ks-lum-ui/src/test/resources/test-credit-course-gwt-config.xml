@@ -37,8 +37,8 @@
 	<bean id="CluProposalRpcGwtServlet"
 		class="org.kuali.student.lum.lu.ui.course.server.gwt.old.CreditCourseProposalRpcGwtServlet">
 		<property name="assembler" ref="creditCourseProposalAssemblerFilterManager"/>
-		<property name="simpleDocService" ref="simpleDocActionsClient" />
-		<property name="workflowUtilityService" ref="workflowUtilityClient" />
+		<property name="workflowDocumentActionsService" ref="simpleDocActionsClient" />
+		<property name="workflowDocumentService" ref="workflowUtilityClient" />
 		<property name="permissionService" ref="permissionServiceClient" />
 		<property name="modifyCourseManager" ref="modifyCreditCourseProposalManager"/>
 	</bean>
@@ -81,8 +81,8 @@
 
 	<!-- This filter takes care of creating/updated a workflow doc whenever the assembler saves data -->
 	<bean id="workflowAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalWorkflowAssemblerFilter">
-		<property name="simpleDocService" ref="simpleDocActionsClient" />
-		<property name="workflowUtilityService" ref="workflowUtilityClient" />
+		<property name="workflowDocumentActionsService" ref="simpleDocActionsClient" />
+		<property name="workflowDocumentService" ref="workflowUtilityClient" />
 	</bean>
 	<bean id="creditCourseProposalAssemblerFilter" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssemblerFilter">
 	</bean>
@@ -237,18 +237,6 @@
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/LearningObjectiveService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.lum.lo.service.LearningObjectiveService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
-	</bean>
-
-	<bean id="workflowUtilityClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/WorkflowUtilityServiceSOAP?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.service.WorkflowUtility" />
-		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}WorkflowUtilityServiceSOAP" />
-	</bean>
-
-	<bean id="simpleDocActionsClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/simpleDocumentActionsService?wsdl"/>
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
-		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
 	</bean>
 
 	<bean id="documentService" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">

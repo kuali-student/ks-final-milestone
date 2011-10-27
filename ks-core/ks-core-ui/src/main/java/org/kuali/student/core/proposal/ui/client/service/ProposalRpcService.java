@@ -16,7 +16,6 @@
 package org.kuali.student.core.proposal.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -30,7 +29,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("rpcservices/ProposalRpcService")
 public interface ProposalRpcService extends RemoteService, BaseRpcService {
-
-    public ProposalInfo getProposalByWorkflowId(String workflowId) throws Exception;
 
 }

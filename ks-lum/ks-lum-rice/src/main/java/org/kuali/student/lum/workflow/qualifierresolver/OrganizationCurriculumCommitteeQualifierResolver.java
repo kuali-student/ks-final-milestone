@@ -4,15 +4,12 @@
 package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.xml.namespace.QName;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.role.QualifierResolver;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -41,7 +38,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
 
     @Override
-    public List<AttributeSet> resolve(RouteContext routeContext) {
+    public List<Map<String,String>> resolve(RouteContext routeContext) {
         // get the organization id from the current route node instance and error out if not found
         String orgIdValue = routeContext.getNodeInstance().getNodeState(OrganizationDynamicNode.NODE_STATE_ORG_ID_KEY).getValue();
         if (StringUtils.isBlank(orgIdValue)) {
@@ -52,7 +49,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         }
 
         try {
-            List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+            List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
             // find the OrgOrgRelationInfo objects associated with the org from the route node instance
             List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue);
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
@@ -66,7 +63,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("---- Related Org Relation: " + nextNodeOrgInfo.getId() + " - " + nextNodeOrgInfo.getShortName() + " (" + nextNodeOrgInfo.getLongName() + ")");
                             }
-                            AttributeSet attributeSet = new AttributeSet();
+                            Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                             attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, nextNodeOrgInfo.getId());
                             attributeSets.add(attributeSet);
                         }
@@ -76,7 +73,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
             // if no org is found then use the org on the route node instance
             if (attributeSets.isEmpty()) {
                 OrgInfo currentNodeOrg = getOrganization(orgIdValue);
-                AttributeSet attributeSet = new AttributeSet();
+                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, currentNodeOrg.getId());
                 attributeSets.add(attributeSet);
             }

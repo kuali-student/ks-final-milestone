@@ -13,8 +13,8 @@ public class StudentWorkflowConstants {
 	public static final String ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE = "KS-SYS";
 	public static final String ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME = "Adhoc Permissions: Comment on Document";
 	
-	public enum ActionRequestType {
-		COMPLETE("C", "Complete"), 
+	public enum ActionRequestEnum {
+		COMPLETE("C", "Complete"),
 		APPROVE("A", "Approve"), 
 		ACKNOWLEDGE("K", "Acknowledge"), 
 		FYI("F", "FYI");
@@ -22,7 +22,7 @@ public class StudentWorkflowConstants {
 		private String actionRequestCode;
 		private String actionRequestLabel;
 
-		private ActionRequestType(String actionRequestCode, String actionRequestLabel) {
+		private ActionRequestEnum(String actionRequestCode, String actionRequestLabel) {
 			this.actionRequestCode = actionRequestCode;
 			this.actionRequestLabel = actionRequestLabel;
 		}
@@ -43,8 +43,8 @@ public class StudentWorkflowConstants {
         	this.actionRequestLabel = actionRequestLabel;
         }
 
-		public static ActionRequestType getByCode(String actionRequestCode) {
-			for (ActionRequestType type : ActionRequestType.values()) {
+		public static ActionRequestEnum getByCode(String actionRequestCode) {
+			for (ActionRequestEnum type : ActionRequestEnum.values()) {
 				if (type.getActionRequestCode().equals(actionRequestCode)) {
 					return type;
 				}

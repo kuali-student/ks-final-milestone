@@ -31,15 +31,12 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
 import org.kuali.student.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.course.dto.CourseFeeInfo;
@@ -84,7 +81,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	private LearningObjectiveService loService;
     private CluAssemblerUtils cluAssemblerUtils;
     private LrcService lrcService;
-    private AtpService atpService;
 	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
@@ -214,15 +210,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			try {
 				// Use the luService to find Joints, then convert and add to the
 				// course
-				List<CluCluRelationInfo> cluClus = luService.getCluCluRelationsByClu(clu.getId());
+				List<CluCluRelationInfo> cluClus = luService
+						.getCluCluRelationsByClu(clu.getId());
 				
 				for (CluCluRelationInfo cluRel : cluClus) {
-					if (cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
-						CourseJointInfo jointInfo = null;
-						if(cluRel.getCluId().equals(clu.getId()))
-							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
-						else
-							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
+					if (cluRel.getType().equals(
+							CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
+						CourseJointInfo jointInfo = courseJointAssembler
+								.assemble(cluRel, null, false);
 						course.getJoints().add(jointInfo);
 					}
 				}
@@ -387,25 +382,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setCampusLocations(course.getCampusLocations());
 		clu.setDescr(course.getDescr());
 		clu.setStdDuration(course.getDuration());
-		
-		//Default course effective dates to the atps if entered
-		if(course.getStartTerm() != null){
-			try {
-				AtpInfo startAtp = atpService.getAtp(course.getStartTerm());
-				course.setEffectiveDate(startAtp.getStartDate());
-			} catch (Exception e) {
-				throw new AssemblyException("Error getting start term Atp.",e);
-			}
-		}
-		if(course.getEndTerm() != null){
-			try {
-				AtpInfo endAtp = atpService.getAtp(course.getEndTerm());
-				course.setExpirationDate(endAtp.getEndDate());
-			} catch (Exception e) {
-				throw new AssemblyException("Error getting end term Atp.",e);
-			}
-		}
-		
 		clu.setEffectiveDate(course.getEffectiveDate());
 		clu.setExpirationDate(course.getExpirationDate());
 
@@ -1131,20 +1107,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> jointRelationships = luService.getCluCluRelationsByClu(course.getId());
+				List<CluCluRelationInfo> jointRelationships = luService
+						.getCluCluRelationsByClu(course.getId());
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
-					if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getType())) {
-						if(jointRelation.getCluId().equals(course.getId())) {
-							CluInfo clu = luService.getClu(jointRelation.getRelatedCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);
-						} else {						
-							CluInfo clu = luService.getClu(jointRelation.getCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);							
-						}	
+					if (CourseAssemblerConstants.JOINT_RELATION_TYPE
+							.equals(jointRelation.getType())) {
+						currentJointIds.put(jointRelation.getId(),jointRelation);
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1226,9 +1194,5 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	public void setLrcService(LrcService lrcService) {
 		this.lrcService = lrcService;
-	}
-
-	public void setAtpService(AtpService atpService) {
-		this.atpService = atpService;
 	}
 }

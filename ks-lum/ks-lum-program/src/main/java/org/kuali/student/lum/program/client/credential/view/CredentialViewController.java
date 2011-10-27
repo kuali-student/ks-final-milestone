@@ -24,12 +24,8 @@ import org.kuali.student.lum.program.client.major.ActionType;
  * @author Igor
  */
 public class CredentialViewController extends CredentialController {
-    /**
-     * Initialize the action drop-down with a list of values.  Note that these values
-     * will be changed further down in the code depending on if we are working with the latest 
-     * version of the program.
-     */
-    private final DropdownList actionBox = new DropdownList(ActionType.getValuesForCredentialProgram(false));
+
+    private final DropdownList actionBox = new DropdownList(ActionType.getValues());
 
     /**
      * Constructor.
@@ -90,11 +86,11 @@ public class CredentialViewController extends CredentialController {
         if (status == ProgramStatus.ACTIVE) {
             programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>() {
                 public void onSuccess(Boolean isLatest) {
-                    actionBox.setList(ActionType.getValuesForCredentialProgram(isLatest));
+                    actionBox.setList(ActionType.getValues(isLatest));
                 }
             });
         } else {
-            actionBox.setList(ActionType.getValuesForCredentialProgram(false));
+            actionBox.setList(ActionType.getValues(false));
         }
     }
 }

@@ -15,27 +15,18 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.lang.ref.SoftReference;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import org.kuali.student.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
-import org.springframework.beans.factory.InitializingBean;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService, InitializingBean {
+public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,12 +34,8 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 
     private SearchDispatcher searchDispatcher;
 
-    protected boolean cachingEnabled = false;
-	protected int searchCacheMaxSize = 20;
-	protected int searchCacheMaxAgeSeconds = 90;
-	protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
-	
-    
+    private ConcurrentHashMap<SearchRequest, SearchResult> cache = new ConcurrentHashMap<SearchRequest, SearchResult>();
+
     public SearchDispatchRpcGwtServlet() {
         super();
     }
@@ -66,8 +53,9 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
         List<SearchParam> params  = searchRequest.getParams();
         if(params != null && params.size() > 0){
             SearchParam firstParam = params.get(0);
-            if(firstParam.getKey().equals("lu.queryParam.cluVersionIndId")){//FIXME can this special case be handled after this call?
+            if(firstParam.getKey().equals("lu.queryParam.cluVersionIndId")){
                 doIdTranslation(searchResult);
+
             }
         }
         return searchResult;
@@ -75,27 +63,11 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 
     @Override
     public SearchResult cachingSearch(SearchRequest searchRequest) {
-    	String cacheKey = searchRequest.toString();
-    	if(cachingEnabled){
-    		
-    		//Get From Cache
-    		MaxAgeSoftReference<SearchResult> ref = searchCache.get(cacheKey);
-    		if ( ref != null ) {
-    			SearchResult cachedSearchResult = ref.get();
-    			if(cachedSearchResult!=null){
-    				return cachedSearchResult;
-    			}
-    		}
-		}
-
-    	//Perform the actual Search
-    	SearchResult searchResult = search(searchRequest);
-        
-    	if(cachingEnabled){
-    		//Store to cache
-    		searchCache.put(cacheKey, new MaxAgeSoftReference<SearchResult>( searchCacheMaxAgeSeconds, searchResult) );
-    	}
-    	
+        if(cache.containsKey(searchRequest)){
+            return cache.get(searchRequest);
+        }
+        SearchResult searchResult = search(searchRequest);
+        cache.putIfAbsent(searchRequest, searchResult);
         return searchResult;
     }
 
@@ -113,13 +85,6 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
         }
     }
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		if(cachingEnabled){
-			searchCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<SearchResult>>( searchCacheMaxSize ) );
-		}
-	}
-    
     public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
@@ -127,76 +92,4 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
     public void setIdTranslatorFilter(IdTranslatorFilter idTranslatorFilter) {
         this.idTranslatorFilter = idTranslatorFilter;
     }
-
-	public void setCachingEnabled(boolean cachingEnabled) {
-		this.cachingEnabled = cachingEnabled;
-	}
-
-	public void setSearchCacheMaxSize(int searchCacheMaxSize) {
-		this.searchCacheMaxSize = searchCacheMaxSize;
-	}
-
-	public void setSearchCacheMaxAgeSeconds(int searchCacheMaxAgeSeconds) {
-		this.searchCacheMaxAgeSeconds = searchCacheMaxAgeSeconds;
-	}
-	
-	
-	//Added as inner classes to avoid huge dependency on rice-impl
-	/**
-	 * An extension to SoftReference that stores an expiration time for the 
-	 * value stored in the SoftReference. If no expiration time is passed in
-	 * the value will never be cached.  
-	 */
-	public class MaxAgeSoftReference<T> extends SoftReference<T> {
-		
-		private long expires;
-
-		public MaxAgeSoftReference(long expires, T referent) {
-			super(referent);
-			this.expires = System.currentTimeMillis() + expires * 1000;
-		}
-		
-		public boolean isValid() {
-			return System.currentTimeMillis() < expires;
-		}
-		
-		public T get() {			
-			return isValid() ? super.get() : null;
-		}		
-		
-	}
-	/**
-	 * This class acts like an LRU cache, automatically purging contents when it gets above a certain size. 
-	 * 
-	 * @author Kuali Rice Team (rice.collab@kuali.org)
-	 */
-	public class MaxSizeMap<K,V> extends LinkedHashMap<K,V> {
-		private static final long serialVersionUID = -5354227348838839919L;
-
-		private int maxSize;
-		
-		/**
-		 * @param maxSize
-		 */
-		public MaxSizeMap( int maxSize  ) {
-			this( maxSize, false );
-		}
-		/**
-		 * @param maxSize
-		 * @param accessOrder Whether to sort in the order accessed rather than the order inserted.
-		 */
-		public MaxSizeMap( int maxSize, boolean accessOrder ) {
-			super( maxSize / 2, 0.75f, accessOrder );
-			this.maxSize = maxSize;
-		}
-		
-		/**
-		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
-		 */
-		@Override
-		protected boolean removeEldestEntry(Entry<K,V> eldest) {
-			return size() > maxSize;
-		}
-		
-	}
 }

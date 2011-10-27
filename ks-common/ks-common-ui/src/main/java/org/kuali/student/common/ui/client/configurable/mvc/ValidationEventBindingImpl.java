@@ -81,8 +81,7 @@ public class ValidationEventBindingImpl implements ValidationEventBinding {
             GWT.log("The field with key: " + fd.getFieldKey() +
                     " does not use a widget which implements an interface that can perform on the fly validation", null);
         }
-        //Dont add focus lost to the oracle if it is repeating
-        if (w instanceof KSSelectedList && !((KSSelectedList)w).getConfig().isRepeating) {
+        if (w instanceof KSSelectedList) {
             ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {

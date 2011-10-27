@@ -16,11 +16,11 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     public static final String COURSE_RULES_MODEL_ID = "courseRulesModelId";
-    public static final String COURSE_PROPOSAL_MODEL = "courseProposalModel";    
+    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";    
 
     private CourseRequirementsSummaryView preview;
 
-    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly, boolean showSaveButtons) {
+    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
 		super(CourseRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
@@ -39,8 +39,8 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), COURSE_PROPOSAL_MODEL,
-                                                new CourseRequirementsDataModel(this), isReadOnly, showSaveButtons);
+        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), CLU_PROPOSAL_MODEL,
+                                                new CourseRequirementsDataModel(this), isReadOnly);
         super.addView(preview);
 
         if (!isReadOnly) {
@@ -127,8 +127,4 @@ public class CourseRequirementsViewController extends BasicLayout {
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
 		showDefaultView(onReadyCallback);
 	}
-    
-    public void storeRules(Callback<Boolean> callback){
-    	preview.storeRules(true, callback);
-    }
 }

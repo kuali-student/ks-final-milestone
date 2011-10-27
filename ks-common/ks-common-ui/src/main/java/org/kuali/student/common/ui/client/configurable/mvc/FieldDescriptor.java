@@ -100,7 +100,6 @@ public class FieldDescriptor {
     private String modelId;
     private MessageKeyInfo messageKey;
     private boolean optional = false;
-    private boolean ignoreShowRequired = false; 
 
     /**
      * @param fieldKey - key for this field which matches a field in the overall model definition that this
@@ -119,7 +118,7 @@ public class FieldDescriptor {
     	setupField();
     	
     	//Add mapping from path to field definition
-    	if((getFieldWidget() instanceof HasDataValue || getFieldWidget() instanceof KSTextBox || getFieldWidget() instanceof HasValue)&&!(this instanceof FieldDescriptorReadOnly)){
+    	if(getFieldWidget() instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
     		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
 		}
 
@@ -153,7 +152,7 @@ public class FieldDescriptor {
     	setupField();
     	
     	//Add mapping from path to field definition if the definition has a data value
-    	if((fieldWidget instanceof HasDataValue || fieldWidget instanceof KSTextBox) &&!(this instanceof FieldDescriptorReadOnly)){
+    	if(fieldWidget instanceof HasDataValue &&!(this instanceof FieldDescriptorReadOnly)){
     		Application.getApplicationContext().putPathToFieldMapping(null, Application.getApplicationContext().getParentPath()+fieldKey, this);
 		}
     	
@@ -193,7 +192,7 @@ public class FieldDescriptor {
 					else if(nextState.equalsIgnoreCase("ACTIVE")){
 						fieldElement.setRequiredString("reqActivate", "ks-form-required-for-submit");
     				}
-					else if(nextState.equalsIgnoreCase("SUSPENDED") ||
+					else if(nextState.equalsIgnoreCase("INACTIVE") ||
 							nextState.equalsIgnoreCase("RETIRED")){
 						fieldElement.setRequiredString("reqDeactivate", "ks-form-required-for-submit");
 					}
@@ -384,29 +383,4 @@ public class FieldDescriptor {
 		}
 	}
 
-	/**
-	 * Reset the requiredness of the field descriptor. Note doing this will also dynamically change
-	 * the underlying metadata so ui validation for requiredness works as well.
-	 * 
-	 */
-	public void setRequired(Boolean isRequired){ 
-		fieldElement.setRequiredString("requiredMarker", "ks-form-module-elements-required");
-		fieldElement.setRequired(isRequired);
-		
-		//FIXME: This could be problematic if minOccurs should be something other than 1
-		if (isRequired){
-			getMetadata().getConstraints().get(0).setMinOccurs(1);
-		} else {
-			getMetadata().getConstraints().get(0).setMinOccurs(0);
-		}
-	}
-
-    public boolean isIgnoreShowRequired() {
-        return ignoreShowRequired;
-    }
-
-    public void setIgnoreShowRequired(boolean ignoreShowRequired) {
-        this.ignoreShowRequired = ignoreShowRequired;
-    }
-	
 }

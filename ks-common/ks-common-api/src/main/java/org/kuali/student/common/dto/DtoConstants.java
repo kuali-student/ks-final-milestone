@@ -6,22 +6,20 @@ public class DtoConstants {
     public final static String STATE_SUBMITTED = "Submitted";
     public final static String STATE_WITHDRAWN = "Withdrawn";
     public final static String STATE_APPROVED = "Approved";
-    public final static String STATE_NOT_APPROVED = "NotApproved";
+    public final static String STATE_NOT_APPROVED = "Not Approved";
     public final static String STATE_ACTIVE = "Active";
+    public final static String STATE_INACTIVE = "Inactive";
     public final static String STATE_SUPERSEDED  = "Superseded";
     public final static String STATE_SUSPENDED  = "Suspended";
     public final static String STATE_RETIRED = "Retired";
 
-   
-    
+	
 	public static final String DTO_STATE = "DtoState";
-	public static final String DTO_NEXT_STATE = "DtoNextState";
-	public static final String DTO_WORKFLOW_NODE = "DtoWorkflowNode";
-	public static final String WORKFLOW_NODE_PRE_ROUTE = "PreRoute";
+	public static final String DTO_NEXT_STATE = "DtoNextState"; 
 
 	//FIXME: Need to split out proposal states (ie. workflow states) versus dto states
 	public enum DtoState {
-		DRAFT, SUBMITTED, APPROVED, ACTIVE, SUSPENDED, RETIRED, SUPERSEDED, SAVED, ENROUTE;
+		DRAFT, SUBMITTED, APPROVED, ACTIVE, INACTIVE, RETIRED, SUPERSEDED, SAVED, ENROUTE;
 
 		public boolean equalsString(String state){
 			if (state != null){
@@ -43,13 +41,15 @@ public class DtoConstants {
 		public static DtoState getNextState(String state){
 			// Element States
 			if (DRAFT.equalsString(state)) {
-	            return ACTIVE;
+	            return SUBMITTED;
+	        } else if (SUBMITTED.equalsString(state)) {
+	            return APPROVED;
 	        } else if (APPROVED.equalsString(state)) {
 	        	return ACTIVE;
 	        } else if (ACTIVE.equalsString(state)) {
-	        	return SUSPENDED;
-	        } else if (SUSPENDED.equalsString(state)) {
-	        	return ACTIVE;
+	        	return INACTIVE;
+	        } else if (INACTIVE.equalsString(state)) {
+	        	return RETIRED;
 	        
 	        // Proposal States
 	        } else if (SAVED.equalsString(state)) {
