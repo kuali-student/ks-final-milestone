@@ -34,7 +34,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "TYPE_ID")
-    private ResultValueTypeEntity type;
+    private LrcTypeEntity type;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
@@ -132,11 +132,11 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.descr = descr;
      }
 
-    public ResultValueTypeEntity getType() {
+    public LrcTypeEntity getType() {
         return type;
     }
 
-    public void setType(ResultValueTypeEntity type) {
+    public void setType(LrcTypeEntity type) {
         this.type = type;
     }
 

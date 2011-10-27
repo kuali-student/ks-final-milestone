@@ -23,8 +23,7 @@
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupTypeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.LrcTypeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
@@ -33,7 +32,6 @@
         <class>org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
-        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceTypeEntity</class>
         <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
 
         <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>

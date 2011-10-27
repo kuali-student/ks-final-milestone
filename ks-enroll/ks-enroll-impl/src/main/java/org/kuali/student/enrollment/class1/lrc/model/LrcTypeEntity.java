@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "KSEN_LRC_TYPE")
-public class ResultScaleTypeEntity extends TypeEntity<ResultScaleAttributeEntity> {
+public class LrcTypeEntity extends TypeEntity<ResultScaleAttributeEntity> {
 
     @Column(name = "REF_OBJECT_URI")
     private String refObjectURI;

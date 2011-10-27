@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class1.lrc.dao.LrcTypeDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
@@ -10,6 +11,9 @@ import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -28,6 +32,8 @@ public class LRCServiceImpl implements LRCService {
     private ResultValuesGroupDao resultValuesGroupDao;
     private ResultValueDao resultValueDao;
     private ResultScaleDao resultScaleDao;
+    private StateService stateService;
+    private LrcTypeDao lrcTypeDao;
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -60,7 +66,27 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        ResultValuesGroupEntity entity = resultValuesGroupDao.find(gradeValuesGroupInfo.getKey());
+        if (entity != null){
+            throw new AlreadyExistsException(gradeValuesGroupInfo.getKey() + " already exists");
+        }
+
+        ResultValuesGroupEntity newEntity = new ResultValuesGroupEntity(gradeValuesGroupInfo);
+        if (StringUtils.isNotBlank(gradeValuesGroupInfo.getStateKey())){
+            newEntity.setState(findState(LrcServiceConstants.RESULT_VALUES_GROUP_PROCESS_KEY,gradeValuesGroupInfo.getStateKey(),context));
+        }
+
+        if (StringUtils.isNotBlank(gradeValuesGroupInfo.getTypeKey())){
+            newEntity.setType(lrcTypeDao.find(gradeValuesGroupInfo.getTypeKey()));
+        }
+
+        if (gradeValuesGroupInfo.getResultValueKeys() != null){
+             newEntity.setResultValues(resultValueDao.findByIds(gradeValuesGroupInfo.getResultValueKeys()));
+        }
+
+        resultValuesGroupDao.persist(newEntity);
+
+        return resultValuesGroupDao.find(newEntity.getId()).toDto();
     }
 
     @Override
@@ -158,7 +184,8 @@ public class LRCServiceImpl implements LRCService {
 
     @Override
     public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
+        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+        return stateInfo;
     }
 
     @Override
@@ -196,6 +223,22 @@ public class LRCServiceImpl implements LRCService {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException{
+		StateEntity state = null;
+		try {
+			StateInfo stInfo = getState(processKey, stateKey, context);
+			if(stInfo != null){
+				state = new StateEntity(stInfo);
+				return state;
+			}
+			else
+				throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}
+    }
+
     public ResultValuesGroupDao getResultValuesGroupDao() {
         return resultValuesGroupDao;
     }
@@ -218,6 +261,22 @@ public class LRCServiceImpl implements LRCService {
 
     public void setResultScaleDao(ResultScaleDao resultScaleDao) {
         this.resultScaleDao = resultScaleDao;
+    }
+
+    public LrcTypeDao getLrcTypeDao() {
+        return lrcTypeDao;
+    }
+
+    public void setLrcTypeDao(LrcTypeDao lrcTypeDao) {
+        this.lrcTypeDao = lrcTypeDao;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
     }
 
 }
