@@ -6911,7 +6911,7 @@
   </property>
   <property name="resultReturnKey" value="lu.resultColumn.cluId" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
-  <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
   <property name="usage" value="DEFAULT" />
  </bean>
 
