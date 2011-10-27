@@ -165,7 +165,7 @@
     <KSST_REF_STMT_REL CREATEID="admin" CREATETIME="20101214093909"
         ID="2754db7c-6a58-4b80-af99-5544eb4f7003"
         OBJ_ID="8e86b212-b112-4cde-88ed-2466b759fe3a"
-        REF_OBJ_ID="REFERENCECOURSEGEOG123"
+        REF_OBJ_ID="REFERENCECOURSEGEOG201"
         REF_OBJ_TYPE_KEY="kuali.lu.type.CreditCourse"
         REF_STMT_REL_TYPE_ID="kuali.referenceType.CLU" ST="Active"
         STMT_ID="d42760ed-23c4-48eb-9cac-920c6f3be0af" UPDATEID="admin"
