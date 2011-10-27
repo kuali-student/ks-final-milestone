@@ -3098,16 +3098,6 @@
   <property name="params">
    <list>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalLongName"/>
-     <property name="name" value="Course Title"/>
-     <property name="desc" value="Course title."/>
-     <property name="dataType" value="STRING"/>
-     <property name="writeAccess" value="ALWAYS"/>
-     <property name="caseSensitive" value="false"/>
-     <property name="usage" value="ADVANCED_CUSTOM"/>
-     <property name="widget" value="SUGGEST_BOX"/>
-    </bean>
-    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalCode"/>
      <property name="name" value="Course Code (Subject Code/Number)"/>
      <property name="desc" value="Course number."/>
@@ -3118,13 +3108,14 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalDescr"/>
-     <property name="name" value="Phrase in Description"/>
-     <property name="desc" value="Course description"/>
+     <property name="key" value="lu.queryParam.luOptionalLongName"/>
+     <property name="name" value="Course Title"/>
+     <property name="desc" value="Course title."/>
      <property name="dataType" value="STRING"/>
      <property name="writeAccess" value="ALWAYS"/>
-     <property name="caseSensitive" value="true"/>
+     <property name="caseSensitive" value="false"/>
      <property name="usage" value="ADVANCED_CUSTOM"/>
+     <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalLevel"/>
@@ -3134,6 +3125,15 @@
      <property name="writeAccess" value="ALWAYS"/>
      <property name="caseSensitive" value="true"/>
      <property name="usage" value="CUSTOM"/>
+    </bean>
+    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.queryParam.luOptionalDescr"/>
+     <property name="name" value="Phrase in Description"/>
+     <property name="desc" value="Course description"/>
+     <property name="dataType" value="STRING"/>
+     <property name="writeAccess" value="ALWAYS"/>
+     <property name="caseSensitive" value="true"/>
+     <property name="usage" value="ADVANCED_CUSTOM"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
