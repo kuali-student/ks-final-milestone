@@ -24,7 +24,6 @@
       <map>
         <entry key="Acal">
             <list>
-                <value>classpath:ks-lpr.sql</value>
                 <value>classpath:ks-lrc.sql</value>
             </list>
         </entry>
