@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.JRField;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.util.DateFormatThread;
 
 /**
  * This is a custom data source class to convert a datamodel to a Jasper report data source object.
@@ -72,7 +73,8 @@ public class KSCustomDataSource implements JRDataSource {
                     value = new Boolean(false);
                 } else if ("value".equals(fieldName)) {
                     if (property.getValue() instanceof Date) {
-                        value = format.format((Date) property.getValue());
+                    	DateFormatThread.set(format);
+                        value = DateFormatThread.format((Date) property.getValue());
                     } else {
                         if (property.getValue() != null) {
                             value = property.getValue().toString();

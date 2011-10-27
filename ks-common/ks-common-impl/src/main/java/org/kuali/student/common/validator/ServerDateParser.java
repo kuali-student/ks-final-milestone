@@ -17,6 +17,7 @@ package org.kuali.student.common.validator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.kuali.student.common.util.DateFormatThread;
 
 public class ServerDateParser implements DateParser {
     SimpleDateFormat[] formats = {
@@ -32,7 +33,8 @@ public class ServerDateParser implements DateParser {
         
         for (SimpleDateFormat format : formats) {
                 try {
-                    result = format.parse(input);
+                	DateFormatThread.set(format);
+                    result = DateFormatThread.parse(input);
                 } catch (Exception e) {
                     // just eat it
                 }

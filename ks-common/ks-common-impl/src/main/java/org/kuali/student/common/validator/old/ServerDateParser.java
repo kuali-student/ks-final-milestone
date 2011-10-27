@@ -18,6 +18,8 @@ package org.kuali.student.common.validator.old;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.kuali.student.common.util.DateFormatThread;
+
 public class ServerDateParser implements DateParser {
     SimpleDateFormat[] formats = {new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"), new SimpleDateFormat("yyyy-MM-dd")};
     
@@ -26,7 +28,8 @@ public class ServerDateParser implements DateParser {
         
         for (SimpleDateFormat format : formats) {
                 try {
-                    result = format.parse(input);
+                	DateFormatThread.set(format);
+                    result = DateFormatThread.parse(input);
                 } catch (Exception e) {
                     // just eat it
                 }

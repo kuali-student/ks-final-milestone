@@ -61,7 +61,7 @@ public class CommentTool implements HasReferenceId {
     private KSButton cancelEditButton = new KSButton("Cancel");
     private KSButton submitCommentButton = new KSButton("Submit");
     private FlexTable commentsTableLayout = new FlexTable();
-    private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
+    //private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
     private Controller controller;    
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
@@ -349,6 +349,7 @@ public class CommentTool implements HasReferenceId {
                 });
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
                 userNameAndTime.add(userNameLabel);
+                DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);
