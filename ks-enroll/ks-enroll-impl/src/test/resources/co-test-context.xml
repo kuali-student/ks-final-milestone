@@ -249,7 +249,15 @@
 		<property name="dataDictionaryService" ref="dataDictionaryServiceForCourseOffering" />
 		<property name="validator" ref="validator"/>
     </bean>   
-         	
+    
+    <bean id="coServiceAuthDecorator"
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
+		<property name="nextDecorator" ref="coServiceValidationDecorator"/>
+		<property name="permissionService" ref="permissionService"/>
+    </bean> 
+            	
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+    
     <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     	<property name="lprDao" ref="lprDao"/>
     	<property name="lprStateDao" ref="stateDao"/>

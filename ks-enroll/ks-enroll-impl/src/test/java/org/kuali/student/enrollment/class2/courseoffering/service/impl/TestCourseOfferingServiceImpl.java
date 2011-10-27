@@ -48,7 +48,7 @@ import static org.junit.Assert.*;
 public class TestCourseOfferingServiceImpl {
 
     @Resource  // look up bean via variable name, then type
-	private CourseOfferingService coServiceValidationDecorator;
+	private CourseOfferingService coServiceAuthDecorator;
 
     @Resource
     private GradingService gradingService;
@@ -67,7 +67,7 @@ public class TestCourseOfferingServiceImpl {
 
 	@Test
     public void testServiceSetup() {
-    	assertNotNull(coServiceValidationDecorator);
+    	assertNotNull(coServiceAuthDecorator);
     }
 	   
     @Test
@@ -76,14 +76,14 @@ public class TestCourseOfferingServiceImpl {
 			OperationFailedException, PermissionDeniedException {
     	try {
             try{
-    			coServiceValidationDecorator.getCourseOffering("Lui-blah", callContext);
+    			coServiceAuthDecorator.getCourseOffering("Lui-blah", callContext);
                 fail("Lui-blah should have thrown DoesNotExistException");
     		}
             catch (DoesNotExistException enee) {
                 // expected
             }
     		
-    		CourseOfferingInfo co = coServiceValidationDecorator.getCourseOffering("Lui-1", callContext);
+    		CourseOfferingInfo co = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
     		assertNotNull(co);
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, co.getStateKey());
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co.getTypeKey());
@@ -99,7 +99,7 @@ public class TestCourseOfferingServiceImpl {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
     	List<String> formatIdList = new ArrayList<String>();
-    	CourseOfferingInfo created = coServiceValidationDecorator.createCourseOfferingFromCanonical(
+    	CourseOfferingInfo created = coServiceAuthDecorator.createCourseOfferingFromCanonical(
                 "CLU-1", "testAtpId1", formatIdList, callContext);
     	assertNotNull(created);
     	assertEquals("CLU-1", created.getCourseId());
@@ -107,7 +107,7 @@ public class TestCourseOfferingServiceImpl {
     	assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey()); 
 
-        CourseOfferingInfo retrieved = coServiceValidationDecorator.getCourseOffering(created.getId(), callContext);
+        CourseOfferingInfo retrieved = coServiceAuthDecorator.getCourseOffering(created.getId(), callContext);
     	assertNotNull(retrieved);
     	assertEquals("CLU-1", retrieved.getCourseId());
     	assertEquals("testAtpId1", retrieved.getTermKey());
@@ -135,10 +135,10 @@ public class TestCourseOfferingServiceImpl {
         lrcService.createResultValuesGroup(rv, callContext);
         retrieved.setCreditOptions(rv);
         try {
-			coServiceValidationDecorator.updateCourseOffering(retrieved.getId(), retrieved, callContext);
+			coServiceAuthDecorator.updateCourseOffering(retrieved.getId(), retrieved, callContext);
 			
 			CourseOfferingInfo retrieved2 =
-                    coServiceValidationDecorator.getCourseOffering(retrieved.getId(), callContext);
+                    coServiceAuthDecorator.getCourseOffering(retrieved.getId(), callContext);
 			assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, retrieved2.getStateKey()); 
 		} catch (VersionMismatchException ex) {
 			fail("Exception from service call :" + ex.getMessage());
@@ -179,11 +179,11 @@ public class TestCourseOfferingServiceImpl {
 
         try {
             ActivityOfferingInfo created =
-                    coServiceValidationDecorator.createActivityOffering(coIdList, ao, callContext);
+                    coServiceAuthDecorator.createActivityOffering(coIdList, ao, callContext);
             assertNotNull(created);
 
             ActivityOfferingInfo retrieved =
-                    coServiceValidationDecorator.getActivityOffering(created.getId(), callContext);
+                    coServiceAuthDecorator.getActivityOffering(created.getId(), callContext);
             assertNotNull(retrieved);
 
             assertEquals(created.getActivityId(), retrieved.getActivityId());
@@ -195,7 +195,7 @@ public class TestCourseOfferingServiceImpl {
 
             // test getActivitiesForCourseOffering
             List<ActivityOfferingInfo> activities =
-                    coServiceValidationDecorator.getActivitiesForCourseOffering("Lui-1", callContext);
+                    coServiceAuthDecorator.getActivitiesForCourseOffering("Lui-1", callContext);
             assertNotNull(activities);
             assertEquals(1, activities.size());
             assertEquals(created.getActivityId(), activities.get(0).getActivityId());
@@ -223,11 +223,11 @@ public class TestCourseOfferingServiceImpl {
 		
 		try {
 			RegistrationGroupInfo created =
-                    coServiceValidationDecorator.createRegistrationGroup(courseOfferingId, rg, callContext);
+                    coServiceAuthDecorator.createRegistrationGroup(courseOfferingId, rg, callContext);
 			assertNotNull(created);
 			
 			RegistrationGroupInfo retrieved =
-                    coServiceValidationDecorator.getRegistrationGroup(created.getId(), callContext);
+                    coServiceAuthDecorator.getRegistrationGroup(created.getId(), callContext);
 			assertNotNull(retrieved);
 
 			assertEquals(rg.getFormatId(), retrieved.getFormatId());
@@ -237,7 +237,7 @@ public class TestCourseOfferingServiceImpl {
 		    
 		    // test getRegGroupsForCourseOffering
 		    List<RegistrationGroupInfo> rgs =
-                    coServiceValidationDecorator.getRegGroupsForCourseOffering(courseOfferingId, callContext);
+                    coServiceAuthDecorator.getRegGroupsForCourseOffering(courseOfferingId, callContext);
 		    assertNotNull(rgs);
 		    assertEquals(1, rgs.size());
 		    assertEquals(created.getFormatId(), rgs.get(0).getFormatId());
@@ -254,7 +254,7 @@ public class TestCourseOfferingServiceImpl {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             VersionMismatchException {
         try {
-            CourseOfferingInfo coi = coServiceValidationDecorator.getCourseOffering("Lui-1", callContext);
+            CourseOfferingInfo coi = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
             assertNotNull(coi);
             
             coi.setTermKey("testAtpId1");
@@ -270,11 +270,11 @@ public class TestCourseOfferingServiceImpl {
             instructors.add(instructor);
             coi.setInstructors(instructors);
             CourseOfferingInfo updated =
-                    coServiceValidationDecorator.updateCourseOffering("Lui-1", coi, callContext);
+                    coServiceAuthDecorator.updateCourseOffering("Lui-1", coi, callContext);
             assertNotNull(updated);
             
             CourseOfferingInfo retrieved =
-                    coServiceValidationDecorator.getCourseOffering("Lui-1", callContext);
+                    coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
             assertNotNull(retrieved);
             
             assertTrue(retrieved.getIsHonorsOffering());
@@ -298,11 +298,11 @@ public class TestCourseOfferingServiceImpl {
             instructors1.add(instructor2);
             retrieved.setInstructors(instructors1);            
             CourseOfferingInfo updated1 =
-                    coServiceValidationDecorator.updateCourseOffering("Lui-1", retrieved, callContext);
+                    coServiceAuthDecorator.updateCourseOffering("Lui-1", retrieved, callContext);
             assertNotNull(updated1);
             
             CourseOfferingInfo retrieved1 =
-                    coServiceValidationDecorator.getCourseOffering("Lui-1", callContext);
+                    coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
             assertNotNull(retrieved1);
             assertEquals(2, retrieved1.getInstructors().size());
         }
