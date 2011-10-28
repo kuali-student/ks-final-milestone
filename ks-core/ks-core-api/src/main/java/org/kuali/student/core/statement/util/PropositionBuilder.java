@@ -1,11 +1,18 @@
 package org.kuali.student.core.statement.util;
 
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.framework.engine.*;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.rice.krms.framework.engine.Agenda;
+import org.kuali.rice.krms.framework.engine.AgendaTree;
+import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
+import org.kuali.rice.krms.framework.engine.BasicAgenda;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
+import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
+import org.kuali.rice.krms.framework.engine.BasicRule;
+import org.kuali.rice.krms.framework.engine.ComparisonOperator;
+import org.kuali.rice.krms.framework.engine.CompoundProposition;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.Rule;
 import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.CourseSetCompletionProposition;
 import org.kuali.student.common.util.krms.proposition.SingleCourseCompletionProposition;
@@ -13,9 +20,14 @@ import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -26,19 +38,15 @@ import java.util.*;
 public class PropositionBuilder {
     
     private static final String PREREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
-    
-    private StatementService statementService;
+
+    public static final Collection<String> TRANSLATABLE_STATEMENT_TYPES = Collections.singleton(PREREQUISITE_STATEMENT_TYPE);
     
     //private LrcService lrcService;
-    
-    private List<Proposition> propositions = new ArrayList<Proposition>();
-    private Map<Proposition, StatementTreeViewInfo> statementPropositionMap = new HashMap<Proposition, StatementTreeViewInfo>();
-    private Map<Proposition, ReqComponentInfo> reqComponentPropositionMap = new HashMap<Proposition, ReqComponentInfo>();
     
     //private ApplicationContext appContext;
     
     private static final List<String> validRequirementComponentTypes;
-    
+
     static {
         String[] REQ_COM_TYPE_SEED_DATA = {
             //"kuali.reqComponent.type.course.courseset.grade.max",
@@ -56,16 +64,18 @@ public class PropositionBuilder {
         
         validRequirementComponentTypes = Collections.unmodifiableList(Arrays.asList(REQ_COM_TYPE_SEED_DATA));
     }
-    
-    public Agenda translateStatement(String statmentId, Map<String, String> qualifierMap) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+
+    public static class TranslationResults {
+        public Agenda agenda;
+
+        public Map<Proposition, ReqComponentInfo> reqComponentPropositionMap = new HashMap<Proposition, ReqComponentInfo>();
+    }
+
+    public TranslationResults translateStatement(StatementTreeViewInfo statementTreeView, Map<String, String> qualifierMap) throws InvalidParameterException {
+
+        TranslationResults results = new TranslationResults();
         
-        StatementTreeViewInfo statementTreeView = statementService.getStatementTreeView(statmentId);
-                
-        Proposition rootProposition = buildPropositionFromComponents(statementTreeView);
-        
-        propositions.add(rootProposition);
-        
-        statementPropositionMap.put(rootProposition, statementTreeView);
+        Proposition rootProposition = buildPropositionFromComponents(statementTreeView, results.reqComponentPropositionMap);
         
         Rule rule = new BasicRule(rootProposition, null);
         
@@ -78,27 +88,20 @@ public class PropositionBuilder {
             qualifierMap = Collections.emptyMap();
         }
 
-        Agenda result = new BasicAgenda(RulesExecutionConstants.STATEMENT_EVENT_NAME, qualifierMap, agendaTree);
-        
-        return result;
+        results.agenda = new BasicAgenda(RulesExecutionConstants.STATEMENT_EVENT_NAME, qualifierMap, agendaTree);
+
+        return results;
         
     }
 
-    public StatementTreeViewInfo getStatementTreeView(String statementId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
-   		return statementService.getStatementTreeView(statementId);
-    }
-        
-    private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
+    private Proposition buildPropositionFromComponents(StatementTreeViewInfo statementTreeView, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
         if(statementTreeView.getType().equals(PREREQUISITE_STATEMENT_TYPE)) {
             if(statementTreeView.getStatements().isEmpty()) {
                 // if no sub-statements, there are only one or two req components
             	
-            	Proposition proposition = translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator()); 
+            	Proposition proposition = translateReqComponents(statementTreeView.getReqComponents(), statementTreeView.getOperator(), reqComponentPropositionMap);
             	
-            	propositions.add(proposition);
-                statementPropositionMap.put(proposition, statementTreeView);
-
-                return proposition;         
+                return proposition;
             }
             
             // otherwise, make a compound proposition out of the recursive result for each sub-statement
@@ -106,21 +109,15 @@ public class PropositionBuilder {
             
             for(StatementTreeViewInfo subStatement : statementTreeView.getStatements()) {
             
-            	Proposition proposition = buildPropositionFromComponents(subStatement);
+            	Proposition proposition = buildPropositionFromComponents(subStatement, reqComponentPropositionMap);
             	            	
-            	propositions.add(proposition);
-            	statementPropositionMap.put(proposition, subStatement);
-            	
-                subProps.add(buildPropositionFromComponents(subStatement));
+                subProps.add(buildPropositionFromComponents(subStatement, reqComponentPropositionMap));
                                 
                 
             }
             
             CompoundProposition compoundProposition = new CompoundProposition(translateOperator(statementTreeView.getOperator()), subProps);
             
-            propositions.add(compoundProposition);
-            statementPropositionMap.put(compoundProposition, statementTreeView);
-
             return compoundProposition;
         }
         
@@ -128,7 +125,7 @@ public class PropositionBuilder {
     }
     
     
-    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
+    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
         
         ReqComponentInfo req1 = null, req2 = null;
         
@@ -139,7 +136,6 @@ public class PropositionBuilder {
         req1 = reqComponents.get(0);
         Proposition prop1 = buildPropositionForRequirementComponent(req1);
         
-        propositions.add(prop1);
         reqComponentPropositionMap.put(prop1, req1);
 
         
@@ -148,7 +144,6 @@ public class PropositionBuilder {
             req2 = reqComponents.get(1);
             prop2 = buildPropositionForRequirementComponent(req2);
             
-            propositions.add(prop2);
             reqComponentPropositionMap.put(prop2, req2);
 
         }
@@ -182,7 +177,7 @@ public class PropositionBuilder {
         
     }
 
-    private Proposition buildPropositionForRequirementComponent(ReqComponentInfo requirementComponent) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException {
+    private Proposition buildPropositionForRequirementComponent(ReqComponentInfo requirementComponent) throws InvalidParameterException {
         
         String componentType = requirementComponent.getType();
         
@@ -314,7 +309,7 @@ public class PropositionBuilder {
     //  -- kuali.reqComponent.type.course.courseset.grade.max
     //  -- kuali.reqComponent.type.course.courseset.nof.grade.min
     
-    private Proposition buildGradeComparisonProposition(ReqComponentInfo requirementComponent) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    private Proposition buildGradeComparisonProposition(ReqComponentInfo requirementComponent) {
         Proposition result = null;
         
         Map<String, ReqCompFieldInfo> fieldMap = buildFieldMap(requirementComponent.getReqCompFields());
@@ -363,14 +358,4 @@ public class PropositionBuilder {
         return result;
     }
 
-    public List<Proposition> getPropositions() {
-    	return propositions;
-    }
-    public Map<Proposition, StatementTreeViewInfo> getStatementPropositionMap() {
-    	return statementPropositionMap;
-    }
-    
-    public Map<Proposition, ReqComponentInfo> getReqComponentPropositionMap() {
-    	return reqComponentPropositionMap;
-    }    
 }

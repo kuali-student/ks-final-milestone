@@ -38,6 +38,10 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         this.lprService = lprService;
     }
 
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
     @Override
     public Set<TermSpecification> getPrerequisites() {
         return prerequisites;
@@ -67,16 +71,17 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         Collection<String> results = null;
 
         try {
-            List<String> lprIds = lprService.getLprIdsByPerson(studentId, context);
-
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(lprIds, context);
+            List<LuiPersonRelationInfo> lprs = lprService.getLprsByPerson(studentId, context);
 
             Map<String, String> lprIdToCluId = new HashMap<String, String>();
+            List<String> lprIds = new ArrayList<String>(lprs.size());
 
             for(LuiPersonRelationInfo lpr : lprs) {
                 String luiId = lpr.getLuiId();
                 LuiInfo lui = luiService.getLui(luiId, context);
                 lprIdToCluId.put(lpr.getId(), lui.getCluId());
+
+                lprIds.add(lpr.getId());
             }
 
             List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);

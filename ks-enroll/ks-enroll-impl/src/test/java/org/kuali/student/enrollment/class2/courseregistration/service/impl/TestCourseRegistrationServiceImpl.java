@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -13,11 +15,19 @@ import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:coursereg-test-context.xml"})
@@ -84,6 +94,7 @@ public class TestCourseRegistrationServiceImpl {
             RegRequestInfo regRequestNew = courseRegServiceValidation.createRegRequest(regRequest, callContext);
             assertNotNull(regRequestNew);
         } catch (Exception ex) {
+            ex.printStackTrace();
             fail("exception from service call :" + ex.getMessage());
         }
 
@@ -103,5 +114,53 @@ public class TestCourseRegistrationServiceImpl {
             fail("exception from service call :" + ex.getMessage());
         }
 
+    }
+
+    @Test
+    public void testCheckStudentEligibiltyForCourseOffering() {
+        String studentId = "testStudentId1";
+        String courseOfferingId = "courseOffering3";
+
+        try {
+            List<ValidationResultInfo> passedResults = courseRegServiceValidation.checkStudentEligibiltyForCourseOffering(studentId, courseOfferingId, callContext);
+
+            assertEquals(1, passedResults.size());
+            ValidationResultInfo result = passedResults.get(0);
+            assertEquals(result.getLevel().intValue(), ValidationResult.ErrorLevel.OK.getLevel());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("call to service method failed due to exception: " + e.getMessage());
+        }
+
+        // test with a course offering the student is not eligible for
+        studentId = "testStudentId2";
+        courseOfferingId = "courseOffering3";
+
+        try {
+            List<ValidationResultInfo> failedResults = courseRegServiceValidation.checkStudentEligibiltyForCourseOffering(studentId, courseOfferingId, callContext);
+
+            assertEquals(1, failedResults.size());
+            ValidationResultInfo result = failedResults.get(0);
+            assertEquals(result.getLevel().intValue(), ValidationResult.ErrorLevel.ERROR.getLevel());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("call to service method failed due to exception: " + e.getMessage());
+        }
+
+        // test with an invalid course offering id
+        courseOfferingId = "invalidCourse Offering Id";
+        List<ValidationResultInfo> shouldBeNull = null;
+
+        try {
+            shouldBeNull = courseRegServiceValidation.checkStudentEligibiltyForCourseOffering(studentId, courseOfferingId, callContext);
+            fail("should have thrown an exception in checkStudentEligibiltyForCourseOffering due to invalid course offering id");
+        }
+        catch(InvalidParameterException ie) {
+            assertNull(shouldBeNull);
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+            fail("call to service method failed due to exception: " + e.getMessage());
+        }
     }
 }

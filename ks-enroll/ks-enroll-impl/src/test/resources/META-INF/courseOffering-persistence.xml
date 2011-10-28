@@ -254,7 +254,16 @@
 		<class>org.kuali.student.core.atp.entity.Milestone</class>
 		<class>org.kuali.student.core.atp.entity.MilestoneAttribute</class>
 		<class>org.kuali.student.core.atp.entity.MilestoneType</class>
-		<class>org.kuali.student.core.atp.entity.MilestoneTypeAttribute</class>       
+		<class>org.kuali.student.core.atp.entity.MilestoneTypeAttribute</class>
+
+        <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.LrrTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceTypeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		
 	</persistence-unit>

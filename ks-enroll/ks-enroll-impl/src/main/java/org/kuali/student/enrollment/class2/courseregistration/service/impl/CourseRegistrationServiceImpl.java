@@ -2,7 +2,14 @@ package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.statement.util.PropositionBuilder;
+import org.kuali.student.core.statement.util.RulesEvaluationUtil;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
@@ -10,16 +17,42 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.*;
+import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.enrollment.lpr.dto.*;
+import org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo;
+import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
+import org.kuali.student.r2.common.dto.OperationStatusInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -39,10 +72,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private RegRequestAssembler regRequestAssembler;
     private RegResponseAssembler regResponseAssembler;
     private CourseRegistrationAssembler courseRegistrationAssembler;
+    private StatementService statementService;
+    private CourseService courseService;
+    private PropositionBuilder propositionBuilder;
+    private RulesEvaluationUtil rulesEvaluationUtil;
 
     private LRCService lrcService;
-    private CourseService courseService;
-    private StatementService statementService;
 
     public LRCService getLrcService() {
         return lrcService;
@@ -92,22 +127,37 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         this.courseRegistrationAssembler = courseRegistrationAssembler;
     }
 
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
+    public StatementService getStatementService() {
+        return statementService;
     }
 
     public void setStatementService(StatementService statementService) {
         this.statementService = statementService;
     }
 
-    public StatementService getStatementService() {
-        return statementService;
+    public CourseService getCourseService() {
+        return courseService;
     }
 
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public PropositionBuilder getPropositionBuilder() {
+        return propositionBuilder;
+    }
+
+    public void setPropositionBuilder(PropositionBuilder propositionBuilder) {
+        this.propositionBuilder = propositionBuilder;
+    }
+
+    public RulesEvaluationUtil getRulesEvaluationUtil() {
+        return rulesEvaluationUtil;
+    }
+
+    public void setRulesEvaluationUtil(RulesEvaluationUtil rulesEvaluationUtil) {
+        this.rulesEvaluationUtil = rulesEvaluationUtil;
+    }
 
     private  List <LprTransactionItemInfo>  createModifiedLprTransactionItemsForNew(RegRequestItemInfo regRequestItem, ContextInfo context )throws DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
@@ -291,10 +341,75 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context)
+    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        CourseOfferingInfo courseOffering = null;
+        try {
+            courseOffering = courseOfferingService.getCourseOffering(courseOfferingId, context);
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException("Invalid courseOfferingId, no course offering found with id of: " + courseOfferingId);
+        }
+
+        List<StatementTreeViewInfo> statements;
+
+        try {
+            // TODO fill in nlUsageType and language parameters once the implementation actually uses them
+            statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new OperationFailedException("", e);
+        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+            throw new OperationFailedException("", e);
+        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
+            throw new MissingParameterException(e.getMessage());
+        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
+            throw new OperationFailedException("", e);
+        }
+
+        List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
+
+        // find and process statements that the PropositionBuilder can handle
+        for(StatementTreeViewInfo statementTree : statements) {
+            if(PropositionBuilder.TRANSLATABLE_STATEMENT_TYPES.contains(statementTree.getType())) {
+                PropositionBuilder.TranslationResults translationResults = null;
+                try {
+                    translationResults = propositionBuilder.translateStatement(statementTree, null);
+                } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+                    throw new OperationFailedException("Exception thrown attempting statement translation for statement: " + statementTree.getId(), e);
+                }
+
+                Map<Term, Object> executionFacts = new HashMap<Term, Object>();
+                executionFacts.put(new Term(RulesExecutionConstants.studentIdTermSpec), studentId);
+                executionFacts.put(new Term(RulesExecutionConstants.courseIdToEnroll), courseOffering.getCourseId());
+                executionFacts.put(new Term(RulesExecutionConstants.contextInfoTermSpec), context);
+
+                EngineResults engineResults = rulesEvaluationUtil.executeAgenda(translationResults.agenda, executionFacts);
+
+                List<ReqComponentInfo> failedRequirements = rulesEvaluationUtil.getFailedRequirementsFromEngineResults(engineResults, translationResults.reqComponentPropositionMap);
+
+                if(!failedRequirements.isEmpty()) {
+                    for(ReqComponentInfo failedRequirement : failedRequirements) {
+                        ValidationResultInfo resultInfo = new ValidationResultInfo();
+                        resultInfo.setLevel(ValidationResult.ErrorLevel.ERROR.getLevel());
+                        resultInfo.setElement(failedRequirement.getId());
+                        resultInfo.setMessage(failedRequirement.getNaturalLanguageTranslation());
+
+                        resultInfos.add(resultInfo);
+                    }
+                }
+            }
+        }
+
+        if(resultInfos.isEmpty()) {
+            ValidationResultInfo resultInfo = new ValidationResultInfo();
+            resultInfo.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+
+            resultInfos.add(resultInfo);
+        }
+
+        return resultInfos;
     }
 
     @Override
@@ -860,4 +975,5 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
 }

@@ -91,7 +91,7 @@ public class RulesEvaluationUtil {
 
         List<ResultEvent> events = results.getResultsOfType(ResultEvent.PropositionEvaluated);
         for (ResultEvent e : events) {
-            if (e.getResult()) {
+            if (!e.getResult()) {
                 Proposition prop = (Proposition) e.getSource();
                 failedRequirements.add(reqComponentPropositionMap.get(prop));
             }
