@@ -70,6 +70,15 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
                     terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
                 }
             }
+
+            // TODO: remove this when we figure out why KRAD defaultValue property is not working
+            for (TermInfo term : terms) {
+                if ("testTermId1".equals(term.getKey())) {
+                    terms.remove(term);
+                    terms.add(0, term);
+                    break;
+                }
+            }
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No Terms found for current AcademicCalendar(s)! There should be some in the database.", e);
         } catch (InvalidParameterException e) {
