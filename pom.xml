@@ -128,6 +128,7 @@
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
     <gwt.version>2.0.4</gwt.version>
+    <ehcache.version>2.4.6</ehcache.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
@@ -146,7 +147,6 @@
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
     <mysql.connector.version>5.1.13</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
-    <jsr107cache.version>1.0</jsr107cache.version>
     <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
     <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
     <org.apache.poi.version>3.6</org.apache.poi.version>
@@ -974,6 +974,10 @@
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -996,18 +1000,17 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
       </dependency>
-      <!-- Caching dependencies -->
+      <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache-core</artifactId>
+        <version>${ehcache.version}</version>
+      </dependency>
       <dependency>
         <groupId>backport-util-concurrent</groupId>
         <artifactId>backport-util-concurrent</artifactId>
         <version>${backport-util-concurrent.version}</version>
       </dependency>
-      <dependency>
-        <groupId>net.sf.jsr107cache</groupId>
-        <artifactId>jsr107cache</artifactId>
-        <version>${jsr107cache.version}</version>
-      </dependency>
-    
+
       <!-- Jasper Report dependencies -->
       <dependency>
         <groupId>net.sf.jasperreports</groupId>
