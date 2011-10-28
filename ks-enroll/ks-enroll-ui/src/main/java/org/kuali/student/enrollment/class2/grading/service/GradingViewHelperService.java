@@ -39,4 +39,6 @@ public interface GradingViewHelperService extends ViewHelperService{
 
     public void loadStudentGrades(StudentGradeForm studentGradeForm) throws Exception;
 
+    public void loadCourses(GradingForm gradingForm) throws Exception;
+
 }

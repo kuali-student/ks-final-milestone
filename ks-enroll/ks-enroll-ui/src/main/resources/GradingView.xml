@@ -22,7 +22,7 @@ limitations under the License.
    <bean id="gradingView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="GradingView"/>
       <property name="title" value="@{title}" />
-	  <property name="entryPageId" value="page1"/>
+	  <property name="entryPageId" value="selectTermPage"/>
       <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
 
       <property name="header">
@@ -45,6 +45,16 @@ limitations under the License.
 
       <property name="items">
           <list>
+            <bean parent="Page" p:id="selectTermPage">
+          		<property name="items">
+               		<list>
+          				<ref bean="studentGradeView-page1"/>
+ 					</list>
+ 				</property>
+                <property name="footer">
+                    <ref bean="GradingView_Footer_selectTermPage" />
+                </property>
+ 			</bean>
           	<bean parent="Page" p:id="page1">
           		<property name="items">
                		<list>
@@ -80,8 +90,18 @@ limitations under the License.
       </property>
    </bean>
 
+    <bean id="GradingView_Footer_selectTermPage" parent="Footer">
+      <property name="items">
+
+        <list>
+          <bean parent="ActionField_Secondary" p:methodToCall="loadCourses" p:actionLabel="Next"/>
+          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+        </list>
+      </property>
+  </bean>
+
     <bean id="courseOfferingList" parent="CollectionGroup">
-      <property name="summary" value="@{currentTerm}"/>
+      <property name="summary" value="@{selectedTerm}"/>
       <property name="styleClasses" value="group-border"/>
       <property name="summaryMessageField.styleClasses" value="font-bold"/>
       <property name="accordion.render" value="false"/>

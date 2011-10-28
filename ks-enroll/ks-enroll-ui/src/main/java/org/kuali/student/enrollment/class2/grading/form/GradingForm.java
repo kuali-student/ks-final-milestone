@@ -16,27 +16,14 @@ package org.kuali.student.enrollment.class2.grading.form;
  * limitations under the License.
  */
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
 
 public class GradingForm extends UifFormBase{
 
@@ -45,7 +32,7 @@ public class GradingForm extends UifFormBase{
     private String title = "Grading";
     private String gradeDueDate = " ";
     private String selectedCourse;
-    private String currentTerm;
+    private String selectedTerm;
     private boolean readOnly;
 
     private List<GradeStudent> students;
@@ -84,12 +71,12 @@ public class GradingForm extends UifFormBase{
         this.courseOfferingInfoList = courseOfferingInfoList;
     }
 
-    public String getCurrentTerm() {
-        return currentTerm;
+    public String getSelectedTerm() {
+        return selectedTerm;
     }
 
-    public void setCurrentTerm(String currentTerm) {
-        this.currentTerm = currentTerm;
+    public void setSelectedTerm(String selectedTerm) {
+        this.selectedTerm = selectedTerm;
     }
 
     public CourseOfferingInfo getSelectedCourseOffering() {

@@ -241,25 +241,18 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     }
 
-    @Override
-    public void performApplyModel(View view, Object model){
+    public void loadCourses(GradingForm form)throws Exception{
 
-        if (model instanceof GradingForm){
-            loadCourses((GradingForm)model);
+        ContextInfo context = ContextInfo.newInstance();
+
+        TermInfo term = getAcalService().getTerm(form.getSelectedTerm(), context);
+
+        if (term == null){
+            throw new RuntimeException("No current Term found");
         }
 
-        super.performApplyModel(view,model);
-    }
+        form.setSelectedTerm(term.getName());
 
-    protected void loadCourses(GradingForm form){
-        TermInfo term = getCurrentACal();
-            if (term == null){
-                throw new RuntimeException("No current Term found");
-            }
-
-        form.setCurrentTerm(term.getName());
-
-            ContextInfo context = ContextInfo.newInstance();
             List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList();
 
             try{

@@ -23,6 +23,7 @@ public class GradingConstants {
     public static final String BACK_TO_TERM = "backToTerm";
     public static final String SAVE_METHOD = "save";
     public static final String SUBMIT_METHOD = "submit";
+    public static final String LOAD_COURSES_METHOD = "loadCourses";
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
     public static final String UNASSIGN_GRADE_METHOD = "unassignGrade";
     public static final String VIEW_GRADES = "viewGrades";
