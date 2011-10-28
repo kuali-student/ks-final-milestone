@@ -449,13 +449,15 @@ public class RegistrationController extends UifControllerBase {
                     }
                     registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermKey(), context));
                 }
-                else{
-                    GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
+                else {
+                    if(regResponse.getOperationStatus().getErrors().isEmpty()) {
+                        GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "enroll.registrationUnsuccessful");
+                    }
                 }
 
-                if(regResponse.getOperationStatus().getErrors().isEmpty()){
+                if(!regResponse.getOperationStatus().getErrors().isEmpty()){
                     for(String message: regResponse.getOperationStatus().getErrors()){
-                        GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", message);
+                        GlobalVariables.getMessageMap().putError("GLOBAL_ERRORS", "error.enroll.requirementsNotMet", message);
                     }
                 }
                 if(!regResponse.getOperationStatus().getWarnings().isEmpty()){

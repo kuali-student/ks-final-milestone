@@ -394,7 +394,17 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         ValidationResultInfo resultInfo = new ValidationResultInfo();
                         resultInfo.setLevel(ValidationResult.ErrorLevel.ERROR.getLevel());
                         resultInfo.setElement(failedRequirement.getId());
-                        resultInfo.setMessage(failedRequirement.getNaturalLanguageTranslation());
+                        try {
+                            resultInfo.setMessage(statementService.getNaturalLanguageForReqComponent(failedRequirement.getId(), "KUALI.RULE", "en"));
+                        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+                            throw new OperationFailedException(e.getMessage(), e);
+                        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+                            throw new OperationFailedException(e.getMessage(), e);
+                        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
+                            throw new MissingParameterException(e.getMessage());
+                        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+                            throw new OperationFailedException(e.getMessage(), e);
+                        }
 
                         resultInfos.add(resultInfo);
                     }
@@ -541,6 +551,28 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             }
         } catch (DataValidationErrorException dataValidException) {
             throw new OperationFailedException(dataValidException.getMessage(), dataValidException);
+        }
+
+        // check eligibility requirements
+        for (RegRequestItemInfo item : storedRegRequest.getRegRequestItems()) {
+            RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(item.getNewRegGroupId(), context);
+
+            List<ValidationResultInfo> validations = checkStudentEligibiltyForCourseOffering(storedLprTransaction.getRequestingPersonId(), regGroup.getCourseOfferingId(), context);
+            List<String> errorMessages = new ArrayList<String>();
+            for (ValidationResultInfo validation : validations) {
+                if(validation.getIsError()) {
+                    errorMessages.add(validation.getMessage());
+                }
+            }
+
+            if(!errorMessages.isEmpty()) {
+                RegResponseInfo errorResponse = new RegResponseInfo();
+                errorResponse.setOperationStatus(new OperationStatusInfo());
+                errorResponse.getOperationStatus().setErrors(errorMessages);
+                errorResponse.getOperationStatus().setStatus("FAILURE");
+
+                return errorResponse;
+            }
         }
 
         LprTransactionInfo multipleItemsTransaction = createModifiedTransactionItems(storedLprTransaction, storedRegRequest, context);

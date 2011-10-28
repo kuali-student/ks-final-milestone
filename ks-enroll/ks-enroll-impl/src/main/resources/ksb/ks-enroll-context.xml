@@ -377,11 +377,28 @@
         <property name="lrcService" ref="lrcPersistenceService"/>
         <property name="courseService" ref="courseServiceImpl"/>
         <property name="statementService" ref="statementServiceImpl"/>
+        <property name="rulesEvaluationUtil" ref="rulesEvaluationUtil"/>
+        <property name="propositionBuilder" ref="propositionBuilder"/>
+    </bean>
+
+    <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
+        <property name="lprService" ref="lprServiceValidation"/>
+        <property name="lrrService" ref="lrrPersistenceService"/>
+        <property name="luiService" ref="luiService"/>
+    </bean>
+
+    <bean id="rulesEvaluationUtil" class="org.kuali.student.core.statement.util.RulesEvaluationUtil">
+        <property name="termResolvers">
+            <list>
+                <ref bean="completedCoursesResolver"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
     <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
     <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
+    <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder"/>
 
     <bean id="ks.exp.courseRegistrationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
