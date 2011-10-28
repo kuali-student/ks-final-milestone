@@ -154,15 +154,16 @@ public class RegistrationController extends UifControllerBase {
         if (getCourseRegistrationService() != null) {
             return getCourseRegistrationService().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
         }
-        return new ArrayList<CourseRegistrationInfo>();
-    }
+        return new ArrayList<CourseRegistrationInfo>();                                    }
+
+
 
     /**
      * Initial method called when requesting a new view instance which forwards
      * the view for rendering
      */
-    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=showRegistration")
+    public ModelAndView showRegistration(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         ContextInfo context = ContextInfo.newInstance();
         RegistrationForm regForm = (RegistrationForm) formBase;
@@ -209,7 +210,7 @@ public class RegistrationController extends UifControllerBase {
                 }
             }
 
-            return getUIFModelAndView(regForm);
+            return getUIFModelAndView(regForm, regForm.getViewId(), "registrationPage");
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         } catch (MissingParameterException e) {
