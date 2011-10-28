@@ -10,8 +10,11 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.TermWrapper;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -21,11 +24,11 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
 	private static final long serialVersionUID = 1L;
 
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_ACADEMIC_CALENDAR =
-                                                            "Create a new academic calendar";
+                                                            "New academic calendar";
     private static final String DEFAULT_DOCUMENT_DESC_FOR_EDITING_ACADEMIC_CALENDAR =
-                                                            "Edit an existing academic calendar";
+                                                            "Edit academic calendar";
     private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_ACADEMIC_CALENDAR =
-                                                            "Copy from an existing academic calendar to create a new one";
+                                                            "Copy academic calendar";
 
     public final static String ACADEMIC_CALENDAR_KEY_PREFIX = "kuali.academic.calendar.";
     public final static String CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX = "kuali.lu.type.credential.";
@@ -49,10 +52,24 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
          
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
-                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) { 
+                getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+
             	
             	//First prepare and persist AcademicCalendarInfo
             	AcademicCalendarInfo academicCalendarInfo = academicCalendarWrapper.getAcademicCalendarInfo();
+
+                if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
+                    List<AttributeInfo> attributes = academicCalendarInfo.getAttributes();
+                    List<AttributeInfo> newAttributes = new ArrayList();
+                    for (AttributeInfo attribute:attributes) {
+                        if (attribute.getKey().equals("CredentialProgramType")) {
+                            attribute.setId(null);
+                        }
+                        newAttributes.add(attribute);
+                    }
+                    academicCalendarInfo.setAttributes(newAttributes);
+                }
+
                 String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
                 academicCalendarInfo.setKey(academicCalendarKey);
                 academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
