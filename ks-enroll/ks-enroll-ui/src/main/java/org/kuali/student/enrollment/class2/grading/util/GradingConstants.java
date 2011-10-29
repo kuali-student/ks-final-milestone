@@ -40,5 +40,6 @@ public class GradingConstants {
     public static final String INFO_GRADE_ROSTER_SUBMITTED = "info.enroll.grading.submitted";
     public static final String INFO_GRADE_STUDENTS_NOT_FOUND = "info.enroll.grading.studentsNotFound";
     public static final String WARNING_GRADING_OPTIONS_NOT_FOUND = "info.enroll.grading.gradingOptionsnotFound";
+    public static final String INFO_COURSE_NOT_FOUND_TO_GRADE = "info.enroll.grading.courseOfferingNotFound";
 
 }
