@@ -768,7 +768,6 @@
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
                       <include>initial-db/*/*-create-schema.sql</include>
-                      <include>initial-db/*-create-schema.sql</include>
                     </includes>
                   </fileset>
                 </configuration>
@@ -799,7 +798,6 @@
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
                       <include>initial-db/*/*-constraints.sql</include>
-                      <include>initial-db/*/*-constraints.sql</include>
                     </includes>
                   </fileset>
                 </configuration>
@@ -814,8 +812,7 @@
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
-                      <include>upgrades/*/*.sql</include>
-                      <include>upgrades/*/*.sql</include>
+                      <include>upgrades/**/*.sql</include>
                     </includes>
                   </fileset>
                 </configuration>
