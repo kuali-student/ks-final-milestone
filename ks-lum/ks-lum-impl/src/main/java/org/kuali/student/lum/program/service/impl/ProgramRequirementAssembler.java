@@ -17,6 +17,9 @@ import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -107,7 +110,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(null);
-		
+
 		// Create the Statement Tree
         StatementTreeViewInfo statement = progReq.getStatement();
         statement.setId(UUIDHelper.genStringUUID(statement.getId()));
@@ -160,16 +163,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
         official.setLongName(progReq.getLongTitle());
         official.setShortName(progReq.getShortTitle());
-        
-        // We decided not to do null checks in the disassembler.  Instead we will just 
-        // set state to whatever is passed into the method (I missed this change when working on 1834)      
-        official.setState(progReq.getState());
-        
+        official.setState(!isEmpty(clu.getState()) ? clu.getState() : DtoConstants.STATE_ACTIVE);
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
         clu.setOfficialIdentifier(official);
 
         clu.setDescr(progReq.getDescr());
+        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : DtoConstants.STATE_ACTIVE);
         if (progReq.getLearningObjectives() != null) {
             disassembleLearningObjectives(progReq, operation, result);
         }
@@ -190,8 +190,6 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        // Relations can be either Active or Suspended
-        // For now, we always use Active (never use draft, etc for relations)
         relation.setState(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
@@ -301,5 +299,4 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
 		this.programAssemblerUtils = programAssemblerUtils;
 	}
-	
 }

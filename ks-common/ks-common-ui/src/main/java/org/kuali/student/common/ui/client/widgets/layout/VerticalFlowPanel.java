@@ -15,11 +15,12 @@
 
 package org.kuali.student.common.ui.client.widgets.layout;
 
+
 public class VerticalFlowPanel extends CustomFlowPanel{
 
     @Override
     protected String getFlowStyle() {
         return "KS-Vertical-Flow";
-    }  
+    }
 
 }

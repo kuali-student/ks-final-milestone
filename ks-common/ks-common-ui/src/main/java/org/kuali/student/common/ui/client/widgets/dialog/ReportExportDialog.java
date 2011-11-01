@@ -41,7 +41,7 @@ public class ReportExportDialog {
         layout.add(sectionTitle);
 
         // Add label to layout panel.
-        KSLabel exportLabel = new KSLabel("Select the document type to export as (Export appears in a new page, please disable pop-up blockers.):"/*KSLAB-2027 temp fix*//*getMessage("exportDialog")*/);
+        KSLabel exportLabel = new KSLabel(getMessage("exportDialog"));
         layout.add(exportLabel);
 
         // Add radiobutton to layout panel.

@@ -194,10 +194,7 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public String getItemText(String id) {
-    	if(getListItem(id)!=null){
-    		return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
-    	}
-    	return "";
+        return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
     }
     
     private SearchResultRow getListItem(String id) {

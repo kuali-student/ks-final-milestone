@@ -42,17 +42,14 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
-import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -234,18 +231,11 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	 * Clear all validation errors from the layout (removes all red highlight and error text shown on the
 	 * screen)
 	 */
-	protected void clearValidationErrors() {
-		layout.clearValidationErrors();
+	protected void clearValidation() {
+		layout.clearValidation();
+
 	}
 
-	/**
-	 * Clear all validation warnings from the layout (removes all yellow highlight and warning text shown on the
-	 * screen)
-	 */
-	public void clearValidationWarnings() {
-		layout.clearValidationWarnings();
-	}
-	
 	/**
 	 * Gets all the fields in a section and its subsections.
 	 * 
@@ -287,9 +277,9 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	 * @see org.kuali.student.common.ui.client.configurable.mvc.sections.Section#processValidationResults(java.util.List, boolean)
 	 */
 	@Override
-	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors){
-		if(clearErrors){
-			this.clearValidationErrors();
+	public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearAllValidation){
+		if(clearAllValidation){
+			this.clearValidation();
 		}
 		ErrorLevel status = ErrorLevel.OK;
 
@@ -303,14 +293,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
                         if(vrElement.startsWith("/")){
                             vrElement = vrElement.substring(1);
                         }
-                        //Strip out end indexes for collections of primitives to be handled by the element
-                        vrElement = vrElement.replaceFirst("^(\\S+)/[0-9]+$", "$1");
-                        
-                        //Check the parent path (mostly for mapping validation to specializations)
-                        String parentPath = Application.getApplicationContext().getParentPath();
-                        parentPath = parentPath==null?"":parentPath;
-                        
-						if((parentPath+vrElement).equals(parentPath+f.getFieldKey())){
+						if(vrElement.equals(f.getFieldKey())){
 							FieldElement element = f.getFieldElement();
 							if (element != null){
 								ErrorLevel fieldStatus = element.processValidationResult(vr);
@@ -328,7 +311,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityItem item: mc.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearErrors);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
 							if(fieldStatus.getLevel() > status.getLevel()){
 								status = fieldStatus;
 							}
@@ -342,7 +325,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 					//possibly return error state from processValidationResults to give composite title bar a separate color
 	            	for(MultiplicityGroupItem item: mg.getItems()){
 	            		if(item.getItemWidget() instanceof Section && !item.isDeleted()){
-	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearErrors);
+	            			ErrorLevel fieldStatus = ((Section)item.getItemWidget()).processValidationResults(results, clearAllValidation);
 							if(fieldStatus.getLevel() > status.getLevel()){
 								status = fieldStatus;
 							}
@@ -350,7 +333,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	            	}
 				}
                 if (f.getFieldWidget() instanceof CanProcessValidationResults) {
-                    ErrorLevel fieldStatus = ((CanProcessValidationResults) f.getFieldWidget()).processValidationResults(f, results, clearErrors);
+                    ErrorLevel fieldStatus = ((CanProcessValidationResults) f.getFieldWidget()).processValidationResults(f, results, clearAllValidation);
                     if (fieldStatus.getLevel() > status.getLevel()) {
                         status = fieldStatus;
                     }
@@ -358,7 +341,7 @@ public abstract class BaseSection extends SpanPanel implements Section{
 			}
 
 	        for(Section s: sections){
-	            ErrorLevel subsectionStatus = s.processValidationResults(results,clearErrors);
+	            ErrorLevel subsectionStatus = s.processValidationResults(results,clearAllValidation);
 	            if(subsectionStatus.getLevel() > status.getLevel()){
 	            	status = subsectionStatus;
 	            }
@@ -682,74 +665,4 @@ public abstract class BaseSection extends SpanPanel implements Section{
 	public void setRequired(AbbrPanel required){
 		layout.setRequired(required);
 	}
-	
-	public void setSectionId(String id){
-		((Widget)layout).getElement().setId(id);		
-	}
-
-
-	/* METHODS TO ENABLE/DISABLE FIELD */
-	
-	/**
-     * This will progressively enable/disable a set of fields
-     * 
-     * @param isEnabled if the fields should be enabled or disabled
-     * @param fieldDescriptor List of field descriptors to enable/disable
-     */
-	public static void progressiveEnableFields(Boolean isEnabled, FieldDescriptor ... fieldDescriptors){
-		
-		for (FieldDescriptor fd : fieldDescriptors){
-			enableField(isEnabled, fd);
-		} 
-	}
-	
-	/** 
-	 * This will progressively enable/disable and require/unrequire a set of fields
-	 * @param isEnabled
-	 * @param fieldDescriptors
-	 */
-	public static void progressiveEnableAndRequireFields(Boolean isRequiredAndEnabled, FieldDescriptor ... fieldDescriptors){
-
-		for (FieldDescriptor fd : fieldDescriptors){
-			fd.setRequired(isRequiredAndEnabled);
-			enableField(isRequiredAndEnabled, fd);
-		} 
-	}
-	
-	 /** 
-     * This will progressively require/unrequire a set of fields
-     * @param isRequired
-     * @param fieldDescriptors
-     */
-    public static void progressiveRequireFields(Boolean isRequired, FieldDescriptor ... fieldDescriptors){
-
-        for (FieldDescriptor fd : fieldDescriptors){
-            fd.setRequired(isRequired);
-        } 
-    }	
-    
-	/**
-	 * Used to enable,disable widget defined in field descriptor 
-	 * 
-	 * @param isEnabled
-	 * @param fd
-	 */
-	protected static void enableField(Boolean isEnabled, FieldDescriptor fd){
-		//TODO: May want to use different styles for field label if not enabled
-		Widget widget = fd.getFieldWidget();
-		
-		if (!isEnabled){
-			fd.getFieldElement().clearValidationErrors();
-			fd.getFieldElement().clearValidationWarnings();
-		}
-
-		//TODO: Make sure this works with all (most?) types of widgets
-		if (widget instanceof KSPicker && ((KSPicker)widget).getInputWidget() instanceof KSDropDown){
-			((KSDropDown)((KSPicker)widget).getInputWidget()).setEnabled(isEnabled);				
-		} else if (widget instanceof TextBoxBase){
-			((TextBoxBase)widget).setReadOnly(!isEnabled);
-		}
-	}
-	
-	
 }

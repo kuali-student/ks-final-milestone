@@ -582,40 +582,4 @@ public class ButtonEnumerations {
         return CANCEL;
     }
 };
-
-    public static enum ApproveCancelEnum implements ButtonEnum {
-        APPROVE, CANCEL;
-
-        @Override
-        public String getText() {
-            switch (this) {
-                case APPROVE:
-                    return context.getMessage("approve");
-                case CANCEL:
-                    return context.getMessage("cancel");
-            }
-            return null;
-        }
-
-        @Override
-        public ButtonStyle getStyle() {
-            switch (this) {
-                case APPROVE:
-                    return ButtonStyle.PRIMARY;
-                case CANCEL:
-                    return ButtonStyle.DEFAULT_ANCHOR;
-            }
-            return ButtonStyle.PRIMARY;
-        }
-
-        @Override
-        public ButtonEnum getActionType() {
-            return APPROVE;
-        }
-
-        @Override
-        public ButtonEnum getCancelType() {
-            return CANCEL;
-        }
-    };
 }

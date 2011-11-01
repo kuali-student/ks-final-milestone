@@ -17,14 +17,9 @@ package org.kuali.student.common.ui.client.application;
 
 import org.kuali.student.common.ui.client.security.SessionTimeoutHandler;
 import org.kuali.student.common.ui.client.security.SpringSecurityLoginDialogHandler;
-import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -44,12 +39,10 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
 	 *  
 	 */
 	public void onFailure(Throwable caught) {  
-	    if (isSessionTimeout(caught)){
+        if (isSessionTimeout(caught)){
         	handleTimeout(caught);
         	handler.handleSessionTimeout();
-        } else if (caught instanceof VersionMismatchClientException){
-            handleVersionMismatch(caught);
-        }else {        
+        } else {        
         	handleFailure(caught);
         }
     }
@@ -80,14 +73,5 @@ public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
     private boolean isSessionTimeout(Throwable caught){
         //TODO: Better detection of session timeout
     	return caught.toString().contains("Login");
-    }
-    
-    public void handleVersionMismatch(Throwable caught){
-        String message = null;
-        if (caught.getMessage() != null){
-            message = "Version Error: " + caught.getMessage() + "\n\n";
-        }
-        message += "This page has been updated by another user since you loaded it. Please refresh and re-apply changes before saving.";
-        Window.alert(message);
     }
 }

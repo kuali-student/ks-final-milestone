@@ -98,8 +98,8 @@ public class KSCheckBox extends CheckBox{
                     }
                     else{
                         KSCheckBox.this.removeStyleName("KS-Checkbox-Checked");
-                        KSCheckBox.this.setFocus(false);
                     }
+
                 }
             });
     }

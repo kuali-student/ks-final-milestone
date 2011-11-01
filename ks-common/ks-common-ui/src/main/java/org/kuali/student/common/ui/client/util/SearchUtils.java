@@ -6,19 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.Data.StringValue;
 import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.common.ui.client.widgets.KSTextBox;
 
 import com.google.gwt.core.client.GWT;
 
@@ -103,9 +100,6 @@ public class SearchUtils {
         if (lookup.getResultSortKey() != null){
         	sr.setSortColumn(lookup.getResultSortKey());
         }
-        if(SortDirection.DESC.equals(lookup.getSortDirection())){
-        	sr.setSortDirection(SortDirection.DESC);
-        }
 
         //initialize search parameters that are hidden from the UI because they are set to default context specific values
         for(final LookupParamMetadata metaParam: lookup.getParams()){
@@ -121,33 +115,34 @@ public class SearchUtils {
                 param.setKey(metaParam.getKey());
                 if(metaParam.getFieldPath()!=null){
                 	FieldDescriptor fd = null;
-                	String finalPath = resolvePath(metaParam.getFieldPath());
+                	String finalPath;
+                	if(metaParam.getFieldPath().startsWith("/")){
+                		finalPath=metaParam.getFieldPath().substring(1);
+                	}else{
+                		finalPath=Application.getApplicationContext().getParentPath()+metaParam.getFieldPath();
+                	}
             		crossConstraints.add(finalPath);
             		fd = Application.getApplicationContext().getPathToFieldMapping(null, finalPath);
                 	if(fd!=null){
-                		Value value = null;
-                		if(fd.getFieldElement().getFieldWidget() instanceof KSTextBox){
-                			value = new StringValue(((KSTextBox)fd.getFieldElement().getFieldWidget()).getValue());
-                		}
                 		if(fd.getFieldElement().getFieldWidget() instanceof HasDataValue){
-                			value = ((HasDataValue)fd.getFieldElement().getFieldWidget()).getValue();
+                			Value value = ((HasDataValue)fd.getFieldElement().getFieldWidget()).getValue();
+                			if(value!=null&&value.get()!=null){
+                				if(value.get() instanceof Data){
+                					ArrayList<String> listValue = new ArrayList<String>();
+                					for(Iterator<Property> iter =((Data)value.get()).realPropertyIterator();iter.hasNext();){
+                						listValue.add(iter.next().getValue().toString());
+                					}
+                					if(listValue.isEmpty()){
+                						listValue.add("");
+                					}
+                					param.setValue(listValue);
+                				}else{
+                					param.setValue(value.get().toString());	
+                				}
+                			}else{
+                				param.setValue((String)null);
+                			}                				
                 		}
-            			if(value!=null&&value.get()!=null){
-            				if(value.get() instanceof Data){
-            					ArrayList<String> listValue = new ArrayList<String>();
-            					for(Iterator<Property> iter =((Data)value.get()).realPropertyIterator();iter.hasNext();){
-            						listValue.add(iter.next().getValue().toString());
-            					}
-            					if(listValue.isEmpty()){
-            						listValue.add("");
-            					}
-            					param.setValue(listValue);
-            				}else{
-            					param.setValue(value.get().toString());	
-            				}
-            			}else{
-            				param.setValue((String)null);
-            			}                				
                 	}
                 	searchRequestWrapper.setDeferSearch(true);
                 }else if(metaParam.getDefaultValueList()==null){
@@ -192,15 +187,5 @@ public class SearchUtils {
         sr.setParams(params);
         searchRequestWrapper.setSearchRequest(sr);
     }
-
-	public static String resolvePath(String path) {
-		String finalPath;
-		if(path.startsWith("/")){
-    		finalPath=path.substring(1);
-    	}else{
-    		finalPath=Application.getApplicationContext().getParentPath()+path;
-    	}
-		return finalPath;
-	}
 
 }

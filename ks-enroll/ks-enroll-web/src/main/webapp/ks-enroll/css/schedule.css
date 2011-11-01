@@ -1,0 +1,80 @@
+.schedule{
+	font-size: .9em;
+	border-collapse:collapse;
+    background-color: white;
+}
+
+.schedule th, .schedule td{
+    padding: 0px;
+    height: 24px;
+    width: 50px;
+    border: 1px solid black;
+}
+
+.schedule th{
+	font-weight: normal;
+	text-align: center;
+    vertical-align: middle;
+}
+
+.schedule td{
+	vertical-align: top;
+}
+
+.schedule .timeBlock{
+	position: absolute;
+	top: 0px;
+	text-align: center;
+	color: white;
+	font-weight: bold;	
+}
+
+.schedule .dayRow th{
+	vertical-align: bottom;
+}
+
+.schedule .timeRow{
+	line-height: normal;
+	padding: 0px;
+}
+
+.schedule .timeRow th{
+    overflow:  hidden;
+}
+
+.scheduleKey .keyBlock{
+	float: right; 
+	width: 1.1em;
+	text-align: center; 
+	height: 1em;
+	color: white;
+	font-weight: bold;
+	vertical-align: center;
+	padding-bottom: .3em; 
+}
+
+.scheduleKey{
+	font-size: .9em;
+	border-collapse:collapse;
+}
+
+.scheduleKey td, .scheduleKey th{
+    padding: .2em;
+}
+
+.previewTimeBlock{
+	background-color: gray;
+	opacity: .5;
+}
+
+.timeHighlight{
+	border: 2px dotted yellow;
+}
+
+.timeBlock-conflict-new{
+    background-color: red;
+}
+
+.timeBlock-conflict-old{
+
+}

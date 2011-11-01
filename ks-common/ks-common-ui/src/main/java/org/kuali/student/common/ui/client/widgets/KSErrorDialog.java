@@ -51,28 +51,11 @@ public class KSErrorDialog {
         GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
             public void onUncaughtException(Throwable e) {
                 GWT.log(e.getMessage(), e);
-                //Window.alert("Uncaught exception was thrown:"+getStackTrace(e)+"\nMessage:"+e.getMessage());
             	KSErrorDialog.show(e);
             }
         });
     }
 
-    private static String getStackTrace(Throwable t){
-    	StringBuilder sb =  new StringBuilder();
-    	appendStackTrace(t,sb);
-    	return sb.toString();
-    }
-    
-    private static void appendStackTrace(Throwable t, StringBuilder s) {
-        s.append(t.toString());
-        s.append(": at\n");
-        StackTraceElement[] stack = t.getStackTrace();
-        for (StackTraceElement frame : stack) {
-            s.append(frame.toString());
-            s.append("\n");
-        }
-    }
-    
     public static void show(final Throwable error) {
         final KSLightBox lightbox = new KSLightBox();
 

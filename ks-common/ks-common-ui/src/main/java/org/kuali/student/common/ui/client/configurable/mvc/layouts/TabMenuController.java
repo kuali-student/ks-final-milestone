@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -73,7 +72,7 @@ public class TabMenuController extends LayoutController{
     }
 
     public void showExport(boolean show) {
-        header.showExport(show);
+        header.showJasper(show);
     }
 	/** 
 	 * This version of updateModel only updates from the currentView (since only one view is shown/accessed at a time).  
@@ -115,7 +114,7 @@ public class TabMenuController extends LayoutController{
 	}
 
     @Override
-    public List<ExportElement> getExportElementsFromView() {
+    public ArrayList<ExportElement> getExportElementsFromView() {
         return super.getExportElementsFromView();
         
     }

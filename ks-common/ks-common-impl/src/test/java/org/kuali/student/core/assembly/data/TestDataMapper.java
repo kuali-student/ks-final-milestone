@@ -64,7 +64,7 @@ public class TestDataMapper {
 	public void testConverDTOtoData() throws Exception {
 		DataBeanMapper dataMapper = new DefaultDataBeanMapper();
 		
-		Data data = dataMapper.convertFromBean(person, null);
+		Data data = dataMapper.convertFromBean(person);
 		Metadata metadata = new Metadata();
 		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class,metadata);
 

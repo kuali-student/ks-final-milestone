@@ -49,10 +49,6 @@
     
     <param name="lum.application.url" override="false"></param>
 	
-	<!-- Caching  -->
-	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
-    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
-	
 	<param name="ks.rice.application.url">http://localhost:8081/ks-embedded-dev/</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.application.url}/kew/ActionList.do</param>
     <param name="ks.rice.docSearch.serviceAddress">${ks.rice.application.url}/kew/DocumentSearch.do</param>

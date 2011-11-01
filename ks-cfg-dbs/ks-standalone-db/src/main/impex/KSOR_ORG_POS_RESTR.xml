@@ -249,13 +249,6 @@
         PERS_RELTN_TYPE="kuali.org.PersonRelation.AdminMember"
         TM_QUANTITY="1" TTL="Administrative Member of the Music COC"
         UPDATEID="admin" UPDATETIME="20101213115914" VER_NBR="1"/>
-    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20110802000000"
-        DESCR="Member of the Entomology COC"
-        ID="12a24267-099d-4db3-a764-3db49fb02a34" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" OBJ_ID="e11564b0-183d-4267-9d3a-829c10ac7aee"
-        ORG="227" PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TTL="Member of the Entomology COC" UPDATEID="admin"
-        UPDATETIME="20110802000000" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Administrative Member of the History COC" ID="130"
@@ -580,13 +573,6 @@
         ORG="52" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TM_QUANTITY="1" TTL="Chair of the French Department"
         UPDATEID="TESTUSER" UPDATETIME="20000101000000" VER_NBR="0"/>
-    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20110802000000"
-        DESCR="Chair of the Entomology COC"
-        ID="22644949-b363-449d-aefd-e4003eb00dab" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" OBJ_ID="1cff7894-2ebc-4db4-a6f6-a42727f20c81"
-        ORG="227" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of the Entomology COC" UPDATEID="admin"
-        UPDATETIME="20110802000000" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR ATP_DUR_TYP_KEY="1" CREATEID="TESTUSER"
         CREATETIME="20000101000000"
         DESCR="Chair of the Geography Department" ID="23"
@@ -1120,13 +1106,6 @@
         PERS_RELTN_TYPE="kuali.org.PersonRelation.ExecutiveOfficer"
         TM_QUANTITY="1" TTL="Executive Officer of the COC"
         UPDATEID="admin" UPDATETIME="20101214111047" VER_NBR="2"/>
-    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20110802000000"
-        DESCR="Member of Bioengineering COC"
-        ID="7bb96587-9e0b-4fed-b3f5-08a1e83cf347" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" OBJ_ID="7e9824bb-6f99-47ea-b246-baf1240c15ca"
-        ORG="225" PERS_RELTN_TYPE="kuali.org.PersonRelation.Member"
-        TTL="Member of Bioengineering COC" UPDATEID="admin"
-        UPDATETIME="20110802000000" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20101213114830"
         DESCR="Member of the Economics Dept COC"
         ID="7e83306b-b2a6-4606-b2f3-215a3d4cd531" MAX_NUM_RELTN="100"
@@ -1321,13 +1300,6 @@
         ORG="146" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the College of Eng COC" UPDATEID="admin"
         UPDATETIME="20101213122048" VER_NBR="0"/>
-    <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20110802000000"
-        DESCR="Chair of Bioengineering COC"
-        ID="c06cf5c8-d6fc-459c-aedb-e74aa9de451f" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" OBJ_ID="1115f9d0-1b5c-4d13-ae3c-2d71bea5bf99"
-        ORG="225" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
-        TTL="Chair of Bioengineering COC" UPDATEID="admin"
-        UPDATETIME="20110802000000" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20101213115805"
         DESCR="Chair of the Philosophy Dept COC"
         ID="c45c1a86-2cb1-42f4-8942-57050f520544" MAX_NUM_RELTN="100"
@@ -1342,14 +1314,6 @@
         ORG="207" PERS_RELTN_TYPE="kuali.org.PersonRelation.Chair"
         TTL="Chair of the Physics Dept COC" UPDATEID="admin"
         UPDATETIME="20101213114312" VER_NBR="0"/>
-    <KSOR_ORG_POS_RESTR CREATEID="TESTUSER" CREATETIME="20101213122611"
-        DESCR="Curriculum Manager"
-        ID="cc473647-536d-4688-a33f-e7b00c118cd2" MAX_NUM_RELTN="100"
-        MIN_NUM_RELTN="1" OBJ_ID="0fa77c54-b315-4b4a-8d98-dbe50504dd41"
-        ORG="141"
-        PERS_RELTN_TYPE="kuali.org.PersonRelation.CurriculumManager"
-        TTL="Curriculum Manager" UPDATEID="TESTUSER"
-        UPDATETIME="20101213122611" VER_NBR="0"/>
     <KSOR_ORG_POS_RESTR CREATEID="admin" CREATETIME="20101214143432"
         DESCR="Chair of the Mathematics Dept"
         ID="d00522cd-443e-448d-9462-63ef47a958aa" MAX_NUM_RELTN="100"

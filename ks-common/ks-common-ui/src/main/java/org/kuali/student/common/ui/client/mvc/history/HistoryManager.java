@@ -145,40 +145,33 @@ public class HistoryManager {
     		String view = Window.Location.getParameter(VIEW_ATR);
     		String docId = Window.Location.getParameter(ViewContext.ID_ATR);
     		String idType = Window.Location.getParameter(ViewContext.ID_TYPE_ATR);
-    		if (view != null){
-    		    String path = locations.getLocation(view);
-    		    if(docId != null){
-    		        if(path != null){
-    		            ViewContext context = new ViewContext();
-    		            if (idType != null){
-    		                context.setIdType(idType);
-    		            }
-    		            context.setId(docId);   
-    		            setAttributes(context);
-    		            navigate(path, context);
-    		            navigateSuccess = true;
-    		        }
-    		    } else {
-    		        navigate(path);
-    		        navigateSuccess = true;
-    		    }
+    		if(view != null && docId != null && idType != null){
+    			String path = locations.getLocation(view);
+    			if(path != null){
+    				ViewContext context = new ViewContext();
+    				context.setIdType(idType);
+    				context.setId(docId);
+    				navigate(path, context);
+    				navigateSuccess = true;
+    			}
+    		}else if(view != null && docId != null){
+    			String path = locations.getLocation(view);
+    			if(path != null){
+    				ViewContext context = new ViewContext();
+    				context.setId(docId);
+    				navigate(path, context);
+    				navigateSuccess = true;
+    			}
+    		}
+    		else if(view != null){
+    			String path = locations.getLocation(view);
+    			navigate(path);
+				navigateSuccess = true;
     		}
     	}
     	if(!navigateSuccess){
     		navigate(Window.Location.getHash().trim());
     	}
-    }
-    
-    /**
-     * Add the parameters from the request on the context.
-     * @param context
-     */
-    private static void setAttributes(ViewContext context){ 
-        for (String key : Window.Location.getParameterMap().keySet()){
-            if ((!key.equals(VIEW_ATR)) && (!key.equals(ViewContext.ID_ATR)) && (!key.equals(ViewContext.ID_TYPE_ATR))){
-                context.setAttribute(key, Window.Location.getParameter(key));
-            }
-        }
     }
     
     /**
@@ -201,10 +194,7 @@ public class HistoryManager {
      * @return
      */
     public static String collectHistoryStack() {
-        String result = null;
-        if (root != null){
-            result = root.collectHistory("");
-        }
+        String result = root.collectHistory("");
 		if(result == null){
 			result = "";
 		}

@@ -1,7 +1,6 @@
 package org.kuali.student.common.ui.client.configurable.mvc.multiplicity;
 
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 
@@ -25,7 +24,6 @@ public class MultiplicityFieldConfiguration {
         setMessageKeyInfo(messageKeyInfo);
         setMetadata(metadata);
         setFieldWidgetInitializer(fieldWidgetInitializer);
-        setupField();
     }
     
     public String getFieldPath() {
@@ -87,20 +85,4 @@ public class MultiplicityFieldConfiguration {
 	public boolean isOptional(){
 		return optional;
 	}
-	
-	protected void setupField() {
-        if(metadata != null){
-            if(MetadataInterrogator.isRequired(metadata)){
-                this.setRequired(true);
-            }
-            else if(MetadataInterrogator.isRequiredForNextState(metadata)){
-                String nextState = MetadataInterrogator.getNextState(metadata);
-                if(nextState != null){
-                    this.setRequired(true);
-                }
-            } else{
-                this.setRequired(false);
-            }
-        }
-    }
 }

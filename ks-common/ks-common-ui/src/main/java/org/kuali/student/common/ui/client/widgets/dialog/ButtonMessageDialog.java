@@ -6,7 +6,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -51,10 +50,6 @@ public class ButtonMessageDialog<T extends ButtonEnum> {
 	public void removeCloseLink(){
 		dialog.removeCloseLink();
 	}
-	
-	public HandlerRegistration addCloseLinkClickHandler(ClickHandler clickHandler) {
-        return dialog.addCloseLinkClickHandler(clickHandler);
-    }
 	
 	public HandlerRegistration addCloseHandler(CloseHandler handler){
 		return dialog.addCloseHandler(handler);

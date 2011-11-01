@@ -15,24 +15,7 @@
 
 --%>
 
-<%
-// We need to detect the browser in order to populate the correct DOCTYPE
-String browser = request.getHeader("User-Agent");
-if(browser.indexOf("MSIE") > 0) {
-%>
-	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%}
-else if(browser.indexOf("Chrome")> 0) {
-%>
-	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%
-} else {
-%>
-	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<%
-}
-%>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <%@page	import="org.kuali.student.common.ui.server.messages.MessageRPCPreloader"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
@@ -40,9 +23,6 @@ else if(browser.indexOf("Chrome")> 0) {
 
 <html>
 <head>
-<% if(browser.indexOf("MSIE") > 0) { %>
-	<meta http-equiv="X-UA-Compatible" content="IE=8" />
-<% } %>
 </head>
 
 <body>

@@ -43,7 +43,7 @@ public class TestProposalWorkflowFilter {
 		
 		DataBeanMapper mapper = new DefaultDataBeanMapper();
 		
-		Data data = mapper.convertFromBean(proposal, null);
+		Data data = mapper.convertFromBean(proposal);
 		assertEquals("Proposal Name: Test Proposal", workflowFilter.getDefaultDocumentTitle(docTypeConfig, data));
 		
 		String docContent = workflowFilter.getDocumentContent(data, docTypeConfig);

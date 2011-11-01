@@ -54,6 +54,7 @@ import org.kuali.student.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
+@Transactional(readOnly=true,noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AtpServiceImpl implements AtpService {
 
     private AtpDao atpDao;
@@ -62,7 +63,7 @@ public class AtpServiceImpl implements AtpService {
     private ValidatorFactory validatorFactory;
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public DateRangeInfo addDateRange(String atpKey, String dateRangeKey, DateRangeInfo dateRangeInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpKey", "dateRangeKey", "dateRangeInfo"}, new Object[]{atpKey, dateRangeKey, dateRangeInfo});
@@ -108,7 +109,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public MilestoneInfo addMilestone(String atpKey, String milestoneKey, MilestoneInfo milestoneInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpKey", "milestoneKey", "milestoneInfo"}, new Object[]{atpKey, milestoneKey, milestoneInfo});
@@ -138,7 +139,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public AtpInfo createAtp(String atpTypeKey, String atpKey, AtpInfo atpInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CheckMissingParameters(new String[]{"atpTypeKey", "atpKey", "atpInfo"}, new Object[]{atpTypeKey, atpKey, atpInfo});
@@ -169,7 +170,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public StatusInfo deleteAtp(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(Atp.class, atpKey);
@@ -181,7 +182,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public AtpInfo getAtp(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         Atp atp = atpDao.fetch(Atp.class, atpKey);
@@ -190,7 +190,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public AtpDurationTypeInfo getAtpDurationType(String atpDurationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         AtpDurationType atpDurationType = atpDao.fetch(AtpDurationType.class, atpDurationTypeKey);
@@ -199,7 +198,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public AtpSeasonalTypeInfo getAtpSeasonalType(String atpSeasonalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         AtpSeasonalType atpSeasonalType = atpDao.fetch(AtpSeasonalType.class, atpSeasonalTypeKey);
@@ -208,7 +206,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public AtpTypeInfo getAtpType(String atpTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         AtpType atpType = atpDao.fetch(AtpType.class, atpTypeKey);
@@ -217,7 +214,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public DateRangeInfo getDateRange(String dateRangeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         DateRange dateRange = atpDao.fetch(DateRange.class, dateRangeKey);
@@ -227,7 +223,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public DateRangeTypeInfo getDateRangeType(String dateRangeTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         DateRangeType dateRangeType = atpDao.fetch(DateRangeType.class, dateRangeTypeKey);
@@ -236,7 +231,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public MilestoneInfo getMilestone(String milestoneKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         Milestone milestone = atpDao.fetch(Milestone.class, milestoneKey);
@@ -246,7 +240,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public MilestoneTypeInfo getMilestoneType(String milestoneTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         MilestoneType milestoneType = atpDao.fetch(MilestoneType.class, milestoneTypeKey);
@@ -255,7 +248,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpDurationTypeInfo> getAtpDurationTypes() throws OperationFailedException {
 
         List<AtpDurationType> atpDurationTypes = atpDao.find(AtpDurationType.class);
@@ -264,7 +256,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpSeasonalTypeInfo> getAtpSeasonalTypes() throws OperationFailedException {
 
         List<AtpSeasonalType> atpSeasonalTypes = atpDao.find(AtpSeasonalType.class);
@@ -273,7 +264,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpTypeInfo> getAtpTypes() throws OperationFailedException {
 
         List<AtpType> atpTypes = atpDao.find(AtpType.class);
@@ -282,7 +272,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpInfo> getAtpsByAtpType(String atpTypeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Atp> atps = atpDao.findAtpsByAtpType(atpTypeKey);
@@ -291,7 +280,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpInfo> getAtpsByDate(Date searchDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Atp> atps = atpDao.findAtpsByDate(searchDate);
@@ -300,7 +288,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Atp> atps = atpDao.findAtpsByDates(startDate, endDate);
@@ -309,7 +296,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<DateRangeTypeInfo> getDateRangeTypes() throws OperationFailedException {
 
         List<DateRangeType> dateRangeTypes = atpDao.find(DateRangeType.class);
@@ -318,7 +304,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<DateRangeTypeInfo> getDateRangeTypesForAtpType(String atpTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<DateRangeType> dateRangeTypes = atpDao.findDateRangeTypesForAtpType(atpTypeKey);
@@ -327,7 +312,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<DateRangeInfo> getDateRangesByAtp(String atpKey) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<DateRange> dateRanges = atpDao.findDateRangesByAtp(atpKey);
@@ -336,7 +320,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<DateRangeInfo> getDateRangesByDate(Date searchDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<DateRange> dateRanges = atpDao.findDateRangesByDate(searchDate);
@@ -345,7 +328,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<MilestoneTypeInfo> getMilestoneTypes() throws OperationFailedException {
 
         List<MilestoneType> milestoneTypes = atpDao.find(MilestoneType.class);
@@ -354,7 +336,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<MilestoneTypeInfo> getMilestoneTypesForAtpType(String atpTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<MilestoneType> milestoneTypes = atpDao.findMilestoneTypesForAtpType(atpTypeKey);
@@ -363,7 +344,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<MilestoneInfo> getMilestonesByAtp(String atpKey) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Milestone> milestones = atpDao.findMilestonesByAtp(atpKey);
@@ -372,7 +352,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<MilestoneInfo> getMilestonesByDates(Date startDate, Date endDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Milestone> milestones = atpDao.findMilestonesByDates(startDate, endDate);
@@ -381,7 +360,6 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=true)
     public List<MilestoneInfo> getMilestonesByDatesAndType(String milestoneTypeKey, Date startDate, Date endDate) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<Milestone> milestones = atpDao.findMilestonesByDatesAndType(milestoneTypeKey, startDate, endDate);
@@ -390,7 +368,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public StatusInfo removeDateRange(String dateRangeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(DateRange.class, dateRangeKey);
@@ -402,7 +380,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public StatusInfo removeMilestone(String milestoneKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         atpDao.delete(Milestone.class, milestoneKey);
@@ -414,7 +392,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"atpKey", "atpInfo"}, new Object[]{atpKey, atpInfo});
@@ -438,7 +416,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public DateRangeInfo updateDateRange(String dateRangeKey, DateRangeInfo dateRangeInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"dateRangeKey", "dateRangeInfo"}, new Object[]{dateRangeKey, dateRangeInfo});
@@ -459,7 +437,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    @Transactional(readOnly=false)
     public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         CheckMissingParameters(new String[]{"milestoneKey", "milestoneInfo"}, new Object[]{milestoneKey, milestoneInfo});

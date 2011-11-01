@@ -70,63 +70,6 @@ text-shadow:0 2px 2px #FFFFFF;
 -moz-border-radius:8px 8px 0px 0px;
 }
 
-/*Set sizes for different lightboxes to move towards 3 standard sizes
-for lightboxes.
-*/
-.ks-lightbox-small {
-	
-}
-
-.ks-lightbox-small .Caption {
-	
-}
-/*medium size light box dimensions and properties*/
-.ks-lightbox-medium {
-	height: 340px;
-	width: 550px;
-	background-color: #FFFFFF;
-	border: 3px solid #54565C;
-	color: #333333;
-	overflow: visible;
-	z-index: 2;
-	-moz-border-radius: 10px 10px 10px 10px;
-}
-
-/*lightbox width= caption width + padding width
-Padding is set in children as it is easier to keep track of*/
-.ks-lightbox-medium .Caption {
-	width: 534px;
-	padding: 10px 0 10px 16px;
-	background-color: #DFE2E9;
-	color: #000000;
-	cursor: move;
-	font-size: 1.2em;
-	font-weight: bold;
-	position: relative;
-	text-align: left;
-	text-shadow: 0 2px 2px #FFFFFF;
-	-moz-border-radius: 8px 8px 0px 0px;
-}
-/*adjust width to fix overflow text
-adjust height to move button row up and down.
-*/
-.ks-lightbox-medium-layoutTable {
-	height:290px;
-	width:525px;
-}
-
-.ks-lightbox-large {
-	
-}
-
-.ks-lightbox-large .Caption {
-	
-}
-
-/*used to set padding until all ks box sizes are implimented*/
-
-
-
 .ks-lightbox-mainPanel {
     margin: 0 0 0 15px;
 }
@@ -338,10 +281,6 @@ ul.ks-selected-list {
          width: 30em;
 }
 
-.ks-selected-list .ks-form-module-validation-warnings li{
-	border-style:none;
-}
-
 .ks-selected-list-value {
 display:block;
 min-height:25px;
@@ -447,12 +386,4 @@ position:relative;
 	text-align: center;
 	font-weight: bold;
 	font-size:10pt;
-}
-
-.KS-indented{
-	margin-left:40px;
-}
-
-.ks-documentHeader-widgetPanel {
-	float: left;
 }
