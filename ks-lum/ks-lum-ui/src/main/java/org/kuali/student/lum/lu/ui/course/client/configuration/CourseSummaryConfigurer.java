@@ -138,7 +138,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         tableSection = new SummaryTableSection((Controller) controller);
     }
     
-    public void initialize(String type, String state, String groupName,
+    public void init(String type, String state, String groupName,
             DataModelDefinition modelDefinition,
             List<StatementTypeInfo> stmtTypes, Controller controller,
             String modelId) {

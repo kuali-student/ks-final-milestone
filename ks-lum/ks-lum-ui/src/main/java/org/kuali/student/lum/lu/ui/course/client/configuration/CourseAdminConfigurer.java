@@ -21,6 +21,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminControll
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -57,7 +58,8 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             layout.addInfoWidget(requiredContainer);
             layout.addView(generateCourseAdminView((CourseAdminController) layout));
         } else {
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+            summaryConfigurer.init(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
             layout.removeMenuNavigation();
             layout.addView(summaryConfigurer.generateProposalSummarySection(false));
             final CommentTool commentTool = createCommentTool(layout);
