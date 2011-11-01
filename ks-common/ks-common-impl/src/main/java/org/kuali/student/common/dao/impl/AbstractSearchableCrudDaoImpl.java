@@ -149,7 +149,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 				String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
 				for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
 					if(results.getKey().equals(searchRequest.getSortColumn())){
-                        orderByClause = " ORDER BY LOWER(" + jpqlResultColumns[i] + ") ";
+                        if(results.getDataType()!=null && "string".equals(results.getDataType().toLowerCase())){
+                        	orderByClause = " ORDER BY LOWER(" + jpqlResultColumns[i] + ") ";
+                        }else{
+                        	//Don't sort dates or numbers in alphabetic order or weirdness happens
+                        	orderByClause = " ORDER BY " + jpqlResultColumns[i] + " ";
+                        }
 						if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
 							orderByClause += "DESC ";
 						}else{
