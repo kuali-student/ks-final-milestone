@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.program.dto;
+package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,12 +35,8 @@ import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.program.infc.CredentialProgram;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate, Master, Doctoral, Graduate Certificate, Undergraduate Certificate
@@ -53,8 +49,7 @@ import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CredentialProgramInfo implements Serializable, Idable, HasAttributes, ProgramCommonAssembly, ProgramIdentifierAssembly, ProgramAtpAssembly,
-        ProgramCodeAssembly, ProgramBasicOrgAssembly, ProgramRequirementAssembly {
+public class CredentialProgramInfo extends IdEntityInfo implements CredentialProgram {
 
     private static final long serialVersionUID = 1L;
 
@@ -104,9 +99,6 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     private List<String> unitsStudentOversight;
 
     @XmlElement
-    private RichTextInfo descr;
-    
-    @XmlElement
     private List<LoDisplayInfo> learningObjectives;
     
     @XmlElement
@@ -115,25 +107,27 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     @XmlElement
     private List<String> programRequirements;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlElement
-    private VersionInfo versionInfo;
 
     @XmlAttribute
     private String credentialProgramType;
 
-    @XmlAttribute
-    private String state;
+    @XmlElement
+       private String cip2000Code;
 
-    @XmlAttribute
-    private String id;
-    
+       @XmlElement
+       private String diplomaTitle;
+
+       @XmlElement
+       private String hegisCode;
+
+       @XmlElement
+       private String selectiveEnrollmentCode;
+
+       @XmlElement
+       private String cip2010Code;
+
+
+
     public List<String> getCoreProgramIds() {
         return coreProgramIds;
     }
@@ -156,43 +150,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.programRequirements = programRequirements;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    @Override
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    @Override
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-    
-    
-    public VersionInfo getVersionInfo() {
-		return versionInfo;
-	}
-
-	public void setVersionInfo(VersionInfo versionInfo) {
-		this.versionInfo = versionInfo;
-	}
-
-	/**
+   /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
     public String getCredentialProgramType() {
@@ -203,31 +161,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.credentialProgramType = credentialProgramType;
     }
 
-    /**
-     * The current status of the credential program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an Credential Program. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
-     */
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
+     /**
      * Abbreviated name of the Credential program   
      */
     public String getShortTitle() {
@@ -262,10 +196,10 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
 
     @Override
     public String getDiplomaTitle() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return diplomaTitle;
     }
 
-    @Override
+
     public void setDiplomaTitle(String diplomaTitle) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -273,6 +207,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * A code that indicates whether this is Graduate, Undergraduage etc    
      */
+    @Override
     public String getProgramLevel() {
         return programLevel;
     }
@@ -284,6 +219,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * The composite string that is used to officially reference or publish the Credential program. 
      */
+    @Override
     public String getCode() {
         return code;
     }
@@ -295,6 +231,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * University specific classification   
      */
+    @Override
     public String getUniversityClassification() {
         return universityClassification;
     }
@@ -306,6 +243,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Institution owning the program.  
      */
+    @Override
     public AdminOrgInfo getInstitution() {
         return institution;
     }
@@ -317,6 +255,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Result outcomes from taking the Credential program.  
      */
+    @Override
     public List<String> getResultOptions() {
         return resultOptions;
     }
@@ -328,6 +267,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * The first academic time period that this credential program would be effective. This may not reflect the first "real" academic time period for this program. 
      */
+    @Override
     public String getStartTerm() {
         return startTerm;
     }
@@ -339,6 +279,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * The last academic time period that this credential program would be effective.   
      */
+    @Override
     public String getEndTerm() {
         return endTerm;
     }
@@ -350,6 +291,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * The last academic time period that this credential program would be available for enrollment. This may not reflect the last "real" academic time period for this program.    
      */
+    @Override
     public String getEndProgramEntryTerm() {
         return endProgramEntryTerm;
     }
@@ -361,6 +303,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Divisions responsible to make changes to the credential program  
      */
+    @Override
     public List<String> getDivisionsContentOwner() {
         return divisionsContentOwner;
     }
@@ -372,6 +315,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Divisions responsible for student exceptions to the credential program.  
      */
+    @Override
     public List<String> getDivisionsStudentOversight() {
         return divisionsStudentOversight;
     }
@@ -383,6 +327,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /*
      * Unit responsible to make changes to the credential program   
      */
+    @Override
     public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
     }
@@ -394,6 +339,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     /**
      * Unit responsible for student exceptions to the credential program.   
      */
+    @Override
     public List<String> getUnitsStudentOversight() {
         return unitsStudentOversight;
     }
@@ -403,19 +349,9 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     }
 
     /**
-     * Narrative description of the Credential program. 
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
      * Learning Objectives associated with this credential program. 
      */
+    @Override
     public List<LoDisplayInfo> getLearningObjectives() {
         return learningObjectives;
     }
@@ -424,53 +360,40 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.learningObjectives = learningObjectives;
     }
 
-    @Override
-    public String getType() {
-        return credentialProgramType;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.credentialProgramType = type;
-    }
 
     @Override
     public String getCip2000Code() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cip2010Code;
     }
 
-    @Override
     public void setCip2000Code(String cip2000Code) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
+        this.cip2000Code = cip2000Code;
+     }
 
     @Override
     public String getCip2010Code() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cip2010Code;
     }
 
-    @Override
     public void setCip2010Code(String cip2010Code) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.cip2010Code=cip2010Code;
     }
 
     @Override
     public String getHegisCode() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return hegisCode;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
     public void setHegisCode(String hegisCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.hegisCode = hegisCode;
     }
 
     @Override
     public String getSelectiveEnrollmentCode() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return selectiveEnrollmentCode;
     }
 
-    @Override
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
 }

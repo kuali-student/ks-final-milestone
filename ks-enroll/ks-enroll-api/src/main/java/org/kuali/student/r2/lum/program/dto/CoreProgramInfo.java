@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.program.dto;
+package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,17 +31,12 @@ import org.kuali.student.common.dto.HasAttributes;
 import org.kuali.student.common.dto.HasTypeState;
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramPublicationAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.program.infc.CoreProgram;
 
 /**
  * Detailed information about a core program requirements associated with Credential Programs
@@ -53,8 +48,7 @@ import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasAttributes, ProgramCommonAssembly, ProgramBasicOrgAssembly, ProgramAtpAssembly,
-        ProgramCodeAssembly, ProgramIdentifierAssembly, ProgramPublicationAssembly, ProgramRequirementAssembly {
+public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
 
     private static final long serialVersionUID = 1L;
 
@@ -98,9 +92,6 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     private List<String> unitsStudentOversight;
 
     @XmlElement
-    private RichTextInfo descr;
-    
-    @XmlElement
     private String referenceURL;
     
     @XmlElement
@@ -113,23 +104,24 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     private List<LoDisplayInfo> learningObjectives;
     
     @XmlElement
+    private String cip2000Code;
+
+    @XmlElement
+    private String diplomaTitle;
+
+    @XmlElement
+    private String hegisCode;
+
+    @XmlElement
+    private String selectiveEnrollmentCode;
+
+    @XmlElement
+    private String cip2010Code;
+
+    @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlElement
-    private VersionInfo versionInfo;
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
 
     /**
      * Core Program Requirements.
@@ -145,73 +137,6 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
         this.programRequirements = programRequirements;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-        
-    public VersionInfo getVersionInfo() {
-		return versionInfo;
-	}
-
-	public void setVersionInfo(VersionInfo versionInfo) {
-		this.versionInfo = versionInfo;
-	}
-
-	/**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the credential program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an Core Program Requirement. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
     /**
      * Abbreviated name of the Core requirement 
      */
@@ -237,6 +162,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Information related to the official identification of the Core requirement, typically in human readable form. Used to officially reference or publish.
      */
+    @Override
     public String getTranscriptTitle() {
         return transcriptTitle;
     }
@@ -247,17 +173,18 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
 
     @Override
     public String getDiplomaTitle() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return diplomaTitle;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+
     public void setDiplomaTitle(String diplomaTitle) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.diplomaTitle = diplomaTitle;
     }
 
     /**
      * The composite string that is used to officially reference or publish the Core Program.   
      */
+    @Override
     public String getCode() {
         return code;
     }
@@ -269,6 +196,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * University specific classification e.g General Education Program 
      */
+    @Override
     public String getUniversityClassification() {
         return universityClassification;
     }
@@ -280,6 +208,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Core.   
      */
+    @Override
     public String getStartTerm() {
         return startTerm;
     }
@@ -291,6 +220,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * The last academic time period that this Core would be effective. 
      */
+    @Override
     public String getEndTerm() {
         return endTerm;
     }
@@ -302,6 +232,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * The last academic time period that this Core would be available for enrollment. This may not reflect the last "real" academic time period for this requirement.  
      */
+    @Override
     public String getEndProgramEntryTerm() {
         return endProgramEntryTerm;
     }
@@ -313,6 +244,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Divisions responsible to make changes to the CORE requirements   
      */
+    @Override
     public List<String> getDivisionsContentOwner() {
         return divisionsContentOwner;
     }
@@ -324,6 +256,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Divisions responsible for student exceptions to the requirements.    
      */
+    @Override
     public List<String> getDivisionsStudentOversight() {
         return divisionsStudentOversight;
     }
@@ -335,6 +268,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Unit responsible to make changes to the CORE requirements    
      */
+    @Override
     public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
     }
@@ -346,6 +280,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Unit responsible for student exceptions to the requirements. 
      */
+    @Override
     public List<String> getUnitsStudentOversight() {
         return unitsStudentOversight;
     }
@@ -354,31 +289,23 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
         this.unitsStudentOversight = unitsStudentOversight;
     }
 
-    /**
-     * Narrative description of the Core requirement.   
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-    
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
 
     /**
      * Narrative description of the Core that will show up in Catalog
      */
+    @Override
     public RichTextInfo getCatalogDescr() {
         return catalogDescr;
     }
 
-    public void setCatalogDescr(RichTextInfo catalogDescr) {
-        this.catalogDescr = catalogDescr;
+    public void setCatalogDescr( RichTextInfo catalogDescr) {
+         this.catalogDescr = catalogDescr;
     }
 
     /**
      * List of catalog targets where information will be published.   
      */
+    @Override
     public List<String> getCatalogPublicationTargets() {
         return catalogPublicationTargets;
     }
@@ -390,6 +317,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * An URL for additional information about the Core Requirement.    
      */
+    @Override
     public String getReferenceURL() {
         return referenceURL;
     }
@@ -401,6 +329,7 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
     /**
      * Learning Objectives associated with this Core requirement.   
      */
+    @Override
     public List<LoDisplayInfo> getLearningObjectives() {
         return learningObjectives;
     }
@@ -411,41 +340,42 @@ public class CoreProgramInfo implements Serializable, Idable, HasTypeState, HasA
 
     @Override
     public String getCip2000Code() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cip2000Code;
     }
 
-    @Override
+
     public void setCip2000Code(String cip2000Code) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.cip2000Code = cip2000Code;
     }
 
     @Override
     public String getCip2010Code() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return cip2010Code;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
+
     public void setCip2010Code(String cip2010Code) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.cip2010Code = cip2010Code;
     }
 
     @Override
     public String getHegisCode() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+       return hegisCode;
     }
 
-    @Override
+
     public void setHegisCode(String hegisCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.hegisCode = hegisCode;
     }
 
     @Override
     public String getSelectiveEnrollmentCode() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return selectiveEnrollmentCode;
     }
 
-    @Override
+
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
+
 }

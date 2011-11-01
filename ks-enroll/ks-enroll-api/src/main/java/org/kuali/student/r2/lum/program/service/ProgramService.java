@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.program.service;
+package org.kuali.student.r2.lum.program.service;
 
 import java.util.Date;
 import java.util.List;
@@ -24,57 +24,37 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.service.VersionManagementService;
 import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 /**
+ * The Comment Service allows for the creation and management of user comments and tags associated with
+ * other objects across the system.
  *
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:55:41 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Program+Service">ProgramService</>
- *
+ * @Version 2.0
+ * @Author sambitpa@usc.edu
  */
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE) // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends DictionaryService, SearchService, VersionManagementService{ 
-    /** 
-     * Retrieves the list of credential program types
-     * @return list of credential program type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LuTypeInfo> getCredentialProgramTypes() throws OperationFailedException;
+public interface ProgramService extends DataDictionaryService, TypeService, StateService {
 
-    /** 
-     * Retrieves information about a credential program type
-     * @param credentialProgramTypeKey Key of the Credential Program Type
-     * @return information about a Credential Program Type
-     * @throws DoesNotExistException credentialProgramType not found
-     * @throws InvalidParameterException invalid credentialProgramType
-     * @throws MissingParameterException missing credentialProgramType
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LuTypeInfo getCredentialProgramType(@WebParam(name="credentialProgramTypeKey")String credentialProgramTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
+    /**
      * Retrieves a CredentialProgram
      * @param credentialProgramId Unique Id of the CredentialProgram. Maps to cluId
      * @return the created Credential Program
@@ -223,7 +203,7 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
 
     /**
 	 * Sets a specific version of the Credential Program as current. The sequence number must be greater than the existing current Credential Program version. This will truncate the current version's end date to the currentVersionStart param. If a Major exists which is set to become current in the future, that Major's currentVersionStart and CurrentVersionEnd will be nullified. The currentVersionStart must be in the future to prevent changing historic data. 
-     * @param coreProgramId Version Specific Id of the Credential Program
+     * @param credentialProgramId Version Specific Id of the Credential Program
      * @param currentVersionStart Date when this Credential Program becomes current. Must be in the future and be after the most current Credential Program's start date.
      * @return status of the operation (success or failure)
      * @throws DoesNotExistException Credential Program for credentialProgramId does not exist
@@ -583,5 +563,7 @@ public interface ProgramService extends DictionaryService, SearchService, Versio
 	 */
     public List<ValidationResultInfo> validateProgramRequirement(@WebParam(name="validationType")String validationType, @WebParam(name="programRequirementInfo")ProgramRequirementInfo programRequirementInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
+
+    @Override
+    StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws org.kuali.student.r2.common.exceptions.DoesNotExistException, org.kuali.student.r2.common.exceptions.InvalidParameterException, org.kuali.student.r2.common.exceptions.MissingParameterException, org.kuali.student.r2.common.exceptions.OperationFailedException;
 }

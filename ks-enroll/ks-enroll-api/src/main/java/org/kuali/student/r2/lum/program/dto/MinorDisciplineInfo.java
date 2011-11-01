@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.program.dto;
+package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,6 +33,8 @@ import org.kuali.student.common.dto.HasTypeState;
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
 
 /**
  * Detailed information about a single minor program
@@ -44,9 +46,10 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MinorDisciplineInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class MinorDisciplineInfo extends IdEntityInfo implements MinorDiscipline {
 
     private static final long serialVersionUID = 1L;
+
 
     @XmlElement
     private String credentialProgramId;
@@ -55,24 +58,12 @@ public class MinorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     private List<String> programRequirements;
 
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
 
     /**
      * Identifier of the credential program under which the minor belongs
      */
+    @Override
     public String getCredentialProgramId() {
         return credentialProgramId;
     }
@@ -84,9 +75,10 @@ public class MinorDisciplineInfo implements Serializable, Idable, HasTypeState, 
     /**
      * Minor Discipline Program Requirements.
      */
+    @Override
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {
-            programRequirements = new ArrayList<String>(0);
+            programRequirements = new ArrayList<String>();
         }
         return programRequirements;
     }
@@ -95,61 +87,5 @@ public class MinorDisciplineInfo implements Serializable, Idable, HasTypeState, 
         this.programRequirements = programRequirements;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
 
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the credential program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an Minor Discipline. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

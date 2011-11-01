@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.lum.program.dto;
+package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,36 +28,26 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.program.dto.assembly.ProgramAtpAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCodeAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramCommonAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramFullOrgAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramIdentifierAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramPublicationAssembly;
-import org.kuali.student.lum.program.dto.assembly.ProgramRequirementAssembly;
+import org.kuali.student.lum.lu.dto.AccreditationInfo;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
 
 /**
- * Detailed information about major program variations
+ * Detailed information about a single major discipline program
  *
  * @Author KSContractMojo
  * @Author Li Pan
- * @Since Wed Jun 30 14:55:59 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/programVariationInfo+Structure">ProgramVariationInfo</>
+ * @Since Wed Jun 30 14:55:53 PDT 2010
+ * @See <a href="https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure">MajorDisciplineInfo</>
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramVariationInfo implements Serializable, Idable, HasTypeState, HasAttributes , ProgramCommonAssembly,
-        ProgramIdentifierAssembly, ProgramFullOrgAssembly, ProgramAtpAssembly,
-        ProgramCodeAssembly, ProgramPublicationAssembly, ProgramRequirementAssembly {
+public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,6 +58,15 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String referenceURL;
 
     @XmlElement
+    private List<CluInstructorInfo> publishedInstructors;
+
+    @XmlElement
+    private String credentialProgramId;
+
+    @XmlElement
+    private List<ProgramVariationInfo> variations;
+
+    @XmlElement
     private String code;
 
     @XmlElement
@@ -75,7 +74,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
 
     @XmlElement
     private String cip2010Code;
-        
+
     @XmlElement
     private String hegisCode;
 
@@ -84,13 +83,13 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
 
     @XmlElement
     private String selectiveEnrollmentCode;
-
+        
     @XmlElement
     private List<String> resultOptions;
 
     @XmlElement
     private TimeAmountInfo stdDuration;
-    
+
     @XmlElement
     private String startTerm;
 
@@ -100,6 +99,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     @XmlElement
     private String endProgramEntryTerm;
 
+    @XmlElement
+    private String nextReviewPeriod;
+    
     @XmlElement
     private Date effectiveDate;
 
@@ -116,9 +118,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private String diplomaTitle;
 
     @XmlElement
-    private RichTextInfo descr;
-
-    @XmlElement
     private RichTextInfo catalogDescr;
 
     @XmlElement
@@ -131,7 +130,13 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     private List<String> campusLocations;
 
     @XmlElement
+    private CoreProgramInfo orgCoreProgram;
+
+    @XmlElement
     private List<String> programRequirements;
+
+    @XmlElement
+    private List<AccreditationInfo> accreditingAgencies;    
 
     @XmlElement
     private List<String> divisionsContentOwner;
@@ -167,21 +172,6 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;
 
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlElement
-    private VersionInfo versionInfo;    
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
-
     /**
      * Indicates if the program is full time, part time, both etc
      */
@@ -194,7 +184,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * An URL for additional information about the Variation.
+     * An URL for additional information about the Major.
      */
     public String getReferenceURL() {
         return referenceURL;
@@ -205,7 +195,46 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * The composite string that is used to officially reference or publish the Variation. Note it may have an internal structure that each Institution may want to enforce.
+     * Instructors associated with this Major. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.
+     */
+    public List<CluInstructorInfo> getPublishedInstructors() {
+        if (publishedInstructors == null) {
+            publishedInstructors = new ArrayList<CluInstructorInfo>(0);
+        }
+        return publishedInstructors;
+    }
+
+    public void setPublishedInstructors(List<CluInstructorInfo> publishedInstructors) {
+        this.publishedInstructors = publishedInstructors;
+    }
+
+    /**
+     * Identifier of the credential program under which the major belongs
+     */
+    public String getCredentialProgramId() {
+        return credentialProgramId;
+    }
+
+    public void setCredentialProgramId(String credentialProgramId) {
+        this.credentialProgramId = credentialProgramId;
+    }
+
+    /**
+     * Program variations for the Major
+     */
+    public List<ProgramVariationInfo> getVariations() {
+        if (variations == null) {
+            variations = new ArrayList<ProgramVariationInfo>(0);
+        }
+        return variations;
+    }
+
+    public void setVariations(List<ProgramVariationInfo> variations) {
+        this.variations = variations;
+    }
+
+    /**
+     * The composite string that is used to officially reference or publish the Major. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
      */
     public String getCode() {
         return code;
@@ -240,6 +269,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * HEGIS Code for the Program
      */
+    @Override
     public String getHegisCode() {
         return hegisCode;
     }
@@ -251,6 +281,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     /**
      * University specific classification e.g Major(Bacc), Specialization
      */
+    @Override
     public String getUniversityClassification() {
         return universityClassification;
     }
@@ -260,8 +291,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Specifies if the Variation is Limited Enrollment program or Selective Admissions
+     * Specifies if the Major is Selective Major, Limited Enrollment program or Selective Admissions
      */
+    @Override
     public String getSelectiveEnrollmentCode() {
         return selectiveEnrollmentCode;
     }
@@ -269,27 +301,11 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
-
-    
-    public List<String> getResultOptions() {
-        return resultOptions;
-    }
-
-    public void setResultOptions(List<String> resultOptions) {
-        this.resultOptions = resultOptions;
-    }
-
-    public TimeAmountInfo getStdDuration() {
-        return stdDuration;
-    }
-
-    public void setStdDuration(TimeAmountInfo stdDuration) {
-        this.stdDuration = stdDuration;
-    }
     
     /**
-     * The first academic time period that this Variation would be effective. This may not reflect the first "real" academic time period for this Variation.
+     * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Major.
      */
+    @Override
     public String getStartTerm() {
         return startTerm;
     }
@@ -299,8 +315,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * The last academic time period that this Variation would be effective.
+     * The last academic time period that this Major would be effective.
      */
+    @Override
     public String getEndTerm() {
         return endTerm;
     }
@@ -309,20 +326,19 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.endTerm = endTerm;
     }
 
-    /**
-     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.   
-     */
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
+    @Override
+    public String getNextReviewPeriod() {
+        return nextReviewPeriod;
     }
 
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
+    public void setNextReviewPeriod(String nextReviewPeriod) {
+        this.nextReviewPeriod = nextReviewPeriod;
     }
 
     /**
-     * Date and time the Variation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time the Course became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
      */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -332,8 +348,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Abbreviated name of the Variation
+     * Abbreviated name of the Major Discipline
      */
+    @Override
     public String getShortTitle() {
         return shortTitle;
     }
@@ -343,8 +360,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Full name of the Variation Discipline
+     * Full name of the Major Discipline
      */
+    @Override
     public String getLongTitle() {
         return longTitle;
     }
@@ -354,8 +372,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Information related to the official identification of the Variation, typically in human readable form. Used to officially reference or publish.
+     * Information related to the official identification of the Major discipline, typically in human readable form. Used to officially reference or publish.
      */
+    @Override
     public String getTranscriptTitle() {
         return transcriptTitle;
     }
@@ -364,41 +383,23 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.transcriptTitle = transcriptTitle;
     }
 
-    /**
-     * 
-     */
+    @Override
     public String getDiplomaTitle() {
         return diplomaTitle;
+    }
+
+    @Override
+    public RichTextInfo getCatalogDescr() {
+        return  catalogDescr;
     }
 
     public void setDiplomaTitle(String diplomaTitle) {
         this.diplomaTitle = diplomaTitle;
     }
 
-    /**
-     * Narrative description of the Variation.
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
 
     /**
-     * Narrative description of the Variation that will show up in Catalog
-     */
-    public RichTextInfo getCatalogDescr() {
-        return catalogDescr;
-    }
-
-    public void setCatalogDescr(RichTextInfo catalogDescr) {
-        this.catalogDescr = catalogDescr;
-    }
-    
-    /**
-     * List of catalog targets where program variation information will be published.   
+     * List of catalog targets where major information will be published.   
      */
     public List<String> getCatalogPublicationTargets() {
         return catalogPublicationTargets;
@@ -407,9 +408,9 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
         this.catalogPublicationTargets = catalogPublicationTargets;
     }
-    
+
     /**
-     * Learning Objectives associated with this Variation.
+     * Learning Objectives associated with this Major.
      */
     public List<LoDisplayInfo> getLearningObjectives() {
         if (learningObjectives == null) {
@@ -423,7 +424,7 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
     }
 
     /**
-     * Places where this Variation might be offered
+     * Places where this Major might be offered
      */
     public List<String> getCampusLocations() {
         if (campusLocations == null) {
@@ -436,14 +437,54 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.campusLocations = campusLocations;
     }
 
+    public CoreProgramInfo getOrgCoreProgram() {
+        return orgCoreProgram;
+    }
+
+    public void setOrgCoreProgram(CoreProgramInfo orgCoreProgram) {
+        this.orgCoreProgram = orgCoreProgram;
+    }
+
     /**
-     * Program Variation Requirements.
+     * Major Discipline Program Requirements.
      */
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {
             programRequirements = new ArrayList<String>(0);
         }
         return programRequirements;
+    }
+
+    public List<String> getResultOptions() {
+        return resultOptions;
+    }
+
+    public void setResultOptions(List<String> resultOptions) {
+        this.resultOptions = resultOptions;
+    }
+
+    public org.kuali.student.r2.common.dto.TimeAmountInfo getStdDuration() {
+        return stdDuration;
+    }
+
+    public void setStdDuration(TimeAmountInfo stdDuration) {
+        this.stdDuration = stdDuration;
+    }
+
+    public String getEndProgramEntryTerm() {
+        return endProgramEntryTerm;
+    }
+
+    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
+        this.endProgramEntryTerm = endProgramEntryTerm;
+    }
+
+    public List<AccreditationInfo> getAccreditingAgencies() {
+        return accreditingAgencies;
+    }
+
+    public void setAccreditingAgencies(List<AccreditationInfo> accreditingAgencies) {
+        this.accreditingAgencies = accreditingAgencies;
     }
 
     public void setProgramRequirements(List<String> programRequirements) {
@@ -530,78 +571,5 @@ public class ProgramVariationInfo implements Serializable, Idable, HasTypeState,
         this.unitsFinancialControl = unitsFinancialControl;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    @Override
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
 
-    @Override
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-    
-    
-    public VersionInfo getVersionInfo() {
-		return versionInfo;
-	}
-
-	public void setVersionInfo(VersionInfo versionInfo) {
-		this.versionInfo = versionInfo;
-	}
-
-	/**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
-     */
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the major program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    @Override
-    public String getState() {
-        return state;
-    }
-
-    @Override
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * The page majorProgramId Structure does not exist. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
-     */
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
 }
