@@ -2,11 +2,17 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+
+import com.google.gwt.core.client.GWT;
 
 public class CourseRequirementsViewController extends BasicLayout {
 
@@ -39,7 +45,8 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(
+        preview = GWT.create(CourseRequirementsSummaryView.class);
+        preview.init(
                 this,
                 CourseRequirementsViews.PREVIEW,
                 (isReadOnly ? "Course Requirements" : ""),
@@ -50,8 +57,8 @@ public class CourseRequirementsViewController extends BasicLayout {
         super.addView(preview);
 
         if (!isReadOnly) {
-            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViews.MANAGE,
-                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID);
+            CourseRequirementsManageView manageView = GWT.create(CourseRequirementsManageView.class);
+            manageView.init(this, CourseRequirementsViews.MANAGE, "Add and Combine Rules", COURSE_RULES_MODEL_ID);
             super.addView(manageView);
         }
     }
