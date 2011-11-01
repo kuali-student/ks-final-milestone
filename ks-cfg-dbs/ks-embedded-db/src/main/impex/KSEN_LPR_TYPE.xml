@@ -21,6 +21,9 @@
     <KSEN_LPR_TYPE NAME="Add"
         TYPE_DESC="Add student to course registration group"
         TYPE_KEY="kuali.lpr.trans.item.type.add" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Drop"
+        TYPE_DESC="Drop Type for lpr transactions"
+        TYPE_KEY="kuali.lpr.trans.item.type.drop" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Student registrant"
         TYPE_DESC="Student registrant"
         TYPE_KEY="kuali.lpr.trans.registrant" VER_NBR="0"/>
