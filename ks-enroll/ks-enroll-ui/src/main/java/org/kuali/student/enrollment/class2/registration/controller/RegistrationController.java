@@ -537,7 +537,8 @@ public class RegistrationController extends UifControllerBase {
 
             List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
-                registrationForm.setRegRequest(getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context));
+                RegRequestInfo regRequestInfo = getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context);
+                registrationForm.setRegRequest(getCourseRegistrationService().getRegRequest(regRequestInfo.getId(),context));
             } else {
                 StringBuilder builder = new StringBuilder("Found multiple ValidationResultInfo objects after Registration Request validation:\n");
                 for (ValidationResultInfo resultInfo : validationResultInfos) {
@@ -588,9 +589,13 @@ public class RegistrationController extends UifControllerBase {
             List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(registrationForm.getRegRequest(), context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
                 if (StringUtils.isBlank(registrationForm.getRegRequest().getId())) {
-                    registrationForm.setRegRequest(getCourseRegistrationService().createRegRequest(registrationForm.getRegRequest(), context));
+                    RegRequestInfo regRequestInfo = getCourseRegistrationService().createRegRequest(registrationForm.getRegRequest(), context);
+                    regRequestInfo = getCourseRegistrationService().getRegRequest(regRequestInfo.getId(),context);
+                    registrationForm.setRegRequest(regRequestInfo);
                 } else {
-                    registrationForm.setRegRequest(getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context));
+                    getCourseRegistrationService().updateRegRequest(registrationForm.getRegRequest().getId(), registrationForm.getRegRequest(), context);
+                    RegRequestInfo regRequestInfo = getCourseRegistrationService().getRegRequest(registrationForm.getRegRequest().getId(),context);
+                    registrationForm.setRegRequest(regRequestInfo);
                 }
 
                 registrationForm.getRegistrationGroupWrappersById().put(regGroupWrapper.getRegistrationGroup().getId(), regGroupWrapper);
