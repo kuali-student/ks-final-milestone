@@ -117,9 +117,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 						//and each word within text
 						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
 						optionalQueryString += 
-							"(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER('" + searchParam.getValue() + "') || '%' OR " +
-							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER('" + searchParam.getValue() + "') || '%')"; 
-						internalQueryParms.remove(searchParam);
+                                "(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER(:"
+                                        + searchParam.getKey().replace(".", "_") + ") || '%' OR " +
+                                        "LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER(:"
+                                        + searchParam.getKey().replace(".", "_") + ") || '%')";
 					}
 				}
 			}
