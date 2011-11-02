@@ -24,7 +24,4 @@ public class DateFormatThread {
 		return df.get().format(date);
 	}
 
-	public static void set(DateFormat dateFormat) {
-		df.set(dateFormat);
-	}
 }

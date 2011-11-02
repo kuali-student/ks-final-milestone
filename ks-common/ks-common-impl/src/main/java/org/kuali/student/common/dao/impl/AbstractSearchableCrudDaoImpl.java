@@ -16,6 +16,7 @@
 package org.kuali.student.common.dao.impl;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,12 +38,16 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.dto.SortDirection;
-import org.kuali.student.common.util.DateFormatThread;
 
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
-    private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+	
+	private static ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+		}
+	};
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest,	Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
@@ -208,8 +213,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
                 Object queryParamValue = null;
 			    if ("date".equals(paramDataType) && searchParam.getValue() instanceof String) {
 			        try {
-			        	DateFormatThread.set(df);
-                        queryParamValue = DateFormatThread.parse((String)searchParam.getValue());
+                        queryParamValue = df.get().parse((String)searchParam.getValue());
                     } catch (ParseException e) {
                         throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
                     }
