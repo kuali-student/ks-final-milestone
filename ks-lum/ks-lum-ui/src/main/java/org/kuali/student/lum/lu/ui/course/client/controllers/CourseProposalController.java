@@ -126,7 +126,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
 	protected final DataModel comparisonModel = new DataModel("Original Course");
 
-	public CourseProposalConfigurer cfg;
+	protected CourseProposalConfigurer cfg;
 	
 	private WorkQueue modelRequestQueue;
 
@@ -1324,5 +1324,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
      */
     protected  BaseDataOrchestrationRpcServiceAsync getCourseProposalRpcService(){
     	return cluProposalRpcServiceAsync;
+    }
+    
+    public CourseProposalConfigurer getCourseProposalConfigurer() {
+    	return cfg;
     }
 }
