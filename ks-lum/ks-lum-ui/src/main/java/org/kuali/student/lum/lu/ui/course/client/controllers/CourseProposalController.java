@@ -126,7 +126,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
 	protected final DataModel comparisonModel = new DataModel("Original Course");
 
-	CourseProposalConfigurer cfg;
+	public CourseProposalConfigurer cfg;
 	
 	private WorkQueue modelRequestQueue;
 
