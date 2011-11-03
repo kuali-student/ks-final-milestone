@@ -19,16 +19,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 
 import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 
 /**
@@ -40,6 +38,15 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/programVariationInfo+Structure">ProgramVariationInfo</>
  *
  */
+
+
+@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity",
+        "referenceURL", "code", "cip2000Code", "cip2010Code", "hegisCode", "universityClassification",
+        "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey",
+        "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle",
+        "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations", "programRequirements",
+        "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl",
+        "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariation {
 
@@ -143,6 +150,32 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private List<String> unitsFinancialControl;
+
+    public ProgramVariationInfo(){
+        super();
+    }
+
+    public ProgramVariationInfo(ProgramVariation programVariation){
+
+        this.campusLocations = new ArrayList<String>(programVariation.getCampusLocations());
+        this.catalogDescr = new RichTextInfo(programVariation.getCatalogDescr());
+        this.catalogPublicationTargets = programVariation.getCatalogPublicationTargets();
+        this.cip2000Code = programVariation.getCip2000Code();
+        this.cip2010Code = programVariation.getCip2010Code();
+        this.code = programVariation.getCode();
+        this.diplomaTitle = programVariation.getDiplomaTitle();
+        this.divisionsContentOwner =  programVariation.getDivisionsContentOwner();
+        this.divisionsDeployment = programVariation.getDivisionsDeployment();
+        this.divisionsFinancialControl = programVariation.getDivisionsFinancialControl();
+        this.divisionsStudentOversight = programVariation.getDivisionsStudentOversight();
+        this.effectiveDate = programVariation.getEffectiveDate();
+        this.endProgramEntryTermKey = programVariation.getEndProgramEntryTermKey();
+        this.endTermKey = programVariation.getEndTermKey();
+        this.hegisCode = programVariation.getHegisCode();
+        this.learningObjectives = programVariation.getLearningObjectives();
+        this.intensity = programVariation.getIntensity();
+    }
+
 
     @Override
     public String getIntensity() {
@@ -445,11 +478,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     @Override
     public List<String> getUnitsFinancialControl() {
         return unitsFinancialControl;
-    }
-
-    @Override
-    public MetaInfo getMetaInfo() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {

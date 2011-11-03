@@ -21,10 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.HasAttributes;
@@ -33,22 +30,20 @@ import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
+import org.w3c.dom.Element;
 
-/**
- * Detailed information about a core program requirements associated with Credential Programs
- *
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:55:48 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/coreProgramInfo+Structure">CoreProgramInfo</>
- *
- */
+@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle",
+        "longTitle", "transcriptTitle","code", "universityClassification", "startTermKey", "endTermKey", "endProgramEntryTermKey",
+        "programRequirements", "divisionsContentOwner","divisionsStudentOversight" ,"unitsContentOwner", "unitsStudentOversight",
+        "referenceURL","catalogDescr","catalogPublicationTargets", "learningObjectives", "cip2000Code", "diplomaTitle","hegisCode",
+         "selectiveEnrollmentCode", "cip2010Code","meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
+public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,13 +63,13 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
     private String universityClassification;
 
     @XmlElement
-    private String startTerm;
+    private String startTermKey;
 
     @XmlElement
-    private String endTerm;
+    private String endTermKey;
 
     @XmlElement
-    private String endProgramEntryTerm;
+    private String endProgramEntryTermKey;
 
     @XmlElement
     private List<String> programRequirements;
@@ -118,17 +113,55 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
     @XmlElement
     private String cip2010Code;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 
-    /**
-     * Core Program Requirements.
-     */
+    public CoreProgramInfo(){
+
+    }
+
+    public CoreProgramInfo (CoreProgram coreProgram){
+        super(coreProgram);
+        if(coreProgram!=null){
+           shortTitle = coreProgram.getShortTitle();
+           longTitle = coreProgram.getLongTitle();
+           transcriptTitle = coreProgram.getTranscriptTitle();
+           this.code = coreProgram.getCode();
+           this.universityClassification = coreProgram.getUniversityClassification();
+           this.startTermKey = coreProgram.getStartTermKey();
+           this.endTermKey = coreProgram.getEndTermKey();
+           this.endProgramEntryTermKey = coreProgram.getEndProgramEntryTermKey();
+           this.programRequirements = coreProgram.getProgramRequirements()!=null ? new ArrayList<String>(coreProgram.getProgramRequirements()) :new ArrayList<String>();
+           this.divisionsContentOwner =  coreProgram.getDivisionsContentOwner()!=null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()): new ArrayList<String>();
+           this.divisionsStudentOversight = coreProgram.getDivisionsStudentOversight()!=null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()): new ArrayList<String>();
+           this.unitsContentOwner = coreProgram.getUnitsContentOwner()!=null ? new ArrayList<String>(coreProgram.getUnitsContentOwner()): new ArrayList<String>();
+           this.unitsStudentOversight = coreProgram.getUnitsStudentOversight()!=null ? new ArrayList<String>(coreProgram.getUnitsStudentOversight()): new ArrayList<String>();
+           this.referenceURL = coreProgram.getReferenceURL();
+           this.catalogDescr = coreProgram.getCatalogDescr()!=null? new RichTextInfo(coreProgram.getCatalogDescr()): null;
+           this.catalogPublicationTargets = coreProgram.getCatalogPublicationTargets()!=null? new ArrayList<String>(coreProgram.getCatalogPublicationTargets()): new ArrayList<String>();
+           List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+
+           if (coreProgram.getLearningObjectives()!=null){
+                 for(LoDisplay loDisplay: coreProgram.getLearningObjectives()){
+                        LoDisplayInfo loDisplayInfo = new LoDisplayInfo(loDisplay);
+                         learningObjectives.add(loDisplayInfo);
+                 }
+           }
+           this.learningObjectives = learningObjectives;
+           this.cip2000Code = coreProgram.getCip2000Code();
+           this.diplomaTitle = coreProgram.getDiplomaTitle();
+           this.hegisCode = coreProgram.getHegisCode();
+           this.selectiveEnrollmentCode = coreProgram.getSelectiveEnrollmentCode();
+           this.cip2010Code = coreProgram.getCip2010Code();
+
+        }
+    }
+
+    @Override
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {
-            programRequirements = new ArrayList<String>(0);
+            programRequirements = new ArrayList<String>();
         }
         return programRequirements;
     }
@@ -137,9 +170,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.programRequirements = programRequirements;
     }
 
-    /**
-     * Abbreviated name of the Core requirement 
-     */
+    @Override
     public String getShortTitle() {
         return shortTitle;
     }
@@ -148,9 +179,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.shortTitle = shortTitle;
     }
 
-    /**
-     * Full name of the Core Requirement    
-     */
+    @Override
     public String getLongTitle() {
         return longTitle;
     }
@@ -159,9 +188,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.longTitle = longTitle;
     }
 
-    /**
-     * Information related to the official identification of the Core requirement, typically in human readable form. Used to officially reference or publish.
-     */
     @Override
     public String getTranscriptTitle() {
         return transcriptTitle;
@@ -181,9 +207,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.diplomaTitle = diplomaTitle;
     }
 
-    /**
-     * The composite string that is used to officially reference or publish the Core Program.   
-     */
     @Override
     public String getCode() {
         return code;
@@ -193,9 +216,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.code = code;
     }
 
-    /**
-     * University specific classification e.g General Education Program 
-     */
     @Override
     public String getUniversityClassification() {
         return universityClassification;
@@ -205,45 +225,33 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.universityClassification = universityClassification;
     }
 
-    /**
-     * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Core.   
-     */
     @Override
-    public String getStartTerm() {
-        return startTerm;
+    public String getStartTermKey() {
+        return startTermKey;
     }
 
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
+    public void setStartTermKey(String startTerm) {
+        this.startTermKey = startTerm;
     }
 
-    /**
-     * The last academic time period that this Core would be effective. 
-     */
     @Override
-    public String getEndTerm() {
-        return endTerm;
+    public String getEndTermKey() {
+        return endTermKey;
     }
 
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
+    public void setEndTermKey(String endTermKey) {
+        this.endTermKey = endTermKey;
     }
 
-    /**
-     * The last academic time period that this Core would be available for enrollment. This may not reflect the last "real" academic time period for this requirement.  
-     */
     @Override
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
+    public String getEndProgramEntryTermKey() {
+        return endProgramEntryTermKey;
     }
 
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
+    public void setEndProgramEntryTermKey(String endProgramEntryTerm) {
+        this.endProgramEntryTermKey = endProgramEntryTermKey;
     }
 
-    /**
-     * Divisions responsible to make changes to the CORE requirements   
-     */
     @Override
     public List<String> getDivisionsContentOwner() {
         return divisionsContentOwner;
@@ -253,9 +261,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.divisionsContentOwner = divisionsContentOwner;
     }
 
-    /**
-     * Divisions responsible for student exceptions to the requirements.    
-     */
     @Override
     public List<String> getDivisionsStudentOversight() {
         return divisionsStudentOversight;
@@ -265,9 +270,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.divisionsStudentOversight = divisionsStudentOversight;
     }
     
-    /**
-     * Unit responsible to make changes to the CORE requirements    
-     */
     @Override
     public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
@@ -277,9 +279,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.unitsContentOwner = unitsContentOwner;
     }
 
-    /**
-     * Unit responsible for student exceptions to the requirements. 
-     */
     @Override
     public List<String> getUnitsStudentOversight() {
         return unitsStudentOversight;
@@ -289,10 +288,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.unitsStudentOversight = unitsStudentOversight;
     }
 
-
-    /**
-     * Narrative description of the Core that will show up in Catalog
-     */
     @Override
     public RichTextInfo getCatalogDescr() {
         return catalogDescr;
@@ -302,9 +297,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
          this.catalogDescr = catalogDescr;
     }
 
-    /**
-     * List of catalog targets where information will be published.   
-     */
     @Override
     public List<String> getCatalogPublicationTargets() {
         return catalogPublicationTargets;
@@ -314,9 +306,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.catalogPublicationTargets = catalogPublicationTargets;
     }
 
-    /**
-     * An URL for additional information about the Core Requirement.    
-     */
     @Override
     public String getReferenceURL() {
         return referenceURL;
@@ -326,11 +315,8 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
         this.referenceURL = referenceURL;
     }
 
-    /**
-     * Learning Objectives associated with this Core requirement.   
-     */
     @Override
-    public List<LoDisplayInfo> getLearningObjectives() {
+    public List<? extends LoDisplay> getLearningObjectives() {
         return learningObjectives;
     }
 
@@ -350,7 +336,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram {
 
     @Override
     public String getCip2010Code() {
-        return cip2010Code;  //To change body of implemented methods use File | Settings | File Templates.
+        return cip2010Code;
     }
 
 

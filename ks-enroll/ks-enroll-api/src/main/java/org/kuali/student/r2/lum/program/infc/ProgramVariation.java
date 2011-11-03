@@ -6,6 +6,7 @@ import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.infc.TimeAmount;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,7 +64,7 @@ public interface ProgramVariation  extends IdEntity{
 
     public List<String> getResultOptions() ;
 
-    public TimeAmountInfo getStdDuration() ;
+    public TimeAmount getStdDuration() ;
 
     /**
      * The first academic time period that this Variation would be effective. This may not reflect the first "real" academic time period for this Variation.
@@ -127,28 +128,64 @@ public interface ProgramVariation  extends IdEntity{
      */
     public List<String> getProgramRequirements() ;
 
+    /**
+     *
+     * @return
+     */
     public List<String> getDivisionsContentOwner() ;
 
+    /**
+     *
+     * @return
+     */
     public List<String> getDivisionsStudentOversight() ;
-    public List<String> getDivisionsDeployment() ;
-
-    public List<String> getDivisionsFinancialResources();
-
-    public List<String> getDivisionsFinancialControl();
-
-    public List<String> getUnitsContentOwner() ;
-
-    public List<String> getUnitsStudentOversight();
-
-    public List<String> getUnitsDeployment() ;
-
-    public List<String> getUnitsFinancialResources();
-
-    public List<String> getUnitsFinancialControl();
 
     /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
+     *
+     * @return
      */
-    public MetaInfo getMetaInfo() ;
+    public List<String> getDivisionsDeployment() ;
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getDivisionsFinancialResources();
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getDivisionsFinancialControl();
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getUnitsContentOwner() ;
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getUnitsStudentOversight();
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getUnitsDeployment() ;
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getUnitsFinancialResources();
+
+    /**
+     *
+     * @return
+     */
+    public List<String> getUnitsFinancialControl();
 
 }
