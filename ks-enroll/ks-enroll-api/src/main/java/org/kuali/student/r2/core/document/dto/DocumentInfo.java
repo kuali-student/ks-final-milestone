@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentInfo", propOrder = { "id", "typeKey", "stateKey",
-        "name", "descr", "fileName", "documentBinaryInfo", "effectiveDate", "expirationDate",
+        "name", "descr", "fileName", "documentBinary", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
 public class DocumentInfo extends IdEntityInfo implements Document, Serializable {
 
@@ -45,7 +45,7 @@ public class DocumentInfo extends IdEntityInfo implements Document, Serializable
     private String fileName;
 
     @XmlElement
-    private DocumentBinaryInfo documentBinaryInfo;
+    private DocumentBinaryInfo documentBinary;
 
     @XmlElement
     private Date effectiveDate;
@@ -72,19 +72,19 @@ public class DocumentInfo extends IdEntityInfo implements Document, Serializable
         super(document);
         if (null != document) {
             this.fileName = document.getFileName();
-            this.documentBinaryInfo = (null != document.getDocumentBinaryInfo()) ? new DocumentBinaryInfo(document.getDocumentBinaryInfo()) : null;
+            this.documentBinary = (null != document.getDocumentBinary()) ? new DocumentBinaryInfo(document.getDocumentBinary()) : null;
             this.effectiveDate = (null != document.getEffectiveDate()) ? new Date(document.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != document.getExpirationDate()) ? new Date(document.getExpirationDate().getTime()) : null;
         }
     }
 
     @Override
-    public DocumentBinaryInfo getDocumentBinaryInfo() {
-        return documentBinaryInfo;
+    public DocumentBinaryInfo getDocumentBinary() {
+        return documentBinary;
     }
 
-    public void setDocumentBinaryInfo(DocumentBinaryInfo documentBinaryInfo) {
-        this.documentBinaryInfo = documentBinaryInfo;
+    public void setDocumentBinary(DocumentBinaryInfo documentBinary) {
+        this.documentBinary = documentBinary;
     }
 
     @Override

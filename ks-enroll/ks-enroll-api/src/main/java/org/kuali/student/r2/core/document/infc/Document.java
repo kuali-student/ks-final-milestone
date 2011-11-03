@@ -34,36 +34,39 @@ public interface Document extends IdEntity {
      * @name File Name
      *
      */
-    String getFileName();
+    public String getFileName();
 
     /**
-     * The encoded document. The expectation is that this could be a base64 encoding.
+     * The encoded document. The expectation is that this could be a base64
+     * encoding
+     *
      * @name Document Binary Info
      * @required
      *
      */
-    DocumentBinaryInfo getDocumentBinaryInfo();
+    public DocumentBinaryInfo getDocumentBinary();
 
     /**
-     * Date and time that this document became effective. This is a similar concept to the
-     * effective date on enumerated values. When an expiration date has been specified,
-     * this field must be less than or equal to the expiration date.
+     * Date and time that this document became effective. This is a similar
+     * concept to the effective date on enumerated values. When an expiration
+     * date has been specified, this field must be less than or equal to the 
+     * expiration date.
      *
      * @name Effective Date
      *
      */
-    Date getEffectiveDate();
+    public Date getEffectiveDate();
 
     /**
-     * Date and time that this document expires. This is a similar concept to the
-     * expiration date on enumerated values. If specified, this should be greater
-     * than or equal to the effective date. If this field is not specified,
-     * then no expiration date has been currently defined and should automatically
-     * be considered greater than the effective date.
+     * Date and time that this document expires. This is a similar concept to
+     * the expiration date on enumerated values. If specified, this should be
+     * greater than or equal to the effective date. If this field is not
+     * specified, then no expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      *
      * @name Expiration Date
      *
      */
-    Date getExpirationDate();
+    public Date getExpirationDate();
 
 }

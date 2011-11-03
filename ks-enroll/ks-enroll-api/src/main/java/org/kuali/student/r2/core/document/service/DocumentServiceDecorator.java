@@ -47,7 +47,6 @@ import java.util.List;
  */
 public class DocumentServiceDecorator implements DocumentService {
 
-
     private DocumentService nextDecorator;
 
     public DocumentService getNextDecorator() throws OperationFailedException {
@@ -61,6 +60,135 @@ public class DocumentServiceDecorator implements DocumentService {
         this.nextDecorator = nextDecorator;
     }
 
+    @Override
+    public DocumentInfo getDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getDocument(documentId, contextInfo);
+    }
+
+    @Override
+    public List<DocumentInfo> getDocumentsByIds(@WebParam(name = "documentIds") List<String> documentIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getDocumentsByIds(documentIds, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateDocument(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateDocument(validationTypeKey, documentInfo, contextInfo);
+    }
+
+    @Override
+    public DocumentInfo createDocument(@WebParam(name = "documentTypeKey") String documentTypeKey, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createDocument(documentTypeKey, documentCategoryKey, documentInfo, contextInfo);
+    }
+
+    @Override
+    public DocumentInfo updateDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateDocument(documentId, documentInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteDocument(documentId, contextInfo);
+    }
+
+    @Override
+    public DocumentCategoryInfo getDocumentCategory(@WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getDocumentCategory(documentCategoryKey, contextInfo);
+    }
+
+    @Override
+    public List<DocumentCategoryInfo> getDocumentCategories(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException {
+        return getNextDecorator().getDocumentCategories(contextInfo);
+    }
+
+    @Override
+    public List<DocumentCategoryInfo> getDocumentCategoriesByDocumentId(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getDocumentCategoriesByDocumentId(documentId, contextInfo);
+    }
+
+    @Override
+    public StatusInfo removeDocumentCategoryFromDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().removeDocumentCategoryFromDocument(documentId, documentCategoryKey, contextInfo);
+    }
+
+    @Override
+    public StatusInfo addDocumentCategoryToDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return getNextDecorator().addDocumentCategoryToDocument(documentId, documentCategoryKey, contextInfo);
+    }
+
+    @Override
+    public RefDocRelationInfo getRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRefDocRelation(refDocRelationId, contextInfo);
+    }
+
+    @Override
+    public List<RefDocRelationInfo> getRefDocRelationsByDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRefDocRelationsByDocument(documentId, contextInfo);
+    }
+
+    @Override
+    public List<RefDocRelationInfo> getRefDocRelationsByRef(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRefDocRelationsByRef(refObjectTypeKey, refObjectId, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateRefDocRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().validateRefDocRelation(validationTypeKey, refDocRelationInfo, contextInfo);
+    }
+
+    @Override
+    public RefDocRelationInfo createRefDocRelation(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "documentId") String documentId, @WebParam(name = "refDocRelationTypeKey") String refDocRelationTypeKey, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createRefDocRelation(refObjectTypeKey, refObjectId, documentId, refDocRelationTypeKey, refDocRelationInfo, contextInfo);
+    }
+
+    @Override
+    public RefDocRelationInfo updateRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return getNextDecorator().updateRefDocRelation(refDocRelationId, refDocRelationInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteRefDocRelation(refDocRelationId, contextInfo);
+    }
+
+    @Override
+    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        return getNextDecorator().getDataDictionaryEntry(entryKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        return getNextDecorator().getDataDictionaryEntryKeys(contextInfo);
+    }
+
+    @Override
+    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getProcessByKey(processKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getProcessByObjectType(refObjectUri, contextInfo);
+    }
+
+    @Override
+    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getInitialValidStates(processKey, contextInfo);
+    }
+
+    @Override
+    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getNextHappyState(processKey, currentStateKey, contextInfo);
+    }
+
+    @Override
+    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getState(processKey, stateKey, contextInfo);
+    }
+
+    @Override
+    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getStatesByProcess(processKey, contextInfo);
+    }
 
     @Override
     public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -82,138 +210,4 @@ public class DocumentServiceDecorator implements DocumentService {
         return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, contextInfo);
     }
 
-    @Override
-    public DocumentInfo createDocument(@WebParam(name = "documentTypeKey") String documentTypeKey, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createDocument(documentTypeKey, documentCategoryKey, documentInfo, contextInfo);
-    }
-
-    @Override
-    public DocumentInfo getDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getDocument(documentId, contextInfo);
-    }
-
-    @Override
-    public DocumentCategoryInfo getDocumentCategory(@WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getDocumentCategory(documentCategoryKey, contextInfo);
-    }
-
-    @Override
-    public List<DocumentInfo> getDocumentsByIds(@WebParam(name = "documentIds") List<String> documentIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getDocumentsByIds(documentIds, contextInfo);
-    }
-
-    @Override
-    public DocumentInfo updateDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateDocument(documentId, documentInfo, contextInfo);
-    }
-
-    @Override
-    public StatusInfo deleteDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteDocument(documentId, contextInfo);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateDocument(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "documentInfo") DocumentInfo documentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateDocument(validationTypeKey, documentInfo, contextInfo);
-    }
-
-    @Override
-    public List<DocumentCategoryInfo> getCategoriesByDocumentId(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCategoriesByDocumentId(documentId, contextInfo);
-    }
-
-    @Override
-    public List<DocumentCategoryInfo> getDocumentCategories(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException {
-        return getNextDecorator().getDocumentCategories(contextInfo);
-    }
-
-    @Override
-    public StatusInfo addDocumentCategoryToDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().addDocumentCategoryToDocument(documentId, documentCategoryKey, contextInfo);
-    }
-
-    @Override
-    public StatusInfo removeDocumentCategoryFromDocument(@WebParam(name = "documentId") String documentId, @WebParam(name = "documentCategoryKey") String documentCategoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().removeDocumentCategoryFromDocument(documentId, documentCategoryKey, contextInfo);
-    }
-
-    @Override
-    public List<String> getRefObjectSubTypes(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException {
-        return getNextDecorator().getRefObjectSubTypes(refObjectTypeKey, contextInfo);
-    }
-
-    @Override
-    public RefDocRelationInfo createRefDocRelation(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "documentId") String documentId, @WebParam(name = "refDocRelationTypeKey") String refDocRelationTypeKey, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createRefDocRelation(refObjectTypeKey, refObjectId, documentId, refDocRelationTypeKey, refDocRelationInfo, contextInfo);
-    }
-
-    @Override
-    public RefDocRelationInfo getRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRefDocRelation(refDocRelationId, contextInfo);
-    }
-
-    @Override
-    public List<RefDocRelationInfo> getRefDocRelationsByDoc(@WebParam(name = "documentId") String documentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRefDocRelationsByDoc(documentId, contextInfo);
-    }
-
-    @Override
-    public List<RefDocRelationInfo> getRefDocRelationsByRef(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRefDocRelationsByRef(refObjectTypeKey, refObjectId, contextInfo);
-    }
-
-    @Override
-    public RefDocRelationInfo updateRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().updateRefDocRelation(refDocRelationId, refDocRelationInfo, contextInfo);
-    }
-
-    @Override
-    public StatusInfo deleteRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteRefDocRelation(refDocRelationId, contextInfo);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateRefDocRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "refDocRelationInfo") RefDocRelationInfo refDocRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateRefDocRelation(validationTypeKey, refDocRelationInfo, contextInfo);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(contextInfo);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, contextInfo);
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByKey(processKey, contextInfo);
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByObjectType(refObjectUri, contextInfo);
-    }
-
-    @Override
-    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getState(processKey, stateKey, contextInfo);
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getStatesByProcess(processKey, contextInfo);
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getInitialValidStates(processKey, contextInfo);
-    }
-
-    @Override
-    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getNextHappyState(processKey, currentStateKey, contextInfo);
-    }
 }

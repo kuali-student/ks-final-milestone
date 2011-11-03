@@ -11,26 +11,27 @@ import org.kuali.student.r2.common.infc.Relationship;
  */
 public interface RefDocRelation extends Relationship {
     /**
-     * Unique identifier for an object type. Used to identify the type of object being referred to,
-     * so that the id can be resolved.
+     * Unique identifier for an object type. Used to identify the type of
+     * object being referred to, so that the id can be resolved.
      *
      * @name Ref Object Type Key
      * @readOnly
      * @required
      *
      */
-    String getRefObjectTypeKey();
+    public String getRefObjectTypeKey();
 
     /**
-     * Identifier for an object. This will likely require some additional context in order to be resolved,
-     * such as the type of object. An objectId could be a cluId, a luiId, an orgId, a documentId, etc.
+     * Identifier for an object. This will likely require some additional
+     * context in order to be resolved, such as the type of object. An objectId
+     * could be a cluId, a luiId, an orgId, a documentId, etc.
      *
      * @name Ref Object Id
      * @readOnly
      * @required
      *
      */
-    String getRefObjectId();
+    public String getRefObjectId();
 
     /**
      * Unique identifier for a document.
@@ -40,14 +41,15 @@ public interface RefDocRelation extends Relationship {
      * @required
      *
      */
-    String getDocumentId();
+    public String getDocumentId();
 
     /**
-     * The title of the document usage in the context of the relation to the object.
+     * The title of the document usage in the context of the relation to the
+     * object.
      *
      * @name Title
      *
      */
-    String getTitle();
+    public String getTitle();
 
 }
