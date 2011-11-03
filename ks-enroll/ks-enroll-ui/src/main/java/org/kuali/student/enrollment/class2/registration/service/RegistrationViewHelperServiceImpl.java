@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWra
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegRequestItemInfo;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
             if(StringUtils.isNotBlank(id)){
 
                 for (CourseRegistrationInfo reg : regs) {
-                    if (reg.getRegGroupRegistration().getRegistrationGroup().getId().equals(id)) {
+                    if (reg.getRegGroupRegistration().getRegistrationGroup().getId().equals(id)
+                            && reg.getRegGroupRegistration().getStateKey().equals(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY)) {
                         renderDropButton = true;
                         courseRegistered = true;
                         renderRegButtons = false;
