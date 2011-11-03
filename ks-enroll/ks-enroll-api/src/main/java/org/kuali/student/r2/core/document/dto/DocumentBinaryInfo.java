@@ -13,45 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.core.document.dto;
+package org.kuali.student.r2.core.document.dto;
 
+import org.kuali.student.r2.core.document.infc.DocumentBinary;
+import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
- * The encoded document. The expectation is that this could be a base64 encoding.
+ * Refer to interface javadoc
  *
- * @Author KSContractMojo
+ * @Version 2.0
  * @Author tom
- * @Since Wed Aug 18 12:10:39 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentBinaryInfo+Structure">DocumentBinaryInfo</>
- *
+ * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DocumentBinaryInfo implements Serializable {
+@XmlType(name = "DocumentBinaryInfo", propOrder = {"binary", "_futureElements"})
+public class DocumentBinaryInfo implements DocumentBinary, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String binary;
 
-    /**
-     * Encoded document
-     */
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public DocumentBinaryInfo() {
+    }
+
+    public DocumentBinaryInfo(DocumentBinary documentBinary) {
+        if (null != documentBinary) {
+            this.binary = documentBinary.getBinary();
+        }
+    }
+
+    @Override
     public String getBinary() {
         return binary;
     }

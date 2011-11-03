@@ -13,47 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.core.document.dto;
+package org.kuali.student.r2.core.document.dto;
 
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.core.document.infc.DocumentCategory;
+import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
 /**
- * Detailed information about a document category.
+ * Refer to interface javadoc
  *
- * @Author KSContractMojo
+ * @Version 2.0
  * @Author tom
- * @Since Wed Aug 18 12:10:31 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentCategoryInfo+Structure">DocumentCategoryInfo</>
+ * @Author Sri komandur@uw.edu
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DocumentCategoryInfo implements Serializable, Idable, HasAttributes {
+@XmlType(name = "DocumentCategoryInfo", propOrder = { "key", "typeKey", "stateKey",
+        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
+public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCategory, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String name;
-
-    @XmlElement
-    private RichTextInfo desc;
 
     @XmlElement
     private Date effectiveDate;
@@ -61,38 +46,21 @@ public class DocumentCategoryInfo implements Serializable, Idable, HasAttributes
     @XmlElement
     private Date expirationDate;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    @XmlAttribute(name="key")
-    private String id;
-
-    /**
-     * Friendly name of the document category.
-     */
-    public String getName() {
-        return name;
+    public DocumentCategoryInfo() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public DocumentCategoryInfo(DocumentCategory documentCategory) {
+        super(documentCategory);
+        if (null != documentCategory) {
+            this.effectiveDate = (null != documentCategory.getEffectiveDate()) ? new Date(documentCategory.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != documentCategory.getExpirationDate()) ? new Date(documentCategory.getExpirationDate().getTime()) : null;
+        }
     }
 
-    /**
-     * Narrative description of the document category.
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
-
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Date and time that this document category became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -101,9 +69,7 @@ public class DocumentCategoryInfo implements Serializable, Idable, HasAttributes
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this document category expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -112,28 +78,4 @@ public class DocumentCategoryInfo implements Serializable, Idable, HasAttributes
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Unique identifier for a document category.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }
