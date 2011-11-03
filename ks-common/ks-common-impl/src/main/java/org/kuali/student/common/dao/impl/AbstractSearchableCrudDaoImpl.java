@@ -245,7 +245,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
             String regex = "^\\s*[Ss][Ee][Ll][Ee][Cc][Tt]\\s+([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
-			String replacement = "SELECT COUNT($1) FROM ";
+            String replacement = "SELECT COUNT(DISTINCT $1) FROM ";
             queryString = queryString.replaceAll("([Dd][Ii][Ss][Tt][Ii][Nn][Cc][Tt])", "");
 			String countQueryString = (queryString + optionalQueryString).replaceFirst(regex, replacement);
 
