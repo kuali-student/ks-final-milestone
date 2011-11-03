@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
@@ -107,8 +108,13 @@ public class SearchResultsTable extends Composite{
         for (LookupResultMetadata r: listResultMetadata){
             if(!r.isHidden()){
                 Column col1 = new Column();
-                col1.setId(r.getKey());
-                String header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
+                col1.setId(r.getKey());                
+                String header = "";                
+                if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                    header = Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
+                } else {
+                    header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
+                }                
                 col1.setName(header);
                 col1.setId(r.getKey());
                 col1.setWidth("100px");                    
