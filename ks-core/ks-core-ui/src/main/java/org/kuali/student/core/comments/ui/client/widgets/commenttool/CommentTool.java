@@ -130,7 +130,7 @@ public class CommentTool implements HasReferenceId {
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
         contentPanel.add(proposalTitle);
-        contentPanel.add(title);
+        commentLightBox.setNonCaptionHeader(title);
         contentPanel.add(htmlLabel);
         
         // comments section title

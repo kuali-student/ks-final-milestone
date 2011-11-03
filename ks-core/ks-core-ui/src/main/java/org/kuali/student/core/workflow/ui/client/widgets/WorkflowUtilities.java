@@ -680,11 +680,12 @@ public class WorkflowUtilities{
 				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
 				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
+				submitSuccessDialog.clearButtons();
+				submitSuccessDialog.setNonCaptionHeader(headerTitle);
 				dialogPanel.add(dialogLabel);
 				dialogPanel.add(fieldLabel);
 				dialogPanel.add(rationaleEditor);
-				dialogPanel.add(approvalButton);
+				submitSuccessDialog.addButtonGroup(approvalButton);
 				submitSuccessDialog.show();
 	        }        
 	    });
@@ -762,12 +763,13 @@ public class WorkflowUtilities{
 //				rationaleEditor.addStyleName("ks-textarea-large-height");
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
 				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
+				submitSuccessDialog.clearButtons();
+				submitSuccessDialog.setNonCaptionHeader(headerTitle);
 				dialogPanel.add(dialogLabel);
 				dialogPanel.add(fieldLabel);
 				dialogPanel.add(required);
 				dialogPanel.add(rationaleEditor);
-				dialogPanel.add(disapprovalButton);
+				submitSuccessDialog.addButtonGroup(disapprovalButton);
 				submitSuccessDialog.setWidget(dialogPanel);
 				submitSuccessDialog.show();
 	        }        
@@ -924,17 +926,17 @@ public class WorkflowUtilities{
                 rationalePanel.add(required);				
 				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
 				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
+				submitSuccessDialog.clearButtons();
+				submitSuccessDialog.setNonCaptionHeader(headerTitle);
 				dialogPanel.add(dialogLabel);
 				dialogPanel.add(rationalePanel);
 				dialogPanel.add(rationaleEditor);
                 if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
                 	dialogPanel.add(approveDialogView.asWidget());
                 }
-				dialogPanel.add(approveCancelButtons);
-				dialogPanel.setSize("580px", "450px");
-				
-//				submitSuccessDialog.setWidget(dialogPanel);
+				submitSuccessDialog.addButtonGroup(approveCancelButtons);
+				//dialogPanel.setSize("580px", "450px");
+				dialogPanel.setHeight("380px");
 				submitSuccessDialog.show();
 			}        
 		});
@@ -1010,13 +1012,15 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(fieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
-                dialogPanel.add(withdrawButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(withdrawButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }
@@ -1162,7 +1166,8 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(fieldLabel);
                 dialogPanel.add(required);
@@ -1170,8 +1175,9 @@ public class WorkflowUtilities{
                 if(blanketApproveDialogView!=null && !blanketApproveDialogView.getFields().isEmpty()){
                 	dialogPanel.add(blanketApproveDialogView.asWidget());
                 }
-                dialogPanel.add(blanketApprovalButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(blanketApprovalButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }
@@ -1324,15 +1330,17 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(nnFieldLabel);
                 dialogPanel.add(nodeNameDropDown);
                 dialogPanel.add(drFieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
-                dialogPanel.add(returnButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(returnButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }

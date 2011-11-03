@@ -201,12 +201,13 @@ public class MajorViewController extends MajorController {
         });
         modifyDialog.addButton(cancelLink);
         
-        HorizontalPanel titlePanel = new HorizontalPanel();
+        //HorizontalPanel titlePanel = new HorizontalPanel();
         KSLabel titleLabel = new KSLabel(getMessage("modifyProgramSubTitle"));
         titleLabel.addStyleName("bold");
-        titlePanel.add(titleLabel);
+        modifyDialog.setNonCaptionHeader(titleLabel);
+        //titlePanel.add(titleLabel);
         
-        layout.add(titlePanel);
+        //layout.add(titlePanel);
         
         final KSRadioButton radioOptionModifyNoVersion = new KSRadioButton("modifyCreditProgramButtonGroup", getMessage("modifyProgramNoVersion"));
         final KSRadioButton radioOptionModifyWithVersion = new KSRadioButton("modifyCreditProgramButtonGroup", getMessage("modifyProgramWithVersion"));

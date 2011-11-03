@@ -16,6 +16,7 @@ import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
@@ -25,6 +26,7 @@ import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
@@ -324,12 +326,11 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
 	            
 	            dialog.addButton(startProposalButton);
-	            Anchor cancelLink = new Anchor("Cancel");
-	            cancelLink.addClickHandler(new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						dialog.hide();
-					}
-	            });
+	            KSButton cancelLink = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        dialog.hide();
+                    }
+                });
 	            dialog.addButton(cancelLink);
 	            
 	            HorizontalPanel titlePanel = new HorizontalPanel();
