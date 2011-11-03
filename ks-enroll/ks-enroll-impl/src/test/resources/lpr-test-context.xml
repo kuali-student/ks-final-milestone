@@ -91,7 +91,7 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+  <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" proxy-target-class="true" />
 
   <bean id="lprServiceValidationDecorator"
         class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
