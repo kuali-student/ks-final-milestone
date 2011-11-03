@@ -11,10 +11,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
@@ -40,9 +44,8 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestHoldServiceImpl {
-
     @Autowired
-    private HoldServiceValidationDecorator holdService;
+    private HoldServiceAuthorizationDecorator holdService;
     
     public static String principalId = "123";
     
@@ -56,7 +59,7 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    public void testAtpServiceValidationSetup() {
+    public void testHoldServiceSetup() {
         assertNotNull(holdService);
     }
     

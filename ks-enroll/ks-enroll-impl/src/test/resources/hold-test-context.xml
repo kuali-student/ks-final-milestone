@@ -110,7 +110,15 @@
       <property name="nextDecorator" ref="holdService"/>
       <property name="validator" ref="validator"/>
     </bean>
-    
+ 
+    <bean id="holdServiceAuthDecorator"
+          class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator">
+		<property name="nextDecorator" ref="holdServiceValidation"/>
+		<property name="permissionService" ref="permissionService"/>
+    </bean> 
+            	
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+       
    	<bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
     	<property name="em" ref="entityManager"/>
     </bean>
