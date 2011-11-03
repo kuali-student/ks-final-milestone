@@ -175,7 +175,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, (SectionView)generateFinancialsSection(initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY)));
             
             //Authors & Collaborators
-            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS,COURSE_PROPOSAL_MODEL));
+            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, getLabel(LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS), COURSE_PROPOSAL_MODEL));
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));

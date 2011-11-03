@@ -50,7 +50,7 @@ public class LUUIConstants {
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors & Collaborators";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "cluAuthorsAndCollaborators";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
