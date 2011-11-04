@@ -309,31 +309,19 @@ public abstract class FieldLayout extends FlowPanel implements FieldLayoutCompon
 	}
 
 	/**
-	 * Clear all validation errors in this layout and child layouts
+	 * Clear all validation in this layout and child layouts
 	 */
-	public void clearValidationErrors(){
+	public void clearValidation(){
 		//fieldMap.
 		for(FieldElement e: fieldMap.values()){
-			e.clearValidationErrors();
+			e.clearValidationPanel();
 		}
 		for(FieldLayout layout: layoutMap.values()){
-			layout.clearValidationErrors();
+			layout.clearValidation();
 		}
 	}
+	//protected abstract void redraw();
 
-	/**
-	 * Clear all validation errors in this layout and child layouts
-	 */
-	public void clearValidationWarnings(){
-		//fieldMap.
-		for(FieldElement e: fieldMap.values()){
-			e.clearValidationWarnings();
-		}
-		for(FieldLayout layout: layoutMap.values()){
-			layout.clearValidationWarnings();
-		}
-	}
-	
 	public abstract void setLayoutTitle(SectionTitle layoutTitle);
 
 	public SectionTitle getLayoutTitle() {

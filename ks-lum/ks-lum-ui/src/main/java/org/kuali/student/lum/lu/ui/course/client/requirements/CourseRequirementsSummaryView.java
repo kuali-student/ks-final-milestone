@@ -28,7 +28,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 
 import com.google.gwt.core.client.GWT;
@@ -53,7 +53,6 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     private CourseRequirementsViewController parentController;
     private CourseRequirementsDataModel rules;
     private boolean isReadOnly;
-    private boolean showSaveButtons;
     private static int tempProgReqInfoID = 9999;
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";    
@@ -61,14 +60,14 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     private Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
 
     public CourseRequirementsSummaryView(final CourseRequirementsViewController parentController, Enum<?> viewEnum, String name,
-                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly, boolean showSaveButtons) {
+                                                            String modelId, CourseRequirementsDataModel rulesData, boolean isReadOnly) {
         super(viewEnum, name, modelId);
         this.parentController = parentController;
         rules = rulesData;
         rules.setInitialized(false);
         this.isReadOnly = isReadOnly;
-        this.showSaveButtons = showSaveButtons;
-        if (!isReadOnly && showSaveButtons) {
+
+        if (!isReadOnly) {
             setupSaveCancelButtons();
         }
     }
@@ -83,7 +82,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
         //only when user wants to see rules then load requirements from database if they haven't been loaded yet
         if (!rules.isInitialized()) {
-            rules.retrieveCourseRequirements(AbstractCourseConfigurer.COURSE_PROPOSAL_MODEL, new Callback<Boolean>() {
+            rules.retrieveCourseRequirements(AbstractCourseConfigurer.CLU_PROPOSAL_MODEL, new Callback<Boolean>() {
                 @Override
                 public void exec(Boolean result) {
                     if (result) {
@@ -196,7 +195,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         }
 
         //save and cancel buttons
-        if (!isReadOnly && showSaveButtons) {
+        if (!isReadOnly) {
             layout.add(actionCancelButtons);
         }
 
@@ -363,7 +362,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     });                    
                 } else {
                     if(! ((CourseProposalController)parentController.getController()).isNew()){
-                        (parentController.getController()).showView(CourseProposalConfigurer.CourseSections.SUMMARY);
+                        (parentController.getController()).showView(CourseConfigurer.CourseSections.SUMMARY);
                     }
                     else{
                         Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
@@ -374,7 +373,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void storeRules(final boolean storeRules, final Callback<Boolean> callback) {
-        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback() {
+        parentController.requestModel(CourseRequirementsViewController.CLU_PROPOSAL_MODEL, new ModelRequestCallback() {
             @Override
             public void onRequestFail(Throwable cause) {
                 Window.alert(cause.getMessage());

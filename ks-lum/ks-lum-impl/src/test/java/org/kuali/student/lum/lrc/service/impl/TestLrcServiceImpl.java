@@ -19,11 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Test;
 import org.kuali.student.common.dto.MetaInfo;
@@ -45,8 +41,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 @Daos( { @Dao(value = "org.kuali.student.lum.lrc.dao.impl.LrcDaoImpl",testSqlFile="classpath:ks-lrc.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/lrc-persistence.xml")
@@ -331,7 +325,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         String specificGradeId = "LRC-RESULT_VALUE-GRADE-1";
         
         rc.setName("ResultComponent");
-        rc.setResultValues(Arrays.asList(new String[] {specificGradeId}));
+        rc.setResultValues(Arrays.asList(new String[]{specificGradeId}));
         rc.setState("ACTIVE");
         rc.setType("resultComponentType.grade");
         

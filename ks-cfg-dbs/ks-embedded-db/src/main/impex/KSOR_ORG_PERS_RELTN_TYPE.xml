@@ -44,11 +44,6 @@
         OBJ_ID="91EDD73D88644CC68304CD81B4C70ADD"
         TYPE_DESC="Coordinator"
         TYPE_KEY="kuali.org.PersonRelation.Coordinator" VER_NBR="0"/>
-    <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000"
-        NAME="Curriculum Manager"
-        OBJ_ID="3de6e68c-24bd-42c8-bb40-4a16673cef44"
-        TYPE_DESC="Curriculum Manager"
-        TYPE_KEY="kuali.org.PersonRelation.CurriculumManager" VER_NBR="0"/>
     <KSOR_ORG_PERS_RELTN_TYPE EFF_DT="20000101000000" NAME="Dean"
         OBJ_ID="A49B227E87AA47E5973F4EE69A3D9839" TYPE_DESC="Dean"
         TYPE_KEY="kuali.org.PersonRelation.Dean" VER_NBR="0"/>

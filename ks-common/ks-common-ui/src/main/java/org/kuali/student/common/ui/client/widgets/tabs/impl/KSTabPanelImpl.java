@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.ClickablePanel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
@@ -164,11 +163,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 						for(Callback<String> callback: callbacks){
 							callback.exec(tabKey);
 						}
-						//adds the url of the current page onto the 
-						//history stack so it can be navigated back to
-						//However, hitting the back button will only 
-						//navigate the history stack in url and not change tabs
-						HistoryManager.logHistoryChange();
 					}
 				}
 			});
@@ -206,8 +200,6 @@ public class KSTabPanelImpl extends KSTabPanelAbstract{
 			}
 			KSTabPanelImpl.this.content.clear();
 			KSTabPanelImpl.this.content.setWidget(displayContent);
-			
-			
 		}
 		
 		public void onDeselect(){

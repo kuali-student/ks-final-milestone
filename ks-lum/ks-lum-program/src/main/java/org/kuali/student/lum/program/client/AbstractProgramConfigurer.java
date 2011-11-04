@@ -15,27 +15,22 @@ import org.kuali.student.lum.program.client.properties.ProgramProperties;
  */
 public abstract class AbstractProgramConfigurer extends Configurer {
 
-    protected ProgramController programController;
+    private ProgramController programController;
 
     protected ConfigurationManager programSectionConfigManager;
 
-    public static final String PROPOSAL_PATH = "proposal";
-    
     public void configure(ProgramController viewController) {
         this.programController = viewController;
         configureProgramSections();
     }
- 
-    public String getProposalPath() {
-        return PROPOSAL_PATH;
-    }
+
     /**
      * Configures menu for Program Sections
      */
     private void configureProgramSections() {
         String programSectionLabel = ProgramProperties.get().program_menu_sections();
         programController.addMenu(programSectionLabel);
-        ArrayList<Configuration> configurations = getProgramSectionConfigManager().getConfigurations();
+        ArrayList<Configuration> configurations = programSectionConfigManager.getConfigurations();
         for (Configuration configuration : configurations) {
             if (configuration instanceof AbstractControllerConfiguration) {
                 ((AbstractControllerConfiguration) configuration).setController(programController);

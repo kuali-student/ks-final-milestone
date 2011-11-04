@@ -338,7 +338,7 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     public ImageResource print();
 
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/icon_export.png")
-    public ImageResource printExport();
+    public ImageResource printJasper();
 
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/rice-mark-icon.png")
     public ImageResource riceIcon();

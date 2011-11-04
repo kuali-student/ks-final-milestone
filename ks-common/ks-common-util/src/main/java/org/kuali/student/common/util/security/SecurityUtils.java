@@ -15,9 +15,9 @@
 
 package org.kuali.student.common.util.security;
 
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUtils {
 	
@@ -27,28 +27,26 @@ public class SecurityUtils {
 	 * @return userId
 	 */
 	public static String getCurrentUserId() {
-        String principalID=null;
+        String username=null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth!=null){
         	Object obj = auth.getPrincipal();
         	if(obj instanceof UserWithId){
-        		//This is actually the user's Principal Id
-        		principalID = ((UserWithId)obj).getUserId();
-        	}
-//        	else if (obj instanceof UserDetails) {
-//            	username = ((UserDetails)obj).getUsername();
-//            } else {
-//            	username = obj.toString();
-//            }
+        		//This is actually the user Id
+        		username = ((UserWithId)obj).getUserId();
+        	}else if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
         }
-		return principalID;
+		return username;
 	}
 	
 	public static String getPrincipalUserName(){
 		String username = "unknown";
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
 		if (auth != null) {
 			Object obj = auth.getPrincipal();
 		    if (obj instanceof UserDetails) {

@@ -17,7 +17,7 @@ package org.kuali.rice.student.kew.xml;
 
 import java.io.InputStream;
 
-import org.kuali.rice.core.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kew.xml.UserXmlServiceImpl;
 
 public class KSUserXmlServiceImpl extends UserXmlServiceImpl {

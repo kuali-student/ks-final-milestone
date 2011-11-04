@@ -8,7 +8,6 @@ import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
@@ -20,7 +19,7 @@ import org.kuali.student.lum.program.service.ProgramService;
  *
  * @author Jim
  */
-public class MajorCredentialProgramFilter extends AbstractDataFilter implements MetadataFilter{
+public class MajorCredentialProgramFilter extends AbstractDataFilter {
 
     private MetadataServiceImpl metadataService;
     private ProgramService programService;
@@ -31,39 +30,36 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter implements 
      * Remove CredentialProgram data and metadata
      */
     @Override
-    public void applyInboundDataFilter(Data data, Metadata metadata, Map<String, Object> properties) throws Exception {
+    public void applyInboundDataFilter(Data data, Metadata metadata,
+                                       Map<String, Object> properties) throws Exception {
+        // remove the CredentialProgram metadata from the metadata passed in
+        Map<String, Metadata> metaProps = metadata.getProperties();
+        metaProps.remove(ProgramConstants.CREDENTIAL_PROGRAM);
+
         // remove the CredentialProgram from the data passed in
         data.remove(new Data.StringKey(ProgramConstants.CREDENTIAL_PROGRAM));
     }
 
     /**
-     * Add the related CredentialProgram data
+     * Add the related CredentialProgram data and metadata
      */
     @Override
     public void applyOutboundDataFilter(Data data, Metadata metadata,
                                         Map<String, Object> properties) throws Exception {
 
-        // Get CredentialProgram associated with this data    	
+        // Get CredentialProgram associated with this data
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);
-        if (credentialProgramId != null && !credentialProgramId.isEmpty()){
-	        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
-	        // and convert to Data
-	        Data credPgmData = mapper.convertFromBean(credPgm, null);
-	
-	        // Add the CredentialProgram to the data passed in
-	        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
-        }
-    }
+        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
+        // and convert to Data
+        Data credPgmData = mapper.convertFromBean(credPgm);
 
-    /**
-     * Add the related CredentialProgram metadata 
-     */
-    @Override
-	public void applyMetadataFilter(String dtoName, Metadata metadata, Map<String, Object> filterProperties) {
+        // Add the CredentialProgram to the data passed in
+        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
+
         // Add the CredentialProgram metadata to metadata passed in
         Map<String, Metadata> metaProps = metadata.getProperties();
-        metaProps.put(ProgramConstants.CREDENTIAL_PROGRAM, getCredProgramMetadata());		
-	}
+        metaProps.put(ProgramConstants.CREDENTIAL_PROGRAM, getCredProgramMetadata());
+    }
 
     public void setMetadataService(MetadataServiceImpl metadataService) {
         this.metadataService = metadataService;
@@ -79,5 +75,4 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter implements 
         //}
         return credPgmMetadata;
     }
-
 }

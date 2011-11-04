@@ -30,7 +30,6 @@ public class SubrulePreviewWidget extends FlowPanel {
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
     private boolean isReadOnly = true;
     private Map<String, Widget> clusetWidgets;
-    private boolean flag = false;
 
     public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly, Map<String, Widget> clusetWidgets) {
         super();
@@ -160,7 +159,7 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @return
      */
     private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
-        //flag = false;
+        
         StatementOperatorTypeKey prefixOperator = null;
         if(!firstInList) {
             prefixOperator = subStatement.getOperator();
@@ -173,17 +172,13 @@ public class SubrulePreviewWidget extends FlowPanel {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
-            flag = true;
+            
             return buildRequirementPanel(reqComp, prefixOperator, nl);
-          }
+        }
         
         // The statement has one or more requisite components or sub-statements, so build the header text
         StringBuilder headerText = new StringBuilder();
         
-        if (flag == true) {
-            prefixOperator = parentStatement.getOperator();
-            flag = false;
-        }
         appendOperatorTag(headerText, prefixOperator);
         
         headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);

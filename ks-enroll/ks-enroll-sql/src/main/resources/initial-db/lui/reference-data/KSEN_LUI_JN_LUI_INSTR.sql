@@ -1,0 +1,4 @@
+--  INSERTING into KSEN_LUI_JN_LUI_INSTR
+Insert into KSEN_LUI_JN_LUI_INSTR (LUI_ID,LUI_INSTR_ID) values ('Lui-1','LUI-INSTR-1')
+/
+

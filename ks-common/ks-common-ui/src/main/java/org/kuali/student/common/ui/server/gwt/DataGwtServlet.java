@@ -15,20 +15,16 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -65,32 +61,14 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public DataSaveResult saveData(Data data) throws OperationFailedException, VersionMismatchClientException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		try{
 			return dataService.saveData(data);
-		} catch (DataValidationErrorException dvee){
-			//This should only get thrown if service save call resulted in validation errors. These errors
-			//should be sent to the UI using DataSaveResult instead of throwing an exception.
-			//Sending null for data value, since UI should already have it and nothing changed.
-			DataSaveResult saveResult = new DataSaveResult();
-			saveResult.setValidationResults(dvee.getValidationResults());
-			return saveResult;
-		} catch (VersionMismatchException vme){
-		    throw new VersionMismatchClientException(vme.getMessage());
+		}catch (DataValidationErrorException dvee){
+			return new DataSaveResult(dvee.getValidationResults(), null);
 		} catch (Exception e) {
 			LOG.error("Could not save data ", e);
-			throw new OperationFailedException(e.getMessage());
-		} 
-	}
-
-	@Override
-	public List<ValidationResultInfo> validate(Data data)
-			throws OperationFailedException {
-		try{
-			return dataService.validateData(data);
-		} catch (Exception e) {
-			LOG.error("Could not validate data ", e);
-			throw new OperationFailedException("Failed to  data");
+			throw new OperationFailedException("Failed to save data");
 		} 
 	}
 
@@ -106,6 +84,5 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	public void setDataService(DataService dataService) {
 		this.dataService = dataService;
 	}
-
 
 }

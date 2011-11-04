@@ -16,7 +16,6 @@ import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
-import org.kuali.student.lum.lu.LUConstants;
 
 /**
  * This class provides metadata lookup for service dto objects.
@@ -25,25 +24,17 @@ import org.kuali.student.lum.lu.LUConstants;
  */
 public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
 
-    public ProgramMetadataServiceImpl() {
-		super();
-	}
-
-	public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
+    public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
         super(dictionaryServices);
     }
 
     @Override
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState,
-            String workflowNode, String documentTypeName) {
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
+
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
-        //The nextState should not get a defaulted value when we're using Modify Program Proposal functionality.
-        String nextStateValue = nextState;
-        if (!LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equals(documentTypeName)) {
-            nextStateValue = getNextState(state);
-        }
-        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), nextStateValue, workflowNode);
+
+        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), getNextState(state));
         constraints.add(constraintMetadata);
 
         return constraints;

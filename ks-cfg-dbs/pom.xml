@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.2-m1-perf-SNAPSHOT</version>
+    <version>1.3.0-services-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.db</groupId>
   <artifactId>ks-cfg-dbs</artifactId>
@@ -24,7 +25,6 @@
     </repository>
   </repositories>
   <properties>
-    <kuali.clover.generate.info.phase>none</kuali.clover.generate.info.phase>
     <ks.impex.sql.plugin.escapeProcessing>false</ks.impex.sql.plugin.escapeProcessing>
     <ks.impex.sql.plugin.orderFile>ascending</ks.impex.sql.plugin.orderFile>
     <ks.impex.sql.plugin.keepFormat>true</ks.impex.sql.plugin.keepFormat>
@@ -658,6 +658,13 @@
                       <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                     </artifactItem>
                     <artifactItem>
+                      <groupId>org.kuali.student.enroll</groupId>
+                      <artifactId>ks-enroll-sql</artifactId>
+                      <version>${project.version}</version>
+                      <includes>**\/*.sql</includes>
+                      <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
                       <groupId>org.kuali.student.db</groupId>
                       <artifactId>ks-rice-db</artifactId>
                       <version>${project.version}</version>
@@ -677,6 +684,11 @@
               <dependency>
                 <groupId>org.kuali.student.lum</groupId>
                 <artifactId>ks-lum-sql</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.kuali.student.enroll</groupId>
+                <artifactId>ks-enroll-sql</artifactId>
                 <version>${project.version}</version>
               </dependency>
               <dependency>
@@ -756,7 +768,7 @@
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
                       <include>initial-db/*/*-create-schema.sql</include>
-                      <include>initial-db/*/*-create-schema.sql</include>
+                      <include>initial-db/*-create-schema.sql</include>
                     </includes>
                   </fileset>
                 </configuration>
@@ -771,7 +783,6 @@
                   <fileset>
                     <basedir>${project.build.directory}/gen/data</basedir>
                     <includes>
-                      <include>initial-db/*/*data/*.sql</include>
                       <include>initial-db/*/*data/*.sql</include>
                     </includes>
                   </fileset>

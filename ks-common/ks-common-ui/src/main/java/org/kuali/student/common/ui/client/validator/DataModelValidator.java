@@ -90,21 +90,6 @@ public class DataModelValidator {
     }
 
     /**
-     * Use to validate the entire DataModel structure against constraints defined in the metadata
-     * for the given metadata
-     *
-     * @param metadata
-     * @param model
-     * @return
-     */
-    public List<ValidationResultInfo> validateForMetadata(Metadata metadata, final DataModel model) {
-        validateNextState = true;
-        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
-        doValidate(model, metadata, new QueryPath(), results);
-        return results;
-    }
-    
-    /**
      * Use to validated a single field within the data model against constraints defined in the metadata
      *
      * @param fd
@@ -598,27 +583,11 @@ public class DataModelValidator {
             String basePath = path.toString();
             if (meta.getProperties() != null) {
                 Object[] keys = meta.getProperties().keySet().toArray();
-                parentElementLoop:
                 for (int keyIndex = 0; keyIndex < keys.length; keyIndex++) {
                     String element = (String) keys[keyIndex];
                     if (!element.contains("runtimeData")) {
                         QueryPath childPath = QueryPath.concat(basePath, element);
-                        Map<QueryPath, Object> childValues = model.query(childPath);
-                        if (!childValues.isEmpty()) {
-                            Object[] childKeys = childValues.keySet().toArray();
-                            for (int childKeyIndex = 0; childKeyIndex < childKeys.length; childKeyIndex++) {
-                                QueryPath childElement = (QueryPath) childKeys[childKeyIndex];
-                                QueryPath childElementDeletePath = QueryPath.parse(childElement.toString() + QueryPath.getPathSeparator() + RUNTIME_DELETED_KEY);
-                                try {
-                                    Boolean childDeletedObject = model.get(childElementDeletePath);
-                                    if (childDeletedObject != null && childDeletedObject) {
-                                        continue parentElementLoop;
-                                    }
-                                } catch (Exception e) {
-                                    //ignore exception
-                                }
-                            }
-                        }
+                        //System.out.println(childPath.toString());
                         doValidate(model, meta.getProperties().get(element), childPath, results);
                     }
                 }

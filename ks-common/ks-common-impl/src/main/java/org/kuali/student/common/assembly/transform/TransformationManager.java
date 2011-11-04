@@ -10,15 +10,15 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.rice.StudentWorkflowConstants;
 
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);
 
 	private MetadataServiceImpl metadataService;
 	private DataBeanMapper mapper = new DefaultDataBeanMapper();
-	private List<TransformFilter> inboundFilterList = new ArrayList<TransformFilter>();
-	private List<TransformFilter> outboundFilterList = new ArrayList<TransformFilter>();	
+	private List<TransformFilter> filterList = new ArrayList<TransformFilter>();
+
+    private static ThreadLocal<Metadata> metadataCache = new ThreadLocal<Metadata>();
 
 	/**
 	 * This is an outbound transform request which will convert incoming DTO objects
@@ -26,27 +26,20 @@ public class TransformationManager {
 	 * and the converted DTO object.
 	 *
 	 * @param value
-	 * @param objectType TODO
 	 * @return
 	 * @throws Exception
 	 */
-	public Data transform(Object value, String objectType) throws Exception{
-		Metadata metadata = null;
-		metadata = (metadata != null ? metadata:getMetadata(objectType, new HashMap<String,Object>()));
-		
+	public Data transform(Object value) throws Exception{
 		applyOutboundFilters(value.getClass().getName(), value, new HashMap<String,Object>());
-		Data dataValue = mapper.convertFromBean(value, metadata);
+		Data dataValue = mapper.convertFromBean(value);
 		applyOutboundFilters(value.getClass().getName(), dataValue, new HashMap<String,Object>());
 
 		return dataValue;
 	}
 
-	public Data transform(Object value, String objectType, Map<String,Object> filterProperties) throws Exception{
-		Metadata metadata = null;
-		metadata = (metadata != null ? metadata:getMetadata(objectType, new HashMap<String,Object>()));
-
+	public Data transform(Object value, Map<String,Object> filterProperties) throws Exception{
 		applyOutboundFilters(value.getClass().getName(), value, filterProperties);
-		Data dataValue = mapper.convertFromBean(value, metadata);
+		Data dataValue = mapper.convertFromBean(value);
 		applyOutboundFilters(value.getClass().getName(), dataValue, filterProperties);
 
 		return dataValue;
@@ -83,7 +76,9 @@ public class TransformationManager {
 	 * @return The converted DTO with both inbound Data and DTO filters applied.
 	 */
 	public Object transform(Data value, Class<?> clazz, Map<String,Object> filterProperties) throws Exception{
-		Metadata metadata = getMetadata(clazz.getName(), filterProperties);
+		Metadata metadata = null;
+		metadata = (metadata != null ? metadata:getMetadata(clazz.getName(), filterProperties));
+        metadataCache.set(metadata);
 		applyInboundFilters(clazz.getName(), value, filterProperties,metadata);
 		Object dtoValue = mapper.convertFromData(value, clazz,metadata);
 		applyInboundFilters(clazz.getName(), dtoValue, filterProperties,metadata);
@@ -99,7 +94,7 @@ public class TransformationManager {
 	 * @throws Exception
 	 */
 	public void applyInboundFilters(String dtoName, Object value, Map<String,Object> properties, Metadata metadata) throws Exception{
-		for (TransformFilter filter:inboundFilterList){
+		for (TransformFilter filter:filterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
 					((AbstractDataFilter)filter).applyInboundDataFilter((Data)value, metadata, properties);
@@ -120,11 +115,12 @@ public class TransformationManager {
 	 * @throws Exception
 	 */
 	public void applyOutboundFilters(String dtoName, Object value, Map<String,Object> properties) throws Exception{
-		for (TransformFilter filter:outboundFilterList){
+		Metadata metadata = metadataCache.get();
+
+		for (TransformFilter filter:filterList){
 			if (filter.getType().isInstance(value)){
 				if (filter instanceof AbstractDataFilter) {
-					//FIXME: It might be more efficient to getMetadata outside of the for loop (unless metadata might be different)
-					Metadata metadata = getMetadata(dtoName, properties);
+					metadata = (metadata != null ? metadata:getMetadata(dtoName, properties));
 					((AbstractDataFilter)filter).applyOutboundDataFilter((Data)value, metadata, properties);
 				} else {
 					((AbstractDTOFilter)filter).applyOutboundDtoFilter(value, properties);
@@ -137,23 +133,15 @@ public class TransformationManager {
 	public Metadata getMetadata(String dtoName, Map<String,Object> filterProperties){
 		String state = (String)filterProperties.get(DtoConstants.DTO_STATE);
 		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
-		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
-		//The docTypeName is actually set with ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, however it is not visible in this project.
-		String documentTypeName = (String)filterProperties.get(StudentWorkflowConstants.WORKFLOW_DOCUMENT_TYPE);
 
-		Metadata metadata;
-		if (workflowNode == null || workflowNode.isEmpty()){
-			metadata = metadataService.getMetadata(dtoName, null, state, nextState, documentTypeName);
-		} else {
-			metadata = metadataService.getMetadataByWorkflowNode(dtoName, workflowNode, documentTypeName);
-		}		 
+		Metadata metadata = metadataService.getMetadata(dtoName, null, state, nextState);
 
 		applyMetadataFilters(dtoName, metadata, filterProperties);
 		return metadata;
 	}
 
 	public void applyMetadataFilters(String dtoName, Metadata metadata, Map<String, Object> filterProperties){
-		for (TransformFilter filter:outboundFilterList){
+		for (TransformFilter filter:filterList){
 			if (filter instanceof MetadataFilter){
 				((MetadataFilter) filter).applyMetadataFilter(dtoName, metadata, filterProperties);
 			}
@@ -168,34 +156,16 @@ public class TransformationManager {
 	public void setMetadataService(MetadataServiceImpl metadataService) {
 		this.metadataService = metadataService;
 	}
-	
-	
-	public DataBeanMapper getMapper() {
-		return mapper;
+
+	public void addFilter(TransformFilter filter){
+		filterList.add(filter);
 	}
 
-	public void setMapper(DataBeanMapper mapper) {
-		this.mapper = mapper;
-	}
-
-	/**
-	 * Use setInboundFilters and setOutboundFilters instead. This sets both
-	 * the inbound and outbound filter chain to be the same.
-	 *  
-	 * @param filters
-	 */
-	@Deprecated
 	public void setFilters(List<TransformFilter> filters){
-		inboundFilterList.addAll(filters);
-		outboundFilterList.addAll(filters);
-	}	
-
-	public void setInboundFilters(List<TransformFilter> filters){
-		inboundFilterList.addAll(filters);
-	}	
-		
-	public void setOutboundFilters(List<TransformFilter> filters){
-		outboundFilterList.addAll(filters);
-	}	
-
+		filterList.addAll(filters);
+	}
+	
+	public void removeFilter(TransformFilter filter){
+		filterList.remove(filter);
+	}
 }

@@ -16,16 +16,14 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.server.messages.MessageRPCPreloader;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 
 /**
@@ -36,7 +34,7 @@ import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
  */
 public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
 
-    final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);
+    final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
 
     private static final String PROPERTIES_FILE = "jasper.properties";
 
@@ -113,8 +111,6 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
         }
     }
 
-    
-   
     /**
      * This method exports a jasperprint object to excel format.
      * 
@@ -183,37 +179,6 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             JRDocxExporter exporter = new JRDocxExporter();
-            
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jprint);
-            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-            exporter.setParameter(JRDocxExporterParameter.FRAMES_AS_NESTED_TABLES, false);
-
-            exporter.exportReport();
-        } catch (JRException e) {
-            LOG.error(e);
-        }
-        return baos.toByteArray();
-    }
-
-    /**
-    *
-    */
-    @Override
-    public byte[] createText(List<ExportElement> source, String template, String reportTitle) {
-        try {
-            JasperPrint jprint = prepare(template, reportTitle, null, source);
-
-            return exportText(jprint, template);
-        } catch (JRException e) {
-            LOG.error(e);
-            return null;
-        }
-    }
-    
-    private byte[] exportText(JasperPrint jprint, String template) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            JRTextExporter exporter = new JRTextExporter();
 
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jprint);
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
@@ -224,34 +189,7 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
         }
         return baos.toByteArray();
     }
-    
-    @Override
-    public byte[] createRtf(List<ExportElement> source, String template, String reportTitle) {
-        try {
-            JasperPrint jprint = prepare(template, reportTitle, null, source);
 
-            return exportRtf(jprint, template);
-        } catch (JRException e) {
-            LOG.error(e);
-            return null;
-        }
-    }
-    
-    private byte[] exportRtf(JasperPrint jprint, String template) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            JRRtfExporter exporter = new JRRtfExporter();
-
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jprint);
-            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-
-            exporter.exportReport();
-        } catch (JRException e) {
-            LOG.error(e);
-        }
-        return baos.toByteArray();
-    }
-   
     /**
      * Compile and generate the report from the template files and datamodel from the UI.
      */
@@ -279,7 +217,7 @@ public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
         if (dataMap != null) {
             jprint = JasperFillManager.fillReport(jreport, parameters, new KSCustomDataSource(dataMap.iterator()));
         } else {
-            jprint = JasperFillManager.fillReport(jreport, parameters, new KSCollectionDataSource(dataList, null));
+            jprint = JasperFillManager.fillReport(jreport, parameters, new KSCollectionDataSource(dataList));
 
         }
         return jprint;

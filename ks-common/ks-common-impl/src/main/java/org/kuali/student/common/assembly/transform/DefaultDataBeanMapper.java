@@ -16,27 +16,24 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.Data.DataType;
-import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.assembly.data.Data.Key;
 import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.data.Metadata;
 
 
 public class DefaultDataBeanMapper implements DataBeanMapper {
 	public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
-	final Logger LOG = Logger.getLogger(DefaultDataBeanMapper.class);	
 	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.assembly.data.DataBeanMapper#convertFromBean(java.lang.Object)
 	 */
-	public Data convertFromBean(Object value, Metadata metadata) throws Exception{
+	public Data convertFromBean(Object value) throws Exception{
 		 Data result = new Data();
 	        
 	        if (value != null) {
@@ -48,9 +45,9 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                     Object propValue = pd.getReadMethod().invoke(value, (Object[]) null);
                     
                     if ("attributes".equals(propKey)){
-                    	setDataAttributes(result, propValue, metadata);
+                    	setDataAttributes(result, propValue);
                     } else {
-	                    setDataValue(result, propKey, propValue, metadata);
+	                    setDataValue(result, propKey, propValue);
                     }
                 }
 	        }	
@@ -60,8 +57,6 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	
 	/* (non-Javadoc)
 	 * @see org.kuali.student.core.assembly.data.DataBeanMapper#convertFromData(org.kuali.student.core.assembly.data.Data, java.lang.Class)
-	 * 
-	 * FIXME: Probably a good idea to change "clazz" parameter to be "String objectType" to be consistent with convertFromBean method
 	 */
 	public Object convertFromData(Data data, Class<?> clazz, Metadata metadata) throws Exception{
 		Object result = null;
@@ -137,11 +132,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 				        (null != metadata.getProperties().get(keyString)) &&
 				        (metadata.getProperties().get(keyString).isDynamic()))
 				    {
-				    	if (data.get(k) instanceof Data){
-				    		attributes.put((String) k.get(), convertDataValueToStringValue((Data)data.get(k)));
-				    	} else {
-				    		attributes.put((String) k.get(), data.get(k).toString());
-				    	}
+                        attributes.put((String) k.get(), data.get(k).toString());
 					}
 				}
 			}
@@ -208,7 +199,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @param value
 	 * 
 	 */
-	protected void setDataValue(Data data, String propertyKey, Object value, Metadata metadata) throws Exception{
+	protected void setDataValue(Data data, String propertyKey, Object value) throws Exception{
 		if (isPropertyValid(value)){
 			if (value instanceof Boolean){
 				data.set(propertyKey, (Boolean)value);
@@ -231,11 +222,9 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 			} else if (value instanceof Time){
 				data.set(propertyKey, (Time)value);
 			} else if (value instanceof Collection){
-				//TODO: Determine correct metadata to pass in getCollectionData() instead of null
-				data.set(propertyKey, getCollectionData(value, null));
+				data.set(propertyKey, getCollectionData(value));
 			} else {
-				//TODO: Determine correct metadata to pass into convertFromBean() instead of null
-				Data dataValue = convertFromBean(value, null);
+				Data dataValue = convertFromBean(value);
 				data.set(propertyKey, dataValue);
 			}
 		}
@@ -248,69 +237,16 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @param data
 	 * @param value
 	 */
-	protected void setDataAttributes(Data data, Object value, Metadata metadata) {
+	protected void setDataAttributes(Data data, Object value) {
 		@SuppressWarnings("unchecked")
 		Map<String, String> attributes = (Map<String, String>)value;
 		
 		for (Entry<String, String> entry:attributes.entrySet()){
-        	Metadata fieldMetadata = null;
-        	if (metadata != null) {
-        		fieldMetadata = metadata.getProperties().get(entry.getKey());
-        	} else {
-        		//FIXME: Fix this so this warning never happens !!
-        		LOG.warn("Metadata was null while processing property " + entry.getKey());
-        	}
-        	if (fieldMetadata != null && DataType.LIST.equals(fieldMetadata.getDataType())){
-        		data.set(entry.getKey(), convertStringToDataValue(entry.getValue()));
-        	} else if ("false".equals(entry.getValue())||"true".equals(entry.getValue())){
+			if("false".equals(entry.getValue())||"true".equals(entry.getValue())){
 				data.set(entry.getKey(), Boolean.valueOf(entry.getValue()));
 			}else{
 				data.set(entry.getKey(), entry.getValue());
 			}
-		}
-	}
-
-	/**
-	 * Converts a list represented by a comma delimited string so to a DataValue
-	 * 
-	 * @param stringValue a comma separated list of values
-	 * @return DataValue representation of stringValue
-	 */
-	protected Data convertStringToDataValue(String stringValue) {
-		Data data = null;
-		
-		if (stringValue != null){
-			data = new Data();
-			String[] stringValues = stringValue.split(",");
-			for (String value:stringValues){
-				data.add(value);
-			}
-		}
-				
-		return data;
-	}
-
-	/**
-	 * Converts a list represented by DataValue to a list of values as a comma delimited StringValue
-
-	 * @param dataValue DataValue representing a list object
-	 * @return the list converted to a comma delimited StringValue
-	 */
-	protected String convertDataValueToStringValue(Data data) {
-		StringBuffer sbValue = new StringBuffer();
-		
-		Iterator<Property> propertyIterator = data.realPropertyIterator();
-		while(propertyIterator.hasNext()){
-			Property property = propertyIterator.next();
-			String propertyValue = property.getValue();
-			sbValue.append(",");
-			sbValue.append(propertyValue);
-		}
-				
-		if (sbValue.toString().isEmpty()){
-			return "";
-		} else {
-			return sbValue.toString().substring(1);
 		}
 	}
 
@@ -320,7 +256,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @param data
 	 * @param value
 	 */
-	protected void setDataListValue(Data data, Object value, Metadata metadata) throws Exception{
+	protected void setDataListValue(Data data, Object value) throws Exception{
 		if (isPropertyValid(value)){
 			if (value instanceof Boolean){
 				data.add((Boolean)value);
@@ -343,11 +279,9 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 			} else if (value instanceof Time){
 				data.add((Time)value);
 			} else if (value instanceof Collection){
-				//TODO: Find correct metadata to pass in 
-				data.add(getCollectionData(value, null));
+				data.add(getCollectionData(value));
 			} else {
-				//TODO: Find correct metadata to pass in				
-				Data dataValue = convertFromBean(value, null);
+				Data dataValue = convertFromBean(value);
 				data.add(dataValue);			
 			}
 		}
@@ -360,19 +294,19 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	protected Data getCollectionData(Object value, Metadata metadata) throws Exception{
+	protected Data getCollectionData(Object value) throws Exception{
 		Data result = new Data();
 		
 		if (value instanceof List){
 			List<?> valueList = (List<?>)value;
 			for (int i=0;i<valueList.size();i++){
 				Object itemValue = valueList.get(i); 
-				setDataListValue(result, itemValue, metadata);
+				setDataListValue(result, itemValue);
 			}
 		} else {
 			Collection<?> valueCollection = (Collection<?>)value;
 			for (Object o:valueCollection){
-				setDataListValue(result, o, metadata);
+				setDataListValue(result, o);
 			}
 		}
 		

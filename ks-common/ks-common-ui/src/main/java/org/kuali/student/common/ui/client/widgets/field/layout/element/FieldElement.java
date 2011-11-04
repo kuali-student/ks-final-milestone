@@ -77,6 +77,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	private Widget fieldWidget;
 	private SpanPanel widgetSpan = new SpanPanel();
 	private String fieldHTMLId;
+	private LineNum margin;
 	private String watermarkText = null;
 	public static enum LineNum{SINGLE, DOUBLE, TRIPLE}
 
@@ -86,9 +87,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	
 	private Panel parentPanel;
 	private Element parentElement;
-	
-	private ErrorLevel status = ErrorLevel.OK;
-	
 
 	/**
 	 * Sets this field's validation panel, note that this does not add it to the ui.  Attaching must be done
@@ -367,11 +365,6 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 		return fieldName;
 	}
 
-	/**
-	 * Turn on/off styling for errors on field element
-	 * 
-	 * @param error When true turns on error styling, when false turns off error styling
-	 */
 	public void setErrorState(boolean error){
 		if(error){
 			fieldTitle.addStyleName("invalid");
@@ -381,8 +374,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else if(parentElement != null){
 				parentElement.setClassName("error");
 			}
-			//When there is an error, don't use warning style
-			setWarnState(false);
+
 		}
 		else{
 			fieldTitle.removeStyleName("invalid");
@@ -392,38 +384,9 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else if(parentElement != null){
 				parentElement.setClassName("");
 			}
-			//Reset earn state, in case there are warnings
-			setWarnState(validationPanel.hasWarnings());
 		}
-	}
-	
-	/**
-	 * Turn on/off styling for warnings on field element
-	 * 
-	 * @param warn When true turns on warning styling, when false turns off warning styling
-	 */
-	public void setWarnState(boolean warn){
-		if(warn){
-			//fieldTitle.addStyleName("invalid");
-			if(parentPanel != null){
-				parentPanel.addStyleName("warning");
-			}
-			else if(parentElement != null){
-				parentElement.setClassName("warning");
-			}
 
-		}
-		else{
-			//fieldTitle.removeStyleName("invalid");
-			if(parentPanel != null){
-				parentPanel.removeStyleName("warning");
-			}
-			else if(parentElement != null){
-				parentElement.setClassName("");
-			}
-		}
 	}
-	
 
 	/**
 	 * Processes a validation result and adds an appropriate message, if needed
@@ -431,17 +394,7 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 	 * @return
 	 */
 	public ErrorLevel processValidationResult(ValidationResultInfo vr) {
-		//Check if this field is responsible for processing its own validation results
-		if(getFieldWidget() instanceof ValidationProcessable){
-			if(((ValidationProcessable)getFieldWidget()).shouldProcessValidationResult(vr)){
-				if (fieldName != null && fieldName.trim() != "")
-					return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr, fieldName);
-				else	
-					return ((ValidationProcessable)getFieldWidget()).processValidationResult(vr);
-			}
-		}
-		
-		status = ErrorLevel.OK;
+		ErrorLevel status = ErrorLevel.OK;
 
 		if(vr.getLevel() == ErrorLevel.ERROR){
 			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
@@ -452,12 +405,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			}
 		}
 		else if(vr.getLevel() == ErrorLevel.WARN){
-			String message = Application.getApplicationContext().getUILabel("validation", vr.getMessage());
-			this.addValidationWarningMessage(message);
-			
 			if(status.getLevel() < ErrorLevel.WARN.getLevel()){
-				status = vr.getLevel();			
+				status = vr.getLevel();
 			}
+			//TODO does nothing on warn, warn is not currently used
 		}
 		else{
 			//TODO does nothing on ok, ok is not currently used
@@ -478,59 +429,16 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 			else{
 				message = new KSLabel(text);
 			}
-			message.setStyleName("ks-form-error-label");
+			message.setStyleName("ks-form-validation-label");
 			this.setErrorState(true);
-			this.validationPanel.addErrorMessage(message);
+			this.validationPanel.addMessage(message);
 		}
 	}
 
-	/**
-	 * Add a validation message to this fields validation panel as defined by setValidationPanel.
-	 * @param text
-	 */
-	public void addValidationWarningMessage(String text){
-		if(validationPanel != null){
-			SpanPanel message = new SpanPanel();
-			if(fieldName != null && !fieldName.trim().equals("")){
-				message.setHTML("<b> Warning </b> " + fieldName + " - " + text);
-			}
-			else{
-				message.setHTML("<b> Warning </b> " + text);
-			}
-			message.setStyleName("ks-form-warn-label");
-			//Only set field styling to warn, when no errors
-			this.setWarnState((status != ErrorLevel.ERROR));
-			this.validationPanel.addWarnMessage(message);
-		}
-	}
-
-	/**
-	 * Clears validation error and highlighting that may exist on this panel or widget
-	 */
-	public void clearValidationErrors(){
+	public void clearValidationPanel(){
 		this.setErrorState(false);
 		if(validationPanel != null){
-			this.validationPanel.clearErrors();
-		}
-		
-		//Clear errors on widget if widget responsible for its own errors
-		if(getFieldWidget() instanceof ValidationProcessable){
-			((ValidationProcessable)getFieldWidget()).clearValidationErrors();
-		}
-	}
-
-	/**
-	 * Clears validation warnings and highlighting that may exist on this panel or widget
-	 */
-	public void clearValidationWarnings(){
-		this.setWarnState(false);
-		if(validationPanel != null){
-			this.validationPanel.clearWarnings();
-		}				
-		
-		//Clear warnings on widget if widget responsible for its own warnings
-		if(getFieldWidget() instanceof ValidationProcessable){
-			((ValidationProcessable)getFieldWidget()).clearValidationWarnings();
+			this.validationPanel.clear();
 		}
 	}
 

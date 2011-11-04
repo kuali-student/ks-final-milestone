@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>1.2-m1-perf-SNAPSHOT</version>
+    <version>1.3.0-services-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -42,16 +42,17 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-kim-api</artifactId>
+      <version>${kuali.rice.version}</version>
     </dependency>
 
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>backport-util-concurrent</groupId>
-      <artifactId>backport-util-concurrent</artifactId>
     </dependency>
   </dependencies>
   <profiles>

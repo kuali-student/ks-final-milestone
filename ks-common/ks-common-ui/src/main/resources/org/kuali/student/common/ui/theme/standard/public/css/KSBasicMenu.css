@@ -174,10 +174,6 @@ padding-left:6px;
 	background-color: gray;
 }
 
-.KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Main-Hover{
-	background-color: #C1CDCD;
-}
-
 .KS-Navigation-DropDown .KS-Basic-Menu-Item-Panel-Selected a:hover{
 	color: #333333;
 	cursor: pointer;

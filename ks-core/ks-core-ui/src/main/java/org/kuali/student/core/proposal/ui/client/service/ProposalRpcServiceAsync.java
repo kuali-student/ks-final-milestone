@@ -16,9 +16,6 @@
 package org.kuali.student.core.proposal.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * For now this is just a RPC Async interface for proposal service to expose
@@ -28,7 +25,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public interface ProposalRpcServiceAsync extends BaseRpcServiceAsync {
-
-    public void getProposalByWorkflowId(String workflowId, AsyncCallback<ProposalInfo> callback);
 
 }
