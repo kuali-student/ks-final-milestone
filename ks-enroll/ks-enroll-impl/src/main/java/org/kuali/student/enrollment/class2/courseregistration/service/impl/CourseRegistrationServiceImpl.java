@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -59,6 +60,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -213,6 +215,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         List<LprTransactionItemInfo> lprActivityTransactionItems = new ArrayList<LprTransactionItemInfo>();
         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
             LprTransactionItemInfo activtyItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
+            activtyItemInfo.setId(null);
             activtyItemInfo.setExistingLuiId(activityOfferingId);
             activtyItemInfo.setGroupId(regRequestItem.getId());
             newTransactionItems.add(activtyItemInfo);
@@ -221,11 +224,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         String courseOfferingId = regGroup.getCourseOfferingId();
         LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
+        courseOfferingItemInfo.setId(null);
         courseOfferingItemInfo.setExistingLuiId(courseOfferingId);
         courseOfferingItemInfo.setGroupId(regRequestItem.getId());
         lprActivityTransactionItems.add(courseOfferingItemInfo);
         newTransactionItems.add(courseOfferingItemInfo);
-        regRequestAssembler.disassembleItem(regRequestItem, null, context);
+//        regRequestAssembler.disassembleItem(regRequestItem, null, context);
         return newTransactionItems;
 
     }
@@ -254,8 +258,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         storedLprTransaction.setLprTransactionItems(newTransactionItems);
 
         storedLprTransaction = lprService.updateLprTransaction(storedLprTransaction.getId(), storedLprTransaction, context);
+        return lprService.getLprTransaction(storedLprTransaction.getId(),context);
 
-        return storedLprTransaction;
     }
 
     @Override
@@ -518,6 +522,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         LprTransactionInfo lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
         LprTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
+        try{
+            newLprTransaction = lprService.getLprTransaction(newLprTransaction.getId(),context);
+        }catch(DoesNotExistException e){
+            return null;
+        }
+
         RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
         return createdRegRequestInfo;
     }
@@ -555,23 +565,25 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         // check eligibility requirements
         for (RegRequestItemInfo item : storedRegRequest.getRegRequestItems()) {
-            RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(item.getNewRegGroupId(), context);
+            if (!StringUtils.equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY,item.getTypeKey())) {
+                RegistrationGroupInfo regGroup = courseOfferingService.getRegistrationGroup(item.getNewRegGroupId(), context);
 
-            List<ValidationResultInfo> validations = checkStudentEligibiltyForCourseOffering(storedLprTransaction.getRequestingPersonId(), regGroup.getCourseOfferingId(), context);
-            List<String> errorMessages = new ArrayList<String>();
-            for (ValidationResultInfo validation : validations) {
-                if(validation.getIsError()) {
-                    errorMessages.add(validation.getMessage());
+                List<ValidationResultInfo> validations = checkStudentEligibiltyForCourseOffering(storedLprTransaction.getRequestingPersonId(), regGroup.getCourseOfferingId(), context);
+                List<String> errorMessages = new ArrayList<String>();
+                for (ValidationResultInfo validation : validations) {
+                    if(validation.getIsError()) {
+                        errorMessages.add(validation.getMessage());
+                    }
                 }
-            }
 
-            if(!errorMessages.isEmpty()) {
-                RegResponseInfo errorResponse = new RegResponseInfo();
-                errorResponse.setOperationStatus(new OperationStatusInfo());
-                errorResponse.getOperationStatus().setErrors(errorMessages);
-                errorResponse.getOperationStatus().setStatus("FAILURE");
+                if(!errorMessages.isEmpty()) {
+                    RegResponseInfo errorResponse = new RegResponseInfo();
+                    errorResponse.setOperationStatus(new OperationStatusInfo());
+                    errorResponse.getOperationStatus().setErrors(errorMessages);
+                    errorResponse.getOperationStatus().setStatus("FAILURE");
 
-                return errorResponse;
+                    return errorResponse;
+                }
             }
         }
 
