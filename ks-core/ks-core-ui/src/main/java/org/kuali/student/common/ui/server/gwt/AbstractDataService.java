@@ -177,7 +177,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		String user = SecurityUtils.getCurrentUserId();
+		String user = SecurityUtils.getCurrentPrincipalId();
 		boolean result = false;
 		if (checkDocumentLevelPermissions()) {
 			if (type == null) {
@@ -230,7 +230,7 @@ public abstract class AbstractDataService implements DataService{
 	public Map<String, Object> getDefaultFilterProperties(){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
+		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentPrincipalId());
 		
 		return filterProperties;
 	}

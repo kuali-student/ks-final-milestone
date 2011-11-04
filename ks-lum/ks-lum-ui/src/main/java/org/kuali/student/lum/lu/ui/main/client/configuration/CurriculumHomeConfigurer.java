@@ -5,12 +5,9 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -31,7 +28,6 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -64,23 +60,14 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         //KSLAB-2310 :
         //ADMIN CREATE PROGRAM: On CM landing page, only authorized users 
         //should be able to view and click link
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-        
-		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-        	@Override
-        	public void handleFailure(Throwable caught) {
-			}
-				@Override
-				public void onSuccess(Boolean result) {
-					if (result)
-					{
-						// do nothing with the navigation link
-						create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-					}else{
-						
-					}
-				
+       
+		Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview",	new Callback<Boolean>() {
+			@Override
+			public void exec(Boolean result) {
+				if (result)	{
+					// do nothing with the navigation link
+					create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+				}				
 			}
         });
                 
@@ -413,26 +400,12 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						}
 					}
 	            });
-	            
-	            
-	        	String principalId = Application.getApplicationContext().getUserId();
-	    		SecurityRpcServiceAsync securityRpc = GWT
-	    				.create(SecurityRpcService.class);
+	            	            
 
-	    		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-	    					public void handleFailure(Throwable caught) {
-	    						// Assumes admin does not have access...
-//	    						if (onEventOff
-//	    								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-//	    							
-//	    								adminOptionCheckbox.setValue(true);
-//	    								adminOptionCheckbox.setVisible(false);
-//	    							
-//	    						} 
-	    					}
+	    		Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview", new Callback<Boolean>() {
 
 	    					@Override
-	    					public void onSuccess(Boolean result) {
+	    					public void exec(Boolean result) {
 
 	    						final boolean isAuthorized = result;
 	    			            if (isAuthorized){
@@ -536,17 +509,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	    						
 	    					}
-	    				});
-//				checkAdminPermission("useCurriculumReview",
-//						CurriculumHomeConfigurer.EVENT_ONCLICK);
-//	            if ("admin".equals(Application.getApplicationContext().getUserId())){
-//	            	adminOptionCheckbox.setValue(false);
-//	            	adminOptionCheckbox.setVisible(true);
-//	            } else {
-//	            	adminOptionCheckbox.setValue(true);
-//	            	adminOptionCheckbox.setVisible(false);	            	
-//	            }
-	            
+	    				});	            
     		}
    		};
     }
@@ -615,12 +578,5 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     private String getMessage(String key) {
         return Application.getApplicationContext().getMessage(key);
     }
-
-    private Anchor createNavigationWidget(String title) {
-        Anchor anchor = new Anchor(title);
-        anchor.addStyleName("contentBlock-navLink");
-        return anchor;
-    }
-
 
 }

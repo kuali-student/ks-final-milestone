@@ -27,6 +27,7 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
@@ -37,7 +38,6 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * The application contains information about who is currently logged in, the security context, and access
@@ -48,12 +48,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class ApplicationContext {
-	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
-	
-	private boolean loggedIn = true;
-	private String userId = "testuser";		
+	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);			
 	private String version = "KS";
-	private List<String> roles = new ArrayList<String>();
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
@@ -72,11 +68,15 @@ public class ApplicationContext {
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
 	 * required outside this package do Application.getApplicationContext();
 	 */
-	protected ApplicationContext() {
-		roles.add("role1");
-		roles.add("role2");
-		
-		serverPropertiesRpcService.getContextPath(new AsyncCallback<String>(){
+	protected ApplicationContext() {		
+	}
+
+	/**
+	 * This makes server side calls to initialize the application and application security context.
+	 * 
+	 */
+	public void initializeContext(final Callback<Boolean> contextIntializedCallback){
+		serverPropertiesRpcService.getContextPath(new KSAsyncCallback<String>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -86,43 +86,13 @@ public class ApplicationContext {
 			@Override
 			public void onSuccess(String result) {
 				applicationContextUrl = result;
+				securityContext = new SecurityContext();
+				securityContext.initializeSecurityContext(contextIntializedCallback);
 			}			
 		});
 	}
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
-
+	
 	/**
-	 * Set the user "id" of user, this is the same as the KIM principalName
-	 *
-	 * @param userId
-	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-	/**
-	 * @return the userId of user logged into the system. This is the same as the KIM principalName
-	 */
-	public String getUserId() {
-		return userId;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-    /**
      * Adds the messages in the list of messages to the map of the messages
      * @param messages
      */

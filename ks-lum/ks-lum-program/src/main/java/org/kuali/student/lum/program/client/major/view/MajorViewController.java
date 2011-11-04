@@ -7,10 +7,10 @@ import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -59,8 +59,6 @@ public class MajorViewController extends MajorController {
     // to display the use curriculum review process checkbox
     private boolean isCurrentVersion;
     
-    private SecurityRpcServiceAsync securityRpc;
-    
     /**
      * Constructor.
      *
@@ -68,8 +66,7 @@ public class MajorViewController extends MajorController {
      */
     public MajorViewController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        configurer = GWT.create(MajorViewConfigurer.class);
-        securityRpc = GWT .create(SecurityRpcService.class);  
+        configurer = GWT.create(MajorViewConfigurer.class);  
         
         // Initialize handlers and action drop-down
         initHandlers();
@@ -150,11 +147,11 @@ public class MajorViewController extends MajorController {
      * @param viewContext
      */
     private void processModifyActionType(final ViewContext viewContext) {
-        String principalId = Application.getApplicationContext().getUserId();
-
-        securityRpc.checkAdminPermission(principalId, "useCurriculumReview", new KSAsyncCallback<Boolean>() {
+    	SecurityContext securityContext = Application.getApplicationContext().getSecurityContext(); 
+    	
+    	securityContext.checkPermission("useCurriculumReview", new Callback<Boolean>() {
             @Override
-            public void onSuccess(Boolean result) {
+            public void exec(Boolean result) {
                 final boolean isAuthorized = result;
 
                 // Show the modify program light box only for admin role.
@@ -359,11 +356,9 @@ public class MajorViewController extends MajorController {
                 actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));
 
                 if (!isCurrentVersion) {
-                    String principalId = Application.getApplicationContext().getUserId();
-
-                    securityRpc.checkAdminPermission(principalId, "useCurriculumReview", new KSAsyncCallback<Boolean>() {
+                    Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview", new Callback<Boolean>() {
                         @Override
-                        public void onSuccess(Boolean result) {
+                        public void exec(Boolean result) {
                             final boolean isAuthorized = result;
 
                             if (!isAuthorized) {

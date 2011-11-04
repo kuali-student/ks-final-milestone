@@ -15,16 +15,67 @@
 
 package org.kuali.student.common.ui.client.security;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.SecurityRpcService;
+import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
+
+import com.google.gwt.core.client.GWT;
+
 /**
  * An interface to access the Kuali Student security context 
  * 
  * @author Kuali Student Team
  *
  */
-public interface SecurityContext {
+public class SecurityContext {
 
-    public String getPrincipal();
+    protected SecurityRpcServiceAsync securityRpcService = GWT.create(SecurityRpcService.class);
     
-    public void setPrincipal(String principalId);
+	private String principalName = "";		
      
+	public void initializeSecurityContext(final Callback<Boolean> contextIntializedCallback){
+	    securityRpcService.getPrincipalUsername(new KSAsyncCallback<String>(){
+	        public void handleFailure(Throwable caught) {
+				throw new RuntimeException("Fatal - Unable to initialze security context");
+			}
+	
+	        @Override
+	        public void onSuccess(String userId) {
+	            setPrincipalName(userId);
+	            contextIntializedCallback.exec(true);
+	        }            
+	    });
+	}
+
+	/**
+	 * Set principalName of the user logged in (eg. jDoe)   
+	 *
+	 * @param principalId
+	 */
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+
+	/**
+	 * @return the userId of user logged into the system. (NOTE: When using KIM userId=principalName)
+	 */
+	public String getUserId() {
+		return principalName;
+	}
+	
+	/**
+	 * Used to check of user has access to the view
+	 * 
+	 * @param viewName
+	 * @return
+	 */
+	public void checkPermission(String viewName, final Callback<Boolean> checkPermissionCallback){
+        securityRpcService.hasScreenPermission(viewName, new KSAsyncCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+            	checkPermissionCallback.exec(result);
+            }
+        });		
+	}
 }

@@ -15,23 +15,26 @@
 
 package org.kuali.student.common.ui.client.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * Currently this only allows querying server to see which user is logged in.
- * 
- * TODO: Expand to support additional auth/authz operations.
  * 
  * @author Kuali Student Team
  * 
  */
 @RemoteServiceRelativePath("rpcservices/SecurityRpcService")
 public interface SecurityRpcService extends RemoteService {
+
 	public String getPrincipalUsername();
 
-	public Boolean checkAdminPermission(String principalId,
-			String screenComponent) throws OperationFailedException;
+	public Boolean hasScreenPermission(String screenName) throws OperationFailedException;
+	
+	public HashMap<String,Boolean> getScreenPermissions(ArrayList<String> screens) throws OperationFailedException; 
+	
 }

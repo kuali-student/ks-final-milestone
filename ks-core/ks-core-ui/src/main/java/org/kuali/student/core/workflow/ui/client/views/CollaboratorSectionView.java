@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.kim.bo.Person;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -268,7 +267,7 @@ public class CollaboratorSectionView extends SectionView {
         // Add current logged on user to initial lookup data.
         LookupParamMetadata param = new LookupParamMetadata();
         param.setKey("person.queryParam.excludedUserId");
-        param.setDefaultValueString(Application.getApplicationContext().getUserId());
+        param.setDefaultValueString(Application.getApplicationContext().getSecurityContext().getUserId());
         param.setWriteAccess(WriteAccess.NEVER);
         personIdMeta.getInitialLookup().getParams().add(param); // Added for the suggestbox.
         if (personIdMeta.getAdditionalLookups().size() > 0) {

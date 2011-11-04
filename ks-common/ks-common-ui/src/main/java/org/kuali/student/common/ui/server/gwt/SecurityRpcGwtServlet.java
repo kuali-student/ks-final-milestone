@@ -15,6 +15,10 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -26,34 +30,56 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * This is a description of what this class does - Will Gomes don't forget to fill this in. 
+ * This provides security RPC services to the GWT Application.  It should be noted that this
+ * does not provide true screen authorization as these calls can be easily manipulated by the
+ * end user.  These calls are to be used to solely hide application components for
+ * users which are not privileged to view them and the check is merely for visual display.
+ * 
+ * The real security checks are performed via security checks on the data RPC get/save
+ * operations as well as masking/hiding of data returned to the browser.
  * 
  * @author Kuali Student Team
  *
  */
 public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService{
 
-    private static final long serialVersionUID = 1L;
+	final Logger LOG = Logger.getLogger(SecurityRpcGwtServlet.class);
+	
+	private static final long serialVersionUID = 1L;
     private IdentityManagementService permissionService;
        
+	@Override
     public String getPrincipalUsername(){
-    	return SecurityUtils.getPrincipalUserName();
+    	return SecurityUtils.getCurrentPrincipalName();
     }
 
 	@Override
-	public Boolean checkAdminPermission(String principalId, String screenComponent)  throws OperationFailedException {
-		System.out.println("SecurityRpcGwtServlet.checkAdminPermission for : " + principalId + " component " + screenComponent);
+	public HashMap<String, Boolean> getScreenPermissions(
+			ArrayList<String> screens) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean hasScreenPermission(String screenName) throws OperationFailedException {
+		String principalId = SecurityUtils.getCurrentPrincipalId();
+		
+		LOG.debug("SecurityRpcGwtServlet.hasCreenPermission: " + principalId + " component " + screenName);
+		
+			
         AttributeSet permDetails = new AttributeSet();
-        permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT,screenComponent);
+        permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
         boolean hasAccess = false;
         hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
 					PermissionType.KS_ADMIN_SCREEN.getPermissionNamespace(), 
 					PermissionType.KS_ADMIN_SCREEN.getPermissionTemplateName(), permDetails, 
 					permDetails);
-        System.out.println(principalId + " has access : " + hasAccess);
+
+        LOG.debug(principalId + " has access : " + hasAccess);
+        
 		return hasAccess;
 	}
-
+	
 	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;
 	}
@@ -65,4 +91,5 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 
 		return permissionService;
 	}
+	
 }

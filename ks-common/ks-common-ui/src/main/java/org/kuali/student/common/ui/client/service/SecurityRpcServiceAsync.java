@@ -15,6 +15,9 @@
 
 package org.kuali.student.common.ui.client.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
@@ -27,5 +30,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface SecurityRpcServiceAsync {
     
     public void getPrincipalUsername(AsyncCallback<String> callback);
-    public void checkAdminPermission(String principalId, String screenComponent, AsyncCallback<Boolean> callback);
+	public void hasScreenPermission(String screenName, AsyncCallback<Boolean> callback);	
+	public void getScreenPermissions(ArrayList<String> screens, AsyncCallback<HashMap<String,Boolean>> callback);     
+
 }

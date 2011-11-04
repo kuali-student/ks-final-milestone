@@ -817,7 +817,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         public PersonList() {
             final PersonList us = this;
-            final String userId = Application.getApplicationContext().getUserId();
+            final String userId = Application.getApplicationContext().getSecurityContext().getUserId();
 
             //FIXME: [KSCOR-225] Commented out search code to display drop down with only current user, and disable select
             people.addItem(userId, userId);
