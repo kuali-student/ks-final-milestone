@@ -48,31 +48,31 @@ limitations under the License.
             <bean parent="Page" p:id="selectTermPage">
           		<property name="items">
                		<list>
-          				<ref bean="studentGradeView-page1"/>
+          				<ref bean="studentGradeView-selectTerm"/>
  					</list>
  				</property>
                 <property name="footer">
                     <ref bean="GradingView_Footer_selectTermPage" />
                 </property>
  			</bean>
-          	<bean parent="Page" p:id="page1">
+          	<bean parent="Page" p:id="courseOfferingPage">
           		<property name="items">
                		<list>
-          				<ref bean="GradingView-page1"/>
+          				<ref bean="GradingView-CourseOffering"/>
  					</list>
  				</property>
                 <property name="footer">
-                    <ref bean="Grading_Footer_page1" />
+                    <ref bean="Grading_Footer_courseOfferingPage" />
                 </property>
  			</bean>
-              <bean parent="Page" p:id="page2">
+              <bean parent="Page" p:id="gradeRosterPage">
                     <property name="items">
                          <list>
-                            <ref bean="GradingView-page2"/>
+                            <ref bean="GradingView-grade"/>
                        </list>
                    </property>
                   <property name="footer">
-                    <ref bean="Grading_Footer_page2" />
+                    <ref bean="Grading_Footer_gradeRosterPage" />
                   </property>
                </bean>
           </list>
@@ -81,7 +81,7 @@ limitations under the License.
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.GradingForm" />
    </bean>
    
-   <bean id="GradingView-page1" parent="GroupGridLayout">
+   <bean id="GradingView-CourseOffering" parent="GroupGridLayout">
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
@@ -109,7 +109,6 @@ limitations under the License.
       <property name="propertyName" value="courseOfferingInfoList"/>
       <property name="renderAddLine" value="false"/>
       <property name="renderLineActions" value="false"/>
-      <property name="bindingInfo.bindToForm" value="true"/>
       <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
@@ -142,7 +141,7 @@ limitations under the License.
       </property>
    </bean>
 
-    <bean id="GradingView-page2" parent="GroupGridLayout">
+    <bean id="GradingView-grade" parent="GroupGridLayout">
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
@@ -164,7 +163,6 @@ limitations under the License.
           <entry key="form.studentId" value="principalId"/>
         </map>
       </property>
-      <property name="bindingInfo.bindToForm" value="true"/>
       <property name="renderLineActions" value="@{readOnly eq false}"/>
       <property name="items">
         <list>
@@ -202,7 +200,7 @@ limitations under the License.
         </property>
    </bean>
 
-   <bean id="Grading_Footer_page1" parent="Footer">
+   <bean id="Grading_Footer_courseOfferingPage" parent="Footer">
       <property name="items">
         <list>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
@@ -210,7 +208,7 @@ limitations under the License.
       </property>
   </bean>
 
-   <bean id="Grading_Footer_page2" parent="Footer">
+   <bean id="Grading_Footer_gradeRosterPage" parent="Footer">
       <property name="items">
         <list>
           <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{readOnly eq false}"/>

@@ -22,7 +22,7 @@ limitations under the License.
    <bean id="studentGradeView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="StudentGradeView"/>
       <property name="title" value="@{title}" />
-	  <property name="entryPageId" value="page1"/>
+	  <property name="entryPageId" value="selectTermPage"/>
       <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
 
       <property name="header">
@@ -39,24 +39,24 @@ limitations under the License.
 
       <property name="items">
           <list>
-          	<bean parent="Page" p:id="page1">
+          	<bean parent="Page" p:id="selectTermPage">
           		<property name="items">
                		<list>
-          				<ref bean="studentGradeView-page1"/>
+          				<ref bean="studentGradeView-selectTerm"/>
  					</list>
  				</property>
                 <property name="footer">
-                    <ref bean="Student_Footer_page1" />
+                    <ref bean="Student_Footer_selectTerm" />
                 </property>
  			</bean>
-              <bean parent="Page" p:id="page2">
+              <bean parent="Page" p:id="creditDetailsPage">
                     <property name="items">
                          <list>
-                            <ref bean="studentGradeView-page2"/>
+                            <ref bean="studentGradeView-creditDetails"/>
                        </list>
                    </property>
                   <property name="footer">
-                    <ref bean="Student_Footer_page2" />
+                    <ref bean="Student_Footer_creditDetails" />
                   </property>
                </bean>
           </list>
@@ -65,7 +65,7 @@ limitations under the License.
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.StudentGradeForm" />
    </bean>
 
-   <bean id="studentGradeView-page1" parent="GroupGridLayout">
+   <bean id="studentGradeView-selectTerm" parent="GroupGridLayout">
        <property name="accordion.render" value="false"/>
       <property name="items">
         <list>
@@ -81,35 +81,7 @@ limitations under the License.
       </property>
    </bean>
 
-    <bean id="studentGradeView-page2" parent="GroupGridLayout" p:layoutManager.numberOfColumns="1">
-       <property name="accordion.render" value="false"/>
-      <property name="items">
-        <list>
-          <!--<ref bean="studentInfo"/>-->
-          <ref bean="creditGroup"/>
-        </list>
-      </property>
-   </bean>
-
-    <bean id="studentInfo" parent="GroupGridLayout" p:layoutManager.numberOfColumns="2">
-       <property name="accordion.render" value="false"/>
-      <property name="items">
-        <list>
-          <bean parent="AttributeField_Form" p:propertyName="name" p:label="Name" p:readOnly="true">
-            <property name="control">
-              <bean parent="TextControl" p:size="50"/>
-            </property>
-          </bean>
-          <bean parent="AttributeField_Form" p:propertyName="firstTerm" p:label="First Term" p:readOnly="true">
-            <property name="control">
-              <bean parent="TextControl" p:size="50"/>
-            </property>
-          </bean>
-        </list>
-      </property>
-   </bean>
-
-    <bean id="creditGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
+    <bean id="studentGradeView-creditDetails" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
       <property name="accordion.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit"/>
       <property name="propertyName" value="creditList"/>
@@ -140,7 +112,7 @@ limitations under the License.
       </property>
    </bean>
 
-   <bean id="Student_Footer_page1" parent="Footer">
+   <bean id="Student_Footer_selectTerm" parent="Footer">
       <property name="items">
 
         <list>
@@ -150,7 +122,7 @@ limitations under the License.
       </property>
   </bean>
 
-  <bean id="Student_Footer_page2" parent="Footer">
+  <bean id="Student_Footer_creditDetails" parent="Footer">
       <property name="items">
 
         <list>

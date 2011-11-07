@@ -30,10 +30,10 @@ public class GradingConstants {
     public static final String IDENTITY_SERVICE_URL = "http://rice.kuali.org/kim/v2_0";
     public static final String IDENTITY_SERVICE_NAME = "identityServiceSoap";
 
-    public static final String SELECT_COURSE_OFFERING_PAGE = "page1";
-    public static final String GRADE_ROSTER_PAGE = "page2";
-    public static final String STUDENT_TERM_RECORD_PAGE = "page1";
-    public static final String STUDENT_CREDIT_DETAILS_PAGE = "page2";
+    public static final String SELECT_COURSE_OFFERING_PAGE = "courseOfferingPage";
+    public static final String GRADE_ROSTER_PAGE = "gradeRosterPage";
+    public static final String STUDENT_TERM_RECORD_PAGE = "selectTermPage";
+    public static final String STUDENT_CREDIT_DETAILS_PAGE = "creditDetailsPage";
 
     public static final String CURRENT_TERM = "201108";
     public static final String INFO_GRADE_ROSTER_SAVED = "info.enroll.grading.saved";
