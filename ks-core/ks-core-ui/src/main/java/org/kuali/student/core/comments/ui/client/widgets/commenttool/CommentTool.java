@@ -78,8 +78,8 @@ public class CommentTool implements HasReferenceId {
     private HTML htmlLabel;
     private SectionTitle leaveACommentTitle;
     private HorizontalPanel commentSectionPanel;
-    private final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-    private final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+    private KSButton editButton;
+    private KSButton deleteButton;
     
 
     public enum EditMode {
@@ -308,6 +308,8 @@ public class CommentTool implements HasReferenceId {
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
                 int columnIndex = 0;
+                editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+                deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 if (commentInfo.getType() != null && 
                         commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
                     // do not display comments for workflow decision rationale.
