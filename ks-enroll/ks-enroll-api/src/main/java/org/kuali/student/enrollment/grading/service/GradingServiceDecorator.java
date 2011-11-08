@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -171,5 +172,24 @@ public abstract class GradingServiceDecorator implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator().updateCredit(gradeRosterEntryId, creditId, context);
     }
+
+	@Override
+	public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(
+			List<String> gradeGroupKeyList, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getGradeGroupsByKeyList(gradeGroupKeyList, context);
+	}
+
+	@Override
+	public boolean updateNumberGrade(String gradeRosterEntryId,
+			String numberGradeValue, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().updateNumberGrade(gradeRosterEntryId, numberGradeValue, context);
+	}
 
 }
