@@ -202,6 +202,9 @@ public class SearchPanel extends Composite{
         table = GWT.create(SearchResultsTable.class);
         table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
+        for (Callback<List<SelectedResults>> selectionCompleteCallback : selectedCompleteCallbacks) {
+            table.addSelectionCompleteCallback(selectionCompleteCallback);
+        }
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
         
@@ -853,7 +856,7 @@ public class SearchPanel extends Composite{
                 resultsSelected = true;
                 
                 SearchRequest sr = getSearchRequest();
-                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
+                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
                 List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();

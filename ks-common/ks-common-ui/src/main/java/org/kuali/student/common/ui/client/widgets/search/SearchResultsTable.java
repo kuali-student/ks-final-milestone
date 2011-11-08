@@ -26,6 +26,7 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -56,12 +57,14 @@ public class SearchResultsTable extends Composite{
     
     private DefaultTableModel tableModel;
     protected String resultIdColumnKey;
+    protected String resultDisplayKey;  
     protected SearchRequest searchRequest;
     private Table table = new Table();
     protected boolean isMultiSelect = true;
     protected boolean withMslable = true;
     protected KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
+    protected List<Callback<List<SelectedResults>>> selectedCompleteCallbacks = new ArrayList<Callback<List<SelectedResults>>>();
 	
     public KSButton getMslabel() {
 		return mslabel;
@@ -94,12 +97,13 @@ public class SearchResultsTable extends Composite{
 	}
 
 	//FIXME do we really need to recreate the table for every refresh?
-    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
+    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){ 
     	
     	//creating a new table because stale data was corrupting new searches
     	table = new Table();
     	table.removeAllRows();
         this.resultIdColumnKey = resultIdKey;
+        this.resultDisplayKey = resultDisplayKey;
         
         tableModel = new DefaultTableModel();
         tableModel.setMultipleSelectable(isMultiSelect);
@@ -148,9 +152,9 @@ public class SearchResultsTable extends Composite{
         layout.add(table);
   }   
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
         this.searchRequest = searchRequest;
-        initializeTable(listResultMetadata, resultIdKey);
+        initializeTable(listResultMetadata, resultIdKey, resultDisplayKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
             //FIXME Do we still need this if condition?
             // Added an else to the if(pagedResults) line to prevent searches being executed
@@ -163,6 +167,10 @@ public class SearchResultsTable extends Composite{
         else{
         	performOnDemandSearch(0, 0);
         }
+    }
+    
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
+        this.performSearch(searchRequest, listResultMetadata, resultIdKey, null, true);
     }    
     
     public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
@@ -238,7 +246,11 @@ public class SearchResultsTable extends Composite{
             ids.add(((SearchResultsRow)row).getResultRow().getId());
         }                
         return ids;
-    }        
+    }
+    
+    public void addSelectionCompleteCallback(Callback<List<SelectedResults>> callback){
+        selectedCompleteCallbacks.add(callback);
+    }
 }
 
 class SearchResultsRow extends Row {
