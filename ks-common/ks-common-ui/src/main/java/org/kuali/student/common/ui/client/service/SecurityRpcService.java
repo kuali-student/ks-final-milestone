@@ -33,7 +33,15 @@ public interface SecurityRpcService extends RemoteService {
 
 	public String getPrincipalUsername();
 
+	/**
+	 * This is used to check if the user has permission for the given screen. 
+	 * 
+	 * @param screenName
+	 * @return true if user has permission
+	 * @throws OperationFailedException
+	 */
 	public Boolean hasScreenPermission(String screenName) throws OperationFailedException;
+	
 	
 	public HashMap<String,Boolean> getScreenPermissions(ArrayList<String> screens) throws OperationFailedException; 
 	

@@ -31,7 +31,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * This provides security RPC services to the GWT Application.  It should be noted that this
- * does not provide true screen authorization as these calls can be easily manipulated by the
+ * does not provide true client authorization as these calls can be easily manipulated by the
  * end user.  These calls are to be used to solely hide application components for
  * users which are not privileged to view them and the check is merely for visual display.
  * 
@@ -46,7 +46,8 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	final Logger LOG = Logger.getLogger(SecurityRpcGwtServlet.class);
 	
 	private static final long serialVersionUID = 1L;
-    private IdentityManagementService permissionService;
+    
+	private IdentityManagementService permissionService;
        
 	@Override
     public String getPrincipalUsername(){
@@ -79,6 +80,8 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
         
 		return hasAccess;
 	}
+	
+	
 	
 	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;
