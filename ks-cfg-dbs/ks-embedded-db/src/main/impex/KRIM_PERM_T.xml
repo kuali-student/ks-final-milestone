@@ -291,7 +291,7 @@
         DESC_TXT="Open Document, with status FINAL"
         NM="Open Document FINAL" NMSPC_CD="KS-SYS"
         OBJ_ID="2357893b-31e3-43d6-9aa2-d615dab32751" PERM_ID="3200"
-        PERM_TMPL_ID="4000" VER_NBR="1"/>
+        PERM_TMPL_ID="60" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Determine availability of admin screens"
         NM="KS Admin Screens" NMSPC_CD="KS-SYS"
