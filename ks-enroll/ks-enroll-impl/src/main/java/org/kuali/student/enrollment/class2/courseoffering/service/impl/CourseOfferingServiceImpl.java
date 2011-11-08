@@ -402,8 +402,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 				try{
 					if(currrentInstructors.contains(instructor.getPersonId())){
 						LuiPersonRelationInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
-						existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
 						if (existingLpr != null){
+							existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
 							lprService.updateLpr(existingLpr.getId(), existingLpr, context);
 							currrentInstructors.remove(instructor.getPersonId());
 						}
