@@ -896,4 +896,26 @@ public class TestAcademicCalendarServiceImpl{
             fail(e.getMessage());
         } 
     }
+
+    @Test
+    public void testGetAcademicCalendarsByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> calendarKeys = new ArrayList<String>();
+        calendarKeys.add("testAtpId1");
+        calendarKeys.add("testTermId1");
+        calendarKeys.add("testTermId2");
+        calendarKeys.add("testTermId2");
+        List<AcademicCalendarInfo> calendars = acalService.getAcademicCalendarsByKeyList(calendarKeys, callContext);
+        assertNotNull(calendars);
+        assertEquals("Number of calendars returned not as expected.", 4, calendars.size());
+
+        // DoesNotExistException
+        calendarKeys.clear();
+        calendarKeys.add("3B6605D9-9370-441D-89D8-8B747B9AB496"); // Bogus UID
+        try {
+            calendars = acalService.getAcademicCalendarsByKeyList(calendarKeys, callContext);
+            fail("Expected DoesNotExistException.");
+        } catch (DoesNotExistException e) {
+        }
+    }
+
 }

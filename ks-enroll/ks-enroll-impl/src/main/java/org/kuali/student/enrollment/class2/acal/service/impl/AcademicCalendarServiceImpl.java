@@ -104,8 +104,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsByKeyList(List<String> academicCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<AcademicCalendarInfo>();
+        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
+        List<AtpInfo> atps = atpService.getAtpsByKeyList(academicCalendarKeyList, context);
+        for (AtpInfo atp : atps) {
+            academicCalendars.add(acalAssembler.assemble(atp, context));
+        }
+        return academicCalendars;
     }
 
     @Override
