@@ -39,7 +39,6 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
 	private IdentityManagementService identityService;
-	private IdentityManagementService permissionService;
 
 	@Override
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException {
@@ -285,7 +284,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             AttributeSet permDetails = new AttributeSet();
             permDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
             permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
-            if (getPermissionService().isAuthorizedByTemplateName(principalId, 
+            if (getIdentityService().isAuthorizedByTemplateName(principalId, 
             		PermissionType.WITHDRAW.getPermissionNamespace(), 
             		PermissionType.WITHDRAW.getPermissionTemplateName(), permDetails, 
             		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
@@ -297,7 +296,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             permDetails2.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
             permDetails2.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
             // first check permission with no node name
-            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+            boolean canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                     PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                     PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new AttributeSet(permDetails2), 
                     new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
@@ -307,7 +306,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 }
                 AttributeSet newSet = new AttributeSet(permDetails2);
                 newSet.put(StudentIdentityConstants.ROUTE_NODE_NAME, nodeName);
-                canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+                canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                         PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                         PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
                         new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
@@ -468,7 +467,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			AttributeSet permissionDetails = new AttributeSet();
 			AttributeSet roleQuals = new AttributeSet();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+			return Boolean.valueOf(getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
 					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;
@@ -483,7 +482,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
                 AttributeSet roleQuals = new AttributeSet();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-                boolean returnValue = getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
+                boolean returnValue = getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
                         PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
                 return Boolean.valueOf(returnValue);
             }
@@ -528,17 +527,5 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
 		
 		return identityService;
-	}
-
-	public void setPermissionService(IdentityManagementService permissionService) {
-		this.permissionService = permissionService;
-	}
-
-	public IdentityManagementService getPermissionService()throws OperationFailedException{
-		if(permissionService==null){
-        	throw new OperationFailedException("Permission Service is unavailable");
-        }
-
-		return permissionService;
 	}
 }

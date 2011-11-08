@@ -253,7 +253,6 @@
     <bean id="WorkflowRpcGwtServlet"
           class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
