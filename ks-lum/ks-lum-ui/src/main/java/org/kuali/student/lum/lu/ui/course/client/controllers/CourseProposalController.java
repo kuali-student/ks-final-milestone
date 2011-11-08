@@ -160,15 +160,19 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @Override
     public void setViewContext(ViewContext viewContext) {
     	super.setViewContext(viewContext);
+    	
+    	//Set the permission to check based on the action being performed.
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
     		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
+    			//Opening an existing proposal
     			viewContext.setPermissionType(PermissionType.OPEN);
     		} else{
-    			//they are trying to make a modification
+    			//Creating proposal for modification, hence initiating a new proposal
     			viewContext.setPermissionType(PermissionType.INITIATE);
     		}
     	}
     	else{
+    		//Creating a brand new proposal, hence intitiating a new proposal.
     		viewContext.setPermissionType(PermissionType.INITIATE);
     	}
     }
@@ -993,14 +997,22 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
 	@Override
+	/**
+	 * Override method to determine if user has access to screen and if they have permission to open or initiate the proposal. 
+	 */
 	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
-		Map<String,String> attributes = new HashMap<String,String>();
-//		if (StringUtils.isNotBlank(getViewContext().getId())) {
 		GWT.log("Attempting Auth Check.", null);
+
+		//Get the id to use to check permissions, this could either be the proposal id or the workflow document id,
+		//will pass the id & id type as attributes to permission service.
+		Map<String,String> attributes = new HashMap<String,String>();
 		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
 			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 		}
 
+		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
+		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
+		//id of the proposal object)
 		cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override

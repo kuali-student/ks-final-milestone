@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.assembly.data.Data;
@@ -14,8 +16,8 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.common.assembly.transform.TransformationManager;
+import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -42,6 +44,8 @@ public abstract class AbstractDataService implements DataService{
 	private TransformationManager transformationManager;
 	
 	private IdentityManagementService permissionService;
+	
+	private WorkflowUtility workflowUtilityService;
 
     //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
@@ -187,32 +191,48 @@ public abstract class AbstractDataService implements DataService{
 			String permissionTemplateName = type.getPermissionTemplateName();
 			
 			AttributeSet roleQuals = new AttributeSet();
-			if (attributes != null) {				
+			AttributeSet permissionDetails = new AttributeSet();
+			
+			if (attributes != null) {
+				//Determine permission details and role qualifiers to pass into permission service.
+				//We will use same attributes for permission details and role qualifiers (never hurts to use more than needed)
+				
 				if (proposalService != null){
 					ProposalInfo proposalInfo = null;
 					try {
+						//Retrieve the proposal info provided the proposal id (passed in as KS_JEW_OBJECT_ID) or the workflow id
 						if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
 							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
 						} else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
 							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
 						}
+						
+						//Check if the route status is in the list of allowed statuses
+						DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(proposalInfo.getWorkflowId()));
+						String routeStatusCode = docDetail.getDocRouteStatus(); 
+
+						//Populate attributes with additional attributes required for permission check
 						if (proposalInfo != null){
 							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
 							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
 							attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
+							attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
 						}
 					} catch (Exception e){
-						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
+						LOG.error("Could not retrieve proposal to determine permission qualifiers:" + e.toString());
 					}
 				}
-		        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
+				
+				permissionDetails.putAll(attributes);
+				
+				//Put in additional random number for role qualifiers. This is to avoid this request from being cached. 
+				//Might want to do this only for specific templates to take advantage of caching
 				attributes.put("RAND_NO_CACHE", UUID.randomUUID().toString());
-
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
 				LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
-				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, null, roleQuals);
+				result = getPermissionService().isAuthorizedByTemplateName(user, namespaceCode, permissionTemplateName, permissionDetails, roleQuals);
 			}
 			else {
 				LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
@@ -280,6 +300,14 @@ public abstract class AbstractDataService implements DataService{
 
 	public void setProposalService(ProposalService proposalService) {
 		this.proposalService = proposalService;
+	}
+	
+	public WorkflowUtility getWorkflowUtilityService() {
+		return workflowUtilityService;
+	}
+
+	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
+		this.workflowUtilityService = workflowUtilityService;
 	}
 
 	protected abstract String getDefaultWorkflowDocumentType();
