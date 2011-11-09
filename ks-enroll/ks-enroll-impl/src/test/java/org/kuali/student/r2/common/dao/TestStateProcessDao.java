@@ -11,7 +11,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.model.StateProcessEntity;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-@Ignore
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestStateProcessDao extends AbstractTransactionalDaoTest{
 	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessDao", testSqlFile = "classpath:ks-common.sql")
@@ -21,6 +20,7 @@ public class TestStateProcessDao extends AbstractTransactionalDaoTest{
 	public void testGetProcessByKey(){
 		StateProcessEntity sp = dao.getProcessByKey(AtpServiceConstants.ATP_PROCESS_KEY);
 		assertNotNull(sp);
-		assertEquals(sp.getId(), AtpServiceConstants.ATP_PROCESS_KEY);   
+		assertEquals(AtpServiceConstants.ATP_PROCESS_KEY, sp.getId());
+        assertEquals("kuali atp state process", sp.getDescription());
 	}
 }
