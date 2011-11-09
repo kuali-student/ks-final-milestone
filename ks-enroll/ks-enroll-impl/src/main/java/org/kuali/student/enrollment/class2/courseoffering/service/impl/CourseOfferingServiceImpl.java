@@ -235,17 +235,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         	courseOfferingInfo = coAssembler.assemble(courseInfo);
         	courseOfferingInfo.setCourseId(courseId);
         }
-        else
+        else {
         	throw new DoesNotExistException("The course does not exist. course: " + courseId);
-        
-        if(acalService.getTerm(termKey, context) != null)
+        }
+
+        if(acalService.getTerm(termKey, context) != null) {
         	courseOfferingInfo.setTermKey(termKey);
-        else
+        }
+        else {
         	throw new DoesNotExistException("The term does not exist. term: " + termKey);
-        
-        if (checkExistenceForFormats(formatIdList, context))
+        }
+
+        if (checkExistenceForFormats(formatIdList, context)) {
         	courseOfferingInfo.setFormatIds(formatIdList);
-        
+        }
+
         courseOfferingInfo.setStateKey(getStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, context));
         courseOfferingInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         
@@ -314,10 +318,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			MissingParameterException, OperationFailedException{
         String stateKey = null;
         List<StateInfo> ivStates = stateService.getInitialValidStates(processKey, context);
-        if(ivStates != null && ivStates.size() > 0)
+        if(ivStates != null && ivStates.size() > 0) {
         	stateKey = ivStates.get(0).getKey();
-        else
-        	stateKey = defaultState;	
+        }
+        else {
+        	stateKey = defaultState;
+        }
         
         return stateKey;
 	}
@@ -337,12 +343,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	
 	            if(lui != null){
 	            	LuiInfo updated = luiService.updateLui(courseOfferingId, lui, context);
-	            	if (updated != null)
+	            	if (updated != null) {
 	            		processRelationsForCourseOffering(courseOfferingInfo, context);
+                    }
 	            }
         	}
-        	else
+        	else {
         		throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
+            }
         } catch (DoesNotExistException e1) {
             throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
         }
@@ -357,7 +365,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
 
 		//how to determine that the lui already exist?
-		if(co.getHasFinalExam()) processFinalExam(co, context);
+		if(co.getHasFinalExam()) {
+            processFinalExam(co, context);
+        }
 			
 		//TODO:jointOfferingIds -- ignore for core slice
 
@@ -425,8 +435,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			if(atpKey != null){
 				for(String instructorId: currrentInstructors){
 					LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
-					if(lpr != null )
+					if(lpr != null ) {
 						lprService.deleteLpr(lpr.getId(), context);
+                    }
 				}
 			}
 		}
@@ -468,8 +479,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			
 			if(lprs != null && !lprs.isEmpty()){
 				for(LuiPersonRelationInfo lpri : lprs){
-					if(lpri.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY))
+					if(lpri.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
 						 lpr = lpri;
+                    }
 				}
 			}			
 		} catch (DisabledIdentifierException e) {
@@ -865,10 +877,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			try {
 				String termKey = null;
 				
-				if(registrationGroupInfo.getTermKey()!= null)
+				if(registrationGroupInfo.getTermKey()!= null) {
 					termKey = registrationGroupInfo.getTermKey();
-				else
+                }
+				else {
 					termKey = getTermkeyByCourseOffering(courseOfferingId, context);
+                }
 				
 				if(termKey != null){
 					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
@@ -881,8 +895,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 					
 					return registrationGroupInfo;
 				}
-				else
+				else {
 					throw new OperationFailedException("termkey is missing.");
+                }
 			} catch (DoesNotExistException e) {
 				throw new OperationFailedException();
 			}
