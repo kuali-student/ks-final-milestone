@@ -18,9 +18,7 @@ package org.kuali.student.lum.common.client.lu;
 
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- *
+ * List of constants used in the Lum UI  
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
