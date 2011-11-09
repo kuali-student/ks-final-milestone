@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
@@ -21,12 +22,12 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -80,7 +81,8 @@ public class CommentTool implements HasReferenceId {
     private HorizontalPanel commentSectionPanel;
     private KSButton editButton;
     private KSButton deleteButton;
-    
+    private Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
+    private Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
 
     public enum EditMode {
         ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
@@ -433,8 +435,10 @@ public class CommentTool implements HasReferenceId {
                     }
                 });
                 commentsTableLayout.setWidget(rowIndex, columnIndex, editButton);
+                editButtonMap.put(commentCounter, editButton);
                 columnIndex++;
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
+                deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
                 if (userId == null || !userId.equals(this.loggedInUserId)) {
                     editButton.setVisible(false);
@@ -473,8 +477,14 @@ public class CommentTool implements HasReferenceId {
                 htmlLabel.setVisible(false);
                 leaveACommentTitle.setVisible(false);
                 commentSectionPanel.setVisible(false);
-                editButton.setVisible(false);
-                deleteButton.setVisible(false);
+                
+                for (int i = 0; i < editButtonMap.size(); i++) {
+                    editButtonMap.get(i).setVisible(false);                    
+                }
+                for (int i = 0; i < deleteButtonMap.size(); i++) {
+                    deleteButtonMap.get(i).setVisible(false);                    
+                }
+
                 break;
         }
     }
