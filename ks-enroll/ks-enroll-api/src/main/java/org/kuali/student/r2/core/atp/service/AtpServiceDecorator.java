@@ -498,7 +498,7 @@ public class AtpServiceDecorator implements AtpService {
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
 
-        return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey, context);
+        return getNextDecorator().getAtpMilestoneRelationsByMilestone(milestoneKey, context);
     }
 
     @Override

@@ -574,19 +574,22 @@ public class TestAtpServiceImpl {
     }
     
     @Test
-    @Ignore
     public void testGetAtpMilestoneRelationsByMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpMilestoneRelationInfo> results =
                 atpService.getAtpMilestoneRelationsByMilestone("testId2", callContext);
-        
         assertNotNull(results);
-        assertEquals(results.size(), 1);
+        assertEquals(2, results.size());
         
         AtpMilestoneRelationInfo rel = results.get(0);
-        assertEquals(rel.getAtpKey(), "testAtpId2");
-        assertEquals(rel.getMilestoneKey(), "testId2");
-        assertEquals(rel.getTypeKey(), "kuali.atp.milestone.relation.owns");
-        
+        assertEquals("testAtpId2", rel.getAtpKey());
+        assertEquals("testId2", rel.getMilestoneKey());
+        assertEquals("kuali.atp.milestone.relation.owns", rel.getTypeKey());
+
+        rel = results.get(1);
+        assertEquals("testDeleteAtpId2", rel.getAtpKey());
+        assertEquals("kuali.atp.milestone.relation.owns", rel.getTypeKey());
+        assertEquals("ATPMSTONEREL-4", rel.getId());
+
         List<AtpMilestoneRelationInfo> fakeRelations = null;
         try {
             fakeRelations = atpService.getAtpMilestoneRelationsByMilestone("fakeAtp", callContext);

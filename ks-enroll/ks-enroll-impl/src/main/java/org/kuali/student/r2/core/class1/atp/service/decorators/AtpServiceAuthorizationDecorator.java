@@ -969,7 +969,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpMilestoneRelationsByMilestone", null, null)) {
-        	return getNextDecorator().getAtpMilestoneRelationsByAtp(milestoneKey, context);
+        	return getNextDecorator().getAtpMilestoneRelationsByMilestone(milestoneKey, context);
         }
         else {
            throw new PermissionDeniedException();
