@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -22,8 +23,8 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
@@ -50,28 +51,36 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         layout.addContentTitleWidget(getHowToWidget());
         layout.addContentTitleWidget(getActionListLink());
 
-        //Create
+        //TODO: Fix to improve performance, so permissions don't have to be loaded every time
+        Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionType.INITIATE);
+        
+        //Create Block
         final LinkContentBlock create = new LinkContentBlock(
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
         
-        create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
+
+        //Add "Create Course" link if user has create course permission
+		Application.getApplicationContext().getSecurityContext().checkPermission(LUUIPermissions.CREATE_COURSE_BY_PROPOSAL,	
+			new Callback<Boolean>() {
+				public void exec(Boolean result) {
+					if (result){
+						create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
+					}
+				}			
+		});
         
-        //KSLAB-2310 :
-        //ADMIN CREATE PROGRAM: On CM landing page, only authorized users 
-        //should be able to view and click link
-       
-		Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview",	new Callback<Boolean>() {
-			@Override
+		//Add "Create Program" link if user has any create program permission
+		String[] permissionsToCheck = {LUUIPermissions.CREATE_PROGRAM_BY_PROPOSAL, LUUIPermissions.CREATE_PROGRAM_BY_ADMIN};
+		Application.getApplicationContext().getSecurityContext().checkPermission(permissionsToCheck,	
+			new Callback<Boolean>() {
 			public void exec(Boolean result) {
 				if (result)	{
-					// do nothing with the navigation link
 					create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
 				}				
 			}
         });
                 
-
 
         //View + Modify
         LinkContentBlock viewModify = new LinkContentBlock(

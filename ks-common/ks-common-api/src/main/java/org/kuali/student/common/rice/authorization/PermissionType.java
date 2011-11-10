@@ -16,7 +16,9 @@
 package org.kuali.student.common.rice.authorization;
 
 /**
- * Enum to be used for Permission constants
+ * Enum to be used for Permission types. Permission Type is analagous to a permission template.
+ * 
+ * When using permission types, permission checks will be performed using template names. 
  *
  */
 public enum PermissionType {
