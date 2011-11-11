@@ -1,35 +1,22 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -37,11 +24,10 @@ import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 import org.w3c.dom.Element;
 
-@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle",
-        "longTitle", "transcriptTitle","code", "universityClassification", "startTermKey", "endTermKey", "endProgramEntryTermKey",
-        "programRequirements", "divisionsContentOwner","divisionsStudentOversight" ,"unitsContentOwner", "unitsStudentOversight",
-        "referenceURL","catalogDescr","catalogPublicationTargets", "learningObjectives", "cip2000Code", "diplomaTitle","hegisCode",
-         "selectiveEnrollmentCode", "cip2010Code","meta", "attributes", "_futureElements"})
+@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "code", "universityClassification", "startTermKey",
+        "endTermKey", "endProgramEntryTermKey", "programRequirements", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight", "referenceURL",
+        "catalogDescr", "catalogPublicationTargets", "learningObjectives", "cip2000Code", "diplomaTitle", "hegisCode", "selectiveEnrollmentCode", "cip2010Code", "meta", "attributes",
+        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serializable {
 
@@ -52,13 +38,13 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
 
     @XmlElement
     private String longTitle;
-    
+
     @XmlElement
     private String transcriptTitle;
 
     @XmlElement
     private String code;
-    
+
     @XmlElement
     private String universityClassification;
 
@@ -76,28 +62,28 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
 
     @XmlElement
     private List<String> divisionsContentOwner;
-    
+
     @XmlElement
     private List<String> divisionsStudentOversight;
 
     @XmlElement
     private List<String> unitsContentOwner;
-    
+
     @XmlElement
     private List<String> unitsStudentOversight;
 
     @XmlElement
     private String referenceURL;
-    
+
     @XmlElement
     private RichTextInfo catalogDescr;
 
     @XmlElement
     private List<String> catalogPublicationTargets;
-    
+
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
-    
+
     @XmlElement
     private String cip2000Code;
 
@@ -116,44 +102,43 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
     @XmlAnyElement
     private List<Element> _futureElements;
 
-
-    public CoreProgramInfo(){
+    public CoreProgramInfo() {
 
     }
 
-    public CoreProgramInfo (CoreProgram coreProgram){
+    public CoreProgramInfo(CoreProgram coreProgram) {
         super(coreProgram);
-        if(coreProgram!=null){
-           shortTitle = coreProgram.getShortTitle();
-           longTitle = coreProgram.getLongTitle();
-           transcriptTitle = coreProgram.getTranscriptTitle();
-           this.code = coreProgram.getCode();
-           this.universityClassification = coreProgram.getUniversityClassification();
-           this.startTermKey = coreProgram.getStartTermKey();
-           this.endTermKey = coreProgram.getEndTermKey();
-           this.endProgramEntryTermKey = coreProgram.getEndProgramEntryTermKey();
-           this.programRequirements = coreProgram.getProgramRequirements()!=null ? new ArrayList<String>(coreProgram.getProgramRequirements()) :new ArrayList<String>();
-           this.divisionsContentOwner =  coreProgram.getDivisionsContentOwner()!=null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()): new ArrayList<String>();
-           this.divisionsStudentOversight = coreProgram.getDivisionsStudentOversight()!=null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()): new ArrayList<String>();
-           this.unitsContentOwner = coreProgram.getUnitsContentOwner()!=null ? new ArrayList<String>(coreProgram.getUnitsContentOwner()): new ArrayList<String>();
-           this.unitsStudentOversight = coreProgram.getUnitsStudentOversight()!=null ? new ArrayList<String>(coreProgram.getUnitsStudentOversight()): new ArrayList<String>();
-           this.referenceURL = coreProgram.getReferenceURL();
-           this.catalogDescr = coreProgram.getCatalogDescr()!=null? new RichTextInfo(coreProgram.getCatalogDescr()): null;
-           this.catalogPublicationTargets = coreProgram.getCatalogPublicationTargets()!=null? new ArrayList<String>(coreProgram.getCatalogPublicationTargets()): new ArrayList<String>();
-           List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+        if (coreProgram != null) {
+            shortTitle = coreProgram.getShortTitle();
+            longTitle = coreProgram.getLongTitle();
+            transcriptTitle = coreProgram.getTranscriptTitle();
+            this.code = coreProgram.getCode();
+            this.universityClassification = coreProgram.getUniversityClassification();
+            this.startTermKey = coreProgram.getStartTermKey();
+            this.endTermKey = coreProgram.getEndTermKey();
+            this.endProgramEntryTermKey = coreProgram.getEndProgramEntryTermKey();
+            this.programRequirements = coreProgram.getProgramRequirements() != null ? new ArrayList<String>(coreProgram.getProgramRequirements()) : new ArrayList<String>();
+            this.divisionsContentOwner = coreProgram.getDivisionsContentOwner() != null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()) : new ArrayList<String>();
+            this.divisionsStudentOversight = coreProgram.getDivisionsStudentOversight() != null ? new ArrayList<String>(coreProgram.getDivisionsContentOwner()) : new ArrayList<String>();
+            this.unitsContentOwner = coreProgram.getUnitsContentOwner() != null ? new ArrayList<String>(coreProgram.getUnitsContentOwner()) : new ArrayList<String>();
+            this.unitsStudentOversight = coreProgram.getUnitsStudentOversight() != null ? new ArrayList<String>(coreProgram.getUnitsStudentOversight()) : new ArrayList<String>();
+            this.referenceURL = coreProgram.getReferenceURL();
+            this.catalogDescr = coreProgram.getCatalogDescr() != null ? new RichTextInfo(coreProgram.getCatalogDescr()) : null;
+            this.catalogPublicationTargets = coreProgram.getCatalogPublicationTargets() != null ? new ArrayList<String>(coreProgram.getCatalogPublicationTargets()) : new ArrayList<String>();
+            List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
 
-           if (coreProgram.getLearningObjectives()!=null){
-                 for(LoDisplay loDisplay: coreProgram.getLearningObjectives()){
-                        LoDisplayInfo loDisplayInfo = new LoDisplayInfo(loDisplay);
-                         learningObjectives.add(loDisplayInfo);
-                 }
-           }
-           this.learningObjectives = learningObjectives;
-           this.cip2000Code = coreProgram.getCip2000Code();
-           this.diplomaTitle = coreProgram.getDiplomaTitle();
-           this.hegisCode = coreProgram.getHegisCode();
-           this.selectiveEnrollmentCode = coreProgram.getSelectiveEnrollmentCode();
-           this.cip2010Code = coreProgram.getCip2010Code();
+            if (coreProgram.getLearningObjectives() != null) {
+                for (LoDisplay loDisplay : coreProgram.getLearningObjectives()) {
+                    LoDisplayInfo loDisplayInfo = new LoDisplayInfo(loDisplay);
+                    learningObjectives.add(loDisplayInfo);
+                }
+            }
+            this.learningObjectives = learningObjectives;
+            this.cip2000Code = coreProgram.getCip2000Code();
+            this.diplomaTitle = coreProgram.getDiplomaTitle();
+            this.hegisCode = coreProgram.getHegisCode();
+            this.selectiveEnrollmentCode = coreProgram.getSelectiveEnrollmentCode();
+            this.cip2010Code = coreProgram.getCip2010Code();
 
         }
     }
@@ -192,16 +177,16 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
     public String getTranscriptTitle() {
         return transcriptTitle;
     }
-    
+
     public void setTranscriptTitle(String transcriptTitle) {
         this.transcriptTitle = transcriptTitle;
     }
 
     @Override
     public String getDiplomaTitle() {
-        return diplomaTitle;  //To change body of implemented methods use File | Settings | File Templates.
+        return diplomaTitle; // To change body of implemented methods use File |
+                             // Settings | File Templates.
     }
-
 
     public void setDiplomaTitle(String diplomaTitle) {
         this.diplomaTitle = diplomaTitle;
@@ -269,7 +254,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
     public void setDivisionsStudentOversight(List<String> divisionsStudentOversight) {
         this.divisionsStudentOversight = divisionsStudentOversight;
     }
-    
+
     @Override
     public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
@@ -293,8 +278,8 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
         return catalogDescr;
     }
 
-    public void setCatalogDescr( RichTextInfo catalogDescr) {
-         this.catalogDescr = catalogDescr;
+    public void setCatalogDescr(RichTextInfo catalogDescr) {
+        this.catalogDescr = catalogDescr;
     }
 
     @Override
@@ -329,7 +314,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
         return cip2000Code;
     }
 
-
     public void setCip2000Code(String cip2000Code) {
         this.cip2000Code = cip2000Code;
     }
@@ -339,16 +323,14 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
         return cip2010Code;
     }
 
-
     public void setCip2010Code(String cip2010Code) {
         this.cip2010Code = cip2010Code;
     }
 
     @Override
     public String getHegisCode() {
-       return hegisCode;
+        return hegisCode;
     }
-
 
     public void setHegisCode(String hegisCode) {
         this.hegisCode = hegisCode;
@@ -358,7 +340,6 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
     public String getSelectiveEnrollmentCode() {
         return selectiveEnrollmentCode;
     }
-
 
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;

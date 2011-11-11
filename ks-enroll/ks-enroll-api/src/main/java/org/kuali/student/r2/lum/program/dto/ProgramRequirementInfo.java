@@ -1,52 +1,34 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.program.dto;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
 
 /**
  * Detailed information about a program requirement
- *
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:56:20 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/programRequirementInfo+Structure">ProgramRequirementInfo</>
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
  *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement {
 
@@ -66,14 +48,32 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
 
     @XmlElement
     private Integer minCredits;
-    
+
     @XmlElement
     private Integer maxCredits;
-    
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
 
+    public ProgramRequirementInfo() {
+
+    }
+
+    public ProgramRequirementInfo(ProgramRequirement programRequirement) {
+        super(programRequirement);
+        if (programRequirement != null) {
+            this.shortTitle = programRequirement.getShortTitle();
+            this.longTitle = programRequirement.getLongTitle();
+            this.statement = programRequirement.getStatement();
+            this.minCredits = programRequirement.getMinCredits();
+            this.maxCredits = programRequirement.getMaxCredits();
+            List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+            if (programRequirement.getLearningObjectives() != null) {
+                for (LoDisplayInfo loDisplay : programRequirement.getLearningObjectives()) {
+                    learningObjectives.add(new LoDisplayInfo(loDisplay));
+                }
+            }
+        }
+    }
+
+    @Override
     public String getShortTitle() {
         return shortTitle;
     }
@@ -82,6 +82,7 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
         this.shortTitle = shortTitle;
     }
 
+    @Override
     public String getLongTitle() {
         return longTitle;
     }
@@ -90,9 +91,9 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
         this.longTitle = longTitle;
     }
 
-
+    @Override
     public List<LoDisplayInfo> getLearningObjectives() {
-        if(null == learningObjectives) {
+        if (null == learningObjectives) {
             learningObjectives = new ArrayList<LoDisplayInfo>(0);
         }
         return learningObjectives;
@@ -102,6 +103,7 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
         this.learningObjectives = learningObjectives;
     }
 
+    @Override
     public StatementTreeViewInfo getStatement() {
         return statement;
     }
@@ -109,7 +111,8 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
     public void setStatement(StatementTreeViewInfo statement) {
         this.statement = statement;
     }
-    
+
+    @Override
     public Integer getMinCredits() {
         return minCredits;
     }
@@ -118,6 +121,7 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
         this.minCredits = minCredits;
     }
 
+    @Override
     public Integer getMaxCredits() {
         return maxCredits;
     }

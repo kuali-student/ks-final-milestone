@@ -1,8 +1,8 @@
 package org.kuali.student.r2.lum.program.infc;
 
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 import java.util.ArrayList;
 import java.util.List;

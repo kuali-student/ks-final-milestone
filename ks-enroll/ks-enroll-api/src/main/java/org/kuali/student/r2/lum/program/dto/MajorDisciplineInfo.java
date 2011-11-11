@@ -1,53 +1,48 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
 
 /**
  * Detailed information about a single major discipline program
- *
+ * 
  * @Author KSContractMojo
  * @Author Li Pan
  * @Since Wed Jun 30 14:55:53 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure">MajorDisciplineInfo</>
- *
+ * @See <a href=
+ *      "https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure"
+ *      >MajorDisciplineInfo</>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline {
+public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -83,7 +78,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private String selectiveEnrollmentCode;
-        
+
     @XmlElement
     private List<String> resultOptions;
 
@@ -91,17 +86,17 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private TimeAmountInfo stdDuration;
 
     @XmlElement
-    private String startTerm;
+    private String startTermKey;
 
     @XmlElement
-    private String endTerm;
+    private String endTermKey;
 
     @XmlElement
-    private String endProgramEntryTerm;
+    private String endProgramEntryTermKey;
 
     @XmlElement
     private String nextReviewPeriod;
-    
+
     @XmlElement
     private Date effectiveDate;
 
@@ -122,7 +117,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private List<String> catalogPublicationTargets;
-    
+
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
@@ -136,11 +131,11 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private List<String> programRequirements;
 
     @XmlElement
-    private List<AccreditationInfo> accreditingAgencies;    
+    private List<AccreditationInfo> accreditingAgencies;
 
     @XmlElement
     private List<String> divisionsContentOwner;
-    
+
     @XmlElement
     private List<String> divisionsStudentOversight;
 
@@ -155,7 +150,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private List<String> unitsContentOwner;
-    
+
     @XmlElement
     private List<String> unitsStudentOversight;
 
@@ -168,13 +163,78 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     @XmlElement
     private List<String> unitsFinancialControl;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    public MajorDisciplineInfo() {
+
+    }
+
+    public MajorDisciplineInfo(MajorDiscipline majorDiscipline){
+
+        this.intensity = majorDiscipline.getIntensity();
+
+        this.referenceURL =  majorDiscipline.getReferenceURL();
+        List<CluInstructorInfo> newPublishedInstructors = new ArrayList<CluInstructorInfo>();
+        if(majorDiscipline.getPublishedInstructors()!=null){
+//            for(CluInstructorInfo publishedInstructor: majorDiscipline.getPublishedInstructors() ){
+//                newPublishedInstructors.add(new CluInstructorInfo(publishedInstructor));
+//            }
+        }
+        this.publishedInstructors = newPublishedInstructors;
+        this.credentialProgramId = majorDiscipline.getCredentialProgramId();
+        List<ProgramVariationInfo> newVariations  = new ArrayList<ProgramVariationInfo>();
+        if(majorDiscipline.getVariations()!=null){
+            for(ProgramVariationInfo variation : majorDiscipline.getVariations() ){
+                newVariations.add(new ProgramVariationInfo(variation));
+            }
+        }
+        this.code = majorDiscipline.getCode();
+        this.cip2000Code = majorDiscipline.getCip2000Code() ;
+        this.cip2010Code = majorDiscipline.getCip2010Code() ;
+        this.hegisCode = majorDiscipline.getHegisCode();
+        this.universityClassification = majorDiscipline.getUniversityClassification() ;
+        this.selectiveEnrollmentCode = majorDiscipline.getSelectiveEnrollmentCode() ;
+        this.resultOptions = majorDiscipline.getResultOptions() ;
+        this.stdDuration = new TimeAmountInfo(majorDiscipline.getStdDuration());
+        this.startTermKey = majorDiscipline.getStartTermKey();
+        this.endTermKey = majorDiscipline.getEndTermKey();
+        this.endProgramEntryTermKey  = majorDiscipline.getEndProgramEntryTermKey();
+        this.nextReviewPeriod =  majorDiscipline.getNextReviewPeriod();
+        this.effectiveDate=  majorDiscipline.getEffectiveDate() ;
+        this.longTitle = majorDiscipline.getLongTitle();
+        this.transcriptTitle = majorDiscipline.getTranscriptTitle();
+        this.diplomaTitle = majorDiscipline.getDiplomaTitle();
+        this.catalogDescr = new RichTextInfo( majorDiscipline.getCatalogDescr());
+        this.catalogPublicationTargets = new ArrayList<String>(majorDiscipline.getCatalogPublicationTargets());
+        List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+        
+        if(majorDiscipline.getLearningObjectives()!=null){
+           
+            for(LoDisplayInfo loDisplay : majorDiscipline.getLearningObjectives() ){
+                
+                learningObjectives.add( new LoDisplayInfo(loDisplay));
+            }
+        }
+        this.learningObjectives = learningObjectives;
+        this.campusLocations = new ArrayList<String>(majorDiscipline.getCampusLocations());
+        this.orgCoreProgram = new CoreProgramInfo(majorDiscipline.getOrgCoreProgram());
+        this.programRequirements = new ArrayList<String>(majorDiscipline.getProgramRequirements());
+        this.accreditingAgencies = new ArrayList<AccreditationInfo>();
+        this.divisionsContentOwner = new ArrayList<String>(majorDiscipline.getDivisionsContentOwner());
+        this.divisionsStudentOversight = new ArrayList<String>(majorDiscipline.getDivisionsContentOwner());
+        this.divisionsDeployment = new ArrayList<String>(majorDiscipline.getDivisionsDeployment());
+        this.divisionsFinancialResources = new ArrayList<String>(majorDiscipline.getDivisionsFinancialResources());
+        this.divisionsFinancialControl =  new ArrayList<String>(majorDiscipline.getDivisionsFinancialControl());
+        this.unitsContentOwner = new ArrayList<String>(majorDiscipline.getUnitsContentOwner());
+        this.unitsStudentOversight = new ArrayList<String>(majorDiscipline.getUnitsStudentOversight());
+        this.unitsDeployment = new ArrayList<String>(majorDiscipline.getUnitsDeployment());
+        this.unitsFinancialResources = new ArrayList<String>(majorDiscipline.getUnitsFinancialResources());
+        this.unitsFinancialControl = new ArrayList<String>(majorDiscipline.getUnitsFinancialControl());
+    
+    }
 
     /**
      * Indicates if the program is full time, part time, both etc
      */
+    @Override
     public String getIntensity() {
         return intensity;
     }
@@ -186,6 +246,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * An URL for additional information about the Major.
      */
+    @Override
     public String getReferenceURL() {
         return referenceURL;
     }
@@ -195,8 +256,11 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     /**
-     * Instructors associated with this Major. This may not be an exhaustive list, and instead may only be used to indicate potential instructors in publication.
+     * Instructors associated with this Major. This may not be an exhaustive
+     * list, and instead may only be used to indicate potential instructors in
+     * publication.
      */
+    @Override
     public List<CluInstructorInfo> getPublishedInstructors() {
         if (publishedInstructors == null) {
             publishedInstructors = new ArrayList<CluInstructorInfo>(0);
@@ -211,6 +275,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * Identifier of the credential program under which the major belongs
      */
+    @Override
     public String getCredentialProgramId() {
         return credentialProgramId;
     }
@@ -222,6 +287,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * Program variations for the Major
      */
+    @Override
     public List<ProgramVariationInfo> getVariations() {
         if (variations == null) {
             variations = new ArrayList<ProgramVariationInfo>(0);
@@ -234,8 +300,13 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     /**
-     * The composite string that is used to officially reference or publish the Major. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
+     * The composite string that is used to officially reference or publish the
+     * Major. Note it may have an internal structure that each Institution may
+     * want to enforce. This structure may be composed from the other parts of
+     * the structure such as Level amp; Division, but may include items such as
+     * cluType.
      */
+    @Override
     public String getCode() {
         return code;
     }
@@ -247,6 +318,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * CIP 2000 Code for the Program
      */
+    @Override
     public String getCip2000Code() {
         return cip2000Code;
     }
@@ -258,6 +330,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * CIP 2010 Code for the Program
      */
+    @Override
     public String getCip2010Code() {
         return cip2010Code;
     }
@@ -291,7 +364,8 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     /**
-     * Specifies if the Major is Selective Major, Limited Enrollment program or Selective Admissions
+     * Specifies if the Major is Selective Major, Limited Enrollment program or
+     * Selective Admissions
      */
     @Override
     public String getSelectiveEnrollmentCode() {
@@ -301,29 +375,30 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
         this.selectiveEnrollmentCode = selectiveEnrollmentCode;
     }
-    
+
     /**
-     * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Major.
+     * The first academic time period that this clu would be effective. This may
+     * not reflect the first "real" academic time period for this Major.
      */
     @Override
-    public String getStartTerm() {
-        return startTerm;
+    public String getStartTermKey() {
+        return startTermKey;
     }
 
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
+    public void setStartTermKey(String startTermKey) {
+        this.startTermKey = startTermKey;
     }
 
     /**
      * The last academic time period that this Major would be effective.
      */
     @Override
-    public String getEndTerm() {
-        return endTerm;
+    public String getEndTermKey() {
+        return endTermKey;
     }
 
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
+    public void setEndTermKey(String endTermKey) {
+        this.endTermKey = endTermKey;
     }
 
     @Override
@@ -336,7 +411,9 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     /**
-     * Date and time the Course became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time the Course became effective. This is a similar concept to
+     * the effective date on enumerated values. When an expiration date has been
+     * specified, this field must be less than or equal to the expiration date.
      */
     @Override
     public Date getEffectiveDate() {
@@ -372,7 +449,9 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     /**
-     * Information related to the official identification of the Major discipline, typically in human readable form. Used to officially reference or publish.
+     * Information related to the official identification of the Major
+     * discipline, typically in human readable form. Used to officially
+     * reference or publish.
      */
     @Override
     public String getTranscriptTitle() {
@@ -390,17 +469,17 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @Override
     public RichTextInfo getCatalogDescr() {
-        return  catalogDescr;
+        return catalogDescr;
     }
 
     public void setDiplomaTitle(String diplomaTitle) {
         this.diplomaTitle = diplomaTitle;
     }
 
-
     /**
-     * List of catalog targets where major information will be published.   
+     * List of catalog targets where major information will be published.
      */
+    @Override
     public List<String> getCatalogPublicationTargets() {
         return catalogPublicationTargets;
     }
@@ -412,6 +491,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * Learning Objectives associated with this Major.
      */
+    @Override
     public List<LoDisplayInfo> getLearningObjectives() {
         if (learningObjectives == null) {
             learningObjectives = new ArrayList<LoDisplayInfo>(0);
@@ -426,6 +506,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * Places where this Major might be offered
      */
+    @Override
     public List<String> getCampusLocations() {
         if (campusLocations == null) {
             campusLocations = new ArrayList<String>(0);
@@ -437,6 +518,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.campusLocations = campusLocations;
     }
 
+    @Override
     public CoreProgramInfo getOrgCoreProgram() {
         return orgCoreProgram;
     }
@@ -448,6 +530,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     /**
      * Major Discipline Program Requirements.
      */
+    @Override
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {
             programRequirements = new ArrayList<String>(0);
@@ -455,6 +538,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         return programRequirements;
     }
 
+    @Override
     public List<String> getResultOptions() {
         return resultOptions;
     }
@@ -463,6 +547,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.resultOptions = resultOptions;
     }
 
+    @Override
     public org.kuali.student.r2.common.dto.TimeAmountInfo getStdDuration() {
         return stdDuration;
     }
@@ -471,14 +556,16 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.stdDuration = stdDuration;
     }
 
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
+    @Override
+    public String getEndProgramEntryTermKey() {
+        return endProgramEntryTermKey;
     }
 
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
+    public void setEndProgramEntryTermKey(String endProgramEntryTermKey) {
+        this.endProgramEntryTermKey = endProgramEntryTermKey;
     }
 
+    @Override
     public List<AccreditationInfo> getAccreditingAgencies() {
         return accreditingAgencies;
     }
@@ -490,7 +577,8 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     public void setProgramRequirements(List<String> programRequirements) {
         this.programRequirements = programRequirements;
     }
-    
+
+    @Override
     public List<String> getDivisionsContentOwner() {
         return divisionsContentOwner;
     }
@@ -499,6 +587,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsContentOwner = divisionsContentOwner;
     }
 
+    @Override
     public List<String> getDivisionsStudentOversight() {
         return divisionsStudentOversight;
     }
@@ -507,6 +596,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsStudentOversight = divisionsStudentOversight;
     }
 
+    @Override
     public List<String> getDivisionsDeployment() {
         return divisionsDeployment;
     }
@@ -515,6 +605,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsDeployment = divisionsDeployment;
     }
 
+    @Override
     public List<String> getDivisionsFinancialResources() {
         return divisionsFinancialResources;
     }
@@ -523,6 +614,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsFinancialResources = divisionsFinancialResources;
     }
 
+    @Override
     public List<String> getDivisionsFinancialControl() {
         return divisionsFinancialControl;
     }
@@ -531,6 +623,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsFinancialControl = divisionsFinancialControl;
     }
 
+    @Override
     public List<String> getUnitsContentOwner() {
         return unitsContentOwner;
     }
@@ -539,6 +632,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.unitsContentOwner = unitsContentOwner;
     }
 
+    @Override
     public List<String> getUnitsStudentOversight() {
         return unitsStudentOversight;
     }
@@ -547,6 +641,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.unitsStudentOversight = unitsStudentOversight;
     }
 
+    @Override
     public List<String> getUnitsDeployment() {
         return unitsDeployment;
     }
@@ -555,6 +650,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.unitsDeployment = unitsDeployment;
     }
 
+    @Override
     public List<String> getUnitsFinancialResources() {
         return unitsFinancialResources;
     }
@@ -563,6 +659,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.unitsFinancialResources = unitsFinancialResources;
     }
 
+    @Override
     public List<String> getUnitsFinancialControl() {
         return unitsFinancialControl;
     }
@@ -570,6 +667,5 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {
         this.unitsFinancialControl = unitsFinancialControl;
     }
-
 
 }

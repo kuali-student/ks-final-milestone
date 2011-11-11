@@ -1,12 +1,13 @@
 package org.kuali.student.r2.lum.program.infc;
 
 import org.kuali.student.common.dto.TimeAmountInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 
@@ -72,12 +73,12 @@ public interface MajorDiscipline extends IdEntity{
     /**
      * The first academic time period that this clu would be effective. This may not reflect the first "real" academic time period for this Major.
      */
-    public String getStartTerm() ;
+    public String getStartTermKey() ;
 
     /**
      * The last academic time period that this Major would be effective.
      */
-    public String getEndTerm() ;
+    public String getEndTermKey() ;
 
 
     public String getNextReviewPeriod() ;
@@ -134,7 +135,7 @@ public interface MajorDiscipline extends IdEntity{
 
     public TimeAmount getStdDuration() ;
 
-    public String getEndProgramEntryTerm() ;
+    public String getEndProgramEntryTermKey() ;
 
     public List<AccreditationInfo> getAccreditingAgencies() ;
 

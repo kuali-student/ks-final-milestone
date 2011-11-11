@@ -1,11 +1,27 @@
 package org.kuali.student.r2.lum.program.infc;
 
+import java.util.List;
+
+import org.kuali.student.r2.common.infc.IdEntity;
+
 /**
- * Created by IntelliJ IDEA.
- * User: sambitpatnaik
- * Date: 10/27/11
- * Time: 10:37 AM
- * To change this template use File | Settings | File Templates.
+ * Detailed information about a single honors program
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
-public interface HonorsProgram {
+public interface HonorsProgram extends IdEntity {
+    /**
+     * Identifier of the credential program under which the honors belongs
+     * 
+     * @name Credential Program Id
+     * @required
+     */
+    public String getCredentialProgramId();
+
+    /**
+     * 
+     * @name Honors Program Requirements.
+     */
+    public List<String> getProgramRequirements();
+
 }

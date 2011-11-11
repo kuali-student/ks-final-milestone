@@ -12,7 +12,22 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface MinorDiscipline extends IdEntity{
+    
+    /**
+     * Identifier of the credential program under which the minor belongs
+     * @Name Credential Program Id 
+     * @required
+     */
     public String getCredentialProgramId() ;
+    
+
+    /**
+     * 
+     *Minor Discipline Program Requirements.
+     * 
+     * @Name Program Requirements
+     * 
+     * */
     public List<String> getProgramRequirements() ;
 
 
