@@ -360,16 +360,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         try {
             // TODO fill in nlUsageType and language parameters once the implementation actually uses them
             statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null);
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-            throw new OperationFailedException("", e);
-        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-            throw new OperationFailedException("", e);
-        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
-            throw new MissingParameterException(e.getMessage());
-        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+        } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
-        } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
-            throw new OperationFailedException("", e);
         }
 
         List<ValidationResultInfo> resultInfos = new ArrayList<ValidationResultInfo>();
@@ -400,13 +392,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         resultInfo.setElement(failedRequirement.getId());
                         try {
                             resultInfo.setMessage(statementService.getNaturalLanguageForReqComponent(failedRequirement.getId(), "KUALI.RULE", "en"));
-                        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-                            throw new OperationFailedException(e.getMessage(), e);
-                        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-                            throw new OperationFailedException(e.getMessage(), e);
-                        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
-                            throw new MissingParameterException(e.getMessage());
-                        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+                        } catch (Exception e) {
                             throw new OperationFailedException(e.getMessage(), e);
                         }
 
