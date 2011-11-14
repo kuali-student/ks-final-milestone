@@ -12,13 +12,16 @@
 package org.kuali.student.r2.lum.lu.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.lu.infc.AdminOrg;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -26,6 +29,7 @@ import org.kuali.student.r2.lum.lu.infc.AdminOrg;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
+@XmlType()
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
@@ -37,8 +41,11 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
     @XmlElement
     private boolean isPrimary;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
     public AdminOrgInfo() {
-        
+
     }
 
     public AdminOrgInfo(AdminOrg adminOrg) {

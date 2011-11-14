@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlType;
 
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
@@ -25,13 +26,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 
- * Detailed information about a learning objective category. 
+ * Detailed information about a learning objective category.
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
-
+@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializable {
 
@@ -45,14 +44,23 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
 
     @XmlElement
     private Date expirationDate;
-    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    /**
-     * Unique identifier for a learning objective repository. Once set in
-     * creation, this is immutable.
-     */
+    public LoCategoryInfo() {
+
+    }
+
+    public LoCategoryInfo(LoCategory loCategory) {
+        super(loCategory);
+        if (loCategory != null) {
+            this.loRepository = loCategory.getLoRepository();
+            this.effectiveDate = new Date(loCategory.getEffectiveDate().getTime());
+            this.expirationDate = new Date(loCategory.getExpirationDate().getTime());
+        }
+    }
+
     @Override
     public String getLoRepository() {
         return loRepository;
@@ -62,12 +70,6 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
         this.loRepository = loRepository;
     }
 
-    /**
-     * Date and time that this learning objective category became effective.
-     * This is a similar concept to the effective date on enumerated values.
-     * When an expiration date has been specified, this field must be less than
-     * or equal to the expiration date.
-     */
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -77,14 +79,6 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this learning objective category expires. This is a
-     * similar concept to the expiration date on enumerated values. If
-     * specified, this should be greater than or equal to the effective date. If
-     * this field is not specified, then no expiration date has been currently
-     * defined and should automatically be considered greater than the effective
-     * date.
-     */
     @Override
     public Date getExpirationDate() {
         return expirationDate;
