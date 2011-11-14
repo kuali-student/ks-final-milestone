@@ -1,42 +1,16 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -46,12 +20,23 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.*;
+
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AtpService atpService;
     private AcademicCalendarAssembler acalAssembler;
     private TermAssembler termAssembler;
     private DataDictionaryService dataDictionaryService;
+    private CampusCalendarAssembler campusCalendarAssembler;
+
+    public CampusCalendarAssembler getCampusCalendarAssembler() {
+        return campusCalendarAssembler;
+    }
+
+    public void setCampusCalendarAssembler(CampusCalendarAssembler campusCalendarAssembler) {
+        this.campusCalendarAssembler = campusCalendarAssembler;
+    }
 
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
@@ -315,14 +300,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public CampusCalendarInfo getCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        AtpInfo atp = atpService.getAtp(campusCalendarKey,context);
+        return campusCalendarAssembler.assemble(atp,context);
     }
 
     @Override
     public List<CampusCalendarInfo> getCampusCalendarsByKeyList(List<String> campusCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<CampusCalendarInfo>();
+        List<AtpInfo> atps = atpService.getAtpsByKeyList(campusCalendarKeyList,context);
+        List<CampusCalendarInfo> campusCalendarInfos = new ArrayList<CampusCalendarInfo>();
+        for (AtpInfo atp : atps) {
+             campusCalendarInfos.add(campusCalendarAssembler.assemble(atp, context));
+        }
+        return campusCalendarInfos;
     }
 
     @Override
@@ -345,20 +334,51 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public CampusCalendarInfo createCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
+
+        boolean create = false;
+        try{
+            AtpInfo atp = atpService.getAtp(campusCalendarKey,context);
+            if(atp != null){
+                throw new AlreadyExistsException(campusCalendarKey);
+            } else {
+                create = true;
+            }
+        }catch (DoesNotExistException e) {
+            create = true;
+        }
+
+        if (create){
+            AtpInfo atpInfo = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
+            atpInfo = atpService.createAtp(atpInfo.getKey(),atpInfo,context);
+            return campusCalendarAssembler.assemble(atpInfo,context);
+        }
+
         return null;
     }
 
     @Override
     public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        AtpInfo existing = atpService.getAtp(campusCalendarKey,context);
+        if (existing == null){
+            throw new DoesNotExistException(campusCalendarKey);
+        }
+
+        AtpInfo toUpdate = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
+        AtpInfo updated = atpService.updateAtp(campusCalendarKey,toUpdate,context);
+        return campusCalendarAssembler.assemble(updated,context);
+
     }
 
     @Override
     public StatusInfo deleteCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        AtpInfo existing = atpService.getAtp(campusCalendarKey,context);
+        if (existing == null){
+            throw new DoesNotExistException(campusCalendarKey);
+        }
+
+        return atpService.deleteAtp(campusCalendarKey,context);
     }
 
     @Override
