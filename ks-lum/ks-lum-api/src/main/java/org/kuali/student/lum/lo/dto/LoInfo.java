@@ -36,10 +36,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  * Detailed information about a learning objective
  *
- * @Author KSContractMojo
- * @Author jimt
- * @Since Tue Dec 08 10:01:30 PST 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loInfo+Structure+v1.0-rc2">LoInfo</>
+
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -136,6 +133,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
+    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -143,6 +141,7 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
         return attributes;
     }
 
+    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
@@ -161,10 +160,12 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     /**
      * Unique identifier for a learning objective type.
      */
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
@@ -172,10 +173,12 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     /**
      * The current status of the learning objective. The values for this field are constrained to those in the loState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
      */
+    @Override
     public String getState() {
         return state;
     }
 
+    @Override
     public void setState(String state) {
         this.state = state;
     }
@@ -183,10 +186,12 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     /**
      * Unique identifier for a learning objective record. This is optional, due to the identifier being set at the time of creation. Once the learning objective has been created, this should be seen as required.
      */
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

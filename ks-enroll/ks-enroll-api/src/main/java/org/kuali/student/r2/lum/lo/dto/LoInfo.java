@@ -1,45 +1,37 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+ * agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
 package org.kuali.student.r2.lum.lo.dto;
 
-import org.kuali.student.common.dto.*;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.lum.lo.infc.Lo;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Detailed information about a learning objective
- *
- * @Author KSContractMojo
- * @Author jimt
- * @Since Tue Dec 08 10:01:30 PST 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loInfo+Structure+v1.0-rc2">LoInfo</>
- *
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoInfo extends IdEntityInfo implements Lo, Serializable {
 
@@ -54,14 +46,24 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
     @XmlElement
     private Date expirationDate;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
+    
+    public LoInfo(){
+        
+    }
+    
+    public LoInfo(Lo lo){
+        super(lo);
+        if(lo!=null){
+            this.loRepositoryKey= lo.getLoRepositoryKey();
+            this.effectiveDate= new Date(lo.getEffectiveDate().getTime());
+            this.expirationDate =  new Date(lo.getExpirationDate().getTime());
+        }
+    }
 
-    /**
-     * Unique identifier for a learning objective repository. This value is immutable once set during creation.
-     */
+    @Override
     public String getLoRepositoryKey() {
         return loRepositoryKey;
     }
@@ -70,9 +72,7 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
         this.loRepositoryKey = loRepositoryKey;
     }
 
-    /**
-     * Date and time that this learning objective became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -81,9 +81,7 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this learning objective expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
