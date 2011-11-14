@@ -967,44 +967,32 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testGetAtpsByDates()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Calendar startCal = Calendar.getInstance();
         startCal.clear();
-        startCal.set(2000, 0, 1); // Jan 1
+        startCal.set(2000, 8, 1); // Sept 1 2000
         Calendar endCal = Calendar.getInstance();
         endCal.clear();
-        endCal.set(2002, 0, 1); // Jan 1
+        endCal.set(2001, 5, 1); // June 1 2001
         List<AtpInfo> atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
         assertNotNull(atpInfos);
-        assertEquals(5, atpInfos.size());
+        assertEquals("There should be 5 Academic Time Periods between 9/1/00 and 6/1/01.", 5, atpInfos.size());
 
-        // make sure it's inclusive
-        startCal.set(Calendar.MONTH, 8); // September
-        endCal.set(Calendar.YEAR, 2001);
-        endCal.set(Calendar.MONTH, 5); // June
-
+        endCal.add(Calendar.DAY_OF_YEAR, -1); // Roll back to May 31 2001
         atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
         assertNotNull(atpInfos);
-        assertEquals(5, atpInfos.size());
+        assertEquals("There should be 4 Academic Time Periods between 9/1/00 and 5/31/01.", 4, atpInfos.size());
 
-        endCal.add(Calendar.DAY_OF_YEAR, -1); // Roll back to May 31
+        startCal.add(Calendar.DAY_OF_YEAR, 1); // Sept 2 2000
         atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
         assertNotNull(atpInfos);
-        assertEquals(4, atpInfos.size());
+        assertEquals("There should be 1 Academic Time Period between 9/2/00 and 5/31/01.", 1, atpInfos.size());
 
-        startCal.add(Calendar.DAY_OF_YEAR, 1); // Sept 2nd
+        startCal.set(2001, 0, 2); // Jan 2 2001
         atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
-        assertNotNull(atpInfos);
-        assertEquals(1, atpInfos.size());
-
-        startCal.set(2001, 0, 2); // Jan 2
-        atpInfos = atpService.getAtpsByDates(startCal.getTime(), endCal.getTime(), callContext);
-        assertNull(atpInfos); // sigh; still getting null back rather than empty list from service
-        // assertNotNull(atpInfos);
-        // assertEquals(0, atpInfos.size());
-
+        assertNotNull("getAtpsByDates() should return an empty list instead of null.", atpInfos);
+        assertEquals("There should be zero Academic Time Periods between 1/2/01 and 5/31/01.", 0, atpInfos.size());
     }
 
     @Test
