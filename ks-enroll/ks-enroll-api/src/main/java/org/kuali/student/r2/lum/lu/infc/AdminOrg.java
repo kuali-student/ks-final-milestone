@@ -2,8 +2,8 @@ package org.kuali.student.r2.lum.lu.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
-public interface AdminOrg  extends IdEntity{
-    
+public interface AdminOrg extends IdEntity {
+
     /**
      * Unique identifier for an organization.
      * 
@@ -13,8 +13,6 @@ public interface AdminOrg  extends IdEntity{
     public String getOrgId();
 
     /**
-     * 
-     * 
      * @name Primary
      */
     public boolean isPrimary();

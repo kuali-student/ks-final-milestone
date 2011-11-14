@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "MinorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "learningObjectives", "statement", "minCredits", "maxCredits", "meta",
+@XmlType(name = "ProgramRequirementInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "learningObjectives", "statement", "minCredits", "maxCredits", "meta",
         "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement, Serializable {
@@ -59,7 +59,7 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
 
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
     public ProgramRequirementInfo() {
 
     }

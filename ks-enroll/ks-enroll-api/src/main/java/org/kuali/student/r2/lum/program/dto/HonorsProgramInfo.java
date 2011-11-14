@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.program.infc.HonorsProgram;
@@ -30,6 +31,8 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "HonorsProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "credentialProgramId", "programRequirements", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HonorsProgramInfo extends IdEntityInfo implements HonorsProgram, Serializable {
 
@@ -40,7 +43,7 @@ public class HonorsProgramInfo extends IdEntityInfo implements HonorsProgram, Se
 
     @XmlElement
     private List<String> programRequirements;
-    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
