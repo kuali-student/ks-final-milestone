@@ -713,29 +713,28 @@ public class TestAtpServiceImpl {
     }
     
     @Test
-    @Ignore
     public void testDeleteAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StatusInfo status = atpService.deleteAtpMilestoneRelation("newRelId", callContext);
-        
+        StatusInfo status = atpService.deleteAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
         assertTrue(status.getIsSuccess());
-        
-        StatusInfo noStatus = null;
-        try {
-            noStatus = atpService.deleteMilestone("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
-        }
-        catch(DoesNotExistException e) {
-            assertNull(noStatus);
-        }
-        
-        // ensure the delete prevents future gets
+
+        // Check to make sure the delete worked and get() fails
         AtpMilestoneRelationInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getAtpMilestoneRelation("newRelId", callContext);
+            shouldBeNull = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
             fail("Did not get a DoesNotExistException when expected");
         }
         catch(DoesNotExistException e) {
             assertNull(shouldBeNull);
+        }
+
+        // Delete a non-existent ATP-milestone relation, which should throw DNEE
+        status = null;
+        try {
+            status = atpService.deleteAtpMilestoneRelation("BADKEY-007", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(status);
         }
     }
 
