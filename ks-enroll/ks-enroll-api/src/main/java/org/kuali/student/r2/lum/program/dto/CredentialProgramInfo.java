@@ -16,14 +16,17 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.program.infc.CredentialProgram;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -31,6 +34,11 @@ import org.kuali.student.r2.lum.program.infc.CredentialProgram;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
+        "institution","resultOptions" , "startTermKey", "endTermKey", "endProgramEntryTermKey",   "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
+        "learningObjectives", "coreProgramIds","programRequirements", "credentialProgramType","diplomaTitle", "hegisCode", "cip2000Code", "cip2010Code",  "meta", "attributes",
+        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends IdEntityInfo implements CredentialProgram, Serializable {
 
@@ -61,13 +69,13 @@ public class CredentialProgramInfo extends IdEntityInfo implements CredentialPro
     private List<String> resultOptions;
 
     @XmlElement
-    private String startTerm;
+    private String startTermKey;
 
     @XmlElement
-    private String endTerm;
+    private String endTermKey;
 
     @XmlElement
-    private String endProgramEntryTerm;
+    private String endProgramEntryTermKey;
 
     @XmlElement
     private List<String> divisionsContentOwner;
@@ -107,6 +115,9 @@ public class CredentialProgramInfo extends IdEntityInfo implements CredentialPro
 
     @XmlElement
     private String cip2010Code;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CredentialProgramInfo() {
 
@@ -122,17 +133,26 @@ public class CredentialProgramInfo extends IdEntityInfo implements CredentialPro
             this.code = credentialProgram.getCode();
             this.universityClassification = credentialProgram.getUniversityClassification();
             this.institution = new AdminOrgInfo(credentialProgram.getInstitution());
-            this.resultOptions = new ArrayList<String>(credentialProgram.getResultOptions());
-            this.startTerm = credentialProgram.getStartTerm();
-            this.endTerm = credentialProgram.getEndTerm();
-            this.endProgramEntryTerm = credentialProgram.getEndProgramEntryTerm();
-            this.divisionsContentOwner = new ArrayList<String>(credentialProgram.getDivisionsContentOwner());
-            this.divisionsStudentOversight = new ArrayList<String>(credentialProgram.getDivisionsStudentOversight());
-            this.unitsContentOwner = new ArrayList<String>(credentialProgram.getUnitsContentOwner());
-            this.unitsStudentOversight = new ArrayList<String>(credentialProgram.getUnitsStudentOversight());
-            this.learningObjectives = new ArrayList<LoDisplayInfo>(credentialProgram.getLearningObjectives());
-            this.coreProgramIds = new ArrayList<String>(credentialProgram.getCoreProgramIds());
-            this.programRequirements = new ArrayList<String>(credentialProgram.getProgramRequirements());
+            this.resultOptions = credentialProgram.getResultOptions() != null ? new ArrayList<String>(credentialProgram.getResultOptions()) : new ArrayList<String>();
+            this.startTermKey = credentialProgram.getStartTermKey();
+            this.endTermKey = credentialProgram.getEndTermKey();
+            this.endProgramEntryTermKey = credentialProgram.getEndProgramEntryTermKey();
+            this.divisionsContentOwner = credentialProgram.getDivisionsContentOwner() != null ? new ArrayList<String>(credentialProgram.getDivisionsContentOwner()) : new ArrayList<String>();
+            this.divisionsStudentOversight = credentialProgram.getDivisionsStudentOversight() != null ? new ArrayList<String>(credentialProgram.getDivisionsStudentOversight())
+                    : new ArrayList<String>();
+            this.unitsContentOwner = credentialProgram.getUnitsContentOwner() != null ? new ArrayList<String>(credentialProgram.getUnitsContentOwner()) : new ArrayList<String>();
+            this.unitsStudentOversight = credentialProgram.getUnitsStudentOversight() != null ? new ArrayList<String>(credentialProgram.getUnitsStudentOversight()) : new ArrayList<String>();
+            List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+
+            if (credentialProgram.getLearningObjectives() != null) {
+                for (LoDisplay loDisplay : credentialProgram.getLearningObjectives()) {
+                    LoDisplayInfo loDisplayInfo = new LoDisplayInfo(loDisplay);
+                    learningObjectives.add(loDisplayInfo);
+                }
+            }
+
+            this.coreProgramIds = credentialProgram.getCoreProgramIds() != null ? new ArrayList<String>(credentialProgram.getCoreProgramIds()) : new ArrayList<String>();
+            this.programRequirements = credentialProgram.getProgramRequirements() != null ? new ArrayList<String>(credentialProgram.getProgramRequirements()) : new ArrayList<String>();
             this.credentialProgramType = credentialProgram.getCredentialProgramType();
             this.diplomaTitle = credentialProgram.getDiplomaTitle();
             this.hegisCode = credentialProgram.getHegisCode();
@@ -264,30 +284,30 @@ public class CredentialProgramInfo extends IdEntityInfo implements CredentialPro
     }
 
     @Override
-    public String getStartTerm() {
-        return startTerm;
+    public String getStartTermKey() {
+        return startTermKey;
     }
 
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
-    }
-
-    @Override
-    public String getEndTerm() {
-        return endTerm;
-    }
-
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
+    public void setStartTermKey(String startTermKey) {
+        this.startTermKey = startTermKey;
     }
 
     @Override
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
+    public String getEndTermKey() {
+        return endTermKey;
     }
 
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
+    public void setEndTermKey(String endTermKey) {
+        this.endTermKey = endTermKey;
+    }
+
+    @Override
+    public String getEndProgramEntryTermKey() {
+        return endProgramEntryTermKey;
+    }
+
+    public void setEndProgramEntryTermKey(String endProgramEntryTermKey) {
+        this.endProgramEntryTermKey = endProgramEntryTermKey;
     }
 
     @Override

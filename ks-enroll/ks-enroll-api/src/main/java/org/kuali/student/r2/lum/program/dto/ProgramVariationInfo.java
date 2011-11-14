@@ -1,17 +1,12 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.program.dto;
 
@@ -21,32 +16,28 @@ import java.util.List;
 
 import javax.xml.bind.annotation.*;
 
-import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about major program variations
- *
+ * 
  * @Author KSContractMojo
  * @Author Li Pan
  * @Since Wed Jun 30 14:55:59 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/programVariationInfo+Structure">ProgramVariationInfo</>
- *
+ * @See <a href=
+ *      "https://test.kuali.org/confluence/display/KULSTU/programVariationInfo+Structure"
+ *      >ProgramVariationInfo</>
  */
 
-
-@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity",
-        "referenceURL", "code", "cip2000Code", "cip2010Code", "hegisCode", "universityClassification",
-        "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey",
-        "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle",
-        "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations", "programRequirements",
-        "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl",
-        "meta", "attributes", "_futureElements"})
+@XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "code", "cip2000Code", "cip2010Code", "hegisCode",
+        "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey", "effectiveDate", "shortTitle", "longTitle",
+        "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations", "programRequirements", "divisionsContentOwner",
+        "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariation {
 
@@ -66,7 +57,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private String cip2010Code;
-        
+
     @XmlElement
     private String hegisCode;
 
@@ -81,7 +72,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private TimeAmountInfo stdDuration;
-    
+
     @XmlElement
     private String startTermKey;
 
@@ -111,7 +102,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private List<String> catalogPublicationTargets;
-    
+
     @XmlElement
     private List<LoDisplayInfo> learningObjectives;
 
@@ -123,7 +114,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private List<String> divisionsContentOwner;
-    
+
     @XmlElement
     private List<String> divisionsStudentOversight;
 
@@ -138,7 +129,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private List<String> unitsContentOwner;
-    
+
     @XmlElement
     private List<String> unitsStudentOversight;
 
@@ -151,11 +142,14 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     @XmlElement
     private List<String> unitsFinancialControl;
 
-    public ProgramVariationInfo(){
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public ProgramVariationInfo() {
         super();
     }
 
-    public ProgramVariationInfo(ProgramVariation programVariation){
+    public ProgramVariationInfo(ProgramVariation programVariation) {
 
         this.campusLocations = new ArrayList<String>(programVariation.getCampusLocations());
         this.catalogDescr = new RichTextInfo(programVariation.getCatalogDescr());
@@ -164,7 +158,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
         this.cip2010Code = programVariation.getCip2010Code();
         this.code = programVariation.getCode();
         this.diplomaTitle = programVariation.getDiplomaTitle();
-        this.divisionsContentOwner =  programVariation.getDivisionsContentOwner();
+        this.divisionsContentOwner = programVariation.getDivisionsContentOwner();
         this.divisionsDeployment = programVariation.getDivisionsDeployment();
         this.divisionsFinancialControl = programVariation.getDivisionsFinancialControl();
         this.divisionsStudentOversight = programVariation.getDivisionsStudentOversight();
@@ -175,7 +169,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
         this.learningObjectives = programVariation.getLearningObjectives();
         this.intensity = programVariation.getIntensity();
     }
-
 
     @Override
     public String getIntensity() {
@@ -212,6 +205,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     public void setCip2000Code(String cip2000Code) {
         this.cip2000Code = cip2000Code;
     }
+
     @Override
     public String getCip2010Code() {
         return cip2010Code;
@@ -262,7 +256,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
         return stdDuration;
     }
 
-
     public void setStdDuration(TimeAmountInfo stdDuration) {
         this.stdDuration = stdDuration;
     }
@@ -284,7 +277,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     public void setEndTermKey(String endTermKey) {
         this.endTermKey = endTermKey;
     }
-
 
     @Override
     public String getEndProgramEntryTermKey() {
@@ -348,7 +340,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     public void setCatalogDescr(RichTextInfo catalogDescr) {
         this.catalogDescr = catalogDescr;
     }
-    
+
     @Override
     public List<String> getCatalogPublicationTargets() {
         return catalogPublicationTargets;
@@ -357,7 +349,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
         this.catalogPublicationTargets = catalogPublicationTargets;
     }
-    
 
     @Override
     public List<LoDisplayInfo> getLearningObjectives() {
@@ -371,7 +362,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
         this.learningObjectives = learningObjectives;
     }
 
-   @Override
+    @Override
     public List<String> getCampusLocations() {
         if (campusLocations == null) {
             campusLocations = new ArrayList<String>(0);
@@ -382,6 +373,7 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
     }
+
     @Override
     public List<String> getProgramRequirements() {
         if (programRequirements == null) {

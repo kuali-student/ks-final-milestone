@@ -14,33 +14,34 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
+import org.kuali.student.r2.lum.program.infc.ProgramVariation;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single major discipline program
  * 
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:55:53 PDT 2010
- * @See <a href=
- *      "https://test.kuali.org/confluence/display/KULSTU/majorDisciplineInfo+Structure"
- *      >MajorDisciplineInfo</>
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "variations", "code",
+        "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey",
+        "nextReviewPeriod", "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations",
+        "orgCoreProgram", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
+        "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment", "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline, Serializable {
 
@@ -162,55 +163,61 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private List<String> unitsFinancialControl;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public MajorDisciplineInfo() {
 
     }
 
-    public MajorDisciplineInfo(MajorDiscipline majorDiscipline){
+    public MajorDisciplineInfo(MajorDiscipline majorDiscipline) {
 
         this.intensity = majorDiscipline.getIntensity();
 
-        this.referenceURL =  majorDiscipline.getReferenceURL();
+        this.referenceURL = majorDiscipline.getReferenceURL();
+        //TODO - after course migration
         List<CluInstructorInfo> newPublishedInstructors = new ArrayList<CluInstructorInfo>();
-        if(majorDiscipline.getPublishedInstructors()!=null){
-//            for(CluInstructorInfo publishedInstructor: majorDiscipline.getPublishedInstructors() ){
-//                newPublishedInstructors.add(new CluInstructorInfo(publishedInstructor));
-//            }
+        if (majorDiscipline.getPublishedInstructors() != null) {
+            // for(CluInstructorInfo publishedInstructor:
+            // majorDiscipline.getPublishedInstructors() ){
+            // newPublishedInstructors.add(new
+            // CluInstructorInfo(publishedInstructor));
+            // }
         }
         this.publishedInstructors = newPublishedInstructors;
         this.credentialProgramId = majorDiscipline.getCredentialProgramId();
-        List<ProgramVariationInfo> newVariations  = new ArrayList<ProgramVariationInfo>();
-        if(majorDiscipline.getVariations()!=null){
-            for(ProgramVariationInfo variation : majorDiscipline.getVariations() ){
+        List<ProgramVariationInfo> newVariations = new ArrayList<ProgramVariationInfo>();
+        if (majorDiscipline.getVariations() != null) {
+            for (ProgramVariation variation : majorDiscipline.getVariations()) {
                 newVariations.add(new ProgramVariationInfo(variation));
             }
         }
         this.code = majorDiscipline.getCode();
-        this.cip2000Code = majorDiscipline.getCip2000Code() ;
-        this.cip2010Code = majorDiscipline.getCip2010Code() ;
+        this.cip2000Code = majorDiscipline.getCip2000Code();
+        this.cip2010Code = majorDiscipline.getCip2010Code();
         this.hegisCode = majorDiscipline.getHegisCode();
-        this.universityClassification = majorDiscipline.getUniversityClassification() ;
-        this.selectiveEnrollmentCode = majorDiscipline.getSelectiveEnrollmentCode() ;
-        this.resultOptions = majorDiscipline.getResultOptions() ;
+        this.universityClassification = majorDiscipline.getUniversityClassification();
+        this.selectiveEnrollmentCode = majorDiscipline.getSelectiveEnrollmentCode();
+        this.resultOptions = majorDiscipline.getResultOptions();
         this.stdDuration = new TimeAmountInfo(majorDiscipline.getStdDuration());
         this.startTermKey = majorDiscipline.getStartTermKey();
         this.endTermKey = majorDiscipline.getEndTermKey();
-        this.endProgramEntryTermKey  = majorDiscipline.getEndProgramEntryTermKey();
-        this.nextReviewPeriod =  majorDiscipline.getNextReviewPeriod();
-        this.effectiveDate=  majorDiscipline.getEffectiveDate() ;
+        this.endProgramEntryTermKey = majorDiscipline.getEndProgramEntryTermKey();
+        this.nextReviewPeriod = majorDiscipline.getNextReviewPeriod();
+        this.effectiveDate = majorDiscipline.getEffectiveDate();
         this.longTitle = majorDiscipline.getLongTitle();
         this.transcriptTitle = majorDiscipline.getTranscriptTitle();
         this.diplomaTitle = majorDiscipline.getDiplomaTitle();
-        this.catalogDescr = new RichTextInfo( majorDiscipline.getCatalogDescr());
+        this.catalogDescr = new RichTextInfo(majorDiscipline.getCatalogDescr());
         this.catalogPublicationTargets = new ArrayList<String>(majorDiscipline.getCatalogPublicationTargets());
         List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
-        
-        if(majorDiscipline.getLearningObjectives()!=null){
-           
-            for(LoDisplayInfo loDisplay : majorDiscipline.getLearningObjectives() ){
-                
-                learningObjectives.add( new LoDisplayInfo(loDisplay));
+
+        if (majorDiscipline.getLearningObjectives() != null) {
+
+            for (LoDisplayInfo loDisplay : majorDiscipline.getLearningObjectives()) {
+
+                learningObjectives.add(new LoDisplayInfo(loDisplay));
             }
         }
         this.learningObjectives = learningObjectives;
@@ -222,13 +229,13 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.divisionsStudentOversight = new ArrayList<String>(majorDiscipline.getDivisionsContentOwner());
         this.divisionsDeployment = new ArrayList<String>(majorDiscipline.getDivisionsDeployment());
         this.divisionsFinancialResources = new ArrayList<String>(majorDiscipline.getDivisionsFinancialResources());
-        this.divisionsFinancialControl =  new ArrayList<String>(majorDiscipline.getDivisionsFinancialControl());
+        this.divisionsFinancialControl = new ArrayList<String>(majorDiscipline.getDivisionsFinancialControl());
         this.unitsContentOwner = new ArrayList<String>(majorDiscipline.getUnitsContentOwner());
         this.unitsStudentOversight = new ArrayList<String>(majorDiscipline.getUnitsStudentOversight());
         this.unitsDeployment = new ArrayList<String>(majorDiscipline.getUnitsDeployment());
         this.unitsFinancialResources = new ArrayList<String>(majorDiscipline.getUnitsFinancialResources());
         this.unitsFinancialControl = new ArrayList<String>(majorDiscipline.getUnitsFinancialControl());
-    
+
     }
 
     /**

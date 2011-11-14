@@ -1,15 +1,14 @@
 package org.kuali.student.r2.lum.program.infc;
 
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lu.infc.AdminOrg;
 
 import java.util.List;
 
 /**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
+ * Detailed information about a single credential program, e.g. Baccalaureate,
+ * Master, Doctoral, Graduate Certificate, Undergraduate Certificate
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
@@ -50,7 +49,6 @@ public interface CredentialProgram extends IdEntity {
     public String getTranscriptTitle();
 
     /**
-     * 
      * This method ...
      * 
      * @return
@@ -88,20 +86,20 @@ public interface CredentialProgram extends IdEntity {
      * effective. This may not reflect the first "real" academic time period for
      * this program.
      */
-    public String getStartTerm();
+    public String getStartTermKey();
 
     /**
      * The last academic time period that this credential program would be
      * effective.
      */
-    public String getEndTerm();
+    public String getEndTermKey();
 
     /**
      * The last academic time period that this credential program would be
      * available for enrollment. This may not reflect the last "real" academic
      * time period for this program.
      */
-    public String getEndProgramEntryTerm();
+    public String getEndProgramEntryTermKey();
 
     /**
      * Divisions responsible to make changes to the credential program
@@ -126,20 +124,15 @@ public interface CredentialProgram extends IdEntity {
     /**
      * Learning Objectives associated with this credential program.
      */
-    public List<LoDisplayInfo> getLearningObjectives();
-    
+    public List<? extends LoDisplay> getLearningObjectives();
+
     /**
-     * 
      * This method ...
-     * 
      */
     public String getCip2000Code();
-    
+
     /**
-     * 
      * This method ...
-     * 
-     * 
      */
     public String getCip2010Code();
 

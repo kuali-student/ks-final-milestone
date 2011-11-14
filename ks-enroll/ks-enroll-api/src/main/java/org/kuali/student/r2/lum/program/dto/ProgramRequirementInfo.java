@@ -10,27 +10,32 @@
  */
 package org.kuali.student.r2.lum.program.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about a program requirement
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
 
+@XmlType(name = "MinorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "learningObjectives", "statement", "minCredits", "maxCredits", "meta",
+        "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement {
+public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,6 +57,9 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
     @XmlElement
     private Integer maxCredits;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
     public ProgramRequirementInfo() {
 
     }

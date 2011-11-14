@@ -19,8 +19,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dto.StatusInfo;
 
-
-
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateProcessInfo;
@@ -69,8 +67,8 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      * @throws MissingParameterException missing Credential Program
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException 
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException 
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
+     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
      */
     public CredentialProgramInfo getCredentialProgram(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;

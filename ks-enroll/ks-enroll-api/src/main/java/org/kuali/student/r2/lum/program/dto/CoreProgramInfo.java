@@ -125,6 +125,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
             this.referenceURL = coreProgram.getReferenceURL();
             this.catalogDescr = coreProgram.getCatalogDescr() != null ? new RichTextInfo(coreProgram.getCatalogDescr()) : null;
             this.catalogPublicationTargets = coreProgram.getCatalogPublicationTargets() != null ? new ArrayList<String>(coreProgram.getCatalogPublicationTargets()) : new ArrayList<String>();
+           
             List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
 
             if (coreProgram.getLearningObjectives() != null) {

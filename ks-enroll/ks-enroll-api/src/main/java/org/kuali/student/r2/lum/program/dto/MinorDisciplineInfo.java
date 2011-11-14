@@ -16,10 +16,13 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -27,6 +30,8 @@ import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "MinorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "credentialProgramId", "programRequirements", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MinorDisciplineInfo extends IdEntityInfo implements MinorDiscipline, Serializable {
 
@@ -38,9 +43,13 @@ public class MinorDisciplineInfo extends IdEntityInfo implements MinorDiscipline
     @XmlElement
     private List<String> programRequirements;
 
-   public MinorDisciplineInfo(){
-       
-   }
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public MinorDisciplineInfo() {
+
+    }
+
     public MinorDisciplineInfo(MinorDiscipline minorDiscipline) {
         super(minorDiscipline);
         if (minorDiscipline != null) {

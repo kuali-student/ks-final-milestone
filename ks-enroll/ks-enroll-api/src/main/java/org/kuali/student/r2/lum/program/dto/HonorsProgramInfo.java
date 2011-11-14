@@ -17,10 +17,12 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.program.infc.HonorsProgram;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -38,16 +40,18 @@ public class HonorsProgramInfo extends IdEntityInfo implements HonorsProgram, Se
 
     @XmlElement
     private List<String> programRequirements;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public HonorsProgramInfo() {
-
+        this.programRequirements = new ArrayList<String>();
     }
 
     public HonorsProgramInfo(HonorsProgram honorsProgram) {
         if (honorsProgram != null) {
-
             this.credentialProgramId = honorsProgram.getCredentialProgramId();
-            this.programRequirements = new ArrayList<String>(honorsProgram.getProgramRequirements());
+            this.programRequirements = honorsProgram.getProgramRequirements() != null ? new ArrayList<String>(honorsProgram.getProgramRequirements()) : new ArrayList<String>();
         }
     }
 

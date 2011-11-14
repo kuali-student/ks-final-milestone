@@ -1,23 +1,19 @@
 package org.kuali.student.r2.lum.program.infc;
 
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: sambitpatnaik
- * Date: 10/27/11
- * Time: 10:39 AM
- * To change this template use File | Settings | File Templates.
+ * 
+ * This is a description of what this class does - sambit don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
+ *
  */
 public interface ProgramVariation  extends IdEntity{
 
