@@ -667,37 +667,48 @@ public class TestAtpServiceImpl {
     }
     
     @Test
-    @Ignore
     public void testUpdateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
-        AtpMilestoneRelationInfo retrieved = atpService.getAtpMilestoneRelation("newRelId", callContext);
-        
+        AtpMilestoneRelationInfo retrieved = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext); //test "newRelId", callContext);
         assertNotNull(retrieved);
-        
+        assertEquals("testAtpId1", retrieved.getAtpKey());
+        assertEquals("testId", retrieved.getMilestoneKey());
+        assertEquals(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, retrieved.getStateKey());
+
         retrieved.setMilestoneKey("testId2");
-        retrieved.setEffectiveDate(new Date());
-        retrieved.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
-        
-        AtpMilestoneRelationInfo updated = atpService.updateAtpMilestoneRelation("newRelId", retrieved, callContext);
-        
-        
+        Date todaysDate = new Date();
+        retrieved.setEffectiveDate(todaysDate);
+        retrieved.setExpirationDate(todaysDate);
+        retrieved.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY);
+        AtpMilestoneRelationInfo updated = atpService.updateAtpMilestoneRelation("ATPMSTONEREL-1", retrieved, callContext);
+
         assertNotNull(updated);
         assertEquals(updated.getId(), retrieved.getId());
-        
+
         // check that further retrieves have updated info
-        AtpMilestoneRelationInfo freshRetrieved = atpService.getAtpMilestoneRelation("newRelId", callContext);
-        
+        AtpMilestoneRelationInfo freshRetrieved = atpService.getAtpMilestoneRelation("ATPMSTONEREL-1", callContext);
         assertNotNull(freshRetrieved);
-        assertEquals(freshRetrieved.getMilestoneKey(), "testId2");
-        assertEquals(freshRetrieved.getStateKey(), AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
-        
-        // check for expected DoesNotExistException
-        AtpMilestoneRelationInfo fakeUpdated = null;
+        assertEquals("testId2", freshRetrieved.getMilestoneKey());
+        assertEquals(AtpServiceConstants.ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY, freshRetrieved.getStateKey());
+        assertEquals(todaysDate, freshRetrieved.getExpirationDate());
+
+        // check for expected DoesNotExistException down in service impl
+        AtpMilestoneRelationInfo amr = null;
         try {
-            fakeUpdated = atpService.updateAtpMilestoneRelation("fakeKey", new AtpMilestoneRelationInfo(), callContext);
-            fail("Did not get a DoesNotExistException when expected");
+            amr = atpService.updateAtpMilestoneRelation("BADKEY-007", retrieved, callContext);
+            fail("Did not get a DoesNotExistException as expected");
         }
         catch(DoesNotExistException e) {
-            assertNull(fakeUpdated);
+            // BADKEY-007 doesn't exist, but the AtpMilestoneRelationInfo param was valid
+        }
+
+        // check for validation error in validation decorator
+        try {
+            amr = atpService.updateAtpMilestoneRelation("ATPMSTONEREL-1", new AtpMilestoneRelationInfo(), callContext);
+            fail("Did not get a DataValidationErrorException as expected");
+        }
+        catch(DataValidationErrorException e) {
+            // The AtpMilestoneRelationInfo passed to the update method wasn't fully baked.
+            // Actually, it wasn't baked at all.
         }
     }
     
