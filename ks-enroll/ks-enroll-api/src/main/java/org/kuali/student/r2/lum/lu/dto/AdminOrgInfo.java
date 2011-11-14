@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.lu.infc.AdminOrg;
@@ -29,7 +30,7 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType()
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "orgId", "isPrimary", "orgId", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
