@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "AdminOrgInfo", propOrder = {"id", "orgId", "isPrimary", "orgId", "_futureElements"})
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",  "isPrimary", "orgId", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 

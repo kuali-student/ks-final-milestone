@@ -73,7 +73,6 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    @Override
     public Map<String,String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String,String>();
@@ -81,7 +80,6 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
         return attributes;
     }
 
-    @Override
     public void setAttributes(Map<String,String> attributes) {
         this.attributes = attributes;
     }

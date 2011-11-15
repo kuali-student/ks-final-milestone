@@ -37,7 +37,7 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String loRepository;
+    private String loRepositoryKey;
 
     @XmlElement
     private Date effectiveDate;
@@ -55,19 +55,19 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     public LoCategoryInfo(LoCategory loCategory) {
         super(loCategory);
         if (loCategory != null) {
-            this.loRepository = loCategory.getLoRepository();
+            this.loRepositoryKey = loCategory.getLoRepositoryKey();
             this.effectiveDate = new Date(loCategory.getEffectiveDate().getTime());
             this.expirationDate = new Date(loCategory.getExpirationDate().getTime());
         }
     }
 
     @Override
-    public String getLoRepository() {
-        return loRepository;
+    public String getLoRepositoryKey() {
+        return loRepositoryKey;
     }
 
-    public void setLoRepository(String loRepository) {
-        this.loRepository = loRepository;
+    public void setLoRepositoryKey(String loRepositoryKey) {
+        this.loRepositoryKey = loRepositoryKey;
     }
 
     @Override

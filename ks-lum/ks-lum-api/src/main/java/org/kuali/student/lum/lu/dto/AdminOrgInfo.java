@@ -64,17 +64,15 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     /*
      * Unique identifier for the accreditation.
      */
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
     
-    /**
+    /*
      * Unique identifier for the organization responsible for the accreditation.
      */
     public String getOrgId() {
@@ -88,7 +86,6 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    @Override
     public Map<String, String> getAttributes() {
         if (attributes == null) {
             attributes = new HashMap<String, String>();
@@ -96,7 +93,6 @@ public class AdminOrgInfo implements Serializable, Idable, HasAttributes {
         return attributes;
     }
 
-    @Override
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }

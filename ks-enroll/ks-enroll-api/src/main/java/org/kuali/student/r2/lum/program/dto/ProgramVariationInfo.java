@@ -37,7 +37,8 @@ import org.w3c.dom.Element;
 @XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "code", "cip2000Code", "cip2010Code", "hegisCode",
         "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey", "effectiveDate", "shortTitle", "longTitle",
         "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations", "programRequirements", "divisionsContentOwner",
-        "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl", "meta", "attributes", "_futureElements"})
+        "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment",
+        "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariation {
 

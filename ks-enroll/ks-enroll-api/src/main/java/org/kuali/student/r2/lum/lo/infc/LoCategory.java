@@ -17,7 +17,7 @@ public interface LoCategory extends IdEntity {
      * 
      * @name LO Repository
      */
-    public String getLoRepository();
+    public String getLoRepositoryKey();
 
     /**
      * Date and time that this learning objective category became effective.

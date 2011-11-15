@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
         "institution","resultOptions" , "startTermKey", "endTermKey", "endProgramEntryTermKey",   "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
-        "learningObjectives", "coreProgramIds","programRequirements", "credentialProgramType","diplomaTitle", "hegisCode", "cip2000Code", "cip2010Code",  "meta", "attributes",
+        "learningObjectives", "coreProgramIds","programRequirements", "credentialProgramType","diplomaTitle", "selectiveEnrollmentCode","hegisCode", "cip2000Code", "cip2010Code",  "meta", "attributes",
         "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends IdEntityInfo implements CredentialProgram, Serializable {
