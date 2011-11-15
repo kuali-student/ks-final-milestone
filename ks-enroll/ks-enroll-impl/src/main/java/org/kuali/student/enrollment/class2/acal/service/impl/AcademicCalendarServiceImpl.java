@@ -1,11 +1,14 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -29,6 +32,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private TermAssembler termAssembler;
     private DataDictionaryService dataDictionaryService;
     private CampusCalendarAssembler campusCalendarAssembler;
+    private HolidayAssembler holidayAssembler;
+
+    public HolidayAssembler getHolidayAssembler() {
+        return holidayAssembler;
+    }
+
+    public void setHolidayAssembler(HolidayAssembler holidayAssembler) {
+        this.holidayAssembler = holidayAssembler;
+    }
 
     public CampusCalendarAssembler getCampusCalendarAssembler() {
         return campusCalendarAssembler;
@@ -276,8 +288,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public TypeInfo getCampusCalendarType(String campusCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return atpService.getType(campusCalendarTypeKey,context);
     }
 
     @Override
@@ -360,9 +371,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public CampusCalendarInfo updateCampusCalendar(String campusCalendarKey, CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         AtpInfo existing = atpService.getAtp(campusCalendarKey,context);
-        if (existing == null){
-            throw new DoesNotExistException(campusCalendarKey);
-        }
 
         AtpInfo toUpdate = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
         AtpInfo updated = atpService.updateAtp(campusCalendarKey,toUpdate,context);
@@ -373,12 +381,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public StatusInfo deleteCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        //Make sure it exists.. If not, this method will throw an exception
         AtpInfo existing = atpService.getAtp(campusCalendarKey,context);
-        if (existing == null){
-            throw new DoesNotExistException(campusCalendarKey);
+
+        StatusInfo status = atpService.deleteAtp(campusCalendarKey,context);
+        if (status.getIsSuccess()){
+            List<AtpMilestoneRelationInfo> relationInfos = atpService.getAtpMilestoneRelationsByAtp(campusCalendarKey,context);
+            for (AtpMilestoneRelationInfo relationInfo : relationInfos){
+                atpService.deleteAtpMilestoneRelation(relationInfo.getId(),context);
+            }
         }
 
-        return atpService.deleteAtp(campusCalendarKey,context);
+        return status;
     }
 
     @Override
@@ -898,28 +912,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return new ArrayList<ValidationResultInfo>();
     }
 
-    private boolean checkExistenceForKeyDateinTerm(String termKey, String keyDateKey, ContextInfo context) throws OperationFailedException {
+    private boolean isRelationExists(String atpKey, String milestoneKey, String relationType, ContextInfo context) throws OperationFailedException {
         boolean ret = false;
         List<AtpMilestoneRelationInfo> amRels;
         try {
-            amRels = atpService.getAtpMilestoneRelationsByAtp(termKey, context);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException("get DoesNotExistException when getAtpMilestoneRelationsByAtp " + termKey);
-        } catch (InvalidParameterException e) {
-            throw new OperationFailedException("get InvalidParameterException when getAtpMilestoneRelationsByAtp " + termKey);
-        } catch (MissingParameterException e) {
-            throw new OperationFailedException("get MissingParameterException when getAtpMilestoneRelationsByAtp " + termKey);
-        } catch (OperationFailedException e) {
-            throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
-        } catch (PermissionDeniedException e) {
-            throw new OperationFailedException("get PermissionDeniedException when getAtpMilestoneRelationsByAtp " + termKey);
+            amRels = atpService.getAtpMilestoneRelationsByAtp(atpKey, context);
+        } catch (Exception e) {
+            throw new OperationFailedException("Error getting ATP-Milestone relation for ATP key " + atpKey, e);
         }
 
         if (amRels != null && !amRels.isEmpty()) {
             for (AtpMilestoneRelationInfo amRel : amRels) {
-                if (amRel.getAtpKey().equals(termKey)) {
-                    if (amRel.getTypeKey().equals(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY)) {
-                        if (amRel.getMilestoneKey().equals(keyDateKey)) {
+                if (StringUtils.equals(amRel.getAtpKey(), atpKey)) {
+                    if (StringUtils.equals(amRel.getTypeKey(), relationType)) {
+                        if (StringUtils.equals(amRel.getMilestoneKey(), milestoneKey)) {
                             return true;
                         }
                     }
@@ -934,7 +940,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         KeyDateInfo keyDate = null;
-        if (!checkExistenceForKeyDateinTerm(termKey, keyDateKey, context)) {
+        if (!isRelationExists(termKey, keyDateKey, AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY,context)) {
             MilestoneInfo msInfo = toMilestoneInfo(keyDateInfo);
             if (msInfo != null) {
                 // create keydate
@@ -1013,20 +1019,62 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public HolidayInfo createHolidayForCampusCalendar(String campusCalendarKey, String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        HolidayInfo newHolidayInfo = null;
+        boolean relationExists = isRelationExists(campusCalendarKey, holidayKey, AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY,context);
+
+        if (!relationExists) {
+            MilestoneInfo milestoneInfo = holidayAssembler.disassemble(holidayInfo,context);
+
+            if (milestoneInfo != null) {
+                MilestoneInfo newMilestone = atpService.createMilestone(holidayKey, milestoneInfo, context);
+                newHolidayInfo = holidayAssembler.assemble(newMilestone,context);
+
+                // create relation
+                AtpMilestoneRelationInfo amRelInfo = new AtpMilestoneRelationInfo();
+                amRelInfo.setAtpKey(campusCalendarKey);
+                amRelInfo.setId(UUIDHelper.genStringUUID());
+                amRelInfo.setMilestoneKey(holidayKey);
+                amRelInfo.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
+                amRelInfo.setTypeKey(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY);
+                amRelInfo.setEffectiveDate(new Date());
+
+                atpService.createAtpMilestoneRelation(amRelInfo, context);
+            }
+        }
+
+        return newHolidayInfo;
     }
 
     @Override
     public HolidayInfo updateHoliday(String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        MilestoneInfo exists = atpService.getMilestone(holidayKey,context);
+
+        MilestoneInfo toUpdate = holidayAssembler.disassemble(holidayInfo,context);
+        MilestoneInfo updated = atpService.updateMilestone(holidayKey,toUpdate,context);
+
+        return holidayAssembler.assemble(updated,context);
     }
 
     @Override
     public StatusInfo deleteHoliday(String holidayKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        //Make sure it exists. If not exists, this call will throw an exception
+        MilestoneInfo exists = atpService.getMilestone(holidayKey,context);
+
+        List<AtpMilestoneRelationInfo> relationInfos = atpService.getAtpMilestoneRelationsByMilestone(holidayKey,context);
+
+        StatusInfo status = atpService.deleteMilestone(holidayKey,context);
+
+        if (status.getIsSuccess()){
+            for (AtpMilestoneRelationInfo relationInfo : relationInfos){
+                atpService.deleteAtpMilestoneRelation(relationInfo.getId(),context);
+            }
+        }
+
+        return status;
+
     }
 
     @Override

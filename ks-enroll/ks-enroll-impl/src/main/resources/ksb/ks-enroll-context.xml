@@ -125,6 +125,8 @@
     	<property name="atpService" ref="atpEnrService"/>
     	<property name="acalAssembler" ref="acalAssembler" />
     	<property name="termAssembler" ref="termAssembler"/>
+        <property name="campusCalendarAssembler" ref="campusCalendarAssembler"/>
+        <property name="holidayAssembler" ref="holidayAssembler"/>
     </bean>
 
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -150,7 +152,11 @@
 	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler">
     	<property name="atpService" ref="atpEnrService"/>
 	</bean>
-	
+
+    <bean id="campusCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler"/>
+
+    <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler"/>
+
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 	
