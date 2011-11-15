@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.*;
 
-
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
@@ -125,7 +124,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
             this.referenceURL = coreProgram.getReferenceURL();
             this.catalogDescr = coreProgram.getCatalogDescr() != null ? new RichTextInfo(coreProgram.getCatalogDescr()) : null;
             this.catalogPublicationTargets = coreProgram.getCatalogPublicationTargets() != null ? new ArrayList<String>(coreProgram.getCatalogPublicationTargets()) : new ArrayList<String>();
-           
+
             List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
 
             if (coreProgram.getLearningObjectives() != null) {
@@ -185,8 +184,7 @@ public class CoreProgramInfo extends IdEntityInfo implements CoreProgram, Serial
 
     @Override
     public String getDiplomaTitle() {
-        return diplomaTitle; // To change body of implemented methods use File |
-                             // Settings | File Templates.
+        return diplomaTitle;
     }
 
     public void setDiplomaTitle(String diplomaTitle) {
