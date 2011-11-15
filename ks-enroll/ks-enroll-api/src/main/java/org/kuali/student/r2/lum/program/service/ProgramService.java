@@ -87,7 +87,7 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CredentialProgramInfo> getCredentialProgramsByIds(@WebParam(name = "credentialProgramIds") List<String> credentialProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<CredentialProgramInfo> getCredentialProgramsByIds(@WebParam(name = "credentialProgramIds") List<String> credentialProgramIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -219,6 +219,24 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
     public MajorDisciplineInfo getMajorDiscipline(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    
+    /**
+     * Retrieves a list of MajorDiscipline corresponding to the given list of
+     * major discipline Ids
+     * 
+     * @param MajorDiscipline Ids list of MajorDisciplines to be retrieved
+     * @param contextInfo Context information containing the principalId and
+     *            locale information about the caller of service operation
+     * @return list of MajorDiscipline
+     * @throws DoesNotExistException an commentKey in list not found
+     * @throws InvalidParameterException invalid commentKey
+     * @throws MissingParameterException commentIds, contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<MajorDisciplineInfo> getMajorDisciplinesByIds(@WebParam(name = "majorDisciplineIds") List<String> majorDisciplineIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Retrieves the list of Major Discipline identifiers a given Credential
      * Program Type.
@@ -234,19 +252,7 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
     public List<String> getMajorDisciplineIdsByCredentialProgramType(@WebParam(name = "programType") String programType, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /**
-     * Retrieves a list of program variations for a particular major
-     * 
-     * @param majorDisciplineId Major Discipline Identifier
-     * @return list of program variations associated with the specified Major
-     * @throws DoesNotExistException Major not found
-     * @throws InvalidParameterException invalid majorDisciplineId
-     * @throws MissingParameterException majorDisciplineId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
+  
     /**
      * Validates a Major discipline against its data dictionary
      * 
@@ -346,6 +352,22 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * 
+     * Retrieves a list of honors program by ids
+     * 
+     * @param honorsProgramIds
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<HonorsProgramInfo> getHonorsProgramsByIds(@WebParam(name = "honorsProgramIds") List<String> honorsProgramIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves the list of Honors Program Program a given Credential Program
      * Type.
      * 
@@ -356,7 +378,7 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      * @throws MissingParameterException program type is not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<String> getHonorsByCredentialProgramType(@WebParam(name = "programType") String programType, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<String> getHonorProgramIdsByCredentialProgramType(@WebParam(name = "programType") String programType, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
@@ -435,6 +457,22 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      */
     public CoreProgramInfo getCoreProgram(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * Retrieves a list of core program by ids
+     * 
+     * @param coreProgramIds
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<CoreProgramInfo> getCoreProgramsByIds(@WebParam(name = "coreProgramIds") List<String> coreProgramIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a Core Program against its data dictionary
@@ -560,6 +598,22 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      */
     public ProgramRequirementInfo getProgramRequirement(@WebParam(name = "programRequirementId") String programRequirementId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * 
+     * Retrieves a list of ProgramRequirements by ids
+     * 
+     * @param programRequirementIds
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ProgramRequirementInfo> getProgramRequirementsByIds(@WebParam(name = "programRequirementIds") List<String> programRequirementIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a Program Requirement against its data dictionary

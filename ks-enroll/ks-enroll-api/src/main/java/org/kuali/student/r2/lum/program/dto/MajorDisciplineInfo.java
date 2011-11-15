@@ -28,7 +28,6 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
-import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
 
 /**
@@ -37,10 +36,10 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "variations", "code",
+@XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "programVariationIds", "code",
         "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey",
         "nextReviewPeriod", "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations",
-        "orgCoreProgram", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
+        "coreProgramId", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
         "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment", "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline, Serializable {
@@ -60,7 +59,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private String credentialProgramId;
 
     @XmlElement
-    private List<ProgramVariationInfo> variations;
+    private List<String> programVariationIds;
 
     @XmlElement
     private String code;
@@ -126,7 +125,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private List<String> campusLocations;
 
     @XmlElement
-    private CoreProgramInfo orgCoreProgram;
+    private String coreProgramId;
 
     @XmlElement
     private List<String> programRequirements;
@@ -187,12 +186,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         }
         this.publishedInstructors = newPublishedInstructors;
         this.credentialProgramId = majorDiscipline.getCredentialProgramId();
-        List<ProgramVariationInfo> newVariations = new ArrayList<ProgramVariationInfo>();
-        if (majorDiscipline.getVariations() != null) {
-            for (ProgramVariation variation : majorDiscipline.getVariations()) {
-                newVariations.add(new ProgramVariationInfo(variation));
-            }
-        }
+        this.programVariationIds = new ArrayList<String>(majorDiscipline.getProgramVariationIds());
         this.code = majorDiscipline.getCode();
         this.cip2000Code = majorDiscipline.getCip2000Code();
         this.cip2010Code = majorDiscipline.getCip2010Code();
@@ -222,7 +216,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         }
         this.learningObjectives = learningObjectives;
         this.campusLocations = new ArrayList<String>(majorDiscipline.getCampusLocations());
-        this.orgCoreProgram = new CoreProgramInfo(majorDiscipline.getOrgCoreProgram());
+        this.coreProgramId = majorDiscipline.getCoreProgramId();
         this.programRequirements = new ArrayList<String>(majorDiscipline.getProgramRequirements());
         this.accreditingAgencies = new ArrayList<AccreditationInfo>();
         this.divisionsContentOwner = new ArrayList<String>(majorDiscipline.getDivisionsContentOwner());
@@ -295,15 +289,15 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
      * Program variations for the Major
      */
     @Override
-    public List<ProgramVariationInfo> getVariations() {
-        if (variations == null) {
-            variations = new ArrayList<ProgramVariationInfo>(0);
+    public List<String> getProgramVariationIds() {
+        if (programVariationIds == null) {
+            programVariationIds = new ArrayList<String>(0);
         }
-        return variations;
+        return programVariationIds;
     }
 
-    public void setVariations(List<ProgramVariationInfo> variations) {
-        this.variations = variations;
+    public void seProgramVariationIds(List<String> programVariationIds) {
+        this.programVariationIds = programVariationIds;
     }
 
     /**
@@ -526,12 +520,12 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     @Override
-    public CoreProgramInfo getOrgCoreProgram() {
-        return orgCoreProgram;
+    public String getCoreProgramId() {
+        return coreProgramId;
     }
 
-    public void setOrgCoreProgram(CoreProgramInfo orgCoreProgram) {
-        this.orgCoreProgram = orgCoreProgram;
+    public void setCoreProgramId(String coreProgramId) {
+        this.coreProgramId = coreProgramId;
     }
 
     /**

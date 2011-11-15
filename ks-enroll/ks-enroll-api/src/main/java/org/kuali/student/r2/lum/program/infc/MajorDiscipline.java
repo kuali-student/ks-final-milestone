@@ -42,7 +42,7 @@ public interface MajorDiscipline extends IdEntity {
     /**
      * Program variations for the Major
      */
-    public List<? extends ProgramVariation> getVariations();
+    public List<String> getProgramVariationIds();
 
     /**
      * The composite string that is used to officially reference or publish the
@@ -138,7 +138,7 @@ public interface MajorDiscipline extends IdEntity {
      */
     public List<String> getCampusLocations();
 
-    public CoreProgramInfo getOrgCoreProgram();
+    public String getCoreProgramId();
 
     /**
      * Major Discipline Program Requirements.

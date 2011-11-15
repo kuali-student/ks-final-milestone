@@ -73,7 +73,6 @@ public interface CoreProgram extends IdEntity {
      * not reflect the first "real" academic time period for this Core.
      * 
      * @name Start Term Key
-     * @required
      */
 
     public String getStartTermKey();
@@ -82,7 +81,6 @@ public interface CoreProgram extends IdEntity {
      * The last academic time period that this Core would be effective.
      * 
      * @name End Term key
-     * @required
      */
 
     public String getEndTermKey();
@@ -93,7 +91,6 @@ public interface CoreProgram extends IdEntity {
      * this requirement.
      * 
      * @name End Program Entry Term Key
-     * @required
      */
 
     public String getEndProgramEntryTermKey();
@@ -102,7 +99,6 @@ public interface CoreProgram extends IdEntity {
      * Divisions responsible to make changes to the CORE requirements
      * 
      * @name Divisions Content Owner
-     * @required
      */
 
     public List<String> getDivisionsContentOwner();
@@ -119,7 +115,7 @@ public interface CoreProgram extends IdEntity {
      * Unit responsible to make changes to the CORE requirements
      * 
      * @name Units Content Owner
-     * @required
+     * 
      */
 
     public List<String> getUnitsContentOwner();
@@ -160,7 +156,7 @@ public interface CoreProgram extends IdEntity {
      * Learning Objectives associated with this Core requirement.
      * 
      * @name Learning Objectives
-     * @required
+     * 
      */
 
     public List<? extends LoDisplay> getLearningObjectives();

@@ -16,49 +16,49 @@ public interface ProgramRequirement extends IdEntity {
     
     /**
      * 
-     * This method ...
+     * Brief title for the requirement.
      * 
-     * @return
+     * @name Short Title
      */
     public String getShortTitle();
     
     /**
      * 
-     * This method ...
+     * Long name for the requirement
      * 
-     * @return
+     * @name Long Title
      */
     public String getLongTitle();
 
     /**
      * 
-     * This method ...
+     * Learning Objectives for the Program Requirement
      * 
-     * @return
+     * @name Learning Objectives
      */
     public List<LoDisplayInfo> getLearningObjectives();
 
     /**
      * 
-     * This method ...
+     * Rule Statement for the requirement 
      * 
-     * @return
+     * @name STatement
      */
     public StatementTreeViewInfo getStatement();
 
     /**
      * 
-     * This method ...
+     * Minimum credits awarded
      * 
-     * @return
+     * @name Max Credits
      */
     public Integer getMinCredits();
 
     /**
      * 
-     * This method ...
+     *  Maximum credits awarded
      * 
-     * @return
+     * @name Min Credits
      */
     public Integer getMaxCredits();
 
