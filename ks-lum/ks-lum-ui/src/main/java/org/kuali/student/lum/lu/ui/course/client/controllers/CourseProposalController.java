@@ -1009,6 +1009,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
 			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 		}
+		
+		//Add in the document type name if it exists
+		String documentTypeName = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+		if(documentTypeName !=null && !documentTypeName.isEmpty()){
+			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+		}
 
 		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
 		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
