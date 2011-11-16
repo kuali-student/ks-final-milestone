@@ -10,15 +10,14 @@
  */
 package org.kuali.student.r2.lum.program.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.*;
 
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
+
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
@@ -26,12 +25,7 @@ import org.w3c.dom.Element;
 /**
  * Detailed information about major program variations
  * 
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:55:59 PDT 2010
- * @See <a href=
- *      "https://test.kuali.org/confluence/display/KULSTU/programVariationInfo+Structure"
- *      >ProgramVariationInfo</>
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
 @XmlType(name = "ProgramVariationInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "code", "cip2000Code", "cip2010Code", "hegisCode",
@@ -40,7 +34,7 @@ import org.w3c.dom.Element;
         "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment",
         "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariation {
+public class ProgramVariationInfo extends ProgramAttributesInfo implements ProgramVariation, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,73 +45,16 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     private String referenceURL;
 
     @XmlElement
-    private String code;
-
-    @XmlElement
-    private String cip2000Code;
-
-    @XmlElement
-    private String cip2010Code;
-
-    @XmlElement
-    private String hegisCode;
-
-    @XmlElement
-    private String universityClassification;
-
-    @XmlElement
-    private String selectiveEnrollmentCode;
-
-    @XmlElement
     private List<String> resultOptions;
 
     @XmlElement
     private TimeAmountInfo stdDuration;
 
     @XmlElement
-    private String startTermKey;
-
-    @XmlElement
-    private String endTermKey;
-
-    @XmlElement
-    private String endProgramEntryTermKey;
-
-    @XmlElement
     private Date effectiveDate;
 
     @XmlElement
-    private String shortTitle;
-
-    @XmlElement
-    private String longTitle;
-
-    @XmlElement
-    private String transcriptTitle;
-
-    @XmlElement
-    private String diplomaTitle;
-
-    @XmlElement
-    private RichTextInfo catalogDescr;
-
-    @XmlElement
-    private List<String> catalogPublicationTargets;
-
-    @XmlElement
-    private List<LoDisplayInfo> learningObjectives;
-
-    @XmlElement
     private List<String> campusLocations;
-
-    @XmlElement
-    private List<String> programRequirements;
-
-    @XmlElement
-    private List<String> divisionsContentOwner;
-
-    @XmlElement
-    private List<String> divisionsStudentOversight;
 
     @XmlElement
     private List<String> divisionsDeployment;
@@ -127,12 +64,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     @XmlElement
     private List<String> divisionsFinancialControl;
-
-    @XmlElement
-    private List<String> unitsContentOwner;
-
-    @XmlElement
-    private List<String> unitsStudentOversight;
 
     @XmlElement
     private List<String> unitsDeployment;
@@ -151,24 +82,18 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     }
 
     public ProgramVariationInfo(ProgramVariation programVariation) {
-
-        this.campusLocations = new ArrayList<String>(programVariation.getCampusLocations());
-        this.catalogDescr = new RichTextInfo(programVariation.getCatalogDescr());
-        this.catalogPublicationTargets = programVariation.getCatalogPublicationTargets();
-        this.cip2000Code = programVariation.getCip2000Code();
-        this.cip2010Code = programVariation.getCip2010Code();
-        this.code = programVariation.getCode();
-        this.diplomaTitle = programVariation.getDiplomaTitle();
-        this.divisionsContentOwner = programVariation.getDivisionsContentOwner();
-        this.divisionsDeployment = programVariation.getDivisionsDeployment();
-        this.divisionsFinancialControl = programVariation.getDivisionsFinancialControl();
-        this.divisionsStudentOversight = programVariation.getDivisionsStudentOversight();
-        this.effectiveDate = programVariation.getEffectiveDate();
-        this.endProgramEntryTermKey = programVariation.getEndProgramEntryTermKey();
-        this.endTermKey = programVariation.getEndTermKey();
-        this.hegisCode = programVariation.getHegisCode();
-        this.learningObjectives = programVariation.getLearningObjectives();
         this.intensity = programVariation.getIntensity();
+        this.referenceURL = programVariation.getReferenceURL();
+        this.resultOptions = new ArrayList<String>(programVariation.getResultOptions());
+        this.stdDuration = new TimeAmountInfo( programVariation.getStdDuration());
+        this.effectiveDate = new Date(programVariation.getEffectiveDate().getTime());
+        this.campusLocations = new ArrayList<String>(programVariation.getCampusLocations());
+        this.divisionsDeployment = programVariation.getDivisionsDeployment();
+        this.divisionsFinancialResources = new ArrayList<String>(programVariation.getDivisionsFinancialResources());
+        this.divisionsFinancialControl = programVariation.getDivisionsFinancialControl();
+        this.unitsDeployment = new ArrayList<String>( programVariation.getUnitsDeployment());
+        this.unitsFinancialResources = new ArrayList<String>(programVariation.getUnitsFinancialResources());
+        this.unitsFinancialResources = new ArrayList<String>(programVariation.getUnitsFinancialControl());
     }
 
     @Override
@@ -190,60 +115,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     }
 
     @Override
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    @Override
-    public String getCip2000Code() {
-        return cip2000Code;
-    }
-
-    public void setCip2000Code(String cip2000Code) {
-        this.cip2000Code = cip2000Code;
-    }
-
-    @Override
-    public String getCip2010Code() {
-        return cip2010Code;
-    }
-
-    public void setCip2010Code(String cip2010Code) {
-        this.cip2010Code = cip2010Code;
-    }
-
-    @Override
-    public String getHegisCode() {
-        return hegisCode;
-    }
-
-    public void setHegisCode(String hegisCode) {
-        this.hegisCode = hegisCode;
-    }
-
-    @Override
-    public String getUniversityClassification() {
-        return universityClassification;
-    }
-
-    public void setUniversityClassification(String universityClassification) {
-        this.universityClassification = universityClassification;
-    }
-
-    @Override
-    public String getSelectiveEnrollmentCode() {
-        return selectiveEnrollmentCode;
-    }
-
-    public void setSelectiveEnrollmentCode(String selectiveEnrollmentCode) {
-        this.selectiveEnrollmentCode = selectiveEnrollmentCode;
-    }
-
-    @Override
     public List<String> getResultOptions() {
         return resultOptions;
     }
@@ -262,105 +133,12 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
     }
 
     @Override
-    public String getStartTermKey() {
-        return startTermKey;
-    }
-
-    public void setStartTermKey(String startTermKey) {
-        this.startTermKey = startTermKey;
-    }
-
-    @Override
-    public String getEndTermKey() {
-        return endTermKey;
-    }
-
-    public void setEndTermKey(String endTermKey) {
-        this.endTermKey = endTermKey;
-    }
-
-    @Override
-    public String getEndProgramEntryTermKey() {
-        return endProgramEntryTermKey;
-    }
-
-    public void setEndProgramEntryTermKey(String endProgramEntryTermKey) {
-        this.endProgramEntryTermKey = endProgramEntryTermKey;
-    }
-
-    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
-    }
-
-    @Override
-    public String getShortTitle() {
-        return shortTitle;
-    }
-
-    public void setShortTitle(String shortTitle) {
-        this.shortTitle = shortTitle;
-    }
-
-    @Override
-    public String getLongTitle() {
-        return longTitle;
-    }
-
-    public void setLongTitle(String longTitle) {
-        this.longTitle = longTitle;
-    }
-
-    @Override
-    public String getTranscriptTitle() {
-        return transcriptTitle;
-    }
-
-    public void setTranscriptTitle(String transcriptTitle) {
-        this.transcriptTitle = transcriptTitle;
-    }
-
-    @Override
-    public String getDiplomaTitle() {
-        return diplomaTitle;
-    }
-
-    public void setDiplomaTitle(String diplomaTitle) {
-        this.diplomaTitle = diplomaTitle;
-    }
-
-    @Override
-    public RichTextInfo getCatalogDescr() {
-        return catalogDescr;
-    }
-
-    public void setCatalogDescr(RichTextInfo catalogDescr) {
-        this.catalogDescr = catalogDescr;
-    }
-
-    @Override
-    public List<String> getCatalogPublicationTargets() {
-        return catalogPublicationTargets;
-    }
-
-    public void setCatalogPublicationTargets(List<String> catalogPublicationTargets) {
-        this.catalogPublicationTargets = catalogPublicationTargets;
-    }
-
-    @Override
-    public List<LoDisplayInfo> getLearningObjectives() {
-        if (learningObjectives == null) {
-            learningObjectives = new ArrayList<LoDisplayInfo>(0);
-        }
-        return learningObjectives;
-    }
-
-    public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
-        this.learningObjectives = learningObjectives;
     }
 
     @Override
@@ -373,36 +151,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
-    }
-
-    @Override
-    public List<String> getProgramRequirements() {
-        if (programRequirements == null) {
-            programRequirements = new ArrayList<String>(0);
-        }
-        return programRequirements;
-    }
-
-    public void setProgramRequirements(List<String> programRequirements) {
-        this.programRequirements = programRequirements;
-    }
-
-    @Override
-    public List<String> getDivisionsContentOwner() {
-        return divisionsContentOwner;
-    }
-
-    public void setDivisionsContentOwner(List<String> divisionsContentOwner) {
-        this.divisionsContentOwner = divisionsContentOwner;
-    }
-
-    @Override
-    public List<String> getDivisionsStudentOversight() {
-        return divisionsStudentOversight;
-    }
-
-    public void setDivisionsStudentOversight(List<String> divisionsStudentOversight) {
-        this.divisionsStudentOversight = divisionsStudentOversight;
     }
 
     @Override
@@ -430,24 +178,6 @@ public class ProgramVariationInfo extends IdEntityInfo implements ProgramVariati
 
     public void setDivisionsFinancialControl(List<String> divisionsFinancialControl) {
         this.divisionsFinancialControl = divisionsFinancialControl;
-    }
-
-    @Override
-    public List<String> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
-    public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    @Override
-    public List<String> getUnitsStudentOversight() {
-        return unitsStudentOversight;
-    }
-
-    public void setUnitsStudentOversight(List<String> unitsStudentOversight) {
-        this.unitsStudentOversight = unitsStudentOversight;
     }
 
     @Override

@@ -1,186 +1,87 @@
 package org.kuali.student.r2.lum.program.infc;
 
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * 
- * This is a description of what this class does - sambit don't forget to fill this in. 
+ * Detailed information about major program variations
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
-public interface ProgramVariation  extends IdEntity{
+public interface ProgramVariation extends ProgramAttributes {
 
-        /**
+    /**
      * Indicates if the program is full time, part time, both etc
+     * 
+     * @name Intensity
      */
-    public String getIntensity() ;
+    public String getIntensity();
 
     /**
      * An URL for additional information about the Variation.
+     * 
+     * @name Reference URL
      */
     public String getReferenceURL();
 
     /**
-     * The composite string that is used to officially reference or publish the Variation. Note it may have an internal structure that each Institution may want to enforce.
+     * 
+     * @name Effective Date
      */
-    public String getCode() ;
+    public Date getEffectiveDate();
 
     /**
-     * CIP 2000 Code for the Program
+     * Result Option for the Program Variation
+     * 
+     * @name Result Options
      */
-    public String getCip2000Code() ;
+    public List<String> getResultOptions();
 
     /**
-     * CIP 2010 Code for the Program
+     * Standard Duration of the Program  Variation.
+     * 
+     * @name Standard Duration
      */
-    public String getCip2010Code();
-
-    /**
-     * HEGIS Code for the Program
-     */
-    public String getHegisCode() ;
-
-    /**
-     * University specific classification e.g Major(Bacc), Specialization
-     */
-    public String getUniversityClassification() ;
-
-    /**
-     * Specifies if the Variation is Limited Enrollment program or Selective Admissions
-     */
-    public String getSelectiveEnrollmentCode() ;
-
-
-    public List<String> getResultOptions() ;
-
-    public TimeAmount getStdDuration() ;
-
-    /**
-     * The first academic time period that this Variation would be effective. This may not reflect the first "real" academic time period for this Variation.
-     */
-    public String getStartTermKey();
-    /**
-     * The last academic time period that this Variation would be effective.
-     */
-    public String getEndTermKey() ;
-
-    /**
-     * The last academic time period that this Variation would be available for enrollment. This may not reflect the last "real" academic time period for this Variation.
-     */
-    public String getEndProgramEntryTermKey();
-
-    /**
-     * Date and time the Variation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() ;
-
-    /**
-     * Abbreviated name of the Variation
-     */
-    public String getShortTitle() ;
-    /**
-     * Full name of the Variation Discipline
-     */
-    public String getLongTitle() ;
-
-    /**
-     * Information related to the official identification of the Variation, typically in human readable form. Used to officially reference or publish.
-     */
-    public String getTranscriptTitle();
-
-    /**
-     *
-     */
-    public String getDiplomaTitle() ;
-    /**
-     * Narrative description of the Variation that will show up in Catalog
-     */
-    public RichText getCatalogDescr() ;
-
-    /**
-     * List of catalog targets where program variation information will be published.
-     */
-    public List<String> getCatalogPublicationTargets() ;
-
-    /**
-     * Learning Objectives associated with this Variation.
-     */
-    public List<LoDisplayInfo> getLearningObjectives();
+    public TimeAmount getStdDuration();
 
     /**
      * Places where this Variation might be offered
+     * 
+     * @name Campus Locations
      */
-    public List<String> getCampusLocations() ;
+    public List<String> getCampusLocations();
 
     /**
-     * Program Variation Requirements.
+     * Division Deployment for the program variation
+     * 
+     * @name Divisions Deployment
      */
-    public List<String> getProgramRequirements() ;
+    public List<String> getDivisionsDeployment();
 
     /**
-     *
-     * @return
-     */
-    public List<String> getDivisionsContentOwner() ;
-
-    /**
-     *
-     * @return
-     */
-    public List<String> getDivisionsStudentOversight() ;
-
-    /**
-     *
-     * @return
-     */
-    public List<String> getDivisionsDeployment() ;
-
-    /**
-     *
      * @return
      */
     public List<String> getDivisionsFinancialResources();
 
     /**
-     *
-     * @return
+     * @name Divisions Financial COntrol
      */
     public List<String> getDivisionsFinancialControl();
 
     /**
-     *
-     * @return
+     * @name Units Deployment
      */
-    public List<String> getUnitsContentOwner() ;
+    public List<String> getUnitsDeployment();
 
     /**
-     *
-     * @return
-     */
-    public List<String> getUnitsStudentOversight();
-
-    /**
-     *
-     * @return
-     */
-    public List<String> getUnitsDeployment() ;
-
-    /**
-     *
-     * @return
+     * @name Units Financial Resources
      */
     public List<String> getUnitsFinancialResources();
 
     /**
-     *
-     * @return
+     * @name Units Financial Control
      */
     public List<String> getUnitsFinancialControl();
 
