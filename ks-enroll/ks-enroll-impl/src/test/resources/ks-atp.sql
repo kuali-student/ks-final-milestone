@@ -45,6 +45,10 @@ INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VA
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.RegistrationPeriod', 'Registration Period', 'Registration Period', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.DropDate', 'Drop Date', 'Drop Period Ends', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.GradesDue', 'Grades Due', 'Grades Due', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.Commencement', 'Commencement', 'Commencement', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.InstructionalPeriod', 'Instructional Period', 'Instructional Period', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.CourseSelectionPeriodEnd', 'Course Selection Period End', 'Course Selection Period End', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
+INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.ThanksgivingBreak', 'Thanksgiving Break', 'Thanksgiving Break', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
 -- AtpTypes for AtpAtpRelations
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.includes', 'http://student.kuali.org/wsdl/atp/AtpAtpRelationInfo', 0)
 INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.atp.atp.relation.associated', 'kuali.atp.atp.relation.associated', 'kuali.atp.atp.relation.associated', 'http://student.kuali.org/wsdl/atp/AtpAtpRelationInfo', 0)
@@ -177,17 +181,6 @@ INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId1', 'testTerm1', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Draft', 'RICHTEXT-201', 0)
 INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testTermId2', 'testTerm2', {ts '2000-01-01 00:00:00.0'}, {ts '2100-12-31 00:00:00.0'}, 'kuali.atp.type.Spring', 'kuali.atp.state.Draft', 'RICHTEXT-301', 0)
 
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId1', 'testEdgeAtpId1', {ts '1980-06-01 00:00:00.0'}, {ts '1980-06-30 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2001', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId2', 'testEdgeAtpId2', {ts '1979-12-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2002', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId3', 'testEdgeAtpId3', {ts '1979-12-01 00:00:00.0'}, {ts '1980-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2003', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId4', 'testEdgeAtpId4', {ts '1980-12-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2004', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId5', 'testEdgeAtpId5', {ts '1979-12-01 00:00:00.0'}, {ts '1980-01-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2005', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId6', 'testEdgeAtpId6', {ts '1980-12-31 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2006', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId7', 'testEdgeAtpId7', {ts '1980-01-01 00:00:00.0'}, {ts '1980-06-30 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2007', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId8', 'testEdgeAtpId8', {ts '1980-06-01 00:00:00.0'}, {ts '1980-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2008', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId9', 'testEdgeAtpId9', {ts '1979-12-01 00:00:00.0'}, {ts '1979-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2009', 0)
-INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId10', 'testEdgeAtpId10', {ts '1981-01-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Draft', 'RICHTEXT-2010', 0)
-
 
 // AtpAttributeEntity - can''t get this to execute for some reason
 -- INSERT INTO KSEN_ATP_ATTR (ID, ATTR_KEY, ATTR_VALUE, OWNER) VALUES ('testAtpAttr1', 'CredentialProgramType', 'kuali.lu.type.credential.Baccalaureate', 'testAtpId1')
@@ -236,3 +229,47 @@ INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_I
 
 // Term to KeyDate AtpMilestoneRelations for testing
 INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('termRelationTestingRel-TermDate-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'termRelationTestingTerm1', 'testKeyDate1', 'kuali.atp.milestone.relation.owns')
+
+// Acedemic calendars for range testing
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId1', 'testEdgeAtpId1', {ts '1980-06-01 00:00:00.0'}, {ts '1980-06-30 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2001', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId2', 'testEdgeAtpId2', {ts '1979-12-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2002', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId3', 'testEdgeAtpId3', {ts '1979-12-01 00:00:00.0'}, {ts '1980-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2003', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId4', 'testEdgeAtpId4', {ts '1980-12-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2004', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId5', 'testEdgeAtpId5', {ts '1979-12-01 00:00:00.0'}, {ts '1980-01-01 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2005', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId6', 'testEdgeAtpId6', {ts '1980-12-31 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2006', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId7', 'testEdgeAtpId7', {ts '1980-01-01 00:00:00.0'}, {ts '1980-06-30 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2007', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId8', 'testEdgeAtpId8', {ts '1980-06-01 00:00:00.0'}, {ts '1980-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2008', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId9', 'testEdgeAtpId9', {ts '1979-12-01 00:00:00.0'}, {ts '1979-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2009', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('testEdgeAtpId10', 'testEdgeAtpId10', {ts '1981-01-01 00:00:00.0'}, {ts '1981-01-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'RICHTEXT-2010', 0)
+
+
+
+// Academic Calendar
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('ACADEMICCALENDAR1990DESC', '<p>1990 Academic Calendar</p>', '1990 Academic Calendar', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('ACADEMICCALENDAR1990', '1990 Academic Calendar', {ts '1990-08-01 00:00:00.0'}, {ts '1991-12-31 00:00:00.0'}, 'kuali.atp.type.AcademicCalendar', 'kuali.atp.state.Official', 'ACADEMICCALENDAR1990DESC', 0)
+// Fall Term
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('FALLTERM1990DESC', '<p>Fall Term 1990</p>', 'Fall Term 1990', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('FALLTERM1990', 'Fall Term 1990', {ts '1990-08-01 00:00:00.0'}, {ts '1990-12-31 00:00:00.0'}, 'kuali.atp.type.Fall', 'kuali.atp.state.Official', 'FALLTERM1990DESC', 0)
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ACADEMICCALENDAR1990FALLTERM1990RELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'ACADEMICCALENDAR1990', 'kuali.atp.atp.relation.includes', 'FALLTERM1990')
+// Term Key Dates
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('FALLTERM1990COMMENCEMENTDESC', '<p>Commencement</p>', 'Commencement', 0)
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('FALLTERM1990COMMENCEMENT', 'Fall Commencement 1990', {ts '1990-12-15 10:00:00.0'}, {ts '1990-12-15 11:00:00.0'}, 'kuali.atp.milestone.Commencement', 'kuali.milestone.state.Official', 0, 0, 'FALLTERM1990COMMENCEMENTDESC', 0)
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('FALLTERM1990FALLTERM1990COMMENCEMENTRELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'FALLTERM1990', 'FALLTERM1990COMMENCEMENT', 'kuali.atp.milestone.relation.owns')
+// Term Registration Date Group
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('FALLTERM1990INSTRUCTIONALPERIODDESC', '<p>Instructional Period</p>', 'Instructional Period', 0)
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('FALLTERM1990INSTRUCTIONALPERIOD', 'Fall Term 1990 Instructional Period', {ts '1990-08-29 00:00:00.0'}, {ts '1990-12-07 00:00:00.0'}, 'kuali.atp.milestone.InstructionalPeriod', 'kuali.milestone.state.Official', 1, 1, 'FALLTERM1990INSTRUCTIONALPERIODDESC', 0)
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('FALLTERM1990FALLTERM1990INSTRUCTIONALPERIODRELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'FALLTERM1990', 'FALLTERM1990INSTRUCTIONALPERIOD', 'kuali.atp.milestone.relation.owns')
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('FALLTERM1990COURSESELECTIONPERIODENDDESC', '<p>Course Selection Period Ends</p>', 'Course Selection Period Ends', 0)
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('FALLTERM1990COURSESELECTIONPERIODEND', 'Fall Term 1990 End of Course Selection Period', {ts '1990-09-07 00:00:00.0'}, {ts '1990-09-07 00:00:00.0'}, 'kuali.atp.milestone.CourseSelectionPeriodEnd', 'kuali.milestone.state.Official', 1, 0, 'FALLTERM1990COURSESELECTIONPERIODENDDESC', 0)
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('FALLTERM1990FALLTERM1990COURSESELECTIONPERIODENDRELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'FALLTERM1990', 'FALLTERM1990COURSESELECTIONPERIODEND', 'kuali.atp.milestone.relation.owns')
+// Campus Calendar
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('CAMPUSCALENDAR19901991DESC', '<p>1990-1991 Campus Calendar</p>', '1990-1991 Campus Calendar', 0)
+INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_DESCR_ID, VER_NBR) VALUES ('CAMPUSCALENDAR19901991', 'Campus Calendar 1990-1991', {ts '1990-08-01 00:00:00.0'}, {ts '1991-12-31 00:00:00.0'}, 'kuali.atp.type.CampusCalendar', 'kuali.atp.state.Official', 'CAMPUSCALENDAR19901991DESC', 0)
+INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ACADEMICCALENDAR1990CAMPUSCALENDAR19901991RELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'ACADEMICCALENDAR1990', 'kuali.atp.atp.relation.associated', 'CAMPUSCALENDAR19901991')
+// Holidays
+INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('THANKSGIVING1990DESC', '<p>Thanksgiving Break</p>', 'Thanksgiving Break', 0)
+INSERT INTO KSEN_MSTONE(ID, NAME, START_DT, END_DT, MILESTONE_TYPE_ID, MILESTONE_STATE_ID, IS_ALL_DAY, IS_DATE_RANGE, RT_DESCR_ID, VER_NBR) values ('THANKSGIVING1990', 'Thanksgiving 1990', {ts '1990-11-21 00:00:00.0'}, {ts '1990-11-26 00:00:00.0'}, 'kuali.atp.milestone.ThanksgivingBreak', 'kuali.milestone.state.Official', 1, 1, 'THANKSGIVING1990DESC', 0)
+INSERT INTO KSEN_ATPMSTONE_RELTN (ID, VER_NBR, EFF_DT, ATP_STATE_ID, ATP_ID, MSTONE_ID, AM_RELTN_TYPE_ID) values ('CAMPUSCALENDAR19901991THANKSGIVING1990RELATION', 0, {ts '1988-01-01 00:00:00.0'}, 'kuali.atp.milestone.relation.state.active', 'CAMPUSCALENDAR19901991', 'THANKSGIVING1990', 'kuali.atp.milestone.relation.owns')
+
+
+

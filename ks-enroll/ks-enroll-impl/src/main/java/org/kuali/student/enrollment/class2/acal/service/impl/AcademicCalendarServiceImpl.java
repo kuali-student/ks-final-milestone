@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
@@ -276,8 +277,94 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarKey, String newAcademicCalendarKey, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarKey, context);
+        AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
+        academicCalendar.setKey(newAcademicCalendarKey);
+        academicCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        academicCalendar.setName(templateAcademicCalendar.getName());
+        academicCalendar.setDescr(new RichTextInfo(templateAcademicCalendar.getDescr()));
+        academicCalendar.setTypeKey(templateAcademicCalendar.getTypeKey());
+
+        try {
+            academicCalendar = createAcademicCalendar(academicCalendar.getKey(), academicCalendar, context);
+        } catch (DataValidationErrorException e) {
+            throw new OperationFailedException("Could not create AcademicCalendar '" + academicCalendar.getKey() + "'", e);
+        }
+
+        Map<String, KeyDateInfo> oldDatesToNewDates = new HashMap<String, KeyDateInfo>();
+        List<KeyDateInfo> allOriginalDates = getKeyDatesForAcademicCalendar(templateAcademicCalendar.getKey(), context);
+        for (KeyDateInfo date : allOriginalDates) {
+            oldDatesToNewDates.put(date.getKey(), null);
+        }
+
+        List<TermInfo> templateTerms = getTermsForAcademicCalendar(templateAcademicCalendar.getKey(), context);
+        for (TermInfo templateTerm : templateTerms) {
+            String termKey = templateTerm.getKey() + "." + RandomStringUtils.randomAlphanumeric(4); // TODO properly generate new key
+            TermInfo term = copyTerm(templateTerm.getKey(), termKey, oldDatesToNewDates, context);
+            addTermToAcademicCalendar(academicCalendar.getKey(), term.getKey(), context);
+        }
+
+        return academicCalendar;
+    }
+
+    private TermInfo copyTerm(String templateTermKey, String newTermKey, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, AlreadyExistsException {
+        TermInfo templateTerm = getTerm(templateTermKey, context);
+
+        TermInfo term = new TermInfo(templateTerm);
+        term.setKey(templateTerm.getKey() + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO properly generate new key
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setName(templateTerm.getName());
+        term.setDescr(new RichTextInfo(templateTerm.getDescr()));
+        term.setTypeKey(templateTerm.getTypeKey());
+
+        try {
+            term = createTerm(term.getKey(), term, context);
+        } catch (DataValidationErrorException e) {
+            throw new OperationFailedException("Could not create Term '" + term.getKey() + "'", e);
+        }
+
+        /*
+            Copy KeyDates of Term
+            TODO
+            Currently cannot reuse keydates in the acal service, but the design concept was that a term and subterm
+            may share dates. A mapping of all KeyDates to their newly created counterparts is used to determine
+            whether a new KeyDate has already been created. However, it is not being used at this time and a new
+            KeyDate will be created for each relationship.
+         */
+        List<KeyDateInfo> templateKeyDates = getKeyDatesForTerm(templateTermKey, context);
+        for (KeyDateInfo templateKeyDate : templateKeyDates) {
+            KeyDateInfo keyDate = templateDatesToNewDates.get(templateKeyDate.getKey());
+            keyDate = null; // TODO Disabling usage of mapping until service supports the reuse of dates
+
+            if (null == keyDate) {
+                keyDate = new KeyDateInfo(templateKeyDate);
+                keyDate.setKey(templateKeyDate.getKey() + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO properly generate new key
+                keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+                keyDate.setName(templateKeyDate.getName());
+                keyDate.setDescr(new RichTextInfo(templateKeyDate.getDescr()));
+                keyDate.setTypeKey(templateKeyDate.getTypeKey());
+
+                try {
+                    createKeyDateForTerm(term.getKey(), keyDate.getKey(), keyDate, context); // TODO Need a way to only create a KeyDate in order to associate it with multiple Terms
+                    templateDatesToNewDates.put(templateKeyDate.getKey(), keyDate);
+                } catch (DataValidationErrorException e) {
+                    throw new OperationFailedException("Could not create KeyDate '" + keyDate.getKey() + "'", e);
+                }
+
+            }
+            // TODO Need a way to associate a KeyDate with multiple Terms
+        }
+
+        // Recursive call to copy subTerms
+        List<TermInfo> templateSubTerms = getContainingTerms(templateTermKey, context);
+        for (TermInfo templateSubTerm : templateSubTerms) {
+            String subTermKey = templateSubTerm.getKey() + "." + RandomStringUtils.randomAlphanumeric(4); // TODO properly generate new key
+            TermInfo subTerm = copyTerm(templateSubTerm.getKey(), subTermKey, templateDatesToNewDates, context);
+            addTermToTerm(term.getKey(), subTerm.getKey(), context);
+        }
+
+        return term;
     }
 
     @Override

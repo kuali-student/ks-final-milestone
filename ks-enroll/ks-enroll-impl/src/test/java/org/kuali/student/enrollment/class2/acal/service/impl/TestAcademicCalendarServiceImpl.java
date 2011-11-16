@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -918,4 +920,68 @@ public class TestAcademicCalendarServiceImpl{
         }
     }
 
+    @Test
+    public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        final String originalCalendarKey = "ACADEMICCALENDAR1990";
+        final String copiedCalendarKey = "ACADEMICCALENDAR1990COPY";
+
+        AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
+        AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, copiedCalendarKey, callContext);
+
+        assertEquals(originalCalendarKey, originalCalendar.getKey());
+        assertEquals(copiedCalendarKey, copiedCalendar.getKey());
+        assertNotNull(originalCalendar.getName());
+        assertEquals(originalCalendar.getName(), copiedCalendar.getName());
+        assertNotNull(originalCalendar.getTypeKey());
+        assertEquals(originalCalendar.getTypeKey(), copiedCalendar.getTypeKey());
+        assertNotNull(originalCalendar.getStateKey());
+        assertEquals("kuali.atp.state.Draft", copiedCalendar.getStateKey());
+        assertNotNull(originalCalendar.getStartDate());
+        assertEquals(originalCalendar.getStartDate(), copiedCalendar.getStartDate());
+        assertNotNull(originalCalendar.getEndDate());
+        assertEquals(originalCalendar.getEndDate(), copiedCalendar.getEndDate());
+        assertNotNull(originalCalendar.getDescr());
+        assertEquals(originalCalendar.getDescr().getFormatted(), copiedCalendar.getDescr().getFormatted());
+        assertEquals(originalCalendar.getDescr().getPlain(), copiedCalendar.getDescr().getPlain());
+        assertNull(originalCalendar.getCredentialProgramTypeKey()); // TODO change after setup correctly
+        assertEquals(originalCalendar.getCredentialProgramTypeKey(), copiedCalendar.getCredentialProgramTypeKey());
+
+        List<String> originalCampusCalendarsKeys = originalCalendar.getCampusCalendarKeys();
+        List<String> copiedCampusCalendarsKeys = copiedCalendar.getCampusCalendarKeys();
+        assertNotNull(originalCampusCalendarsKeys);
+        assertNotNull(copiedCampusCalendarsKeys);
+        assertFalse(originalCampusCalendarsKeys.isEmpty());
+        assertEquals(originalCampusCalendarsKeys.size(), copiedCampusCalendarsKeys.size());
+        for (String campusCalendarKey : originalCampusCalendarsKeys) {
+            assertTrue("campusCalendarKey not found: " + campusCalendarKey, copiedCampusCalendarsKeys.contains(campusCalendarKey));
+        }
+
+        List<TermInfo> originalCalendarTerms = acalService.getTermsForAcademicCalendar(originalCalendarKey, callContext);
+        List<TermInfo> copiedCalendarTerms = acalService.getTermsForAcademicCalendar(copiedCalendarKey, callContext);
+        assertNotNull(originalCalendarTerms);
+        assertNotNull(copiedCalendarTerms);
+        assertFalse(originalCalendarTerms.isEmpty());
+        assertEquals(originalCalendarTerms.size(), copiedCalendarTerms.size());
+        List<String> originalCalendarTermKeys = new ArrayList<String>();
+        for (TermInfo term : originalCalendarTerms) {
+            originalCalendarTermKeys.add(term.getKey());
+        }
+        for (TermInfo term : copiedCalendarTerms) {
+            assertFalse(originalCalendarTermKeys.contains(term.getKey()));
+        }
+        for (TermInfo term : originalCalendarTerms) {
+            assertFalse(copiedCalendarTerms.contains(term));
+            // TODO check terms were copied properly
+            RegistrationDateGroupInfo registrationDateGroup = acalService.getRegistrationDateGroup(term.getKey(), callContext);
+            assertNull(registrationDateGroup); // TODO Change after implimented
+            //assertNotNull(registrationDateGroup.getAddDate());
+            //assertNotNull(registrationDateGroup.getClassDateRange());
+            //assertNotNull(registrationDateGroup.getDropDate());
+            //assertNotNull(registrationDateGroup.getFinalExamDateRange());
+            //assertNotNull(registrationDateGroup.getGradingDateRange());
+            //assertNotNull(registrationDateGroup.getRegistrationDateRange());
+            assertNotNull(acalService.getAllKeyDatesForTerm(term.getKey(), callContext));
+            assertNotNull(acalService.getContainingTerms(term.getKey(), callContext));
+        }
+    }
 }
