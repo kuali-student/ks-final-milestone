@@ -15,9 +15,6 @@
  */
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +46,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 /**
  * This class holds tests for the validation methods in AtpService that are implemented in AtpServiceValidationDecorator
  * 
@@ -76,76 +76,81 @@ public class TestAtpServiceValidationDecorator {
     }
     
     @Test
-    @Ignore
-    public void testValidateAtpMilestoneRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testValidateAtpMilestoneRelation()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         AtpMilestoneRelationInfo rel = new AtpMilestoneRelationInfo();
         
+        rel.setId("newRelId");
         rel.setAtpKey("testAtpId1");
         rel.setMilestoneKey("testId");
         rel.setEffectiveDate(new Date());
-        
+        rel.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
+        rel.setTypeKey("kuali.atp.milestone.relation.owns");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2100);
         rel.setExpirationDate(cal.getTime());
+
+        List<ValidationResultInfo> existingResults =
+                atpService.validateAtpMilestoneRelation(ValidationType.FULL_VALIDATION.toString(), rel, callContext);
+        assertTrue("validateAtpMilestoneRelation() should have returned an empty list.", existingResults.isEmpty());
         
-        rel.setId("newRelId");
-        rel.setStateKey(AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY);
-        rel.setTypeKey("kuali.atp.milestone.relation.owns");
-        
-        List<ValidationResultInfo> existingResults = atpService.validateAtpMilestoneRelation(ValidationType.FULL_VALIDATION.toString(), rel, callContext);
-        
-        assertTrue(existingResults == null || existingResults.isEmpty());
-        
+        // make sure validation catches an incomplete AMR info object
         AtpMilestoneRelationInfo invalid = new AtpMilestoneRelationInfo();
-        
-        List<ValidationResultInfo> invalidResults = atpService.validateAtpMilestoneRelation("FULL_VALIDATION", invalid, callContext);
-        
-        assertTrue(!invalidResults.isEmpty());
+        List<ValidationResultInfo> invalidResults =
+                atpService.validateAtpMilestoneRelation("FULL_VALIDATION", invalid, callContext);
+        assertFalse("Validation errors are expected.", invalidResults.isEmpty());
     }
     
     @Test
-    @Ignore
-    public void testValidateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        // validating a fully populated milestone should return an empty list
-        MilestoneInfo existingMilestone = new MilestoneInfo();
-        existingMilestone.setKey("newId");
-        existingMilestone.setName("testCreate");
-        existingMilestone.setStartDate(new Date());
-        existingMilestone.setIsDateRange(false);
-        existingMilestone.setIsAllDay(true);
-        existingMilestone.setStateKey("kuali.atp.state.Draft");
-        existingMilestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
-        RichTextInfo descr = new RichTextInfo();
-        descr.setPlain("Test");
-        existingMilestone.setDescr(descr);
-        
-        List<ValidationResultInfo> existingResults = atpService.validateMilestone("FULL_VALIDATION", existingMilestone, callContext);
-        
-        assertTrue(existingResults == null || existingResults.isEmpty());
-        
-        MilestoneInfo invalid = new MilestoneInfo();
-        
-        List<ValidationResultInfo> invalidResults = atpService.validateMilestone("FULL_VALIDATION", invalid, callContext);
-        
-        assertTrue(!invalidResults.isEmpty());        
+    public void testValidateMilestone()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        MilestoneInfo milestone = new MilestoneInfo();
+
+        // validation should have problems with a new, incomplete milestone
+        List<ValidationResultInfo> validationResults =
+                atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
+        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+
+        // populate two of the three required fields (key, type, state) and validation
+        // should now return a list with only one error, for the "stateKey" field
+        milestone.setKey("newId");
+        milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
+        assertEquals("validateMilestone() should have returned one error.", 1, validationResults.size());
+        assertEquals("stateKey", validationResults.get(0).getElement());
+
+        // validation should pass once the stateKey is provided
+        milestone.setStateKey("kuali.atp.state.Draft");
+        validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
+        assertNotNull("validateMilestone() should return an empty list, not null.", milestone);
+        assertEquals("validateMilestone() should have returned zero errors.", 0, validationResults.size());
     }
     
     @Test
-    @Ignore
-    public void testValidateAtp()throws DoesNotExistException, InvalidParameterException, MissingParameterException,OperationFailedException {
+    public void testValidateAtp()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
         AtpInfo atpInfo = new AtpInfo();
+
+        // validation should have problems with a new, incomplete ATP
+        List<ValidationResultInfo> validationResults =
+                atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
+        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+
+        // populate two of the three required fields (key, type, state) and validation
+        // should now return a list with only one error, for the "stateKey" field
         atpInfo.setKey("newId");
-        atpInfo.setName("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
+        validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
+        assertEquals("validateAtp() should have returned one error.", 1, validationResults.size());
+        assertEquals("stateKey", validationResults.get(0).getElement());
+
+        // validation should pass once the stateKey is provided
         atpInfo.setStateKey("kuali.atp.state.Draft");
-        atpInfo.setStartDate(Calendar.getInstance().getTime());
-        atpInfo.setEndDate(Calendar.getInstance().getTime());
-        try{
-        	List<ValidationResultInfo> vri= atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
-        	assertTrue(vri.isEmpty());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        } 
+        validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo, callContext);
+        assertNotNull("validateAtp() should return an empty list, not null.", atpInfo);
+        assertEquals("validateAtp() should have returned zero errors.", 0, validationResults.size());
     }
 }
