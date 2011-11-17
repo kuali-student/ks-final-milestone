@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
+import org.apache.bcel.generic.NEW;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.UUIDHelper;
@@ -20,6 +21,7 @@ import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
@@ -703,7 +705,11 @@ public class GradingServiceImpl implements GradingService {
 
         for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
             List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIdList(resultValuesGroupInfo.getResultValueKeys(),context);
-            gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
+            try {
+                gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
 
         return gradeValuesGroupInfos;

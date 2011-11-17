@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.class2.academicrecord.service.assembler.Stud
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -94,9 +95,11 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 			throw new OperationFailedException();
 		} catch (DisabledIdentifierException e) {
 			throw new OperationFailedException();
-		}
+		} catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
 
-		return courseRecords;
+        return courseRecords;
 	}
 
 	@Override
@@ -135,11 +138,18 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		return courseRecords;
 	}
 
-	private void getCompletedCourseRecords(List<StudentCourseRecordInfo> courseRecords, List<CourseRegistrationInfo> regs, ContextInfo context){			
+	private void getCompletedCourseRecords(List<StudentCourseRecordInfo> courseRecords, List<CourseRegistrationInfo> regs, ContextInfo context)
+            throws OperationFailedException {
 		if(regs != null && !regs.isEmpty()){
 			for (CourseRegistrationInfo reg : regs ){
-				StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
-				if (courseRecord != null) {
+                StudentCourseRecordInfo courseRecord = null;
+                try {
+                    courseRecord = courseRecordAssembler.assemble(reg, context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                }
+
+                if (courseRecord != null) {
 					if(courseRecord.getAssignedGradeValue()!= null || courseRecord.getAdministrativeGradeValue() != null)
 						courseRecords.add(courseRecord);
 				}

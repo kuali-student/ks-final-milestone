@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalend
 import org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.*;
@@ -95,8 +96,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public AcademicCalendarInfo getAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atp = atpService.getAtp(academicCalendarKey, context);
+        AcademicCalendarInfo acal;
 
-        return acalAssembler.assemble(atp, context);
+        try {
+            acal = acalAssembler.assemble(atp, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return acal;
     }
 
     @Override
@@ -104,7 +112,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
         List<AtpInfo> atps = atpService.getAtpsByKeyList(academicCalendarKeyList, context);
         for (AtpInfo atp : atps) {
-            academicCalendars.add(acalAssembler.assemble(atp, context));
+            try {
+                academicCalendars.add(acalAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
         return academicCalendars;
     }
@@ -138,7 +150,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
         for (AtpInfo atpInfo : atpInfos) {
-            acalInfos.add(acalAssembler.assemble(atpInfo, context));
+            try {
+                acalInfos.add(acalAssembler.assemble(atpInfo, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
         return acalInfos;
     }
@@ -157,7 +173,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                     if (attributes != null && !attributes.isEmpty()) {
                         for (AttributeInfo attribute : attributes) {
                             if (attribute.getKey().equals("CredentialProgramType") && attribute.getValue().equals(credentialProgramTypeKey)) {
-                                AcademicCalendarInfo acal = acalAssembler.assemble(atp, context);
+                                AcademicCalendarInfo acal = null;
+                                try {
+                                    acal = acalAssembler.assemble(atp, context);
+                                } catch (AssemblyException e) {
+                                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                                }
                                 if (acal != null)
                                     acals.add(acal);
                             }
@@ -211,7 +232,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo created = null;
-        AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
+        AtpInfo atp = null;
+        try {
+            atp = acalAssembler.disassemble(academicCalendarInfo, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
         try {
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
             if (existing == null) {
@@ -237,7 +264,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
             if (existing != null) {
-                AtpInfo atp = acalAssembler.disassemble(academicCalendarInfo, context);
+                AtpInfo atp = null;
+                try {
+                    atp = acalAssembler.disassemble(academicCalendarInfo, context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                }
 
                 if (atp != null) {
                     AtpInfo updated = atpService.updateAtp(academicCalendarKey, atp, context);
@@ -398,7 +430,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public CampusCalendarInfo getCampusCalendar(String campusCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atp = atpService.getAtp(campusCalendarKey,context);
-        return campusCalendarAssembler.assemble(atp,context);
+        CampusCalendarInfo ccal;
+        try {
+            ccal = campusCalendarAssembler.assemble(atp,context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return ccal;
     }
 
     @Override
@@ -406,7 +445,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<AtpInfo> atps = atpService.getAtpsByKeyList(campusCalendarKeyList,context);
         List<CampusCalendarInfo> campusCalendarInfos = new ArrayList<CampusCalendarInfo>();
         for (AtpInfo atp : atps) {
-             campusCalendarInfos.add(campusCalendarAssembler.assemble(atp, context));
+            try {
+                campusCalendarInfos.add(campusCalendarAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
         return campusCalendarInfos;
     }
@@ -445,9 +488,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         if (create){
-            AtpInfo atpInfo = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
-            atpInfo = atpService.createAtp(atpInfo.getKey(),atpInfo,context);
-            return campusCalendarAssembler.assemble(atpInfo,context);
+            try{
+                AtpInfo atpInfo = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
+                atpInfo = atpService.createAtp(atpInfo.getKey(),atpInfo,context);
+                return campusCalendarAssembler.assemble(atpInfo,context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
 
         return null;
@@ -458,10 +505,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         AtpInfo existing = atpService.getAtp(campusCalendarKey,context);
 
-        AtpInfo toUpdate = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
-        AtpInfo updated = atpService.updateAtp(campusCalendarKey,toUpdate,context);
-        return campusCalendarAssembler.assemble(updated,context);
-
+        try{
+            AtpInfo toUpdate = campusCalendarAssembler.disassemble(campusCalendarInfo,context);
+            AtpInfo updated = atpService.updateAtp(campusCalendarKey,toUpdate,context);
+            return campusCalendarAssembler.assemble(updated,context);
+        } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
     }
 
     @Override
@@ -561,7 +611,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         TermInfo term = null;
 
         if (atp != null && checkTypeForTermType(atp.getTypeKey(), context))
-            term = termAssembler.assemble(atp, context);
+            try {
+                term = termAssembler.assemble(atp, context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         else
             throw new DoesNotExistException("This is either not valid Atp or not valid Term. " + termKey);
 
@@ -576,7 +630,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
         for (AtpInfo atp : results) {
-            terms.add(termAssembler.assemble(atp, context));
+            try {
+                terms.add(termAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
         }
 
         return terms;
@@ -600,7 +658,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
-                    terms.add(termAssembler.assemble(possibleTerm, context));
+                    try {
+                        terms.add(termAssembler.assemble(possibleTerm, context));
+                    } catch (AssemblyException e) {
+                        throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                    }
                 }
             }
 
@@ -635,7 +697,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
-                    terms.add(termAssembler.assemble(possibleTerm, context));
+                    try {
+                        terms.add(termAssembler.assemble(possibleTerm, context));
+                    } catch (AssemblyException e) {
+                        throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                    }
                 }
             }
 
@@ -661,7 +727,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getAtpKey(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
-                    terms.add(termAssembler.assemble(possibleTerm, context));
+                    try {
+                        terms.add(termAssembler.assemble(possibleTerm, context));
+                    } catch (AssemblyException e) {
+                        throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                    }
                 }
             }
 
@@ -682,7 +752,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp;
 
         if (checkTypeForTermType(termInfo.getTypeKey(), context)) {
-            atp = termAssembler.disassemble(termInfo, context);
+            try {
+                atp = termAssembler.disassemble(termInfo, context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+
             try {
                 AtpInfo existing = atpService.getAtp(termKey, context);
                 if (existing == null)
@@ -712,11 +787,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new InvalidParameterException("Invalid termKey: " + termKey + "  Given key does not map to a Term");
         }
 
-        AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
+        TermInfo updatedTerm;
 
-        AtpInfo updated = atpService.updateAtp(termKey, toUpdate, context);
+        try{
+            AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
 
-        TermInfo updatedTerm = termAssembler.assemble(updated, context);
+            AtpInfo updated = atpService.updateAtp(termKey, toUpdate, context);
+
+            updatedTerm = termAssembler.assemble(updated, context);
+        } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
 
         return updatedTerm;
     }
@@ -1026,7 +1107,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         KeyDateInfo keyDate = null;
-        if (!isRelationExists(termKey, keyDateKey, AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY,context)) {
+        if (!isRelationExists(termKey, keyDateKey, AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, context)) {
             MilestoneInfo msInfo = toMilestoneInfo(keyDateInfo);
             if (msInfo != null) {
                 // create keydate
@@ -1110,11 +1191,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         boolean relationExists = isRelationExists(campusCalendarKey, holidayKey, AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY,context);
 
         if (!relationExists) {
-            MilestoneInfo milestoneInfo = holidayAssembler.disassemble(holidayInfo,context);
+            MilestoneInfo milestoneInfo = null;
+            try {
+                milestoneInfo = holidayAssembler.disassemble(holidayInfo,context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
+            }
 
             if (milestoneInfo != null) {
                 MilestoneInfo newMilestone = atpService.createMilestone(holidayKey, milestoneInfo, context);
-                newHolidayInfo = holidayAssembler.assemble(newMilestone,context);
+                try {
+                    newHolidayInfo = holidayAssembler.assemble(newMilestone,context);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                }
 
                 // create relation
                 AtpMilestoneRelationInfo amRelInfo = new AtpMilestoneRelationInfo();
@@ -1137,10 +1227,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         MilestoneInfo exists = atpService.getMilestone(holidayKey,context);
 
-        MilestoneInfo toUpdate = holidayAssembler.disassemble(holidayInfo,context);
-        MilestoneInfo updated = atpService.updateMilestone(holidayKey,toUpdate,context);
+        try{
+            MilestoneInfo toUpdate = holidayAssembler.disassemble(holidayInfo,context);
+            MilestoneInfo updated = atpService.updateMilestone(holidayKey,toUpdate,context);
 
-        return holidayAssembler.assemble(updated,context);
+            return holidayAssembler.assemble(updated,context);
+        } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
     }
 
     @Override

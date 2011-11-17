@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 
 import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -14,7 +15,7 @@ import java.util.List;
 public class CampusCalendarAssembler implements DTOAssembler<CampusCalendarInfo, AtpInfo> {
 
     @Override
-    public CampusCalendarInfo assemble(AtpInfo atp, ContextInfo context) {
+    public CampusCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
             CampusCalendarInfo campusCalendarInfo = new CampusCalendarInfo();
             campusCalendarInfo.setKey(atp.getKey());
@@ -44,7 +45,7 @@ public class CampusCalendarAssembler implements DTOAssembler<CampusCalendarInfo,
     }
 
     @Override
-    public AtpInfo disassemble(CampusCalendarInfo campusCalendarInfo, ContextInfo context) {
+    public AtpInfo disassemble(CampusCalendarInfo campusCalendarInfo, ContextInfo context) throws AssemblyException{
         if (campusCalendarInfo != null){
             AtpInfo atp = new AtpInfo();
             atp.setKey(campusCalendarInfo.getKey());

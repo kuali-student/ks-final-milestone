@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -9,7 +10,7 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
      
     @Override
-    public TermInfo assemble(AtpInfo atp, ContextInfo context) {
+    public TermInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
             TermInfo term = new TermInfo();
             term.setKey(atp.getKey());
@@ -29,7 +30,7 @@ public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
     }
 
     @Override
-    public AtpInfo disassemble(TermInfo term, ContextInfo context) {
+    public AtpInfo disassemble(TermInfo term, ContextInfo context) throws AssemblyException{
         AtpInfo atp = new AtpInfo();
         atp.setKey(term.getKey());
         atp.setKey(term.getKey());

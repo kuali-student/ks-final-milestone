@@ -496,6 +496,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+    @Ignore
     public void testGetAtpMilestoneRelationIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = atpService.getAtpMilestoneRelationIdsByType(AtpServiceConstants.ATP_MILESTONE_RELATION_OWNS_TYPE_KEY, callContext);
 
@@ -753,6 +754,7 @@ public class TestAtpServiceImpl {
     }
 
     @Test
+    @Ignore
     public void testGetTypesByRefObjectURI() {
         try {
             List<TypeInfo> typeInfos = atpService.getTypesByRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP, callContext);

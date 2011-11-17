@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -44,7 +45,7 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 	}
 
 	@Override
-	public StudentCourseRecordInfo assemble(CourseRegistrationInfo courseReg, ContextInfo context) {
+	public StudentCourseRecordInfo assemble(CourseRegistrationInfo courseReg, ContextInfo context) throws AssemblyException {
 		StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
 		
 		courseRecord.setCourseRegistrationId(courseReg.getId());
@@ -78,17 +79,17 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 			courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
 
         } catch (DisabledIdentifierException e) {
-            e.printStackTrace();
+            throw new AssemblyException("DisabledIdentifierException: " + e.getMessage());
 		} catch (DoesNotExistException e) {
-			e.printStackTrace();
+			throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException: " + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException: " + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException: " + e.getMessage());
 		} catch (PermissionDeniedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
 		}	
 		
 		return courseRecord;
@@ -100,7 +101,7 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 		return null;
 	}
 	
-	private String getValue(String key, ContextInfo context){
+	private String getValue(String key, ContextInfo context) throws AssemblyException {
 		String value = null;
 		if(key != null){
 			try {
@@ -109,22 +110,22 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 					value = resultValue.getValue();
 				}
 			} catch (DoesNotExistException e) {
-				e.printStackTrace();
+				throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 			} catch (InvalidParameterException e) {
-				e.printStackTrace();
+				throw new AssemblyException("InvalidParameterException: "  + e.getMessage());
 			} catch (MissingParameterException e) {
-				e.printStackTrace();
+				throw new AssemblyException("MissingParameterException: "  + e.getMessage());
 			} catch (OperationFailedException e) {
-				e.printStackTrace();
+				throw new AssemblyException("OperationFailedException: "  + e.getMessage());
 			} catch (PermissionDeniedException e) {
-				e.printStackTrace();
+				throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
 			}
 		}
 		
 		return value;
 	}
 	
-	private String getScaleKey(String key, ContextInfo context){
+	private String getScaleKey(String key, ContextInfo context) throws AssemblyException {
 		String scaleKey = null;
 		if(key != null){
 			try {
@@ -133,15 +134,15 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 					scaleKey = resultValue.getResultScaleKey();
 				}
 			} catch (DoesNotExistException e) {
-				e.printStackTrace();
+				throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 			} catch (InvalidParameterException e) {
-				e.printStackTrace();
+				throw new AssemblyException("InvalidParameterException: " + e.getMessage());
 			} catch (MissingParameterException e) {
-				e.printStackTrace();
+				throw new AssemblyException("MissingParameterException: "  + e.getMessage());
 			} catch (OperationFailedException e) {
-				e.printStackTrace();
+				throw new AssemblyException("OperationFailedException: "  + e.getMessage());
 			} catch (PermissionDeniedException e) {
-				e.printStackTrace();
+				throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
 			}
 		}
 		

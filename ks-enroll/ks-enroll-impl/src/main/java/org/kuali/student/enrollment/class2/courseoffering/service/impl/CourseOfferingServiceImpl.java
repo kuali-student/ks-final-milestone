@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
@@ -136,9 +137,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		LuiInfo lui = luiService.getLui(courseOfferingId, context);		
-		return coAssembler.assemble(lui, context);
-	}
+		LuiInfo lui = luiService.getLui(courseOfferingId, context);
+        CourseOfferingInfo co;
+        try {
+            co = coAssembler.assemble(lui, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return co;
+    }
 
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(
@@ -588,9 +596,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		LuiInfo lui = luiService.getLui(activityOfferingId, context);		
-		return aoAssembler.assemble(lui, context);
-	}
+		LuiInfo lui = luiService.getLui(activityOfferingId, context);
+        ActivityOfferingInfo ao;
+        try {
+            ao = aoAssembler.assemble(lui, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return ao;
+    }
 
 	@Override
 	public List<ActivityOfferingInfo> getActivitiesForCourseOffering(
@@ -641,7 +656,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
             throw new MissingParameterException("Course offering ID list parameter is required");
         }
 
-        LuiInfo lui = aoAssembler.disassemble(activityOfferingInfo, context);
+        LuiInfo lui = null;
+        try {
+            lui = aoAssembler.disassemble(activityOfferingInfo, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
         try {
             LuiInfo created = luiService.createLui(
                     activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermKey(), lui, context);
@@ -821,9 +842,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		LuiInfo lui = luiService.getLui(registrationGroupId, context);		
-		return rgAssembler.assemble(lui, context);
-	}
+		LuiInfo lui = luiService.getLui(registrationGroupId, context);
+        RegistrationGroupInfo rg;
+        try {
+            rg = rgAssembler.assemble(lui, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
+
+        return rg;
+    }
 
 	@Override
 	public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(
@@ -873,8 +901,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(courseOfferingId != null){
-			LuiInfo lui = rgAssembler.disassemble(registrationGroupInfo, context);
-			try {
+            LuiInfo lui = null;
+            try {
+                lui = rgAssembler.disassemble(registrationGroupInfo, context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+
+            try {
 				String termKey = null;
 				
 				if(registrationGroupInfo.getTermKey()!= null) {
@@ -1050,7 +1084,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         List<LuiInfo> luiInfoList = luiService.getLuisByIdList(courseOfferingIds,context);
         List<CourseOfferingInfo> coList = new ArrayList();
         for (LuiInfo lui : luiInfoList){
-            CourseOfferingInfo coInfo = coAssembler.assemble(lui,context);
+            CourseOfferingInfo coInfo = null;
+            try {
+                coInfo = coAssembler.assemble(lui,context);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
             coList.add(coInfo);
         }
         return coList;

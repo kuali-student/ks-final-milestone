@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
@@ -15,7 +16,7 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTransactionInfo> {
 
     @Override
-    public RegResponseInfo assemble(LprTransactionInfo baseDTO, ContextInfo context) {
+    public RegResponseInfo assemble(LprTransactionInfo baseDTO, ContextInfo context) throws AssemblyException {
         RegResponseInfo regResponse = new RegResponseInfo();
         regResponse.setRegRequestId(baseDTO.getId());
         List<RegResponseItemInfo> resgRespItems = new ArrayList<RegResponseItemInfo>();
@@ -28,7 +29,7 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
     }
 
     @Override
-    public LprTransactionInfo disassemble(RegResponseInfo businessDTO, ContextInfo context) {
+    public LprTransactionInfo disassemble(RegResponseInfo businessDTO, ContextInfo context) throws AssemblyException {
 
         return null;
     }

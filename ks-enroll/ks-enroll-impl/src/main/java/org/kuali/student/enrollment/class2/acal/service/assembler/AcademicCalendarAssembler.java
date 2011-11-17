@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -33,7 +34,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
 	}
 
 	@Override
-    public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) {
+    public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
             AcademicCalendarInfo acal = new AcademicCalendarInfo();
             acal.setKey(atp.getKey());
@@ -66,7 +67,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     }
 
     @Override
-    public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) {
+    public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException{
         AtpInfo atp = new AtpInfo();
         atp.setKey(acal.getKey());
         atp.setName(acal.getName());

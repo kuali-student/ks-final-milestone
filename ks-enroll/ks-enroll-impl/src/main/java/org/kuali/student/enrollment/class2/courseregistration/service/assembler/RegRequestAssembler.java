@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.RequestOptionInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -31,7 +32,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
     }
 
     @Override
-    public RegRequestInfo assemble(LprTransactionInfo baseDTO, ContextInfo context) {
+    public RegRequestInfo assemble(LprTransactionInfo baseDTO, ContextInfo context) throws AssemblyException {
         RegRequestInfo regRequestInfo = new RegRequestInfo();
         EntityDTOAssembler<LprTransactionInfo, RegRequestInfo> commonAssembler = new EntityDTOAssembler<LprTransactionInfo, RegRequestInfo>();
         regRequestInfo = commonAssembler.assemble(baseDTO, regRequestInfo, context);
@@ -107,7 +108,7 @@ public class RegRequestAssembler implements DTOAssembler<RegRequestInfo, LprTran
     }
 
     @Override
-    public LprTransactionInfo disassemble(RegRequestInfo businessDTO, ContextInfo context) {
+    public LprTransactionInfo disassemble(RegRequestInfo businessDTO, ContextInfo context) throws AssemblyException {
         LprTransactionInfo lprTransactionInfo = new LprTransactionInfo();
         EntityDTOAssembler<RegRequestInfo, LprTransactionInfo> commonAssembler = new EntityDTOAssembler<RegRequestInfo, LprTransactionInfo>();
         lprTransactionInfo = commonAssembler.assemble(businessDTO, lprTransactionInfo, context);

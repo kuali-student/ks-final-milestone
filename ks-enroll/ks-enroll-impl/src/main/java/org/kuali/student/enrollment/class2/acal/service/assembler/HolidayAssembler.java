@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -8,7 +9,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInfo> {
 
     @Override
-    public HolidayInfo assemble(MilestoneInfo milestoneInfo, ContextInfo context) {
+    public HolidayInfo assemble(MilestoneInfo milestoneInfo, ContextInfo context) throws AssemblyException {
 
         if (milestoneInfo == null){
             return null;
@@ -34,7 +35,7 @@ public class HolidayAssembler  implements DTOAssembler<HolidayInfo, MilestoneInf
     }
 
     @Override
-    public MilestoneInfo disassemble(HolidayInfo holidayInfo, ContextInfo context) {
+    public MilestoneInfo disassemble(HolidayInfo holidayInfo, ContextInfo context) throws AssemblyException {
 
         if (holidayInfo == null){
             return null;

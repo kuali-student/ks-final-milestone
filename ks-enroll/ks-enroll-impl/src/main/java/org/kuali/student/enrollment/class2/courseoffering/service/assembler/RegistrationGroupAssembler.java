@@ -8,6 +8,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -28,7 +29,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 	}
 	
 	@Override
-	public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) {
+	public RegistrationGroupInfo assemble(LuiInfo lui, ContextInfo context) throws AssemblyException {
 		if(lui != null){
 			RegistrationGroupInfo rg = new RegistrationGroupInfo();
 			rg.setId(lui.getId());
@@ -60,7 +61,7 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 			return null;
 	}
 
-	private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context){
+	private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context) throws AssemblyException {
 		try {
 			String courseOfferingId = null;;
 			List<String> activityIds= new ArrayList<String>();
@@ -92,16 +93,16 @@ public class RegistrationGroupAssembler implements DTOAssembler<RegistrationGrou
 		} catch (DoesNotExistException e) {
 			return;
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException" + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException"  + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException"  + e.getMessage());
 		}
 	}
 	
 	@Override
-	public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) {
+	public LuiInfo disassemble(RegistrationGroupInfo rg, ContextInfo context) throws AssemblyException {
 		if(rg != null){			
 			LuiInfo lui = new LuiInfo();
 			lui.setId(rg.getId());

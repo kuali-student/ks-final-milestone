@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -34,7 +35,7 @@ public class AtpAtpRelationAssembler implements DTOAssembler<Object, Object> {
         this.atpService = atpService;
     }
     
-	public List<String> assemble(String atpKey, String relatedAtpType, ContextInfo context){
+	public List<String> assemble(String atpKey, String relatedAtpType, ContextInfo context) throws AssemblyException {
         List<String> ccKeys = new ArrayList<String>();
         List<AtpAtpRelationInfo> atpRels;
         try {
@@ -52,7 +53,7 @@ public class AtpAtpRelationAssembler implements DTOAssembler<Object, Object> {
                 }
             }
         } catch (Exception e) {
-            return null;
+            throw new AssemblyException(e.getMessage());
         }
         
         return ccKeys;
@@ -139,12 +140,12 @@ public class AtpAtpRelationAssembler implements DTOAssembler<Object, Object> {
     }
 
 	@Override
-	public Object assemble(Object baseDTO, ContextInfo context) {
+	public Object assemble(Object baseDTO, ContextInfo context) throws AssemblyException{
 		return null;
 	}
 
 	@Override
-	public Object disassemble(Object businessDTO, ContextInfo context) {
+	public Object disassemble(Object businessDTO, ContextInfo context) throws AssemblyException{
 		return null;
 	}
 

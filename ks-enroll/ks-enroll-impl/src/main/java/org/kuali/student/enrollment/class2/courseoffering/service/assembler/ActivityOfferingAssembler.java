@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -35,7 +36,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 	}
 	
 	@Override
-	public ActivityOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
+	public ActivityOfferingInfo assemble(LuiInfo lui, ContextInfo context) throws AssemblyException {
 		if(lui != null){
 			ActivityOfferingInfo ao = new ActivityOfferingInfo();
 			ao.setId(lui.getId());
@@ -61,20 +62,20 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 			return null;
 	}
 	
-	private void assembleInstructors(ActivityOfferingInfo ao, String luiId, ContextInfo context){
+	private void assembleInstructors(ActivityOfferingInfo ao, String luiId, ContextInfo context) throws AssemblyException{
 		List<LuiPersonRelationInfo> lprs = null;;
 		try {
 			lprs = lprService.getLprsByLui(luiId, context);
 		} catch (DoesNotExistException e) {
-			e.printStackTrace();
+			throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException: " + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException: " + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException: " + e.getMessage());
 		} catch (PermissionDeniedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("PermissionDeniedException: " + e.getMessage());
 		}
 		
 		if(lprs != null && !lprs.isEmpty()){
@@ -95,7 +96,7 @@ public class ActivityOfferingAssembler implements DTOAssembler<ActivityOfferingI
 	}
 	
 	@Override
-	public LuiInfo disassemble(ActivityOfferingInfo ao, ContextInfo context) {
+	public LuiInfo disassemble(ActivityOfferingInfo ao, ContextInfo context) throws AssemblyException {
 		if(ao != null){
 			LuiInfo lui = new LuiInfo();
 			lui.setId(ao.getId());

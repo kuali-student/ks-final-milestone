@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.grading.assembler;
 
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -11,7 +12,7 @@ import java.util.List;
 public class GradeValuesGroupAssembler implements DTOAssembler<GradeValuesGroupInfo, ResultValuesGroupInfo> {
 
 	@Override
-    public GradeValuesGroupInfo assemble(ResultValuesGroupInfo resultValuesGroupInfo, ContextInfo context) {
+    public GradeValuesGroupInfo assemble(ResultValuesGroupInfo resultValuesGroupInfo, ContextInfo context) throws AssemblyException {
         if(resultValuesGroupInfo != null){
             GradeValuesGroupInfo gradeValuesGroupInfo = new GradeValuesGroupInfo();
             resultValuesGroupInfo.setKey(resultValuesGroupInfo.getKey());
@@ -29,14 +30,14 @@ public class GradeValuesGroupAssembler implements DTOAssembler<GradeValuesGroupI
         }
     }
 
-    public GradeValuesGroupInfo assemble(ResultValuesGroupInfo resultValuesGroupInfo, List<ResultValueInfo> resultValueInfos, ContextInfo context) {
+    public GradeValuesGroupInfo assemble(ResultValuesGroupInfo resultValuesGroupInfo, List<ResultValueInfo> resultValueInfos, ContextInfo context) throws AssemblyException {
          GradeValuesGroupInfo gradeValuesGroupInfo = assemble(resultValuesGroupInfo,context);
          gradeValuesGroupInfo.setResultValueInfos(resultValueInfos);
          return gradeValuesGroupInfo;
     }
 
     @Override
-    public ResultValuesGroupInfo disassemble(GradeValuesGroupInfo businessDTO, ContextInfo context) {
+    public ResultValuesGroupInfo disassemble(GradeValuesGroupInfo businessDTO, ContextInfo context) throws AssemblyException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 

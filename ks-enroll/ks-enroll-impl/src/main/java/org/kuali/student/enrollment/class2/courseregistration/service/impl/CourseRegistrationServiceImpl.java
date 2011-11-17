@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -471,9 +472,15 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public RegRequestInfo updateRegRequest(String regRequestId, RegRequestInfo regRequestInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        RegRequestInfo rrInfo;
+        try{
+            LprTransactionInfo lprTransactionInfo = regRequestAssembler.disassemble(regRequestInfo, context);
+            rrInfo = regRequestAssembler.assemble(lprService.updateLprTransaction(regRequestId, lprTransactionInfo, context), context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException : " + e.getMessage());
+        }
 
-        LprTransactionInfo lprTransactionInfo = regRequestAssembler.disassemble(regRequestInfo, context);
-        return regRequestAssembler.assemble(lprService.updateLprTransaction(regRequestId, lprTransactionInfo, context), context);
+        return rrInfo;
     }
 
     @Override
@@ -506,7 +513,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public RegRequestInfo createRegRequest(RegRequestInfo regRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        LprTransactionInfo lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
+        LprTransactionInfo lprTransaction = null;
+        try {
+            lprTransaction = regRequestAssembler.disassemble(regRequestInfo, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
+        }
+
         LprTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
         try{
             newLprTransaction = lprService.getLprTransaction(newLprTransaction.getId(),context);
@@ -514,7 +527,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             return null;
         }
 
-        RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        RegRequestInfo createdRegRequestInfo = null;
+        try {
+            createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+        }
+
         return createdRegRequestInfo;
     }
 
@@ -523,7 +542,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             OperationFailedException, PermissionDeniedException {
 
         LprTransactionInfo newLprTransaction = lprService.createLprTransactionFromExisting(existingRegRequestId, context);
-        RegRequestInfo createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        RegRequestInfo createdRegRequestInfo = null;
+        try {
+            createdRegRequestInfo = regRequestAssembler.assemble(newLprTransaction, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+        }
         return createdRegRequestInfo;
     }
 
@@ -532,7 +556,13 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             OperationFailedException, PermissionDeniedException, AlreadyExistsException {
         LprTransactionInfo storedLprTransaction = lprService.getLprTransaction(regRequestId, context);
 
-        RegRequestInfo storedRegRequest = regRequestAssembler.assemble(storedLprTransaction, context);
+        RegRequestInfo storedRegRequest = null;
+        try {
+            storedRegRequest = regRequestAssembler.assemble(storedLprTransaction, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+        }
+
         try {
             List<ValidationResultInfo> listValidationResult = validateRegRequest(storedRegRequest, context);
 
@@ -577,7 +607,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         LprTransactionInfo submittedLprTransaction = lprService.processLprTransaction(multipleItemsTransaction.getId(), context);
 
-        RegResponseInfo returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);
+        RegResponseInfo returnRegResponse = null;
+        try {
+            returnRegResponse = regResponseAssembler.assemble(submittedLprTransaction, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+        }
 
         if (checkSuccessfulRegCriteria(returnRegResponse)) {
 
@@ -637,7 +672,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsForPersonByAtp(termKey, studentId, requestStates, context);
         List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
         for (LprTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
-            regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
+            try {
+                regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+            }
         }
 
         return regRequestInfos;
@@ -860,7 +899,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsForLpr(courseRegistrationId, context);
         for (LprTransactionInfo lprTransaction : lprTransactions) {
 
-            regrequests.add(regRequestAssembler.assemble(lprTransaction, context));
+            try {
+                regrequests.add(regRequestAssembler.assemble(lprTransaction, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+            }
 
         }
 
@@ -940,7 +983,12 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public RegRequestInfo getRegRequest(String regRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         LprTransactionInfo lprTransaction = lprService.getLprTransaction(regRequestId, context);
-        RegRequestInfo regRequest = regRequestAssembler.assemble(lprTransaction, context);
+        RegRequestInfo regRequest = null;
+        try {
+            regRequest = regRequestAssembler.assemble(lprTransaction, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+        }
         return regRequest;
     }
 
