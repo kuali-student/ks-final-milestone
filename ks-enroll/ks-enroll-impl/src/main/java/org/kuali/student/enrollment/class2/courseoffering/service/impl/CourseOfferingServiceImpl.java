@@ -201,7 +201,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                            OperationFailedException, PermissionDeniedException {
 
         List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId,termKey,"kuali.lpr.type.instructor.main",context);
-        List<String> coIds = new ArrayList();
+        List<String> coIds = new ArrayList<String>();
         for(LuiPersonRelationInfo lprInfo : lprInfos){
             coIds.add(lprInfo.getLuiId());
         }
@@ -955,7 +955,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public SeatPoolDefinitionInfo getSeatPoolDefinition(
+    public SeatPoolDefinitionInfo getSeatPoolDefinition(
 			String seatPoolDefinitionId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
