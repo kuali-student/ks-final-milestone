@@ -411,7 +411,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            });
 	            	            
 
-	    		Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview", new Callback<Boolean>() {
+	    		Application.getApplicationContext().getSecurityContext().checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
 
 	    					@Override
 	    					public void exec(Boolean result) {
@@ -439,29 +439,32 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    								
 	    								if(radioOptionBlank.getValue())
 	    								{
+	    									//Setup empty view context, to start new proposal
+	    				                    ViewContext viewContext = new ViewContext();
+	    									viewContext.setPermissionType(PermissionType.INITIATE);
+	    				                    
 	    									//Determine if it is and admin
 	    									if (adminOptionCheckbox.getValue() && isAuthorized)
 	    									{	    										
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());		    										
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
 	    									}
 	    									
 	    									if (!adminOptionCheckbox.getValue() && isAuthorized)
 	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());	    										
+	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(),viewContext);	    										
 	    									}
 	    									
 	    									//If it is not an admin or admin role
 	    									if (!isAuthorized)
 	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());	
-	    										
-	    									}    									
-	    									
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
+	    									}    										    									
 	    									
 	    								}
 	    								
 	    								if(radioOptionCopyCourse.getValue())
 	    								{
+	    									//Setup view context to open existing proposal
 	    				                    ViewContext viewContext = new ViewContext();
 	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
