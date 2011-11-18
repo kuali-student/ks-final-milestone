@@ -47,7 +47,7 @@
 	<bean id="org.kuali.student.core.workflow.dto.WorkflowPersonInfo" parent="org.kuali.student.core.workflow.dto.WorkflowPersonInfo-parent" />
 
 	<bean id="workflowPersonInfo.principalId-parent" abstract="true"
-		parent="baseString">
+		parent="baseKualiAuth">
 		<property name="name" value="principalId" />
 	</bean>
 	<bean id="workflowPersonInfo.principalId" parent="workflowPersonInfo.principalId-parent" />

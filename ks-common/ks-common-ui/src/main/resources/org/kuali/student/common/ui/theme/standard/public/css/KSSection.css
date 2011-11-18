@@ -426,7 +426,7 @@ position:relative;
 }
 
 .ks-form-module-elements {
-	min-width:415px;
+	min-width:140px;
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
@@ -1037,4 +1037,12 @@ a.ks-button-secondary-small:hover {
 	margin-bottom: 0; 
 	font-weight: bold; 
 	color: #000;
+}
+
+.test {
+  display:inline;
+   }
+   
+ .ks-bordered { 
+     border:1px solid #D2D8E3;   
 }
