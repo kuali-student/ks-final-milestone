@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -310,4 +311,39 @@ public class TestCourseOfferingServiceImpl {
             fail("Exception from service call :" + ex.getMessage());
         }
     }   
+
+    @Test
+    public void testUpdateRegistrationGroup() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException {
+        final String regGroupId = "LUI-RG-1";
+        final String coId = "LUI-CO-1";
+        final String aoId_1 = "LUI-ACT-1";
+        final String aoId_2 = "LUI-ACT-2";
+        RegistrationGroupInfo regGroup = coServiceAuthDecorator.getRegistrationGroup(regGroupId, callContext);
+        assertEquals(coId, regGroup.getCourseOfferingId());
+        assertEquals(1, regGroup.getActivityOfferingIds().size());
+        assertEquals(aoId_1, regGroup.getActivityOfferingIds().get(0));
+
+        regGroup.getActivityOfferingIds().remove(0);
+        regGroup.getActivityOfferingIds().add(aoId_2);
+        RegistrationGroupInfo updatedRegGroup = coServiceAuthDecorator.updateRegistrationGroup(regGroupId, regGroup, callContext);
+        assertEquals(coId, updatedRegGroup.getCourseOfferingId());
+        assertEquals(1, updatedRegGroup.getActivityOfferingIds().size());
+        assertEquals(aoId_2, updatedRegGroup.getActivityOfferingIds().get(0));
+    }
+
+    @Test
+    public void testDeleteRegistrationGroup() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        final String regGroupId = "LUI-RG-1";
+        RegistrationGroupInfo regGroup = coServiceAuthDecorator.getRegistrationGroup(regGroupId, callContext);
+        assertNotNull(regGroup);
+        StatusInfo statusInfo = coServiceAuthDecorator.deleteRegistrationGroup(regGroupId, callContext);
+        assertTrue(statusInfo.getIsSuccess());
+        try {
+            coServiceAuthDecorator.getRegistrationGroup(regGroupId, callContext);
+            fail("Expected DoesNotExistException.");
+        } catch (DoesNotExistException e) {
+            // Expected. Do nothing.
+        }
+    }
+
 }
