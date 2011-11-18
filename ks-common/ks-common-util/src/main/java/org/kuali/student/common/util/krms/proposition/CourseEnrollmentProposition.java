@@ -15,61 +15,58 @@
 
 package org.kuali.student.common.util.krms.proposition;
 
-import java.util.Collection;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
-import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
+import java.util.Collection;
+
 /**
- * Parent class for all course completion propositions
+ * Parent class for all course enrollment propositions
  *
  * @author alubbers
  */
-public abstract class CourseCompletionProposition extends AbstractLeafProposition implements Proposition {
-    
-    protected final boolean checkForAllCompleted;
-    
-    protected Integer minToComplete;
-            
-    public CourseCompletionProposition(Integer minToComplete) {    	
-        this.checkForAllCompleted = false;
-        this.minToComplete = minToComplete;
-    }
-    
-    public CourseCompletionProposition() {
-        checkForAllCompleted = true;
+public abstract class CourseEnrollmentProposition extends AbstractLeafProposition {
+
+    protected final boolean checkForAllEnrolled;
+
+    protected Integer minToEnroll;
+
+    public CourseEnrollmentProposition(Integer minToEnroll) {
+        this.checkForAllEnrolled = false;
+        this.minToEnroll = minToEnroll;
     }
 
-    
+    public CourseEnrollmentProposition() {
+        checkForAllEnrolled = true;
+    }
+
+
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-            	
-        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.completedCourseIdsTerm, this);
 
-        Collection<String> termCourses = getTermCourseIds(environment);
+        Collection<String> enrolledCourses = environment.resolveTerm(RulesExecutionConstants.enrolledCourseIdsTerm, this);
+
+        Collection<String> requiredCourseIds = getRequiredCourseIds(environment);
 
         PropositionResult result = null;
 
-        if(checkForAllCompleted) {
-            result = new PropositionResult(completedCourses.containsAll(termCourses));
+        if(checkForAllEnrolled) {
+            result = new PropositionResult(enrolledCourses.containsAll(requiredCourseIds));
         }
-       
+
         else {
-            result = new PropositionResult(CollectionUtils.intersection(completedCourses, termCourses).size() >= minToComplete);
+            result = new PropositionResult(CollectionUtils.intersection(enrolledCourses, requiredCourseIds).size() >= minToEnroll);
         }
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 
         return result;
-    
+
     }
-   
-    protected abstract Collection<String> getTermCourseIds(ExecutionEnvironment environment);
-    
+
+    protected abstract Collection<String> getRequiredCourseIds(ExecutionEnvironment environment);
 }

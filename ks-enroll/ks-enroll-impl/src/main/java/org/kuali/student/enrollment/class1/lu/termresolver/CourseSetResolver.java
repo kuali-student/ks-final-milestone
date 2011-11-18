@@ -1,22 +1,28 @@
 package org.kuali.student.enrollment.class1.lu.termresolver;
 
-import java.util.*;
-
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.engine.TermSpecification;
-import org.kuali.student.common.exceptions.*;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.lu.service.LuService;
 
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class CourseSetResolver implements TermResolver<Collection<String>> {
 
+    @Resource
     private LuService luService;
-
-    public void setLuService(LuService luService) {
-        this.luService = luService;
-    }
 
     @Override
     public Set<TermSpecification> getPrerequisites() {

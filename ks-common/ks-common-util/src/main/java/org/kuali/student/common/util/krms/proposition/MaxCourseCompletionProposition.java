@@ -15,61 +15,58 @@
 
 package org.kuali.student.common.util.krms.proposition;
 
-import java.util.Collection;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
-import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
+import java.util.Collection;
+import java.util.Collections;
+
 /**
- * Parent class for all course completion propositions
- *
- * @author alubbers
+ * Proposition class that checks for completion of no more than N of the given courses
  */
-public abstract class CourseCompletionProposition extends AbstractLeafProposition implements Proposition {
-    
-    protected final boolean checkForAllCompleted;
-    
-    protected Integer minToComplete;
-            
-    public CourseCompletionProposition(Integer minToComplete) {    	
-        this.checkForAllCompleted = false;
-        this.minToComplete = minToComplete;
-    }
-    
-    public CourseCompletionProposition() {
-        checkForAllCompleted = true;
+public class MaxCourseCompletionProposition extends AbstractLeafProposition {
+
+    private final String courseSetId;
+
+    private final String singleCourseId;
+
+    private final Integer maxCoursesCompleted;
+
+    public MaxCourseCompletionProposition(String singleCourseId) {
+        this.courseSetId = null;
+        this.singleCourseId = singleCourseId;
+        this.maxCoursesCompleted = 0;
     }
 
-    
+    public MaxCourseCompletionProposition(String courseSetId, Integer maxCourses) {
+        this.courseSetId = courseSetId;
+        this.singleCourseId = null;
+        this.maxCoursesCompleted = maxCourses;
+    }
+
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-            	
         Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.completedCourseIdsTerm, this);
+        Collection<String> coursesToCheck;
 
-        Collection<String> termCourses = getTermCourseIds(environment);
-
-        PropositionResult result = null;
-
-        if(checkForAllCompleted) {
-            result = new PropositionResult(completedCourses.containsAll(termCourses));
+        if(singleCourseId == null) {
+            Term term = new Term(RulesExecutionConstants.courseSetTermSpec, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
+            coursesToCheck = environment.resolveTerm(term, this);
         }
-       
         else {
-            result = new PropositionResult(CollectionUtils.intersection(completedCourses, termCourses).size() >= minToComplete);
+            coursesToCheck = Collections.singleton(singleCourseId);
         }
+
+
+        PropositionResult result = new PropositionResult(CollectionUtils.intersection(completedCourses, coursesToCheck).size() <= maxCoursesCompleted);
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 
         return result;
-    
     }
-   
-    protected abstract Collection<String> getTermCourseIds(ExecutionEnvironment environment);
-    
 }

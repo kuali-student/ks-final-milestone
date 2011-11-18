@@ -15,46 +15,44 @@
 
 package org.kuali.student.common.util.krms.proposition;
 
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+
 import java.util.Collection;
 import java.util.Collections;
 
-import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.api.engine.Term;
-import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
-
 /**
- * Proposition that checks for completion of a set of courses
+ * Proposition that checks for current enrollment in a set of courses
  *
  * @author alubbers
  */
-public class CourseSetCompletionProposition extends CourseCompletionProposition {
+public class CourseSetEnrollmentProposition extends CourseEnrollmentProposition {
 
     private String courseSetId;
-    
+
     private Collection<String> courseIds;
-    
-    public CourseSetCompletionProposition(String courseSetId, Integer minToComplete) {
-        super(minToComplete);
+
+    public CourseSetEnrollmentProposition(String courseSetId, Integer minToEnroll) {
+        super(minToEnroll);
         this.courseSetId = courseSetId;
     }
 
-    public CourseSetCompletionProposition(String courseSetId) {
+    public CourseSetEnrollmentProposition(String courseSetId) {
         super();
         this.courseSetId = courseSetId;
     }
 
     @Override
-    protected Collection<String> getTermCourseIds(ExecutionEnvironment environment) {
-        
+    protected Collection<String> getRequiredCourseIds(ExecutionEnvironment environment) {
+
         if(courseIds == null) {
-            
+
             Term term = new Term(RulesExecutionConstants.courseSetTermSpec, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
 
             courseIds = environment.resolveTerm(term, this);
         }
-        
+
         return courseIds;
     }
-
 }

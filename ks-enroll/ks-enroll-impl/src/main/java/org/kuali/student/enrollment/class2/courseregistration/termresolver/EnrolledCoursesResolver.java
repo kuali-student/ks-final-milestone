@@ -1,31 +1,12 @@
-/**
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
-
-package org.kuali.student.enrollment.class1.lrr.termresolver;
+package org.kuali.student.enrollment.class2.courseregistration.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
-import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
-import org.kuali.student.enrollment.lrr.infc.LearningResultRecord;
-import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -33,48 +14,24 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Term resolver class to find all completed courses for a student
- *
- * @author alubbers
- */
-public class CompletedCoursesResolver implements TermResolver<Collection<String>> {
+public class EnrolledCoursesResolver implements TermResolver<Collection<String>> {
 
-    private LearningResultRecordService lrrService;
-
-    private LuiPersonRelationService lprService;
-
-    private LuiService luiService;
+    private CourseRegistrationService courseRegService;
 
     private final static Set<TermSpecification> prerequisites = new HashSet<TermSpecification>(2);
 
     static {
         prerequisites.add(RulesExecutionConstants.studentIdTermSpec);
         prerequisites.add(RulesExecutionConstants.contextInfoTermSpec);
-    }
-
-    public void setLrrService(LearningResultRecordService lrrService) {
-        this.lrrService = lrrService;
-    }
-
-    public void setLprService(LuiPersonRelationService lprService) {
-        this.lprService = lprService;
-    }
-
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
     }
 
     @Override
@@ -84,7 +41,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public TermSpecification getOutput() {
-        return RulesExecutionConstants.completedCourseIdsTermSpec;
+        return RulesExecutionConstants.enrolledCourseIdsTermSpec;
     }
 
     @Override
@@ -106,27 +63,16 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         Collection<String> results = null;
 
         try {
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByPerson(studentId, context);
+            List<CourseRegistrationInfo> registrations = courseRegService.getCourseRegistrationsForStudent(studentId, context);
 
-            Map<String, String> lprIdToCluId = new HashMap<String, String>();
-            List<String> lprIds = new ArrayList<String>(lprs.size());
+            results = new ArrayList<String>(registrations.size());
 
-            for(LuiPersonRelationInfo lpr : lprs) {
-                String luiId = lpr.getLuiId();
-                LuiInfo lui = luiService.getLui(luiId, context);
-                lprIdToCluId.put(lpr.getId(), lui.getCluId());
-
-                lprIds.add(lpr.getId());
+            for (CourseRegistrationInfo courseRegInfo : registrations) {
+                CourseOfferingInfo co = courseRegInfo.getCourseOffering();
+                if(co != null && co.getCourseId() != null) {
+                    results.add(courseRegInfo.getCourseOffering().getCourseId());
+                }
             }
-
-            List<LearningResultRecordInfo> lrrs = lrrService.getLearningResultRecordsForLprIdList(lprIds, context);
-
-            results = new ArrayList<String>();
-
-            for(LearningResultRecord lrr : lrrs) {
-                results.add(lprIdToCluId.get(lrr.getLprId()));
-            }
-
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters, e);
         } catch (DisabledIdentifierException e) {
@@ -142,7 +88,5 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
         }
 
         return results;
-        
     }
-
 }

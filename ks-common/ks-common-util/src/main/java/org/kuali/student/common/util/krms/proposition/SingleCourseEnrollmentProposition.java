@@ -15,27 +15,26 @@
 
 package org.kuali.student.common.util.krms.proposition;
 
+import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
+
 import java.util.Collection;
 import java.util.Collections;
 
-import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-
 /**
- * Proposition that checks for the completion of a single course
+ * Proposition that checks for current enrollment in a single course
  *
  * @author alubbers
  */
-public class SingleCourseCompletionProposition extends CourseCompletionProposition {
+public class SingleCourseEnrollmentProposition extends CourseEnrollmentProposition {
 
-    private Collection<String> courseIdCollection;
-    
-    public SingleCourseCompletionProposition(String courseId) {
-        this.courseIdCollection = Collections.singletonList(courseId);
+    private Collection<String> requiredEnrollmentIds;
+
+    public SingleCourseEnrollmentProposition(String courseId) {
+        requiredEnrollmentIds = Collections.singleton(courseId);
     }
 
     @Override
-    protected Collection<String> getTermCourseIds(ExecutionEnvironment environment) {
-        return courseIdCollection;
+    protected Collection<String> getRequiredCourseIds(ExecutionEnvironment environment) {
+        return requiredEnrollmentIds;
     }
-
 }
