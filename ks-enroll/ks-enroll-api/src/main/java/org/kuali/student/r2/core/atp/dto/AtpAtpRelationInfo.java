@@ -39,7 +39,7 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements
 	@XmlElement
 	private String atpKey;
 	@XmlElement
-	private String relatedAtpKey;
+    private String relatedAtpKey;
 	@XmlAnyElement
 	private List<Element> _futureElements;
 

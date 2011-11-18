@@ -10,20 +10,9 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 
 public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarInfo, AtpInfo> {
-    private AtpService atpService;
     private AtpAtpRelationAssembler relAssembler;
-    
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
-
     
     public AtpAtpRelationAssembler getRelAssembler() {
 		return relAssembler;
