@@ -35,7 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
@@ -974,8 +976,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+
+        Set<String> existingRelatedLuiIds = new HashSet<String>();
+        Set<String> newRelatedLuiIds = new HashSet<String>(registrationGroupInfo.getActivityOfferingIds());
+        newRelatedLuiIds.add(registrationGroupInfo.getCourseOfferingId());
+
+        // Delete relations for removed Activity Offerings or Course Offering
+        List<LuiLuiRelationInfo> llrs = luiService.getLuiLuiRelationsByLui(registrationGroupId, context);
+        for (LuiLuiRelationInfo llr : llrs) {
+            if (registrationGroupId.equals(llr.getLuiId()) && LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY.equals(llr.getTypeKey())) {
+                String relatedLuiId = llr.getRelatedLuiId();
+                existingRelatedLuiIds.add(relatedLuiId);
+                if (!newRelatedLuiIds.contains(relatedLuiId)) {
+                    luiService.deleteLuiLuiRelation(llr.getId(), context);
+                }
+            }
+        }
+
+        // Create relations for added Activity Offerings or Course Offering
+        for (String luiId : newRelatedLuiIds) {
+            if (!existingRelatedLuiIds.contains(luiId)) {
+                try {
+                    createLuiLuiRelation(registrationGroupId, luiId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
+                } catch (AlreadyExistsException e) {
+                    throw new OperationFailedException("Could not create Lui-Lui Relation '" + registrationGroupId + "'-'" + luiId + "'", e);
+                }
+            }
+        }
+
+        try {
+            LuiInfo regGroupLui = rgAssembler.disassemble(registrationGroupInfo, context);
+            LuiInfo updatedRegGroupLui = luiService.updateLui(regGroupLui.getId(), regGroupLui, context);
+            return rgAssembler.assemble(updatedRegGroupLui, context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("Could not disassemble RegistrationGroup " + registrationGroupInfo.getId(), e);
+        }
 	}
 
 	@Override
@@ -984,8 +1019,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        try {
+            return luiService.deleteLui(registrationGroupId, context);
+        } catch (DependentObjectsExistException e) {
+            throw new OperationFailedException("Could not delete LUI '" + registrationGroupId + "'", e);
+        }
 	}
 
 	@Override
