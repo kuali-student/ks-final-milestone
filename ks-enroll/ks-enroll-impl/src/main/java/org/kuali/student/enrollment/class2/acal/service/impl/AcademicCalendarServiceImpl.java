@@ -231,62 +231,66 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AtpInfo created = null;
-        AtpInfo atp = null;
-        try {
-            atp = acalAssembler.disassemble(academicCalendarInfo, context);
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException : " + e.getMessage());
-        }
-
-        try {
-            AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
-            if (existing == null) {
-                created = atpService.createAtp(academicCalendarKey, atp, context);
-                if (created != null)
-                    processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
-            } else {
+        boolean existed = true;
+        try{
+            AtpInfo existedAtp = atpService.getAtp(academicCalendarKey, context);
+            if(existedAtp != null){
                 throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey + " already exists");
+            } else {
+                existed = false;
             }
-        } catch (DoesNotExistException e1) {
-            created = atpService.createAtp(academicCalendarKey, atp, context);
-            if (created != null)
-                processAcalToCcalRelation(created.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
+        }catch (DoesNotExistException e) {
+            existed = false;
         }
 
-        return academicCalendarInfo;
+        if (!existed){
+            try{
+                AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
+                AtpInfo createdAtp = atpService.createAtp(academicCalendarKey, toCreate, context);
+                if(createdAtp != null) {
+                    processAcalToCcalRelation(createdAtp.getKey(), academicCalendarInfo.getCampusCalendarKeys(), context);
+                    return acalAssembler.assemble(createdAtp, context);
+                }
+                else {
+                    throw new OperationFailedException("Failed to create atp for Academic calendar with id = " + academicCalendarKey );
+                }
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+        else{
+            throw new AlreadyExistsException("Academic calendar with id = " + academicCalendarKey + " already exists");
+        }
     }
 
     @Override
     @Transactional
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-
-        try {
+       try {
             AtpInfo existing = atpService.getAtp(academicCalendarKey, context);
             if (existing != null) {
-                AtpInfo atp = null;
                 try {
-                    atp = acalAssembler.disassemble(academicCalendarInfo, context);
+                    AtpInfo toUpdate = acalAssembler.disassemble(academicCalendarInfo, context);
+                    AtpInfo updated = atpService.updateAtp(academicCalendarKey, toUpdate, context);
+                    if (updated != null) {
+                        processAcalToCcalRelation(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
+                        return acalAssembler.assemble(updated, context);
+                    }
+                    else {
+                         throw new OperationFailedException("Failed to update atp for Academic calendar with id = " + academicCalendarKey );
+                    }
                 } catch (AssemblyException e) {
                     throw new OperationFailedException("AssemblyException : " + e.getMessage());
+                } catch (AlreadyExistsException e) {
+                    throw new OperationFailedException("Errors in processAcalToCcalRelation. " + e.getMessage());
                 }
-
-                if (atp != null) {
-                    AtpInfo updated = atpService.updateAtp(academicCalendarKey, atp, context);
-                    if (updated != null)
-                        try {
-                            processAcalToCcalRelation(academicCalendarKey, academicCalendarInfo.getCampusCalendarKeys(), context);
-                        } catch (AlreadyExistsException e) {
-                            throw new OperationFailedException();
-                        }
-                }
-            } else
-                throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
+            }
+            else {
+                throw new DoesNotExistException("The AcademicCalendar is null: " + academicCalendarKey);
+            }
         } catch (DoesNotExistException e1) {
             throw new DoesNotExistException("The AcademicCalendar does not exist: " + academicCalendarKey);
         }
-
-        return academicCalendarInfo;
     }
 
     @Override
