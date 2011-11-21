@@ -73,9 +73,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves the details of a single Academic Time Period by atpKey.
      *
      * @param atpKey Unique key of the Academic Time Period to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of the Academic Time Period requested
      * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid atpKey or contextInfo
@@ -90,9 +90,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * given list of ATP keys.
      *
      * @param atpKeys list of ATPs to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of Academic Time Period keys of the given type
      * @throws DoesNotExistException an atpKey in list not found
      * @throws InvalidParameterException invalid atpKey or contextInfo
@@ -106,10 +106,10 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of Academic Time Periods of the specified type.
      *
      * @param atpTypeKey ATP type to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return  a list of Academic Time Period keys 
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of Academic Time Period keys 
      * @throws InvalidParameterException invalid atpTypeKey or contextInfo
      * @throws MissingParameterException missing atpTypeKey or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -123,9 +123,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * ATP.
      *
      * @param date Timestamp to be matched
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of Academic Time Periods that contain the supplied 
      *         date
      * @throws InvalidParameterException invalid contextInfo
@@ -142,9 +142,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param date Timestamp to be matched
      * @param atpTypeKey typeKey to be matched
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of Academic Time Periods
      * @throws InvalidParameterException invalid atpTypeKey, or
      *         contextInfo
@@ -162,9 +162,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param startDate start date of range
      * @param endDate end date of range
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return a list of Academic Time Periods 
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing startDate, endDate,
@@ -183,9 +183,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param startDate start date of range
      * @param endDate end date of range
      * @param atpTypeKey a key for an ATP type
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return a list of Academic Time Periods 
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing startDate, endDate, 
@@ -202,9 +202,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of Academic Time Periods
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing datRangeStart,
@@ -223,9 +223,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
      * @param atpTypeKey typeKey to be matched
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of Academic Time Periods
      * @throws InvalidParameterException invalid atpTypeKey or contextInfo
      * @throws MissingParameterException missing dateRangeStart,
@@ -240,9 +240,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * of Atp identifiers which match the search criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of Atp keys
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing croteria or contextInfo
@@ -256,9 +256,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Atps which match the search criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of Atps
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing croteria or contextInfo
@@ -285,9 +285,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param validationType Identifier of the extent of validation
      * @param atpInfo The academic time period information to be tested.
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey,
@@ -304,9 +304,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param atpKey Key of ATP to be created
      * @param atpInfo Details of ATP to be created
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of ATP just created
      * @throws AlreadyExistsException ATP being created already exists
      * @throws DataValidationErrorException one or more values invalid
@@ -327,9 +327,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param atpKey Key of ATP to be updated
      * @param atpInfo Details of updates to ATP being updated
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of ATP just updated
      * @throws DataValidationErrorException One or more values invalid 
      *         for this operation
@@ -351,9 +351,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Deletes an existing Academic Time Period.
      *
      * @param atpKey the key of the ATP to be deleted
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException ATP being deleted does not exist
      * @throws InvalidParameterException invalid atpKey or contextInfo
@@ -368,9 +368,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param atpAtpRelationId a unique id of the atp atp relation 
      *        to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of requested Atp atp relation
      * @throws DoesNotExistException atpAtpRelationId not found
      * @throws InvalidParameterException invalid atpAtprelationId or
@@ -387,9 +387,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * of identifiers.
      *
      * @param atpAtpRelationIds list of AtpAtpRelations to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return the list of AtpAtpRelations
      * @throws DoesNotExistException an atpAtpRelationId in list not found
      * @throws InvalidParameterException invalid atpAtprelationId or
@@ -405,10 +405,10 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of AtpAtpRelation Ids of the specified type.
      *
      * @param atpAtpRelationTypeKey Atp atp relation type to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return  a list of AtpAtpRelation identifiers
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of AtpAtpRelation identifiers
      * @throws InvalidParameterException invalid atpRelationTypeKey or
      *         contextInfo
      * @throws MissingParameterException missing atpRelationTypeKey or
@@ -424,9 +424,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * relationship the ATP resides.
      *
      * @param atpKey  a unique key of an ATP
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return a list of Atp atp relationships
      * @throws DoesNotExistException atpKey not found
      * @throws InvalidParameterException invalid atpKey or contextInfo
@@ -442,9 +442,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * 
      * @param atpKey a unique key for an ATP
      * @param relationTypeKey a unique key for an ATP ATP relation
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return a list of ATP-ATP relations
      * @throws DoesNotExistException atpKey does not exist
      * @throws InvalidParameterException invalid atpKey,
@@ -462,9 +462,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of AtpAtpRelation Ids
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
@@ -478,9 +478,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * a list of AtpAtpRelations which match the search criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of AtpAtpRelations
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
@@ -510,9 +510,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param atpPeerKey a peer of the relationship
      * @param atpAtpRelationInfo The ATP Relationship
      *        to be tested.
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey, atpKey, or
      *         atpPeerKey not found
@@ -531,9 +531,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param atpKey a peer of the relationship
      * @param atpPeerKey a peer of the relationship
      * @param atpAtpRelationInfo the relationship to be created
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return the atp atp relation that was created
      * @throws AlreadyExistsException atp relation added already exists
      * @throws DataValidationErrorException if the relation fails
@@ -556,9 +556,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param atpAtpRelationId the Id of the ATP Relation to be 
      *        updated
      * @param atpAtpRelationInfo the ATP relation to be updated
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status
      * @throws DataValidationErrorException One or more values invalid 
      *         for this operation
@@ -580,9 +580,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Removes an existing ATP relationship.
      *
      * @param atpAtpRelationId the Id of relatiosnhip
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException atp relation being removed does
      *         not exist
@@ -599,9 +599,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves the details of the specified milestone.
      *
      * @param milestoneId Unique id of the milestone to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return a Milestone
      * @throws DoesNotExistException milestoneId not found
      * @throws InvalidParameterException invalid milestoneId or
@@ -618,9 +618,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * of Milestone Ids.
      *
      * @param milestoneIds list of Milestones to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return the list of milestone ids 
      * @throws DoesNotExistException a milestoneId in list not found
      * @throws InvalidParameterException invalid milestoneId or
@@ -636,10 +636,10 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of Milestone Ids of the specified type.
      *
      * @param milestoneTypeKey Milestone type to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return  a list of Milestone keys 
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of Milestone keys 
      * @throws InvalidParameterException invalid milestoneTypeKey or
      *         contextInfo
      * @throws MissingParameterException missing milestoneTypeKey or
@@ -655,9 +655,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param startDate Start Date for date span
      * @param endDate End Date for date span
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of milestones that fall within this set of dates
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing startDate, endDate,
@@ -672,9 +672,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Period.
      *
      * @param atpKey Unique key of the Academic Time Period to be retieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of milestones for this Academic Time Period
      * @throws InvalidParameterException invalid atpKey or contextInfo
      * @throws MissingParameterException missing atpKey or contextInfo
@@ -690,9 +690,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @param atpKey a key for an ATP
      * @param startDate Start Date for date range
      * @param endDate End Date for date range
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of milestones of this milestone type within this set 
      *         of dates
      * @throws DoesNotExistException atp not found
@@ -710,9 +710,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param atpKey a key for an ATP
      * @param milestoneTypeKey Milestone type to be retrieved
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return List of milestones of this milestone type within this set 
      *         of dates
      * @throws DoesNotExistException atp not found
@@ -730,9 +730,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * list of Milestone identifiers which match the search criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of Milestone Ids
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
@@ -746,9 +746,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Milestones which match the search criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return list of Milestones
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
@@ -775,9 +775,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param validationType Identifier of the extent of validation
      * @param milestoneInfo The milestone information to be tested.
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
      * @throws InvalidParameterException invalid validationTypeKey,
@@ -793,9 +793,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Create a new milestone.
      *
      * @param milestoneInfo Details of milestone to be added
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of the newly created milestone
      * @throws AlreadyExistsException Milestone already exists
      * @throws DataValidationErrorException One or more values invalid 
@@ -816,9 +816,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param milestoneId the Id of milestone to be updated
      * @param milestoneInfo Details of milestone to be updated
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return Details of the updated milestone
      * @throws DataValidationErrorException One or more values invalid 
      *         for this operation
@@ -840,9 +840,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Deletes an existing milestone from all ATPs.
      *
      * @param milestoneId the Id of milestone to be removed
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status of the operation (success, failed)
      * @throws DoesNotExistException Milestone being removed does not exist
      * @throws InvalidParameterException invalid milestoneId or contextInfo
@@ -857,9 +857,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param milestoneId an Id for a Milestone
      * @param atpKey a key for an ATP
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status
      * @throws AlreadyExistsException milestoneId already related to
      *         atpKey
@@ -878,9 +878,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *
      * @param milestoneId an Id for a Milestone
      * @param atpKey a key for an ATP
-     * @param contextInfo Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
      * @return status
      * @throws DoesNotExistException milestoneId or atpKey not found
      *         or not related

@@ -87,7 +87,7 @@ public interface ProcessService
      * Retrieves a list of ProcessCategoryes corresponding to the
      * given list of ProcessCategory Ids.
      *
-     * @param processCategoryIds list of ProcessCategoryess to be retrieved
+     * @param processCategoryIds list of ProcessCategories to be retrieved
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -109,14 +109,13 @@ public interface ProcessService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return  a list of ProcessCategory Ids
+     * @return a list of ProcessCategory Ids
      * @throws InvalidParameterException invalid processTypeKey or contextInfo
      * @throws MissingParameterException missing processTypeKey or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getProcessCategoryIdsByType(@WebParam(name = "processTypeKey") String processTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 
     /** 
      * Retrieves a list of ProcessCategories in which the given
@@ -126,7 +125,7 @@ public interface ProcessService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return  a list of ProcessCategories
+     * @return a list of ProcessCategories
      * @throws InvalidParameterException invalid processKey or contextInfo
      * @throws MissingParameterException missing processKey or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -185,7 +184,7 @@ public interface ProcessService
      * server assigning an identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
-     * @param processInfo the ProcessCategoryinformation to be tested
+     * @param processInfo the ProcessCategory information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -198,7 +197,7 @@ public interface ProcessService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processInfo") ProcessCategoryInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateProcessCategory(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new ProcessCategory.
@@ -349,7 +348,7 @@ public interface ProcessService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return  a list of Process keys
+     * @return a list of Process keys
      * @throws InvalidParameterException invalid processTypeKey or contextInfo
      * @throws MissingParameterException missing processTypeKey or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -424,7 +423,7 @@ public interface ProcessService
      * identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
-     * @param processInfo the Processinformation to be tested
+     * @param processInfo the Process information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -453,7 +452,7 @@ public interface ProcessService
      *         for this operation
      * @throws InvalidParameterException invalid processKey,
      *         processInfo, or contextInfo
-     * @throws MissingParameterException missingprocessKey,
+     * @throws MissingParameterException missing processKey,
      *         processInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
@@ -547,7 +546,7 @@ public interface ProcessService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return  a list of Check Ids
+     * @return a list of Check Ids
      * @throws InvalidParameterException invalid checkTypeKey or contextInfo
      * @throws MissingParameterException missing checkTypeKey or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -604,7 +603,7 @@ public interface ProcessService
      * server assigning an identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
-     * @param checkInfo the Checkinformation to be tested
+     * @param checkInfo the Check information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -730,7 +729,7 @@ public interface ProcessService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return  a list of Instruction Ids
+     * @return a list of Instruction Ids
      * @throws InvalidParameterException invalid instructionTypeKey or
      *         contextInfo
      * @throws MissingParameterException missing instructionTypeKey or 
@@ -847,7 +846,7 @@ public interface ProcessService
      * @param validationTypeKey the identifier of the extent of validation
      * @param processKey the identifier of the related Process
      * @param checkId the identifier of the related Check
-     * @param instructionInfo the Instructioninformation to be tested
+     * @param instructionInfo the Instruction information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
