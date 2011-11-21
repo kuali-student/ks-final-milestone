@@ -102,7 +102,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				@Override
 				public void onClick(ClickEvent event) {
 					
-					checkAdminPermission("cluModifyItem", viewContext, modifyPath, model);
+					setupModifyCourseDialog(viewContext, modifyPath, model);
 				}
 			});
             
@@ -405,7 +405,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     	items.clear();      
     	
-		Application.getApplicationContext().getSecurityContext().checkPermission("cluModifyItem",
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluModifyItem",
 				new Callback<Boolean>() {
 					@Override
 					public void exec(Boolean result) {
@@ -512,8 +512,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
    		return (Long)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_SEQ_NUMBER);
     }
 
-    private void checkAdminPermission(String screenComponent, final ViewContext viewContext, final String modifyPath, final DataModel model) {
-		Application.getApplicationContext().getSecurityContext().checkScreenPermission(screenComponent,
+    private void setupModifyCourseDialog(final ViewContext viewContext, final String modifyPath, final DataModel model) {
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluModifyItem",
 				new Callback<Boolean>() {
 					@Override
 					public void exec(Boolean result) {

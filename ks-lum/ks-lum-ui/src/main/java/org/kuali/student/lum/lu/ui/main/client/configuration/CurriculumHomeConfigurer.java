@@ -43,7 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	protected Metadata searchMetadata;
-	protected final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
+	protected final KSCheckBox useCurricReviewCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 
     public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
@@ -368,7 +368,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("startBlankProposal"));
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyApprovedCourse"));
 	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyProposedCourse"));
-//	            final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -376,7 +375,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(false);
 							startProposalButton.setEnabled(true);
-							adminOptionCheckbox.setEnabled(true);
+							useCurricReviewCheckbox.setEnabled(true);
 
 					}
 	            });
@@ -387,8 +386,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(true);
 							copyProposalSearchPanel.setVisible(false);
-							adminOptionCheckbox.setEnabled(false);
-							//adminOptionCheckbox.setValue(true);
+							useCurricReviewCheckbox.setEnabled(false);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -401,8 +399,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(true);
-							adminOptionCheckbox.setEnabled(false);
-							//adminOptionCheckbox.setValue(true);
+							useCurricReviewCheckbox.setEnabled(false);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -417,109 +414,63 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    					public void exec(Boolean result) {
 
 	    						final boolean isAuthorized = result;
-	    			            if (isAuthorized){
-	    		            	adminOptionCheckbox.setValue(false);
-	    		            	adminOptionCheckbox.setVisible(true);
-	    		            } else {
-	    		            	adminOptionCheckbox.setValue(false);
-	    		            	adminOptionCheckbox.setVisible(false);	            	
-	    		            }
-                               // continueLayOut(result);
-	    					
+	    			            
+	    						//Only authorized users (eg. admin) are shown the "Use Curriculum Review" check box
+	    						if (isAuthorized){
+	    			            	useCurricReviewCheckbox.setValue(false);
+	    			            	useCurricReviewCheckbox.setVisible(true);
+	    			            } else {
+	    			            	useCurricReviewCheckbox.setValue(false);
+	    			            	useCurricReviewCheckbox.setVisible(false);	            	
+	    			            }
+
+	    						//Setup dialog layout
 	    			            layout.add(radioOptionBlank);
 	    			            layout.add(radioOptionCopyCourse);
 	    			            layout.add(copyCourseSearchPanel);
 	    			            layout.add(radioOptionCopyProposal);
 	    			            layout.add(copyProposalSearchPanel);
 	    			            layout.add(new KSLabel(""));
-	    			            layout.add(adminOptionCheckbox);
+	    			            layout.add(useCurricReviewCheckbox);
 	    			            
+	    			            //Setup start proposal click handler
 	    			            startProposalButton.addClickHandler(new ClickHandler(){
 	    							public void onClick(ClickEvent event) {
 	    								
-	    								if(radioOptionBlank.getValue())
-	    								{
-	    									//Setup empty view context, to start new proposal
-	    				                    ViewContext viewContext = new ViewContext();
-	    									viewContext.setPermissionType(PermissionType.INITIATE);
-	    				                    
-	    									//Determine if it is and admin
-	    									if (adminOptionCheckbox.getValue() && isAuthorized)
-	    									{	    										
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
-	    									}
-	    									
-	    									if (!adminOptionCheckbox.getValue() && isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(),viewContext);	    										
-	    									}
-	    									
-	    									//If it is not an admin or admin role
-	    									if (!isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
-	    									}    										    									
-	    									
-	    								}
+	    								//Clicking this button will navigate user to appropriate screens based on selections
 	    								
-	    								if(radioOptionCopyCourse.getValue())
-	    								{
-	    									//Setup view context to open existing proposal
-	    				                    ViewContext viewContext = new ViewContext();
-	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
+    				                    ViewContext viewContext = new ViewContext();
+    				                    
+    				                    //Start New Proposal
+	    								if(radioOptionBlank.getValue())	{
+	    									//Do nothing, empty view context indicates new proposal
+	    								
+	    								//Copy Course
+	    								} else if (radioOptionCopyCourse.getValue()) {	    									    						
+	    									//Setup view context to open copy from existing course
+	    									viewContext.setId(copyCourseSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 	    				                    
-	    				                    //Determine if it is and admin
-	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                  //If it is not an admin or admin role
-	    									if (!isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    										
-	    									}    
-	    									
+	    								//Copy Proposal
+	    								} else if(radioOptionCopyProposal.getValue()){	    									
+	    									//Setup view context to copy from existing proposal
+	    									viewContext.setId(copyProposalSearchPanel.getValue());
+	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);	    				                   	    				                    
 	    								}
 	    								
-	    								if(radioOptionCopyProposal.getValue()){
-	    				                    ViewContext viewContext = new ViewContext();
-	    				                    viewContext.setId(copyProposalSearchPanel.getValue());
-	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
-	    				                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-	    				                    
-	    				                  //Determine if it is and admin
-	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                    if (!isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    								}
-	    								
-	    								
-	    								
-	    								
+    									//Based on curriculum review, navigate user to either admin or standard proposal screens
+    									if (useCurricReviewCheckbox.getValue()){	    										
+    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
+    									} else {
+    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(),viewContext);
+    									}	    									
 
 	    								dialog.hide();
 	    							}
 	    						});
-	    			            
-	    			            
+	    			            	    			            
 	    			            dialog.setWidget(layout);
-	    			            dialog.show();			
-
-	    						
+	    			            dialog.show();				    						
 	    					}
 	    				});	            
     		}

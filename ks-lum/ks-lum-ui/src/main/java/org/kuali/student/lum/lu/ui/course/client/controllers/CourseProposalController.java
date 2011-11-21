@@ -63,10 +63,10 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
@@ -89,7 +89,6 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -155,26 +154,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseProposalController(){
         super();
         initializeController();
-    }
-
-    @Override
-    public void setViewContext(ViewContext viewContext) {
-    	super.setViewContext(viewContext);
-    	
-    	//Set the permission to check based on the action being performed.
-    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
-    			//Opening an existing proposal
-    			viewContext.setPermissionType(PermissionType.OPEN);
-    		} else{
-    			//Creating proposal for modification, hence initiating a new proposal
-    			viewContext.setPermissionType(PermissionType.INITIATE);
-    		}
-    	}
-    	else{
-    		//Creating a brand new proposal, hence intitiating a new proposal.
-    		viewContext.setPermissionType(PermissionType.INITIATE);
-    	}
     }
 
     protected void initializeController() {
@@ -998,23 +977,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 	@Override
 	/**
-	 * Override method to determine if user has access to screen and if they have permission to open or initiate the proposal. 
+	 * Override method to determine if user has access to screen and if they have permission to open or initiate the proposal.
+	 * 
+	 *  FIXME: This method should not require a permissionType as a parameter
 	 */
 	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
 		GWT.log("Attempting Auth Check.", null);
 
-		//Get the id to use to check permissions, this could either be the proposal id or the workflow document id,
-		//will pass the id & id type as attributes to permission service.
+		//Get attributes required for permission check
 		Map<String,String> attributes = new HashMap<String,String>();
-		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
-			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
-		}
-		
-		//Add in the document type name if it exists
-		String documentTypeName = getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-		if(documentTypeName !=null && !documentTypeName.isEmpty()){
-			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, documentTypeName);
-		}
+		addPermissionAttributes(attributes);
 
 		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
 		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
@@ -1041,6 +1013,36 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	});
 	}
 
+	/**
+	 * This method adds any permission attributes required for checking permissions
+	 */
+	public void addPermissionAttributes(Map<String, String> attributes){
+		ViewContext viewContext = getViewContext();
+
+		//Get the id to use to check permissions, this could either be the proposal id or the workflow document id,
+		//will pass the id & id type as attributes to permission service.
+		if ( (viewContext.getId() != null) && (!"".equals(viewContext.getId())) ) {
+			attributes.put(viewContext.getIdType().toString(), viewContext.getId());
+		}
+		
+		//Determine the permission type being checked
+    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
+    			//Id provided, and not a copy id, so opening an existing proposal
+    			viewContext.setPermissionType(PermissionType.OPEN);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
+    		} else{
+    			//Copy id provided, so creating a proposal for modification
+    			viewContext.setPermissionType(PermissionType.INITIATE);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+    		}
+    	} else{
+    		//No id in view context, so creating new empty proposal
+    		viewContext.setPermissionType(PermissionType.INITIATE);
+			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
+    	}    	
+	}
+	
 	@Override
 	public boolean isAuthorizationRequired() {
 		return true;
