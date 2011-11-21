@@ -52,7 +52,7 @@ public interface Check extends IdEntity {
 
     /**
      * The Statement Id if this Check is based on evaluating
-     * s Statement.
+     * s Statement. (do we need a reference for the eval?)
      *
      * @name Statement Id
      */

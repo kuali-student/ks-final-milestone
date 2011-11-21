@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.process.infc.Process;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessCategoryInfo", propOrder = { "key", "typeKey", "stateKey", "name",
+@XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey", "name",
 		"descr", "meta", "attributes",
 		"_futureElements" })
 
