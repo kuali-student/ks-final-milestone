@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -30,8 +30,8 @@ import org.kuali.student.r2.core.process.infc.ProcessCategory;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "meta", "attributes",
+@XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
+                "stateKey", "name", "descr", "meta", "attributes",
 		"_futureElements" })
 
 public class ProcessCategoryInfo extends IdEntityInfo 
@@ -42,6 +42,10 @@ public class ProcessCategoryInfo extends IdEntityInfo
     @XmlAnyElement
     private List<Element> _futureElements;
     
+
+    /**
+     * Constructs a new ProcessCategoryInfo.
+     */
     public ProcessCategoryInfo() {
     }
 

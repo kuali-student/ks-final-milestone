@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -34,13 +34,19 @@ import org.w3c.dom.Element;
 @XmlType(name = "PopulationInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "name", "descr", "meta", "attributes",
 		"_futureElements" })
-public class PopulationInfo extends IdEntityInfo implements Population, Serializable {
+
+public class PopulationInfo extends IdEntityInfo 
+    implements Population, Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @XmlAnyElement
     private List<Element> _futureElements;
     
+
+    /**
+     * Constructs a new PopulationInfo.
+     */
     public PopulationInfo() {
     }
 

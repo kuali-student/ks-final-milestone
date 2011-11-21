@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
@@ -294,8 +295,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws MissingParameterException missing validationTypeKey,
      *         atpInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Academic Time Period.
@@ -315,8 +317,10 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpInfo createAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Academic Time Period.
@@ -336,10 +340,12 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      * @throws VersionMismatchException The action was attempted on an out 
      *         of date version.
      */
-    public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Academic Time Period.
@@ -515,8 +521,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws MissingParameterException missing validationTypeKey,
      *         atpKey, atpPeerKey, atpAtpRelationInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates an ATP relationship.
@@ -529,6 +536,8 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *                operation
      * @return the atp atp relation that was created
      * @throws AlreadyExistsException atp relation added already exists
+     * @throws DataValidationErrorException if the relation fails
+     *         validation checks
      * @throws DoesNotExistException atpKey or atpPeerKey not found
      * @throws InvalidParameterException invalid atpKey, atpPeerKey,
      *         atpAtpRelationInfo, or contextInfo
@@ -536,13 +545,13 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         atpAtpRelationInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws DataValidationErrorException if the relation fails
-     *         validation checks
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
-     * Updates an ATP Mielstone Relationship.
+     * Updates an ATP Milestone Relationship.
      *
      * @param atpAtpRelationId the Id of the ATP Relation to be 
      *        updated
@@ -560,10 +569,12 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         atpAtpRelationInfo or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      * @throws VersionMismatchException The action was attempted on an
      *         out of date version
      */
-    public AtpAtpRelationInfo updateAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public AtpAtpRelationInfo updateAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Removes an existing ATP relationship.
@@ -774,8 +785,9 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws MissingParameterException missing validationTypeKey,
      *         milestoneInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Create a new milestone.
@@ -794,8 +806,10 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      */
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing milestone.
@@ -815,10 +829,12 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *         milestoneInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read-only
      * @throws VersionMismatchException The action was attempted on an out of 
      *         date version
      */
-    public MilestoneInfo updateMilestone(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public MilestoneInfo updateMilestone(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing milestone from all ATPs.
@@ -845,6 +861,8 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *                and locale information about the caller of service
      *                operation
      * @return status
+     * @throws AlreadyExistsException milestoneId already related to
+     *         atpKey
      * @throws DoesNotExistException milestoneId or atpKey not found
      * @throws InvalidParameterException invalid milestoneId, atpKey,
      *         or contextInfo
@@ -853,7 +871,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addMilestoneToAtp(@WebParam(name = "miestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Removes a Milestone from an ATP.
@@ -865,6 +883,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      *                operation
      * @return status
      * @throws DoesNotExistException milestoneId or atpKey not found
+     *         or not related
      * @throws InvalidParameterException invalid milestoneId, atpKey,
      *         or contextInfo
      * @throws MissingParameterException missing milestoneId, atpKey,
@@ -872,5 +891,5 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "miestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

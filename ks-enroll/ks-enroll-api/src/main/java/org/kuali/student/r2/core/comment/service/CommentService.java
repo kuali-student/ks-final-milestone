@@ -40,8 +40,8 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
- * The Comment Service allows for the creation and management of user comments and tags associated with
- * other objects across the system.
+ * The Comment Service allows for the creation and management of user
+ * comments and tags associated with other objects across the system.
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
