@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.atp.service;
+package org.kuali.student.r2.core.process.service;
 
 import java.util.List;
 

@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey", 
                 "name", "descr", "meta", "attributes",
-		"_futureElements" })
+                "_futureElements" })
 
 public class ProcessInfo extends KeyEntityInfo 
     implements Process, Serializable {

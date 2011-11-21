@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "meta", "attributes",
-		"_futureElements" })
+                "_futureElements" })
 
 public class ProcessCategoryInfo extends IdEntityInfo 
     implements ProcessCategory, Serializable {

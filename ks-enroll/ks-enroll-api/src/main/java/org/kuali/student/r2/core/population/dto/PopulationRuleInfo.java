@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "criteria", "statementIds", 
                 "groupIds", "personIds", "populationIds", "meta", "attributes",
-		"_futureElements" })
+		        "_futureElements" })
 
 public class PopulationRuleInfo extends IdEntityInfo 
     implements PopulationRule, Serializable {
@@ -83,12 +83,15 @@ public class PopulationRuleInfo extends IdEntityInfo
             if (populationRule.getStatementIds() != null) {
                 this.statementIds = new ArrayList<String>(populationRule.getStatementIds());
             }
+            
             if (populationRule.getGroupIds() != null) {
                 this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
             }
+            
             if (populationRule.getPersonIds() != null) {
                 this.personIds = new ArrayList<String>(populationRule.getPersonIds());
             }
+            
             if (populationRule.getPopulationIds() != null) {
                 this.populationIds = new ArrayList<String>(populationRule.getPopulationIds());
             }

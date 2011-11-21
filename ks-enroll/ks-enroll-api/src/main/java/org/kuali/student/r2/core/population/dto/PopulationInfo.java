@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "name", "descr", "meta", "attributes",
-		"_futureElements" })
+                "_futureElements" })
 
 public class PopulationInfo extends IdEntityInfo 
     implements Population, Serializable {
