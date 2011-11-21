@@ -271,7 +271,7 @@ public class HoldServiceMockImpl implements HoldService {
 		List<HoldInfo> holdsActive = new ArrayList<HoldInfo>();
 		for (HoldInfo hold : holdsForPerson) {
 			if (hold.getStateKey().equals(
-					HoldServiceConstants.HOLD_ACIVE_STATE_KEY)) {
+					HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
 				holdsActive.add(hold);
 			}
 		}
@@ -300,7 +300,7 @@ public class HoldServiceMockImpl implements HoldService {
 		List<HoldInfo> holdsActive = new ArrayList<HoldInfo>();
 		for (HoldInfo hold : holdsForPersonByIssues) {
 			if (hold.getStateKey().equals(
-					HoldServiceConstants.HOLD_ACIVE_STATE_KEY)) {
+					HoldServiceConstants.HOLD_ACTIVE_STATE_KEY)) {
 				holdsActive.add(hold);
 			}
 		}
