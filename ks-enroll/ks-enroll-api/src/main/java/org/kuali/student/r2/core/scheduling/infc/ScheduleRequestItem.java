@@ -39,6 +39,24 @@ public interface ScheduleRequestItem extends HasId {
     public String getScheduleRequestId();
 
     /**
+     * A reference Id for relating the request to an external object
+     * to be scheduled.
+     *
+     * @name Reference Id
+     * @required
+     */
+    public String getReferenceId();
+
+    /**
+     * A reference Type key for relating the request to an external
+     * object to be scheduled.
+     *
+     * @name Reference Type Key
+     * @required
+     */
+    public String getReferenceTypeKey();
+
+    /**
      * Tests if the data in this request item are requirements or
      * preferences. A requirement fails scheduling if not available.
      *
