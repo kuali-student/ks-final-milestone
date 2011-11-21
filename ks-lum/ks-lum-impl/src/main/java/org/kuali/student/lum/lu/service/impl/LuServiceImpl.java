@@ -810,6 +810,18 @@ public class LuServiceImpl implements LuService {
 
 	@Override
     @Transactional(readOnly=true)
+	public List<CluSetInfo> getCluSetsByCluId(List<String> cluIdList)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		checkForMissingParameter(cluIdList, "cluIdList");
+		checkForEmptyList(cluIdList, "cluIdList");
+		List<CluSet> cluSets = luDao.getCluSetsByCluVersionIndId(cluIdList);
+		return LuServiceAssembler.toCluSetInfos(cluSets);
+	}
+	
+	@Override
+    @Transactional(readOnly=true)
 	public List<String> getCluSetIdsFromCluSet(String cluSetId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
