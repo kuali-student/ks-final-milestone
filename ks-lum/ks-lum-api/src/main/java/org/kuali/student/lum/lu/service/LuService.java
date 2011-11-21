@@ -605,21 +605,6 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
      * @throws PermissionDeniedException authorization failure
 	 */
     public List<CluSetInfo> getCluSetInfoByIdList(@WebParam(name="cluSetIdList")List<String> cluSetIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    
-    /** 
-     * Retrieve information on CLU sets based on CluId and type of the CluSet (name).
-     * @param cluId Identifier for CLU
-     * @param cluSetNames name for CluSet
-     * @return The retrieved list of CLU set information
-     * @throws DoesNotExistException One or more cluSets not found
-     * @throws InvalidParameterException One or more cluSetIds invalid
-     * @throws MissingParameterException missing cluSetIdList
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public List<CluSetInfo> getCluSetsByCluId(@WebParam(name="cluId")List<String> cluIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
     
     /** 
      * Retrieve the list of CLU Set Ids within a CLU Set
