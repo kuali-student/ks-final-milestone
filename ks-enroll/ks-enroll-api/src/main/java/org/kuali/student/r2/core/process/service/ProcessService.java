@@ -741,7 +741,7 @@ public interface ProcessService
     public List<String> getInstructionIdsByType(@WebParam(name = "instructionTypeKey") String instructionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Instructions relating to the given
+     * Retrieves a list of all Instructions relating to the given
      * Process.
      *
      * @param processKey a unique identfiier for a Process
@@ -930,4 +930,30 @@ public interface ProcessService
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves a list of all Instructions ready to be
+     * evaluated. This method:
+     *    1. orders the Instructions for a Process
+     *    2. filters out Instructions whose state is not "active"
+     *    3. filters out Instructions whose effective dates are not current
+     *       or the current context date does not apply (?)
+     *    4. filters out any Instructions related to an a time period where
+     *       the current context date does not apply
+     *    5. filters out any Instructions applied to a Population where
+     *       the current context Person does not apply
+     *
+     * @param processKey a unique identfiier for a Process
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return a list of Instructions
+     * @throws InvalidParameterException invalid processKey or 
+     *         contextInfo
+     * @throws MissingParameterException missing processKey or
+     *         contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
