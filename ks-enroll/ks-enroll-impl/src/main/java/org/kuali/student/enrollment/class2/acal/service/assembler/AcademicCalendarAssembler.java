@@ -9,54 +9,76 @@ import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 
 public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarInfo, AtpInfo> {
-    private AtpAtpRelationAssembler relAssembler;
+  private AtpService atpService;
     
-    public AtpAtpRelationAssembler getRelAssembler() {
-		return relAssembler;
-	}
+    public AtpService getAtpService() {
+        return atpService;
+    }
 
-	public void setRelAssembler(AtpAtpRelationAssembler relAssembler) {
-		this.relAssembler = relAssembler;
-	}
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
 
-	@Override
+
+    @Override
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
-        if(atp != null){
-            AcademicCalendarInfo acal = new AcademicCalendarInfo();
-            acal.setKey(atp.getKey());
-            acal.setName(atp.getName());
-            acal.setDescr(atp.getDescr());
-            acal.setStartDate(atp.getStartDate());
-            acal.setEndDate(atp.getEndDate());
-            acal.setTypeKey(atp.getTypeKey());
-            acal.setStateKey(atp.getStateKey());
-            acal.setMeta(atp.getMeta()); 
-            acal.setAttributes(atp.getAttributes()); 
+        
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setKey(atp.getKey());
+        acal.setName(atp.getName());
+        acal.setDescr(atp.getDescr());
+        acal.setStartDate(atp.getStartDate());
+        acal.setEndDate(atp.getEndDate());
+        acal.setTypeKey(atp.getTypeKey());
+        acal.setStateKey(atp.getStateKey());
+        acal.setMeta(atp.getMeta());
+        acal.setAttributes(atp.getAttributes());
+
+        List<AttributeInfo> attributes = atp.getAttributes();
+        if (attributes != null && !attributes.isEmpty()) {
+            for (AttributeInfo attribute : attributes) {
+                if (attribute.getKey().equals("CredentialProgramType")) {
+                    acal.setCredentialProgramTypeKey(attribute.getValue());
+                    break;
+                }
+            }
+        }
+
+        acal.setCampusCalendarKeys(assembleRelations(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
+        return acal;
+    }
+
+    
+    public List<String> assembleRelations(String atpKey, String relatedAtpType, ContextInfo context) throws AssemblyException {
+        List<String> ccKeys = new ArrayList<String>();
+        List<AtpAtpRelationInfo> atpRels;
+        try {
+            atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
             
-            List<AttributeInfo> attributes = atp.getAttributes();
-            if(attributes != null && !attributes.isEmpty()){
-                for (AttributeInfo attribute : attributes){
-                    if(attribute.getKey().equals("CredentialProgramType")){
-                        acal.setCredentialProgramTypeKey(attribute.getValue());
-                        break;
+            if(atpRels != null && !atpRels.isEmpty()){                  
+                for(AtpAtpRelationInfo atpRelInfo : atpRels){
+                    if(atpRelInfo.getAtpKey().equals(atpKey)){
+                        if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)){
+                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpKey(), context);
+                            if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
+                            ccKeys.add(atpRelInfo.getRelatedAtpKey());
+                        }
                     }
                 }
             }
-
-            //process atpatprelation-CampusCalendar
-            acal.setCampusCalendarKeys(relAssembler.assemble(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
-
-            return acal;
+        } catch (Exception e) {
+            throw new AssemblyException(e.getMessage());
         }
-        else
-            return null;
+        
+        return ccKeys;
     }
-
     @Override
-    public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException{
+    public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException {
         AtpInfo atp = new AtpInfo();
         atp.setKey(acal.getKey());
         atp.setName(acal.getName());
@@ -68,17 +90,17 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         atp.setMeta(acal.getMeta());
 
         List<AttributeInfo> attributes = (null != acal.getAttributes() ? acal.getAttributes() : new ArrayList<AttributeInfo>());
-        
+
         if (noAttributeEntryWithKey(attributes, "CredentialProgramType") && acal.getCredentialProgramTypeKey() != null) {
             AttributeInfo cpt = new AttributeInfo();
             cpt.setKey("CredentialProgramType");
             cpt.setValue(acal.getCredentialProgramTypeKey());
             attributes.add(cpt);
         }
-        
-        atp.setAttributes(attributes);  
-        
-        return atp;   
+
+        atp.setAttributes(attributes);
+
+        return atp;
     }
 
     private boolean noAttributeEntryWithKey(List<AttributeInfo> attributes, String key) {
@@ -90,4 +112,4 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         return true;
     }
 
- }
+}
