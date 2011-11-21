@@ -39,11 +39,11 @@ public interface PopulationRule extends IdEntity {
     public QueryByCriteria getSearchCriteria();
 
     /**
-     * A Statement Id to be used in evaluating this population.
+     * A Statement Ids to be used in evaluating this population.
      *
-     * @name Statement Id
+     * @name Statement Ids
      */
-    public String getStatementId();
+    public List<String> getStatementIds();
 
     /**
      * A list of Group Ids to be used in building this population.

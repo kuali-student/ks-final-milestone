@@ -47,7 +47,7 @@ public class PopulationInfo extends IdEntityInfo implements Population, Serializ
     /**
      * Constructs a new PopulationInfo from another Population.
      * 
-     * @param atp the ATP to copy
+     * @param population the Population to copy
      */
     public PopulationInfo(Population population) {
         super(population);
