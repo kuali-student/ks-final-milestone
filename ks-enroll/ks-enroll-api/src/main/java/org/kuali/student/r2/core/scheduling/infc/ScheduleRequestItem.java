@@ -85,7 +85,13 @@ public interface ScheduleRequestItem extends HasId {
      */
     public List<String> getRoomIds();
 
-    /*** query by responsible org ***/
+    /**
+     * The Org Id to specify a Room or Building "owned" by an
+     * Organization.
+     *
+     * @name Org Ids
+     */
+    public List<String> getOrgIds();
 
     /**
      * The Resource Types to specify a Room with types of fixed
