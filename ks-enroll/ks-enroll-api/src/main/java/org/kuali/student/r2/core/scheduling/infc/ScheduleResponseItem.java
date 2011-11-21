@@ -39,6 +39,15 @@ public interface ScheduleResponseItem extends HasId {
     public String getScheduleResponseId();
 
     /**
+     * The Schedule Request Item Id.
+     *
+     * @name Schedule Request Item Id
+     * @required
+     * @readonly
+     */
+    public String getScheduleRequestItemId();
+
+    /**
      * The Schedule Ids.
      *
      * @name Schedule Ids
