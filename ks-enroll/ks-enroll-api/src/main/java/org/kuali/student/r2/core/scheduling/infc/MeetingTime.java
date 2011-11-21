@@ -1,5 +1,5 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the Educational
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational
  * Community License, Version 2.0 (the "License"); you may not use
  * this file except in compliance with the License. You may obtain a
  * copy of the License at
@@ -15,32 +15,39 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
+import java.util.Date;
 
+import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.HasId;
 
 
 /**
- * Information about a Schedule Component.
- *
- * @author tom
- * @since Thu Nov 3 14:22:34 EDT 2011
- */ 
+ * Captures space and time information associated with a single
+ * meeting time or event.
+ * 
+ * @author Kuali Student Team (Kamal)
+ */
 
-public interface ScheduleComponent extends HasId {
+public interface MeetingTime extends HasId {
 
     /**
-     * The Time Slots Ids.
-     *
-     * @name Time Slot Ids
-     * @required
+     * The date for this meeting time.
+     * 
+     * @name Start Time
      */
-    public List<String> getTimeSlotIds();
+    public Date getStartTime();
 
     /**
-     * The Room Id.
-     *
-     * @name Room Id
+     * The duration for this meeting.
+     * 
+     * @name Duration
+     */
+    public TimeAmount getDuration();
+
+    /**
+     * The room Id.
+     * 
+     * @name Room Id.
      */
     public String getRoomId();
 }

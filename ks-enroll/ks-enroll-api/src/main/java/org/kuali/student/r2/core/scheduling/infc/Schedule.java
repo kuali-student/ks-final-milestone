@@ -60,4 +60,11 @@ public interface Schedule extends IdEntity {
      * @name Blackout Milestone Keys
      */
     public List<String> getBlackoutMilestoneKeys();
+
+    /**
+     * A list of one-time MeetingTimes.
+     *
+     * @name Meeting Times
+     */
+    public List<MeetingTime> getMeetingTimes();
 }
