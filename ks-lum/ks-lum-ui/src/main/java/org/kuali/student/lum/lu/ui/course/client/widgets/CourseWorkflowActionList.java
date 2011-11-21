@@ -513,7 +513,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     }
 
     private void checkAdminPermission(String screenComponent, final ViewContext viewContext, final String modifyPath, final DataModel model) {
-		Application.getApplicationContext().getSecurityContext().checkPermission(screenComponent,
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission(screenComponent,
 				new Callback<Boolean>() {
 					@Override
 					public void exec(Boolean result) {
