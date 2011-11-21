@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.population.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -72,10 +73,26 @@ public class PopulationRuleInfo extends IdEntityInfo
      */
     public PopulationRuleInfo(PopulationRule populationRule) {
         super(populationRule);
+
+        if (populationRule != null) {
+            this.criteria = populationRule.getSearchCriteria(); /* fix */
+            if (populationRule.getStatementIds() != null) {
+                this.statementIds = new ArrayList<String>(populationRule.getStatementIds());
+            }
+            if (populationRule.getGroupIds() != null) {
+                this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
+            }
+            if (populationRule.getPersonIds() != null) {
+                this.personIds = new ArrayList<String>(populationRule.getPersonIds());
+            }
+            if (populationRule.getPopulationIds() != null) {
+                this.populationIds = new ArrayList<String>(populationRule.getPopulationIds());
+            }
+        }
     }
 
     @Override
-    public QueryByCriteria getSearchCriteria() {
+    public QueryByCriteria getSearchCriteria() {        
         return this.criteria;
     }
 
@@ -85,15 +102,23 @@ public class PopulationRuleInfo extends IdEntityInfo
 
     @Override
     public List<String> getStatementIds() {
+        if (this.statementIds == null) {
+            this.statementIds = new ArrayList<String>();
+        }
+
         return this.statementIds;
     }
 
-    public void setStatementIds(List <String> statementIds) {
+    public void setStatementIds(List<String> statementIds) {
         this.statementIds = statementIds;
     }
 
     @Override
     public List<String> getGroupIds() {
+        if (this.groupIds == null) {
+            this.groupIds = new ArrayList<String>();
+        }
+
         return this.groupIds;
     }
 
@@ -103,6 +128,10 @@ public class PopulationRuleInfo extends IdEntityInfo
 
     @Override
     public List<String> getPersonIds() {
+        if (this.personIds == null) {
+            this.personIds = new ArrayList<String>();
+        }
+
         return this.personIds;
     }
 
@@ -112,6 +141,10 @@ public class PopulationRuleInfo extends IdEntityInfo
 
     @Override
     public List<String> getPopulationIds() {
+        if (this.populationIds == null) {
+            this.populationIds = new ArrayList<String>();
+        }
+
         return this.populationIds;
     }
 

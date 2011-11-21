@@ -24,34 +24,49 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.process.infc.ProcessCategory;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.core.process.infc.Process;
 
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", "stateKey", "name",
+@XmlType(name = "ProcessCategoryInfo", propOrder = { "key", "typeKey", "stateKey", "name",
 		"descr", "meta", "attributes",
 		"_futureElements" })
 
-public class ProcessCategoryInfo extends IdEntityInfo 
-    implements ProcessCategory, Serializable {
+public class ProcessInfo extends KeyEntityInfo 
+    implements Process, Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    @XmlElement 
+    private String orgId;
+
     @XmlAnyElement
     private List<Element> _futureElements;
     
-    public ProcessCategoryInfo() {
+    public ProcessInfo() {
     }
 
     /**
-     * Constructs a new ProcessCategoryInfo from another
-     * ProcessCategory.
+     * Constructs a new ProcessInfo from another Process.
      * 
-     * @param processCategory the ProcessCategory to copy
+     * @param process the Process to copy
      */
-    public ProcessCategoryInfo(ProcessCategory processCategory) {
-        super(processCategory);
+    public ProcessInfo(Process process) {
+        super(process);
+
+        if (process != null) {
+            this.orgId = process.getOrgId();
+        }
+    }
+
+    @Override
+    public String getOrgId() {
+        return this.orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 }
