@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.scheduling.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.DateRange;
 
 
 /**
@@ -33,6 +34,7 @@ public interface Schedule extends IdEntity {
      * The ATP key.
      *
      * @name Atp Key
+     * @required
      */
     public String getAtpKey();
 
@@ -42,4 +44,20 @@ public interface Schedule extends IdEntity {
      * @name Schedule Component Ids
      */
     public List<String> getScheduleComponentIds();
+
+    /**
+     * A list of blackout dates where a meeting time implied by the
+     * ScheduleComponent is skipped.
+     *
+     * @name Blackout Dates
+     */
+    public List<DateRange> getBlackoutDates();
+
+    /**
+     * A list of Milestone keys where a meeting time that occurs
+     * within a Milestone is considered a blackout date.
+     *
+     * @name Blackout Milestone Keys
+     */
+    public List<String> getBlackoutMilestoneKeys();
 }
