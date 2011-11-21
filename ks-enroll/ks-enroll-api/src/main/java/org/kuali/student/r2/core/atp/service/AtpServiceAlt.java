@@ -88,7 +88,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of Academic Time Periods corresponding to the
      * given list of ATP keys.
      *
-     * @param atpKeyList list of ATPs to be retrieved
+     * @param atpKeys list of ATPs to be retrieved
      * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -99,7 +99,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AtpInfo> getAtpsByKeyList(@WebParam(name = "atpKeyList") List<String> atpKeyList, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpInfo> getAtpsByKeys(@WebParam(name = "atpKeys") List<String> atpKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Academic Time Periods of the specified type.
@@ -380,7 +380,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of AtpAtpRelations corresponding to the given list
      * of identifiers.
      *
-     * @param atpAtpRelationIdList list of AtpAtpRelations to be retrieved
+     * @param atpAtpRelationIds list of AtpAtpRelations to be retrieved
      * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -393,7 +393,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIdList(@WebParam(name = "atpAtpRelationIdList") List<String> atpAtpRelationIdList, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(@WebParam(name = "atpAtpRelationIds") List<String> atpAtpRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of AtpAtpRelation Ids of the specified type.
@@ -606,7 +606,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves a list of Milestones corresponding to the given list
      * of Milestone Ids.
      *
-     * @param milestoneIdList list of Milestones to be retrieved
+     * @param milestoneIds list of Milestones to be retrieved
      * @param contextInfo Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -619,7 +619,7 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<MilestoneInfo> getMilestonesByIdList(@WebParam(name = "milestoneIdList") List<String> milestoneIdList, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MilestoneInfo> getMilestonesByIds(@WebParam(name = "milestoneIds") List<String> milestoneIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Milestone Ids of the specified type.
