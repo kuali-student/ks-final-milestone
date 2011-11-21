@@ -75,26 +75,34 @@ public class HoldServiceConstants {
      * STATES FOR holds
      */
     public static final String STUDENT_HOLD_PROCESS_KEY = "kuali.hold.process.student";
-    public static final String HOLD_ACIVE_STATE_KEY = "kuali.hold.state.active";
+    public static final String HOLD_ACTIVE_STATE_KEY = "kuali.hold.state.active";
     public static final String HOLD_RELEASED_STATE_KEY = "kuali.hold.state.released";
     public static final String HOLD_CANCELED_STATE_KEY = "kuali.hold.state.canceled";
-    public static final String[] STUDENT_HOLD_PROCESS_KEYS = {HOLD_ACIVE_STATE_KEY,
+    public static final String[] STUDENT_HOLD_PROCESS_KEYS = {
+        HOLD_ACTIVE_STATE_KEY,
         HOLD_RELEASED_STATE_KEY,
-        HOLD_CANCELED_STATE_KEY};
+        HOLD_CANCELED_STATE_KEY
+    };
+
     /**
      * STATES FOR hold ISSUES
      */
     public static final String ISSUE_PROCESS_KEY = "kuali.hold.issue.process";
-    public static final String ISSUE_ACIVE_STATE_KEY = "kuali.hold.issue.state.active";
+    public static final String ISSUE_ACTIVE_STATE_KEY = "kuali.hold.issue.state.active";
     public static final String ISSUE_INACTIVE_STATE_KEY = "kuali.hold.issue.state.inactive";
-    public static final String[] ISSUE_PROCESS_KEYS = {ISSUE_ACIVE_STATE_KEY,
-        ISSUE_INACTIVE_STATE_KEY};
+    public static final String[] ISSUE_PROCESS_KEYS = {
+        ISSUE_ACTIVE_STATE_KEY,
+        ISSUE_INACTIVE_STATE_KEY
+    };
+
     /**
      * STATES FOR hold RESTRICTIONS
      */
     public static final String RESTRICTION_PROCESS_KEY = "kuali.hold.restriction.process";
-    public static final String RESTRICTION_ACIVE_STATE_KEY = "kuali.hold.restriction.state.active";
+    public static final String RESTRICTION_ACTIVE_STATE_KEY = "kuali.hold.restriction.state.active";
     public static final String RESTRICTION_INACTIVE_STATE_KEY = "kuali.hold.restriction.state.inactive";
-    public static final String[] RESTRICTION_PROCESS_KEYS = {RESTRICTION_ACIVE_STATE_KEY,
-        RESTRICTION_INACTIVE_STATE_KEY};
+    public static final String[] RESTRICTION_PROCESS_KEYS = {
+        RESTRICTION_ACTIVE_STATE_KEY,
+        RESTRICTION_INACTIVE_STATE_KEY
+    };
 }
