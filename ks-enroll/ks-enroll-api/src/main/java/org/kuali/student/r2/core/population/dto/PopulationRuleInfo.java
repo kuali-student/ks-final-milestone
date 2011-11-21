@@ -34,9 +34,9 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "criteria", "statementIds", "groupIds", 
-                "personIds", "populationIds", "meta", "attributes",
+@XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
+                "stateKey", "name", "descr", "criteria", "statementIds", 
+                "groupIds", "personIds", "populationIds", "meta", "attributes",
 		"_futureElements" })
 
 public class PopulationRuleInfo extends IdEntityInfo 
