@@ -519,9 +519,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        try {
+            return luiService.deleteLui(courseOfferingId,context);
+        } catch (DependentObjectsExistException e) {
+            throw new OperationFailedException("Error deleting course offering",e);
+        }
+    }
 
 	@Override
 	public List<StatementTreeViewInfo> getCourseOfferingRestrictions(
@@ -743,8 +746,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
+
+        LuiInfo lui = null;
+        try {
+            lui = aoAssembler.disassemble(activityOfferingInfo,context);
+        }catch(AssemblyException e){
+            throw new OperationFailedException("Error disassemble Activity Offering",e);
+        }
+
+        LuiInfo updatedLui = luiService.updateLui(activityOfferingId,lui,context);
+        ActivityOfferingInfo activity = null;
+        try {
+            activity = aoAssembler.assemble(updatedLui,context);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("Error assembling lui",e);
+        }
+
+        return activity;
 	}
 
 	@Override
@@ -753,9 +771,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        try {
+            return luiService.deleteLui(activityOfferingId,context);
+        } catch (DependentObjectsExistException e) {
+            throw new OperationFailedException("Error deleting dependent objects",e);
+        }
+    }
 
 	@Override
 	public List<StatementTreeViewInfo> getActivityOfferingRestrictions(
