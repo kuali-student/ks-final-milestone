@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.DateRange;
 public interface Schedule extends IdEntity {
 
     /**
-     * The ATP key.
+     * The ATP key. Schedule Components are applied to this ATP.
      *
      * @name Atp Key
      * @required
@@ -39,7 +39,8 @@ public interface Schedule extends IdEntity {
     public String getAtpKey();
 
     /**
-     * The Schedule Component Ids.
+     * The Schedule Component Ids. These provide a list of Time Slots
+     * coupled with Room locations.
      *
      * @name Schedule Component Ids
      */
@@ -55,14 +56,16 @@ public interface Schedule extends IdEntity {
 
     /**
      * A list of Milestone keys where a meeting time that occurs
-     * within a Milestone is considered a blackout date.
+     * within a Milestone is considered a blackout date. Milestones of
+     * any of the Milestone Types that exist in the related ATP are
+     * used to determine the blackout dates.
      *
      * @name Blackout Milestone Keys
      */
     public List<String> getBlackoutMilestoneKeys();
 
     /**
-     * A list of one-time MeetingTimes.
+     * A list of one-time MeetingTimes to add to this Schedule.
      *
      * @name Meeting Times
      */
