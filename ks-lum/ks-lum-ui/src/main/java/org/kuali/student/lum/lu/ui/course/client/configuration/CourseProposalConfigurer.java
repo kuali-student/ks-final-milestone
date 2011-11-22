@@ -373,6 +373,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 ),
                 null,
                 null,0);
+        result.getLayout().setVisible(false);
         return result;
     }
     
