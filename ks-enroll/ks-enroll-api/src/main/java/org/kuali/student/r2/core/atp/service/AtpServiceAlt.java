@@ -71,7 +71,7 @@ public interface AtpServiceAlt
     extends DataDictionaryService, TypeService, StateService {
 
     /** 
-     * Retrieves a Academic Time Period by ATP key..
+     * Retrieves a single Academic Time Period by ATP key.
      *
      * @param atpKey a unique identifier of the Academic Time Period
      *        to be retrieved
@@ -90,7 +90,7 @@ public interface AtpServiceAlt
     /** 
      * Retrieves a list of Academic Time Periods from a list of ATP
      * keys. The returned list may be in any order and if duplicate
-     * keys are supplied, a unique set may or maynot be returned.
+     * keys are supplied, a unique set may or may not be returned.
      *
      * @param atpKeys a list of ATP keys
      * @param contextInfo information containing the principalId and
@@ -98,8 +98,8 @@ public interface AtpServiceAlt
      * @return a list of ATPs
      * @throws DoesNotExistException an atpKey in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey or contextInfo is
-     *         missing or null
+     * @throws MissingParameterException atpKeys, a key in atpKeys, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
@@ -242,130 +242,130 @@ public interface AtpServiceAlt
     public List<AtpInfo> getAtpsByStartDateRangeAndType(@WebParam(name = "dateRangeStart") Date dateRangeStart, @WebParam(name = "dateRangeEnd") Date dateRangeEnd, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;    
 
     /**
-     * Searches for Atps based on the criteria and returns a list
-     * of Atp identifiers which match the search criteria.
+     * Searches for Academic Time Periods that meet the given search
+     * criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Atp keys
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing croteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of ATP keys matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForAtpKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Atps based on the criteria and returns a list of
-     * Atps which match the search criteria.
+     * Searches for Academic Time Periods that meet the given search
+     * criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Atps
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing croteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of ATPs matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> searchForAtps(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates an academic time period. Depending on the value of
+     * Validates an Academic Time Period. Depending on the value of
      * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the academic time period and a record
-     * is found for that identifier, the validation checks if the
-     * academic time period can be shifted to the new values. If a
-     * record cannot be found for the identifier, it is assumed that
-     * the record does not exist and as such, the checks performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object. This is a
-     * slightly different pattern from the standard validation as the
-     * caller provides the identifier in the create statement instead
-     * of the server assigning an identifier.
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this ATP. If an
+     * identifier is present for the ATP (and/or one of its contained
+     * sub-objects) and a record is found for that identifier, the
+     * validation checks if the ATP can be shifted to the new
+     * values. If a an identifier is not present or a record does not
+     * exist, the validation checks if the ATP with the given data can
+     * be created.
      *
-     * @param validationType Identifier of the extent of validation
-     * @param atpInfo The academic time period information to be tested.
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey,
-     *         atpInfo, or contextInfo
-     * @throws MissingParameterException missing validationTypeKey,
-     *         atpInfo, or contextInfo
+     * @param validationTypeKey the identifier for the validation Type
+     * @param atpTypeKey the identifier for the ATP Type to be validated
+     * @param atpInfo the identifier for the ATP to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey or atpTypeKey
+     *         is not found
+     * @throws InvalidParameterException atpInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException validationTypeKey, atpTypeKey
+     *         atpInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Creates a new Academic Time Period.
+     * Creates a new Academic Time Period. The ATP Type and Meta
+     * information may not be set in the supplied data object.
      *
-     * @param atpKey Key of ATP to be created
-     * @param atpInfo Details of ATP to be created
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of ATP just created
-     * @throws AlreadyExistsException ATP being created already exists
-     * @throws DataValidationErrorException one or more values invalid
-     *         for this operation
-     * @throws InvalidParameterException invalid atpKey, atpInfo, or
-     *         contextInfo
-     * @throws MissingParameterException missing atpKey, atpInfo, or
-     *         contextInfo
+     * @param atpKey a unique key for the new ATP
+     * @param atpTypeKey the identifier for the Type of ATP to be created
+     * @param atpInfo the data with which to create the ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new ATP
+     * @throws AlreadyExistsException atpKey already exists
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException atpTypeKey does not exist or is
+     *         not supported
+     * @throws InvalidParameterException atpInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException atpKey, atpTypeKey, atpInfo,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
-     *         designated as read-only
+     *         designated as read only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpInfo createAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
-     * Updates an existing Academic Time Period.
+     * Updates an existing Academic Time Period. The ATP key, Type,
+     * and Meta information may not be changed.
      *
-     * @param atpKey Key of ATP to be updated
-     * @param atpInfo Details of updates to ATP being updated
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of ATP just updated
-     * @throws DataValidationErrorException One or more values invalid 
-     *         for this operation
-     * @throws DoesNotExistException ATP being updated does not exist
-     * @throws InvalidParameterException invalid atpKey, atpInfo, or
-     *         contextInfo
-     * @throws MissingParameterException missing atpKey, atpInfo, or
-     *         contextInfo
+     * @param atpKey the identifier for the ATP to be updated
+     * @param atpInfo the new data for the ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated ATP
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException atpKey is not found
+     * @throws InvalidParameterException atpInfo or contextInfo is not
+     *         valid
+     * @throws MissingParameterException atpKey, atpInfo, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
-     *         designated as read-only
-     * @throws VersionMismatchException The action was attempted on an out 
-     *         of date version.
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
      */
     public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Academic Time Period.
      *
-     * @param atpKey the key of the ATP to be deleted
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException ATP being deleted does not exist
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey or contextInfo
+     * @param atpKey the identifier for the ATP to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException atpKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
