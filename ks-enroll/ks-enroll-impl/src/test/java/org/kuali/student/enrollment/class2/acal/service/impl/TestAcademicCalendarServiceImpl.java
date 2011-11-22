@@ -972,16 +972,22 @@ public class TestAcademicCalendarServiceImpl{
         for (TermInfo term : originalCalendarTerms) {
             assertFalse(copiedCalendarTerms.contains(term));
             // TODO check terms were copied properly
-            RegistrationDateGroupInfo registrationDateGroup = acalService.getRegistrationDateGroup(term.getKey(), callContext);
-            assertNull(registrationDateGroup); // TODO Change after implimented
-            //assertNotNull(registrationDateGroup.getAddDate());
-            //assertNotNull(registrationDateGroup.getClassDateRange());
-            //assertNotNull(registrationDateGroup.getDropDate());
-            //assertNotNull(registrationDateGroup.getFinalExamDateRange());
-            //assertNotNull(registrationDateGroup.getGradingDateRange());
-            //assertNotNull(registrationDateGroup.getRegistrationDateRange());
+            assertNotNull(acalService.getRegistrationDateGroup(term.getKey(), callContext));
             assertNotNull(acalService.getAllKeyDatesForTerm(term.getKey(), callContext));
             assertNotNull(acalService.getContainingTerms(term.getKey(), callContext));
         }
+    }
+
+    @Test
+    public void testGetRegistrationDateGroup() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        final String termKey = "FALLTERM1990";
+        RegistrationDateGroupInfo registrationDateGroup = acalService.getRegistrationDateGroup(termKey, callContext);
+        assertNotNull(registrationDateGroup);
+        assertNotNull(registrationDateGroup.getAddDate());
+        assertNotNull(registrationDateGroup.getClassDateRange());
+        assertNotNull(registrationDateGroup.getDropDate());
+        assertNotNull(registrationDateGroup.getFinalExamDateRange());
+        assertNotNull(registrationDateGroup.getGradingDateRange());
+        assertNotNull(registrationDateGroup.getRegistrationDateRange());
     }
 }

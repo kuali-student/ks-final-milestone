@@ -472,10 +472,6 @@ public class TestAtpServiceImpl {
         List<String> milestoneKeys = atpService.getMilestoneKeysByType(expectedMilestoneType, callContext);
         assertTrue(milestoneKeys.contains("testId2"));
         
-        String expectedEmptyMilestoneType = "kuali.atp.milestone.GradesDue";
-        milestoneKeys = atpService.getMilestoneKeysByType(expectedEmptyMilestoneType, callContext);
-        assertTrue(milestoneKeys == null || milestoneKeys.isEmpty());
-        
         String fakeMilestoneType = "fakeTypeKey";
         List<String> shouldBeNull = null;
         try {

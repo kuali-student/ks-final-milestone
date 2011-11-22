@@ -1274,8 +1274,36 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+        RegistrationDateGroupInfo regDateGroup = new RegistrationDateGroupInfo();
+        regDateGroup.setTermKey(termKey);
+        regDateGroup.setRegistrationDateDerivationGroup(new RegistrationDateDerivationGroupInfo());
+
+        List<KeyDateInfo> keyDates = getKeyDatesForTerm(termKey, context);
+        for (KeyDateInfo keyDate : keyDates) {
+            if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
+                regDateGroup.setRegistrationDateRange(getDateRangeFromKeyDate(keyDate));
+                regDateGroup.setAddDate(keyDate.getStartDate());
+            } else if (AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
+                regDateGroup.setClassDateRange(getDateRangeFromKeyDate(keyDate));
+            } else if (AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY.equals(keyDate.getTypeKey())) {
+                regDateGroup.setDropDate(keyDate.getEndDate());
+            } else if (AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
+                regDateGroup.setFinalExamDateRange(getDateRangeFromKeyDate(keyDate));
+            } else if (AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY.equals(keyDate.getTypeKey())) {
+                regDateGroup.setGradingDateRange(getDateRangeFromKeyDate(keyDate));
+            }
+        }
+        return regDateGroup;
+    }
+
+    private DateRangeInfo getDateRangeFromKeyDate(KeyDateInfo keyDate) {
+        DateRangeInfo dateRange = null;
+        if (keyDate != null) {
+            dateRange = new DateRangeInfo();
+            dateRange.setStart(keyDate.getStartDate());
+            dateRange.setEnd(keyDate.getEndDate());
+        }
+        return dateRange;
     }
 
     @Override
