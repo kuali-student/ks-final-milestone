@@ -70,6 +70,10 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 public interface AtpServiceAlt 
     extends DataDictionaryService, TypeService, StateService {
 
+    //
+    // Lookup Methods for ATP Key Entity Pattern.
+    //
+
     /** 
      * Retrieves a single Academic Time Period by ATP key.
      *
@@ -86,7 +90,7 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+                          
     /** 
      * Retrieves a list of Academic Time Periods from a list of ATP
      * keys. The returned list may be in any order and if duplicate
@@ -120,6 +124,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getAtpKeysByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // Special ATP lookup methods by date.
+    //
 
     /** 
      * Retrieves a list of Academic Time Periods where the supplied
@@ -241,6 +249,10 @@ public interface AtpServiceAlt
      */
     public List<AtpInfo> getAtpsByStartDateRangeAndType(@WebParam(name = "dateRangeStart") Date dateRangeStart, @WebParam(name = "dateRangeEnd") Date dateRangeEnd, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;    
 
+    //
+    // Search methods for ATP Key Entity Pattern.
+    //
+
     /**
      * Searches for Academic Time Periods that meet the given search
      * criteria.
@@ -273,6 +285,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> searchForAtps(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // CRUD methods for ATP Key Entity Pattern.
+    //
 
     /** 
      * Validates an Academic Time Period. Depending on the value of
@@ -368,6 +384,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // Lookup methods for AtpAtpRelation Symmetrical Relationship Pattern.
+    //
 
     /** 
      * Retrieves a single AtpAtpRelation by AtpAtpRelation Id.
@@ -498,6 +518,11 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+
+    //
+    // Search methods for AtpAtpRelation Symmetrical Relationship Pattern.
+    //
+                                                                   
     /**
      * Searches for AtpAtpRelations that meet the given search
      * criteria.
@@ -529,6 +554,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // CRUD methods for AtpAtpRelation Symmetrical Relationship Pattern.
+    //
 
     /** 
      * Validates an AtpAtpRelation. Depending on the value of
@@ -633,6 +662,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // Lookup methods for Milestone Id Entity Pattern.
+    //
 
     /** 
      * Retrieves a single Milestone by a Milestone Id.
@@ -760,6 +793,10 @@ public interface AtpServiceAlt
      */
     public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    //
+    // Search methods for Milestone Id Entity Pattern.
+    //
+
     /**
      * Searches for Milestones that meet the given search criteria.
      *
@@ -791,6 +828,10 @@ public interface AtpServiceAlt
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MilestoneInfo> searchForMilestones(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // CRUD methods for Milestone Id Entity Pattern.
+    //
 
     /** 
      * Validates a Milestone. Depending on the value of
