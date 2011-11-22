@@ -27,9 +27,9 @@
         <module>ks-hibernate</module>
         <module>ks-jta</module>
         <module>ks-rice-lessdep</module>
-        <module>ks-common-util</module>
+<!--         <module>ks-common-util</module> -->
         <module>ks-common-test</module>
-        <module>ks-common-api</module>
+<!--         <module>ks-common-api</module> -->
         <module>ks-common-impl</module>
         <module>ks-common-ui</module>
       </modules>
@@ -43,9 +43,9 @@
         <module>ks-hibernate</module>
         <module>ks-jta</module>
         <module>ks-rice-lessdep</module>
-        <module>ks-common-util</module>
+<!--         <module>ks-common-util</module> -->
         <module>ks-common-test</module>
-        <module>ks-common-api</module>
+<!--         <module>ks-common-api</module> -->
         <module>ks-common-impl</module>
       </modules>
     </profile>

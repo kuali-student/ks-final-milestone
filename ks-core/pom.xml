@@ -22,7 +22,7 @@
       </activation>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -39,7 +39,7 @@
       <id>skip-core-war</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -49,7 +49,7 @@
       <id>skip-developer-wars</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -59,7 +59,7 @@
       <id>skip-all-wars</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -69,7 +69,7 @@
       <id>embedded-only-war</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -79,7 +79,7 @@
       <id>standalone-only-wars</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
         <module>ks-core-ui</module>
@@ -89,7 +89,7 @@
       <id>skip-ui</id>
       <modules>
         <module>ks-core-rice</module>
-        <module>ks-core-api</module>
+<!--         <module>ks-core-api</module> -->
         <module>ks-core-impl</module>
         <module>ks-core-sql</module>
       </modules>

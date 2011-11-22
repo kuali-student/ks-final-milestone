@@ -18,7 +18,7 @@
       </activation>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -37,7 +37,7 @@
       <id>embedded-only-war</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -49,7 +49,7 @@
       <id>standalone-only-wars</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -61,7 +61,7 @@
       <id>skip-lum-war</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -73,7 +73,7 @@
       <id>skip-developer-wars</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -85,7 +85,7 @@
       <id>skip-all-wars</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
         <module>ks-lum-ui</module>
@@ -97,7 +97,7 @@
       <id>skip-ui</id>
       <modules>
         <module>ks-lum-sql</module>
-        <module>ks-lum-api</module>
+<!--         <module>ks-lum-api</module> -->
         <module>ks-lum-impl</module>
         <module>ks-lum-rice</module>
       </modules>
