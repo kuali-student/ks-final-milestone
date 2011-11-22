@@ -459,161 +459,178 @@ public interface AtpServiceAlt
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves ATP relationships by both Atp and the AtpAtpRelation
-     * Type.
+     * Retrieves a list of AtpAtpRelations of the specified
+     * AtpAtpRelationType for an ATP. (these parameters are backwards).
      * 
-     * @param atpKey a unique key for an ATP
-     * @param relationTypeKey a unique key for an ATP ATP relation
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of ATP-ATP relations
-     * @throws DoesNotExistException atpKey does not exist
-     * @throws InvalidParameterException invalid atpKey,
-     *         atpRelationTypeKey, or contextInfo
-     * @throws MissingParameterException invalid atpKey,
-     *         atpRelationTypeKey, or contextInfo
+     * @param atpKey the identifier for an ATP
+     * @param atpAtpRelationTypeKey the identifier for an AtpAtpRelationType
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelations of the specified
+     *         AtpAtpRelationType for the given ATP or an empty list
+     *         if none found
+     * @throws InvalidParameterException contextInfo is notvalid
+     * @throws MissingParameterException atpKey,
+     *         atpAtpRelationTypeKey, or contextInfo is missing or
+     *         null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure occurred
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
 
     /**
-     * Searches for AtpAtpRelations based on the criteria and returns
-     * a list of AtpAtpRelation identifiers which match the search
+     * Retrieves a list of AtpAtpRelations of the specified
+     * AtpAtpRelationType between the given ATPs.
+     * 
+     * @param atpAtpRelationTypeKey the identifier for an AtpAtpRelationType
+     * @param atpKey the identifier for an ATP
+     * @param atpPeerKey the identifier for a peer ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelations of the specified
+     *         AtpAtpRelationType between the given ATPs or an empty
+     *         list if none found
+     * @throws InvalidParameterException contextInfo is notvalid
+     * @throws MissingParameterException atpAtpRelationTypeKey,
+     *         atpKey, atpPeerKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+    /**
+     * Searches for AtpAtpRelations that meet the given search
      * criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of AtpAtpRelation identifiers matching the criteria
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelation identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForAtpAtpRelationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for AtpAtpRelations based on the criteria and returns
-     * a list of AtpAtpRelations which match the search criteria.
+     * Searches for AtpAtpRelations that meet the given search
+     * criteria.
      * 
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of AtpAtpRelations matching the criteria
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelations matching the criteria
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException criteria or contextInfo
+     *         is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates an ATP/ATP relationship. Depending on the value
-     * of validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the relationship and a record is
-     * found for that identifier, the validation checks if the
-     * relationship can be shifted to the new values. If a
-     * record cannot be found for the identifier, it is assumed that
-     * the record does not exist and as such, the checks performed
-     * will be much shallower, typically mimicking those performed by
-     * setting the validationType to the current object. This is a
-     * slightly different pattern from the standard validation as the
-     * caller provides the identifier in the create statement instead
-     * of the server assigning an identifier.
+     * Validates an AtpAtpRelation. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current AtpAtpRelation and its directly contained
+     * sub-objects or expanded to perform all tests related to this
+     * AtpAtpRelation. If an identifier is present for the
+     * AtpAtpRelation (and/or one of its contained sub-objects) and a
+     * record is found for that identifier, the validation checks if
+     * the AtpAtpRelation can be shifted to the new values. If an
+     * identifier is not present or a record cannot be found for the
+     * identifier, the validation checks if the object with the given
+     * data can be created. 
      *
-     * @param validationType Identifier of the extent of validation
-     * @param atpKey a peer of the relationship
-     * @param atpPeerKey a peer of the relationship
-     * @param atpAtpRelationInfo The ATP Relationship
-     *        to be tested.
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeKey, atpKey, or
-     *         atpPeerKey not found
-     * @throws InvalidParameterException invalid validationTypeKey,
-     *         atpKey, atpPeerKey, atpAtpRelationInfo, or contextInfo
-     * @throws MissingParameterException missing validationTypeKey,
-     *         atpKey, atpPeerKey, atpAtpRelationInfo, or contextInfo
+     * @param validationTypeKey the identifier for the validation Type
+     * @param atpKey the identifier for an ATP
+     * @param atpPeerKey a the identifier for the ATP peer
+     * @param atpAtpRelationTypeKey the identifier for the
+     *        AtpAtpRelation Type
+     * @param atpAtpRelationInfo the AtpAtpRelation to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey, atpKey,
+     *         atpPeerKey, or atpAtpRelationTypeKey is not found
+     * @throws InvalidParameterException atpAtpRelationInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, atpKey,
+     *         atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtprelationTypeKey") String atpAtpRelationTypeKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Creates an ATP relationship.
+     * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP
+     * keys, and Meta information may not be set in the supplied data.
      *
      * @param atpKey a peer of the relationship
      * @param atpPeerKey a peer of the relationship
+     * @param atpAtpRelationTypeKey the identifier for the
+     *        AtpAtpRelation Type
      * @param atpAtpRelationInfo the relationship to be created
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return the atp atp relation that was created
-     * @throws AlreadyExistsException atp relation added already exists
-     * @throws DataValidationErrorException if the relation fails
-     *         validation checks
-     * @throws DoesNotExistException atpKey or atpPeerKey not found
-     * @throws InvalidParameterException invalid atpKey, atpPeerKey,
-     *         atpAtpRelationInfo, or contextInfo
-     * @throws MissingParameterException missing atpKey, atpPeerKey,
-     *         atpAtpRelationInfo, or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new AtpAtpRelation
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException atpKey, atpPeerKey, or
+     *         atpAtpRelationTypeKey is not found
+     * @throws InvalidParameterException atpAtpRelationInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException atpKey, atpPeerKey,
+     *         atpAtpRelationTypeKey, atpAtpRelationInfo, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
-     *         designated as read-only
+     *         designated as read only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
-     * Updates an ATP Milestone Relationship.
+     * Updates an ATP Milestone Relationship. The AtpAtpRelation Id,
+     * Type, ATP keys, and Meta information may not be changed.
      *
-     * @param atpAtpRelationId the Id of the ATP Relation to be 
+     * @param atpAtpRelationId the identifier for the AtpAtpRelation
      *        updated
-     * @param atpAtpRelationInfo the ATP relation to be updated
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status
-     * @throws DataValidationErrorException One or more values invalid 
-     *         for this operation
-     * @throws DoesNotExistException atpRelationId does not exist
-     * @throws InvalidParameterException invalid atpAtpRelationId,
-     *         atpAtpRelationInfo or contextInfo
-     * @throws MissingParameterException missing atpAtpRelationId,
-     *         atpAtpRelationInfo or contextInfo
+     * @param atpAtpRelationInfo the new data for the AtpAtpRelation
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated AtpAtpRelation
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException atpAtpRelationId is not found
+     * @throws InvalidParameterException atpAtpRelationInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException atpAtpRelationId,
+     *         atpAtpRelationInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
-     * @throws VersionMismatchException The action was attempted on an
-     *         out of date version
+     * @throws VersionMismatchException optimistic locking failure or
+     *         the action was attempted on an out of date version
      */
     public AtpAtpRelationInfo updateAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
-     * Removes an existing ATP relationship.
+     * Deletes an existing AtpAtpRelation.
      *
-     * @param atpAtpRelationId the Id of relatiosnhip
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException atp relation being removed does
-     *         not exist
-     * @throws InvalidParameterException invalid atpAtpRelationId or
-     *         contextInfo
-     * @throws MissingParameterException missing atpAtpRelationId or
-     *         contextInfo
+     * @param atpAtpRelationId the identifier for the AtpAtpRelation
+     *        to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the delete operation. This must always be true.
+     * @throws DoesNotExistException atpAtprelationId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpAtpRelationId or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
