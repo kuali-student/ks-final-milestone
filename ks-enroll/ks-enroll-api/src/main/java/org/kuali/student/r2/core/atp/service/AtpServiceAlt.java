@@ -73,7 +73,7 @@ public interface AtpServiceAlt
     /** 
      * Retrieves a single Academic Time Period by ATP key.
      *
-     * @param atpKey a unique identifier of the Academic Time Period
+     * @param atpKey the identifier of the Academic Time Period
      *        to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -248,7 +248,7 @@ public interface AtpServiceAlt
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of ATP keys matching the criteria
+     * @return list of ATP identifiers matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is not valid
      * @throws MissingParameterException criteria or contextInfo is
      *         missing or null
@@ -308,7 +308,7 @@ public interface AtpServiceAlt
      * Creates a new Academic Time Period. The ATP Type and Meta
      * information may not be set in the supplied data object.
      *
-     * @param atpKey a unique key for the new ATP
+     * @param atpKey a unique for the new ATP
      * @param atpTypeKey the identifier for the Type of ATP to be created
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and
@@ -370,77 +370,93 @@ public interface AtpServiceAlt
     public StatusInfo deleteAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves an ATP Relationship.
+     * Retrieves a single AtpAtpRelation by AtpAtpRelation Id.
      *
-     * @param atpAtpRelationId a unique id of the atp atp relation 
+     * @param atpAtpRelationId the identifier for the AtpAtpRelation
      *        to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of requested Atp atp relation
-     * @throws DoesNotExistException atpAtpRelationId not found
-     * @throws InvalidParameterException invalid atpAtprelationId or
-     *         contextInfo
-     * @throws MissingParameterException missing atpAtpRelationId or
-     *         contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the AtpAtpRelatin requested
+     * @throws DoesNotExistException atpAtpRelationId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpAtpRelationId or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public AtpAtpRelationInfo getAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of AtpAtpRelations corresponding to the given list
-     * of identifiers.
+     * Retrieves a list of AtpAtpRelations from a list of
+     * AtpAtpRelation Ids. The returned list may be in any order and
+     * if duplicate Ids are supplied, a unique set may or may not be
+     * returned.
      *
-     * @param atpAtpRelationIds list of AtpAtpRelations to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return the list of AtpAtpRelations
-     * @throws DoesNotExistException an atpAtpRelationId in list not found
-     * @throws InvalidParameterException invalid atpAtprelationId or
-     *         contextInfo
-     * @throws MissingParameterException missing atpAtpRelationId or
-     *         contextInfo
+     * @param atpAtpRelationIds a list of AtpAtpRelation identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelations
+     * @throws DoesNotExistException an atpAtpRelationId in the list
+     *         not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpAtpRelationids, an
+     *         atpAtpRelationId in the atpAtpRelationIds, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(@WebParam(name = "atpAtpRelationIds") List<String> atpAtpRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of AtpAtpRelation Ids of the specified type.
+     * Retrieves a list of AtpAtpRelation Ids by AtpAtpRelation Type.
      *
-     * @param atpAtpRelationTypeKey Atp atp relation type to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of AtpAtpRelation identifiers
-     * @throws InvalidParameterException invalid atpRelationTypeKey or
-     *         contextInfo
-     * @throws MissingParameterException missing atpRelationTypeKey or
-     *         contextInfo
+     * @param atpAtpRelationTypeKey an identifier for an
+     *        AtpAtpRelation Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtpRelation identifiers matching
+     *         atpAtpRelationTypeKey or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpRelationTypeKey or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getAtpAtpRelationIdsByType(@WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves all ATP Relationships by ATP. Any relationship to the
-     * given ATP is retrieved independent of which side of the
-     * relationship the ATP resides.
+     * Retrieves all AtpAtpRelations to the given ATP independent of
+     * which side of the relationship the ATP resides.
      *
-     * @param atpKey  a unique key of an ATP
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Atp atp relationships
-     * @throws DoesNotExistException atpKey not found
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey or contextInfo
+     * @param atpKey the identifier for the ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtprelations to the given ATP or an empty
+     *         list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /** 
+     * Retrieves all AtpAtpRelations between the given ATPs.
+     *
+     * @param atpKey the identifier for the ATP
+     * @param atpPeerKey the identifier for the peer ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AtpAtprelations between the given ATPs or an
+     *         empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey, atpPeerKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves ATP relationships by both Atp and the AtpAtpRelation
@@ -471,7 +487,7 @@ public interface AtpServiceAlt
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return list of AtpAtpRelation Ids
+     * @return list of AtpAtpRelation identifiers matching the criteria
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -487,7 +503,7 @@ public interface AtpServiceAlt
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return list of AtpAtpRelations
+     * @return list of AtpAtpRelations matching the criteria
      * @throws InvalidParameterException invalid criteria or contextInfo
      * @throws MissingParameterException missing criteria or contextInfo
      * @throws OperationFailedException unable to complete request
@@ -604,7 +620,7 @@ public interface AtpServiceAlt
     /** 
      * Retrieves a single Milestone by a Milestone Id.
      *
-     * @param milestoneId a unique iddentifier for the milestone to be
+     * @param milestoneId the identifier for the Milestone to be
      *        retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -643,8 +659,8 @@ public interface AtpServiceAlt
      * @param milestoneTypeKey an identifier for a Milestone Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Milestone Ids matching milestoneTypeKey or an
-     *         empty list if none found
+     * @return a list of Milestone identifiers matching
+     *         milestoneTypeKey or an empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException milestoneTypeKey or
      *         contextInfo is missing or null
@@ -654,7 +670,7 @@ public interface AtpServiceAlt
     public List<String> getMilestoneIdsByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Milestones that fall within a specified
+     * Retrieves a list of Milestones that fall within a specified
      * set of dates inclusive of the dates.
      *
      * @param startDate start of date range
@@ -672,7 +688,7 @@ public interface AtpServiceAlt
     public List<MilestoneInfo> getMilestonesByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Milestones for a specified Academic Time
+     * Retrieves a list of Milestones for a specified Academic Time
      * Period.
      *
      * @param atpKey an identifier for an Academic Time Period
@@ -728,12 +744,12 @@ public interface AtpServiceAlt
     public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Milestone Ids that meet the given search criteria.
+     * Searches for Milestones that meet the given search criteria.
      *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of Milestone Ids matching the criteria
+     * @return a list of Milestone identifiers matching the criteria
      * @throws InvalidParameterException criteria or contextInfo
      *         is not valid
      * @throws MissingParameterException criteria or contextInfo is
@@ -749,7 +765,7 @@ public interface AtpServiceAlt
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of Milestones matching the criteria
+     * @return a list of Milestones matching the criteria
      * @throws InvalidParameterException criteria or contextInfo
      *         is not valid
      * @throws MissingParameterException criteria or contextInfo is
