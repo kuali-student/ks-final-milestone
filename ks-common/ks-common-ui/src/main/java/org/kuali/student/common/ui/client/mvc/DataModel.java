@@ -346,7 +346,7 @@ public class DataModel implements Model {
      * @param callback
      */
     public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
-        List<ValidationResultInfo> result = validator.validateNextState(this);
+        List<ValidationResultInfo> result = validator.validateNextState(this);  // loads missingField result info [KSCM-250]
         callback.exec(result);
     }
 

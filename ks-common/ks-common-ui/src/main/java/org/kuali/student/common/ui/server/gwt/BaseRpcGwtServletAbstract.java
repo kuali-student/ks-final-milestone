@@ -228,7 +228,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }        
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");

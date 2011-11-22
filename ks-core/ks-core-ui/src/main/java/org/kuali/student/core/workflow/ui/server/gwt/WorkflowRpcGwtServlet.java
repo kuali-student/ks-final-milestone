@@ -39,13 +39,12 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
 	private IdentityManagementService identityService;
-	private IdentityManagementService permissionService;
 
 	@Override
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException {
 		try{
 			//get a user name
-            String username= SecurityUtils.getCurrentUserId();
+            String username= SecurityUtils.getCurrentPrincipalId();
 
 	        StandardResponse stdResp = getSimpleDocService().acknowledge(workflowId, username, "");
 
@@ -66,7 +65,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
         try {
             //Get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
 
             String fyiAnnotation = "";
             String approveAnnotation = "";
@@ -103,7 +102,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 		try{
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
             StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, null, null, "");
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
         		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
@@ -121,7 +120,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
         try{
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
             StandardResponse stdResp = getSimpleDocService().blanketApprove(workflowId, username, null, null, "");
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
                 throw new OperationFailedException("Error found blanket approving document: " + stdResp.getErrorMessage());
@@ -139,7 +138,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 		try{
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
 	        String disapproveComment = "Disapproved";
 
 	        StandardResponse stdResp = getSimpleDocService().disapprove(workflowId, username, disapproveComment);
@@ -158,7 +157,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	public Boolean fyiDocumentWithId(String workflowId) {
 		try{
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
 
 	        StandardResponse stdResp = getSimpleDocService().fyi(workflowId, username);
 	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
@@ -180,7 +179,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
 
 		try{
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
 			KimPrincipalInfo systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
 			if (systemPrincipal == null) {
 				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
@@ -204,7 +203,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
         try{
             //get the current user username
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
             StandardResponse stdResp = getSimpleDocService().returnToPreviousNode(workflowId, username, "", nodeName);
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
                 throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
@@ -236,7 +235,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
     		}
 
             //get a user name
-            String principalId = SecurityUtils.getCurrentUserId();
+            String principalId = SecurityUtils.getCurrentPrincipalId();
 
     		//Build up a string of actions requested from the attribute set.  The actions can be R,W,S,F,A,C,K. examples are "A" "AF" "FCK" "SCA"
             LOG.debug("Calling action requested with user:"+principalId+" and workflowId:" + workflowId);
@@ -285,7 +284,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             AttributeSet permDetails = new AttributeSet();
             permDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
             permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
-            if (getPermissionService().isAuthorizedByTemplateName(principalId, 
+            if (getIdentityService().isAuthorizedByTemplateName(principalId, 
             		PermissionType.WITHDRAW.getPermissionNamespace(), 
             		PermissionType.WITHDRAW.getPermissionTemplateName(), permDetails, 
             		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
@@ -297,7 +296,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             permDetails2.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
             permDetails2.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
             // first check permission with no node name
-            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+            boolean canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                     PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                     PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new AttributeSet(permDetails2), 
                     new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
@@ -307,7 +306,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 }
                 AttributeSet newSet = new AttributeSet(permDetails2);
                 newSet.put(StudentIdentityConstants.ROUTE_NODE_NAME, nodeName);
-                canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+                canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                         PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                         PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
                         new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
@@ -377,7 +376,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	@Override
 	public String getDataIdFromWorkflowId(String workflowId) throws OperationFailedException {
-        String username = SecurityUtils.getCurrentUserId();
+        String username = SecurityUtils.getCurrentPrincipalId();
 
         DocumentResponse docResponse = getSimpleDocService().getDocument(workflowId, username);
         if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
@@ -416,7 +415,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             }
 
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
 
             //Get the workflow ID
             DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
@@ -448,7 +447,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             }
 
             //get a user name
-            String username = SecurityUtils.getCurrentUserId();
+            String username = SecurityUtils.getCurrentPrincipalId();
             StandardResponse stdResp = simpleDocService.cancel(workflowId, username, "");
 
             if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
@@ -468,7 +467,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			AttributeSet permissionDetails = new AttributeSet();
 			AttributeSet roleQuals = new AttributeSet();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+			return Boolean.valueOf(getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
 					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;
@@ -483,7 +482,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
                 AttributeSet roleQuals = new AttributeSet();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-                boolean returnValue = getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
+                boolean returnValue = getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
                         PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
                 return Boolean.valueOf(returnValue);
             }
@@ -528,17 +527,5 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
 		
 		return identityService;
-	}
-
-	public void setPermissionService(IdentityManagementService permissionService) {
-		this.permissionService = permissionService;
-	}
-
-	public IdentityManagementService getPermissionService()throws OperationFailedException{
-		if(permissionService==null){
-        	throw new OperationFailedException("Permission Service is unavailable");
-        }
-
-		return permissionService;
 	}
 }

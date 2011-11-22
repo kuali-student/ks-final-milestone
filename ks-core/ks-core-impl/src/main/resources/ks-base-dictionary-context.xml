@@ -188,6 +188,11 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
  </bean>
+ <bean id="baseKualiAuth" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="22" />
+ </bean>
  <bean id="baseStringRequired" parent="baseString"
        abstract="true">
   <property name="minOccurs" value="1" />

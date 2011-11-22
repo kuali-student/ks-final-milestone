@@ -96,8 +96,8 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
 	}
 
     @Override
-    public String getUserRealName(String userId) {
-        KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalId(userId);
+    public String getUserRealName(String principalName) {
+        KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalName(principalName);
         KimEntityNameInfo kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
         StringBuilder name = new StringBuilder(); 
         if (kimEntityNameInfo != null) {

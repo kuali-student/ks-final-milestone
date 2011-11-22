@@ -60,6 +60,7 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -3232,7 +3233,10 @@ public class LuServiceImpl implements LuService {
 
 	private SearchResult doBrowseProgramSearch() throws MissingParameterException {
 		//This is our main result
-		SearchResult programSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM), luDao);
+		SearchRequest request = new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM);
+		request.setSortDirection(SortDirection.ASC);
+		request.setSortColumn("lu.resultColumn.luOptionalLongName");
+		SearchResult programSearchResults = searchManager.search(request, luDao);
 		
 		//These variations need to be mapped back to the program search results
 		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao);
@@ -3462,6 +3466,31 @@ public class LuServiceImpl implements LuService {
 				}
 			}
 		}
+		
+		Collections.sort(programSearchResults.getRows(),new Comparator<SearchResultRow>(){
+            
+			@Override
+			public int compare(SearchResultRow row1, SearchResultRow row2) {
+				int i = 0,index =0;
+				SearchResultCell cell1 = null,cell2 = null,cell3 = null,cell4 = null;
+				
+				for(SearchResultCell cell : row1.getCells()){				  
+				  if("lu.resultColumn.luOptionalLongName".equals(cell.getKey()))
+				  {
+				   cell1 = cell; cell2 = row2.getCells().get(index);
+				  }
+				  else if("lu.resultColumn.resultComponentId".equals(cell.getKey()))
+				  {
+					cell3 = cell; cell4 = row2.getCells().get(index);
+				  }
+				  index++;
+				}
+				if(cell1.getValue().equalsIgnoreCase(cell2.getValue()))
+					i = cell3.getValue().compareToIgnoreCase(cell4.getValue());
+				return i;
+			}
+			
+		});
 
 		return programSearchResults;
 	}
