@@ -602,300 +602,291 @@ public interface AtpServiceAlt
     public StatusInfo deleteAtpAtpRelation(@WebParam(name = "atpAtpRelationId") String atpAtpRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the details of the specified milestone.
+     * Retrieves a single Milestone by a Milestone Id.
      *
-     * @param milestoneId Unique id of the milestone to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a Milestone
-     * @throws DoesNotExistException milestoneId not found
-     * @throws InvalidParameterException invalid milestoneId or
-     *         contextInfo
-     * @throws MissingParameterException missing milestoneId or
-     *         contextInfo
+     * @param milestoneId a unique iddentifier for the milestone to be
+     *        retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the Milestone requested
+     * @throws DoesNotExistException milestoneId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException milestoneId or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public MilestoneInfo getMilestone(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Milestones corresponding to the given list
-     * of Milestone Ids.
+     * Retrieves a list of Milestones from a list of Milestone
+     * Ids. The returned list may be in any order and if duplicate Ids
+     * are supplied, a unique set may or may not be returned.
      *
-     * @param milestoneIds list of Milestones to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return the list of milestone ids 
-     * @throws DoesNotExistException a milestoneId in list not found
-     * @throws InvalidParameterException invalid milestoneId or
-     *         contextInfo
-     * @throws MissingParameterException missing milestoneId or
-     *         contextInfo
+     * @param milestoneIds a list of Milestone identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestones
+     * @throws DoesNotExistException a milestoneId in the list was not
+     *         found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException milestoneIds, an Id in the
+     *         milestoneIds, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MilestoneInfo> getMilestonesByIds(@WebParam(name = "milestoneIds") List<String> milestoneIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Milestone Ids of the specified type.
+     * Retrieves a list of Milestone Ids by Milestone Type.
      *
-     * @param milestoneTypeKey Milestone type to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Milestone keys 
-     * @throws InvalidParameterException invalid milestoneTypeKey or
-     *         contextInfo
-     * @throws MissingParameterException missing milestoneTypeKey or
-     *         contextInfo
+     * @param milestoneTypeKey an identifier for a Milestone Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestone Ids matching milestoneTypeKey or an
+     *         empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException milestoneTypeKey or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getMilestoneIdsByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of milestones that fall within a specified
+     * Retrieves the list of Milestones that fall within a specified
      * set of dates inclusive of the dates.
      *
-     * @param startDate Start Date for date span
-     * @param endDate End Date for date span
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of milestones that fall within this set of dates
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing startDate, endDate,
-     *         or contextInfo
+     * @param startDate start of date range
+     * @param endDate end of date range
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestones that fall within this set of dates
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         startDate is greater than endDate
+     * @throws MissingParameterException startDate, endDate, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MilestoneInfo> getMilestonesByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of milestones for a specified Academic Time
+     * Retrieves the list of Milestones for a specified Academic Time
      * Period.
      *
-     * @param atpKey Unique key of the Academic Time Period to be retieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of milestones for this Academic Time Period
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey or contextInfo
+     * @param atpKey an identifier for an Academic Time Period
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestones for the ATP or an empty list if
+     *         none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey or contextInfo is 
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of milestones mapped to an ATP that fall
-     * within a specified set of dates inclusive of the dates.
+     * Retrieves a list of Milestones for a specified Academic Time
+     * Period that fall within a specified set of dates inclusive of
+     * the dates.
      *
-     * @param atpKey a key for an ATP
-     * @param startDate Start Date for date range
-     * @param endDate End Date for date range
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of milestones of this milestone type within this set 
-     *         of dates
-     * @throws DoesNotExistException atp not found
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey, startDate,
-     *         endDate, or contextInfo
+     * @param atpKey an identifier for an ATP
+     * @param startDate start of date range
+     * @param endDate end of date range
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestones for the ATP in the specified date
+     *         range or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         startDate is greater than end date
+     * @throws MissingParameterException atpKey, startDate, endDate,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of milestones of a specified type that 
-     * are mapped to a given Atp.
+     * Retrieves a list of Milestones of a specified Milestone Type for
+     * an Acdemic Time Period.
      *
-     * @param atpKey a key for an ATP
-     * @param milestoneTypeKey Milestone type to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of milestones of this milestone type within this set 
-     *         of dates
-     * @throws DoesNotExistException atp not found
-     * @throws InvalidParameterException invalid atpKey, milsetoneTypeKey,
-     *         or contextInfo
-     * @throws MissingParameterException missing atpKey, milsetoneTypeKey,
-     *         or contextInfo
+     * @param atpKey an identifier for an ATP
+     * @param milestoneTypeKey an identifier for a Milestone Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Milestones of the Milestone Type for the ATP
+     *         or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey, milsetoneTypeKey,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Milestones Ids based on the criteria and returns a
-     * list of Milestone identifiers which match the search criteria.
+     * Searches for Milestone Ids that meet the given search criteria.
      *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Milestone Ids
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of Milestone Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo
+     *         is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> searchForMilestoneIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Searches for Milestones based on the criteria and returns a list of
-     * Milestones which match the search criteria.
-     * 
+     * Searches for Milestones that meet the given search criteria.
+     *
      * @param criteria the search criteria
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return list of Milestones
-     * @throws InvalidParameterException invalid criteria or contextInfo
-     * @throws MissingParameterException missing criteria or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of Milestones matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo
+     *         is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MilestoneInfo> searchForMilestones(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Validates a milestone. Depending on the value of
+     * Validates a Milestone. Depending on the value of
      * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained subobjects
-     * or expanded to perform all tests related to this object. If an
-     * identifier is present for the milestone and a record is found
-     * for that identifier, the validation checks if the milestone can
-     * be shifted to the new values. If a record cannot be found for
-     * the identifier, it is assumed that the record does not exist
-     * and as such, the checks performed will be much shallower,
-     * typically mimicking those performed by setting the
-     * validationType to the current object. This is a slightly
-     * different pattern from the standard validation as the caller
-     * provides the identifier in the create statement instead of the
-     * server assigning an identifier.
+     * just the current Milestone and its directly contained
+     * sub-objects or expanded to perform all tests related to this
+     * object. If an identifier is present for the Milestone (and/or
+     * one of its contained sub-obejcts) and a record is found for
+     * that identifier, the validation checks if the Milestone can be
+     * shifted to the new values. If an identifier is not present or a
+     * record does not exist, the validation checks if the object with
+     * the given data can be created.  
      *
-     * @param validationType Identifier of the extent of validation
-     * @param milestoneInfo The milestone information to be tested.
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey,
-     *         milestoneInfo, or contextInfo
-     * @throws MissingParameterException missing validationTypeKey,
-     *         milestoneInfo, or contextInfo
+     * @param validationTypeKey the identifier for the validation Type
+     * @param milestoneTypeKey the identifier for the Milestone Type
+     *        to be validated
+     * @param milestoneInfo the milestone to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey or
+     *         milestoneTypeKey is not found
+     * @throws InvalidParameterException milestoneInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterException validationTypeKey,
+     *         milestoneTypeKey, milestoneInfo, or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateMilestone(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Create a new milestone.
+     * Create a new Milestone. The Milestone Id, Type, and Meta
+     * information may not be set in the supplied data object.
      *
-     * @param milestoneInfo Details of milestone to be added
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of the newly created milestone
-     * @throws AlreadyExistsException Milestone already exists
-     * @throws DataValidationErrorException One or more values invalid 
-     *         for this operation.
-     * @throws InvalidParameterException invalid milestoneInfo or
-     *         contextInfo
-     * @throws MissingParameterException missing milestoneInfo or
-     *         contextInfo
+     * @param milestoneTypeKey the identifier for the Type of
+     *        Milestone to be created
+     * @param milestoneInfo the data with which to create the Milestone
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new Milestone
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws InvalidParameterException milestoneInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterException milestoneTypeKey,
+     *         milestoneInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
-     *         designated as read-only
+     *         designated as read only
      */
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
-     * Updates an existing milestone.
+     * Updates an existing Milestone. The Milestone Id, Type, and Meta
+     * information may not be changed.
      *
-     * @param milestoneId the Id of milestone to be updated
-     * @param milestoneInfo Details of milestone to be updated
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of the updated milestone
-     * @throws DataValidationErrorException One or more values invalid 
-     *         for this operation
-     * @throws DoesNotExistException Milestone being updated does not exist
-     * @throws InvalidParameterException invalid milestoneId,
-     *         milestoneInfo, or contextInfo
-     * @throws MissingParameterException missing milestoneId,
-     *         milestoneInfo, or contextInfo
+     * @param milestoneId the identifier for the Milestone to be updated
+     * @param milestoneInfo the new data for the Milestone
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated Milestone
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException milestoneId is not found
+     * @throws InvalidParameterException milestoneInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterException milestoneId, milestoneInfo,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
-     *         designated as read-only
-     * @throws VersionMismatchException The action was attempted on an out of 
-     *         date version
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
      */
     public MilestoneInfo updateMilestone(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
-     * Deletes an existing milestone from all ATPs.
+     * Deletes an existing Milestone.
      *
-     * @param milestoneId the Id of milestone to be removed
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException Milestone being removed does not exist
-     * @throws InvalidParameterException invalid milestoneId or contextInfo
-     * @throws MissingParameterException missing milestoneId or contextInfo
+     * @param milestoneId the identifier for the Milestone to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the delete operation. This must always be true.
+     * @throws DoesNotExistException milestoneId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException milestoneId or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteMilestone(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Adds a Milestone to an ATP.
      *
-     * @param milestoneId an Id for a Milestone
-     * @param atpKey a key for an ATP
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status
-     * @throws AlreadyExistsException milestoneId already related to
+     * @param milestoneId an identifier for a Milestone
+     * @param atpKey an identifier for an ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the mapping operation. This must always be true.
+     * @throws AlreadyExistsException milestoneId is already related to
      *         atpKey
-     * @throws DoesNotExistException milestoneId or atpKey not found
-     * @throws InvalidParameterException invalid milestoneId, atpKey,
-     *         or contextInfo
-     * @throws MissingParameterException missing milestoneId, atpKey,
-     *         or contextInfo
+     * @throws DoesNotExistException milestoneId or atpKey is not found
+     * @throws InvalidParameterException contextInfo is not valud
+     * @throws MissingParameterException milestoneId, atpKey,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Removes a Milestone from an ATP.
      *
-     * @param milestoneId an Id for a Milestone
-     * @param atpKey a key for an ATP
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return status
-     * @throws DoesNotExistException milestoneId or atpKey not found
-     *         or not related
-     * @throws InvalidParameterException invalid milestoneId, atpKey,
-     *         or contextInfo
-     * @throws MissingParameterException missing milestoneId, atpKey,
-     *         or contextInfo
+     * @param milestoneId an identifier for a Milestone
+     * @param atpKey an identifier for an ATP
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the unmapping operation. This must always be true.
+     * @throws DoesNotExistException milestoneId or atpKey is not found
+     *         or milestoneId is not related to atpKey
+     * @throws InvalidParameterException contextInfo is not valud
+     * @throws MissingParameterException milestoneId, atpKey,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
