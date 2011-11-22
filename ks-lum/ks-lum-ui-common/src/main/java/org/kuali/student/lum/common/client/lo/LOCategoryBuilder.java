@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -107,7 +108,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
-    Anchor browseCategoryLink = new Anchor("Browse for categories");
+    Anchor browseCategoryLink;
     private final BlockingTask saving = new BlockingTask("Saving");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
@@ -132,6 +133,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink = new Anchor(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_LABEL_KEY));
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -153,8 +155,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 pop.addButton(addButton);
                 pop.addButton(cancelButton);
 
+                pop.setNonCaptionHeader(SectionTitle.generateH2Title(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_POPUP_LABEL_KEY)));
                 FlowPanel mainPanel = new FlowPanel();
-                mainPanel.add(SectionTitle.generateH2Title("Select Categories"));
                 mainPanel.add(categoryManagement);
 
                 addButton.addClickHandler(new ClickHandler() {
@@ -278,7 +280,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         SectionTitle sectionTitle = SectionTitle.generateH2Title("Create New Category");
         //KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
-        main.add(sectionTitle);
+        createCategoryWindow.setNonCaptionHeader(sectionTitle);
         main.add(layoutTable);
 
         loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
@@ -540,6 +542,13 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return suggestBox.addSelectionChangeHandler(handler);
         }
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            suggestBox.getTextBox().ensureDebugId(baseID);
+        }
+        
     }
 
     private class LOCategoryTypeInfoList implements ListItems {
@@ -806,4 +815,14 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             return null;
         }
     }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        picker.ensureDebugId(baseID);
+        addButton.ensureDebugId(baseID + "-Add");
+        browseCategoryLink.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + browseCategoryLink.getText()));
+    }
+    
+    
 }

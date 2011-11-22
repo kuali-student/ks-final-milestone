@@ -93,7 +93,7 @@ public class CourseSummaryConfigurer extends Configurer implements
     public static final String COURSE = "";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
 
-    private static final String OPTIONAL = "o";
+    protected static final String OPTIONAL = "o";
 
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
@@ -101,12 +101,12 @@ public class CourseSummaryConfigurer extends Configurer implements
     private List<StatementTypeInfo> stmtTypes;
 
     private Controller controller;
-    private SummaryTableSection tableSection; // review proposal data display
+    protected SummaryTableSection tableSection; // review proposal data display
     private String modelId;
 
     private List<Anchor> validateLinks = new ArrayList<Anchor>(); //KSLAB-1985
 
-    private class EditHandler implements ClickHandler {
+    protected class EditHandler implements ClickHandler {
 
         Enum<?> view;
 
@@ -119,8 +119,26 @@ public class CourseSummaryConfigurer extends Configurer implements
             controller.showView(view);
         }
     }
+    
+    public CourseSummaryConfigurer(){
+        
+    }
 
     public CourseSummaryConfigurer(String type, String state, String groupName,
+            DataModelDefinition modelDefinition,
+            List<StatementTypeInfo> stmtTypes, Controller controller,
+            String modelId) {
+        this.type = type;
+        this.state = state;
+        this.groupName = groupName;
+        this.modelDefinition = modelDefinition;
+        this.stmtTypes = stmtTypes;
+        this.controller = controller;
+        this.modelId = modelId;
+        tableSection = new SummaryTableSection((Controller) controller);
+    }
+    
+    public void init(String type, String state, String groupName,
             DataModelDefinition modelDefinition,
             List<StatementTypeInfo> stmtTypes, Controller controller,
             String modelId) {
@@ -196,16 +214,19 @@ public class CourseSummaryConfigurer extends Configurer implements
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
 
-        if (controller instanceof WorkflowEnhancedNavController
-                && ((WorkflowEnhancedNavController) controller).getWfUtilities() != null) {
-
+        if (   controller instanceof WorkflowEnhancedNavController
+            && ((WorkflowEnhancedNavController) controller).getWfUtilities() != null) {
             final WarnContainer infoContainer1; // Header widget (with warnings if necessary)
             final WarnContainer infoContainer2; // Footer widget (with warnings if necessary)
             //WarnContainers initialized with buttons common to all states (error or otherwise)
-            infoContainer1 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController) controller)
-                        .getWfUtilities().getWorkflowActionsWidget());
-            infoContainer2 = generateWorkflowWidgetContainer(((WorkflowEnhancedNavController) controller)
-                        .getWfUtilities().getWorkflowActionsWidget());
+            Widget topWorkflowActionWidget= ((WorkflowEnhancedNavController) controller).getWfUtilities().getWorkflowActionsWidget();
+            Widget bottomWorkflowActionWidget = ((WorkflowEnhancedNavController) controller).getWfUtilities().getWorkflowActionsWidget();
+            
+            topWorkflowActionWidget.ensureDebugId("Top-Workflow-Actions");            
+            bottomWorkflowActionWidget.ensureDebugId("Bottom-Workflow-Actions");
+            
+            infoContainer1= generateWorkflowWidgetContainer(topWorkflowActionWidget);
+            infoContainer2= generateWorkflowWidgetContainer(bottomWorkflowActionWidget);
 
             ((WorkflowEnhancedNavController) controller).getWfUtilities()
                     .addSubmitCallback(new Callback<Boolean>() {
@@ -223,9 +244,8 @@ public class CourseSummaryConfigurer extends Configurer implements
                     });
 
             // Override beforeShow for summary section here to allow for custom validation mechanism on the table
-            VerticalSectionView verticalSection = new VerticalSectionView(
-                    CourseSections.SUMMARY,
-                    getLabel(LUUIConstants.SUMMARY_LABEL_KEY), modelId) {
+            VerticalSectionView verticalSection = new VerticalSectionView(CourseSections.SUMMARY, getLabel(LUUIConstants.SUMMARY_LABEL_KEY), modelId) {
+                                
                 @Override
                 public void beforeShow(final Callback<Boolean> onReadyCallback) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 
@@ -238,100 +258,126 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 // Make sure workflow actions and status updated before showing.
                                 ((WorkflowEnhancedNavController) controller).getWfUtilities().refresh();
 
-                                // Show validation error if they exist
-                                ((WorkflowEnhancedNavController) controller).getWfUtilities()
-                                        .doValidationCheck(new Callback<List<ValidationResultInfo>>() {
-                                            @Override
-                                            public void exec(List<ValidationResultInfo> validationResult) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                                // Show validation errors if they exist
+                                ((WorkflowEnhancedNavController) controller).getWfUtilities().doValidationCheck(new Callback<List<ValidationResultInfo>>() {
+                                            
+                                    @Override
+                                    public void exec(List<ValidationResultInfo> validationResults) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
 
-                                                tableSection.enableValidation(showingValidation);
-                                                ErrorLevel isValid = tableSection.processValidationResults(
-                                                        validationResult, true);
-
-                                                validationInfos = validationResult;
-                                                if (isValid == ErrorLevel.OK) {
-                                                    infoContainer1.showWarningLayout(false);
-                                                    infoContainer2.showWarningLayout(false);
-                                                    ((WorkflowEnhancedNavController) controller)
-                                                                    .getWfUtilities()
-                                                                    .enableWorkflowActionsWidgets(true);
-                                                } else { //KSLAB-1985
-
-                                                    infoContainer1.clearWarnLayout();
-                                                    infoContainer2.clearWarnLayout();
-
-                                                    if (tableSection.getHasWarnings()) {
-
-                                                        infoContainer1
-                                                                .addWarnWidgetBlock(new KSLabel(
-                                                                        "This proposal contains warnings that prevent it from being submitted."));
-                                                        infoContainer2
-                                                                .addWarnWidgetBlock(new KSLabel(
-                                                                        "This proposal contains warnings that prevent it from being submitted."));
-                                                    }
-
-                                                    if (tableSection.getIsMissingFields()) {
-
-                                                        final Anchor link1 = new Anchor("Show what's missing.");
-                                                        final Anchor link2 = new Anchor("Show what's missing.");
-                                                        ClickHandler showHideMsgClickHandler = new ClickHandler() {
-
-                                                            //sets link action
-                                                            @Override
-                                                            public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
-                                                                if (!showingValidation) {
-
-                                                                    for (int i = 0; i < validateLinks.size(); i++) {
-                                                                        validateLinks.get(i).setText(
-                                                                                "Hide error highlighting.");
-                                                                    }
-                                                                    showingValidation = true;
-                                                                    tableSection.enableValidation(showingValidation);
-                                                                    tableSection.processValidationResults(
-                                                                            validationInfos, true);
-                                                                } else {
-
-                                                                    for (int i = 0; i < validateLinks.size(); i++) {
-                                                                        validateLinks.get(i).setText(
-                                                                                "Show what's missing.");
-                                                                    }
-                                                                    showingValidation = false;
-                                                                    tableSection.enableValidation(showingValidation);
-                                                                    tableSection.removeValidationHighlighting();
-                                                                }
-                                                            }
-                                                        };
-
-                                                        //enables links
-                                                        validateLinks.add(link1);
-                                                        validateLinks.add(link2);
-
-                                                        link1.addClickHandler(showHideMsgClickHandler);
-                                                        link2.addClickHandler(showHideMsgClickHandler);
-
-                                                        infoContainer1.addWarnWidget(new KSLabel(
-                                                                "This proposal has missing fields.  "));
-                                                        infoContainer1.addWarnWidget(link1);
-                                                        infoContainer2.addWarnWidget(new KSLabel(
-                                                                "This proposal has missing fields.  "));
-                                                        infoContainer2.addWarnWidget(link2);
-                                                    }
-
-                                                    infoContainer1.showWarningLayout(true);
-                                                    infoContainer2.showWarningLayout(true);
-                                                    ((WorkflowEnhancedNavController) controller).getWfUtilities()
-                                                                    .enableWorkflowActionsWidgets(false);
-                                                } //KSLAB-1985
-
-                                                onReadyCallback.exec(result);
-                                            }
-                                        });
+                                        tableSection.enableValidation(showingValidation);   //  I think passing true here turns on all validation highlighting automatically (i.e: without requiring "click to show") [KSCM-250]
+                                        
+                                        initializeHeaders(validationResults);
+                                        resolveMissingFieldsWarnings();
+                                        // proposal submission warnings resolution moved to overridden processValidationResults below.
+                                        
+                                        onReadyCallback.exec(result);   // calls CourseProposalController.showView.finalView [KSCM-250]
+                                    }
+                                });
                             } else {
                                 onReadyCallback.exec(result);
                             }
                         }
                     });
                 }
+                
+                /*
+                 * Appropriately initializes yellow warning (WarnContainers called infoContainers here) boxes at page top/bottom.
+                 */                
+                void initializeHeaders(List<ValidationResultInfo> validationResults){                  
+                    ErrorLevel isValid = tableSection.processValidationResults(validationResults, true);                                            
+                    validationInfos = validationResults;
+                    
+                    if (isValid == ErrorLevel.OK) {
+                        
+                        infoContainer1.showWarningLayout(false);
+                        infoContainer2.showWarningLayout(false);
+                        
+                        ((WorkflowEnhancedNavController) controller).getWfUtilities().enableWorkflowActionsWidgets(true);
+                    } else { //KSLAB-1985
+
+                        infoContainer1.clearWarnLayout();
+                        infoContainer2.clearWarnLayout();
+
+                        infoContainer1.showWarningLayout(true);
+                        infoContainer2.showWarningLayout(true);
+                        ((WorkflowEnhancedNavController) controller).getWfUtilities().enableWorkflowActionsWidgets(false);
+                    }
+                }
+                
+                /* 
+                 * Shows missing fields warnings if and their links, if appropriate. 
+                 */
+                public void resolveMissingFieldsWarnings(){
+
+                    if (tableSection.getIsMissingFields()) {
+                        final Anchor link1 = new Anchor("Show what's missing.");
+                        final Anchor link2 = new Anchor("Show what's missing.");                        
+                        ClickHandler showHideMsgClickHandler = new ClickHandler() {                            
+                            
+                            @Override   // Sets link action
+                            public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                                
+                                if (!showingValidation) {
+
+                                    for (int i = 0; i < validateLinks.size(); i++) {
+                                        
+                                        validateLinks.get(i).setText("Hide error highlighting.");
+                                    }
+                                    
+                                    showingValidation = true;
+                                    
+                                    tableSection.enableValidation(showingValidation);
+                                    tableSection.processValidationResults(validationInfos, true);
+                                } else {
+
+                                    for (int i = 0; i < validateLinks.size(); i++) {
+                                        
+                                        validateLinks.get(i).setText("Show what's missing.");
+                                    }
+                                    
+                                    showingValidation = false;
+                                    
+                                    tableSection.enableValidation(showingValidation);
+                                    tableSection.removeValidationHighlighting();
+                                }
+                            }
+                        };
+                        
+                        validateLinks.add(link1);   // Enable links
+                        validateLinks.add(link2);
+
+                        link1.addClickHandler(showHideMsgClickHandler);
+                        link2.addClickHandler(showHideMsgClickHandler);
+
+                        infoContainer1.addWarnWidget(new KSLabel("This proposal has missing fields.  "));
+                        infoContainer1.addWarnWidget(link1);
+                        infoContainer2.addWarnWidget(new KSLabel("This proposal has missing fields.  "));
+                        infoContainer2.addWarnWidget(link2);
+                    }
+                }
+
+                @Override   //overridden from BaseSection to handle conflict warnings   [KSCM-250]
+                public ErrorLevel processValidationResults(List<ValidationResultInfo> validationResults) {                    
+
+                    tableSection.processValidationResults(validationResults, false);
+                    resolveProposalSubmissionWarnings();
+                    
+                    return super.processValidationResults(validationResults);
+                }
+                
+                /* 
+                 * Shows proposal submission warnings if appropriate.
+                 *  i.e: If conflict warnings exist //[KSCM-250]
+                 */
+                public void resolveProposalSubmissionWarnings(){
+                    
+                    if (tableSection.getHasWarnings()) {
+
+                        infoContainer1.addWarnWidgetBlock(new KSLabel("This proposal contains warnings that prevent it from being submitted."));
+                        infoContainer2.addWarnWidgetBlock(new KSLabel("This proposal contains warnings that prevent it from being submitted."));
+                    }
+                }
+               
             };
             // Widget-adding order matters
             verticalSection.addWidget(infoContainer1); // Header widget (with warnings if necessary)
@@ -374,16 +420,16 @@ public class CourseSummaryConfigurer extends Configurer implements
 
         warnContainer.add(w);
         w.addStyleName("ks-button-spacing");
-        warnContainer.add(new KSButton("Return to Curriculum Management",
-                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-
-                    @Override
-                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
-                        Application
-                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
-                                        .getLocation());
-                    }
-                }));
+//        warnContainer.add(new KSButton("Return to Curriculum Management",
+//                ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
+//
+//                    @Override
+//                    public void onClick(ClickEvent event) { //Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+//                        Application
+//                                .navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT
+//                                        .getLocation());
+//                    }
+//                }));
 
         // KSLAB-1985:  Warning logic/display moved to generateProposalSummarySection() where error states are established
 
@@ -896,13 +942,13 @@ public class CourseSummaryConfigurer extends Configurer implements
         return requisiteField;
     }
 
-    private MultiplicityConfiguration getMultiplicityConfig(String path,
+    protected MultiplicityConfiguration getMultiplicityConfig(String path,
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels) {
         return getMultiplicityConfig(path, itemLabelMessageKey,
                 fieldKeysAndLabels, null);
     }
 
-    private MultiplicityConfiguration getMultiplicityConfig(String path,
+    protected MultiplicityConfiguration getMultiplicityConfig(String path,
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels,
             Map<String, ModelWidgetBinding> customBindings) {
         QueryPath parentPath = QueryPath.concat(path);

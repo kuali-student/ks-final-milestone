@@ -66,7 +66,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id) {
         try {
             //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentUserId();
+            String principalId = SecurityUtils.getCurrentPrincipalId();
             AttributeSet qualification = getQualification(idType, id);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
             List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
@@ -111,7 +111,7 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             AttributeSet qualification = getQualification(idType, id);
-        	String currentUser = SecurityUtils.getCurrentUserId();
+        	String currentUser = SecurityUtils.getCurrentPrincipalId();
 	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 

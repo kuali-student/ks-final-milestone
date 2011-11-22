@@ -4,18 +4,17 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
@@ -24,12 +23,12 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -52,37 +51,36 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
         layout.addContentTitleWidget(getHowToWidget());
         layout.addContentTitleWidget(getActionListLink());
 
-        //Create
+        //TODO: Fix to improve performance, so permissions don't have to be loaded every time
+        Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionType.INITIATE);
+        
+        //Create Block
         final LinkContentBlock create = new LinkContentBlock(
                 getMessage(CREATE),
                 getMessage(CREATE_DESC));
         
-        create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
-        
-        //KSLAB-2310 :
-        //ADMIN CREATE PROGRAM: On CM landing page, only authorized users 
-        //should be able to view and click link
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-        
-		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-        	@Override
-        	public void handleFailure(Throwable caught) {
-			}
-				@Override
-				public void onSuccess(Boolean result) {
-					if (result)
-					{
-						// do nothing with the navigation link
-						create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-					}else{
-						
+
+        //Add "Create Course" link if user has create course permission
+		Application.getApplicationContext().getSecurityContext().checkPermission(LUUIPermissions.CREATE_COURSE_BY_PROPOSAL,	
+			new Callback<Boolean>() {
+				public void exec(Boolean result) {
+					if (result){
+						create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
 					}
-				
+				}			
+		});
+        
+		//Add "Create Program" link if user has any create program permission
+		String[] permissionsToCheck = {LUUIPermissions.CREATE_PROGRAM_BY_PROPOSAL, LUUIPermissions.CREATE_PROGRAM_BY_ADMIN};
+		Application.getApplicationContext().getSecurityContext().checkPermission(permissionsToCheck,	
+			new Callback<Boolean>() {
+			public void exec(Boolean result) {
+				if (result)	{
+					create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+				}				
 			}
         });
                 
-
 
         //View + Modify
         LinkContentBlock viewModify = new LinkContentBlock(
@@ -311,25 +309,24 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     }
 
     protected ClickHandler getCreateCourseClickHandler() {
-    	return new ClickHandler(){
+        return new ClickHandler(){
     		
 			@Override
 			public void onClick(ClickEvent event) {
 	            
 				//Create a dialog for course selection
-	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
+	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"),KSLightBox.Size.MEDIUM);
 	            final VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            
 	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
 	            
 	            dialog.addButton(startProposalButton);
-	            Anchor cancelLink = new Anchor("Cancel");
-	            cancelLink.addClickHandler(new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						dialog.hide();
-					}
-	            });
+	            KSButton cancelLink = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        dialog.hide();
+                    }
+                });
 	            dialog.addButton(cancelLink);
 	            
 	            HorizontalPanel titlePanel = new HorizontalPanel();
@@ -412,26 +409,12 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						}
 					}
 	            });
-	            
-	            
-	        	String principalId = Application.getApplicationContext().getUserId();
-	    		SecurityRpcServiceAsync securityRpc = GWT
-	    				.create(SecurityRpcService.class);
+	            	            
 
-	    		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-	    					public void handleFailure(Throwable caught) {
-	    						// Assumes admin does not have access...
-//	    						if (onEventOff
-//	    								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-//	    							
-//	    								adminOptionCheckbox.setValue(true);
-//	    								adminOptionCheckbox.setVisible(false);
-//	    							
-//	    						} 
-	    					}
+	    		Application.getApplicationContext().getSecurityContext().checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
 
 	    					@Override
-	    					public void onSuccess(Boolean result) {
+	    					public void exec(Boolean result) {
 
 	    						final boolean isAuthorized = result;
 	    			            if (isAuthorized){
@@ -456,29 +439,32 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    								
 	    								if(radioOptionBlank.getValue())
 	    								{
+	    									//Setup empty view context, to start new proposal
+	    				                    ViewContext viewContext = new ViewContext();
+	    									viewContext.setPermissionType(PermissionType.INITIATE);
+	    				                    
 	    									//Determine if it is and admin
 	    									if (adminOptionCheckbox.getValue() && isAuthorized)
 	    									{	    										
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());		    										
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
 	    									}
 	    									
 	    									if (!adminOptionCheckbox.getValue() && isAuthorized)
 	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());	    										
+	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(),viewContext);	    										
 	    									}
 	    									
 	    									//If it is not an admin or admin role
 	    									if (!isAuthorized)
 	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());	
-	    										
-	    									}    									
-	    									
+	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
+	    									}    										    									
 	    									
 	    								}
 	    								
 	    								if(radioOptionCopyCourse.getValue())
 	    								{
+	    									//Setup view context to open existing proposal
 	    				                    ViewContext viewContext = new ViewContext();
 	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
@@ -535,17 +521,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	    						
 	    					}
-	    				});
-//				checkAdminPermission("useCurriculumReview",
-//						CurriculumHomeConfigurer.EVENT_ONCLICK);
-//	            if ("admin".equals(Application.getApplicationContext().getUserId())){
-//	            	adminOptionCheckbox.setValue(false);
-//	            	adminOptionCheckbox.setVisible(true);
-//	            } else {
-//	            	adminOptionCheckbox.setValue(true);
-//	            	adminOptionCheckbox.setVisible(false);	            	
-//	            }
-	            
+	    				});	            
     		}
    		};
     }
@@ -614,12 +590,5 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     private String getMessage(String key) {
         return Application.getApplicationContext().getMessage(key);
     }
-
-    private Anchor createNavigationWidget(String title) {
-        Anchor anchor = new Anchor(title);
-        anchor.addStyleName("contentBlock-navLink");
-        return anchor;
-    }
-
 
 }

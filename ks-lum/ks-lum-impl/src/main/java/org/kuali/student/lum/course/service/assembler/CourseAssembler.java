@@ -85,6 +85,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
     private CluAssemblerUtils cluAssemblerUtils;
     private LrcService lrcService;
     private AtpService atpService;
+    private float defaultCreditIncrement = 1.0f;
 	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
@@ -614,7 +615,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						float minCredits = Float.parseFloat(minCreditValue);
 						float maxCredits = Float.parseFloat(maxCreditValue);
 												
-						float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : 1.0f ;
+						float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : defaultCreditIncrement ;
 												
 						id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + minCreditValue + "-" + maxCreditValue;
 						type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
@@ -1230,5 +1231,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
+	}
+
+	public void setDefaultCreditIncrement(float defaultCreditIncrement) {
+		this.defaultCreditIncrement = defaultCreditIncrement;
 	}
 }

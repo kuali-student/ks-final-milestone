@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;

@@ -19,18 +19,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ServerDateParser implements DateParser {
-    SimpleDateFormat[] formats = {
-    		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"), 
-    		new SimpleDateFormat("yyyy-MM-dd"), 
-    		new SimpleDateFormat("yyyy-MMM-dd"),
-    		new SimpleDateFormat("dd-MM-yyyy"),
-    		new SimpleDateFormat("dd-MMM-yyyy")
-    };
+   
+	private static ThreadLocal<SimpleDateFormat[]> formats = new ThreadLocal<SimpleDateFormat[]>() {
+
+		protected SimpleDateFormat[] initialValue() {
+			return new SimpleDateFormat[] {
+		    		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"), 
+		    		new SimpleDateFormat("yyyy-MM-dd"), 
+		    		new SimpleDateFormat("yyyy-MMM-dd"),
+		    		new SimpleDateFormat("dd-MM-yyyy"),
+		    		new SimpleDateFormat("dd-MMM-yyyy")
+		    };
+		}
+
+	};
+	
     
     public Date parseDate(String input) {
         Date result = null;
         
-        for (SimpleDateFormat format : formats) {
+        for (SimpleDateFormat format : formats.get()) {
                 try {
                     result = format.parse(input);
                 } catch (Exception e) {
