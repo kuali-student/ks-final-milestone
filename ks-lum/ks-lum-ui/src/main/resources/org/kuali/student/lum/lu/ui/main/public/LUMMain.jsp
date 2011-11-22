@@ -43,6 +43,36 @@ else if(browser.indexOf("Chrome")> 0) {
 <% if(browser.indexOf("MSIE") > 0) { %>
 	<meta http-equiv="X-UA-Compatible" content="IE=8" />
 <% } %>
+
+<%
+	// When running in a multi-server system, it's important to know
+	// who you ar, your session id, and what machine you're using. 
+	String user = null;
+	String sessionId = null;
+	String hostName = java.net.InetAddress.getLocalHost().getHostName();
+	String hostIp = request.getLocalAddr();
+	try{
+		user = org.springframework.security.context.SecurityContextHolder.getContext().getAuthentication().getName();		
+	}catch(NullPointerException ex){
+		user = "null";
+	}
+	
+	try{
+		sessionId = request.getSession(false).getId();	
+	}catch(NullPointerException ex){
+		sessionId = "null";
+	}
+%>
+
+<!-- 
+Server Info:
+ User Name:  <%= user %>
+ Host Name:  <%= hostName %>
+ Host IP:    <%= hostIp %>
+ Session ID: <%= sessionId %>
+ -->
+ 
+ 
 </head>
 
 <body>

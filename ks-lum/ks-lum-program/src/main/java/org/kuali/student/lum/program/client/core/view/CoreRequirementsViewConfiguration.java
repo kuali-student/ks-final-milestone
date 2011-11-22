@@ -1,21 +1,24 @@
 package org.kuali.student.lum.program.client.core.view;
 
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.core.CoreEditableHeader;
 import org.kuali.student.lum.program.client.core.CoreManager;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 
 public class CoreRequirementsViewConfiguration extends AbstractControllerConfiguration {
 
     private ProgramRequirementsViewController progReqcontroller;
 
-    public CoreRequirementsViewConfiguration(boolean special) {
+    public CoreRequirementsViewConfiguration(Configurer configurer, boolean special) {
+        this.setConfigurer(configurer);
         progReqcontroller = new ProgramRequirementsViewController(controller, CoreManager.getEventBus(),
-                                    ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_VIEW,
-                                    true, (special ? new CoreEditableHeader(ProgramProperties.get().program_menu_sections_requirements(), ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null));
+                                    getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_REQUIREMENTS), ProgramSections.PROGRAM_REQUIREMENTS_VIEW,
+                                    true, (special ? new CoreEditableHeader(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_REQUIREMENTS), 
+                                            ProgramSections.PROGRAM_REQUIREMENTS_EDIT) : null));
         rootSection = progReqcontroller.getProgramRequirementsView();
     }
 

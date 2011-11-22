@@ -82,8 +82,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
     }
 
     @Override
-    public List getKeyValues() {
-
+    public List<KeyLabelPair> getKeyValues() {
         return findCocOrgs();
     }
 

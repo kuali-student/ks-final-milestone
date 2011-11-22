@@ -20,11 +20,9 @@ import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
@@ -61,38 +59,11 @@ public class OrgEntryPoint implements EntryPoint{
             GWT.log("Error on ModuleLoad",e);
         }
 
-//        StyleInjector.injectStylesheet(CoreUIResources.INSTANCE.generalCss().getText());
-
-//        History.addValueChangeHandler(orgMenu);
         History.fireCurrentHistoryState();
 
         if(DOM.getElementById("loadingSpinner") != null)
             DOM.removeChild(ApplicationPanel.get().getElement(), DOM.getElementById("loadingSpinner"));
     }
-
-    /* Not used anywhere that I can tell GNL
-    public Widget getContent(){
-        DockPanel mainPanel = new DockPanel();
-
-        Label pageTitle = new Label(Application.getApplicationContext().getMessage("orgAppTitle"));
-        pageTitle.setStyleName("page-title");
-        mainPanel.setStyleName("ks-main");
-        mainPanel.add(pageTitle, DockPanel.NORTH);
-
-//        mainPanel.add(orgMenu, DockPanel.WEST);
-//        mainPanel.setCellWidth(orgMenu, "200px");
-        mainPanel.add(content, DockPanel.CENTER);
-
-//        mainPanel.add(new KSButton("Logout", new ClickHandler() {
-//            @Override
-//            public void onClick(ClickEvent event) {
-//                orgMenu.saveState();
-//                Location.assign("http://localhost:18080/cas-server-webapp-3.3.2/login?service="+URL.encodeComponent(Location.getHref()));
-//            }}), DockPanel.NORTH);
-
-        return mainPanel;
-    }
-    */
 
     @SuppressWarnings("unchecked")
     public  <T> T getSerializedObject( String name ) throws SerializationException
@@ -103,19 +74,11 @@ public class OrgEntryPoint implements EntryPoint{
     }
 
     public void loadApp(final ApplicationContext context){
-        SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-
-        securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
-            public void handleFailure(Throwable caught) {
-                context.setUserId("Unknown");
-                initScreen();
-            }
-
-            @Override
-            public void onSuccess(String principalId) {
-                context.setUserId(principalId);
-                initScreen();
-            }
+        context.initializeContext(new Callback<Boolean>(){
+			@Override
+			public void exec(Boolean result) {
+                initScreen();				
+			}        	
         });
     }
 

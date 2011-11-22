@@ -11,6 +11,7 @@ import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.entity.Org;
 
@@ -47,6 +48,9 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
         List<String> orgTypes = null;
         String relationTypeKey = null;
         String orgOptionalId = null;
+        String sortColumn = searchRequest.getSortColumn();
+        SortDirection sortDirection = searchRequest.getSortDirection();
+        
         for (SearchParam param : searchRequest.getParams()) {
             if ("org.queryParam.relatedOrgIds".equals(param.getKey())) {
                 relatedOrgIds = (List<String>) param.getValue();
@@ -73,6 +77,8 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
 
             // Create a search result for the return value
             SearchResult searchResult = new SearchResult();
+            searchResult.setSortColumn(sortColumn);
+            searchResult.setSortDirection(sortDirection);
             for (Org org : orgs) {
                 SearchResultRow resultRow = new SearchResultRow();
 
@@ -84,7 +90,9 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
 
                 searchResult.getRows().add(resultRow);
             }
-
+            
+            searchResult.sortRows();
+            
             return searchResult;
         } catch (DoesNotExistException e) {
             throw new RuntimeException("Error performing search");

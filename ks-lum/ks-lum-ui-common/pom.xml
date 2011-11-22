@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.2-m1-perf-SNAPSHOT</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
     <dependencies>
 
@@ -52,12 +52,6 @@
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.common</groupId>
-            <artifactId>ks-rice-lessdep</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
         </dependency>
 
         <!-- LUM Dependencies -->

@@ -122,7 +122,7 @@ public class KSErrorDialog {
             }
         });
 
-        panel.add(title);
+        lightbox.setNonCaptionHeader(title);
         panel.add(errorDescriptionLabel);
         panel.add(errorDescriptionPanel);
 //        panel.add(describeActionLabel);

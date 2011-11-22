@@ -115,7 +115,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
         List<SearchResultRow> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
             SearchParam qpRelType = new SearchParam();
             qpRelType.setKey("org.queryParam.relationType");
             qpRelType.setValue(relationType);
@@ -154,12 +154,10 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             for (SearchResultRow result : results) {
                 AttributeSet attributeSet = new AttributeSet();
                 String resolvedOrgId = "";
-                String resolvedOrgShortName = "";
                 for (SearchResultCell resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
                         resolvedOrgId = resultCell.getValue();
-                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        resolvedOrgShortName = resultCell.getValue();
+                        break;
                     }
                 }
                 if (orgIdKey != null) {
