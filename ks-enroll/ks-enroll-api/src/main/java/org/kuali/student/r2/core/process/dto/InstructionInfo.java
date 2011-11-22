@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
-                "name", "descr", "processKey", "checkId", "populationIds", 
+                "effectiveDate", "expirationDate",
+                "processKey", "checkId", "populationIds", 
                 "atpTypeKeys", "atpKeys", "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
                 "meta", "attributes",

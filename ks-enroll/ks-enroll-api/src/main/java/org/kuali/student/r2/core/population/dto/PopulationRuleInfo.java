@@ -35,9 +35,9 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "criteria", "statementIds", 
+                "stateKey", "name", "descr", "searchCriteria", "statementIds", 
                 "groupIds", "personIds", "populationIds", "meta", "attributes",
-		        "_futureElements" })
+		"_futureElements" })
 
 public class PopulationRuleInfo extends IdEntityInfo 
     implements PopulationRule, Serializable {
@@ -45,7 +45,7 @@ public class PopulationRuleInfo extends IdEntityInfo
     private static final long serialVersionUID = 1L;
     
     @XmlElement
-    private QueryByCriteria criteria;
+    private QueryByCriteria searchCriteria;
 
     @XmlElement
     private List<String> statementIds;
@@ -79,7 +79,7 @@ public class PopulationRuleInfo extends IdEntityInfo
         super(populationRule);
 
         if (populationRule != null) {
-            this.criteria = populationRule.getSearchCriteria(); /* fix */
+            this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
             if (populationRule.getStatementIds() != null) {
                 this.statementIds = new ArrayList<String>(populationRule.getStatementIds());
             }
@@ -100,11 +100,11 @@ public class PopulationRuleInfo extends IdEntityInfo
 
     @Override
     public QueryByCriteria getSearchCriteria() {        
-        return this.criteria;
+        return this.searchCriteria;
     }
 
-    public void setSearchCriteria(QueryByCriteria criteria) {
-        this.criteria = criteria;
+    public void setSearchCriteria(QueryByCriteria searchCriteria) {
+        this.searchCriteria = searchCriteria;
     }
 
     @Override
