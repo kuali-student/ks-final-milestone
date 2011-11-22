@@ -248,6 +248,7 @@
 
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
      	<property name="luiService" ref="luiService"/>
+        <property name="regGroupTransformer" value="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer"/>
     </bean>
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

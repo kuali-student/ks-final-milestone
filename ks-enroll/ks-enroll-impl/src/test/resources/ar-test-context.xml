@@ -207,6 +207,7 @@
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
+    <property name="regGroupTransformer" ref="regGroupTransformer"/>
   </bean>
 
   <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
@@ -226,7 +227,7 @@
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 
-
+<bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
 
   <bean id="coServiceValidationDecorator"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
