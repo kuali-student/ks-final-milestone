@@ -145,13 +145,9 @@
 
     <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     	<property name="atpService" ref="atpEnrService"/>
-    	<property name="relAssembler" ref="relAssembler" />
     </bean>
       
 	<bean  id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
-	<bean  id="relAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AtpAtpRelationAssembler">
-    	<property name="atpService" ref="atpEnrService"/>
-	</bean>
 
     <bean id="campusCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler"/>
 
@@ -248,8 +244,11 @@
 
     <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
      	<property name="luiService" ref="luiService"/>
-        <property name="regGroupTransformer" value="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer"/>
+        <property name="regGroupTransformer" ref="regGroupTransformer" />
     </bean>
+
+    <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
        <property name="serviceDefinition">
