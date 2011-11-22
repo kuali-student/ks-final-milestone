@@ -67,150 +67,155 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface AtpServiceAlt extends DataDictionaryService, TypeService, StateService {
+public interface AtpServiceAlt 
+    extends DataDictionaryService, TypeService, StateService {
 
     /** 
-     * Retrieves the details of a single Academic Time Period by atpKey.
+     * Retrieves a Academic Time Period by ATP key..
      *
-     * @param atpKey Unique key of the Academic Time Period to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return Details of the Academic Time Period requested
+     * @param atpKey a unique identifier of the Academic Time Period
+     *        to be retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the Academic Time Period requested
      * @throws DoesNotExistException atpKey not found
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey or contextInfo
+     * @throws InvalidParameterException contextInfo not valid
+     * @throws MissingParameterException atpKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Academic Time Periods corresponding to the
-     * given list of ATP keys.
+     * Retrieves a list of Academic Time Periods from a list of ATP
+     * keys. The returned list may be in any order and if duplicate
+     * keys are supplied, a unique set may or maynot be returned.
      *
-     * @param atpKeys list of ATPs to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of Academic Time Period keys of the given type
-     * @throws DoesNotExistException an atpKey in list not found
-     * @throws InvalidParameterException invalid atpKey or contextInfo
-     * @throws MissingParameterException missing atpKey or contextInfo
+     * @param atpKeys a list of ATP keys
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ATPs
+     * @throws DoesNotExistException an atpKey in the list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException atpKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByKeys(@WebParam(name = "atpKeys") List<String> atpKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Academic Time Periods of the specified type.
+     * Retrieves a list of Academic Time Periods by ATP Type.
      *
-     * @param atpTypeKey ATP type to be retrieved
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Academic Time Period keys 
-     * @throws InvalidParameterException invalid atpTypeKey or contextInfo
-     * @throws MissingParameterException missing atpTypeKey or contextInfo
+     * @param atpTypeKey an identifier for the ATP type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Period keys matching atpTypeKey
+     *         or an empty list if none found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException atpTypeKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<String> getAtpKeysByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Academic Time Periods that the supplied
-     * date falls within inclusive of the start end end date of the
-     * ATP.
+     * Retrieves a list of Academic Time Periods where the supplied
+     * date falls within the start and end date of the ATP inclusive
+     * of the date.
      *
-     * @param date Timestamp to be matched
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of Academic Time Periods that contain the supplied 
+     * @param date a date
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods that contain the supplied 
      *         date
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing date or contextInfo
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException date or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<AtpInfo> getAtpsByDate(@WebParam(name = "date") Date date, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Academic Time Periods that the supplied
-     * date falls within inclusive the start and end date of the
-     * ATP and whose type matches the specified type key.
+     * Retrieves a list of Academic Time Periods where the supplied
+     * date falls within the start and end date of the ATP, inclusive
+     * of the date, and whose type matches the specified ATP type.
      *
-     * @param date Timestamp to be matched
-     * @param atpTypeKey typeKey to be matched
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of Academic Time Periods
-     * @throws InvalidParameterException invalid atpTypeKey, or
-     *         contextInfo
-     * @throws MissingParameterException missing date, atpTypeKey, or
-     *         contextInfo
+     * @param date a date
+     * @param atpTypeKey an identifier for an ATP Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods of the ATP Type that
+     *         contain the supplied date
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException date, atpTypeKey, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByDateAndType(@WebParam(name = "date") Date date, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Academic Time Periods that are totally
-     * contained within the supplied dates. The entire Atp falls
+     * Retrieves a list of Academic Time Periods that are totally
+     * contained within the supplied dates. The entire ATP falls
      * within the supplied dates inclusive of the dates.
      *
      * @param startDate start date of range
      * @param endDate end date of range
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Academic Time Periods 
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing startDate, endDate,
-     *         or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods within the supplied dates
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         the startDate is greater than the endDate
+     * @throws MissingParameterException startDate, endDate, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByDates(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of Academic Time Periods that are totally
-     * contained within the supplied dates. The entire Atp falls
-     * within the supplied dates inclusive of the dates and whose
-     * typeKey matches the specified type.
+     * contained within the supplied dates and whose type matches the
+     * supplied ATP type. The entire ATP falls within the supplied
+     * dates inclusive of the dates.
      *
      * @param startDate start date of range
      * @param endDate end date of range
-     * @param atpTypeKey a key for an ATP type
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return a list of Academic Time Periods 
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing startDate, endDate, 
-     *         atpTypeKey, or conetxtInfo
+     * @param atpTypeKey an identifier for an ATP Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods of the supplied ATP
+     *         Type within the supplied dates
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         startDate is greater than endDate
+     * @throws MissingParameterException startDate, endDate,
+     *         atpTypeKey, or conetxtInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByDatesAndType(@WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves the list of Academic Time Periods whose start dates
+     * Retrieves a list of Academic Time Periods whose start dates
      * fall within the supplied date range, inclusive of the start and
-     * end dates on the range.
+     * end dates on the supplied range.
      *
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of Academic Time Periods
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing datRangeStart,
-     *         dateRangeEnd, or contextInfo
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods with start dates within
+     *         the supplied dates
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         startDate is greater than endDate
+     * @throws MissingParameterException datRangeStart, dateRangeEnd,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByStartDateRange(@WebParam(name = "dateRangeStart") Date dateRangeStart, @WebParam(name = "dateRangeEnd") Date dateRangeEnd, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -218,20 +223,21 @@ public interface AtpServiceAlt extends DataDictionaryService, TypeService, State
      * Retrieves the list of Academic Time Periods whose start dates
      * fall within the supplied date range, inclusive of the start and
      * end dates on the range and whose type matches the specified
-     * type.
+     * ATP Type.
      *
      * @param dateRangeStart start date of range
      * @param dateRangeEnd end date of range
-     * @param atpTypeKey typeKey to be matched
-     * @param contextInfo Context information containing the
-     *        principalId and locale information about the caller of
-     *        service operation
-     * @return List of Academic Time Periods
-     * @throws InvalidParameterException invalid atpTypeKey or contextInfo
-     * @throws MissingParameterException missing dateRangeStart,
-     *         dateRangeEnd, atpTypeKey, or contextInfo
+     * @param atpTypeKey an identifier for an ATP Type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Academic Time Periods with start dates within
+     *         the supplied dates and of the given ATP Type
+     * @throws InvalidParameterException contextInfo is not valid or
+     *         dateRangeStart is greater than dateRangeEnd
+     * @throws MissingParameterException dateRangeStart, dateRangeEnd,
+     *         atpTypeKey, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<AtpInfo> getAtpsByStartDateRangeAndType(@WebParam(name = "dateRangeStart") Date dateRangeStart, @WebParam(name = "dateRangeEnd") Date dateRangeEnd, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;    
 
