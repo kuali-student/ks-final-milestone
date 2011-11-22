@@ -41,6 +41,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
@@ -269,9 +270,11 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
      * @throws PermissionDeniedException authorization failure
      */
-    public HoldInfo createHold(@WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HoldInfo createHold(@WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Hold.
@@ -290,10 +293,12 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date 
-     *         version.
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException The action was attempted on an
+     *         out of date version.
      */
-    public HoldInfo updateHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public HoldInfo updateHold(@WebParam(name = "holdId") String holdId, @WebParam(name = "holdInfo") HoldInfo holdInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Releases a Hold. A release preserves the record and marks the
@@ -469,8 +474,10 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
      */
-    public IssueInfo createIssue(@WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public IssueInfo createIssue(@WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;;
 
     /** 
      * Updates an existing Issue.
@@ -482,17 +489,19 @@ public interface HoldService extends DataDictionaryService, StateService, TypeSe
      *                and locale information about the caller of service
      *                operation
      * @return the details of the Issue just updated
-     * @throws DataValidationErrorException One or more values invalid for this 
-     *         operation
+     * @throws DataValidationErrorException One or more values invalid
+     *         for this operation
      * @throws DoesNotExistException the Issue does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
      * @throws VersionMismatchException The action was attempted on an
      *         out of date version.
      */
-    public IssueInfo updateIssue(@WebParam(name = "issueId") String issueId, @WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public IssueInfo updateIssue(@WebParam(name = "issueId") String issueId, @WebParam(name = "issueInfo") IssueInfo issueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /** 
      * Deletes an existing Issue.
