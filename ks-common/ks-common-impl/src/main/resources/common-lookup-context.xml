@@ -236,6 +236,27 @@
 			<list>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalShortName" />
+					<property name="name" value="Abbreviation" />
+					<property name="desc" value="Short organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalId" />
+					<property name="name" value="Id" />
+					<property name="desc" value="Unique identifier for an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="CUSTOM" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLongName" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Long organization name." />
@@ -258,27 +279,6 @@
 					<property name="widget" value="TEXT_BOX" />
 				</bean>
 				 -->
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="org.queryParam.orgOptionalShortName" />
-					<property name="name" value="Abbreviation" />
-					<property name="desc" value="Short organization name." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="false" />
-					<property name="usage" value="ADVANCED_CUSTOM" />
-					<property name="widget" value="SUGGEST_BOX" />
-				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="org.queryParam.orgOptionalId" />
-					<property name="name" value="Id" />
-					<property name="desc" value="Unique identifier for an organization." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="true" />
-					<property name="usage" value="CUSTOM" />
-				</bean>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalType" />

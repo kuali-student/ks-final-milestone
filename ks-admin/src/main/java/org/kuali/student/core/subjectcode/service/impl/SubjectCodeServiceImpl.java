@@ -38,6 +38,7 @@ import org.kuali.student.core.subjectcode.bo.SubjectCode;
 import org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg;
 import org.kuali.student.core.subjectcode.service.SubjectCodeService;
 import org.springframework.beans.factory.InitializingBean;
+import org.kuali.student.common.util.DateFormatThread;
 
 @WebService(endpointInterface = "org.kuali.student.core.subjectcode.service.SubjectCodeService", serviceName = "SubjectCodeService", portName = "SubjectCodeService", targetNamespace = "http://student.kuali.org/wsdl/subjectCode")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -122,12 +123,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		//Get easy access to params
 		Map<String,Object> paramMap = new HashMap<String,Object>();
 		for(SearchParam param:searchRequest.getParams()){
-			if("subjectCode.queryParam.code".equals(param.getKey()) && param.getValue() != null){
-				// Note: this is a hack because of a bug in rice: KSLAB-2050
-				paramMap.put(param.getKey(), ((String)param.getValue()).toUpperCase());
-			}else{
-				paramMap.put(param.getKey(), param.getValue());
-			}
+			paramMap.put(param.getKey(), param.getValue());
 		}
 		
 		SearchResult searchResult = null;
@@ -182,7 +178,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	        	SearchResultRow row = new SearchResultRow();
 	        	row.addCell("subjectCode.resultColumn.code", subjectCodeJoinOrg.getSubjectCode().getCode());
 	        	row.addCell("subjectCode.resultColumn.type", subjectCodeJoinOrg.getSubjectCode().getTypeId());
-	        	row.addCell("subjectCode.resultColumn.activeFrom", subjectCodeJoinOrg.getActiveFromDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveFromDate().getTime())));
+	        	row.addCell("subjectCode.resultColumn.activeFrom", subjectCodeJoinOrg.getActiveFromDate()==null?null:DateFormatThread.format(new Date(subjectCodeJoinOrg.getActiveFromDate().getTime())));
 	        	row.addCell("subjectCode.resultColumn.activeTo", subjectCodeJoinOrg.getActiveToDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveToDate().getTime())));
 	        	row.addCell("subjectCode.resultColumn.orgId", subjectCodeJoinOrg.getOrgId());
 	        	//Get a mapping of the org id to this row so we can find it later and do all the org id searches in one call

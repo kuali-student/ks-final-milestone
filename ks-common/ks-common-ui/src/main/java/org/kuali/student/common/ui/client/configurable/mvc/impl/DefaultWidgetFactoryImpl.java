@@ -101,7 +101,7 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
 		return _getWidget(config);
 	}
 
-	private Widget _getWidget(WidgetConfigInfo config) {
+	protected Widget _getWidget(WidgetConfigInfo config) {
 		Widget result = null;
 		if(!config.canView) {
 		    result =  new KSPlaceholder();

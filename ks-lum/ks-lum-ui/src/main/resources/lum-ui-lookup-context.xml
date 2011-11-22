@@ -118,6 +118,7 @@
   <property name="path" value="courseInfo.courseSpecificLOs.loInfo.desc" />
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
+    <property name="id" value="kuali.lu.lookup.advanced.learningObjectives" />
     <property name="name" value="Search for Learning Objectives" />
     <property name="desc" value="Search for Learning Objectives" />
     <property name="widget" value="NO_WIDGET"/>
@@ -339,6 +340,7 @@
   <property name="resultReturnKey" value="lu.resultColumn.cluId" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
   <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+  <property name="sortDirection" value="ASC" />
   <property name="usage" value="DEFAULT" />
  </bean>
  
@@ -774,6 +776,7 @@
   </property>
   <property name="resultDisplayKey" value="person.resultColumn.DisplayName" />
   <property name="resultSortKey" value="person.resultColumn.DisplayName" />
+  <property name="sortDirection" value="ASC" />
   <property name="id" value="ks.common.lookup.person.suggest" />
  </bean>
 
@@ -882,7 +885,7 @@
   <property name="widget" value="SUGGEST_BOX" />
   <property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -912,7 +915,7 @@
 		<property name="searchTypeId" value="lo.search.loCategories" />
 		<property name="searchParamIdKey" value="lo.queryParam.loOptionalCategoryName" />
 		<property name="resultDisplayKey" value="lo.resultColumn.categoryName" />
-		<property name="resultSortKey" value="" />
+		<property name="resultSortKey" value="lo.resultColumn.categoryName" />
 		<property name="resultReturnKey" value="lo.resultColumn.categoryName" />
 		<property name="params">
 			<list>
@@ -1684,7 +1687,7 @@
   <property name="id" value="kuali.lu.lookup.findCourse.suggest" />
   <property name="widget" value="SUGGEST_BOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -1715,7 +1718,7 @@
   <property name="id" value="kuali.lu.lookup.findProgram.suggest" />
   <property name="widget" value="SUGGEST_BOX" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalCode" />
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -2516,7 +2519,7 @@
   <property name="widget" value="SUGGEST_BOX"/>
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="cluset.resultColumn.description" />
   <property name="params">
    <list>
     <bean parent="param">
@@ -2593,7 +2596,7 @@
   <property name="widget" value="SUGGEST_BOX"/>
   <property name="resultDisplayKey" value="cluset.resultColumn.name" />
   <property name="resultReturnKey" value="cluset.resultColumn.cluSetId"/>
-  <property name="resultSortKey" value="" />
+  <property name="resultSortKey" value="cluset.resultColumn.description" />
   <property name="params">
    <list>
     <bean parent="param">
@@ -3095,16 +3098,6 @@
   <property name="params">
    <list>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalLongName"/>
-     <property name="name" value="Course Title"/>
-     <property name="desc" value="Course title."/>
-     <property name="dataType" value="STRING"/>
-     <property name="writeAccess" value="ALWAYS"/>
-     <property name="caseSensitive" value="false"/>
-     <property name="usage" value="ADVANCED_CUSTOM"/>
-     <property name="widget" value="SUGGEST_BOX"/>
-    </bean>
-    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalCode"/>
      <property name="name" value="Course Code (Subject Code/Number)"/>
      <property name="desc" value="Course number."/>
@@ -3115,13 +3108,14 @@
      <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
-     <property name="key" value="lu.queryParam.luOptionalDescr"/>
-     <property name="name" value="Phrase in Description"/>
-     <property name="desc" value="Course description"/>
+     <property name="key" value="lu.queryParam.luOptionalLongName"/>
+     <property name="name" value="Course Title"/>
+     <property name="desc" value="Course title."/>
      <property name="dataType" value="STRING"/>
      <property name="writeAccess" value="ALWAYS"/>
-     <property name="caseSensitive" value="true"/>
+     <property name="caseSensitive" value="false"/>
      <property name="usage" value="ADVANCED_CUSTOM"/>
+     <property name="widget" value="SUGGEST_BOX"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalLevel"/>
@@ -3131,6 +3125,15 @@
      <property name="writeAccess" value="ALWAYS"/>
      <property name="caseSensitive" value="true"/>
      <property name="usage" value="CUSTOM"/>
+    </bean>
+    <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+     <property name="key" value="lu.queryParam.luOptionalDescr"/>
+     <property name="name" value="Phrase in Description"/>
+     <property name="desc" value="Course description"/>
+     <property name="dataType" value="STRING"/>
+     <property name="writeAccess" value="ALWAYS"/>
+     <property name="caseSensitive" value="true"/>
+     <property name="usage" value="ADVANCED_CUSTOM"/>
     </bean>
     <bean parent="param" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
      <property name="key" value="lu.queryParam.luOptionalStudySubjectArea"/>
@@ -4097,6 +4100,8 @@
 		<property name="name" value="Course Only" />
 		<property name="searchTypeId" value="lo.search.loByCategoryCluCrossSearch" />
 		<property name="desc" value="Search for learning objectives by course." />
+		<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+		<property name="sortDirection" value="ASC" />
 		<property name="params">
 			<list>
 				<bean parent="param">
@@ -4216,6 +4221,8 @@
 		<property name="name" value="Course and Program" />
 		<property name="searchTypeId" value="lo.search.loByCategoryCluCrossSearch" />
 		<property name="desc" value="Search for learning objectives by course." />
+		<property name="resultSortKey" value="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+		<property name="sortDirection" value="ASC" />
 		<property name="params">
 			<list>
 				<bean parent="param">
@@ -4541,6 +4548,7 @@
  <bean id="programLo-lookup-binding-parent" parent="uilookupconfig-parent" abstract="true">
   <property name="initialLookup" >
    <bean class="org.kuali.student.common.assembly.data.UILookupData">
+    <property name="id" value="kuali.lu.lookup.advanced.learningObjectives" />
     <property name="name" value="Search for Learning Objectives" />
     <property name="desc" value="Search for Learning Objectives" />
     <property name="widget" value="NO_WIDGET"/>
@@ -6671,7 +6679,8 @@
   </property>
   <property name="resultReturnKey" value="org.resultColumn.orgId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="org.resultColumn.orgShortName" />
+  <property name="sortDirection" value="ASC" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -6729,7 +6738,8 @@
   </property>
   <property name="resultReturnKey" value="org.resultColumn.orgId" />
   <property name="resultDisplayKey" value="org.resultColumn.orgOptionalLongName" />
-  <property name="resultSortKey" value="org.resultColumn.orgOptionalLongName" />
+  <property name="resultSortKey" value="org.resultColumn.orgShortName" />
+  <property name="sortDirection" value="ASC" />
   <property name="results">
    <list>
     <bean parent="result">
@@ -6901,7 +6911,7 @@
   </property>
   <property name="resultReturnKey" value="lu.resultColumn.cluId" />
   <property name="resultDisplayKey" value="lu.resultColumn.luOptionalLongName" />
-  <property name="resultSortKey" value="lu.resultColumn.luOptionalLongName" />
+  <property name="resultSortKey" value="lu.resultColumn.luOptionalCode" />
   <property name="usage" value="DEFAULT" />
  </bean>
 
