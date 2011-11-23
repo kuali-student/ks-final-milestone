@@ -14,8 +14,8 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.exemption.dto.ExemptionInfo;
-import org.kuali.student.enrollment.exemption.dto.ExemptionRequestInfo;
+import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
+import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 
 /**
  * This class holds the constants used by the Exemption service.

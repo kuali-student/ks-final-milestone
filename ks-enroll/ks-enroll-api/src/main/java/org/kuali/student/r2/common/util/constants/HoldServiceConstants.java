@@ -14,9 +14,8 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
 
 /**
  * This class holds the constants used by the Hold service
@@ -31,7 +30,7 @@ public class HoldServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "hold";
     public static final String REF_OBJECT_URI_HOLD = NAMESPACE + "/" + HoldInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ISSUE = NAMESPACE + "/" + IssueInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_RESTRICTION = NAMESPACE + "/" + RestrictionInfo.class.getSimpleName();
+
     /**
      * Hold types
      */
@@ -56,21 +55,7 @@ public class HoldServiceConstants {
     public static final String PRIOR_TRANSCRIPT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.prior.transcript";
     public static final String INCOMPLETE_BIO_ISSUE_TYPE_KEY = "kuali.hold.issue.type.incomplete.bio";
     public static final String RESIDENCY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residency";
-    /**
-     * RESTRICTION TYPES
-     */
-    public static final String REGISTERATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.registration";
-    public static final String ADD_DROP_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.drop.class";
-    public static final String REQUEST_TRANSCRIPT_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.request.transcript";
-    public static final String AWARD_DEGREE_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.award.degree";
-    public static final String RECEIVE_DIPLOMA_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.receive.diploma";
-    public static final String ADD_CHARGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.charges";
-    public static final String LIBRARY_PRIVILEGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.library.privileges";
-    public static final String DORM_ACCESS_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.dorm.access";
-    public static final String UPDATE_PROGRAM_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.update.program";
-    public static final String ACCESS_GRADES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.access.grades";
-    public static final String BURSAR_REFUND_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.bursar.refund";
-    public static final String VERIFICATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.verification";
+
     /**
      * STATES FOR holds
      */
@@ -93,16 +78,5 @@ public class HoldServiceConstants {
     public static final String[] ISSUE_PROCESS_KEYS = {
         ISSUE_ACTIVE_STATE_KEY,
         ISSUE_INACTIVE_STATE_KEY
-    };
-
-    /**
-     * STATES FOR hold RESTRICTIONS
-     */
-    public static final String RESTRICTION_PROCESS_KEY = "kuali.hold.restriction.process";
-    public static final String RESTRICTION_ACTIVE_STATE_KEY = "kuali.hold.restriction.state.active";
-    public static final String RESTRICTION_INACTIVE_STATE_KEY = "kuali.hold.restriction.state.inactive";
-    public static final String[] RESTRICTION_PROCESS_KEYS = {
-        RESTRICTION_ACTIVE_STATE_KEY,
-        RESTRICTION_INACTIVE_STATE_KEY
     };
 }

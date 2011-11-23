@@ -121,7 +121,6 @@
                                 <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AtpMilestoneRelationInfo-dictionary.xml</inputFile>                               
                                <!-- ACAL -->                               
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CampusCalendarInfo-dictionary.xml</inputFile>
@@ -140,7 +139,6 @@
                                <!-- Hold -->        
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RestrictionInfo-dictionary.xml</inputFile>
                                <!-- LUI -->                
                                 <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiIdentifierInfo-dictionary.xml</inputFile>
@@ -184,7 +182,6 @@
                                  Atp 
                                 <className>AtpInfo</className>                    
                                 <className>MilestoneInfo</className>                                    
-                                <className>AtpMilestoneRelationInfo</className>
                                 <className>AtpAtpRelationInfo</className>  
                                  Acal 
                                 <className>AcademicCalendarInfo</className>
@@ -198,7 +195,6 @@
                                 Hold         
                                 <className>HoldInfo</className>
                                 <className>IssueInfo</className>
-                                <className>RestrictionInfo</className>
                                 LUI                 
                                 <className>LuiInfo</className>
                                 <className>LuiLuiRelationInfo</className>
@@ -210,7 +206,7 @@
                                 <className>SeatPoolDefinitionInfo</className>                           
                             </classNames>                     
                         </configuration>
-                    </execution>                    -->
+                    </execution>                  -->
                 </executions>
                 <configuration>
                     <!-- this defines that location of the source code used for all contract docs executions -->
@@ -333,7 +329,7 @@
                         <id>exemptionService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.exemption.service.ExemptionService</className>
+                            <className>org.kuali.student.r2.core.exemption.service.ExemptionService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
@@ -357,7 +353,7 @@
                         <id>holdService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.hold.service.HoldService</className>
+                            <className>org.kuali.student.r2.core.enrollment.hold.service.HoldService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>
