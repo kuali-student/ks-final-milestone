@@ -201,13 +201,13 @@
   </bean>
 
   <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
-    <property name="luiService" ref="luiService" />
     <property name="lprService" ref="lprPersistenceService" />
+    <property name="activityTransformer" ref="activityTransformer" />
   </bean>
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
     <property name="luiService" ref="luiService" />
-    <property name="regGroupTransformer" ref="regGroupTransformer"/>
+    <property name="regGroupTransformer" ref="regGroupTransformer" />
   </bean>
 
   <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
@@ -227,7 +227,7 @@
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 
-<bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+  <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
 
   <bean id="coServiceValidationDecorator"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
@@ -318,6 +318,8 @@
   <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
     <property name="em" ref="entityManager" />
   </bean>
+
+  <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

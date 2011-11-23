@@ -201,8 +201,8 @@
   </bean>
 
   <bean id="aoAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler">
-    <property name="luiService" ref="luiService" />
     <property name="lprService" ref="lprPersistenceService" />
+    <property name="activityTransformer" ref="activityTransformer"></property>
   </bean>
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
@@ -275,6 +275,7 @@
   </bean>
 
   <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+  <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
