@@ -17,6 +17,7 @@
 
 	<properties>
 		<kuali.attach.sources.phase>none</kuali.attach.sources.phase>
+        <kuali.student.api.version>1.2.1-api</kuali.student.api.version>
 	</properties>
 
 	<modules>
