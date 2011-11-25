@@ -9,13 +9,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kuali.student</groupId>
 	<artifactId>ks-service-api</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.2.1-api</version>
+<!-- 	<version>${kuali.student.api.version}</version> -->
+	
 	<packaging>pom</packaging>
 	<description>ks-service-api</description>
 
 	<properties>
 		<kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-		<kuali.student.service.api.version>1.2.1-SAPI</kuali.student.service.api.version>
 	</properties>
 
 	<modules>
