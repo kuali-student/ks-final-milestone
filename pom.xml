@@ -166,6 +166,9 @@
     <ks.gwt.compile.force>false</ks.gwt.compile.force>
     <ks.java2ws.phase>none</ks.java2ws.phase>
     <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
+
+    <!-- Kuali Student Service Contract Api Version -->
+    <kuali.student.api.version>1.2.1-api</kuali.student.api.version>
   </properties>
   <build>
     <pluginManagement>
