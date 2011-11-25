@@ -446,7 +446,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<CampusCalendarInfo> getCampusCalendarsByKeyList(List<String> campusCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AtpInfo> atps = atpService.getAtpsByKeyList(campusCalendarKeyList,context);
+        List<AtpInfo> atps = atpService.getAtpsByKeyList(campusCalendarKeyList, context);
         List<CampusCalendarInfo> campusCalendarInfos = new ArrayList<CampusCalendarInfo>();
         for (AtpInfo atp : atps) {
             try {
@@ -673,7 +673,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<AcademicCalendarInfo>  currentACInfos =  getAcademicCalendarsByStartYear( new Integer( Calendar.getInstance().get(Calendar.YEAR)), context );
+        List<AcademicCalendarInfo>  currentACInfos =  getAcademicCalendarsByStartYear(new Integer(Calendar.getInstance().get(Calendar.YEAR)), context);
         List<TermInfo> terms = getTermsForAcademicCalendar(currentACInfos.get(0).getKey(), context);
         if (terms == null || terms.size() == 0) {
             throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + currentACInfos.get(0).getKey());
@@ -1167,7 +1167,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional
     public StatusInfo deleteKeyDate(String keyDateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        StatusInfo statusInfo = atpService.deleteMilestone(keyDateKey,context);
+        StatusInfo statusInfo = atpService.deleteMilestone(keyDateKey, context);
         if (statusInfo.getIsSuccess()){
             List<AtpMilestoneRelationInfo> relationInfoList = atpService.getAtpMilestoneRelationsByMilestone(keyDateKey,context);
             for (AtpMilestoneRelationInfo relationInfo : relationInfoList) {
@@ -1279,21 +1279,30 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         regDateGroup.setRegistrationDateDerivationGroup(new RegistrationDateDerivationGroupInfo());
 
         List<KeyDateInfo> keyDates = getKeyDatesForTerm(termKey, context);
+        Map<String, KeyDateInfo> keyDateMap = new HashMap<String, KeyDateInfo>();
         for (KeyDateInfo keyDate : keyDates) {
-            if (AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
-                regDateGroup.setRegistrationDateRange(getDateRangeFromKeyDate(keyDate));
-                regDateGroup.setAddDate(keyDate.getStartDate());
-            } else if (AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
-                regDateGroup.setClassDateRange(getDateRangeFromKeyDate(keyDate));
-            } else if (AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY.equals(keyDate.getTypeKey())) {
-                regDateGroup.setDropDate(keyDate.getEndDate());
-            } else if (AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY.equals(keyDate.getTypeKey())) {
-                regDateGroup.setFinalExamDateRange(getDateRangeFromKeyDate(keyDate));
-            } else if (AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY.equals(keyDate.getTypeKey())) {
-                regDateGroup.setGradingDateRange(getDateRangeFromKeyDate(keyDate));
-            }
+            keyDateMap.put(keyDate.getTypeKey(), keyDate);
         }
+        populateRegistrationDateGroup(regDateGroup, keyDateMap);
         return regDateGroup;
+    }
+
+    private void populateRegistrationDateGroup(RegistrationDateGroupInfo registrationDateGroup, Map<String, KeyDateInfo> keyDates) {
+        KeyDateInfo registrationPeriod = keyDates.get(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
+        registrationDateGroup.setRegistrationDateRange(getDateRangeFromKeyDate(registrationPeriod));
+        registrationDateGroup.setAddDate((registrationPeriod != null) ? registrationPeriod.getStartDate() : null);
+
+        KeyDateInfo instructionalPeriod = keyDates.get(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
+        registrationDateGroup.setClassDateRange(getDateRangeFromKeyDate(instructionalPeriod));
+
+        KeyDateInfo dropDate = keyDates.get(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
+        registrationDateGroup.setDropDate((dropDate != null) ? dropDate.getEndDate() : null);
+
+        KeyDateInfo finalExamPeriod = keyDates.get(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY);
+        registrationDateGroup.setFinalExamDateRange(getDateRangeFromKeyDate(finalExamPeriod));
+
+        KeyDateInfo gradingPeriod = keyDates.get(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
+        registrationDateGroup.setGradingDateRange(getDateRangeFromKeyDate(gradingPeriod));
     }
 
     private DateRangeInfo getDateRangeFromKeyDate(KeyDateInfo keyDate) {
@@ -1306,6 +1315,33 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return dateRange;
     }
 
+    private KeyDateInfo getKeyDatePrepairedFromDateRange(KeyDateInfo keyDate, DateRangeInfo dateRange) {
+        if (null == dateRange) {
+            return null;
+        }
+        if (keyDate == null) {
+            keyDate = new KeyDateInfo();
+        }
+        keyDate.setStartDate(dateRange.getStart());
+        keyDate.setEndDate(dateRange.getEnd());
+        keyDate.setIsDateRange(Boolean.TRUE);
+        return keyDate;
+    }
+
+    private KeyDateInfo getKeyDatePrepairedFromDate(KeyDateInfo keyDate, Date date) {
+        if (null == date) {
+            return null;
+        }
+        if (keyDate == null) {
+            keyDate = new KeyDateInfo();
+        }
+        keyDate.setStartDate(date);
+        keyDate.setEndDate(date);
+        keyDate.setIsAllDay(Boolean.FALSE);
+        keyDate.setIsDateRange(Boolean.FALSE);
+        return keyDate;
+    }
+
     @Override
     public List<ValidationResultInfo> validateRegistrationDateGroup(String validationType, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
@@ -1314,8 +1350,80 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        // TODO needs to be move to validation layer?
+        Date addDate = registrationDateGroupInfo.getAddDate();
+        DateRangeInfo registrationDateRange = registrationDateGroupInfo.getRegistrationDateRange();
+        if (null != addDate && null != registrationDateRange && !addDate.equals(registrationDateRange.getStart())) {
+            throw new DataValidationErrorException("Add date is not the same as the start of registraion period.");
+        }
+
+        List<KeyDateInfo> termKeyDates = getKeyDatesForTerm(termKey, context);
+        Map<String, KeyDateInfo> termKeyDateByType = new HashMap<String, KeyDateInfo>();
+        for (KeyDateInfo keyDate : termKeyDates) {
+            termKeyDateByType.put(keyDate.getTypeKey(), keyDate);
+        }
+        Map<String, KeyDateInfo> registrationDatesGroupKeyDates = new HashMap<String, KeyDateInfo>();
+
+        KeyDateInfo existingRegistrationPeriodKeyDate = termKeyDateByType.get(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
+        KeyDateInfo updatedRegistrationPeriodDate = getKeyDatePrepairedFromDateRange(existingRegistrationPeriodKeyDate, registrationDateGroupInfo.getRegistrationDateRange()); // TODO change namee to update
+        updateRegistrationDateGroupKeyDate(termKey, existingRegistrationPeriodKeyDate, updatedRegistrationPeriodDate, AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, context);
+        registrationDatesGroupKeyDates.put(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY, updatedRegistrationPeriodDate);
+
+        KeyDateInfo existingInstructionalPeriodKeyDate = termKeyDateByType.get(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
+        KeyDateInfo updatedInstructionalPeriodDate = getKeyDatePrepairedFromDateRange(existingInstructionalPeriodKeyDate, registrationDateGroupInfo.getClassDateRange());
+        updateRegistrationDateGroupKeyDate(termKey, existingInstructionalPeriodKeyDate, updatedInstructionalPeriodDate, AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, context);
+        registrationDatesGroupKeyDates.put(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, updatedInstructionalPeriodDate);
+
+        KeyDateInfo existingDropKeyDate = termKeyDateByType.get(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
+        KeyDateInfo updatedDropDate = getKeyDatePrepairedFromDate(existingDropKeyDate, registrationDateGroupInfo.getDropDate());
+        updateRegistrationDateGroupKeyDate(termKey, existingDropKeyDate, updatedDropDate, AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY, context);
+        registrationDatesGroupKeyDates.put(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY, updatedDropDate);
+
+        KeyDateInfo existingFinalExamKeyDate = termKeyDateByType.get(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY);
+        KeyDateInfo updatedFinalExamDate = getKeyDatePrepairedFromDateRange(existingFinalExamKeyDate, registrationDateGroupInfo.getFinalExamDateRange());
+        updateRegistrationDateGroupKeyDate(termKey, existingFinalExamKeyDate, updatedFinalExamDate, AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, context);
+        registrationDatesGroupKeyDates.put(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY, updatedFinalExamDate);
+
+        KeyDateInfo existingGradingKeyDate = termKeyDateByType.get(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
+        KeyDateInfo updatedGradingKeyDate = getKeyDatePrepairedFromDateRange(existingGradingKeyDate, registrationDateGroupInfo.getGradingDateRange());
+        updateRegistrationDateGroupKeyDate(termKey, existingGradingKeyDate, updatedGradingKeyDate, AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, context);
+        registrationDatesGroupKeyDates.put(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY, updatedGradingKeyDate);
+
+        populateRegistrationDateGroup(registrationDateGroupInfo, registrationDatesGroupKeyDates);
+        return registrationDateGroupInfo;
+    }
+
+    private void updateRegistrationDateGroupKeyDate(String termKey, KeyDateInfo existingKeyDate, KeyDateInfo updatedKeyDate, String typeKey, ContextInfo context) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, VersionMismatchException, PermissionDeniedException, OperationFailedException {
+        if (null != updatedKeyDate && null != existingKeyDate) {
+            // update date
+            updatedKeyDate.setKey(existingKeyDate.getKey());
+            updatedKeyDate.setTypeKey(existingKeyDate.getTypeKey());
+            updatedKeyDate.setStateKey(existingKeyDate.getStateKey());
+            updateKeyDate(existingKeyDate.getKey(), updatedKeyDate, context);
+        } else  if (null != updatedKeyDate && null == existingKeyDate) {
+            // add date
+            updatedKeyDate.setKey(typeKey + "." + termKey + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO properly generate new key
+            updatedKeyDate.setTypeKey(typeKey);
+            updatedKeyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+            try {
+                createKeyDateForTerm(termKey, updatedKeyDate.getKey(), updatedKeyDate, context);
+            } catch (AlreadyExistsException e) {
+                throw new OperationFailedException("Could not create KeyDate for Term. '" + termKey + "'-'" + updatedKeyDate.getKey() + "'");
+            }
+        } else  if (null == updatedKeyDate && null != existingKeyDate) {
+            // remove date
+            List<AtpMilestoneRelationInfo> relations = atpService.getAtpMilestoneRelationsByMilestone(existingKeyDate.getKey(), context);
+            for (AtpMilestoneRelationInfo relation : relations) {
+                if (termKey != relation.getAtpKey()) {
+                    relations.remove(relation);
+                }
+            }
+            if (1 != relations.size()) {
+                throw new OperationFailedException("Could not remove AtpMilestoneRelation because did not find exactly 1 for Milestone '" + existingKeyDate.getKey() + "'");
+            }
+            atpService.deleteAtpMilestoneRelation(relations.get(0).getId(), context);
+        }
     }
 
     @Override
