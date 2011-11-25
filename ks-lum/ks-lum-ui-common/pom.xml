@@ -13,7 +13,7 @@
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-util</artifactId>
-            <version>${project.version}</version>
+            <version>${kuali.student.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -44,12 +44,12 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>${kuali.student.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>${kuali.student.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -58,12 +58,12 @@
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
+            <version>${kuali.student.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
+            <version>${kuali.student.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
