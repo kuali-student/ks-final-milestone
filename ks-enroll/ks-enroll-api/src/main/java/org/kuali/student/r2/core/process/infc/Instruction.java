@@ -89,7 +89,7 @@ public interface Instruction extends Relationship {
      * for this step. If true, the Check failure is interpreted as a
      * warning.
      *
-     * @name 
+     * @name Is Warning 
      */
     public Boolean getIsWarning();
 
