@@ -143,7 +143,13 @@ public class LuiServiceImpl implements LuiService {
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-	    return new ArrayList<TypeInfo>();
+        List<LuiTypeEntity> luiTypeEntities = luiTypeDao.getLuiTypesByRefObjectUri(refObjectURI);
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+        for (LuiTypeEntity luiTypeEntity : luiTypeEntities) {
+            typeInfos.add(luiTypeEntity.toDto());
+        }
+
+        return typeInfos;
 	}
 
 	@Override
