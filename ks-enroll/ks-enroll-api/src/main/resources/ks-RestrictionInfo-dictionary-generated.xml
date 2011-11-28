@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- RestrictionInfo-->
 	<bean id="RestrictionInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="restrictionInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.RestrictionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.RestrictionInfo"/>
 		<property name="objectLabel" value="Restriction"/>
 		<property name="objectDescription">
 			<value>
