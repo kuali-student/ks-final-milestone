@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -582,9 +583,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        try {
+            return luiService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Error getting Lui Types",e);
+        }
+    }
 
 	@Override
 	public List<TypeInfo> getActivityOfferingTypesForActivityType(
