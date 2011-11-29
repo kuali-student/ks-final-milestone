@@ -18,11 +18,25 @@ package org.kuali.student.r2.core.process.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.infc.RichText;
 
 
 /**
- * Information about a Relationship.
+ * Information about an Instruction. An Instruction is a Relationship
+ * between a Process and a Check. Instructions contain a set of
+ * applied data that determines if the Check applies to a Process.
+ *
+ * To determine if a Check applies to a Process:
+ *      1. the person is a member of any applied Orgs
+ *      2. and the person is a member of any applied Populations
+ *      3. and the current ATP type is any of the applied ATP Types
+ *      4. and the current ATP is any of the applied ATPs
+ *      5. and the current date is within any applied date range
+ *
+ * If any of the above applied elements is empty, then the appleid
+ * element evaluates to true. If all applied elements are empty, then
+ * the Check is globally applied.
  *
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011
@@ -49,25 +63,39 @@ public interface Instruction extends Relationship {
     public String getCheckId();
 
     /**
-     * The Population Id to which the Check applies.
+     * The Org Ids to which the Check applies.
      *
-     * @name Population Ids
+     * @name Applied Org Ids
      */
-    public List<String> getPopulationIds();
+    public List<String> getAppliedOrgIds();
+
+    /**
+     * The Population Ids to which the Check applies.
+     *
+     * @name Applied Population Ids
+     */
+    public List<String> getAppliedPopulationIds();
 
     /**
      * The ATP Type keys to which the Check applies.
      *
-     * @name Atp Type Keys
+     * @name Applied Atp Type Keys
      */
-    public List<String> getAtpTypeKeys();
+    public List<String> getAppliedAtpTypeKeys();
 
     /**
      * The ATP keys to which the Check applies.
      *
-     * @name Atp Keys
+     * @name Applied Atp Keys
      */
-    public List<String> getAtpKeys();
+    public List<String> getAppliedAtpKeys();
+
+    /**
+     * The date ranges to which the Check applies.
+     *
+     * @name Applied Date Ranges
+     */
+    public List<? extends DateRange> getAppliedDateRanges();
 
     /**
      * The text of a message to display to a user on fail or warning

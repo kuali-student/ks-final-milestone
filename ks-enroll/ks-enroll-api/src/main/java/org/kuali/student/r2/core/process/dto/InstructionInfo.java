@@ -25,7 +25,9 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
@@ -34,8 +36,10 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
-                "processKey", "checkId", "populationIds", 
-                "atpTypeKeys", "atpKeys", "message", "position", "isWarning", 
+                "processKey", "checkId", "appliedOrgIds", 
+                "appliedPopulationIds", "appliedAtpTypeKeys",
+                "appliedAtpKeys", "appliedDateRanges",
+                "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
                 "meta", "attributes",
 		"_futureElements" })
@@ -52,13 +56,19 @@ public class InstructionInfo extends RelationshipInfo
     private String checkId;
 
     @XmlElement 
-    private List<String> populationIds;
+    private List<String> appliedOrgIds;
 
     @XmlElement 
-    private List<String> atpTypeKeys;
+    private List<String> appliedPopulationIds;
 
     @XmlElement 
-    private List<String> atpKeys;
+    private List<String> appliedAtpTypeKeys;
+
+    @XmlElement 
+    private List<String> appliedAtpKeys;
+
+    @XmlElement 
+    private List<DateRangeInfo> appliedDateRanges;
 
     @XmlElement 
     private RichTextInfo message;
@@ -96,16 +106,27 @@ public class InstructionInfo extends RelationshipInfo
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
             this.checkId = instruction.getCheckId();
-            if (instruction.getPopulationIds() != null) {
-                this.populationIds = new ArrayList<String>(instruction.getPopulationIds());
+            if (instruction.getAppliedOrgIds() != null) {
+                this.appliedOrgIds = new ArrayList<String>(instruction.getAppliedOrgIds());
             }
 
-            if (instruction.getAtpTypeKeys() != null) {
-                this.atpTypeKeys = new ArrayList<String>(instruction.getAtpTypeKeys());
+            if (instruction.getAppliedPopulationIds() != null) {
+                this.appliedPopulationIds = new ArrayList<String>(instruction.getAppliedPopulationIds());
             }
 
-            if (instruction.getAtpKeys() != null) {
-                this.atpKeys = new ArrayList<String>(instruction.getAtpKeys());
+            if (instruction.getAppliedAtpTypeKeys() != null) {
+                this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
+            }
+
+            if (instruction.getAppliedAtpKeys() != null) {
+                this.appliedAtpKeys = new ArrayList<String>(instruction.getAppliedAtpKeys());
+            }
+
+            if (instruction.getAppliedDateRanges() != null) {
+                this.appliedDateRanges = new ArrayList<DateRangeInfo>();
+                for (DateRange dr : instruction.getAppliedDateRanges()) {
+                    this.appliedDateRanges.add(new DateRangeInfo(dr));
+                }
             }
 
             this.message = new RichTextInfo(instruction.getMessage());
@@ -135,42 +156,68 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public List<String> getPopulationIds() {
-        if (this.populationIds == null) {
-            this.populationIds = new ArrayList<String>();
+    public List<String> getAppliedOrgIds() {
+        if (this.appliedOrgIds == null) {
+            this.appliedOrgIds = new ArrayList<String>();
         }
 
-        return this.populationIds;
+        return this.appliedOrgIds;
     }
 
-    public void setPopulationIds(List<String> populationIds) {
-        this.populationIds = populationIds;
+    public void setAppliedOrgIds(List<String> appliedOrgIds) {
+        this.appliedOrgIds = appliedOrgIds;
     }
 
     @Override
-    public List<String> getAtpTypeKeys() {
-        if (this.atpTypeKeys == null) {
-            this.atpTypeKeys = new ArrayList<String>();
+    public List<String> getAppliedPopulationIds() {
+        if (this.appliedPopulationIds == null) {
+            this.appliedPopulationIds = new ArrayList<String>();
         }
 
-        return this.atpTypeKeys;
+        return this.appliedPopulationIds;
     }
 
-    public void setAtpTypeKeys(List<String> atpTypeKeys) {
-        this.atpTypeKeys = atpTypeKeys;
+    public void setAppliedPopulationIds(List<String> appliedPopulationIds) {
+        this.appliedPopulationIds = appliedPopulationIds;
     }
 
     @Override
-    public List<String> getAtpKeys() {
-        if (this.atpKeys == null) {
-            this.atpKeys = new ArrayList<String>();
+    public List<String> getAppliedAtpTypeKeys() {
+        if (this.appliedAtpTypeKeys == null) {
+            this.appliedAtpTypeKeys = new ArrayList<String>();
         }
 
-        return this.atpKeys;
+        return this.appliedAtpTypeKeys;
     }
 
-    public void setAtpKeys(List<String> atpKeys) {
-        this.atpKeys = atpKeys;
+    public void setAppliedAtpTypeKeys(List<String> appliedAtpTypeKeys) {
+        this.appliedAtpTypeKeys = appliedAtpTypeKeys;
+    }
+
+    @Override
+    public List<String> getAppliedAtpKeys() {
+        if (this.appliedAtpKeys == null) {
+            this.appliedAtpKeys = new ArrayList<String>();
+        }
+
+        return this.appliedAtpKeys;
+    }
+
+    public void setAppliedAtpKeys(List<String> appliedAtpKeys) {
+        this.appliedAtpKeys = appliedAtpKeys;
+    }
+
+    @Override
+    public List<DateRangeInfo> getAppliedDateRanges() {
+        if (this.appliedDateRanges == null) {
+            this.appliedDateRanges = new ArrayList<DateRangeInfo>();
+        }
+
+        return this.appliedDateRanges;
+    }
+
+    public void setAppliedDateRanges(List<DateRangeInfo> appliedDateRanges) {
+        this.appliedDateRanges = appliedDateRanges;
     }
 
     @Override

@@ -19,7 +19,18 @@ import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a Check.
+ * Information about a Check. A Check can be one of a:
+ *
+ *     1. Hold Check: the Issue Id is not null
+ *     2. Deadline Check: the Milestone Type Key and Atp Type Key are
+ *        not null
+ *     3. Not Before Check: the Milestone Type Key and Atp Type Key are
+ *        not null
+ *     4. In Time Period Check: the Milestone Type Key and Atp Type
+ *        Key are not null
+ *     5. Outside Date Range Check: the Milestone Type Key and Atp
+ *        Type Key are not null
+ *     5. Statement Check: the Statement Id is not null
  *
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011

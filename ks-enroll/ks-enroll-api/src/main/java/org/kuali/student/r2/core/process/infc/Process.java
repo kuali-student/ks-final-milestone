@@ -28,7 +28,8 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 public interface Process extends KeyEntity {
 
     /**
-     * The process owner.
+     * The process owner. This is an informational field to identify
+     * processes by organization.
      *
      * @name Org Id
      * @required
