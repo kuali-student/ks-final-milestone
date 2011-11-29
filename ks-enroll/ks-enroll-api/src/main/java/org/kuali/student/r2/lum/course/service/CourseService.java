@@ -17,6 +17,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -36,13 +37,21 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-
+/**
+ * 
+ * This is a description of what this class does - sambit don't forget to fill this in. 
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
+ *
+ */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseService extends DataDictionaryService, TypeService, StateService {
@@ -61,6 +70,118 @@ public interface CourseService extends DataDictionaryService, TypeService, State
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of courses by ids
+     * 
+     * @param courseIds
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<CourseInfo> getCoursesByIds(@WebParam(name = "courseIds") List<String> courseIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for courses based on the criteria and returns a list of Comment
+     * identifiers which match the search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *            locale information about the caller of service operation
+     * @return list of Comment Ids
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException criteria, contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForCourseIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for courses based on the criteria and returns a list of Comments
+     * which match the search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *            locale information about the caller of service operation
+     * @return list of Comment information
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException criteria, contextInfo not specified
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<CommentInfo> searchForCourses(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a Course
+     * 
+     * @param courseInfo courseInfo
+     * @return the created course
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws InvalidParameterException invalid course
+     * @throws MissingParameterException missing Course
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException
+     * @throws DependentObjectsExistException
+     */
+    public CourseInfo createCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * Updates a Course.
+     * 
+     * @param courseInfo courseInfo
+     * @param courseId
+     * @return updated Course
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws DoesNotExistException course not found
+     * @throws InvalidParameterException invalid course
+     * @throws MissingParameterException missing course
+     * @throws VersionMismatchException The action was attempted on an out of
+     *             date version.
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public CourseInfo updateCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Deletes a Course.
+     * 
+     * @param courseId identifier for Course.Maps to cluId
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException Course does not exist
+     * @throws InvalidParameterException invalid courseId
+     * @throws MissingParameterException invalid courseId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException;
+
+    /**
+     * Validates a course based on its dictionary
+     * 
+     * @param validationType identifier of the extent of validation
+     * @param courseInfo Course to be validated
+     * @return results from performing the validation
+     * @throws DoesNotExistException Course does not exist
+     * @throws InvalidParameterException invalid courseId
+     * @throws MissingParameterException invalid courseId
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
      * Retrieves the formats for a Course.
      * 
      * @param courseId Unique Id of the Course. Maps to cluId
@@ -71,7 +192,7 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<FormatInfo> getCourseFormats(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<FormatInfo> getCourseFormatsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -85,11 +206,11 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ActivityInfo> getCourseActivities(@WebParam(name = "formatId") String formatId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<ActivityInfo> getCourseActivitiesByCourseFormat(@WebParam(name = "formatId") String formatId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the Los for a Course.
+     * Retrieves the Learning Objectives for a Course.
      * 
      * @param courseId Unique Id of the Course. Maps to cluId
      * @return a list of LoDisplay info Structures
@@ -99,7 +220,7 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LoDisplayInfo> getCourseLos(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<LoDisplayInfo> getCourseLearningObjectives(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -108,7 +229,7 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @param courseId Unique Id of the Course. Maps to cluId
      * @param nlUsageTypeKey Natural language usage type key (context)
      * @param language Translation language e.g en, es, gr
-     * @return a list of Statementree Structures
+     * @return a list of Statement tree Structures
      * @throws DoesNotExistException Course does not exist
      * @throws InvalidParameterException invalid courseId
      * @throws MissingParameterException invalid courseId
@@ -118,76 +239,6 @@ public interface CourseService extends DataDictionaryService, TypeService, State
     public List<StatementTreeViewInfo> getCourseStatements(@WebParam(name = "courseId") String courseId, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey,
             @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Creates a Course
-     * 
-     * @param courseInfo courseInfo
-     * @return the created course
-     * @throws AlreadyExistsException The Course already exists
-     * @throws DataValidationErrorException One or more values invalid for this
-     *             operation
-     * @throws InvalidParameterException invalid course
-     * @throws MissingParameterException missing Course
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException
-     * @throws DependentObjectsExistException
-     * @throws CircularRelationshipException
-     * @throws DoesNotExistException
-     * @throws UnsupportedActionException
-     */
-    public CourseInfo createCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException,
-            CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException;
-
-    /**
-     * Updates a Course.
-     * 
-     * @param courseInfo courseInfo
-     * @return updated Course
-     * @throws DataValidationErrorException One or more values invalid for this
-     *             operation
-     * @throws DoesNotExistException course not found
-     * @throws InvalidParameterException invalid course
-     * @throws MissingParameterException missing course
-     * @throws VersionMismatchException The action was attempted on an out of
-     *             date version.
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws DependentObjectsExistException
-     * @throws CircularRelationshipException
-     * @throws AlreadyExistsException
-     * @throws UnsupportedActionException
-     * @throws CircularReferenceException
-     * @throws UnsupportedOperationException
-     */
-    public CourseInfo updateCourse(@WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException,
-            CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException;
-
-    /**
-     * Deletes a Course.
-     * 
-     * @param courseId identifier for Course.Maps to cluId
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException Course does not exist
-     * @throws InvalidParameterException invalid courseId
-     * @throws MissingParameterException invalid courseId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException
-     * @throws DependentObjectsExistException
-     * @throws CircularRelationshipException
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws UnsupportedActionException
-     * @throws CircularReferenceException
-     * @throws UnsupportedOperationException
-     */
-    public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException,
-            CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException;
 
     /**
      * Creates the Statement for a Course.
@@ -218,12 +269,11 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      * @throws VersionMismatchException
-     * @throws CircularReferenceException
      * @throws DataValidationErrorException
      */
     public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException;
+            PermissionDeniedException, DataValidationErrorException,  VersionMismatchException;
 
     /**
      * Delete the Statement for a Course.
@@ -240,20 +290,6 @@ public interface CourseService extends DataDictionaryService, TypeService, State
     public StatusInfo deleteCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
-
-    /**
-     * Validates a course based on its dictionary
-     * 
-     * @param validationType identifier of the extent of validation
-     * @param courseInfo Course to be validated
-     * @return results from performing the validation
-     * @throws DoesNotExistException Course does not exist
-     * @throws InvalidParameterException invalid courseId
-     * @throws MissingParameterException invalid courseId
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException;
 
     /**
      * Validates the Statement for a Course.
