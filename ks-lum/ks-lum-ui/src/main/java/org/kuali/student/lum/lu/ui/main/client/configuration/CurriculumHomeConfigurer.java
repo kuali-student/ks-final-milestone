@@ -417,10 +417,13 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	    			            
 	    						//Only authorized users (eg. admin) are shown the "Use Curriculum Review" check box
 	    						if (isAuthorized){
+	    							//An authorized user by default is allowed to bypass the curriculum review process.
+	    							//They may choose to use it if desired and hence given the option to change it.
 	    			            	useCurricReviewCheckbox.setValue(false);
 	    			            	useCurricReviewCheckbox.setVisible(true);
 	    			            } else {
-	    			            	useCurricReviewCheckbox.setValue(false);
+	    			            	//Unauthorized users must use curriculum review process and does not get option to change  
+	    			            	useCurricReviewCheckbox.setValue(true);
 	    			            	useCurricReviewCheckbox.setVisible(false);	            	
 	    			            }
 
