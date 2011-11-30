@@ -23,8 +23,7 @@ import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -32,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
@@ -45,12 +43,11 @@ import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+
 /**
- * 
- * This is a description of what this class does - sambit don't forget to fill this in. 
+ * The Program Service allows for the creation and management of courses.
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
@@ -220,7 +217,7 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LoDisplayInfo> getCourseLearningObjectives(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -261,6 +258,7 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * Updates the Statement for a Course.
      * 
      * @param courseId Unique Id of the Course. Maps to cluId
+     * @param statementId
      * @param statementTreeViewInfoList a Statementree Structures
      * @return updated Statementree Structures
      * @throws DoesNotExistException Course does not exist
@@ -271,9 +269,9 @@ public interface CourseService extends DataDictionaryService, TypeService, State
      * @throws VersionMismatchException
      * @throws DataValidationErrorException
      */
-    public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException,  VersionMismatchException;
+    public StatementTreeViewInfo updateCourseStatement(@WebParam(name = "courseId") String courseId, @WebParam(name = "statementTreeId") String statementId,
+            @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException;
 
     /**
      * Delete the Statement for a Course.

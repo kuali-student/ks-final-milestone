@@ -22,17 +22,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-/**
- * Information about course joints.
- *
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Tue May 18 11:31:06 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseJointInfo+Structure">CourseJointInfo</>
- *
- */
+import org.kuali.student.r2.lum.course.infc.CourseJoint;
+
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseJointInfo implements Serializable {
+public class CourseJointInfo implements CourseJoint, Serializable {
 
     private static final long serialVersionUID = 1L;
 

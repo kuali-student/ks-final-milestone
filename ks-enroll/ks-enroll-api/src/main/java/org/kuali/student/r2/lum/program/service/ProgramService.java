@@ -40,13 +40,12 @@ import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 /**
- * The Comment Service allows for the creation and management of user comments
- * and tags associated with other objects across the system.
+ * The Program Service allows for the creation and management of programs.
  * 
  * @Version 2.0
  * @Author sambitpa@usc.edu

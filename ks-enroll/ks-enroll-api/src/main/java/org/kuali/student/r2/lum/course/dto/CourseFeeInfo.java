@@ -1,50 +1,30 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.lum.course.infc.CourseFee;
 
-/**
- * Information about a fee related to a course.
- *
- * @Author KSContractMojo
- * @Author Daniel Epstein
- * @Since Mon Jul 26 14:12:33 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseFeeInfo+Structure">CourseFeeInfo</>
- *
- */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseFeeInfo implements Serializable, Idable, HasAttributes {
+public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,22 +37,24 @@ public class CourseFeeInfo implements Serializable, Idable, HasAttributes {
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
 
-    @XmlElement
-    private RichTextInfo descr;
+    public CourseFeeInfo() {
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    }
 
-    @XmlElement
-    private MetaInfo metaInfo;
+    public CourseFeeInfo(CourseFee courseFee) {
+        super(courseFee);
+        if (courseFee != null) {
+            this.feeType = courseFee.getFeeType();
+            this.rateType = courseFee.getRateType();
+            List<CurrencyAmountInfo> feeAmounts = new ArrayList<CurrencyAmountInfo>();
+            for (CurrencyAmount courseAmount : courseFee.getFeeAmounts()) {
+                feeAmounts.add(new CurrencyAmountInfo(courseAmount));
+            }
+            this.feeAmounts = feeAmounts;
+        }
+    }
 
-    @XmlAttribute
-    private String id;
-
-    /**
-     * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
-     */
+    @Override
     public String getFeeType() {
         return feeType;
     }
@@ -81,9 +63,7 @@ public class CourseFeeInfo implements Serializable, Idable, HasAttributes {
         this.feeType = feeType;
     }
 
-    /**
-     * Indicates the structure and interpretation of the fee amounts, i.e. Fixed, Variable, Multiple.
-     */
+    @Override
     public String getRateType() {
         return rateType;
     }
@@ -92,9 +72,7 @@ public class CourseFeeInfo implements Serializable, Idable, HasAttributes {
         this.rateType = rateType;
     }
 
-    /**
-     * The amount or amounts associated with the fee. The number fee amounts and interpretation depends on the rate type.
-     */
+    @Override
     public List<CurrencyAmountInfo> getFeeAmounts() {
         if (feeAmounts == null) {
             feeAmounts = new ArrayList<CurrencyAmountInfo>(0);
@@ -106,50 +84,4 @@ public class CourseFeeInfo implements Serializable, Idable, HasAttributes {
         this.feeAmounts = feeAmounts;
     }
 
-    /**
-     * Narrative description of the Course Fee.
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Identifier for the clu fee record.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

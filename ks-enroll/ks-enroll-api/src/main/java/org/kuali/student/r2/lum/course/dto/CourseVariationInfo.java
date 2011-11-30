@@ -1,17 +1,12 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.course.dto;
 
@@ -22,19 +17,21 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.dto.Idable;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.lum.course.infc.CourseVariation;
 
 /**
  * Detailed information about the human readable form of a Variation
- *
+ * 
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Tue May 18 11:31:11 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseVariationInfo+Structure">CourseVariationInfo</>
- *
+ * @See <a href=
+ *      "https://test.kuali.org/confluence/display/KULSTU/courseVariationInfo+Structure"
+ *      >CourseVariationInfo</>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseVariationInfo implements Serializable, Idable {
+public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseVariation, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,7 +76,8 @@ public class CourseVariationInfo implements Serializable, Idable {
     }
 
     /**
-     * The "extra" portion of the code, which usually corresponds with the most detailed part of the number.
+     * The "extra" portion of the code, which usually corresponds with the most
+     * detailed part of the number.
      */
     public String getCourseNumberSuffix() {
         return courseNumberSuffix;
@@ -90,7 +88,8 @@ public class CourseVariationInfo implements Serializable, Idable {
     }
 
     /**
-     * A number that indicates the sequence or order of variation in cases where several different variations have the same offical Identifier
+     * A number that indicates the sequence or order of variation in cases where
+     * several different variations have the same offical Identifier
      */
     public String getVariationCode() {
         return variationCode;
@@ -101,7 +100,8 @@ public class CourseVariationInfo implements Serializable, Idable {
     }
 
     /**
-     * This is the CluIdentifier Type. It can only have a single value for VariationType
+     * This is the CluIdentifier Type. It can only have a single value for
+     * VariationType
      */
     public String getType() {
         return type;
@@ -112,12 +112,18 @@ public class CourseVariationInfo implements Serializable, Idable {
     }
 
     /**
-     * Identifies the particular identifier structure. This is set by the service to be able to determine changes and alterations to the structure as well as provides a handle for searches. This structure is not accessible through unique operations, and it is strongly recommended that no external references to this particular identifier be maintained.
+     * Identifies the particular identifier structure. This is set by the
+     * service to be able to determine changes and alterations to the structure
+     * as well as provides a handle for searches. This structure is not
+     * accessible through unique operations, and it is strongly recommended that
+     * no external references to this particular identifier be maintained.
      */
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
