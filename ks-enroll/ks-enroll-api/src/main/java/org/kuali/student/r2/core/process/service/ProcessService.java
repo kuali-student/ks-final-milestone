@@ -339,7 +339,7 @@ public interface ProcessService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ProcessInfo> getProcesssByKeys(@WebParam(name = "processKeys") List<String> processKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ProcessInfo> getProcessesByKeys(@WebParam(name = "processKeys") List<String> processKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves a list of Process keys of the specified type.
@@ -741,7 +741,8 @@ public interface ProcessService
 
     /** 
      * Retrieves a list of all Instructions relating to the given
-     * Process.
+     * Process. This returns a list of Instructions ordered by
+     * position.
      *
      * @param processKey a unique identfiier for a Process
      * @param contextInfo Context information containing the
@@ -932,15 +933,11 @@ public interface ProcessService
 
     /** 
      * Retrieves a list of all Instructions ready to be
-     * evaluated. This method:
+     * evaluated in order. This method:
      *    1. orders the Instructions for a Process
      *    2. filters out Instructions whose state is not "active"
      *    3. filters out Instructions whose effective dates are not current
      *       or the current context date does not apply (?)
-     *    4. filters out any Instructions related to an a time period where
-     *       the current context date does not apply
-     *    5. filters out any Instructions applied to a Population where
-     *       the current context Person does not apply
      *
      * @param processKey a unique identfiier for a Process
      * @param contextInfo Context information containing the

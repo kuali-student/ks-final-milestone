@@ -31,8 +31,8 @@ public interface Process extends KeyEntity {
      * The process owner. This is an informational field to identify
      * processes by organization.
      *
-     * @name Org Id
+     * @name Owner Org Id
      * @required
      */
-    public String getOrgId();
+    public String getOwnerOrgId();
 }

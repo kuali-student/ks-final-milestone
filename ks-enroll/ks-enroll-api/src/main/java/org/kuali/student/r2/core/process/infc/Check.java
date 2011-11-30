@@ -30,13 +30,15 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *        Key are not null
  *     5. Outside Date Range Check: the Milestone Type Key and Atp
  *        Type Key are not null
- *     5. Statement Check: the Statement Id is not null
+ *     6. Statement Check: the Statement Id is not null
+ *     7. Process Check: the Process key is not null
  *
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Check extends IdEntity {
+public interface Check 
+    extends IdEntity {
 
     /**
      * The Issue Id if this Check is for a Hold.
@@ -54,18 +56,18 @@ public interface Check extends IdEntity {
     public String getMilestoneTypeKey();
 
     /**
-     * The ATP Type Key if this Check is for a deadline, "not before,"
-     * "in time period" or "outside date range" checks.
+     * The Agenda Id if this Check is based on evaluating
+     * an Agenda. (do we need a reference for the eval?)
      *
-     * @name Atp Type Key
+     * @name Agenda Id
      */
-    public String getAtpTypeKey();
+    public String getAgendaId();
 
     /**
-     * The Statement Id if this Check is based on evaluating
-     * s Statement. (do we need a reference for the eval?)
+     * The Process Key if this Check is based on evaluating
+     * a Process.
      *
-     * @name Statement Id
+     * @name Process Key
      */
-    public String getStatementId();
+    public String getProcessKey();
 }

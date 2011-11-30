@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey",
-                "name", "descr", "orgId", "meta", "attributes",
+                "name", "descr", "ownerOrgId", "meta", "attributes",
                 "_futureElements" })
 
 public class ProcessInfo extends KeyEntityInfo 
@@ -40,7 +40,7 @@ public class ProcessInfo extends KeyEntityInfo
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
-    private String orgId;
+    private String ownerOrgId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -61,16 +61,16 @@ public class ProcessInfo extends KeyEntityInfo
         super(process);
 
         if (process != null) {
-            this.orgId = process.getOrgId();
+            this.ownerOrgId = process.getOwnerOrgId();
         }
     }
 
     @Override
-    public String getOrgId() {
-        return this.orgId;
+    public String getOwnerOrgId() {
+        return this.ownerOrgId;
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setOwnerOrgId(String ownerOrgId) {
+        this.ownerOrgId = ownerOrgId;
     }
 }

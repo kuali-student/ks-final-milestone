@@ -25,9 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
@@ -38,7 +36,7 @@ import org.w3c.dom.Element;
                 "effectiveDate", "expirationDate",
                 "processKey", "checkId", "appliedOrgIds", 
                 "appliedPopulationIds", "appliedAtpTypeKeys",
-                "appliedAtpKeys", "appliedDateRanges",
+                "appliedAtpKeys", "appliedCluSetIds",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
                 "meta", "attributes",
@@ -68,7 +66,7 @@ public class InstructionInfo extends RelationshipInfo
     private List<String> appliedAtpKeys;
 
     @XmlElement 
-    private List<DateRangeInfo> appliedDateRanges;
+    private List<String> appliedCluSetIds;
 
     @XmlElement 
     private RichTextInfo message;
@@ -122,11 +120,8 @@ public class InstructionInfo extends RelationshipInfo
                 this.appliedAtpKeys = new ArrayList<String>(instruction.getAppliedAtpKeys());
             }
 
-            if (instruction.getAppliedDateRanges() != null) {
-                this.appliedDateRanges = new ArrayList<DateRangeInfo>();
-                for (DateRange dr : instruction.getAppliedDateRanges()) {
-                    this.appliedDateRanges.add(new DateRangeInfo(dr));
-                }
+            if (instruction.getAppliedCluSetIds() != null) {
+                this.appliedCluSetIds = new ArrayList<String>(instruction.getAppliedCluSetIds());
             }
 
             this.message = new RichTextInfo(instruction.getMessage());
@@ -208,16 +203,16 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public List<DateRangeInfo> getAppliedDateRanges() {
-        if (this.appliedDateRanges == null) {
-            this.appliedDateRanges = new ArrayList<DateRangeInfo>();
+    public List<String> getAppliedCluSetIds() {
+        if (this.appliedCluSetIds == null) {
+            this.appliedCluSetIds = new ArrayList<String>();
         }
 
-        return this.appliedDateRanges;
+        return this.appliedCluSetIds;
     }
 
-    public void setAppliedDateRanges(List<DateRangeInfo> appliedDateRanges) {
-        this.appliedDateRanges = appliedDateRanges;
+    public void setAppliedCluSetIds(List<String> appliedCluSetIds) {
+        this.appliedCluSetIds = appliedCluSetIds;
     }
 
     @Override

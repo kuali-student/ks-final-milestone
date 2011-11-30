@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "issueId", "milestoneTypeKey", "atpTypeKey", 
-                "statementId", "meta", "attributes",
+                "descr", "issueId", "milestoneTypeKey", 
+                "agendaId", "processKey", "meta", "attributes",
 		"_futureElements" })
 
 public class CheckInfo extends IdEntityInfo 
@@ -47,10 +47,10 @@ public class CheckInfo extends IdEntityInfo
     private String milestoneTypeKey;
 
     @XmlElement 
-    private String atpTypeKey;
+    private String agendaId;
 
     @XmlElement 
-    private String statementId;
+    private String processKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -73,8 +73,8 @@ public class CheckInfo extends IdEntityInfo
         if (check != null) {
             this.issueId = check.getIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
-            this.atpTypeKey = check.getAtpTypeKey();
-            this.statementId = check.getStatementId();
+            this.agendaId = check.getAgendaId();
+            this.processKey = check.getProcessKey();
         }
     }
 
@@ -97,20 +97,20 @@ public class CheckInfo extends IdEntityInfo
     }
 
     @Override
-    public String getAtpTypeKey() {
-        return this.atpTypeKey;
+    public String getAgendaId() {
+        return this.agendaId;
     }
 
-    public void setAtpTypeKey(String atpTypeKey) {
-        this.atpTypeKey = atpTypeKey;
+    public void setAgendaId(String agendaId) {
+        this.agendaId = agendaId;
     }
 
     @Override
-    public String getStatementId() {
-        return this.statementId;
+    public String getProcessKey() {
+        return this.processKey;
     }
 
-    public void setStatementId(String statementId) {
-        this.statementId = statementId;
+    public void setProcessKey(String processKey) {
+        this.processKey = processKey;
     }
 }

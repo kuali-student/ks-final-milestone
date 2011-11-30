@@ -18,7 +18,6 @@ package org.kuali.student.r2.core.process.infc;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Relationship;
-import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.infc.RichText;
 
 
@@ -32,9 +31,8 @@ import org.kuali.student.r2.common.infc.RichText;
  *      2. and the person is a member of any applied Populations
  *      3. and the current ATP type is any of the applied ATP Types
  *      4. and the current ATP is any of the applied ATPs
- *      5. and the current date is within any applied date range
  *
- * If any of the above applied elements is empty, then the appleid
+ * If any of the above applied elements is empty, then the applied
  * element evaluates to true. If all applied elements are empty, then
  * the Check is globally applied.
  *
@@ -42,7 +40,8 @@ import org.kuali.student.r2.common.infc.RichText;
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Instruction extends Relationship {
+public interface Instruction 
+    extends Relationship {
 
     /**
      * The process key.
@@ -64,6 +63,7 @@ public interface Instruction extends Relationship {
 
     /**
      * The Org Ids to which the Check applies.
+     * TODO: revisit rules that evaluate to orgs.
      *
      * @name Applied Org Ids
      */
@@ -78,6 +78,7 @@ public interface Instruction extends Relationship {
 
     /**
      * The ATP Type keys to which the Check applies.
+     * TODO: revisit rules that evaluate to ATPs.
      *
      * @name Applied Atp Type Keys
      */
@@ -91,15 +92,16 @@ public interface Instruction extends Relationship {
     public List<String> getAppliedAtpKeys();
 
     /**
-     * The date ranges to which the Check applies.
+     * The CLU sets to which the Check applies.
      *
-     * @name Applied Date Ranges
+     * @name Clu Set Ids
      */
-    public List<? extends DateRange> getAppliedDateRanges();
+    public List<String> getAppliedCluSetIds();
 
     /**
      * The text of a message to display to a user on fail or warning
-     * for this Instruction.
+     * for this Instruction. (todo: substituting variables to create
+     * contextual message and handling internationalization)
      *
      * @name Message
      */
@@ -109,13 +111,15 @@ public interface Instruction extends Relationship {
      * The position in the Process.
      *
      * @name Position
+     * @readOnly
      */
     public Integer getPosition();
 
     /**
      * Tests if a failure in this Check results in warning or failure
      * for this step. If true, the Check failure is interpreted as a
-     * warning.
+     * warning. If false, the Check failure is interpreted as an
+     * error.
      *
      * @name Is Warning 
      */
@@ -129,7 +133,7 @@ public interface Instruction extends Relationship {
     public Boolean getContinueOnFail();
 
     /**
-     * Tests an Exemption can be applied to this Instruction.
+     * Tests an Exemption can be requested to this Instruction.
      *
      * @name Is Exemptable
      */
