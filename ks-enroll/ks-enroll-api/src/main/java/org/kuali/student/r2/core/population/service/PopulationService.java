@@ -361,13 +361,14 @@ public interface PopulationService
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
-     * @return a list of PopulationRules
+     * @return a PopulationRules
+     * @throws DoesNotExistException populationId is not found
      * @throws InvalidParameterException invalid populationid or contextInfo
      * @throws MissingParameterException missing populationId or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<PopulationRuleInfo> getPopulationRulesForPopulation(@WebParam(name = "populationid") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationid") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for PopulationRules based on the criteria and
@@ -503,7 +504,8 @@ public interface PopulationService
     public StatusInfo deletePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Adds PopulationRule to a Population.
+     * Applies PopulationRule to a Population. If the Population
+     * already has a rule, it is replaced with the specified one.
      *
      * @param populationRuleId a unique identifier for a PopulationRule
      * @param populationId a unique identifier for a Population
@@ -511,8 +513,6 @@ public interface PopulationService
      *        principalId and locale information about the caller of
      *        service operation
      * @return status
-     * @throws AlreadyExistsException populationId already related to
-     *         populationRuleId
      * @throws DoesNotExistException populationId or
      *         populationRuleId not found
      * @throws InvalidParameterException invalid populationRuleId,
@@ -522,7 +522,7 @@ public interface PopulationService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Removes Population from a PopulationRule.
@@ -542,5 +542,5 @@ public interface PopulationService
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

@@ -22,8 +22,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 
 /**
- * Information about a Population Rule to set up
- * a Population.
+ * Information about a Population Rule to set up a Population. Each
+ * "rule" defined in this interface adds to the population.
  *
  * @author tom
  * @since Thu Nov 21 14:22:34 EDT 2011
@@ -32,14 +32,15 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 public interface PopulationRule extends IdEntity {
 
     /**
-     * The search criteria to be used.
+     * The search criteria to be used in building this
+     * population. (TODO: not sure if this can be persisted).
      *
      * @name Search Criteria
      */
     public QueryByCriteria getSearchCriteria();
 
     /**
-     * A Statement Ids to be used in evaluating this population.
+     * A Statement Ids to be used in building this population.
      *
      * @name Statement Ids
      */
@@ -60,7 +61,8 @@ public interface PopulationRule extends IdEntity {
     public List<String> getPersonIds();
 
     /**
-     * A list of Population Ids to be used in building this population.
+     * A list of Population Ids to be used in building this
+     * population.
      *
      * @name Population Ids
      */
