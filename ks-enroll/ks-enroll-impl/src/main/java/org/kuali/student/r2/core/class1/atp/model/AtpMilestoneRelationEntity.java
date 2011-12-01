@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 
 @Entity
@@ -141,32 +140,6 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     @Override
     public List<AtpMilestoneRelationAttributeEntity> getAttributes() {
         return attributes;
-    }
-    
-    public AtpMilestoneRelationInfo toDto() {
-        AtpMilestoneRelationInfo dto = new AtpMilestoneRelationInfo();
-        
-        dto.setId(getId());
-        dto.setAtpKey(getAtp().getId());
-        dto.setMilestoneKey(getMilestone().getId());
-        dto.setEffectiveDate(getEffectiveDate());
-        dto.setExpirationDate(getExpirationDate());
-        dto.setStateKey(getAtpState().getId());
-        dto.setTypeKey(getAtpMilestoneRelationType().getId());
-        dto.setMeta(super.toDTO());
-        
-        if(getAttributes() != null) {
-            List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
-            for (AtpMilestoneRelationAttributeEntity att : getAttributes()) {
-                AttributeInfo attInfo = att.toDto();
-                atts.add(attInfo);
-            }
-            
-            dto.setAttributes(atts);
-        }
-        
-        
-        return dto;
     }
 
 }

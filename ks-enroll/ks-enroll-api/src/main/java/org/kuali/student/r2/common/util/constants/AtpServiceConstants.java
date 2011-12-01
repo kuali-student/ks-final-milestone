@@ -17,7 +17,6 @@ package org.kuali.student.r2.common.util.constants;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 
 /**
  * This class holds the constants used by the ATP service
@@ -33,7 +32,7 @@ public class AtpServiceConstants {
     public static final String REF_OBJECT_URI_ATP = NAMESPACE + "/" + AtpInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + MilestoneInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ATP_ATP_RELATION = NAMESPACE + "/" + AtpAtpRelationInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_ATP_MILESTONE_RELATION = NAMESPACE + "/" + AtpMilestoneRelationInfo.class.getSimpleName();
+
     /**
      * ATP Types
      */
@@ -253,11 +252,13 @@ public class AtpServiceConstants {
      */
     public static final String ATP_MILESTONE_RELATION_OWNS_TYPE_KEY = "kuali.atp.milestone.relation.owns";
     public static final String ATP_MILESTONE_RELATION_REUSES_TYPE_KEY = "kuali.atp.milestone.relation.reuses";
+    public static final String ATP_MILESTONE_RELATION_USES_TYPE_KEY = "kuali.atp.milestone.relation.uses";
     /**
      * ATP Milestone Relation States
      */
     public static final String ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.active";
     public static final String ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY = "kuali.atp.milestone.relation.state.inactive";
+    public static final String ATP_MILESTONE_RELATION_CANCELED_STATE_KEY = "kuali.atp.milestone.relation.state.canceled";
     public static final String ATP_MILESTONE_RELATION_PROCESS_KEY = "kuali.atp.milestone.relation.process";
     public static final String[] ATP_MILESTONE_RELATION_PROCESS_STATE_KEYS = {ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, ATP_MILESTONE_RELATION_INACTIVE_STATE_KEY};
 

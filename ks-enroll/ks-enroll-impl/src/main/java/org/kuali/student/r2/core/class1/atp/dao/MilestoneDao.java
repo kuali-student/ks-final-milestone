@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 
 public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
 
@@ -34,5 +35,19 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
     public List<MilestoneEntity> getByAtp(String atpId) {
         return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId").setParameter("atpId", atpId).getResultList();
     }
-    
+
+    @SuppressWarnings("unchecked")
+    public List<MilestoneEntity> getByTypeForAtp(String atpId,String milestoneType) {
+        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId and m.milestone.atpType = :milestoneType").setParameter("atpId", atpId).setParameter("milestoneType", milestoneType).getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<MilestoneEntity> getByDatesForAtp(String atpId,Date startDate,Date endDate) {
+        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId and m.milestone.startDate = :startDate and m.milestone.endDate = :endDate").
+                  setParameter("atpId", atpId).
+                  setParameter("startDate", startDate).
+                  setParameter("endDate", endDate).
+                  getResultList();
+    }
+
 }

@@ -485,7 +485,7 @@ public class TestAcademicCalendarServiceImpl{
         
         try {
             fakeResults = acalService.getTermsForAcademicCalendar("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
+            assertEquals(0,fakeResults.size());
         }
         catch(DoesNotExistException e) {
             assertNull(fakeResults);

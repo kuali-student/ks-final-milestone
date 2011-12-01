@@ -24,11 +24,11 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     @Test
     public void testGetAtpAtpRelation()
     {
-        AtpAtpRelationEntity atpRel = dao.find("ATPATPREL-1");
+        AtpAtpRelationEntity atpRel = dao.find("ATPATPREL-2");
         assertNotNull(atpRel);
         AtpTypeEntity atpType = atpRel.getAtpType();
         assertNotNull(atpType);
-        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, atpType.getName());
+        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, atpType.getName());
     }
 
     @Test
@@ -37,14 +37,14 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     	//id is atp
         List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtp("testAtpId1");
         assertNotNull(rels);
-        assertEquals(4, rels.size());
+        assertEquals(3, rels.size());
         for (AtpAtpRelationEntity rel : rels) {
         	assertEquals("testAtpId1", rel.getAtp().getId());
         }
         // testAtpId2 is relatedAtp's ID
         rels = dao.getAtpAtpRelationsByAtp("testAtpId2");
         assertNotNull(rels);
-        assertEquals(1, rels.size());
+        assertEquals(0, rels.size());
     }
     
     @Test
@@ -66,8 +66,8 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     {
     	List<AtpAtpRelationEntity> rels =
                 dao.getAtpAtpRelationsByAtpAndRelationType("testAtpId1",
-                        AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+                        AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
         assertNotNull(rels);
-        assertEquals(1, rels.size());
+        assertEquals(3, rels.size());
     }
 }

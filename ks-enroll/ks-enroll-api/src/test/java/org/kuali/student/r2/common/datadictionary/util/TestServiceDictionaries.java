@@ -40,7 +40,6 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -70,7 +69,6 @@ public class TestServiceDictionaries {
         inputFiles.add(calculateXmlFileName(AtpInfo.class));
         inputFiles.add(calculateXmlFileName(MilestoneInfo.class));
         inputFiles.add(calculateXmlFileName(AtpAtpRelationInfo.class));
-        inputFiles.add(calculateXmlFileName(AtpMilestoneRelationInfo.class));
 //       Learning Unit Instance (LUI) Service
         inputFiles.add(calculateXmlFileName(LuiInfo.class));
         inputFiles.add(calculateXmlFileName(LuiLuiRelationInfo.class));

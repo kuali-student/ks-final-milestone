@@ -107,3 +107,5 @@ Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.relation.reuses',null,0,'Indicates the ATP reuses the specified milestone that another ATP owns ',null,null,'Reuses','http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo')
 /
 
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.relation.uses',null,0,'Indicates the ATP uses the specified milestone',null,null,'Uses','http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo')
+/
