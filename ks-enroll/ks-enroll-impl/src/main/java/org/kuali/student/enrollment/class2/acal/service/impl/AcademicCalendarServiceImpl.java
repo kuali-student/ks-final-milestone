@@ -1081,8 +1081,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<KeyDateInfo> getKeyDatesForTermByDate(String termKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<KeyDateInfo>();
+        List<MilestoneInfo> milestoneInfos = atpService.getMilestonesByDatesForAtp(termKey,startDate,endDate,context);
+        List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            keyDates.add(new KeyDateInfo(milestoneInfo));
+        }
+        return keyDates;
     }
 
     @Override
