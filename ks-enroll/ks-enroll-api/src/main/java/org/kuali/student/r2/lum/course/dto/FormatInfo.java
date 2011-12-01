@@ -12,22 +12,18 @@ package org.kuali.student.r2.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.dto.TimeAmountInfo;
-
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.lum.course.infc.Activity;
 import org.kuali.student.r2.lum.course.infc.Format;
 
 /**
- * 
- * 
  * @Author KSContractMojo
  * @Author Kamal
  * @Since Tue May 18 11:30:55 PDT 2010
@@ -49,9 +45,26 @@ public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializ
     @XmlElement
     private TimeAmountInfo duration;
 
-    /**
-     * 
-     */
+    public FormatInfo() {
+
+    }
+
+    public FormatInfo(Format format) {
+        super(format);
+        if (format != null) {
+            List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
+            for (Activity activity : format.getActivities()) {
+                activities.add(new ActivityInfo(activity));
+            }
+
+            this.activities = activities;
+
+            this.termsOffered = new ArrayList<String>(format.getTermsOffered());
+
+            this.duration = new TimeAmountInfo(format.getDuration());
+        }
+    }
+
     @Override
     public List<ActivityInfo> getActivities() {
         if (activities == null) {
@@ -81,7 +94,5 @@ public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializ
     public void setDuration(TimeAmountInfo duration) {
         this.duration = duration;
     }
-
-   
 
 }

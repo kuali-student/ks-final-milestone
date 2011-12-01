@@ -47,15 +47,26 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
     @XmlElement
     private String variationCode;
 
-    @XmlAttribute
-    private String type;
+    public CourseVariationInfo() {
 
-    @XmlAttribute
-    private String id;
+    }
+
+    public CourseVariationInfo(CourseVariation courseVariation) {
+        super(courseVariation);
+
+        if (courseVariation != null) {
+            this.variationTitle = courseVariation.getVariationTitle();
+            this.subjectArea = courseVariation.getSubjectArea();
+            this.courseNumberSuffix = courseVariation.getCourseNumberSuffix();
+            this.variationCode = courseVariation.getVariationCode();
+
+        }
+    }
 
     /**
      * Full name of the variation, commonly used on catalogues
      */
+    @Override
     public String getVariationTitle() {
         return variationTitle;
     }
@@ -67,6 +78,7 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
     /**
      * 
      */
+    @Override
     public String getSubjectArea() {
         return subjectArea;
     }
@@ -79,6 +91,7 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
      * The "extra" portion of the code, which usually corresponds with the most
      * detailed part of the number.
      */
+    @Override
     public String getCourseNumberSuffix() {
         return courseNumberSuffix;
     }
@@ -91,6 +104,7 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
      * A number that indicates the sequence or order of variation in cases where
      * several different variations have the same offical Identifier
      */
+    @Override
     public String getVariationCode() {
         return variationCode;
     }
@@ -99,32 +113,4 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
         this.variationCode = variationCode;
     }
 
-    /**
-     * This is the CluIdentifier Type. It can only have a single value for
-     * VariationType
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * Identifies the particular identifier structure. This is set by the
-     * service to be able to determine changes and alterations to the structure
-     * as well as provides a handle for searches. This structure is not
-     * accessible through unique operations, and it is strongly recommended that
-     * no external references to this particular identifier be maintained.
-     */
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
 }

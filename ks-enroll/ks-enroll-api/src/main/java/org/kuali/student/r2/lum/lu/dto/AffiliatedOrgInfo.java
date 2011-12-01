@@ -1,17 +1,12 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.lum.lu.dto;
 
@@ -27,18 +22,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "orgId", "percentage",
-    "effectiveDate", "expirationDate", "_futureElements"})
-public class AffiliatedOrgInfo implements AffiliatedOrg, Serializable {
+@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey", "_futureElements"})
+public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements AffiliatedOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlAttribute
-    private String id;
     @XmlElement
     private String orgId;
     @XmlElement
@@ -49,10 +40,9 @@ public class AffiliatedOrgInfo implements AffiliatedOrg, Serializable {
     private Date expirationDate;
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
     public AffiliatedOrgInfo() {
         super();
-        id = null;
         orgId = null;
         percentage = null;
         effectiveDate = null;
@@ -60,30 +50,21 @@ public class AffiliatedOrgInfo implements AffiliatedOrg, Serializable {
     }
 
     public AffiliatedOrgInfo(AffiliatedOrg affiliatedOrg) {
-        this.id = affiliatedOrg.getId();
+
+        super(affiliatedOrg);
+
         this.percentage = affiliatedOrg.getPercentage();
         if (affiliatedOrg.getEffectiveDate() != null) {
             this.effectiveDate = new Date(affiliatedOrg.getEffectiveDate().getTime());
-        }
-        else {
+        } else {
             this.effectiveDate = null;
         }
-            
+
         if (affiliatedOrg.getExpirationDate() != null) {
             this.expirationDate = new Date(affiliatedOrg.getExpirationDate().getTime());
-        }
-        else {
+        } else {
             this.expirationDate = null;
         }
-    }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     @Override

@@ -19,9 +19,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
+import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
 
 /**
  * Detailed information about revenue collected from the course.
@@ -44,10 +45,29 @@ public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRev
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
+    public CourseRevenueInfo() {
+
+    }
+
+    public CourseRevenueInfo(CourseRevenue courseRevenue) {
+        super(courseRevenue);
+        if (courseRevenue != null) {
+            this.feeType = courseRevenue.getFeeType();
+            List<AffiliatedOrgInfo> affilatedOrgs = new ArrayList<AffiliatedOrgInfo>();
+
+            for (AffiliatedOrg affiliatedOrg : courseRevenue.getAffiliatedOrgs()) {
+                affilatedOrgs.add(new AffiliatedOrgInfo(affiliatedOrg));
+
+            }
+            this.affiliatedOrgs = affilatedOrgs;
+        }
+    }
+
     /**
      * A code that identifies the type of the fee with which this revenue is
      * associated with.
      */
+    @Override
     public String getFeeType() {
         return feeType;
     }
@@ -59,6 +79,7 @@ public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRev
     /**
      * List of affiliated organizations.
      */
+    @Override
     public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
         if (affiliatedOrgs == null) {
             affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>(0);

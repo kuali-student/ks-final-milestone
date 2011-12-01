@@ -57,7 +57,7 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
 
     @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
-    
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -66,6 +66,14 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
     }
 
     public LoDisplayInfo(LoDisplay loDisplay) {
+        super(loDisplay);
+        if (loDisplay != null) {
+            this.loInfo = new LoInfo(loDisplay.getLoInfo());
+            List<LoDisplayInfo> loDisplayInfoList = new ArrayList<LoDisplayInfo>();
+            for (LoDisplay containedLoDisplay : loDisplay.getLoDisplayInfoList()) {
+                loDisplayInfoList.add(new LoDisplayInfo(containedLoDisplay));
+            }
+        }
 
     }
 

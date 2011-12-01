@@ -14,13 +14,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
@@ -28,9 +25,14 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
+import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.kuali.student.r2.lum.course.infc.CourseJoint;
+import org.kuali.student.r2.lum.course.infc.CourseRevenue;
+import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.program.infc.ProgramAttributes;
+import org.kuali.student.r2.lum.lu.infc.CluInstructor;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -137,7 +139,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @XmlElement
     private VersionInfo versionInfo;
 
-    public CourseInfo(CourseInfo courseInfo) {
+    public CourseInfo(Course courseInfo) {
         super(courseInfo);
         if (courseInfo != null) {
             this.code = courseInfo.getCode();
@@ -150,15 +152,34 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.transcriptTitle = courseInfo.getTranscriptTitle();
 
-            this.formats = new ArrayList<FormatInfo>();
+            List<FormatInfo> formatList = new ArrayList<FormatInfo>();
 
-            this.termsOffered = new ArrayList<String>();
+            for (Format format : courseInfo.getFormats()) {
+
+                formatList.add(new FormatInfo(format));
+            }
+
+            this.termsOffered = new ArrayList<String>(courseInfo.getTermsOffered());
 
             this.duration = new TimeAmountInfo(courseInfo.getDuration());
 
-            this.joints = new ArrayList<CourseJointInfo>();
+            List<CourseJointInfo> courseJointList = new ArrayList<CourseJointInfo>();
+
+            for (CourseJoint courseJoint : courseInfo.getJoints()) {
+
+                courseJointList.add(new CourseJointInfo(courseJoint));
+            }
+
+            this.joints = courseJointList;
 
             this.crossListings = new ArrayList<CourseCrossListingInfo>();
+
+            List<CourseCrossListingInfo> courseCrossListingList = new ArrayList<CourseCrossListingInfo>();
+
+            for (CourseCrossListing courseCrossListing : courseInfo.getCrossListings()) {
+
+                courseCrossListingList.add(new CourseCrossListingInfo(courseCrossListing));
+            }
 
             this.variations = new ArrayList<CourseVariationInfo>();
 
@@ -169,7 +190,14 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.primaryInstructor = new CluInstructorInfo(courseInfo.getPrimaryInstructor());
 
-            this.instructors = new ArrayList<CluInstructorInfo>();
+            List<CluInstructorInfo> instructorList = new ArrayList<CluInstructorInfo>();
+
+            for (CluInstructor cluInstructor : courseInfo.getInstructors()) {
+
+                instructorList.add(new CluInstructorInfo(cluInstructor));
+            }
+
+            this.instructors = instructorList;
 
             this.unitsDeployment = new ArrayList<String>(courseInfo.getUnitsDeployment());
 
@@ -177,13 +205,32 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.unitsContentOwner = new ArrayList<String>(courseInfo.getUnitsContentOwner());
 
-            this.fees = new ArrayList<CourseFeeInfo>();
+            List<CourseFeeInfo> courseFeeList = new ArrayList<CourseFeeInfo>();
+            for (CourseFee courseFee : courseInfo.getFees()) {
 
-            this.revenues = new ArrayList<CourseRevenueInfo>();
+                courseFeeList.add(new CourseFeeInfo(courseFee));
+            }
+
+            this.fees = courseFeeList;
+
+            List<CourseRevenueInfo> courseRevList = new ArrayList<CourseRevenueInfo>();
+            for (CourseRevenue courseRevenue : courseInfo.getRevenues()) {
+
+                courseRevList.add(new CourseRevenueInfo(courseRevenue));
+            }
+
+            this.revenues = courseRevList;
 
             this.expenditure = new CourseExpenditureInfo(courseInfo.getExpenditure());
 
-            this.courseSpecificLOs = new ArrayList<LoDisplayInfo>();
+            List<LoDisplayInfo> courseLos = new ArrayList<LoDisplayInfo>();
+
+            for (LoDisplay courseRevenue : courseInfo.getCourseSpecificLOs()) {
+
+                courseLos.add(new LoDisplayInfo(courseRevenue));
+            }
+
+            this.courseSpecificLOs = courseLos;
 
             this.gradingOptionIds = new ArrayList<String>(courseInfo.getGradingOptionIds());
 
@@ -641,5 +688,4 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
         this.expirationDate = expirationDate;
     }
 
- 
 }

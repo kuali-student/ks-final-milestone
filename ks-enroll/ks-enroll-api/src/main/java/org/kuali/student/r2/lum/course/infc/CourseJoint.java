@@ -1,11 +1,13 @@
 package org.kuali.student.r2.lum.course.infc;
 
+import org.kuali.student.r2.common.infc.Entity;
+
 /**
  * * Information about course joints.
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-public interface CourseJoint {
+public interface CourseJoint  extends Entity{
     /**
      * 
      */
