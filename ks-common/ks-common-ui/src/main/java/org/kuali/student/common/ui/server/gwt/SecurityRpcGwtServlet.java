@@ -88,8 +88,8 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
         permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
         boolean hasAccess = false;
         hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
-					PermissionType.KS_ADMIN_SCREEN.getPermissionNamespace(), 
-					PermissionType.KS_ADMIN_SCREEN.getPermissionTemplateName(), permDetails, 
+					PermissionType.USE_SCREEN.getPermissionNamespace(), 
+					PermissionType.USE_SCREEN.getPermissionTemplateName(), permDetails, 
 					permDetails);
 
         LOG.debug(principalId + " access : " + hasAccess);

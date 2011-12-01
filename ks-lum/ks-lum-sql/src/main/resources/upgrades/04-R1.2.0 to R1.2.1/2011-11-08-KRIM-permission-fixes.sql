@@ -38,6 +38,11 @@ SET ROLE_NM='Kuali Student Org Admin'
 WHERE ROLE_ID='10000'
 /
 
+--Update name for KS Admin Screen Permission
+UPDATE KRIM_PERM_TMPL_T
+SET NM='Use Screen'
+WHERE PERM_TMPL_ID='4001'
+
 --Create New Intitiate Document Permssions & assign to either KS CM User or KS CM Admin roles
 --Create Course Proposal
 INSERT INTO KRIM_PERM_T (ACTV_IND,NMSPC_CD,OBJ_ID,PERM_ID,PERM_TMPL_ID,VER_NBR,NM)
