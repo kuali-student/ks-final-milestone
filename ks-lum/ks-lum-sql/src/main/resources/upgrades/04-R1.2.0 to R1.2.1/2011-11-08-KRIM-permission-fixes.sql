@@ -42,6 +42,7 @@ WHERE ROLE_ID='10000'
 UPDATE KRIM_PERM_TMPL_T
 SET NM='Use Screen'
 WHERE PERM_TMPL_ID='4001'
+/
 
 --Create New Intitiate Document Permssions & assign to either KS CM User or KS CM Admin roles
 --Create Course Proposal
