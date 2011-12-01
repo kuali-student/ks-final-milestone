@@ -12,6 +12,9 @@
         DESCR="Indicates that this Atp-Milestone relation is active"
         ID="kuali.atp.milestone.relation.state.active" NAME="Active" VER_NBR="0"/>
     <KSEN_ATP_STATE
+        DESCR="Indicates that this Atp-Milestone relation is canceled"
+        ID="kuali.atp.milestone.relation.state.canceled" NAME="Canceled" VER_NBR="0"/>
+    <KSEN_ATP_STATE
         DESCR="Indicates that this Atp-Milestone relation is inactive"
         ID="kuali.atp.milestone.relation.state.inactive" NAME="Inactive" VER_NBR="0"/>
     <KSEN_ATP_STATE

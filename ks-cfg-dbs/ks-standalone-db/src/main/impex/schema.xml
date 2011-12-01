@@ -1570,6 +1570,7 @@
         <column name="EFF_DT" type="TIMESTAMP"/>
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LUI_TYPE_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
