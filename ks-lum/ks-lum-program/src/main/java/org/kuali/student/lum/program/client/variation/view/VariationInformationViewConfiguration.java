@@ -1,7 +1,12 @@
 package org.kuali.student.lum.program.client.variation.view;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -11,6 +16,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 /**
  * @author Igor
@@ -45,8 +51,7 @@ public class VariationInformationViewConfiguration extends AbstractSectionConfig
     private TableSection createIdentifyingDetailsSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(ProgramProperties.get().programInformation_identifyingDetails()));
         configurer.addReadOnlyField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_RUNTIME_PROGRAM_LEVEL, new MessageKeyInfo(
-                ProgramProperties.get().programInformation_level()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
         configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_TYPE_NAME, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
         configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
         configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));

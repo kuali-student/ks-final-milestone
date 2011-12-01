@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.mvc;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -42,9 +41,9 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -63,6 +62,8 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		}
 	};
 	
+	// TODO Nina how do you do loggin in GWT?  
+//	final static Logger logger = Logger.getLogger(Controller.class);
     protected Controller parentController = null;
     private View currentView = null;
     private Enum<?> currentViewEnum = null;
@@ -120,7 +121,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		        }
 		        beginShowView(view, viewType, onReadyCallback);
 				
-			}},null);
+			}});
     }
     
     private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
@@ -132,7 +133,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 					 boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
 						
 				        if (requiresAuthz){
-				        	ViewContext tempContext;
+				        	ViewContext tempContext = new ViewContext();
 				        	if(view instanceof LayoutController){
 				        		tempContext = ((LayoutController) view).getViewContext();
 				        	}                 
@@ -173,7 +174,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     private <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
-        if (((currentView == null) || currentView.beforeHide()) && view != null) {
+        if ((currentView == null) || currentView.beforeHide()) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override
 				public void exec(Boolean result) {
@@ -380,18 +381,6 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 
     /**
      * Returns the view associated with the specified enum value. See showView(V viewType) above for a full description
-     * defaults to the abstract get view method unless overridden
-     * @param <V>
-     * @param viewType
-     * @param callback
-     * @param tokenMap optionally passed in token map if you need tokens from the history manager
-     */
-    protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback, Map<String, String> tokenMap){
-    	getView(viewType, callback);
-    }
-
-    /**
-     * Returns the view associated with the specified enum value. See showView(V viewType) above for a full description
      * 
      * @param <V>
      * @param viewType
@@ -524,7 +513,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 		                    	currentView.onHistoryEvent(nextHistoryStack);
 		                    }
 						}
-					},tokenMap);
+					});
     
                 }
             }
@@ -571,7 +560,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
      */
     @Override
-    public void doReportExport(List<ExportElement> exportElements, final String format, final String reportTitle) {        
+    public void doReportExport(ArrayList<ExportElement> exportElements, final String format, final String reportTitle) {        
      // Service call...
     	final BlockingTask loadDataTask = new BlockingTask("Generating Export File");
         
@@ -627,7 +616,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
     }
     
     @Override
-    public List<ExportElement> getExportElementsFromView() {
+    public ArrayList<ExportElement> getExportElementsFromView() {
         String viewName = null;
         View currentView = this.getCurrentView();
         if (currentView != null) {

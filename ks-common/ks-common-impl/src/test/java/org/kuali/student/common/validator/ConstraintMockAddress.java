@@ -31,8 +31,6 @@ public class ConstraintMockAddress {
 	
 	protected String stateCode;
 	
-	protected String province;
-	
 	protected List<String> phoneNumbers;
 	
 	protected String type;
@@ -179,16 +177,5 @@ public class ConstraintMockAddress {
 	 */
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
-	}
-
-	
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}	
-	
-	
+	}		
 }

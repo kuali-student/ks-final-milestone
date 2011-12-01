@@ -39,8 +39,6 @@ import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.springframework.beans.BeanUtils;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
@@ -116,15 +114,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      */
     public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
 
-        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
-    	Stack<String> elementStack = new Stack<String>();
+        Stack<String> elementStack = new Stack<String>();
 
-       validateObject(results, data, objStructure, elementStack, data, objStructure, true);
-       
-       return results;
+        return validateObject(data, objStructure, elementStack, data, objStructure, true);
     }
 
-    private void validateObject(List<ValidationResultInfo> results, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot) {
+    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot) {
+
+       List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
         dataProvider.initialize(data);
@@ -141,11 +138,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
          * provided
          */
         if (null == objStructure) {
-            return;
+            return results;
         }
 
         for (FieldDefinition f : objStructure.getAttributes()) {
-            validateField(results, f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
+            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
+
+            results.addAll(l);
 
             // Use Custom Validators
             if (f.getCustomValidatorClass() != null || f.isServerSide() && serverSide) {
@@ -153,7 +152,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             	if(customValidator==null){
             		throw new RuntimeException("Custom Validator "+f.getCustomValidatorClass()+" was not configured in this context");
             	}
-            	List<ValidationResultInfo> l = customValidator.validateObject(f,data, objStructure,elementStack);
+            	l = customValidator.validateObject(f,data, objStructure,elementStack);
             	results.addAll(l);
             }
         }
@@ -170,16 +169,18 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // }
         // }
         // results = resultsBuffer;
+        return results;
     }
 
-    public void validateField(List<ValidationResultInfo> results, FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure) {
+    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure) {
 
         Object value = dataProvider.getValue(field.getName());
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         // Handle null values in field
         if (value == null || "".equals(value.toString().trim())) {
             processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
-            return; //no need to do further processing
+            return results;
         }
 
         /*
@@ -227,11 +228,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
-                        if(field.getLabelKey()!=null){
-                        	val.setError(getMessage(field.getLabelKey()));
-                        } else {
-                        	val.setError(getMessage("validation.required"));
-                        }
+                        val.setError(getMessage("validation.required"));
                         results.add(val);
                     }
                 }
@@ -250,13 +247,12 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
-                	//This is tricky, change the field name to the index in the elementStack(this is for lists of non complex types)
-                	elementStack.push(field.getName());
-                	FieldDefinition tempField = new FieldDefinition();
-                	BeanUtils.copyProperties(field, tempField);
-                	tempField.setName(Integer.toBinaryString(i));
-                	processConstraint(results, tempField, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
-                	elementStack.pop();
+                	elementStack.push(Integer.toBinaryString(i));
+//                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
+                    processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
+//                    beanPathStack.pop();
+//                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
+                    elementStack.pop();
                     i++;
                 }
 
@@ -278,6 +274,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             }
 
         }
+        return results;
     }
 
     protected Integer tryParse(String s) {
@@ -293,19 +290,21 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
-        validateObject(results, value, nestedObjStruct, elementStack, rootData, rootObjStructure, false);
+
+        results.addAll(validateObject(value, nestedObjStruct, elementStack, rootData, rootObjStructure, false));
+
     }
 
     protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
 
         // Process Case Constraint
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
-        Constraint caseConstraint = processCaseConstraint(valResults, field.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
+        Constraint caseConstraint = processCaseConstraint(valResults, field, objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
 
         Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
 
-        processBaseConstraints(valResults, constraint, field, value, elementStack);
-        
+        processBaseConstraints(valResults, constraint, field.getDataType(), field.getName(), value, elementStack);
+
         // Stop other checks if value is null
         if (value == null || "".equals(value.toString().trim())) {
             return;
@@ -328,8 +327,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     ValidationResultInfo val = processRequireConstraint(elementPath, rc, field, objStructure, dataProvider);
                     if (null != val) {
                         valResults.add(val);
-                        //FIXME: For clarity, might be better to handle this in the processRequireConstraint method instead.
-                        processCrossFieldWarning(valResults, rc, val.getErrorLevel(), field.getName());
                     }
                 }
             }
@@ -340,14 +337,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             for (MustOccurConstraint oc : constraint.getOccursConstraint()) {
                 ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider);
                 if (null != val) {
-                    valResults.add(val); 
+                    valResults.add(val);
                 }
             }
         }
 
         // Process lookup Constraint
         if (null != constraint.getLookupDefinition()) {
-            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider,objStructure, rootData, rootObjStructure, value);
+            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider);
         }
     }
 
@@ -373,8 +370,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             rMap.put("field1", field.getName());
             rMap.put("field2", fieldName);
             val = new ValidationResultInfo(element, fieldValue);
-            val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
-            val.setLevel(constraint.getErrorLevel());                       
+            val.setError(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
         }
 
         return val;
@@ -383,25 +379,27 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     /**
      * Process caseConstraint tag and sets any of the base constraint items if any of the when condition matches
      *
-     * @param caseConstraint
+     * @param constraint
      * @param caseConstraint
      * @param field
      */
-    protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, CaseConstraint caseConstraint, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
+    protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
 
-        if (null == caseConstraint) {
+        CaseConstraint constraint = field.getCaseConstraint();
+
+        if (null == constraint) {
             return null;
         }
 
-        String operator = (hasText(caseConstraint.getOperator())) ? caseConstraint.getOperator() : "EQUALS";
+        String operator = (hasText(constraint.getOperator())) ? constraint.getOperator() : "EQUALS";
         FieldDefinition caseField = null;
         boolean absolutePath = false;
-        if(hasText(caseConstraint.getFieldPath())){
-        	if(caseConstraint.getFieldPath().startsWith("/")){
+        if(hasText(constraint.getFieldPath())){
+        	if(constraint.getFieldPath().startsWith("/")){
         		absolutePath = true;
-        		caseField = ValidatorUtils.getField(caseConstraint.getFieldPath().substring(1), rootObjStructure);
+        		caseField = ValidatorUtils.getField(constraint.getFieldPath().substring(1), rootObjStructure);
         	}else{
-        		caseField = ValidatorUtils.getField(caseConstraint.getFieldPath(), objStructure); 
+        		caseField = ValidatorUtils.getField(constraint.getFieldPath(), objStructure); 
         	}
         }
 
@@ -416,10 +414,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         				//Until then, this will only work for root level properties
         				Map<String,String> attributes = (Map<String,String>) PropertyUtils.getNestedProperty(rootData, "attributes");
         				if(attributes!=null){
-        					fieldValue = attributes.get(caseConstraint.getFieldPath().substring(1));
+        					fieldValue = attributes.get(constraint.getFieldPath().substring(1));
         				}
         			}else{
-        				fieldValue = PropertyUtils.getNestedProperty(rootData, caseConstraint.getFieldPath().substring(1));
+        				fieldValue = PropertyUtils.getNestedProperty(rootData, constraint.getFieldPath().substring(1));
         			}
 				} catch (IllegalAccessException e) {
 				} catch (InvocationTargetException e) {
@@ -437,7 +435,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         // Extract value for field Key
-        for (WhenConstraint wc : caseConstraint.getWhenConstraint()) {
+        for (WhenConstraint wc : constraint.getWhenConstraint()) {
 
         	if(hasText(wc.getValuePath())){
         		Object whenValue = null;
@@ -451,27 +449,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         		}else{
         			whenValue = dataProvider.getValue(wc.getValuePath());
         		}
-        		if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, caseConstraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {                    
-        			Constraint constraint = wc.getConstraint();
-        			if (constraint.getCaseConstraint() != null){
-        				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
-        			} else {
-        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());
-        				return constraint;
-        			}
+        		if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+                    return wc.getConstraint();
                 }
         	}else{
         		List<Object> whenValueList = wc.getValues();
             
 	            for (Object whenValue : whenValueList) {
-	                if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, caseConstraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
-	        			Constraint constraint = wc.getConstraint();
-	        			if (constraint.getCaseConstraint() != null){
-	        				return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value, dataProvider, elementStack, rootData, rootObjStructure);
-	        			} else {
-	        				processCrossFieldWarning(valResults, caseConstraint, constraint, value, constraint.getErrorLevel());	        				
-	        				return constraint;
-	        			}
+	                if (ValidatorUtils.compareValues(fieldValue, whenValue, fieldDataType, operator, constraint.isCaseSensitive(), dateParser) && null != wc.getConstraint()) {
+	                    return wc.getConstraint();
 	                }
 	            }
         	}
@@ -544,69 +530,29 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (!result) {
          // TODO: figure out what data should go here instead of null
             val = new ValidationResultInfo(element, null);
-            val.setMessage(getMessage("validation.occurs"));
-            val.setLevel(constraint.getErrorLevel());
+            val.setError(getMessage("validation.occurs"));
         }
 
         return val;
     }
 
     // TODO: Implement lookup constraint
-    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider, ObjectStructureDefinition objStructure, Object rootData, ObjectStructureDefinition rootObjStructure, Object value) {
+    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider) {
         if (lookupConstraint == null) {
             return;
         }
 
         // Create search params based on the param mapping
         List<SearchParam> params = new ArrayList<SearchParam>();
-
+        Object fieldValue = null;
         for (CommonLookupParam paramMapping : lookupConstraint.getParams()) {
-        	//Skip params that are the search param id key
-            if(lookupConstraint.getSearchParamIdKey()!=null&&lookupConstraint.getSearchParamIdKey().equals(paramMapping.getKey())){
-            	continue;
-            }
-        	
             SearchParam param = new SearchParam();
 
             param.setKey(paramMapping.getKey());
 
             // If the value of the search param comes form another field then get it
             if (paramMapping.getFieldPath() != null && !paramMapping.getFieldPath().isEmpty()) {
-                FieldDefinition lookupField = null;
-            	boolean absolutePath = false;
-                if(hasText(paramMapping.getFieldPath())){
-                	if(paramMapping.getFieldPath().startsWith("/")){
-                		absolutePath = true;
-                		lookupField = ValidatorUtils.getField(paramMapping.getFieldPath().substring(1), rootObjStructure);
-                	}else{
-                		lookupField = ValidatorUtils.getField(paramMapping.getFieldPath(), objStructure); 
-                	}
-                }
-                Object fieldValue = null;
-                if(lookupField!=null){
-                	if(absolutePath){
-                		try {
-                			if(lookupField.isDynamic()){
-                				//Pull the value from the dynamic attribute map
-                				//Until then, this will only work for root level properties
-                				Map<String,String> attributes = (Map<String,String>) PropertyUtils.getNestedProperty(rootData, "attributes");
-                				if(attributes!=null){
-                					fieldValue = attributes.get(paramMapping.getFieldPath().substring(1));
-                				}
-                			}else{
-                				fieldValue = PropertyUtils.getNestedProperty(rootData, paramMapping.getFieldPath().substring(1));
-                			}
-        				} catch (IllegalAccessException e) {
-        				} catch (InvocationTargetException e) {
-        				} catch (NoSuchMethodException e) {
-        				}
-                	}else{
-                    	fieldValue = dataProvider.getValue(lookupField.getName());
-                	}
-                }else{
-                	fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
-                }
-                
+                fieldValue = dataProvider.getValue(paramMapping.getFieldPath());
                 if (fieldValue instanceof String) {
                     param.setValue((String) fieldValue);
                 } else if (fieldValue instanceof List<?>) {
@@ -620,17 +566,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             params.add(param);
         }
 
-        if(lookupConstraint.getSearchParamIdKey()!=null){
-        	SearchParam param = new SearchParam();
-        	param.setKey(lookupConstraint.getSearchParamIdKey());
-            if (value instanceof String) {
-                param.setValue((String) value);
-            } else if (value instanceof List<?>) {
-                param.setValue((List<String>) value);
-            }
-        	params.add(param);
-        }
-        
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setMaxResults(1);
         searchRequest.setStartAt(0);
@@ -644,29 +579,19 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         } catch (Exception e) {
             LOG.info("Error calling Search", e);
         }
-        //If there are no search results then make a validation result
         if (searchResult == null || searchResult.getRows() == null || searchResult.getRows().isEmpty()) {
-            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), value);
-            val.setLevel(lookupConstraint.getErrorLevel());
-            val.setMessage(getMessage("validation.lookup"));
+            ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(), fieldValue);
+            val.setError(getMessage("validation.lookup"));
             valResults.add(val);
-        	processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel());
         }
     }
 
-    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, FieldDefinition field, Object value, Stack<String> elementStack) {
-    	DataType dataType = field.getDataType();
-    	String name = field.getName();
+    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack) {
 
-    	if (value == null || "".equals(value.toString().trim())) {
+        if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
                 ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
-                if(constraint.getLabelKey()!=null){
-                	val.setError(getMessage(constraint.getLabelKey()));
-                } else {
-                	val.setMessage(getMessage("validation.required"));
-                }
-                val.setLevel(constraint.getErrorLevel());
+                val.setError(getMessage("validation.required"));
                 valResults.add(val);
             }
             return;
@@ -690,79 +615,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             validateDate(value, constraint, elementPath, valResults, dateParser);
         }
     }
-    
-    /**
-     * This adds a warning on the related field when a processed case-constraint results in a warning
-     * 
-     * @param valResults
-     * @param crossConstraint
-     * @param field
-     */
-    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, CaseConstraint crossConstraint, Constraint constraint, Object value, ErrorLevel errorLevel){
-    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && (value == null || "".equals(value.toString().trim()))) {
-            if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
 
-	            String crossFieldPath = crossConstraint.getFieldPath();
-	            String crossFieldMessageId = crossConstraint.getFieldPathMessageId() == null ? 
-	            		"validation.required":crossConstraint.getFieldPathMessageId();            
-	            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
-            }
-    	}
-    }
-
-    /**
-     * This adds a warning on the related field when a processed case-constraint results in a warning
-     * 
-     * @param valResults
-     * @param requiredConstraint
-     * @param field
-     */
-    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field){
-    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && requiredConstraint != null){
-            String crossFieldPath = requiredConstraint.getFieldPath();
-            String crossFieldMessageId = requiredConstraint.getFieldPathMessageId() == null ? 
-            		"validation.required":requiredConstraint.getFieldPathMessageId();
-            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
-    	}
-    }
-
-    /**
-     * This adds a warning on the related field when a processed lookup-constraint results in a warning
-     * 
-     * @param valResults
-     * @param lookupConstraint
-     */
-    protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, ErrorLevel errorLevel){
-    	if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && lookupConstraint != null){
-    		for(CommonLookupParam param:lookupConstraint.getParams()){
-    			if(param.getFieldPath()!=null && !param.getFieldPath().isEmpty()){
-		            String crossFieldPath = param.getFieldPath();
-		            String crossFieldMessageId = param.getFieldPathMessageId() == null ? 
-		            		"validation.lookup.cause":param.getFieldPathMessageId();
-		            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
-    			}
-    		}
-    	}
-    }
-    
-    protected void addCrossFieldWarning(List<ValidationResultInfo> valResults, String crossFieldPath, String message, ErrorLevel errorLevel){
-    	//Check to see if the exact same validation message already exists on referenced field
-    	boolean warnAlreadyExists = false;
-    	for (ValidationResultInfo vr:valResults){
-    		if (vr.getElement().equals(crossFieldPath) && vr.getMessage().equals(message)){
-    			warnAlreadyExists = true;
-    		}
-    	}
-    	
-    	//Only add this warning, if it hasn't been already added
-    	if (!warnAlreadyExists){
-	    	ValidationResultInfo val = new ValidationResultInfo(crossFieldPath, null);
-			val.setMessage(message);
-	        val.setLevel(errorLevel);
-	        valResults.add(val);
-    	}
-    }
-    
     protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
         if (!(value instanceof Boolean)) {
             try {

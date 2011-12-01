@@ -12,7 +12,7 @@ public class MajorViewConfigurer extends AbstractProgramConfigurer {
 
     public MajorViewConfigurer() {
         programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create());
+        programSectionConfigManager.registerConfiguration(MajorInformationViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(SpecializationsViewConfiguration.create());
         programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());

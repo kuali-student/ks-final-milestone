@@ -15,12 +15,7 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -34,35 +29,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService{
 
     private static final long serialVersionUID = 1L;
-    private IdentityManagementService permissionService;
        
     public String getPrincipalUsername(){
     	return SecurityUtils.getPrincipalUserName();
     }
 
-	@Override
-	public Boolean checkAdminPermission(String principalId, String screenComponent)  throws OperationFailedException {
-		System.out.println("SecurityRpcGwtServlet.checkAdminPermission for : " + principalId + " component " + screenComponent);
-        AttributeSet permDetails = new AttributeSet();
-        permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT,screenComponent);
-        boolean hasAccess = false;
-        hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
-					PermissionType.KS_ADMIN_SCREEN.getPermissionNamespace(), 
-					PermissionType.KS_ADMIN_SCREEN.getPermissionTemplateName(), permDetails, 
-					permDetails);
-        System.out.println(principalId + " has access : " + hasAccess);
-		return hasAccess;
-	}
-
-	public void setPermissionService(IdentityManagementService permissionService) {
-		this.permissionService = permissionService;
-	}
-
-	public IdentityManagementService getPermissionService()throws OperationFailedException{
-		if(permissionService==null){
-        	throw new OperationFailedException("Permission Service is unavailable");
-        }
-
-		return permissionService;
-	}
 }

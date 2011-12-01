@@ -16,11 +16,9 @@
 package org.kuali.student.common.ui.client.configurable.mvc.sections;
 
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The validation message panel used for field elements, adds validation errors to a list and styles
@@ -31,57 +29,34 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ValidationMessagePanel extends Composite{
 	
-	private VerticalFlowPanel container = new VerticalFlowPanel();
-	private KSListPanel errorListPanel = new KSListPanel();
-	private KSListPanel warnListPanel = new KSListPanel();
-	private int warnCount = 0;
-	private int errorCount = 0;
+	private KSListPanel listPanel = new KSListPanel();
+	private int count = 0;
 	private boolean topMargin = true;
 	
 	public ValidationMessagePanel(){
-		this.initWidget(container);
-		container.add(errorListPanel);
-		container.add(warnListPanel);
-		errorListPanel.addStyleName("ks-form-module-validation-errors");
-		warnListPanel.addStyleName("ks-form-module-validation-warnings");		
+		this.initWidget(listPanel);
+		
 	}
 	
 	public ValidationMessagePanel(boolean topMargin){
-		this.initWidget(errorListPanel);
+		this.initWidget(listPanel);
 		this.topMargin = topMargin;
 	}
 	
-	public void addErrorMessage(KSLabel message){
-		if(getMessageCount() == 0 && topMargin){
-			message.addStyleName("ks-form-module-single-line-margin");
-		}		
-		errorListPanel.add(message);
-		errorCount++;
-	}
-	
-	public void addWarnMessage(Widget message){
-		if(getMessageCount() == 0 && topMargin){
+	public void addMessage(KSLabel message){
+		if(count == 0 && topMargin){
 			message.addStyleName("ks-form-module-single-line-margin");
 		}
-		warnListPanel.add(message);
-		warnCount++;		
+		listPanel.add(message);
+		count++;
 	}
 	
-	public boolean hasWarnings(){
-		return (warnCount > 0);
-	}
-	
-	public void clearErrors(){
-		errorListPanel.clear();
-		errorCount = 0;
-	}
-	
-	public void clearWarnings(){
-		warnListPanel.clear();
-		warnCount = 0;
+	public void clear(){
+		listPanel.clear();
+		count = 0;
 	}
 	
 	public int getMessageCount(){
-		return errorCount + warnCount;
+		return count;
 	}
 }

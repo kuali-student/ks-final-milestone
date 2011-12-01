@@ -124,16 +124,12 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     private void retrieveProgramRequirements(final Callback<Boolean> onReadyCallback) {
-    	//Added blocking progress indicator while requirements are loaded.
-    	final BlockingTask ruleBlockingTask = new BlockingTask("Retrieving requirements");
-    	KSBlockingProgressIndicator.addTask(ruleBlockingTask);
-        rules.retrieveProgramRequirements(parentController, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
+        rules.retrieveProgramRequirements(parentController, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 if (result) {
                     displayRules();
                 }
-                KSBlockingProgressIndicator.removeTask(ruleBlockingTask);
                 onReadyCallback.exec(result);
             }
         });
@@ -191,7 +187,6 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void displayRules() {
-
         remove(layout);
         layout.clear();
 
@@ -353,7 +348,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         });
     }
 
-    static public Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
+    protected Map<String, Widget> getCluSetWidgetList(StatementTreeViewInfo rule) {
         Map<String, Widget> widgetList = new HashMap<String, Widget>();
         Set<String> cluSetIds = new HashSet<String>();
         findCluSetIds(rule, cluSetIds);
@@ -364,7 +359,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         return widgetList;
     }
 
-    private static void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
+    private void findCluSetIds(StatementTreeViewInfo rule, Set<String> list) {
 
         List<StatementTreeViewInfo> statements = rule.getStatements();
         List<ReqComponentInfo> reqComponentInfos = rule.getReqComponents();

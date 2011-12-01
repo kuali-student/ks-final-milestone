@@ -45,5 +45,4 @@ public interface ProposalDao extends CrudDao, SearchableDao {
     public ProposalOrg getProposalOrg(String orgId);
     public ProposalReference getObjectReference(String objectReferenceId, String objectReferenceType);
     public EntityManager getEm();
-	public List<Proposal> getProposalsByRefernceIds(List<String> referenceIds);
 }

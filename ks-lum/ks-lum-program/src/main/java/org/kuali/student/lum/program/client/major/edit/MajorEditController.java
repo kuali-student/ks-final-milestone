@@ -1,32 +1,24 @@
 package org.kuali.student.lum.program.client.major.edit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -55,7 +47,6 @@ import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.widgets.ProgramSideBar;
 
@@ -74,11 +65,7 @@ public class MajorEditController extends MajorController {
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
     private final Set<String> existingVariationIds = new TreeSet<String>();
 
-	protected final DataModel comparisonModel = new DataModel("Original Program");
-	private String comparisonModelId = "ComparisonModel";
-	 
-    private ProgramRequirementsDataModel reqDataModel;
-    private ProgramRequirementsDataModel reqDataModelComp;
+    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -87,14 +74,9 @@ public class MajorEditController extends MajorController {
      */
     public MajorEditController(DataModel programModel, ViewContext viewContext, HandlerManager eventBus) {
         super(programModel, viewContext, eventBus);
-        programModel.setModelName("New Program");
-        initializeComparisonModel();
         configurer = GWT.create(MajorEditConfigurer.class);
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
-
-        reqDataModel = new ProgramRequirementsDataModel(eventBus);
-        reqDataModelComp = new ProgramRequirementsDataModel(eventBus);
     }
 
     @Override
@@ -141,53 +123,36 @@ public class MajorEditController extends MajorController {
         eventBus.addHandler(StateChangeEvent.TYPE, new StateChangeEvent.Handler() {
             @Override
             public void onEvent(final StateChangeEvent event) {
-            	//FIXME: The proper way of doing this would be a single server side call to validate next state
-            	//which would retrieve warnings & required for next state, instead of re-validating warnings for
-            	//current state server side and validating required for next state client side.
-            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
-					@Override
-					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
-		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
-		                    @Override
-		                    public void exec(List<ValidationResultInfo> nextStateResults) {
-		                    	//Update validation warnings and process for all screens
-		                    	Application.getApplicationContext().clearValidationWarnings();
-		                    	Application.getApplicationContext().addValidationWarnings(currentStateResults);
-		                    	isValid(Application.getApplicationContext().getValidationWarnings(), false);
-		                        
-		                    	boolean isSectionValid = isValid(nextStateResults, true) 
-		                        	&& Application.getApplicationContext().getValidationWarnings().isEmpty();
-		                        if (isSectionValid) {
-		                            Callback<Boolean> callback = new Callback<Boolean>() {
-		                                @Override
-		                                public void exec(Boolean result) {
-		                                    if (result) {
-		                                        reloadMetadata = true;
-		                                        loadMetadata(new Callback<Boolean>() {
-		                                            @Override
-		                                            public void exec(Boolean result) {
-		                                                if (result) {
-		                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
-		                                                    HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), context);
-		                                                }
-		                                            }
-		                                        });
-		                                    }else{
-		                                    	KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
-		                                    }
-		                                }
-		                            };
-		                            updateState(event.getProgramStatus().getValue(), callback);
-		                        } else {
-		                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
-		                        }
-		                    }
-		                });
-
-						
-					}
-            		
-            	});                
+                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                    @Override
+                    public void exec(List<ValidationResultInfo> result) {
+                        boolean isSectionValid = isValid(result, true);
+                        if (isSectionValid) {
+                            Callback<Boolean> callback = new Callback<Boolean>() {
+                                @Override
+                                public void exec(Boolean result) {
+                                    if (result) {
+                                        reloadMetadata = true;
+                                        loadMetadata(new Callback<Boolean>() {
+                                            @Override
+                                            public void exec(Boolean result) {
+                                                if (result) {
+                                                    ProgramUtils.syncMetadata(configurer, programModel.getDefinition());
+                                                    HistoryManager.navigate(AppLocations.Locations.VIEW_PROGRAM.getLocation(), context);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                            previousState = ProgramStatus.of(programModel);
+                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
+                            saveData(callback);
+                        } else {
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+                        }
+                    }
+                });
             }
         });
 
@@ -266,40 +231,7 @@ public class MajorEditController extends MajorController {
                 for (String id : ids) {
                     programRequirements.add(id);
                 }
-                
-            	if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID || getViewContext().getIdType() == IdType.OBJECT_ID)	
-                {
-            		Callback<Boolean> reqCallback = new Callback<Boolean>() {
-            			@Override
-            			public void exec(Boolean result) {
-                           	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
-
-                        		@Override
-                        		public void onFailure(Throwable caught) {
-                        			super.onFailure(caught);
-                        		}
-
-                        		@Override
-                        		public void onSuccess(Data result) {
-                        			super.onSuccess(result);
-                        			if (result != null) {
-                        				programModel.setRoot(result);
-                        			}
-                        			setHeaderTitle();
-                        			setStatus();
-                        			reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                        				@Override
-                        				public void exec(Boolean result) {}
-                        			});                    
-                        		}
-                        	});
-            			}
-            		};
-                	
-            		doSave(reqCallback); 
-            	} 
-            	else
-            		doSave();                
+                doSave();
             }
         });
         eventBus.addHandler(ChangeViewEvent.TYPE, new ChangeViewEvent.Handler() {
@@ -307,157 +239,17 @@ public class MajorEditController extends MajorController {
             public void onEvent(ChangeViewEvent event) {
                 showView(event.getViewToken());
             }
-        });        
-    }
-
-    /**
-     * Initialized comparison model of the controller.
-     */
-    private void initializeComparisonModel() {
-        super.registerModel(comparisonModelId, new ModelProvider<DataModel>() {
-            @Override
-            public void requestModel(final ModelRequestCallback<DataModel> callback) {
-            	if(comparisonModel.getRoot() != null && comparisonModel.getRoot().size() != 0 && getViewContext() != null){
-            		callback.onModelReady(comparisonModel);            		
-            	}
-            	else{
-            		callback.onModelReady(null);
-            	}                
-             }
         });
     }
 
     @Override
-    protected void loadMetadata(final Callback<Boolean> onReadyCallback) {
-        Map<String, String> idAttributes = new HashMap<String, String>();
+    protected void loadModel(ModelRequestCallback<DataModel> callback) {
         ViewContext viewContext = getViewContext();
-        IdType idType = viewContext.getIdType();
-        String viewContextId = null;
-        if (idType != null) {
-            idAttributes.put(IdAttributes.ID_TYPE, idType.toString());
-            viewContextId = viewContext.getId();
-            if (idType == IdType.COPY_OF_OBJECT_ID) {
-                viewContextId = null;
-            }
+        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) {
+            createNewVersionAndLoadModel(callback, viewContext);
+        } else {
+            super.loadModel(callback);
         }
-        if (programModel.getRoot() != null) {
-            ProgramStatus programStatus = ProgramStatus.of(programModel);
-            idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
-            if (programStatus.getNextStatus() != null) {
-                idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
-            }
-        }
-        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
-
-            @Override
-            public void onSuccess(Metadata result) {
-                super.onSuccess(result);
-                DataModelDefinition def = new DataModelDefinition(result);
-                programModel.setDefinition(def);
-                comparisonModel.setDefinition(def);
-                lastLoadedStatus = ProgramStatus.of(programModel);
-                afterMetadataLoaded(onReadyCallback);
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                super.onFailure(caught);
-                onReadyCallback.exec(false);
-            }
-        });
-    }
-
-    @Override
-    protected void loadModel(final ModelRequestCallback<DataModel> callback) {    	
-    	ViewContext viewContext = getViewContext();
-        if (viewContext.getIdType() == IdType.COPY_OF_OBJECT_ID) 
-        {	
-        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
-    			@Override
-    			public void onModelReady(DataModel model) {
-    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
-                        @Override
-                        public void onSuccess(Data result) {
-                            super.onSuccess(result);
-                            comparisonModel.setRoot(result);
-                            reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                                @Override
-                                public void exec(Boolean result) {
-                                    if (result) {
-                                    	reqDataModelComp.retrieveProgramRequirements(MajorEditController.this, comparisonModelId, new Callback<Boolean>() {
-                                            @Override
-                                            public void exec(Boolean result) {
-                                                if (result) {
-                                                    callback.onModelReady(comparisonModel);
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            });                    
-                        }
-                        
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            super.onFailure(caught);
-                            callback.onRequestFail(caught);
-                        }
-                    });
-        		}
-
-    			@Override
-    			public void onRequestFail(Throwable cause) {
-                    GWT.log("Unable to retrieve comparison model", cause);
-    			}
-        	};	
-        	
-   			createNewVersionAndLoadModel(comparisonModelCallback, viewContext);   			
-        }	
-        else if (viewContext.getIdType() == IdType.OBJECT_ID)
-        {
-        	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
-    			@Override
-    			public void onModelReady(DataModel model) {
-                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            super.onFailure(caught);
-                            callback.onRequestFail(caught);
-                        }
-
-                        @Override
-                        public void onSuccess(Data result) {
-                            super.onSuccess(result);
-                            comparisonModel.setRoot(result);
-                            reqDataModel.retrieveProgramRequirements(MajorEditController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
-                                @Override
-                                public void exec(Boolean result) {
-                                    if (result) {
-                                    	reqDataModelComp.retrieveProgramRequirements(MajorEditController.this, comparisonModelId, new Callback<Boolean>() {
-                                            @Override
-                                            public void exec(Boolean result) {
-                                                if (result) {
-                                                    callback.onModelReady(comparisonModel);
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            });                    
-                        }
-                    });
-        		}
-
-    			@Override
-    			public void onRequestFail(Throwable cause) {
-                    GWT.log("Unable to retrieve comparison model", cause);
-    			}
-        	};	
-        	        	
-        	super.loadModel(comparisonModelCallback);
-        } else
-        	super.loadModel(callback);
     }
 
     protected void createNewVersionAndLoadModel(final ModelRequestCallback<DataModel> callback, final ViewContext viewContext) {
@@ -471,9 +263,11 @@ public class MajorEditController extends MajorController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                refreshModelAndView(result);
+                programModel.setRoot(result.getValue());
                 viewContext.setId(ProgramUtils.getProgramId(programModel));
-                viewContext.setIdType(IdType.OBJECT_ID);                
+                viewContext.setIdType(IdType.OBJECT_ID);
+                setHeaderTitle();
+                setStatus();
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
@@ -515,7 +309,7 @@ public class MajorEditController extends MajorController {
     }
 
     private void doCancel() {
-        Application.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
+        showView(ProgramSections.SUMMARY);
     }
 
     @Override
@@ -529,13 +323,11 @@ public class MajorEditController extends MajorController {
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
 
-                //Clear warning states on field and any warnings stored in ApplicationContext;
-                clearAllWarnings();
-                Application.getApplicationContext().clearValidationWarnings();
-                
                 List<ValidationResultInfo> validationResults = result.getValidationResults();
-                Application.getApplicationContext().addValidationWarnings(validationResults);
-                if (ValidatorClientUtils.hasErrors(validationResults)) {
+                if (validationResults != null && !validationResults.isEmpty()) {
+                    if (previousState != null) {
+                        ProgramUtils.setStatus(programModel, previousState.getValue());
+                    }
                     ProgramUtils.retrofitValidationResults(validationResults);
                     isValid(validationResults, false, true);
                     ProgramUtils.handleValidationErrorsForSpecializations(validationResults, programModel);
@@ -554,14 +346,16 @@ public class MajorEditController extends MajorController {
                         	existingVariationIds.add(existingId);
                         }
                     }
-                    // TODO: Error message are being sent back from the server but we 
-                    // do not have time to implement code to display them (we wanted
-                    // to implement a lightbox for this).  
-                    KSNotifier.add(new KSNotification("Unable to save, please check fields for errors or missing information on this and other tabs", false, true, 5000));
                     
                     okCallback.exec(false);
                 } else {
-                	refreshModelAndView(result);
+                    Data data = result.getValue();
+                    if (data != null) {
+                        programModel.setRoot(result.getValue());
+                    }
+                    previousState = null;
+                    setHeaderTitle();
+                    setStatus();
                     resetFieldInteractionFlag();
                     configurer.applyPermissions();
                     handleSpecializations();
@@ -571,23 +365,16 @@ public class MajorEditController extends MajorController {
                     viewContext.setId(getStringProperty(ProgramConstants.ID));
                     viewContext.setIdType(IdType.OBJECT_ID);
 
-    				if (ValidatorClientUtils.hasWarnings(validationResults)){
-    					//Show validation warnings for major
-	    				isValid(result.getValidationResults(), false, true);	    				
-    					KSNotifier.show("Saved with Warnings");
-    				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
-    				}  				
-                    
                     // add to recently viewed now that we're sure to know the program's id
                     ViewContext docContext = new ViewContext();
                     docContext.setId(getStringProperty(ProgramConstants.ID));
                     docContext.setIdType(IdType.OBJECT_ID);
                     docContext.setAttribute(ProgramConstants.TYPE, ProgramConstants.MAJOR_LU_TYPE_ID + '/' + ProgramSections.PROGRAM_DETAILS_VIEW);
                     RecentlyViewedHelper.addDocument(getProgramName(),
-                    HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
-                	okCallback.exec(true);
-                	processCurrentView();                    	                    
+                            HistoryManager.appendContext(AppLocations.Locations.VIEW_PROGRAM.getLocation(), docContext));
+                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                    okCallback.exec(true);
+                    processCurrentView();
                 }
             }
         });
@@ -650,8 +437,7 @@ public class MajorEditController extends MajorController {
 			Application.getApplicationContext().clearCrossConstraintMap(null);
 			Application.getApplicationContext().clearPathToFieldMapping(null);
 		}
-		//Clear the parent path again
-		Application.getApplicationContext().setParentPath("");
+
 		super.beforeShow(onReadyCallback);
 	}
 
@@ -666,7 +452,6 @@ public class MajorEditController extends MajorController {
 		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
 		        }
-		        showWarnings();	
 			}
         };
 		super.showView(viewType, updateCrossConstraintsCallback);
@@ -674,47 +459,27 @@ public class MajorEditController extends MajorController {
 
 	//Ensure that the managing bodies section view is updated before the user edits specializations
 	@Override
-	public void beforeViewChange(final Enum<?> viewChangingTo, final Callback<Boolean> okToChangeCallback){
-	    final Callback<Boolean> reallyOkToChange = new Callback<Boolean>() {
-
-            @Override
-            public void exec(Boolean result) {
-                if (result) {
-                    if (LUMViews.VARIATION_EDIT.equals(viewChangingTo)) {
-                        getView(ProgramSections.MANAGE_BODIES_EDIT, new Callback<View>() {
-                            @Override
-                            public void exec(final View view) {
-                                if (view != null && view instanceof SectionView) {
-                                    requestModel(new ModelRequestCallback<DataModel>() {
-                                        public void onModelReady(DataModel model) {
-                                            ((SectionView) view).updateWidgetData(model);
-                                            okToChangeCallback.exec(true);
-                                        }
-
-                                        public void onRequestFail(Throwable cause) {
-                                            okToChangeCallback.exec(false);
-                                        }
-                                    });
-                                } else {
-                                    okToChangeCallback.exec(true);
-                                }
-                            }
-                        });
-                    } else {
-                        okToChangeCallback.exec(true);
-                    }
-                }
-            }
-	    };
-	    super.beforeViewChange(viewChangingTo, reallyOkToChange);
-		this.showExport(isExportButtonActive());	// KSLAB-1916
+	public void beforeViewChange(Enum<?> viewChangingTo, final Callback<Boolean> okToChangeCallback){
+		if(LUMViews.VARIATION_EDIT.equals(viewChangingTo)){
+			getView(ProgramSections.MANAGE_BODIES_EDIT, new Callback<View>(){
+				@Override
+				public void exec(final View view) {
+					if(view!=null && view instanceof SectionView){
+						requestModel(new ModelRequestCallback<DataModel>(){
+							public void onModelReady(DataModel model) {
+								((SectionView)view).updateWidgetData(model);
+								okToChangeCallback.exec(true);
+							}
+							public void onRequestFail(Throwable cause) {
+								okToChangeCallback.exec(false);
+							}
+						});
+					}else{
+						okToChangeCallback.exec(true);
+					}
+				}});
+		}else{
+			okToChangeCallback.exec(true);
+		}
 	}
-		
-    public ProgramRequirementsDataModel getReqDataModel() {
-        return reqDataModel;
-    }
-
-    public ProgramRequirementsDataModel getReqDataModelComp() {
-        return reqDataModelComp;
-    }
 }

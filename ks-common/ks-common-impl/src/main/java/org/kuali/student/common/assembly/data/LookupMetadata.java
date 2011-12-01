@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.search.dto.SortDirection;
-
 public class LookupMetadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,7 +29,7 @@ public class LookupMetadata implements Serializable {
     private String name;			//name of this search
     private String desc;
     private String title;   		//advanced search window title
-    
+
     private List<LookupParamMetadata> params;
     
     private List<LookupResultMetadata> results;
@@ -45,15 +43,10 @@ public class LookupMetadata implements Serializable {
     private String resultDisplayKey;
     
     private String resultSortKey;
-    
-    private Integer minQuerySize;     //min size of request query before starting search
 
     // how a search criteria will be used. ADVANCED_CUSTOM is shown on both advanced
 	// and custom screens of the advanced search lightbox
     //TODO is DEFAULT needed? it has 0 references
-    
-    private SortDirection sortDirection;
-    
     public enum Usage {
         DEFAULT, ADVANCED, CUSTOM, ADVANCED_CUSTOM
     }
@@ -208,14 +201,6 @@ public class LookupMetadata implements Serializable {
 	public void setWidget(Widget widget) {
 		this.widget = widget;
 	}
-	
-	public Integer getMinQuerySize() {
-        return minQuerySize;
-    }
-
-    public void setMinQuerySize(Integer minQuerySize) {
-        this.minQuerySize = minQuerySize;
-    }
 
     public String toString(){
         StringBuffer sb = new StringBuffer();
@@ -228,12 +213,4 @@ public class LookupMetadata implements Serializable {
         sb.append(desc);
         return sb.toString();
     }
-
-	public SortDirection getSortDirection() {
-		return sortDirection;
-	}
-
-	public void setSortDirection(SortDirection sortDirection) {
-		this.sortDirection = sortDirection;
-	}
 }

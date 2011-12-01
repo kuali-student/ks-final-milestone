@@ -418,29 +418,12 @@ position:relative;
 	/*padding: 5px 4px 5px 3px;*/
 }
 
-@if user.agent ie6 ie7 ie8 {
-	.ks-form-module-fields {
-		float: none;
-		/*padding: 5px 4px 5px 3px;*/
-}
-}
-
 .ks-form-module-elements {
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
     line-height: 1.4em;
 }
-
-@if user.agent ie6 ie7 ie8 {
-	.ks-form-module-elements {
-    	margin-bottom: 1px;
-    	float: none;
-    	margin-right: 20px;
-    	line-height: 1.4em;
-	}
-}
-
 .ks-form-required-for-submit {
 color:#999999;
 font-size:0.9em;
@@ -560,14 +543,8 @@ margin-left:4px;
 	margin-right: 10px;
 }
 
-.ks-form-module-validation-errors ul { 
+.ks-form-module-validation-inline ul { 
 	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;
-	margin: 0; 
-	padding-left: 20px; 
-}
-
-.ks-form-module-validation-warnings ul { 
-	background: transparent url('images/common/exclamation-diamond-frame.png') no-repeat scroll left;
 	margin: 0; 
 	padding-left: 20px; 
 }
@@ -713,20 +690,13 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 .error { background-color: #ffe0e9;  }
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
-.warning { background-color: #F4E271}
-.warning .ks-form-bordered-header { background-color: #f5d6df; }
-
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
 
 label.invalid{color: red;}
 h6.invalid{color: red;}
 legend.invalid{color: red;}
 
-.ks-form-error-label{ color: red; };
-.ks-form-warn-label{
-	font-weight: normal; 
-	color: black; 
-};
+.ks-form-validation-label{ color: red; };
 
 .highlighted { background-color: #fffdd4; }
 .highlighted .ks-form-bordered-header { background-color: #f2f0c9; }

@@ -29,8 +29,6 @@ import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -62,8 +60,7 @@ public class ApplicationContext {
 	private String parentPath = "";
 	private HashMap<String,HashMap<String,FieldDescriptor>> pathToFieldMapping = new HashMap<String,HashMap<String,FieldDescriptor>>();
 	private HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>> crossConstraints = new HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>>();
-	private List<ValidationResultInfo> validationWarnings = new ArrayList<ValidationResultInfo>();
-
+//	private HashMap<String,HashMap<FieldDescriptor, String>> defaultValueMapping = new HashMap<String,HashMap<FieldDescriptor, String>>();
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
 	 * required outside this package do Application.getApplicationContext();
@@ -345,6 +342,7 @@ public class ApplicationContext {
 			}
 		}
 	}
+
 	
 	public HashSet<HasCrossConstraints> getCrossConstraints(String namespace) {
 		if(namespace==null){
@@ -360,30 +358,6 @@ public class ApplicationContext {
 		return results;
 	}
 
-	
-	public List<ValidationResultInfo> getValidationWarnings() {
-		return validationWarnings;
-	}
-
-	/**
-	 * Adds warnings from the validationResults to the application context.
-	 * 
-	 * @param validationResults
-	 */
-	public void addValidationWarnings(List<ValidationResultInfo> validationResults) {
-		if (validationResults != null){
-			for (ValidationResultInfo vr:validationResults){
-				if (vr.getErrorLevel() == ErrorLevel.WARN){
-					this.validationWarnings.add(vr);
-				}
-			}
-		}
-	}
-
-	public void clearValidationWarnings(){
-		validationWarnings.clear();
-	}
-	
 	public String getParentPath() {
 		return parentPath;
 	}
@@ -392,5 +366,34 @@ public class ApplicationContext {
 		this.parentPath = parentPath;
 	}
 
-	
+//	public void putDefaultValueMapping(String namespace,
+//			FieldDescriptor fieldDescriptor, String defaultValuePath) {
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		HashMap<FieldDescriptor, String> defaultValueMap = defaultValueMapping.get(namespace);
+//		if(defaultValueMap==null){
+//			defaultValueMap = new HashMap<FieldDescriptor, String>();
+//			defaultValueMapping.put(namespace, defaultValueMap);
+//		}
+//		defaultValueMap.put(fieldDescriptor, defaultValuePath);
+//	}
+//
+//	public HashMap<FieldDescriptor, String> getDefaultValueMapping(String namespace) {
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		HashMap<FieldDescriptor, String> result = defaultValueMapping.get(namespace);
+//		if(result==null){
+//			result = new HashMap<FieldDescriptor, String>();
+//		}
+//		return result;
+//	}
+//	public void clearDefaultValueMapping(String namespace){
+//		if(namespace==null){
+//			namespace="_default";
+//		}
+//		defaultValueMapping.remove(namespace);
+//	}
+
 }

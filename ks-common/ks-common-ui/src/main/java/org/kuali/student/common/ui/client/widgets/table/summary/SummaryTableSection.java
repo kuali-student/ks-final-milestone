@@ -9,7 +9,6 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -33,16 +32,6 @@ public class SummaryTableSection extends VerticalSection {
     Controller controller;
     DataModel comparisonModel = null;
     List<ShowRowConditionCallback> showRowCallbacks = new ArrayList<ShowRowConditionCallback>();
-    boolean isMissingFields= false;	//KSLAB-1985
-	boolean hasWarnings= false;	//KSLAB-1985
-    
-    public boolean getIsMissingFields() {
-		return isMissingFields;
-	}
-
-    public boolean getHasWarnings(){
-    	return hasWarnings;
-    }
 
     public SummaryTableSection(Controller controller) {
         super();
@@ -95,68 +84,27 @@ public class SummaryTableSection extends VerticalSection {
     }
     
     @Override
-    public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
-    	
-    	//initialize condition parameters
-    	ErrorLevel status= ErrorLevel.OK;
-    	isMissingFields= false;
-    	hasWarnings= false;
-    	
+    public ErrorLevel processValidationResults(
+    		List<ValidationResultInfo> results) {
+    	ErrorLevel status = ErrorLevel.OK;
     	for(int i = 0; i < results.size(); i++){
-    		
     		if(summaryTable.containsKey(results.get(i).getElement())){
-    			
     			System.out.println(results.get(i).getElement() + " *** " + results.get(i).getErrorLevel() + " *** " + results.get(i).getMessage());
     			if(results.get(i).getLevel().getLevel() > status.getLevel()){
-    				
-    				status= results.get(i).getLevel();
-    				
-    				if(results.get(i).getMessage().equals("Required")){	//KSLAB-1985
-    					isMissingFields= true;
-    				}
+    				status = results.get(i).getLevel();
     			}
-    			
     			if(this.isValidationEnabled){
         			summaryTable.highlightRow(results.get(i).getElement(), "rowHighlight");
         		}
     		}
     	}
-    	
-    	List<ValidationResultInfo> warnings= Application.getApplicationContext().getValidationWarnings();
-    	ValidationResultInfo tempVr= new ValidationResultInfo();
-    	
-    	tempVr.setElement("");
-    	for(int i = 0; i < warnings.size(); i++){
-    		
-    		//Reformat the validation element path based on how it can be referenced in sumaryTable rowMap
-    		String element= warnings.get(i).getElement();    		
-    		if (element.startsWith("/")){    		    			
-    			//Remove leading '/' since paths aren't stored this way in rowMap
-    			element= element.substring(1);
-    			
-    		} else if (element.matches(".*/[0-9]+")){    			
-    			//Validation warnings returns path to individual items of simple multiplicity, 
-    			//stripping of the item index to highlight the entire field. 
-    			element= element.substring(0, element.lastIndexOf("/")); 
-    		}
-    		
-    		if(summaryTable.containsKey(element)){
-    			
-        		hasWarnings= true;	//KSLAB-1985	assumed indicates warnings present
-    			if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
-    				status= warnings.get(i).getLevel();
-    			}
-    			
-       			summaryTable.highlightRow(element, "warning");
-    		}
-    	}
-    	
     	return status;
     }
     
     @Override
-    public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors) {
-    	if(clearErrors){
+    public ErrorLevel processValidationResults(
+    		List<ValidationResultInfo> results, boolean clearAllValidation) {
+    	if(clearAllValidation){
     		this.removeValidationHighlighting();
     	}
     	return this.processValidationResults(results);
@@ -189,12 +137,15 @@ public class SummaryTableSection extends VerticalSection {
     		if(data != null && compData != null){
     			if(data.size() >= compData.size()){
     				itr = data.iterator();
-    			} else{
+    			}
+    			else{
     				itr = compData.iterator();
     			}
-    		} else if(data != null){
+    		}
+    		else if(data != null){
     			itr = data.iterator();
-    		} else{
+    		}
+    		else{
     			itr = compData.iterator();
     		}
     		SummaryTableMultiplicityFieldRow currentMultiplicityRow = parentRow;
@@ -239,6 +190,7 @@ public class SummaryTableSection extends VerticalSection {
 	    				fieldRowsCreated++;
 	    			}
 				}
+				
 	    		if(config.getNestedConfig() != null){
 	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
 	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
@@ -249,7 +201,9 @@ public class SummaryTableSection extends VerticalSection {
 	    			fieldRowsCreated++;
 	    			int result = buildMultiplicityRows(model, compModel, mRow, rowList, styleLevel + 1, number);
 	    			index = index + result;
+	    			
 	    		}
+	    		
 	    		if(itr.hasNext()){
 	    			SummaryTableMultiplicityFieldRow mRow = new SummaryTableMultiplicityFieldRow(config);
 	    			mRow.setTemporaryRowFlag(true);
@@ -296,6 +250,8 @@ public class SummaryTableSection extends VerticalSection {
 	    				fieldRowsCreated++;
 	    			}
 				}
+				
+    			
 	    		if(config.getNestedConfig() != null){
 	    			MultiplicityConfiguration nestedConfig = config.getNestedConfig();
 	    			nestedConfig.getParentFd().getFieldKey().replace(config.getParentFd().getFieldKey(), path);
@@ -420,16 +376,17 @@ public class SummaryTableSection extends VerticalSection {
                     			firstValueEmpty = false;
                     		}
 	                	}
-                	}
+	                	
 		                
-	                ModelWidgetBinding binding = field.getModelWidgetBinding();
+	                	ModelWidgetBinding binding = field.getModelWidgetBinding();
 	                
-		            if (binding != null) {
-		                Widget w = field.getFieldWidget();
-		                binding.setWidgetValue(w, model, fieldPath);
-		            } else {
-		                GWT.log(field.getFieldKey() + " has no widget binding.", null);
-		            }
+		                if (binding != null) {
+		                    Widget w = field.getFieldWidget();
+		                    binding.setWidgetValue(w, model, fieldPath);
+		                } else {
+		                    GWT.log(field.getFieldKey() + " has no widget binding.", null);
+		                }
+	                }
                 	
                 }
 

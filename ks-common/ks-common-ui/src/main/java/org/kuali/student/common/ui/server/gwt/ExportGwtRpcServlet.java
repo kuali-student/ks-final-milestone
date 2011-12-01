@@ -8,7 +8,7 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -17,6 +17,7 @@ import org.kuali.student.common.ui.client.service.GwtExportRpcService;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
+import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -25,18 +26,10 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
 
     final Logger logger = Logger.getLogger(ExportGwtRpcServlet.class);
 
-    private ScreenReportProcessor reportProcessor;
-
-    public ScreenReportProcessor getReportProcessor() {
-        return reportProcessor;
-    }
-
-    public void setReportProcessor(ScreenReportProcessor reportProcessor) {
-        this.reportProcessor = reportProcessor;
-    }
+    private ScreenReportProcessor reportProcessor = new JasperScreenReportProcessorImpl();
 
     @Override
-    public String reportExport(List<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
+    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle) {
         String exportId = null;
         boolean exportBasedOnView = true; // TODO Nina do we want this as a system Property??
         try {
@@ -75,7 +68,7 @@ public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExpo
         return exportOutput;
     }
 
-    private byte[] exportBasedOnView(List<ExportElement> exportElements, String templateName, String exportFormat, String reportTitle) {
+    private byte[] exportBasedOnView(ArrayList<ExportElement> exportElements, String templateName, String exportFormat, String reportTitle) {
         byte[] exportOutput = null;
         if (exportFormat.equals(ExportUtils.PDF)) {
             exportOutput = reportProcessor.createPdf(exportElements, templateName, reportTitle);

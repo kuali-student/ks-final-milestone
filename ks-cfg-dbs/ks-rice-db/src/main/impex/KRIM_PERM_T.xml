@@ -287,21 +287,6 @@
         OBJ_ID="5B4F0974494BCF33E0R04EX189E8ABAA" PERM_ID="3113"
         PERM_TMPL_ID="67" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Open Document, with status FINAL"
-        NM="Open Document FINAL" NMSPC_CD="KS-SYS"
-        OBJ_ID="2357893b-31e3-43d6-9aa2-d615dab32751" PERM_ID="3200"
-        PERM_TMPL_ID="4000" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Determine availability of admin screens"
-        NM="KS Admin Screens" NMSPC_CD="KS-SYS"
-        OBJ_ID="068ab713-372d-4bff-94e2-8806bb54b003" PERM_ID="3201"
-        PERM_TMPL_ID="4001" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
-        DESC_TXT="Determine availability of Course Workflow Action List"
-        NM="KS Admin Course Workflow" NMSPC_CD="KS-SYS"
-        OBJ_ID="7983fc6e-50ec-4278-8009-03dc7d2f777e" PERM_ID="3202"
-        PERM_TMPL_ID="4001" VER_NBR="1"/>
-    <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
         NM="Send Ad Hoc Request" NMSPC_CD="KR-SYS"
         OBJ_ID="662384B381B967A1E0404F8189D868A6" PERM_ID="332"

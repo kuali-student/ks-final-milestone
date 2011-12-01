@@ -202,14 +202,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			        try {
                         queryParamValue = df.parse((String)searchParam.getValue());
                     } catch (ParseException e) {
-                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue());
                     }
-			    } if ("long".equals(paramDataType) && searchParam.getValue() instanceof String) {
-			        try{
-			        	queryParamValue = Long.valueOf((String)searchParam.getValue());
-	                } catch (NumberFormatException e) {
-	                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
-	                }
 			    } else {
 			        queryParamValue = searchParam.getValue();
 			    }

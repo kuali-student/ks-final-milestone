@@ -60,6 +60,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  */
 @WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
+@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LrcServiceImpl implements LrcService {
 	private LrcDao lrcDao;
     private SearchManager searchManager;
@@ -82,7 +83,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#createResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	@Transactional(readOnly=false)
 	public ResultComponentInfo createResultComponent(
 			String resultComponentTypeKey,
 			ResultComponentInfo resultComponentInfo)
@@ -111,7 +112,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#deleteResultComponent(java.lang.String)
 	 */
 	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	@Transactional(readOnly=false)
 	public StatusInfo deleteResultComponent(String resultComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -283,7 +284,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponent(java.lang.String)
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public ResultComponentInfo getResultComponent(String resultComponentId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -297,7 +297,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResult(java.lang.String, java.lang.String)
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResult(String resultValueId,
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -312,7 +311,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResultComponentType(java.lang.String)
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResultComponentType(
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -326,7 +324,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentType(java.lang.String)
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public ResultComponentTypeInfo getResultComponentType(
 			String resultComponentTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -340,7 +337,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentTypes()
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public List<ResultComponentTypeInfo> getResultComponentTypes()
 			throws OperationFailedException {
 		List<ResultComponentType> rct = lrcDao.find(ResultComponentType.class);
@@ -351,7 +347,6 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getScale(java.lang.String)
 	 */
 	@Override
-    @Transactional(readOnly=true)
 	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -374,7 +369,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#updateResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
 	 */
 	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	@Transactional(readOnly=false)
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
 			ResultComponentInfo resultComponentInfo)
 			throws DataValidationErrorException, DoesNotExistException,

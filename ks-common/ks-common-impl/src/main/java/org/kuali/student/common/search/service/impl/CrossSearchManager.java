@@ -93,10 +93,12 @@ public class CrossSearchManager {
 		if(crossSearchType.getJoinCriteria().getComparisons().isEmpty()){
 			//If the root join has no criteria then do a simple union of rows
 			for(Map.Entry<String,SearchResult> subSearchResult:subSearchResults.entrySet()){
-				for(SearchResultRow row:subSearchResult.getValue().getRows()){
-					SearchResultRow mappedResult = mapResultRow(subSearchResult.getKey(),row,crossSearchType);
-					searchResult.getRows().add(mappedResult);
-				}
+                if (null != subSearchResult.getValue()) {
+                    for(SearchResultRow row:subSearchResult.getValue().getRows()){
+                        SearchResultRow mappedResult = mapResultRow(subSearchResult.getKey(),row,crossSearchType);
+                        searchResult.getRows().add(mappedResult);
+                    }
+                }
 			}
 		}else{
 			//merge the subsearches together using the join rules (this is in o^2 time which is bad)
@@ -506,8 +508,5 @@ public class CrossSearchManager {
 		this.searchDispatcher = searchDispatcher;
 	}
 
-	public SearchDispatcher getSearchDispatcher() {
-		return searchDispatcher;
-	}
-		
+
 }

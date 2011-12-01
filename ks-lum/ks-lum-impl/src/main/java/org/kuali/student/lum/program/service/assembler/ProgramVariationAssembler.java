@@ -90,7 +90,6 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         
         boolean stateChanged = NodeOperation.UPDATE == operation && variation.getState() != null && !variation.getState().equals(clu.getState());
         
-        clu.setState(variation.getState());
         programAssemblerUtils.disassembleBasics(clu, variation);
         if (variation.getId() == null)
         	variation.setId(clu.getId());
