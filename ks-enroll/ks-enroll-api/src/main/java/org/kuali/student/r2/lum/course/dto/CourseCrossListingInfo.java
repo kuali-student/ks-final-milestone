@@ -15,17 +15,19 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 /**
- * 
- * This is a description of what this class does - sambit don't forget to fill this in. 
+ * This is a description of what this class does - sambit don't forget to fill
+ * this in.
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
+
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "descr", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseCrossListingInfo extends IdNamelessEntityInfo implements CourseCrossListing, Serializable {
 

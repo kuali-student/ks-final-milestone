@@ -40,14 +40,4 @@ public interface Activity extends IdEntity {
      */
     public Amount getContactHours();
 
-    /**
-     * The current status of the course. The values for this field are
-     * constrained to those in the luState enumeration. A separate setup
-     * operation does not exist for retrieval of the meta data around this
-     * value. This field may not be updated through updating this structure and
-     * must instead be updated through a dedicated operation.
-     * 
-     * @name State
-     */
-    public String getState();
 }

@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlType;
 
 import javax.xml.bind.annotation.XmlElement;
 
@@ -23,7 +25,10 @@ import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
+import org.w3c.dom.Element;
 
+@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes",
+        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityInfo extends IdEntityInfo implements Activity, Serializable {
 
@@ -41,8 +46,8 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     @XmlElement
     private AmountInfo contactHours;
 
-    @XmlElement
-    private String state;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public ActivityInfo() {}
 
@@ -95,13 +100,4 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
         return contactHours;
     }
 
-    @Override
-    public String getState() {
-
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 }

@@ -16,13 +16,17 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.w3c.dom.Element;
 
+@XmlType(name = "CourseFeeInfo", propOrder = {"id", "name", "typeKey", "stateKey", "code", "descr", "feeType", "rateType", "feeAmounts", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializable {
 
@@ -36,6 +40,9 @@ public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializab
 
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CourseFeeInfo() {
 

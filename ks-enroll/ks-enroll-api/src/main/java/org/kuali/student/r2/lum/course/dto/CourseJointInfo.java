@@ -11,15 +11,21 @@
 package org.kuali.student.r2.lum.course.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseJoint;
+import org.w3c.dom.Element;
 
+@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "code", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes",
+        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializable {
 
@@ -39,6 +45,9 @@ public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializ
 
     @XmlAttribute
     private String relationId;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CourseJointInfo() {
 

@@ -16,13 +16,15 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
 import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about revenue collected from the course.
@@ -34,6 +36,8 @@ import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
  *      "https://test.kuali.org/confluence/display/KULSTU/courseRevenueInfo+Structure"
  *      >CourseReenueInfo</>
  */
+
+@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes", "versionInfo", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRevenue, Serializable {
 
@@ -44,6 +48,9 @@ public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRev
 
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CourseRevenueInfo() {
 

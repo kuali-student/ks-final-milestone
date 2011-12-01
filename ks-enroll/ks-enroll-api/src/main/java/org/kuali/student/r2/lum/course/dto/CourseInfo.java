@@ -17,7 +17,9 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
@@ -33,6 +35,7 @@ import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -40,6 +43,11 @@ import org.kuali.student.r2.lum.lu.infc.CluInstructor;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "CourseInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "code", "courseNumberSuffix", "level", "courseTitle", "transcriptTitle", "formats", "termsOffered",
+        "duration", "joints", "crossListings", "variations", "subjectArea", "campusLocations", "outOfClassHours", "primaryInstructor", "instructors", "unitsDeployment", "feeJustification",
+        "unitsContentOwner", "fees", "revenues", "expenditure", "courseSpecificLOs", "gradingOptionIds", "creditOptionKeys", "specialTopicsCourse", "pilotCourse", "startTerm", "endTerm",
+        "effectiveDate", "expirationDate", "meta", "attributes", "versionInfo", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
@@ -95,7 +103,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
     @XmlElement
     private List<String> unitsDeployment;
-
+    @XmlElement
     private RichTextInfo feeJustification;
 
     @XmlElement
@@ -138,6 +146,9 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
     @XmlElement
     private VersionInfo versionInfo;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CourseInfo(Course courseInfo) {
         super(courseInfo);
