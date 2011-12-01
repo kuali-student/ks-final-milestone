@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -48,9 +47,11 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "code", "courseNumberSuffix", "level", "courseTitle", "transcriptTitle", "formats", "termsOffered",
         "duration", "joints", "crossListings", "variations", "subjectArea", "campusLocations", "outOfClassHours", "primaryInstructor", "instructors", "unitsDeployment", "feeJustification",
         "unitsContentOwner", "fees", "revenues", "expenditure", "courseSpecificLOs", "gradingOptionIds", "creditOptionKeys", "specialTopicsCourse", "pilotCourse", "startTerm", "endTerm",
-        "effectiveDate", "expirationDate", "meta", "attributes", "versionInfo", "_futureElements"})
+        "effectiveDate", "expirationDate", "versionInfo", "meta", "attributes", "versionInfo", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
+
+   
 
     private static final long serialVersionUID = 1L;
 
@@ -262,6 +263,8 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
             this.code = courseInfo.getCode();
 
             this.unitsContentOwner = courseInfo.getUnitsContentOwner() != null ? new ArrayList<String>(courseInfo.getUnitsContentOwner()) : new ArrayList<String>();
+            
+            this.versionInfo =  new VersionInfo(courseInfo.getVersion());
 
         }
     }
@@ -698,6 +701,23 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+    
+    @Override
+    public VersionInfo getVersion() {
+        return versionInfo;
+    }
+
+    public void setVersionInfo(VersionInfo versionInfo) {
+        this.versionInfo = versionInfo;
+    }
+
+    public void setGradingOptionIds(List<String> gradingOptionIds) {
+        this.gradingOptionIds = gradingOptionIds;
+    }
+
+    public void setCreditOptionKeys(List<String> creditOptionKeys) {
+        this.creditOptionKeys = creditOptionKeys;
     }
 
 }

@@ -7,6 +7,7 @@ import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.versionmanagement.infc.Version;
 
 import org.kuali.student.r2.lum.lu.infc.CluInstructor;
 
@@ -188,5 +189,12 @@ public interface Course extends IdEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getExpirationDate();
+
+    /**
+     * This method ...
+     * 
+     * @return
+     */
+    public Version getVersion();
 
 }
