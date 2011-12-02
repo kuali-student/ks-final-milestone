@@ -668,9 +668,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        ViewContext docContext = new ViewContext();
 		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
 		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
-		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
-		        		+ "/SUMMARY");
+		        //RecentlyViewedHelper.addDocument(getProposalTitle(), 
+		        //	HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
+		        //		+ "/SUMMARY");
 		        getCourseComparisonModelAndReqs(callback, workCompleteCallback);
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
@@ -849,7 +849,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 	cluProposalModel.setRoot(result.getValue());
                 	String title = getProposalTitle();
     	            View currentView = getCurrentView();
-    				if (currentView instanceof SectionView){
+     				if (currentView instanceof SectionView){
     					((SectionView)currentView).updateView(cluProposalModel);
     					((SectionView) currentView).resetDirtyFlags();
     	            }
@@ -868,7 +868,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     				setLastUpdated();
     				HistoryManager.logHistoryChange();
                		if(isNew){
-               			RecentlyViewedHelper.addCurrentDocument(title);
+               			RecentlyViewedHelper.addDocument(getProposalTitle(), 
+        		        	HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), context)
+        		        		+ "/SUMMARY");
                		}
                		else if(!currentTitle.equals(title)){
                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
