@@ -8,13 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ListToTextBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
@@ -26,20 +24,15 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.table.summary.ShowRowConditionCallback;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
-import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool.EditMode;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -48,7 +41,6 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWi
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.AcademicSubjectOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.MetaInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
@@ -100,9 +92,9 @@ public class CourseSummaryConfigurer extends Configurer implements
 
     private List<StatementTypeInfo> stmtTypes;
 
-    private Controller controller;
+    protected Controller controller;
     protected SummaryTableSection tableSection; // review proposal data display
-    private String modelId;
+    protected String modelId;
 
     private List<Anchor> validateLinks = new ArrayList<Anchor>(); //KSLAB-1985
 
