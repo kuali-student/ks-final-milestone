@@ -10,15 +10,4 @@ import org.kuali.student.r2.common.entity.TypeEntity;
 @Table(name = "KSEN_LUI_TYPE")
 public class LuiTypeEntity extends TypeEntity<LuiTypeAttributeEntity>{
 
-    @Column(name = "REF_OBJECT_URI")
-    private String refObjectURI;
-
-    public void setRefObjectURI(String refObjectURI) {
-        this.refObjectURI = refObjectURI;
-    }
-
-    public String getRefObjectURI() {
-        return refObjectURI;
-    }
-
 }

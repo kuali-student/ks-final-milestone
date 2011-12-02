@@ -10,15 +10,4 @@ import javax.persistence.Table;
 @Table(name = "KSEN_LRR_TYPE")
 public class LrrTypeEntity extends TypeEntity<LrrAttributeEntity> {
 
-    @Column(name = "REF_OBJECT_URI")
-    private String refObjectURI;
-
-    public void setRefObjectURI(String refObjectURI) {
-        this.refObjectURI = refObjectURI;
-    }
-
-    public String getRefObjectURI() {
-        return refObjectURI;
-    }
-
 }
