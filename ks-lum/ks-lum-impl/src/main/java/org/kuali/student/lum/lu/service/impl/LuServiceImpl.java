@@ -2580,25 +2580,30 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-		checkCluAlreadyAdded(cluSet, cluId);
-		
-		try{
-			luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
-		}catch(NoResultException e){
-			throw new DoesNotExistException();
-		}
-		
-		CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-		join.setCluSet(cluSet);
-		join.setCluVersionIndId(cluId);
-		
-		cluSet.getCluVerIndIds().add(join);
-
-		luDao.update(cluSet);
-
 		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
+		//If the clu already exists return false but dont throw an exception
+		if(!checkCluAlreadyAdded(cluSet, cluId)){
+			statusInfo.setSuccess(Boolean.FALSE);
+			statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+		}else{
+			try{
+				luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
+			}catch(NoResultException e){
+				throw new DoesNotExistException();
+			}
+			
+			CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+			join.setCluSet(cluSet);
+			join.setCluVersionIndId(cluId);
+			
+			cluSet.getCluVerIndIds().add(join);
+	
+			luDao.update(cluSet);
+	
+	
+			statusInfo.setSuccess(true);
+		}
 		return statusInfo;
 	}
 
@@ -2955,13 +2960,14 @@ public class LuServiceImpl implements LuService {
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
-	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+	private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
 		for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
 			if (join.getCluVersionIndId().equals(cluId)) {
-				throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3872,18 +3878,23 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
 
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(Boolean.TRUE);
+		
 		checkForMissingParameter(cluIdList, "cluIdList");
 		checkForMissingParameter(cluSetId, "cluSetId");
 		
 		for(String cluId : cluIdList) {
 			StatusInfo status = addCluToCluSet(cluId, cluSetId);
 			if (!status.getSuccess()) {
-				return status;
+				//One or more clus already existed
+				if(statusInfo.getMessage().isEmpty()){
+					statusInfo.setMessage(status.getMessage());
+				}else{
+					statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());	
+				}
 			}
 		}
-
-		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
 		return statusInfo;
 	}
