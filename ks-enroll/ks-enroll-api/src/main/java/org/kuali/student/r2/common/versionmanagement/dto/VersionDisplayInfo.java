@@ -13,19 +13,23 @@ package org.kuali.student.r2.common.versionmanagement.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
+import org.w3c.dom.Element;
 
+@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "objectTypeURI", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId",
+        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-   
 
     public VersionDisplayInfo() {}
 
@@ -49,7 +53,10 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     @XmlElement
     private String versionedFromId;
-    
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
     public VersionDisplayInfo(VersionDisplay versionDisplay) {
         super();
 
@@ -60,7 +67,7 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.versionComment = versionDisplay.getVersionComment();
         this.versionedFromId = versionDisplay.getVersionedFromId();
     }
-    
+
     @Override
     public String getVersionedFromId() {
         return versionedFromId;
