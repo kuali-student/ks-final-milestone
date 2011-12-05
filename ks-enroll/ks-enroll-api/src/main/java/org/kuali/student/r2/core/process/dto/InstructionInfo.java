@@ -34,9 +34,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
-                "processKey", "checkId", "appliedOrgIds", 
+                "processKey", "checkId", 
                 "appliedPopulationIds", "appliedAtpTypeKeys",
-                "appliedAtpKeys", "appliedCluSetIds",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
                 "meta", "attributes",
@@ -54,19 +53,10 @@ public class InstructionInfo extends RelationshipInfo
     private String checkId;
 
     @XmlElement 
-    private List<String> appliedOrgIds;
-
-    @XmlElement 
     private List<String> appliedPopulationIds;
 
     @XmlElement 
     private List<String> appliedAtpTypeKeys;
-
-    @XmlElement 
-    private List<String> appliedAtpKeys;
-
-    @XmlElement 
-    private List<String> appliedCluSetIds;
 
     @XmlElement 
     private RichTextInfo message;
@@ -104,9 +94,6 @@ public class InstructionInfo extends RelationshipInfo
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
             this.checkId = instruction.getCheckId();
-            if (instruction.getAppliedOrgIds() != null) {
-                this.appliedOrgIds = new ArrayList<String>(instruction.getAppliedOrgIds());
-            }
 
             if (instruction.getAppliedPopulationIds() != null) {
                 this.appliedPopulationIds = new ArrayList<String>(instruction.getAppliedPopulationIds());
@@ -114,14 +101,6 @@ public class InstructionInfo extends RelationshipInfo
 
             if (instruction.getAppliedAtpTypeKeys() != null) {
                 this.appliedAtpTypeKeys = new ArrayList<String>(instruction.getAppliedAtpTypeKeys());
-            }
-
-            if (instruction.getAppliedAtpKeys() != null) {
-                this.appliedAtpKeys = new ArrayList<String>(instruction.getAppliedAtpKeys());
-            }
-
-            if (instruction.getAppliedCluSetIds() != null) {
-                this.appliedCluSetIds = new ArrayList<String>(instruction.getAppliedCluSetIds());
             }
 
             this.message = new RichTextInfo(instruction.getMessage());
@@ -151,19 +130,6 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public List<String> getAppliedOrgIds() {
-        if (this.appliedOrgIds == null) {
-            this.appliedOrgIds = new ArrayList<String>();
-        }
-
-        return this.appliedOrgIds;
-    }
-
-    public void setAppliedOrgIds(List<String> appliedOrgIds) {
-        this.appliedOrgIds = appliedOrgIds;
-    }
-
-    @Override
     public List<String> getAppliedPopulationIds() {
         if (this.appliedPopulationIds == null) {
             this.appliedPopulationIds = new ArrayList<String>();
@@ -187,32 +153,6 @@ public class InstructionInfo extends RelationshipInfo
 
     public void setAppliedAtpTypeKeys(List<String> appliedAtpTypeKeys) {
         this.appliedAtpTypeKeys = appliedAtpTypeKeys;
-    }
-
-    @Override
-    public List<String> getAppliedAtpKeys() {
-        if (this.appliedAtpKeys == null) {
-            this.appliedAtpKeys = new ArrayList<String>();
-        }
-
-        return this.appliedAtpKeys;
-    }
-
-    public void setAppliedAtpKeys(List<String> appliedAtpKeys) {
-        this.appliedAtpKeys = appliedAtpKeys;
-    }
-
-    @Override
-    public List<String> getAppliedCluSetIds() {
-        if (this.appliedCluSetIds == null) {
-            this.appliedCluSetIds = new ArrayList<String>();
-        }
-
-        return this.appliedCluSetIds;
-    }
-
-    public void setAppliedCluSetIds(List<String> appliedCluSetIds) {
-        this.appliedCluSetIds = appliedCluSetIds;
     }
 
     @Override

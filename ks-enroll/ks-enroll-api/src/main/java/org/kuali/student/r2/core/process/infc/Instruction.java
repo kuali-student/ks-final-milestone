@@ -27,10 +27,8 @@ import org.kuali.student.r2.common.infc.RichText;
  * applied data that determines if the Check applies to a Process.
  *
  * To determine if a Check applies to a Process:
- *      1. the person is a member of any applied Orgs
- *      2. and the person is a member of any applied Populations
- *      3. and the current ATP type is any of the applied ATP Types
- *      4. and the current ATP is any of the applied ATPs
+ *      1. the person is a member of any applied Populations
+ *      2. and the current ATP type is any of the applied ATP Types
  *
  * If any of the above applied elements is empty, then the applied
  * element evaluates to true. If all applied elements are empty, then
@@ -62,14 +60,6 @@ public interface Instruction
     public String getCheckId();
 
     /**
-     * The Org Ids to which the Check applies.
-     * TODO: revisit rules that evaluate to orgs.
-     *
-     * @name Applied Org Ids
-     */
-    public List<String> getAppliedOrgIds();
-
-    /**
      * The Population Ids to which the Check applies.
      *
      * @name Applied Population Ids
@@ -83,20 +73,6 @@ public interface Instruction
      * @name Applied Atp Type Keys
      */
     public List<String> getAppliedAtpTypeKeys();
-
-    /**
-     * The ATP keys to which the Check applies.
-     *
-     * @name Applied Atp Keys
-     */
-    public List<String> getAppliedAtpKeys();
-
-    /**
-     * The CLU sets to which the Check applies.
-     *
-     * @name Clu Set Ids
-     */
-    public List<String> getAppliedCluSetIds();
 
     /**
      * The text of a message to display to a user on fail or warning
