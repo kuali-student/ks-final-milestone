@@ -1813,6 +1813,7 @@
 		            LEFT JOIN cluset.cluVerIndIds cluVerIndId 
 		            LEFT JOIN cluset.cluSets subcluset
 		            LEFT JOIN cluset.descr clusetDescr
+		            WHERE clu.version.versionIndId = cluVerIndId.cluVersionIndId
 		            </value>
 		        </entry>
 				<entry key="lu.search.cluCluRelation">
