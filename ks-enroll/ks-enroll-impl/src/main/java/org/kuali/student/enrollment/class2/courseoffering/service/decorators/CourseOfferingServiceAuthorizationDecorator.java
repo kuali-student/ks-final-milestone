@@ -3,7 +3,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.service.PermissionService;
+//import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;

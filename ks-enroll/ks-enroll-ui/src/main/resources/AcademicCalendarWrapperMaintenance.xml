@@ -76,9 +76,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="academicCalendarInfo.name"/>
-        <bean parent="LookupCriteriaAttributeField" p:title="type" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
+        <bean parent="LookupCriteriaInputField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
+        <bean parent="LookupCriteriaInputField" p:propertyName="academicCalendarInfo.name"/>
+        <bean parent="LookupCriteriaInputField" p:title="type" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
             <property name="control">
                 <bean parent="SelectControl"/>
             </property>
@@ -90,11 +90,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="key" />
-        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.name"/>
-        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate" />
-        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate" />
-        <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />        
+		<bean parent="InputField" p:propertyName="key" />
+        <bean parent="InputField" p:propertyName="academicCalendarInfo.name"/>
+        <bean parent="InputField" p:propertyName="academicCalendarInfo.startDate" />
+        <bean parent="InputField" p:propertyName="academicCalendarInfo.endDate" />
+        <bean parent="InputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />
       </list>
     </property>
   </bean>
@@ -111,11 +111,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Academic Calendar"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.name"/>
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.startDate"/>
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.endDate"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.name"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.startDate"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.endDate"/>
                </list>
              </property>             
            </bean>
@@ -125,7 +125,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="propertyName" value="termWrapperList"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
+                  <bean parent="InputField" p:propertyName="termInfo.typeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -134,31 +134,31 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             		</property>
                   </bean>
                  
-                  <bean parent="AttributeField" p:propertyName="termInfo.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="termInfo.endDate"/>
+                  <bean parent="InputField" p:propertyName="termInfo.startDate"/>
+                  <bean parent="InputField" p:propertyName="termInfo.endDate"/>
                   
                   <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" /> 
 				  <bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
 
-                  <bean parent="AttributeField" p:propertyName="classesMeetDates.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="classesMeetDates.endDate"/>  
+                  <bean parent="InputField" p:propertyName="classesMeetDates.startDate"/>
+                  <bean parent="InputField" p:propertyName="classesMeetDates.endDate"/>
                 
                   <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
-                  <bean parent="AttributeField" p:propertyName="registrationPeriod.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="registrationPeriod.endDate"/>  
+                  <bean parent="InputField" p:propertyName="registrationPeriod.startDate"/>
+                  <bean parent="InputField" p:propertyName="registrationPeriod.endDate"/>
 
 				  <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
 				                             
-                  <bean parent="AttributeField" p:propertyName="dropPeriodEndsDate.endDate">
+                  <bean parent="InputField" p:propertyName="dropPeriodEndsDate.endDate">
                 	 <property name="label" value="Date" />
                   </bean>
 
 				  <bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/> 
-                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.startDate"/>
-                  <bean parent="AttributeField" p:propertyName="finalExaminationsDates.endDate"/>
+                  <bean parent="InputField" p:propertyName="finalExaminationsDates.startDate"/>
+                  <bean parent="InputField" p:propertyName="finalExaminationsDates.endDate"/>
                 
 				  <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/> 
-                  <bean parent="AttributeField" p:propertyName="gradesDueDate.endDate">
+                  <bean parent="InputField" p:propertyName="gradesDueDate.endDate">
                 	<property name="label" value="Date" />
                   </bean>                                     
             
@@ -190,10 +190,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="items">
                <list>
                <!-- 
-                <bean parent="AttributeField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.key"/>
                 -->
-                <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.name"/>
-                <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
+                <bean parent="KSInputField" p:propertyName="academicCalendarInfo.name"/>
+                <bean parent="KSInputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -204,7 +204,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <bean parent="HorizontalFieldGroup">
                   <property name="items">
                     <list>
-                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.startDate" >
+                        <bean parent="KSInputField" p:propertyName="academicCalendarInfo.startDate" >
                             <property name="control">
                                 <bean parent="DateControl">
                                     <property name="datePicker.componentOptions">
@@ -223,7 +223,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 </bean>
                             </property>
                         </bean>
-                        <bean parent="KSAttributeField" p:propertyName="academicCalendarInfo.endDate">
+                        <bean parent="KSInputField" p:propertyName="academicCalendarInfo.endDate">
                             <property name="control">
                                 <bean parent="DateControl">
                                     <property name="datePicker.componentOptions">
@@ -259,18 +259,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <property name="layoutManager.applyDefaultCellWidths" value="false"/>     -->
 
               <property name="layoutManager.lineGroupPrototype.styleClasses" value="ks-termDates-table,ks-termDates-collectionItem"/>
-              <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
+              <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
               <property name="layoutManager.lineGroupPrototype.layoutManager.styleClasses" value=""/>
               <property name="layoutManager.lineGroupPrototype.layoutManager.applyDefaultCellWidths" value="false"/>
 
               <property name="layoutManager.addLineGroup.styleClasses" value="ks-termDates-table,ks-termDates-collectionItem"/>
-              <property name="layoutManager.addLineGroup.accordion.render" value="false"/>
+              <property name="layoutManager.addLineGroup.disclosure.render" value="false"/>
               <property name="layoutManager.addLineGroup.layoutManager.styleClasses" value=""/>
               <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
               <property name="items">
                 <list>
 
-                    <bean parent="AttributeField" p:propertyName="termInfo.typeKey">
+                    <bean parent="InputField" p:propertyName="termInfo.typeKey">
                         <property name="control">
                             <bean parent="SelectControl"/>
                         </property>
@@ -283,27 +283,25 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <property name="group.layoutManager.orientation" value="HORIZONTAL"/>
                         <property name="items">
                             <list>
-                                <bean parent="AttributeField" p:propertyName="termInfo.startDate"
-                                      p:labelField.render="false" p:summaryMessageField.render="false"/>
+                                <bean parent="InputField" p:propertyName="termInfo.startDate" p:labelField.render="false" />
                                 <bean parent="MessageField" p:messageText=" to "/>
-                                <bean parent="AttributeField" p:propertyName="termInfo.endDate"
-                                      p:labelField.render="false" p:summaryMessageField.render="false"/>
+                                <bean parent="InputField" p:propertyName="termInfo.endDate" p:labelField.render="false" />
                             </list>
                         </property>
                     </bean>  -->
-                    <bean parent="AttributeField" p:propertyName="termInfo.startDate" p:summaryMessageField.render="false"/>
-                    <bean parent="AttributeField" p:propertyName="termInfo.endDate" p:summaryMessageField.render="false"/>
+                    <bean parent="InputField" p:propertyName="termInfo.startDate" />
+                    <bean parent="InputField" p:propertyName="termInfo.endDate" />
 
                     <bean parent="FieldGroup" p:label="Registration Period">
                         <property name="group.layoutManager.orientation"
                                   value="HORIZONTAL"/>
                         <property name="items">
                             <list>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="registrationPeriod.startDate"
-                                      p:constraint="Required when End Date has a value"
-                                      p:labelField.render="false" p:summaryMessageField.render="false"
-                                      p:summary="First allowable day of Registration for the Term"  >
+                                      p:constraintText="Required when End Date has a value"
+                                      p:labelField.render="false"
+                                      p:instructionalText="First allowable day of Registration for the Term"  >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -312,11 +310,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </property>-->
                                 </bean>
                                 <bean parent="MessageField" p:messageText=" to "/>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="registrationPeriod.endDate"
-                                      p:constraint="Required when Start Date has a value"
-                                      p:labelField.render="false" p:summaryMessageField.render="false"
-                                      p:summary="Last allowable day of Registration for the Term"   >
+                                      p:constraintText="Required when Start Date has a value"
+                                      p:labelField.render="false"
+                                      p:instructionalText="Last allowable day of Registration for the Term"   >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -333,9 +331,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                   value="HORIZONTAL"/>
                         <property name="items">
                             <list>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="classesMeetDates.startDate"
-                                      p:constraint="Required when End Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraintText="Required when End Date has a value" p:labelField.render="false" >
                                     <!--
                                     <property name="dependencyConstraints">
                                         <list>
@@ -346,9 +344,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     -->
                                 </bean>
                                 <bean parent="MessageField" p:messageText=" to "/>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="classesMeetDates.endDate"
-                                      p:constraint="Required when Start Date has a value" p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraintText="Required when Start Date has a value" p:labelField.render="false" >
                                     <!--<property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -360,8 +358,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         </property>
                     </bean>
 
-                    <bean parent="AttributeField"
-                          p:propertyName="dropPeriodEndsDate.endDate" p:summaryMessageField.render="false">
+                    <bean parent="InputField"
+                          p:propertyName="dropPeriodEndsDate.endDate" >
                         <property name="label" value="Drop Period Ends"/>
                     </bean>
 
@@ -370,10 +368,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                   value="HORIZONTAL"/>
                         <property name="items">
                             <list>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="finalExaminationsDates.startDate"
-                                      p:constraint="Required when End Date has a value"
-                                      p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraintText="Required when End Date has a value"
+                                      p:labelField.render="false" >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -382,10 +380,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </property>-->
                                 </bean>
                                 <bean parent="MessageField" p:messageText=" to "/>
-                                <bean parent="AttributeField"
+                                <bean parent="InputField"
                                       p:propertyName="finalExaminationsDates.endDate"
-                                      p:constraint="Required when Start Date has a value"
-                                      p:labelField.render="false" p:summaryMessageField.render="false">
+                                      p:constraintText="Required when Start Date has a value"
+                                      p:labelField.render="false" >
 <!--                                    <property name="dependencyConstraints">
                                         <list>
                                             <bean parent="PrerequisiteConstraint"
@@ -397,8 +395,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         </property>
                     </bean>
 
-                    <bean parent="AttributeField"
-                          p:propertyName="gradesDueDate.endDate" p:summaryMessageField.render="false">
+                    <bean parent="InputField"
+                          p:propertyName="gradesDueDate.endDate" >
                         <property name="label" value="Grading Period Ends"/>
                     </bean>
 

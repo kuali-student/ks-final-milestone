@@ -3,7 +3,8 @@ package org.kuali.student.enrollment.class1.hold.service.decorators;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.service.PermissionService;
+//import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.enrollment.hold.dto.HoldInfo;
 import org.kuali.student.enrollment.hold.dto.IssueInfo;
 import org.kuali.student.enrollment.hold.dto.RestrictionInfo;

@@ -127,19 +127,19 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseInfoLookupableImpl"/>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="id" />      
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="code" />
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="courseTitle"/>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="subjectArea"/>        
+        <bean parent="LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="LookupCriteriaInputField" p:propertyName="code" />
+        <bean parent="LookupCriteriaInputField" p:propertyName="courseTitle"/>
+        <bean parent="LookupCriteriaInputField" p:propertyName="subjectArea"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="AttributeField" p:propertyName="id" />
-		<bean parent="AttributeField" p:propertyName="code" />
-        <bean parent="AttributeField" p:propertyName="courseTitle" />
-        <bean parent="AttributeField" p:propertyName="subjectArea" />
-        <bean parent="AttributeField" p:propertyName="descr" />        
+        <bean parent="InputField" p:propertyName="id" />
+		<bean parent="InputField" p:propertyName="code" />
+        <bean parent="InputField" p:propertyName="courseTitle" />
+        <bean parent="InputField" p:propertyName="subjectArea" />
+        <bean parent="InputField" p:propertyName="descr" />
       </list>
     </property>
   </bean>  

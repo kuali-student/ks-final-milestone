@@ -25,7 +25,7 @@ limitations under the License.
 	  <property name="entryPageId" value="page1"/>
       <property name="items">
           <list>
-          	<bean parent="Page_Accordion" p:id="page1">
+          	<bean parent="Page_Disclosure" p:id="page1">
           		<property name="items">
                		<list>
                	<!-- <ref bean ="AcademicCalendarView-testSection1"/> -->
@@ -37,7 +37,7 @@ limitations under the License.
           </list>         
       </property>
      
-      <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm" />
+ <!--     <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm" />  -->
       <property name="defaultBindingObjectPath" value="AcademicCalendarInfo" />
 
 	  <property name="footer">
@@ -57,16 +57,16 @@ limitations under the License.
    </bean>
    -->
    <bean id="AcademicCalendarView-AcalInfo" parent="GroupGridLayout">
-      <property name="accordion.render" value="false"/>
+      <property name="disclosure.render" value="false"/>
       <property name="title" value="Academic Calendar"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
+          <bean parent="InputField_Form" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
             <property name="control">
               <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
           </bean>
-          <bean parent="AttributeField_Form" p:propertyName="endDate" p:label="End Date" p:required="true" p:maxLength="10">
+          <bean parent="InputField_Form" p:propertyName="endDate" p:label="End Date" p:required="true" p:maxLength="10">
             <property name="control">
               <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
@@ -81,7 +81,7 @@ limitations under the License.
    		<property name="layoutManager.numberOfColumns" value="2" /> 
    		<property name="items">
    			<list>
-   			    <bean parent="AttributeField_Form" p:propertyName="term" p:label="Term" p:required="true" p:maxLength="25">
+   			    <bean parent="InputField_Form" p:propertyName="term" p:label="Term" p:required="true" p:maxLength="25">
             		<property name="control">
               			<bean parent="TextControl" p:size="26"/>
             		</property>

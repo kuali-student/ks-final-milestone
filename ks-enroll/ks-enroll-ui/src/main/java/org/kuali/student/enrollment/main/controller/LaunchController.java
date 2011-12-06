@@ -19,20 +19,21 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.main.form.LaunchForm;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 @RequestMapping(value = "/launch")
 public class LaunchController extends UifControllerBase {
-     public UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    public UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new LaunchForm();
     }
 
+    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
+//    @Override
+    protected Class<? extends UifFormBase> formType() {
+        return LaunchForm.class;
+    }
 }

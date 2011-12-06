@@ -19,12 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
@@ -143,19 +140,19 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 			if (documentNumber != null) {
 				if (INITIATOR_ROLE_NAME.equals(roleName)) {
 				    String principalId = getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentNumber);
-	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build());
+	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build());
 				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
 					List<String> ids = getWorkflowDocumentActionsService().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
 					if (ids != null) {
 					    for ( String id : ids ) {
 					    	if ( StringUtils.isNotBlank(id) ) {
-					    		members.add(RoleMembership.Builder.create(null/*roleId*/, null, id, Role.PRINCIPAL_MEMBER_TYPE, null).build());
+					    		members.add(RoleMembership.Builder.create(null/*roleId*/, null, id, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build());
 					    	}
 					    }
 					}
 				} else if(ROUTER_ROLE_NAME.equals(roleName)) {
 				    String principalId = getWorkflowDocumentService().getRoutedByPrincipalIdByDocumentId(documentNumber);
-	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build() );
+	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build() );
 				}
 			}
 		} catch (WorkflowException wex) {

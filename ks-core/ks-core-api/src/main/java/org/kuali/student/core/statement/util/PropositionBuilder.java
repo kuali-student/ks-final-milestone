@@ -41,7 +41,7 @@ import java.util.Map;
 public class PropositionBuilder {
     
     public static final Collection<String> TRANSLATABLE_STATEMENT_TYPES = Collections.singleton(StatementServiceConstants.PREREQUISITE_STATEMENT_TYPE);
-    
+
     //private LrcService lrcService;
     
     //private ApplicationContext appContext;
@@ -95,7 +95,7 @@ public class PropositionBuilder {
             qualifierMap = Collections.emptyMap();
         }
 
-        results.agenda = new BasicAgenda(RulesExecutionConstants.STATEMENT_EVENT_NAME, qualifierMap, agendaTree);
+        results.agenda = new BasicAgenda(qualifierMap, agendaTree);
 
         return results;
         

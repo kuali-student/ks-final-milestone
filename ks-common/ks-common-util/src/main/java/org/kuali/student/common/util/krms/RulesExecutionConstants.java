@@ -1,7 +1,6 @@
 package org.kuali.student.common.util.krms;
 
 import org.kuali.rice.krms.api.engine.Term;
-import org.kuali.rice.krms.api.engine.TermSpecification;
 
 
 public class RulesExecutionConstants {
@@ -24,25 +23,25 @@ public class RulesExecutionConstants {
     public static final String INTEGER_TERM_TYPE = "Integer";
     public static final String CONTEXT_INFO_TERM_TYPE = "ContextInfo";
     
-    public static final TermSpecification studentIdTermSpec = new TermSpecification(STUDENT_ID_TERM_NAME, STRING_TERM_TYPE);
+    public static final String studentIdTermSpec = STUDENT_ID_TERM_NAME;
 
-    public static final TermSpecification courseIdToEnroll = new TermSpecification(COURSE_ID_TO_ENROLL_TERM_NAME, STRING_TERM_TYPE);
+    public static final String courseIdToEnroll = COURSE_ID_TO_ENROLL_TERM_NAME;
 
-    public static final TermSpecification contextInfoTermSpec = new TermSpecification(CONTEXT_INFO_TERM_NAME, CONTEXT_INFO_TERM_TYPE);
+    public static final String contextInfoTermSpec = CONTEXT_INFO_TERM_NAME;
     
-    public static final TermSpecification courseSetTermSpec = new TermSpecification(COURSE_SET_TERM_NAME, STRING_COLLECTION_TERM_TYPE);
+    public static final String courseSetTermSpec = COURSE_SET_TERM_NAME;
     
-    public static final TermSpecification gpaForCourseTermSpec = new TermSpecification(GPA_FOR_COURSE_TERM_NAME, FLOAT_TERM_TYPE);
+    public static final String gpaForCourseTermSpec = GPA_FOR_COURSE_TERM_NAME;
     
-    public static final TermSpecification gradeForCourseTermSpec = new TermSpecification(GRADE_FOR_COURSE_TERM_NAME, GRADE_VALUE_TERM_TYPE);
+    public static final String gradeForCourseTermSpec = GRADE_FOR_COURSE_TERM_NAME;
     
-    public static final TermSpecification completedCourseIdsTermSpec = new TermSpecification(COMPLETED_COURSE_IDS_TERM_NAME, STRING_COLLECTION_TERM_TYPE);
+    public static final String completedCourseIdsTermSpec = COMPLETED_COURSE_IDS_TERM_NAME;
 
-    public static final TermSpecification enrolledCourseIdsTermSpec = new TermSpecification(ENROLLED_COURSE_IDS_TERM_NAME, STRING_COLLECTION_TERM_TYPE);
+    public static final String enrolledCourseIdsTermSpec = ENROLLED_COURSE_IDS_TERM_NAME;
     
-    public static final TermSpecification testSetScoreTermSpec = new TermSpecification(TEST_SET_SCORE_TERM_NAME, FLOAT_TERM_TYPE);
+    public static final String testSetScoreTermSpec = TEST_SET_SCORE_TERM_NAME;
     
-    public static final TermSpecification completedCreditsForCourseSetTermSpec = new TermSpecification(COMPLETED_CREDITS_FOR_COURSE_SET_TERM_NAME, INTEGER_TERM_TYPE);
+    public static final String completedCreditsForCourseSetTermSpec = COMPLETED_CREDITS_FOR_COURSE_SET_TERM_NAME;
     
     public static final Term completedCourseIdsTerm = new Term(completedCourseIdsTermSpec);
 

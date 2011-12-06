@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.service.impl.DocumentTypePermissionTypeServiceImpl;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;

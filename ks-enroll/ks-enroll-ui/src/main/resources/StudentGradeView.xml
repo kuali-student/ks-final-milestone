@@ -66,23 +66,24 @@ limitations under the License.
    </bean>
 
    <bean id="studentGradeView-selectTerm" parent="GroupGridLayout">
-       <property name="accordion.render" value="false"/>
+       <property name="disclosure.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField_Form" p:propertyName="selectedTerm" p:label="Select Term" p:required="true">
+          <bean parent="InputField_Form" p:propertyName="selectedTerm" p:label="Select Term" p:required="true">
             <property name="control">
               <bean parent="SelectControl"/>
             </property>
+             <!--
             <property name="optionsFinder">
                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-            </property>
+            </property>       -->
           </bean>
         </list>
       </property>
    </bean>
 
     <bean id="studentGradeView-creditDetails" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
-      <property name="accordion.render" value="false"/>
+      <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit"/>
       <property name="propertyName" value="creditList"/>
       <property name="renderAddLine" value="false"/>
@@ -92,17 +93,17 @@ limitations under the License.
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField" p:propertyName="courseName" p:label="Course Name" p:readOnly="true">
+          <bean parent="InputField" p:propertyName="courseName" p:label="Course Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="credits" p:label="Credits" p:readOnly="true">
+          <bean parent="InputField" p:propertyName="credits" p:label="Credits" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="grade" p:label="Grade" p:readOnly="true">
+          <bean parent="InputField" p:propertyName="grade" p:label="Grade" p:readOnly="true">
             <property name="control">
               <bean parent="TextControl" p:size="26" >
               </bean>

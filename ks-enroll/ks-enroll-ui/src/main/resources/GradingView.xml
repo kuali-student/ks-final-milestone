@@ -82,7 +82,7 @@ limitations under the License.
    </bean>
    
    <bean id="GradingView-CourseOffering" parent="GroupGridLayout">
-       <property name="accordion.render" value="false"/>
+       <property name="disclosure.render" value="false"/>
       <property name="items">
         <list>
           <ref bean="courseOfferingList"/>
@@ -101,15 +101,16 @@ limitations under the License.
   </bean>
 
     <bean id="courseOfferingList" parent="CollectionGroup">
-      <property name="summary" value="@{selectedTerm}"/>
+      <property name="instructionalText" value="@{currentTerm}"/>
       <property name="styleClasses" value="group-border"/>
-      <property name="summaryMessageField.styleClasses" value="font-bold"/>
-      <property name="accordion.render" value="false"/>
+      <property name="instructionalMessageField.styleClasses" value="font-bold"/>
+      <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
       <property name="propertyName" value="courseOfferingInfoList"/>
       <property name="renderAddLine" value="false"/>
       <property name="renderLineActions" value="false"/>
-      <property name="layoutManager.lineGroupPrototype.accordion.render" value="false"/>
+      <property name="bindingInfo.bindToForm" value="true"/>
+      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
       <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
       <property name="header.styleClasses" value="header-borderBottom"/>
@@ -142,7 +143,7 @@ limitations under the License.
    </bean>
 
     <bean id="GradingView-grade" parent="GroupGridLayout">
-       <property name="accordion.render" value="false"/>
+       <property name="disclosure.render" value="false"/>
       <property name="items">
         <list>
           <ref bean="gradeStudentGroup"/>
@@ -151,32 +152,33 @@ limitations under the License.
    </bean>
 
     <bean id="gradeStudentGroup" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
-      <property name="accordion.render" value="false"/>
+      <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent"/>
       <property name="propertyName" value="students"/>
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>
+      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.impl.identity.PersonImpl"/>
       <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.inquiryParameters">
         <map>
           <entry key="form.studentId" value="principalId"/>
         </map>
       </property>
+      <property name="bindingInfo.bindToForm" value="true"/>
       <property name="renderLineActions" value="@{readOnly eq false}"/>
       <property name="items">
         <list>
-          <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:readOnly="true">
+          <bean parent="InputField" p:propertyName="firstName" p:label="First Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="lastName" p:label="Last Name" p:readOnly="true">
+          <bean parent="InputField" p:propertyName="lastName" p:label="Last Name" p:readOnly="true">
               <property name="control">
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions" p:readOnly="@{readOnly}">
+          <bean parent="InputField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions" p:readOnly="@{readOnly}">
             <property name="control">
               <bean parent="SelectControl">
               </bean>

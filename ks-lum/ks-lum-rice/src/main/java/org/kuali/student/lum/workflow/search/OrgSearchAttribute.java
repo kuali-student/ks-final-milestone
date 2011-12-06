@@ -16,11 +16,11 @@
 package org.kuali.student.lum.workflow.search;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.document.DocumentWithContent;
 import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
 import org.kuali.rice.kew.api.extension.ExtensionDefinition;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
-import org.kuali.rice.kew.framework.document.lookup.DocumentSearchContext;
 import org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.core.organization.dto.OrgInfo;
@@ -39,11 +39,12 @@ public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
 
     private static final long serialVersionUID = 1L;
 
+    // TODO: RICE=M9 UPGRADE check that replacing getDocumentAttributes with extractDocumentAttributes is really the intended behavior
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DocumentAttribute> getDocumentAttributes(ExtensionDefinition extensionDefinition, DocumentSearchContext documentSearchContext) {
+	public List<DocumentAttribute> extractDocumentAttributes(ExtensionDefinition extensionDefinition, DocumentWithContent documentSearchContext) {
 		OrganizationService orgService = null;
-		List<DocumentAttribute> attributeValues = super.getDocumentAttributes(extensionDefinition, documentSearchContext);
+		List<DocumentAttribute> attributeValues = super.extractDocumentAttributes(extensionDefinition, documentSearchContext);
 		for (DocumentAttribute value : attributeValues) {
 			String orgId = (String)value.getValue();
 			if (orgId != null) {

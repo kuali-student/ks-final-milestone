@@ -38,15 +38,17 @@
     </bean>
 
     <bean id="KSGroup" abstract="true" parent="Group-parentBean">
-      <property name="accordion">
-        <bean parent="KSAccordion"/>
+      <property name="disclosure">
+        <bean parent="KSDisclosure"/>
       </property>
     </bean>
 
-    <bean id="KSAccordion" abstract="true" parent="Accordion-parentBean">
+
+    <bean id="KSDisclosure" abstract="true" parent="Disclosure-parentBean">
       <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
       <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
     </bean>
+
 
     <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
     <bean id="ScheduleControl-parentBean" abstract="true"
@@ -131,9 +133,9 @@
       </property>
     </bean>
 
-    <bean id="KSAttributeField" abstract="true" parent="AttributeField"
+    <bean id="KSInputField" abstract="true" parent="InputField"
           p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
           p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
-          p:summaryMessageField.render="false" />
+          p:instructionalMessageField.render="false" />
 
 </beans>

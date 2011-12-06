@@ -15,24 +15,25 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
+import org.joda.time.DateTime;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.delegation.DelegationType;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
+import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
 
 import org.kuali.rice.kim.api.group.GroupService;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kim.api.role.RoleResponsibility;
-import org.kuali.rice.kim.api.role.RoleResponsibilityAction;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.kim.api.role.*;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.framework.type.KimTypeService;
+
+import javax.jws.WebParam;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @author nwright
@@ -91,7 +92,7 @@ public class RoleServiceMockImpl implements RoleService {
      * If any parameter is blank, this method returns <code>null</code>.
      */
     @Override
-    public Role getRoleByName(String namespaceCode, String roleName) {
+    public Role getRoleByNameAndNamespaceCode(String namespaceCode, String roleName) {
         for (Role role : this.roleCache.values()) {
             if (namespaceCode.equals(role.getNamespaceCode())) {
                 if (roleName.equals(role.getName())) {
@@ -107,7 +108,7 @@ public class RoleServiceMockImpl implements RoleService {
      * component and role name.
      */
     @Override
-    public String getRoleIdByName(String namespaceCode, String roleName) {
+    public String getRoleIdByNameAndNamespaceCode(String namespaceCode, String roleName) {
         for (Role role : this.roleCache.values()) {
             if (namespaceCode.equals(role.getNamespaceCode())) {
                 if (roleName.equals(role.getName())) {
@@ -134,7 +135,7 @@ public class RoleServiceMockImpl implements RoleService {
      * that the principal may be a member via an assigned group or role.  Use in situations where
      * you are only interested in the qualifiers that are directly assigned to the principal.
      */
-    @Override
+//    @Override
     public List<Map<String,String>> getRoleQualifiersForPrincipal(String principalId, List<String> roleIds, Map<String,String> qualification) {
         throw new UnsupportedOperationException("Not supported Yet");
     }
@@ -144,18 +145,18 @@ public class RoleServiceMockImpl implements RoleService {
      * that the principal may be a member via an assigned group or role.  Use in situations where
      * you are only interested in the qualifiers that are directly assigned to the principal.
      */
-    @Override
+//    @Override
     public List<Map<String,String>> getRoleQualifiersForPrincipal(String principalId, String namespaceCode, String roleName, Map<String,String> qualification) {
         throw new UnsupportedOperationException("Not supported Yet");
     }
   
 
-    @Override
+//    @Override
     public List<Map<String, String>> getNestedRoleQualifiersForPrincipal(String principalId, String namespaceCode, String roleName, Map<String, String> qualification) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+//    @Override
     public List<Map<String, String>> getNestedRoleQualifiersForPrincipal(String principalId, List<String> roleIds, Map<String, String> qualification) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -194,12 +195,12 @@ public class RoleServiceMockImpl implements RoleService {
         for (RoleMembership info : this.roleMembershipCache.values()) {
             if (roleId.equals(info.getRoleId())) {
                 if (matchesQualifiers(info, qualification)) {
-                    if (info.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+                    if (info.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                         principals.add(info.getMemberId());
-                    } else if (info.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                    } else if (info.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                         principals.addAll(groupService.getMemberPrincipalIds(info.getMemberId()));
-                    } else if (info.getMemberTypeCode().equals(Role.ROLE_MEMBER_TYPE)) {
-                        principals.addAll(this.getAllRoleMemberPrincipalIds(info.getMemberId(), qualification));
+//                    } else if (info.getMemberTypeCode().equals(Role.ROLE_MEMBER_TYPE)) {
+//                        principals.addAll(this.getAllRoleMemberPrincipalIds(info.getMemberId(), qualification));
                     }
                 }
             }
@@ -214,7 +215,7 @@ public class RoleServiceMockImpl implements RoleService {
      */
     @Override
     public Collection<String> getRoleMemberPrincipalIds(String namespaceCode, String roleName, Map<String,String> qualification) {
-        Role roleInfo = this.getRoleByName(namespaceCode, roleName);
+        Role roleInfo = this.getRoleByNameAndNamespaceCode(namespaceCode, roleName);
         if (roleInfo == null) {
             throw new IllegalArgumentException("role name not found");
         }
@@ -246,7 +247,7 @@ public class RoleServiceMockImpl implements RoleService {
     public List<String> getPrincipalIdSubListWithRole(List<String> principalIds,
             String roleNamespaceCode, String roleName, Map<String,String> qualification) {
         List<String> subList = new ArrayList<String>();
-        Role role = getRoleByName(roleNamespaceCode, roleName);
+        Role role = getRoleByNameAndNamespaceCode(roleNamespaceCode, roleName);
         for (String principalId : principalIds) {
             if (principalHasThisRole(principalId, role.getId(), qualification)) {
                 subList.add(principalId);
@@ -255,24 +256,23 @@ public class RoleServiceMockImpl implements RoleService {
         return subList;
     }
 
-    /**
-     *
-     * This method get search results for role lookup
-     */
     @Override
-    public List<Role> getRolesSearchResults(Map<String, String> fieldValues) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public RoleQueryResults findRoles(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported Yet");
     }
 
-    
-    
     /**
      * Notifies all of a principal's roles and role types that the principal has been inactivated.
      */
-    @Override
+
+    // TODO: RICE=M9 UPGRADE The function of this method has been internalized in rice m9
+    // The function of this method has been internalized in rice m9
+
+
+//    @Override
     public void principalInactivated(String principalId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+            if (membership.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                 if (principalId.equals(membership.getMemberId())) {
                     this.roleMembershipCache.remove(membership.getRoleMemberId());
                 }
@@ -280,13 +280,17 @@ public class RoleServiceMockImpl implements RoleService {
         }
     }
 
+
     /**
      * Notifies the role service that the role with the given id has been inactivated.
      */
-    @Override
+
+    // TODO: RICE=M9 UPGRADE The function of this method has been internalized in rice m9
+    // The function of this method has been internalized in rice m9
+//    @Override
     public void roleInactivated(String roleId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberTypeCode().equals(Role.ROLE_MEMBER_TYPE)) {
+            if (membership.getMemberType().getCode().equals(MemberType.ROLE.getCode())) {
                 if (roleId.equals(membership.getMemberId())) {
                     this.roleMembershipCache.remove(membership.getRoleMemberId());
                 }
@@ -298,19 +302,25 @@ public class RoleServiceMockImpl implements RoleService {
         this.roleCache.remove(roleId);
     }
 
+
+
     /**
      * Notifies the role service that the group with the given id has been inactivated.
      */
-    @Override
+
+    // The function of this method has been internalized in rice m9
+//    @Override
     public void groupInactivated(String groupId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+            if (membership.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                 if (groupId.equals(membership.getMemberId())) {
                     this.roleMembershipCache.remove(membership.getRoleMemberId());
                 }
             }
         }
     }
+
+
 
     /**
      * Gets all direct members of the roles that have ids within the given list
@@ -338,12 +348,16 @@ public class RoleServiceMockImpl implements RoleService {
      * key and the values to search on as the value.
      */
     @Override
-    public List<RoleMember> findRoleMembers(Map<String, String> fieldValues) {
+    public RoleMemberQueryResults findRoleMembers(QueryByCriteria queryByCriteria) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
-    
+    @Override
+    public Set<String> getRoleTypeRoleMemberIds(@WebParam(name = "roleId") String roleId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported Yet");
+    }
+
+
     /**
      *
      * Gets a list of Roles that the given member belongs to.
@@ -353,7 +367,7 @@ public class RoleServiceMockImpl implements RoleService {
     public List<String> getMemberParentRoleIds(String memberType, String memberId) {
         List<String> list = new ArrayList<String>();
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (memberType.equals(membership.getMemberTypeCode())) {
+            if (memberType.equals(membership.getMemberType().getCode())) {
                 if (memberId.equals(membership.getRoleMemberId())) {
                     list.add(membership.getRoleId());
                 }
@@ -365,12 +379,12 @@ public class RoleServiceMockImpl implements RoleService {
 
 
     @Override
-    public List<RoleMembership> findRoleMemberships(Map<String, String> fieldValues) {
+    public RoleMembershipQueryResults findRoleMemberships(QueryByCriteria queryByCriteria) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<DelegateMember> findDelegateMembers(Map<String, String> fieldValues) {
+    public DelegateMemberQueryResults findDelegateMembers(QueryByCriteria queryByCriteria) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -405,24 +419,26 @@ public class RoleServiceMockImpl implements RoleService {
     public List<RoleResponsibilityAction> getRoleMemberResponsibilityActions(String roleMemberId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    
+
     @Override
-    public DelegateType getDelegateTypeInfo(String roleId, String delegationTypeCode) {
+    public DelegateType getDelegateTypeByRoleIdAndDelegateTypeCode(@WebParam(name = "roleId") String roleId,
+            @WebParam(name = "delegateType") DelegationType delegateType)  throws RiceIllegalArgumentException{
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
     @Override
-    public DelegateType getDelegateTypeInfoById(String delegationId) {
+    public DelegateType getDelegateTypeByDelegationId(@WebParam(name = "delegationId") String delegationId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
     @Override
-    public void applicationRoleMembershipChanged(String roleId) {
+    public DelegateType updateDelegateType(@WebParam(name="delegateType") DelegateType delegateType) throws RiceIllegalArgumentException, RiceIllegalStateException{
         throw new UnsupportedOperationException("Not supported Yet");
     }
 
-    @Override
+
+
+//    @Override
     public List<Role> lookupRoles(Map<String, String> searchCriteria) {
         throw new UnsupportedOperationException("Not supported Yet");
     }
@@ -482,11 +498,6 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
-    public String getNextAvailableRoleId() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void removeGroupFromRole(String groupId, String namespaceCode,
             String roleName, Map<String,String> qualifications)
             throws UnsupportedOperationException {
@@ -508,36 +519,42 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
+    public RoleResponsibilityAction createRoleResponsibilityAction(@WebParam(name = "roleResponsibilityAction") RoleResponsibilityAction roleResponsibilityAction) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+//    @Override
     public void saveDelegationMemberForRole(String delegationMemberId,
             String roleMemberId, String memberId,
             String memberTypeCode,
             String delegationTypeCode,
             String roleId,
             Map<String,String> qualifications,
-            java.sql.Date activeFromDate, java.sql.Date activeToDate)
+            DateTime activeFromDate, DateTime activeToDate)
             throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+//    @Override
     public void saveRole(String roleId, String roleName, String roleDescription,
             boolean active, String kimTypeId, String namespaceCode)
             throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+
+//    @Override
     public RoleMember saveRoleMemberForRole(String roleMemberId,
-            String memberId,
-            String memberTypeCode,
-            String roleId,
-            Map<String,String> qualifications,
-            java.sql.Date activeFromDate,
-            java.sql.Date activeToDate) throws UnsupportedOperationException {
+                String memberId,
+                String memberTypeCode,
+                String roleId,
+                Map<String, String> qualifications,
+                DateTime activeFromDate,
+                DateTime activeToDate) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+//    @Override
     public void saveRoleRspActions(String roleResponsibilityActionId,
             String roleId, String roleResponsibilityId,
             String roleMemberId, String actionTypeCode,
@@ -545,5 +562,60 @@ public class RoleServiceMockImpl implements RoleService {
             Boolean forceAction) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public RoleMember createRoleMember(RoleMember roleMember) throws RiceIllegalArgumentException, RiceIllegalStateException {
+         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public RoleMember updateRoleMember(RoleMember roleMember) throws RiceIllegalArgumentException, RiceIllegalStateException{
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Role createRole(Role role) throws RiceIllegalArgumentException, RiceIllegalStateException {
+          throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Role updateRole(Role role) throws RiceIllegalArgumentException, RiceIllegalStateException {
+         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public	List<Map<String, String>> getNestedRoleQualifiersForPrincipalByRoleIds(
+            String principalId, List<String> roleIds, Map<String, String> qualification)
+            throws RiceIllegalArgumentException{
+           throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public  List<Map<String, String>> getRoleQualifersForPrincipalByNamespaceAndRolename(
+            String principalId, String namespaceCode, String roleName, Map<String, String> qualification)
+            throws RiceIllegalArgumentException {
+            throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Map<String, String>> getRoleQualifersForPrincipalByRoleIds(String principalId,
+            List<String> roleIds, Map<String, String> qualification) throws RiceIllegalArgumentException {
+            throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public  List<Map<String, String>> getNestedRoleQualifersForPrincipalByNamespaceAndRolename(
+            String principalId, String namespaceCode,
+            String roleName,  Map<String, String> qualification)
+            throws RiceIllegalArgumentException {
+            throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public DelegateType createDelegateType(DelegateType delegateType) throws RiceIllegalArgumentException, RiceIllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }
 

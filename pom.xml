@@ -125,26 +125,26 @@
     <ks.cxf.javadoc.version>2.3.3</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <ehcache.version>2.4.4</ehcache.version>
+    <ehcache.version>2.4.6</ehcache.version>
     <gwt.version>2.0.4</gwt.version>
     <hibernate.version>3.6.7.Final</hibernate.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.6</junit.version>
-    <kuali.rice.version>2.0.0-m8</kuali.rice.version>
+    <kuali.rice.version>2.0.0-b1</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>3.1.0.M2</spring.version>
-    <spring.security.version>3.0.6.RELEASE</spring.security.version>
-    <spring.security.javadoc.version>3.0.6.RELEASE</spring.security.javadoc.version>
+    <spring.version>3.1.0.RC1</spring.version>
+    <spring.security.version>3.0.7.RELEASE</spring.security.version>
+    <spring.security.javadoc.version>3.0.7.RELEASE</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
     <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-    <mysql.connector.version>5.1.13</mysql.connector.version>
+    <mysql.connector.version>5.1.17</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
     <jsr107cache.version>1.0</jsr107cache.version>
     <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>

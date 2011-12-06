@@ -1,9 +1,7 @@
 package org.kuali.student.enrollment.class1.lui.service.decorators;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.service.PermissionService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -25,6 +23,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
+
+import java.util.List;
 
 public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implements HoldsPermissionService{
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";

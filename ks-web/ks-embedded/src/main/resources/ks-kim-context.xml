@@ -62,7 +62,7 @@
 	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceBus" ref="rice.ksb.serviceBus" />
 		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
+			<bean parent="kimService" p:service-ref="kimPermissionService"
 				p:localServiceName="kimPermissionService">
 				<property name="busSecurity" value="${ks.core.bus.security}" />
 				<property name="jaxWsService" value="true" />

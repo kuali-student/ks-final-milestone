@@ -377,10 +377,10 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                     throw new OperationFailedException("Exception thrown attempting statement translation for statement: " + statementTree.getId(), e);
                 }
 
-                Map<Term, Object> executionFacts = new HashMap<Term, Object>();
-                executionFacts.put(new Term(RulesExecutionConstants.studentIdTermSpec), studentId);
-                executionFacts.put(new Term(RulesExecutionConstants.courseIdToEnroll), courseOffering.getCourseId());
-                executionFacts.put(new Term(RulesExecutionConstants.contextInfoTermSpec), context);
+                Map<String, Object> executionFacts = new HashMap<String, Object>();
+                executionFacts.put(RulesExecutionConstants.studentIdTermSpec, studentId);
+                executionFacts.put(RulesExecutionConstants.courseIdToEnroll, courseOffering.getCourseId());
+                executionFacts.put(RulesExecutionConstants.contextInfoTermSpec, context);
 
                 EngineResults engineResults = rulesEvaluationUtil.executeAgenda(translationResults.agenda, executionFacts);
 

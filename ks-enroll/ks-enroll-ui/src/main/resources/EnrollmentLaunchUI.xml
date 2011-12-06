@@ -22,7 +22,7 @@
     </bean>
 
     <bean id="links_layout" parent="Group">
-        <property name="accordion.render" value="false"/>
+        <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="LabelField" p:labelText="Academic Calendar"/>

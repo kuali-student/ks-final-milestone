@@ -19,29 +19,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
+import org.kuali.rice.kim.api.common.assignee.Assignee;
+import org.kuali.rice.kim.api.common.template.Template;
+import org.kuali.rice.kim.api.common.template.TemplateQueryResults;
 import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionQueryResults;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 
-import org.kuali.rice.kim.bo.role.dto.KimPermissionTemplateInfo;
-import org.kuali.rice.kim.bo.role.dto.PermissionAssigneeInfo;
-import org.kuali.rice.kim.service.PermissionService;
-import org.kuali.rice.kim.service.PermissionUpdateService;
+import javax.jws.WebParam;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @author nwright
  */
-public class PermissionServiceMockImpl implements PermissionService,
-        PermissionUpdateService
-{
+public class PermissionServiceMockImpl implements PermissionService {
 
-    private transient Map<String, KimPermissionTemplateInfo> permissionTemplateCache = new HashMap<String, KimPermissionTemplateInfo>();
+    private transient Map<String, Template> permissionTemplateCache = new HashMap<String, Template>();
     private transient Map<String, Permission> permissionCache = new HashMap<String, Permission>();
     private transient Map<String, Role> roleCache = new HashMap<String, Role>();
     private transient Map<String, RoleMembership> roleMembershipCache = new HashMap<String, RoleMembership>();
 
     @Override
-    public List<KimPermissionTemplateInfo> getAllTemplates() {
+    public List<Template> getAllTemplates() {
         return new ArrayList(this.permissionTemplateCache.values());
     }
 
@@ -114,11 +119,11 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<PermissionAssigneeInfo> getPermissionAssignees(String namespaceCode,
+    public List<Assignee> getPermissionAssignees(String namespaceCode,
             String permissionName,
             Map<String,String> permissionDetails,
             Map<String,String> qualification) {
-        List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
+        List<Assignee> list = new ArrayList<Assignee>();
         for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
@@ -133,18 +138,18 @@ public class PermissionServiceMockImpl implements PermissionService,
         return list;
     }
 
-    private List<PermissionAssigneeInfo> getPermissionAssignees(Permission permission) {
-        List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
+    private List<Assignee> getPermissionAssignees(Permission permission) {
+        List<Assignee> list = new ArrayList<Assignee>();
 //        TODO: Implement this
         return list;
     }
 
     @Override
-    public List<PermissionAssigneeInfo> getPermissionAssigneesForTemplateName(String namespaceCode,
+    public List<Assignee> getPermissionAssigneesByTemplateName(String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails,
             Map<String,String> qualification) {
-        List<PermissionAssigneeInfo> list = new ArrayList<PermissionAssigneeInfo>();
+        List<Assignee> list = new ArrayList<Assignee>();
         for (Permission permission : this.permissionCache.values()) {
             if (permission.getTemplate() != null) {
                 if (namespaceCode.equals(permission.getTemplate().getNamespaceCode())) {
@@ -162,21 +167,14 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public String getPermissionDetailLabel(String permissionId, String kimTypeId,
-            String attributeName) {
-//        TODO: figure out what this is
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public KimPermissionTemplateInfo getPermissionTemplate(String permissionTemplateId) {
+    public Template getPermissionTemplate(String permissionTemplateId) {
         return this.permissionTemplateCache.get(permissionTemplateId);
     }
 
     @Override
-    public KimPermissionTemplateInfo getPermissionTemplateByName(String namespaceCode,
+    public Template findPermTemplateByNamespaceCodeAndName(String namespaceCode,
             String permissionTemplateName) {
-        for (KimPermissionTemplateInfo template : this.permissionTemplateCache.values()) {
+        for (Template template : this.permissionTemplateCache.values()) {
             if (template.getNamespaceCode().equals(namespaceCode)) {
                 if (template.getName().equals(permissionTemplateName)) {
                     return template;
@@ -187,7 +185,7 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public Permission getPermissionsByName(String namespaceCode, String permissionName) {
+    public Permission findPermByNamespaceCodeAndName(String namespaceCode, String permissionName) {
          List<Permission> list = new ArrayList<Permission>();
         for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
@@ -205,7 +203,9 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
     
    
+    /*
 
+    // TODO Larry Symms wanted to take a look at this
     @Override
     public Permission getPermissionsByNameIncludingInactive(String namespaceCode, String permissionName) {
         List<Permission> list = new ArrayList<Permission>();
@@ -221,10 +221,11 @@ public class PermissionServiceMockImpl implements PermissionService,
         }
         return list.get(0);
     }
+    */
 
     
     @Override
-    public List<Permission> getPermissionsByTemplateName(String namespaceCode,
+    public List<Permission> findPermsByNamespaceCodeTemplateName(String namespaceCode,
             String permissionTemplateName) {
         List<Permission> list = new ArrayList<Permission>();
         for (Permission permission : this.permissionCache.values()) {
@@ -243,16 +244,6 @@ public class PermissionServiceMockImpl implements PermissionService,
     public List<String> getRoleIdsForPermission(String namespaceCode,
             String permissionName,
             Map<String,String> permissionDetails) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getRoleIdsForPermissionId(String permissionId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getRoleIdsForPermissions(List<Permission> permissions) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -312,7 +303,7 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public boolean isPermissionDefinedForTemplateName(String namespaceCode,
+    public boolean isPermissionDefinedByTemplateName(String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails) {
         for (Permission permission : this.permissionCache.values()) {
@@ -330,23 +321,23 @@ public class PermissionServiceMockImpl implements PermissionService,
     }
 
     @Override
-    public List<Permission> lookupPermissions(Map<String, String> searchCriteria,
-            boolean unbounded) {
+    public PermissionQueryResults findPermissions(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String getNextAvailablePermissionId() throws UnsupportedOperationException {
+    public Permission createPermission(@WebParam(name = "permission") Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void savePermission(String permissionId, String permissionTemplateId,
-            String namespaceCode, String name,
-            String description, boolean active,
-            Map<String,String> permissionDetails) {
+    public Permission updatePermission(@WebParam(name = "permission") Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public TemplateQueryResults findPermissionTemplates(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

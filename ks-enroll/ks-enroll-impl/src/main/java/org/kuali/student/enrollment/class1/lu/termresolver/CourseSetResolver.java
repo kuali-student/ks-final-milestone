@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class1.lu.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -25,12 +24,12 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
     private LuService luService;
 
     @Override
-    public Set<TermSpecification> getPrerequisites() {
+    public Set<String> getPrerequisites() {
         return Collections.singleton(RulesExecutionConstants.contextInfoTermSpec);
     }
 
     @Override
-    public TermSpecification getOutput() {
+    public String getOutput() {
         return RulesExecutionConstants.courseSetTermSpec;
     }
 
@@ -46,7 +45,7 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
     }
 
     @Override
-    public Collection<String> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String courseSetId = parameters.get(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
         

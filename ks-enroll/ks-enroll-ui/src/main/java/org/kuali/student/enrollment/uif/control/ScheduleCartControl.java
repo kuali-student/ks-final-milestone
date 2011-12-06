@@ -47,4 +47,14 @@ public class ScheduleCartControl extends ControlBase{
     public void setRemoveJsFunction(String removeJsFunction) {
         this.removeJsFunction = removeJsFunction;
     }
+
+    @Override
+    public void setId(String id) {
+        super.setId(id);
+    }
+
+    @Override
+    public void setFactoryId(String factoryId) {
+        super.setFactoryId(factoryId);
+    }
 }

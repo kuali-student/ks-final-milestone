@@ -20,7 +20,7 @@ import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
-import org.kuali.rice.krad.uif.field.AttributeField;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -61,7 +61,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     private AcademicRecordService academicRecordService;
 
     @Override
-    public void populateGradeOptions(AttributeField field, GradingForm gradingForm) {
+    public void populateGradeOptions(InputField field, GradingForm gradingForm) {
         List keyValues = new ArrayList();
         keyValues.add(new ConcreteKeyValue("", ""));
 

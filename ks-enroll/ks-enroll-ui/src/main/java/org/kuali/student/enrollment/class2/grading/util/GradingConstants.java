@@ -42,4 +42,7 @@ public class GradingConstants {
     public static final String WARNING_GRADING_OPTIONS_NOT_FOUND = "info.enroll.grading.gradingOptionsnotFound";
     public static final String INFO_COURSE_NOT_FOUND_TO_GRADE = "info.enroll.grading.courseOfferingNotFound";
 
+    public static final String GRADING_SERVICE_URL = "http://student.kuali.org/wsdl/grading";
+    public static final String GRADING_SERVICE_NAME = "GradingService";
+
 }

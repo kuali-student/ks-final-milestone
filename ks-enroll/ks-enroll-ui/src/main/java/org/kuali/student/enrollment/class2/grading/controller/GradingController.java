@@ -12,6 +12,7 @@ package org.kuali.student.enrollment.class2.grading.controller;
  */
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -39,6 +40,25 @@ import java.util.List;
 public class GradingController extends UifControllerBase {
 
     @Override
+    public UifFormBase initForm(HttpServletRequest request) {
+        UifFormBase form = null;
+        String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
+
+        if (StringUtils.isNotBlank(formKeyParam)) {
+            return super.initForm(request);
+        } else {
+            form = createInitialForm(request);
+        }
+
+        return form;
+    }
+
+    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
+//    @Override
+    protected Class<? extends UifFormBase> formType() {
+        return GradingForm.class;
+    }
+
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         if (StringUtils.equals(httpServletRequest.getParameter("viewId"), "StudentGradeView")) {
             return new StudentGradeForm();
@@ -55,7 +75,7 @@ public class GradingController extends UifControllerBase {
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse,gradingForm);
         gradingForm.setStudents(students);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=loadStudents")
@@ -88,7 +108,7 @@ public class GradingController extends UifControllerBase {
             gradingForm.setStudents(students);
         }
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.UNASSIGN_GRADE_METHOD)
@@ -115,19 +135,19 @@ public class GradingController extends UifControllerBase {
         ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),
                 gradingForm, selectedCollectionPath, selectedLineIndex);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_GRADING_METHOD)
     public ModelAndView backToGrading(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_TERM)
     public ModelAndView backToTerm(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), GradingConstants.STUDENT_TERM_RECORD_PAGE);
+        return getUIFModelAndView(studentGradeForm, GradingConstants.STUDENT_TERM_RECORD_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.SAVE_METHOD)
@@ -143,16 +163,7 @@ public class GradingController extends UifControllerBase {
         // only refreshing page
         gradingForm.setRenderFullView(false);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.LOAD_COURSES_METHOD)
-    public ModelAndView loadCourses(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadCourses(gradingForm);
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.SELECT_COURSE_OFFERING_PAGE);
-
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.SUBMIT_METHOD)
@@ -166,7 +177,7 @@ public class GradingController extends UifControllerBase {
             GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_ROSTER_SUBMITTED);
         }
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.VIEW_GRADES)
@@ -175,7 +186,7 @@ public class GradingController extends UifControllerBase {
 
         ((GradingViewHelperService) studentGradeForm.getView().getViewHelperService()).loadStudentGrades(studentGradeForm);
 
-        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
+        return getUIFModelAndView(studentGradeForm, GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
     }
 
     private void resetValuesForPageChange(GradingForm form){

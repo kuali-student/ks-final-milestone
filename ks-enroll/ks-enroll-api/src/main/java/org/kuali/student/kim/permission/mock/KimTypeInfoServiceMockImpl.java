@@ -15,15 +15,14 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
 import org.kuali.rice.kim.framework.role.RoleTypeService;
-import org.kuali.rice.kim.framework.type.KimTypeService;
-import org.kuali.rice.kim.service.support.impl.PrincipalDerivedRoleTypeServiceImpl;
+import org.kuali.rice.kns.kim.role.PrincipalDerivedRoleTypeServiceImpl;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Mock of the service to get kim type infos

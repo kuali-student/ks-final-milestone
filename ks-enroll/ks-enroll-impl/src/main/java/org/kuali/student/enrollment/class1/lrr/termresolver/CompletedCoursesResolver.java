@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class1.lrr.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.rice.krms.api.engine.TermSpecification;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
@@ -58,7 +57,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     private LuiService luiService;
 
-    private final static Set<TermSpecification> prerequisites = new HashSet<TermSpecification>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
         prerequisites.add(RulesExecutionConstants.studentIdTermSpec);
@@ -78,12 +77,12 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     }
 
     @Override
-    public Set<TermSpecification> getPrerequisites() {
+    public Set<String> getPrerequisites() {
         return prerequisites;
     }
 
     @Override
-    public TermSpecification getOutput() {
+    public String getOutput() {
         return RulesExecutionConstants.completedCourseIdsTermSpec;
     }
 
@@ -99,7 +98,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     }
 
     @Override
-    public Collection<String> resolve(Map<TermSpecification, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = resolvedPrereqs.get(RulesExecutionConstants.studentIdTermSpec).toString();
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
 

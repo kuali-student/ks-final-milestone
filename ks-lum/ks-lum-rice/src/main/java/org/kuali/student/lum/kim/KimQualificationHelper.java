@@ -26,7 +26,7 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.util.KimConstants;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
