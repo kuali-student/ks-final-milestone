@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.grading.util;
 
 public class GradingConstants {
 
+    public static final String LOAD_COURSES_METHOD = "loadCourses";
     public static final String LOAD_GRADES_ROSTER_METHOD = "loadGradeRoster";
     public static final String UNASSIGN_GRADE_METHOD = "unassignGrade";
     public static final String VIEW_GRADES = "viewGrades";
@@ -26,9 +27,12 @@ public class GradingConstants {
     public static final String IDENTITY_SERVICE_URL = "http://rice.kuali.org/kim/v2_0";
     public static final String IDENTITY_SERVICE_NAME = "identityServiceSoap";
 
-    public static final String SELECT_COURSE_OFFERING_PAGE = "page1";
-    public static final String GRADE_ROSTER_PAGE = "page2";
+    public static final String SELECT_COURSE_OFFERING_PAGE = "courseOfferingPage";
+    public static final String GRADE_ROSTER_PAGE = "gradeRosterPage";
+    public static final String STUDENT_TERM_RECORD_PAGE = "selectTermPage";
+    public static final String STUDENT_CREDIT_DETAILS_PAGE = "creditDetailsPage";
 
     public static final String CURRENT_TERM = "201108";
+    public static final String INFO_COURSE_NOT_FOUND_TO_GRADE = "info.enroll.grading.courseOfferingNotFound";
 
 }

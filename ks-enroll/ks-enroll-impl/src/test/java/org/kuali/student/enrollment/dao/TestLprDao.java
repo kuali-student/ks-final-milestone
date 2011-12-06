@@ -30,11 +30,18 @@ import org.kuali.student.enrollment.class1.lpr.service.utilities.Constants;
 public class TestLprDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql")
     private LprDao dao;
+
+    @Dao(value = "org.kuali.student.r2.common.dao.StateDao")
+    private StateDao stateDao;
+
+    @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao")
+    private LprTypeDao lprTypeDao;
+
     private static String LUIID2 = "testLuiId2";
     private static String PERSONID2 = "testPersonId2";
 
+
     @Test
-    @Ignore
     public void testGetLpr() {
         LuiPersonRelationEntity lpr = dao.find("testLprId1");
         assertNotNull(lpr);
@@ -85,12 +92,24 @@ public class TestLprDao extends AbstractTransactionalDaoTest {
     }
 
     @Test
-    @Ignore
     public void testGetByLuiId() {
         List<LuiPersonRelationEntity> lprs = dao.getByLuiId("testLuiId1");
         assertNotNull(lprs);
         assertEquals(1, lprs.size());
-        assertEquals("testPersonId1", lprs.get(0).getPersonId());
+        LuiPersonRelationEntity lpr = lprs.get(0);
+        //assertEquals("testPersonId1", lprs.get(0).getPersonId());
+        assertEquals("testLuiId1", lpr.getLuiId());
+        assertEquals("testPersonId1", lpr.getPersonId());
+    }
+
+
+    private LuiPersonRelationEntity createEmptyLPREntity() {
+        LuiPersonRelationEntity returnLpr = new LuiPersonRelationEntity();
+        returnLpr.setLuiId(LUIID2);
+        returnLpr.setPersonId(PERSONID2);
+        returnLpr.setPersonRelationState(stateDao.find("kuali.lpr.state.registered"));
+        returnLpr.setPersonRelationType(lprTypeDao.find("kuali.lpr.type.registrant"));
+        return returnLpr;
     }
 
 }

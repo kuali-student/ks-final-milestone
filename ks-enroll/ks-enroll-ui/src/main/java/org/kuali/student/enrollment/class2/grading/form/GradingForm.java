@@ -16,40 +16,20 @@ package org.kuali.student.enrollment.class2.grading.form;
  * limitations under the License.
  */
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
 
 public class GradingForm extends UifFormBase{
 
     private static final long serialVersionUID = -1054046347823986329L;
 
     private String selectedCourse;
-    private List<GradeStudent> students;
-
-    private List<CourseOfferingInfo> courseOfferingInfoList;
-
-    private boolean saveEnabled;
-    private boolean submitEnabled;
-
-    private String currentTerm;
+    private String selectedTerm;
 
     private CourseOfferingInfo selectedCourseOffering;
 
@@ -88,28 +68,12 @@ public class GradingForm extends UifFormBase{
         this.courseOfferingInfoList = courseOfferingInfoList;
     }
 
-    public boolean isSaveEnabled() {
-        return saveEnabled;
+    public String getSelectedTerm() {
+        return selectedTerm;
     }
 
-    public void setSaveEnabled(boolean saveEnabled) {
-        this.saveEnabled = saveEnabled;
-    }
-
-    public boolean isSubmitEnabled() {
-        return submitEnabled;
-    }
-
-    public void setSubmitEnabled(boolean submitEnabled) {
-        this.submitEnabled = submitEnabled;
-    }
-
-    public String getCurrentTerm() {
-        return currentTerm;
-    }
-
-    public void setCurrentTerm(String currentTerm) {
-        this.currentTerm = currentTerm;
+    public void setSelectedTerm(String selectedTerm) {
+        this.selectedTerm = selectedTerm;
     }
 
     public CourseOfferingInfo getSelectedCourseOffering() {

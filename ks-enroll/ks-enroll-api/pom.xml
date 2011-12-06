@@ -121,7 +121,7 @@
                                 <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
-                               <!-- ACAL -->                               
+                               <!-- ACAL -->
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CampusCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
@@ -251,7 +251,7 @@
                             <goal>java2ws</goal>
                         </goals>
                     </execution>
-                    <execution>
+                   <!-- <execution>
                         <id>atpService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -504,7 +504,7 @@
                         <goals>
                             <goal>java2ws</goal>
                         </goals>
-                    </execution>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

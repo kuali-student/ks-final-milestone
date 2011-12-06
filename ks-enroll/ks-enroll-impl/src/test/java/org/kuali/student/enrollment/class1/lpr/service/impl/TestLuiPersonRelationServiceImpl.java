@@ -54,9 +54,9 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @Author sambit
@@ -71,6 +71,9 @@ public class TestLuiPersonRelationServiceImpl {
     @Autowired
     @Qualifier("lprServiceValidationDecorator")
     private LuiPersonRelationService lprService;
+
+    @Resource  // look up bean via variable name, then type; here to test package-private methods
+    private LuiPersonRelationServiceImpl lprServiceImpl;
 
     private static String principalId = "123";
     private static String LPRID1 = "testLprId1";
@@ -221,7 +224,7 @@ public class TestLuiPersonRelationServiceImpl {
         }
 
         LuiPersonRelationInfo deletedLpr = lprService.getLpr(LPRID1, callContext);
-        assertNull("LPR entity '" + LPRID1 + "' was not deleted", deletedLpr);
+        assertTrue(deletedLpr.getStateKey().equals(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY));
         // put it back for later test(s)
         
     }
@@ -397,6 +400,22 @@ public class TestLuiPersonRelationServiceImpl {
     }
 
     @Test
+    public void testGetLprsByLuiPersonAndState() {
+        try {
+            List<LuiPersonRelationInfo> lprInfos = lprServiceImpl.getLprsByLuiPersonAndState("testPersonId1", "testLuiId1", LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, callContext);
+            assertNotNull(lprInfos);
+            assertEquals(1, lprInfos.size());
+            assertEquals("testLprId1", lprInfos.get(0).getId());
+
+            lprInfos = lprServiceImpl.getLprsByLuiPersonAndState("bogusPersonId", "testLuiId1", LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, callContext);
+            assertNotNull(lprInfos);
+            assertEquals(0, lprInfos.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
     public void testCreateLprTransaction() {
         LprTransactionInfo lprTransactionInfo = createLprTransaction();
         try {
@@ -409,7 +428,6 @@ public class TestLuiPersonRelationServiceImpl {
         } catch (Exception e) {
             fail(e.getMessage());
         }
-
     }
 
     @Test
@@ -440,6 +458,12 @@ public class TestLuiPersonRelationServiceImpl {
         }
         assertNotNull(lprTransactionInfo);
         assertTrue(lprTransactionInfo.getName().equals(updateName));
+        try {
+            lprTransactionInfo = lprServiceValidationDecorator.getLprTransaction(lprTransactionInfo.getId(), callContext);
+            assertNotNull(lprTransactionInfo);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
@@ -528,8 +552,6 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(0, entries.size());
 
     }
-
-
 
     private LprTransactionInfo createLprTransaction() {
         LprTransactionInfo lprTransactionInfo = new LprTransactionInfo();

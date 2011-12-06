@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -49,7 +50,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 	}
 
 	@Override
-	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) {
+	public CourseOfferingInfo assemble(LuiInfo lui, ContextInfo context) throws AssemblyException {
 		if(lui != null){
 			CourseOfferingInfo co = new CourseOfferingInfo();
             EntityDTOAssembler<LuiInfo, CourseOfferingInfo> commonAssembler = new EntityDTOAssembler<LuiInfo, CourseOfferingInfo>();
@@ -110,20 +111,20 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		}
 	}
 	
-	private void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context){
+	private void assembleInstructors(CourseOfferingInfo co, String luiId, ContextInfo context) throws AssemblyException{
 		List<LuiPersonRelationInfo> lprs = null;;
 		try {
 			lprs = lprService.getLprsByLui(luiId, context);
 		} catch (DoesNotExistException e) {
-			e.printStackTrace();
+			throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException:" + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException"  + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException"  + e.getMessage());
 		} catch (PermissionDeniedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("PermissionDeniedException"  + e.getMessage());
 		}
 		
 		if(lprs != null && !lprs.isEmpty()){
@@ -143,7 +144,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		}		
 	}
 	
-	private void assembleLuiLuiRelations(CourseOfferingInfo co, String luiId, ContextInfo context){
+	private void assembleLuiLuiRelations(CourseOfferingInfo co, String luiId, ContextInfo context) throws AssemblyException {
 		try {
 			List<String> jointOfferingIds = new ArrayList<String>();
 			List<String> finalExams = new ArrayList<String>();
@@ -175,11 +176,11 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		} catch (DoesNotExistException e) {
 			return;
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException: " + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException: " + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException: " + e.getMessage());
 		}
 	}
 	@Override

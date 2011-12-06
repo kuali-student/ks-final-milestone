@@ -15,8 +15,21 @@
     <KSEN_LPR_TYPE NAME="Automatic Roster Entry"
         TYPE_DESC="Roster Entry Automatic"
         TYPE_KEY="kuali.lpr.roster.entry.type.automatic" VER_NBR="0"/>
-    <KSEN_LPR_TYPE NAME="Student" TYPE_DESC="Student"
-        TYPE_KEY="kuali.lpr.trans.item.add" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Roster final type"
+        TYPE_DESC="Roster final type"
+        TYPE_KEY="kuali.lpr.roster.type.course.grade.final" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Add"
+        TYPE_DESC="Add student to course registration group"
+        TYPE_KEY="kuali.lpr.trans.item.type.add" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Drop"
+        TYPE_DESC="Drop Type for lpr transactions"
+        TYPE_KEY="kuali.lpr.trans.item.type.drop" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Student registrant"
+        TYPE_DESC="Student registrant"
+        TYPE_KEY="kuali.lpr.trans.registrant" VER_NBR="0"/>
+    <KSEN_LPR_TYPE NAME="Register trans type"
+        TYPE_DESC="Register trans type"
+        TYPE_KEY="kuali.lpr.trans.type.register" VER_NBR="0"/>
     <KSEN_LPR_TYPE NAME="Assistant Instructor"
         TYPE_DESC="Person who assists the main instructor but is still considered an &quot;instructor&quot;"
         TYPE_KEY="kuali.lpr.type.instructor.assistant" VER_NBR="0"/>

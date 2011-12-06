@@ -44,4 +44,11 @@ public class LprDao extends GenericEntityDao<LuiPersonRelationEntity> {
         .getResultList();
     }
 
+    public List<LuiPersonRelationEntity> getLprsByLuiPersonAndState(String personId, String luiId, String stateKey) {
+        return em.createQuery("from LuiPersonRelationEntity lpr where lpr.personId=:personId and lpr.luiId=:luiId and lpr.personRelationState.id=:stateKey")
+                .setParameter("personId", personId)
+                .setParameter("luiId", luiId)
+                .setParameter("stateKey", stateKey)
+                .getResultList();
+    }
 }

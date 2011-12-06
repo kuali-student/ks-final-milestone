@@ -37,6 +37,17 @@
         <property name="footer" ref="KSFooterDocument"/>
     </bean>
 
+    <bean id="KSGroup" abstract="true" parent="Group-parentBean">
+      <property name="accordion">
+        <bean parent="KSAccordion"/>
+      </property>
+    </bean>
+
+    <bean id="KSAccordion" abstract="true" parent="Accordion-parentBean">
+      <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+      <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
     <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
     <bean id="ScheduleControl-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.control.ScheduleControl" scope="prototype">

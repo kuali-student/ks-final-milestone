@@ -17,6 +17,8 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -39,6 +41,7 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
     private static final String SUBJECT_AREA_ENUM_KEY = "kuali.lu.subjectArea";
     
     private EnumerationManagementService enumService;
+    private SubjectAreasComparator subjectAreasComparator = new SubjectAreasComparator();
     
     
     @Override
@@ -48,6 +51,7 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         
         try {
             subjectAreas = getEnumService().getEnumeratedValues(SUBJECT_AREA_ENUM_KEY, null, null, null);
+            Collections.sort(subjectAreas, subjectAreasComparator);
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
         } catch (InvalidParameterException e) {
@@ -74,4 +78,18 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         return this.enumService;
     }
 
+    private class SubjectAreasComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            if (!(o1 instanceof EnumeratedValueInfo) || !(o2 instanceof EnumeratedValueInfo)) {
+                throw new ClassCastException("Object not of type EnumeratedValueInfo.");
+            }
+            EnumeratedValueInfo enumeratedValue1 = (EnumeratedValueInfo) o1;
+            EnumeratedValueInfo enumeratedValue2 = (EnumeratedValueInfo) o2;
+
+            int result = enumeratedValue1.getValue().compareToIgnoreCase(enumeratedValue2.getValue());
+            return result;
+        }
+    }
 }

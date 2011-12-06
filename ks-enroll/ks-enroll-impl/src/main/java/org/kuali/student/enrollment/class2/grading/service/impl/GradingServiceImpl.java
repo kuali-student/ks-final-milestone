@@ -1,7 +1,12 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
-import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterAssembler;
-import org.kuali.student.enrollment.class2.acal.service.assembler.GradeRosterEntryAssembler;
+import org.apache.bcel.generic.NEW;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.class2.grading.assembler.GradeValuesGroupAssembler;
+import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler;
+import org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
@@ -16,6 +21,7 @@ import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -723,8 +729,20 @@ public class GradingServiceImpl implements GradingService {
     public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupIdList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+
+        List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByIdList(gradeGroupKeyList, context);
+        List<GradeValuesGroupInfo> gradeValuesGroupInfos = new ArrayList<GradeValuesGroupInfo>();
+
+        for(ResultValuesGroupInfo resultValuesGroupInfo : resultValuesGroupInfos){
+            List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByIdList(resultValuesGroupInfo.getResultValueKeys(),context);
+            try {
+                gradeValuesGroupInfos.add(gradeValuesGroupAssembler.assemble(resultValuesGroupInfo,resultValueInfos,context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+
+        return gradeValuesGroupInfos;
     }
 
     @Override

@@ -1488,7 +1488,8 @@
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
-    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <bean id="queryMap" parent="queryMap-parent"/>
+    <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">     
 		<property name="sourceMap">
 			<map>
 				<entry key="lu.search.clu.versions">

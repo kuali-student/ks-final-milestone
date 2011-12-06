@@ -15,35 +15,36 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
-@Ignore
+
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao", testSqlFile = "classpath:ks-atp.sql")
     private AtpAtpRelationDao dao;
     
-    @Test 
+    @Test
     public void testGetAtpAtpRelation()
     {
-        AtpAtpRelationEntity atpRel = dao.find("ATPATPREL-1");
+        AtpAtpRelationEntity atpRel = dao.find("ATPATPREL-2");
         assertNotNull(atpRel);
-        AtpTypeEntity type = atpRel.getAtpType();
-        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, type.getName());      
+        AtpTypeEntity atpType = atpRel.getAtpType();
+        assertNotNull(atpType);
+        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, atpType.getName());
     }
-    @Ignore
+
     @Test
     public void testGetAtpAtpRelationsByAtp()
     {
     	//id is atp
         List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtp("testAtpId1");
         assertNotNull(rels);
-        assertEquals(4, rels.size());
-        for(AtpAtpRelationEntity rel : rels){
+        assertEquals(3, rels.size());
+        for (AtpAtpRelationEntity rel : rels) {
         	assertEquals("testAtpId1", rel.getAtp().getId());
         }
         // testAtpId2 is relatedAtp's ID
         rels = dao.getAtpAtpRelationsByAtp("testAtpId2");
         assertNotNull(rels);
-        assertEquals(1, rels.size());
+        assertEquals(0, rels.size());
     }
     
     @Test
@@ -52,8 +53,8 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     	//id is either atp or relatedAtp
         List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtp("testTermId1");
         assertNotNull(rels);
-        assertTrue(rels.size() == 2);
-        for(AtpAtpRelationEntity rel : rels){
+        assertEquals(2, rels.size());
+        for(AtpAtpRelationEntity rel : rels) {
         	String atpKey = rel.getAtp().getId();
         	String relatedAtpKey = rel.getRelatedAtp().getId();
         	assertTrue(atpKey.equals("testTermId1") || relatedAtpKey.equals("testTermId1"));
@@ -61,9 +62,12 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     }
     
     @Test 
-    public void testGetAtpAtpRelationsByAtpAndRelationType(){
-    	 List<AtpAtpRelationEntity> rels = dao.getAtpAtpRelationsByAtpAndRelationType("testAtpId1", AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
-         assertNotNull(rels);
-         assertEquals(1, rels.size());
+    public void testGetAtpAtpRelationsByAtpAndRelationType()
+    {
+    	List<AtpAtpRelationEntity> rels =
+                dao.getAtpAtpRelationsByAtpAndRelationType("testAtpId1",
+                        AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
+        assertNotNull(rels);
+        assertEquals(3, rels.size());
     }
 }

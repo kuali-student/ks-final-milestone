@@ -4,7 +4,7 @@
     <documentType>
 	  <parent>RiceDocument</parent>
       <name>AcademicCalendarWrapperMaintenanceDocument</name>
-      <description>Create a New Academic Calendar Maintenance Document</description>
+      <description>New Academic Calendar</description>
       <label>Academic Calendar Maintenance Document</label>
       <postProcessorName>org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor</postProcessorName>
       <superUserGroupName namespace="KR-WKFLW">WorkflowAdmin</superUserGroupName>

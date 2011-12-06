@@ -19,7 +19,7 @@
 
 .font-light {
     font-family:Arial;
-    font-size:14px;
+    font-size:1.1em;
     font-weight:normal;
     font-style:normal;
     text-decoration:none;
@@ -28,7 +28,7 @@
 
 .font-light12 {
     font-family:Arial;
-    font-size:12px;
+    font-size:1em;
     font-weight:normal;
     font-style:normal;
     text-decoration:none;
@@ -37,7 +37,7 @@
 
 .font-bold {
     font-family:Arial;
-    font-size:14px;
+    font-size:1.1em;
     font-weight:bold;
     font-style:normal;
     text-decoration:none;
@@ -46,7 +46,7 @@
 
 .title-bold {
     font-family:Arial;
-    font-size:20px;
+    font-size:1.5em;
     font-weight:bold;
     font-style:normal;
     text-decoration:none;

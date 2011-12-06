@@ -41,6 +41,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dao.StateDao;
@@ -147,10 +148,16 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         this.lprRosterDao = lprRosterDao;
     }
 
-    private LuiPersonRelationInfo getLprsByLuiPersonAndState(String personId, String luiId, String stateKey,
-            ContextInfo context) {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    // package-private so it's testable
+    List<LuiPersonRelationInfo> getLprsByLuiPersonAndState(String personId, String luiId, String stateKey, ContextInfo context) {
+        List<LuiPersonRelationEntity> lprEntities = lprDao.getLprsByLuiPersonAndState(personId, luiId, stateKey);
+        List<LuiPersonRelationInfo> lprInfos = new ArrayList<LuiPersonRelationInfo>();
+        if (null != lprEntities) {
+            for (LuiPersonRelationEntity entity : lprEntities) {
+                lprInfos.add(entity.toDto());
+            }
+        }
+        return lprInfos;
     }
 
     private LuiPersonRelationEntity toCluForCreate(LuiPersonRelationInfo luiPersonRelationInfo) {
@@ -370,15 +377,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     public StatusInfo deleteLpr(String luiPersonRelationId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
-
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
-        if (null != lprEntity) {
-            lprDao.remove(lprEntity);
-        } else {
-            throw new DoesNotExistException("LPR entity does not exist for id '" + luiPersonRelationId
-                    + "'; cannot delete");
-        }
-
+        lprEntity.setPersonRelationState(stateDao.find(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY));
+        lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -884,27 +885,67 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 lprTransResultInfo.setResultingLprId(lprCreated);
                 lprTransResultInfo.setStatus("SUCCESS");
 
-            } else if (lprTransactionItemInfo.getTypeKey().equals(
-                    LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(),
-                        lprTransactionItemInfo.getExistingLuiId(),
+            } else if (lprTransactionItemInfo.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                /**TODO this needs to be implemented for drop to work, read below
+                Be careful with the implementation here, because we DO NOT want to delete all lprs that are matched
+                by lui, person, and state, but instead only the ones that are related to the registration group we
+                are dropping.  It is VERY possible that a student could have the same course offering on their schedule
+                twice with different reg groups, therefore deleting every LPR that matches that course offering id
+                would be WRONG.  In addition, it is possible that 2 reg groups that point to the same activity offering
+                could be on the same schedule (this is more unlikely however and may be prevented by the system), and
+                deleting both of those LPRs would be incorrect.  So what we actually want to do is delete only lprs
+                that have a direct relation to the reg group being dropped.  However, there is no easy way currently
+                to link these things together, one possible route is to get the original transactions and use their group
+                id somehow, but this route may be flawed if the there is more than one succeeded transaction for the same
+                reg group (VERY possible).  There is no way currently (that I know of) to link the lprs for courseOffering,
+                reg group, activities, and roster in a way that would be simple to determine by retrieving them from the
+                db.  This may be a possible hole in the service/db design.
+                */
+                List<LuiPersonRelationInfo> toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
 
-                deleteLprTransaction(toBeDroppedLPR.getId(), context);
-                lprTransResultInfo.setResultingLprId(toBeDroppedLPR.getId());
+                if (toBeDroppedLPRs.size() > 1) {
+                    throw new OperationFailedException("Multiple LuiPersonRelations between person:" + lprTransactionItemInfo.getPersonId() + " and lui:" + lprTransactionItemInfo.getExistingLuiId() +
+                                    "; unimplemented functionality required to deal with this scenario is currentluy unimplemented");
+                }
+                for (LuiPersonRelationInfo lprInfo : toBeDroppedLPRs) {
+                    // TODO - change state to LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, rather than deleting
+                    /* do this instead of delete
+                    lprInfo.setStateKey(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
+                    try {
+                        updateLpr(lprInfo.getId(), lprInfo, context);
+                    } catch (ReadOnlyException e) {
+                        throw new OperationFailedException("updateLpr() failure in processLprTransaction()", e);
+                    }
+                    */
+                    deleteLpr(lprInfo.getId(), context);
+                    lprTransResultInfo.setResultingLprId(lprInfo.getId());
+                }
                 lprTransResultInfo.setStatus("SUCCESS");
 
             } else if (lprTransactionItemInfo.getTypeKey().equals(
                     LuiPersonRelationServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
 
-                LuiPersonRelationInfo toBeDroppedLPR = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(),
-                        lprTransactionItemInfo.getExistingLuiId(),
+                List<LuiPersonRelationInfo> toBeDroppedLPRs = getLprsByLuiPersonAndState(lprTransactionItemInfo.getPersonId(), lprTransactionItemInfo.getExistingLuiId(),
                         LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, context);
-                deleteLprTransaction(toBeDroppedLPR.getId(), context);
-                String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
-                lprTransResultInfo.setResultingLprId(lprCreated);
-                lprTransResultInfo.setStatus("SUCCESS");
-
+                if (toBeDroppedLPRs.size() > 1) {
+                    throw new OperationFailedException("Multiple LuiPersonRelations between person:" + lprTransactionItemInfo.getPersonId() + " and lui:" + lprTransactionItemInfo.getExistingLuiId() +
+                            "; unimplemented functionality required to deal with this scenario is currentluy unimplemented");
+                }
+                for (LuiPersonRelationInfo lprInfo : toBeDroppedLPRs) {
+                    // TODO - change state to LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, rather than deleting
+                    /* do this instead of delete
+                    lprInfo.setStateKey(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
+                    try {
+                        updateLpr(lprInfo.getId(), lprInfo, context);
+                    } catch (ReadOnlyException e) {
+                        throw new OperationFailedException("updateLpr() failure in processLprTransaction()", e);
+                    }
+                    */
+                    deleteLpr(lprInfo.getId(), context);
+                    String lprCreated = createLprFromLprTransactionItem(lprTransactionItemInfo, context);
+                    lprTransResultInfo.setResultingLprId(lprCreated);
+                }
             } else {
 
                 throw new OperationFailedException("The LPR Transaction Item did not have one of the supported type ");

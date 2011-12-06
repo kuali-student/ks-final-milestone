@@ -11,11 +11,17 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator;
-
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.dto.IssueInfo;
+import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,8 +43,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:hold-test-context.xml"})
 public class TestHoldServiceImpl {
-
-    private HoldServiceValidationDecorator holdService;
+    private HoldServiceAuthorizationDecorator holdService;
     
     public static String principalId = "123";
     
@@ -57,7 +62,7 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    public void testAtpServiceValidationSetup() {
+    public void testHoldServiceSetup() {
         assertNotNull(holdService);
     }
     

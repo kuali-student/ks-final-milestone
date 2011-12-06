@@ -159,6 +159,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     //create a RegiistrationGroup after successfully create all activityOfferingInfos
                     RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
                     registrationGroupInfo.setCourseOfferingId(coi.getId());
+                    registrationGroupInfo.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
                     registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
                     registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);

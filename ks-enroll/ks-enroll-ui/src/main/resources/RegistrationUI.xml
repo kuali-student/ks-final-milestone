@@ -22,20 +22,57 @@
     <bean id="ks_studentFacing_registrationView" parent="KSFormView">
         <property name="id" value="studentRegistrationView"/>
         <property name="title" value="Registration"/>
-        <property name="singlePageView" value="true"/>
+        <property name="entryPageId" value="termSelectionPage"/>
         <property name="styleClasses" value="registration"/>
-        <property name="page">
-            <bean parent="Page"/>
-        </property>
+        <property name="viewHelperServiceClassName"
+                  value="org.kuali.student.enrollment.class2.registration.service.RegistrationViewHelperServiceImpl"/>
         <property name="footer">
             <bean parent="Footer"/>
         </property>
         <property name="items">
             <list>
-                <ref bean="registration_grid_layout"/>
+                <bean parent="Page" p:id="termSelectionPage">
+                    <property name="items">
+                        <list>
+                            <ref bean="termSelector"/>
+                            <ref bean="Registration_Footer_termSelectionPage"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Page" p:id="registrationPage">
+                    <property name="items">
+                        <list>
+                            <ref bean="registration_grid_layout"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.RegistrationForm"/>
+    </bean>
+
+    <bean id="termSelector" parent="GroupGridLayout">
+        <property name="accordion.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="AttributeField_Form" p:propertyName="termKey" p:label="Select Term" p:required="true">
+                    <property name="control">
+                        <bean parent="SelectControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="Registration_Footer_termSelectionPage" parent="Footer">
+        <property name="items">
+            <list>
+                <bean parent="ActionField_Secondary" p:methodToCall="showRegistration"
+                      p:actionLabel="Show Registration"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="registration_grid_layout" parent="GroupGridLayout">
@@ -100,12 +137,16 @@
         <property name="items">
             <list>
                 <bean id="RegScheduleCart" parent="AttributeField_Form" abstract="true"
-                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray">
+                      p:labelField.renderColon="false" p:propertyName="cartCoursesJsArray"
+                      p:finalizeMethodToCall="checkSubmitItemRender">
                     <property name="control">
-                        <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable"/>
+                        <bean parent="ScheduleCartControl" p:scheduleId="RegScheduleTable" p:removeText="Remove"
+                              p:removeJsFunction="removeFromCart"/>
                     </property>
                 </bean>
-                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP"
+                <bean parent="MessageField" p:messageText="Your cart is empty"
+                      p:finalizeMethodToCall="checkRenderCartEmpty"/>
+                <bean parent="ActionField" p:jumpToIdAfterSubmit="TOP" p:finalizeMethodToCall="checkSubmitItemRender"
                       p:methodToCall="submitRegistration" p:actionLabel="Submit Registration"/>
             </list>
         </property>
@@ -156,6 +197,14 @@
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
                     </property>
+                    <!--
+                                        <property name="fieldSuggest.render" value="true" />
+                                        <property name="fieldSuggest.sourcePropertyName" value="courseOfferingCode" />
+                                        <property name="fieldSuggest.suggestQuery.queryMethodToCall"
+                                            value="" />
+                                        <property name="fieldSuggest.suggestQuery.queryMethodInvokerConfig"
+                                            value="" />
+                    -->
                 </bean>
             </list>
         </property>
@@ -166,8 +215,10 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses" p:jumpToIdAfterSubmit="TOP"/>
-                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values" p:jumpToIdAfterSubmit="TOP"/>
+                <bean parent="ActionField" p:methodToCall="searchCourseOfferings" p:actionLabel="View Courses"
+                      p:jumpToIdAfterSubmit="TOP"/>
+                <bean parent="ActionField" p:methodToCall="clearSearchValues" p:actionLabel="Clear Values"
+                      p:jumpToIdAfterSubmit="TOP"/>
             </list>
         </property>
     </bean>
@@ -189,7 +240,7 @@
         <property name="readOnly" value="true"/>
         <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.lineGroupPrototype">
-            <bean parent="Group" p:layoutManager.orientation="VERTICAL"
+            <bean parent="KSGroup" p:layoutManager.orientation="VERTICAL"
                   p:styleClasses="courseOffering-item" p:footer-ref="Footer"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
@@ -215,7 +266,8 @@
     </bean>
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups" parent="CollectionGroup"
-          p:layoutManager.lineGroupPrototype.accordion.render="false">
+          p:layoutManager.lineGroupPrototype.accordion.render="false"
+          p:summary="Add a course to your cart or register with a single click:">
         <property name="accordion.render" value="false"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>

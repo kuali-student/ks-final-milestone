@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegGroupRegistrationInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -37,7 +38,7 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 	}
 
 	@Override
-	public StudentCourseRecordInfo assemble(CourseRegistrationInfo courseReg, ContextInfo context) {
+	public StudentCourseRecordInfo assemble(CourseRegistrationInfo courseReg, ContextInfo context) throws AssemblyException {
 		StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
 		
 		courseRecord.setCourseRegistrationId(courseReg.getId());
@@ -54,19 +55,28 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 					courseRecord.setCourseEndDate(atp.getEndDate());
 						
 			}
-			
-			GradeRosterEntryInfo finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), co.getId(), context);
-			courseRecord.setAssignedGradeValue(finalRosterEntry.getAssignedGradeKey());
+
+            GradeRosterEntryInfo finalRosterEntry = null;
+            finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), co.getId(), context);
+            courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
+			courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
+			courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
+			courseRecord.setAdministrativeGradeScaleKey(getScaleKey(finalRosterEntry.getAdministrativeGradeKey(), context));
+			courseRecord.setCalculatedGradeValue(getValue(finalRosterEntry.getCalculatedGradeKey(), context));
+			courseRecord.setCalculatedGradeScaleKey(getScaleKey(finalRosterEntry.getCalculatedGradeKey(), context));
+
+        } catch (DisabledIdentifierException e) {
+            throw new AssemblyException("DisabledIdentifierException: " + e.getMessage());
 		} catch (DoesNotExistException e) {
-			e.printStackTrace();
+			throw new AssemblyException("DoesNotExistException: " + e.getMessage());
 		} catch (InvalidParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("InvalidParameterException: " + e.getMessage());
 		} catch (MissingParameterException e) {
-			e.printStackTrace();
+			throw new AssemblyException("MissingParameterException: " + e.getMessage());
 		} catch (OperationFailedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("OperationFailedException: " + e.getMessage());
 		} catch (PermissionDeniedException e) {
-			e.printStackTrace();
+			throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
 		}	
 		
 		
@@ -79,5 +89,53 @@ public class StudentCourseRecordAssembler implements DTOAssembler<StudentCourseR
 	public CourseRegistrationInfo disassemble(
 			StudentCourseRecordInfo businessDTO, ContextInfo context) {
 		return null;
+	}
+	
+	private String getValue(String key, ContextInfo context) throws AssemblyException {
+		String value = null;
+		if(key != null){
+			try {
+				if(lrcService != null){
+					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
+					value = resultValue.getValue();
+				}
+			} catch (DoesNotExistException e) {
+				throw new AssemblyException("DoesNotExistException: " + e.getMessage());
+			} catch (InvalidParameterException e) {
+				throw new AssemblyException("InvalidParameterException: "  + e.getMessage());
+			} catch (MissingParameterException e) {
+				throw new AssemblyException("MissingParameterException: "  + e.getMessage());
+			} catch (OperationFailedException e) {
+				throw new AssemblyException("OperationFailedException: "  + e.getMessage());
+			} catch (PermissionDeniedException e) {
+				throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
+			}
+		}
+		
+		return value;
+	}
+	
+	private String getScaleKey(String key, ContextInfo context) throws AssemblyException {
+		String scaleKey = null;
+		if(key != null){
+			try {
+				if(lrcService != null){
+					ResultValueInfo resultValue = lrcService.getResultValue(key, context);
+					scaleKey = resultValue.getResultScaleKey();
+				}
+			} catch (DoesNotExistException e) {
+				throw new AssemblyException("DoesNotExistException: " + e.getMessage());
+			} catch (InvalidParameterException e) {
+				throw new AssemblyException("InvalidParameterException: " + e.getMessage());
+			} catch (MissingParameterException e) {
+				throw new AssemblyException("MissingParameterException: "  + e.getMessage());
+			} catch (OperationFailedException e) {
+				throw new AssemblyException("OperationFailedException: "  + e.getMessage());
+			} catch (PermissionDeniedException e) {
+				throw new AssemblyException("PermissionDeniedException: "  + e.getMessage());
+			}
+		}
+		
+		return scaleKey;
 	}
 }

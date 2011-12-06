@@ -25,8 +25,12 @@
     <property name="shouldLoadData" value="true" />
     <property name="preloadMap">
       <map>
-        <entry key="Acal">
-          <value>classpath:ks-lpr.sql</value>
+        <entry key="co">
+            <list>
+                <value>classpath:ks-statementTypes.sql</value>
+                <value>classpath:ks-lpr.sql</value>
+                <value>classpath:ks-courseReg.sql</value>
+            </list>
         </entry>
       </map>
     </property>
@@ -76,8 +80,8 @@
   </bean>
 
   <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-    <property name="persistenceUnitName" value="Acal" />
-    <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+    <property name="persistenceUnitName" value="co" />
+    <property name="persistenceXmlLocation" value="classpath:META-INF/courseOffering-persistence.xml" />
     <property name="dataSource" ref="dataSource" />
   </bean>
 
@@ -93,11 +97,11 @@
   <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
     <property name="em" ref="entityManager" />
   </bean>
-  <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
-    <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
-        <property name="validator" ref="validator"/>
-        <property name="nextDecorator" ref="lprServiceImpl"/>
-    </bean>
+
+  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LuiPersonRelationServiceValidationDecorator">
+    <property name="validator" ref="validator"/>
+    <property name="nextDecorator" ref="lprServiceImpl"/>
+  </bean>
 
   <bean id="lprServiceImpl" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
@@ -116,8 +120,6 @@
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
-  
-  
 
 
   <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
@@ -160,22 +162,79 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  
+  <bean id="resultValuesGroupDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao">
+    <property name="em" ref="entityManager"/>
+  </bean>
+
+  <bean id="resultValueDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao">
+    <property name="em" ref="entityManager"/>
+  </bean>
+
+  <bean id="resultScaleDao" class="org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao">
+    <property name="em" ref="entityManager"/>
+  </bean>
+
+  <bean id="lrcPersistenceService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LRCServiceImpl">
+   	<property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
+    <property name="resultValueDao" ref="resultValueDao"/>
+    <property name="resultScaleDao" ref="resultScaleDao"/>
+  </bean>
+
+  <bean id="lrrService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
+    <property name="lrrDao" ref="lrrDao"/>
+    <property name="lrrTypeDao" ref="lrrTypeDao"/>
+  </bean>
+
+  <bean id="lrrDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrDao"/>
+  <bean id="lrrTypeDao" class="org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao"/>
+
+  <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
+    <property name="lprService" ref="lprService"/>
+    <property name="lrrService" ref="lrrService"/>
+    <property name="luiService" ref="luiService"/>
+  </bean>
+
+  <bean id="rulesEvaluationUtil" class="org.kuali.student.core.statement.util.RulesEvaluationUtil">
+    <property name="termResolvers">
+      <list>
+        <ref bean="completedCoursesResolver"/>
+      </list>
+    </property>
+  </bean>
+
   <bean id="courseRegistrationServiceImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprService" />
     <property name="regRequestAssembler" ref="regRequestAssembler" />
     <property name="regResponseAssembler" ref="regResponseAssembler" />
     <property name="courseRegistrationAssembler" ref="courseRegistrationAssembler" />
-     <property name="courseOfferingService" ref="coService" /> 
+    <property name="courseOfferingService" ref="coService" />
+    <property name="lrcService" ref="lrcPersistenceService"/>
+    <property name="courseService" ref="courseServiceImpl"/>
+    <property name="statementService" ref="statementServiceImpl"/>
+    <property name="rulesEvaluationUtil" ref="rulesEvaluationUtil"/>
+    <property name="propositionBuilder" ref="propositionBuilder"/>
   </bean>
-  
-  <bean id="courseRegServiceValidation" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
+
+  <bean id="courseRegService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">
       <property name="nextDecorator" ref="courseRegistrationServiceImpl" />
   </bean>
 
-
+  <!-- some of these defined in co-test-context.xml, including a 'gradingService' bean -->
+  <bean id="crGradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
+    <property name="lprService" ref="lprServiceImpl"/>
+    <property name="courseOfferingService" ref="coService"/>
+    <property name="luiService" ref="luiService"/>
+    <property name="gradeRosterAssembler" ref="gradeRosterAssembler"/>
+    <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler"/>
+    <property name="courseRegistrationService" ref="courseRegistrationServiceImpl"/>
+    <property name="lrrService" ref="lrrService"/>
+    <property name="lrcService" ref="lrcPersistenceService"/>
+  </bean>
 
   <bean id="courseRegistrationAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler" />
+  <bean id="gradeRosterAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler"></bean>
+  <bean id="gradeRosterEntryAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterEntryAssembler"></bean>
+  <bean id="propositionBuilder" class="org.kuali.student.core.statement.util.PropositionBuilder"/>
   <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler" />
   <bean id="regResponseAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler" />
 
