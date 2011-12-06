@@ -70,7 +70,7 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
                     else if(((ActionField)c).getMethodToCall().equals("removeFromCart")){
                         c.setRender(renderRemoveFromCartButton);
                     }
-                    else if(((ActionField)c).getMethodToCall().equals("dropClass")){
+                    else if(((ActionField)c).getMethodToCall().equals("addDropToCart")){
                         c.setRender(renderDropButton);
                     }
                 }
@@ -87,18 +87,18 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
             }
         }
 
-
+        // TODO: RICE=M9 UPGRADE Replace call to "getSummaryMessageField" to use one of the new ContainerBase message field widgets, I suspect this should use getErrorsField
         if(courseRegistered){
-           collGroup.getSummaryMessageField().setMessageText("You are currently registered for a version of this course.");
-           collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
+           //collGroup.getSummaryMessageField().setMessageText("You are currently registered for a version of this course.");
+           //collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
         }
         else if(courseInCart){
-           collGroup.getSummaryMessageField().setMessageText("Your cart contains a version of this course.");
-           collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
+           //collGroup.getSummaryMessageField().setMessageText("Your cart contains a version of this course.");
+           //collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
         }
         else{
-           collGroup.getSummaryMessageField().setMessageText("Add a course to your cart or register with a single click:");
-           collGroup.getSummaryMessageField().getStyleClasses().remove("ks-regWarning");
+           //collGroup.getSummaryMessageField().setMessageText("Add a course to your cart or register with a single click:");
+           //collGroup.getSummaryMessageField().getStyleClasses().remove("ks-regWarning");
         }
     }
 
