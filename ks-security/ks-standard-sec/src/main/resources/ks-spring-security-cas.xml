@@ -143,8 +143,8 @@
 	-->
 	
  <bean id="switchUserProcessingFilter" class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter">
-   <security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
-     <property name="userDetailsService" ref="ksUserDetailsService" />
+	 <security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
+     <property name="userDetailsService" ref="ksRiceUserDetailsService" />
      <property name="switchUserUrl" value="/j_spring_security_switch_user" />
      <property name="exitUserUrl" value="/j_spring_security_exit_user" />
      <property name="targetUrl" value="${application.url}/" />
