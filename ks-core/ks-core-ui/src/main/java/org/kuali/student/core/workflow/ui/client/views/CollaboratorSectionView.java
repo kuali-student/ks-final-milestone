@@ -61,11 +61,11 @@ public class CollaboratorSectionView extends SectionView {
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
 
-    private final GroupSection section;
+    private GroupSection section;
     private FieldDescriptor person;
     private FieldDescriptor permissions;
     private FieldDescriptor actionRequests;
-    private FieldDescriptor authorNotation;
+    protected FieldDescriptor authorNotation;
     private KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
@@ -85,7 +85,11 @@ public class CollaboratorSectionView extends SectionView {
     private int numCollabs = 0;
 
     List<Data> newCollaborators = new ArrayList<Data>();
-
+    
+    public CollaboratorSectionView(){
+    	
+    }
+    
     public CollaboratorSectionView(Enum<?> viewEnum, String name, String modelId) {
         this(viewEnum, name, modelId, true);
     }
@@ -103,6 +107,24 @@ public class CollaboratorSectionView extends SectionView {
         section.addStyleName("KS-Add-Collaborator-Box");
         this.add(layout);
     }
+    
+   public void init(Enum<?> viewEnum, String name, String modelId){
+    	init(viewEnum, name, modelId, true);
+    }
+    
+    public void init(Enum<?> viewEnum, String name, String modelId, boolean showTitle){
+    	init(viewEnum, name);
+        this.modelId = modelId;
+        if (name != null && !name.isEmpty() && showTitle) {
+            SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
+            layout = new GroupFieldLayout(sectionTitle);
+        } else {
+            layout = new GroupFieldLayout();
+        }
+        section = new GroupSection();
+        section.addStyleName("KS-Add-Collaborator-Box");
+        this.add(layout);
+    } 
 
     public void init() {
         createAddCollabSection();

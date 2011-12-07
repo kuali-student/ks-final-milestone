@@ -7,6 +7,8 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 
+import com.google.gwt.core.client.GWT;
+
 /**
  * @author Will
  */
@@ -14,7 +16,10 @@ public class CollaboratorsEditConfiguration extends AbstractSectionConfiguration
 
     public CollaboratorsEditConfiguration(Configurer configurer) {
         this.setConfigurer(configurer);
-    	rootSection = new CollaboratorSectionView(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
+        rootSection = GWT.create(CollaboratorSectionView.class);
+        CollaboratorSectionView view = (CollaboratorSectionView)rootSection;
+        view.init(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
+    	//rootSection = new CollaboratorSectionView(ProgramSections.COLLABORATORS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_COLLABORATORS),ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override
