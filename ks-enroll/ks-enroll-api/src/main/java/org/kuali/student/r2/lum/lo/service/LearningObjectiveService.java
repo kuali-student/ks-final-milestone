@@ -76,6 +76,17 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public List<LoRepositoryInfo> getLoRepositoriesByKeys (@WebParam(name = "loRepositoryKeys") List<String> loRepositoryKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoRepositories.
+     *
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepositories or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public List<LoRepositoryInfo> getLoRepositories(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -225,10 +236,65 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      */
     public List<String> getLoIdsByType (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Retrieves a list of Los by LoRepository.
+     *
+     * @param loRepositoryKey   a key for the LoRepository
+     * @param loTypeKey   the identifier for the Lo Type
+     * @param loStateKey   the identifier for the Lo State
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the LoRepository
+     * @throws DoesNotExistException        loRepositoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="loStateKey")String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los by LoCategory.
+     *
+     * @param loCategoryId  an identifier for the LoCategory
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the LoCategory
+     * @throws DoesNotExistException        loCategoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public List<LoInfo> getLosByLoCategory(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationType") String loLoRelationType, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationType") String loLoRelationType, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los by related Lo.
+     *
+     * @param relatedLoId       an identifier for the related Lo
+     * @param loLoRelationTypeKey   the identifier for the LoLoRelation Type
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the related Lo
+     * @throws DoesNotExistException        relatedLoId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    relatedLoId, loLoRelationTypeKey, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of related Los by Lo.
+     *
+     * @param loId                  an identifier for the Lo
+     * @param loLoRelationTypeKey   the identifier for the LoLoRelation Type
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of related Los for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Los that meet the given search criteria.
@@ -361,6 +427,19 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public List<String> getLoCategoryIdsByType (@WebParam(name = "loCategoryTypeKey") String loCategoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoCategories by Lo.
+     *
+     * @param loId          an identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategories for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -452,7 +531,36 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Deletes existing LoCategories of a Lo.
+     *
+     * @param loId          the identifier for the Lo for which LoCategories are to be deleted
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public StatusInfo deleteLoCategoryByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Adds a LoCategory to a Lo
+     *
+     * @param loCategoryId  the identifier for the LoCategory
+     * @param loId          the identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws AlreadyExistsException       LoCategory already exists for Lo
+     * @throws DoesNotExistException        loCategoryId or loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId, loId, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws UnsupportedActionException   loCategoryId and loId are not in the same repository
+     */
     public StatusInfo addLoCategoryToLo(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "loId")String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 
 
@@ -497,6 +605,19 @@ public interface LearningObjectiveService extends DataDictionaryService, TypeSer
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public List<String> getLoLoRelationIdsByType (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoLoRelations by Lo.
+     *
+     * @param loId      an identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelations for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
     public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
