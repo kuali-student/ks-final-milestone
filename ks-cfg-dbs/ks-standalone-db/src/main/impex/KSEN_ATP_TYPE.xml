@@ -41,6 +41,10 @@
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo"
         TYPE_DESC="Indicates the ATP reuses the specified milestone that another ATP owns "
         TYPE_KEY="kuali.atp.milestone.relation.reuses" VER_NBR="0"/>
+    <KSEN_ATP_TYPE NAME="Uses"
+        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo"
+        TYPE_DESC="Indicates the ATP uses the specified milestone"
+        TYPE_KEY="kuali.atp.milestone.relation.uses" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="AY"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_DESC="Full Academic Year" TYPE_KEY="kuali.atp.type.AY" VER_NBR="0"/>

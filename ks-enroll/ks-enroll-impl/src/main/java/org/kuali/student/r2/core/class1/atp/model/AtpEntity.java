@@ -129,7 +129,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     }
 
     public AtpInfo toDto() {
-        AtpInfo atp = new AtpInfo();
+        AtpInfo atp = AtpInfo.newInstance();
         atp.setKey(getId());
         atp.setName(name);
         atp.setStartDate(startDate);

@@ -1,7 +1,7 @@
-function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
-    if(jqObject && collectionGroupId){
-        collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
-        collectionGroupId = collectionGroupId.replace("_group", "");
+function updateCollectionAndRelatedItem(collectionGroupId, updateAfterId){
+    if(collectionGroupId){
+        var lineIndex = jq("input[name='actionParameters[selectedLineIndex]']").val();
+        collectionGroupId = collectionGroupId + "_" + lineIndex;
 		var otherElementToBlock = jq("#" + updateAfterId + "_div");
         var updateComponentCallback = function(htmlContent){
 	    	var component = jq("#" + updateAfterId + "_div", htmlContent);
@@ -36,16 +36,3 @@ function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfter
 				elementToBlock);
 	}
 }
-
-    function removeFromCart(){
-        var row = jq(this).closest("tr.keyRow");
-        var name = jq(row).find(".timeKeyName").text();
-        if(confirm("Remove "+ name +" from your cart?")){
-            var id = jq(row).attr("name");
-            writeHiddenToForm("methodToCall", "removeFromCart");
-            writeHiddenToForm('jumpToId' , 'TOP');
-            writeHiddenToForm('renderFullView' , 'true');
-            writeHiddenToForm('actionParameters[itemId]' , id);
-            jq('#kualiForm').submit();
-        }
-    }

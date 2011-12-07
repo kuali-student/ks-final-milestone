@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -50,7 +49,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  * @Author sambit
  * @Since Tue May 10 14:09:46 PDT 2011
  */
-@WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
+@WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface LRCService extends DataDictionaryService, TypeService, StateService {

@@ -31,7 +31,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfoUI.termKey"/>
                 <ref bean="CourseOfferingInfoUI.subjectArea"/>
                 <ref bean="CourseOfferingInfoUI.courseOfferingCode"/>
-                <ref bean="CourseOfferingInfoUI.maximumEnrollment"/>
                 
                 <!--  other attributes not used by UI -->		
                 <ref bean="CourseOfferingInfo.typeKey"/>
@@ -40,6 +39,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfo.courseTitle"/>
                 <ref bean="CourseOfferingInfo.isHonorsOffering"/>
                 <ref bean="CourseOfferingInfo.hasFinalExam"/>
+                <ref bean="CourseOfferingInfo.maximumEnrollment"/>
                 <ref bean="CourseOfferingInfo.minimumEnrollment"/>
                 <ref bean="CourseOfferingInfo.gradeRosterLevelTypeKey"/>
                 <ref bean="CourseOfferingInfo.hasWaitlist"/>
@@ -121,11 +121,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         </property>
     </bean>
 
-    <bean id="CourseOfferingInfoUI.maximumEnrollment" parent="CourseOfferingInfo.maximumEnrollment-parent">
-         <property name="required" value="true"/>
-         <property name="summary" value=""/>
-    </bean>
-
   <!-- Lookup View 
   <bean id="CourseOfferingInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Course Offering Info Lookup" />
@@ -151,13 +146,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="title" value="Course Offering Maintenance"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingInfoMaintainableImpl" />
-        <property name="header">
-             <ref bean="KSHeader_Empty" />
-        </property>
         <property name="items">
-            <!--<list merge="true">-->
+            <list merge="true">
             <!-- remove merge="true" would not inherit Document Overview section -->
-            <list>
+            <!--<list>-->
                 <bean parent="MaintenanceGroupSectionGridLayout">
                     <property name="title" value="Create a New Course Offering"/>
                     <property name="items">
@@ -180,7 +172,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </map>
                                 </property> 
                             </bean>
-                            <bean parent="AttributeField" p:propertyName="maximumEnrollment" />
                         </list>
                     </property>             
                 </bean>
@@ -210,9 +201,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 </bean>  
            
             </list>
-        </property>
-        <property name="footer">
-	        <ref bean="KSFooter_SubmitCancel" />
         </property>
     </bean>  
 

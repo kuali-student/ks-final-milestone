@@ -48,9 +48,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
-        <property name="validCharactersConstraint">
-            <bean parent="NoWhitespacePatternConstraint"/>
-        </property>
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property> 
@@ -63,16 +64,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="unique" value="true"/> 
-        <property name="validCharactersConstraint">
-            <bean parent="NoWhitespacePatternConstraint"/>
-        </property>
+        <property name="validationPattern" >
+      		<bean parent="AnyCharacterValidationPattern"
+            	  p:allowWhitespace="false" />
+    	</property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
-	    </property>
-        <property name="summary"  value="Type of the Term"/>
+	    </property>    	    	
     </bean>
     
     <bean id="TermInfoUI.startDate" parent="TermInfo.startDate-parent">
@@ -83,7 +84,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
-        <property name="summary"  value="Official start date of the Term"/>
     </bean>
 
     <bean id="TermInfoUI.endDate" parent="TermInfo.endDate-parent">
@@ -94,7 +94,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
-        <property name="summary"  value="Official end date of the Term"/>
     </bean>
 
   <bean id="TermInfo-LookupView" parent="KSLookupView">

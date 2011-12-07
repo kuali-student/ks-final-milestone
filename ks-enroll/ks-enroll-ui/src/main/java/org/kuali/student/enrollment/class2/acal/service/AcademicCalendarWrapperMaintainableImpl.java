@@ -255,36 +255,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         super.prepareForSave();
     }
     */
-
-    /**
-     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterCopy
-     */
-    @Override
-    public void processAfterCopy(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        //set documentDescription to document.documentHeader.documentDescription
-        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_COPYING_ACADEMIC_CALENDAR);
-    }
-
-    /**
-     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterEdit
-     */
-    @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        //set documentDescription to document.documentHeader.documentDescription
-        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_EDITING_ACADEMIC_CALENDAR);
-
-    }
-
-    /**
-     * @see org.kuali.rice.krad.maintenance.Maintainable#processAfterNew
-     */
-    @Override
-    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        //set documentDescription to document.documentHeader.documentDescription
-        document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_ACADEMIC_CALENDAR);
-
-    }
-
+    
     protected AcademicCalendarService getAcademicCalendarService() {
          if(academicCalendarService == null) {
         	 academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal","AcademicCalendarService"));

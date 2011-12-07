@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- HoldInfo-->
 	<bean id="HoldInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="holdInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.HoldInfo"/>
 		<property name="objectLabel" value="Hold"/>
 		<property name="objectDescription">
 			<value>

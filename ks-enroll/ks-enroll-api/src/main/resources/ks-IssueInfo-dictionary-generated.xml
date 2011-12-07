@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- IssueInfo-->
 	<bean id="IssueInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="issueInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.hold.dto.IssueInfo"/>
 		<property name="objectLabel" value="Issue"/>
 		<property name="objectDescription">
 			<value>

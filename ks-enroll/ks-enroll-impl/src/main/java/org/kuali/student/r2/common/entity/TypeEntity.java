@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
@@ -32,6 +33,8 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<T> attributes;
 
+    @Column(name = "REF_OBJECT_URI")
+    private String refObjectURI;
 
 	/**
 	 * This overridden method ...
@@ -53,15 +56,24 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 		return attributes;
 	}
 
+    public void setRefObjectURI(String refObjectURI) {
+        this.refObjectURI = refObjectURI;
+    }
+
+    public String getRefObjectURI() {
+        return refObjectURI;
+    }
+
 	public TypeInfo toDto() {
 		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setName(this.getName());
 		typeInfo.setKey(this.getId());
-		// TODO: what about RefObjId?
+		typeInfo.setRefObjectURI(getRefObjectURI());
 		typeInfo.setDescr(this.getDescr());
 		typeInfo.setEffectiveDate(this.getEffectiveDate());
 		typeInfo.setExpirationDate(this.getExpirationDate());
 		typeInfo.setAttributes(new ArrayList<AttributeInfo>());
+
 		// TODO - refactor this into a central place; probably Igor's Converter
 		List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
 		for (BaseAttributeEntity<?> att : this.getAttributes()) {

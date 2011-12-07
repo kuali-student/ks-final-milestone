@@ -5,6 +5,8 @@ import java.util.List;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 
+import javax.persistence.Query;
+
 public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelationEntity>{
 
     @SuppressWarnings("unchecked")
@@ -21,4 +23,13 @@ public class AtpMilestoneRelationDao extends GenericEntityDao<AtpMilestoneRelati
     public List<AtpMilestoneRelationEntity> getByAtpId(String atpId) {
         return em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId").setParameter("atpId", atpId).getResultList();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<AtpMilestoneRelationEntity> getByAtpAndMilestone(String atpId,String milestoneId) {
+        Query query = em.createQuery("from AtpMilestoneRelationEntity amRel where amRel.atp.id=:atpId and amRel.milestone.id=:milestoneId");
+        query.setParameter("atpId", atpId);
+        query.setParameter("milestoneId", milestoneId);
+        return query.getResultList();
+    }
+
 }

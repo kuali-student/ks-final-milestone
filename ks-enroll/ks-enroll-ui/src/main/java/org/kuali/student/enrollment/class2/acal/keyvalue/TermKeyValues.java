@@ -16,7 +16,6 @@ package org.kuali.student.enrollment.class2.acal.keyvalue;
  * limitations under the License.
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -26,7 +25,6 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -44,17 +42,9 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
 
 
     @Override
-    /*
-     * Return a list of terms that belong to the Academic Year with the start year equal to the current year.
-     *
-     * From Bonnie: The current implementation has some problems.
-     * For instance, in Jan 2012, although we are still in Academic Calendar 2011 - 2012, probably the term of
-     * Spring 2012, the current implementation can't display terms of Academic Calendar 2011 - 2012, but can
-     * only display terms of Academic Calendar 2012 - 2013.
-     */
     public List<KeyValue> getKeyValues() {
 
-        List<AcademicCalendarInfo> acals = new ArrayList<AcademicCalendarInfo>();
+        List<AcademicCalendarInfo> acals;
         ContextInfo context = ContextInfo.newInstance();
 
 
@@ -63,13 +53,10 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
             Calendar nowCal = Calendar.getInstance();
             nowCal.setTime(new Date());
             int year = nowCal.get(Calendar.YEAR);
-            acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year - 1, context));
-            acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year, context));
+            acals = getAcalService().getAcademicCalendarsByStartYear(year, context);
             acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year+1, context));
             for (AcademicCalendarInfo acal : acals) {
-                if (StringUtils.equals(acal.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
-                    terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
-                }
+                terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
             }
 
             // TODO: remove this when we figure out why KRAD defaultValue property is not working

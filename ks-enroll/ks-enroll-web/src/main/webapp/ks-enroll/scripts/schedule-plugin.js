@@ -149,22 +149,6 @@
 
     };
 
-    $.fn.addButton = function(name, jsFunction) {
-        var keyTable = this[0];
-        if (name != null && jsFunction != null) {
-            $(keyTable).find("tr").each( function(){
-                if(!($(this).find("th").length > 0)){
-                    var button =  $("<a class='key-button'>" + name + "</a>").click(jsFunction);
-                    $(this).append("<td>").append(button);
-                }
-                else{
-                    $(this).append("<th>");
-                }
-            });
-        }
-
-    };
-
     /**
      * Adds a time and key to the schedule selected.
      * @param name - the html name attribute given to all timeBlocks for this

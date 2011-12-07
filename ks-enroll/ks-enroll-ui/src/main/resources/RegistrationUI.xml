@@ -191,8 +191,8 @@
         <property name="accordion.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="AttributeField_Form" p:propertyName="courseOfferingCode"
-                      p:label="Enter the Course Code"
+                <bean parent="AttributeField_Form" p:propertyName="courseNameOrNumber"
+                      p:label="Enter the Course Name or Number"
                       p:labelPlacement="TOP" p:labelField.renderColon="false">
                     <property name="control">
                         <bean parent="TextControl" p:size="20"/>
@@ -225,7 +225,11 @@
 
 
     <bean id="ks_studentFacing_registrationView_resultsection_courseOfferings" parent="CollectionGroup"
-          p:styleClasses="courseOffering-collection">
+          p:layoutManager.lineGroupPrototype.accordion.defaultOpen="false"
+          p:layoutManager.lineGroupPrototype.accordion.render="true">
+        <property name="layoutManager.lineGroupPrototype.header">
+            <bean parent="HeaderThree" p:styleClasses="courseOffering-item-header"/>
+        </property>
         <property name="summary"
                   value="Click a class to show/hide detail.  Hover over a time to preview effect on Your Schedule."/>
         <property name="accordion.render" value="false"/>
@@ -237,10 +241,7 @@
         <property name="layoutManager.summaryTitle" value=""/>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="KSGroup" p:layoutManager.orientation="VERTICAL"
-                  p:styleClasses="courseOffering-item" p:footer-ref="Footer">
-                <property name="accordion.defaultOpen" value="false"/>
-                <property name="accordion.render" value="true"/>
-            </bean>
+                  p:styleClasses="courseOffering-item" p:footer-ref="Footer"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
             <bean parent="FieldGroup" p:labelField.render="false" p:group.header.render="false"/>
@@ -254,10 +255,6 @@
         <property name="items">
             <list>
                 <bean parent="AttributeField" p:labelField.render="false" p:propertyName="courseOffering.descr.plain"
-                      p:readOnly="true"/>
-                <bean parent="AttributeField" p:label="Instructor(s)" p:propertyName="instructorsList"
-                      p:readOnly="true"/>
-                <bean parent="AttributeField" p:label="Prerequisites" p:propertyName="prereq"
                       p:readOnly="true"/>
             </list>
         </property>
@@ -276,35 +273,26 @@
                   value="org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWrapper"/>
         <property name="propertyName" value="registrationGroupWrappers"/>
         <property name="renderAddLine" value="false"/>
-        <property name="finalizeMethodToCall" value="checkRegElements"/>
         <property name="readOnly" value="false"/>
         <property name="layoutManager.lineGroupPrototype.styleClasses" value="regGroup-item"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="actionFields">
             <list>
-                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="addToCart"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="Add to Cart"/>
                 <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="registerClass"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="1-Click Registration"/>
-                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="dropClass"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="Drop Course"/>
-                <bean parent="ActionField_SmallSecondary_Override" p:methodToCall="removeFromCart"
-                      p:clientSideJs="updateCollectionAndRelatedItem(jq(this),'ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
-                      p:actionLabel="Remove From Cart"/>
+                      p:clientSideJs="updateCollectionAndRelatedItem('ks_studentFacing_registrationView_resultsection_courseOfferings_regGroups','registration_schedule_panel')"
+                      p:jumpToIdAfterSubmit="TOP" p:actionLabel="Add to Cart"/>
             </list>
         </property>
         <property name="items">
             <list>
+                <bean parent="AttributeField" p:labelField.renderColon="false"
+                      p:propertyName="registrationGroup.minimumEnrollment" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.maximumEnrollment" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.isHonorsOffering" p:readOnly="true"/>
                 <bean parent="AttributeField" p:labelField.renderColon="false"
                       p:propertyName="registrationGroup.hasWaitlist" p:readOnly="true"/>
-
             </list>
         </property>
         <property name="subCollections">

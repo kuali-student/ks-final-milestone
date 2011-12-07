@@ -16,4 +16,8 @@ public class AtpAtpRelationDao extends GenericEntityDao<AtpAtpRelationEntity>{
     public List<AtpAtpRelationEntity> getAtpAtpRelationsByAtpAndRelationType(String atpKey, String relationTypeId) {
     	return (List<AtpAtpRelationEntity>) em.createQuery("from AtpAtpRelationEntity rel where rel.atp.id=:atpKey AND rel.atpType.id=:relationTypeId").setParameter("atpKey", atpKey).setParameter("relationTypeId", relationTypeId).getResultList();
     }
+
+    public List<AtpAtpRelationEntity> getAtpAtpRelationsByAtpsAndRelationType(String atpKey, String atpPeerKey, String relationTypeId) {
+    	return (List<AtpAtpRelationEntity>) em.createQuery("from AtpAtpRelationEntity rel where rel.atp.id=:atpKey AND rel.relatedAtp.id=:atpPeerKey AND rel.atpType.id=:relationTypeId").setParameter("atpKey", atpKey).setParameter("atpPeerKey", atpPeerKey).setParameter("relationTypeId", relationTypeId).getResultList();
+    }
 }

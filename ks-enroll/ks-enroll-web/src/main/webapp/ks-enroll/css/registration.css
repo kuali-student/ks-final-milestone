@@ -33,11 +33,6 @@
     padding-left: 10px;
 }
 
-.courseOffering-collection{
-    height: 700px;
-    overflow: auto;
-}
-
 .courseOffering-item-header{
     font-size: 1.2em;
     font-weight: normal;
@@ -89,9 +84,4 @@
 
 .timeType{
     display: block;
-}
-
-.ks-regWarning{
-    font-size: 1.1em;
-    font-weight: bold;
 }

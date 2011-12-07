@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -14,7 +21,6 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 /**
  * @author Igor
@@ -35,19 +41,15 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RELATION_TYPE_ID")
     private LuiPersonRelationTypeEntity personRelationType;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RELATION_STATE_ID")
     private StateEntity personRelationState;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "KSEN_LPR_RV_GRP_RELTN", joinColumns = @JoinColumn(name = "LPR_ID"), inverseJoinColumns = @JoinColumn(name = "RV_GRP_ID"))
-    private List<ResultValuesGroupEntity> resultValuesGroups;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     // @JoinColumn(name = "LPR_ATTR_ID")
     // @JoinTable(name="LPR_ATTR_JOIN",
     // joinColumns=@JoinColumn(name="OWNER_ID", referencedColumnName="ID"),
@@ -138,14 +140,6 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.personRelationState = personRelationState;
     }
 
-    public List<ResultValuesGroupEntity> getResultValuesGroups() {
-        return resultValuesGroups;
-    }
-
-    public void setResultValuesGroups(List<ResultValuesGroupEntity> resultValuesGroups) {
-        this.resultValuesGroups = resultValuesGroups;
-    }
-
     @Override
     public List<LuiPersonRelationAttributeEntity> getAttributes() {
         return attributes;
@@ -169,14 +163,6 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
 
         if (personRelationState != null)
             lprInfo.setStateKey(personRelationState.getId());
-
-        List<String> rvGroupIds = new ArrayList();
-        if (null != getResultValuesGroups()) {
-            for (ResultValuesGroupEntity rvGroup : getResultValuesGroups()){
-                rvGroupIds.add(rvGroup.getId());
-            }
-        }
-        lprInfo.setResultValuesGroupKeys(rvGroupIds);
 
         lprInfo.setMeta(super.toDTO());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

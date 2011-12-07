@@ -112,28 +112,6 @@
                 p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
         </list>
       </property>
-    </bean>
-
-    <bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
-      <property name="items">
-        <list>
-            <bean parent="ActionField" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-            <bean parent="ActionLinkField" p:methodToCall="cancel" p:actionLabel="Cancel"
-                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
-        </list>
-      </property>
-    </bean>
-
-    <bean id="KSHeader_Empty" parent="Header">
-      <property name="items">
-          <list/>
-      </property>
-    </bean>
-
-    <bean id="KSAttributeField" abstract="true" parent="AttributeField"
-          p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
-          p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
-          p:summaryMessageField.render="false" />
+  </bean>
 
 </beans>

@@ -23,19 +23,11 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.test.utilities.MockHelper;
@@ -606,7 +598,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<String> getKeyDateKeysByType(String keyDateTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return this.atpService.getMilestoneKeysByType(keyDateTypeKey, context);
+        return this.atpService.getMilestoneIdsByType(keyDateTypeKey, context);
 
     }
 
@@ -622,7 +614,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
         AcademicCalendarInfo acInfo = this.acCache.get(academicCalendarKey);
 
-        List<MilestoneInfo> milestoneInfoDates = this.atpService.getMilestonesByAtp(academicCalendarKey, context);
+        List<MilestoneInfo> milestoneInfoDates = this.atpService.getMilestonesForAtp(academicCalendarKey, context);
         // map milestone to keydateinfo
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
 
@@ -636,7 +628,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     @Override
     public List<KeyDateInfo> getKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<MilestoneInfo> termMilestones = this.atpService.getMilestonesByAtp(termKey, context);
+        List<MilestoneInfo> termMilestones = this.atpService.getMilestonesForAtp(termKey, context);
         // convert milstones to keydates
         List<KeyDateInfo> keyDatesForTerm = new ArrayList<KeyDateInfo>();
 
@@ -687,14 +679,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public KeyDateInfo createKeyDateForTerm(String termKey, String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        AtpMilestoneRelationInfo atpMRInfo = new AtpMilestoneRelationInfo();
-        atpMRInfo.setAtpKey(termKey);
-        atpMRInfo.setMilestoneKey(keyDateKey);
-        AtpMilestoneRelationInfo atpMilestoneInfo = this.atpService.createAtpMilestoneRelation(atpMRInfo, context);
-        // convert atpMilestoneInfo to KeyDateInfo
-        KeyDateInfo kdInfo = new KeyDateInfo();
-        kdInfo.setKey(atpMilestoneInfo.getMilestoneKey());
-        return kdInfo;
+        return null;
 
     }
 
@@ -706,7 +691,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         keyDate.setKey(keyDate.getKey());
         keyDate.setName(keyDate.getName());
         keyDate.setIsDateRange(keyDateInfo.getIsDateRange());
-        this.atpService.updateMilestone(keyDateKey, keyDate, context);
+        try {
+            this.atpService.updateMilestone(keyDateKey, keyDate, context);
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException("Error updating milestone",e);
+        }
         return keyDateInfo;
     }
 
@@ -723,7 +712,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
         AcademicCalendarInfo acInfo = acCache.get(academicCalendarKey);
         CampusCalendarInfo ccInfo = ccCache.get(acInfo.getKey());
-        List<MilestoneInfo> milestonesForAtp = this.atpService.getMilestonesByAtp(ccInfo.getKey(), context);
+        List<MilestoneInfo> milestonesForAtp = this.atpService.getMilestonesForAtp(ccInfo.getKey(), context);
         List<HolidayInfo> holidays = new ArrayList<HolidayInfo>();
         return holidays;
     }
@@ -756,15 +745,17 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public HolidayInfo createHolidayForCampusCalendar(String campusCalendarKey, String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        AtpMilestoneRelationInfo amrInfo = new AtpMilestoneRelationInfo();
-        amrInfo.setMilestoneKey(holidayKey);
-        amrInfo.setAtpKey(campusCalendarKey);
-
-        this.atpService.createAtpMilestoneRelation(amrInfo, context);
-
         MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
 
-        MilestoneInfo mInfoNew = this.atpService.createMilestone(holidayKey, mInfo, context);
+        MilestoneInfo mInfoNew = null;
+        try {
+            mInfoNew = this.atpService.createMilestone(mInfo, context);
+            atpService.addMilestoneToAtp(campusCalendarKey,holidayKey,context);
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException("Error adding atp milestone relation",e);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Error adding atp milestone relation",e);
+        }
 
         HolidayInfo hInfo = new HolidayInfo();
         hInfo.setAttributes(mInfoNew.getAttributes());
@@ -782,7 +773,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
 
         MilestoneInfo mInfo = createMilestoneFromHoliday(holidayInfo);
 
-        MilestoneInfo returnMInfo = this.atpService.updateMilestone(holidayKey, mInfo, context);
+        MilestoneInfo returnMInfo = null;
+        try {
+            returnMInfo = this.atpService.updateMilestone(holidayKey, mInfo, context);
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException("Error updating milestone",e);
+        }
         HolidayInfo hInfo = new HolidayInfo();
         hInfo.setAttributes(returnMInfo.getAttributes());
         hInfo.setName(returnMInfo.getName());
@@ -795,12 +791,6 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     @Override
     public StatusInfo deleteHoliday(String holidayKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
-        List<AtpMilestoneRelationInfo> atpMilestoneRelations = this.atpService.getAtpMilestoneRelationsByMilestone(holidayKey, context);
-
-        for (AtpMilestoneRelationInfo atpMilestoneRelation : atpMilestoneRelations) {
-            this.atpService.deleteAtpMilestoneRelation(atpMilestoneRelation.getId(), context);
-        }
 
         return this.atpService.deleteMilestone(holidayKey, context);
     }
@@ -827,7 +817,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<KeyDateInfo> getKeyDatesForAcademicCalendarByDate(String academicCalendarKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<MilestoneInfo> mileStoneInfos = this.atpService.getMilestonesByAtp(academicCalendarKey, context);
+        List<MilestoneInfo> mileStoneInfos = this.atpService.getMilestonesForAtp(academicCalendarKey, context);
         // convert MileStones to KeyDateInfo
         return new ArrayList<KeyDateInfo>();
 
@@ -837,7 +827,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
     public List<KeyDateInfo> getKeyDatesForTermByDate(String termKey, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
-        List<MilestoneInfo> milestones = this.atpService.getMilestonesByAtp(termKey, context);
+        List<MilestoneInfo> milestones = this.atpService.getMilestonesForAtp(termKey, context);
         for (MilestoneInfo milestoneInfo : milestones) {
             if (milestoneInfo.getStartDate().after(startDate) && milestoneInfo.getEndDate().before(endDate)) {
                 // convert milestone to keydate and add it to this List
@@ -854,11 +844,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>();
 
         // Because KeyDates are Milestones
-        List<MilestoneInfo> milestones = this.atpService.getMilestonesByAtp(termKey, context);
+        List<MilestoneInfo> milestones = this.atpService.getMilestonesForAtp(termKey, context);
         // Add subterm milestones
         List<TermInfo> allTerms = getIncludedTermsInTerm(termKey, context);
         for (TermInfo subTerm : allTerms) {
-            List<MilestoneInfo> subMilestones = this.atpService.getMilestonesByAtp(subTerm.getKey(), context);
+            List<MilestoneInfo> subMilestones = this.atpService.getMilestonesForAtp(subTerm.getKey(), context);
             milestones.addAll(subMilestones);
 
         }
@@ -965,9 +955,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         atpAtpRelation.setAtpKey(academicCalendarKey);
 
         try {
-            AtpAtpRelationInfo atpAtpInfo = this.atpService.createAtpAtpRelation(atpAtpRelation, context);
+            AtpAtpRelationInfo atpAtpInfo = this.atpService.createAtpAtpRelation(academicCalendarKey, termKey, atpAtpRelation, context);
         } catch (DataValidationErrorException dataValidEx) {
             throw new InvalidParameterException(dataValidEx.getMessage());
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException(e.getMessage());
         }
 
         return new StatusInfo();
@@ -996,9 +988,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService 
         aarInfo.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
 
         try {
-            this.atpService.createAtpAtpRelation(aarInfo, context);
+            this.atpService.createAtpAtpRelation(termKey, includedTermKey, aarInfo, context);
         } catch (DataValidationErrorException dataValidEx) {
             throw new InvalidParameterException(dataValidEx.getMessage());
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException(e.getMessage());
         }
         return new StatusInfo();
     }

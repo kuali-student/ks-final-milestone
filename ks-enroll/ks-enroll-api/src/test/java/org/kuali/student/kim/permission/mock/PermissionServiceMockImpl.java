@@ -276,14 +276,7 @@ public class PermissionServiceMockImpl implements PermissionService,
             String permissionName,
             Map<String,String> permissionDetails,
             Map<String,String> qualification) {
-    	if(principalId != null){
-	    	if(principalId.equals("123"))
-	    		return true;
-	    	else
-	    		return false;
-    	}
-    	else
-    		return false;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

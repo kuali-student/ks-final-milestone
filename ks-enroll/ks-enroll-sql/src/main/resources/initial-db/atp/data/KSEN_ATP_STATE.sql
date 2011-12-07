@@ -23,3 +23,6 @@ Insert into KSEN_ATP_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDAT
 Insert into KSEN_ATP_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,NAME) values ('kuali.atp.milestone.relation.state.inactive',null,0,null,null,null,null,'Indicates that this Atp-Milestone relation is inactive','Inactive')
 /
 
+Insert into KSEN_ATP_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,NAME) values ('kuali.atp.milestone.relation.state.canceled',null,0,null,null,null,null,'Indicates that this Atp-Milestone relation is canceled','Canceled')
+/
+

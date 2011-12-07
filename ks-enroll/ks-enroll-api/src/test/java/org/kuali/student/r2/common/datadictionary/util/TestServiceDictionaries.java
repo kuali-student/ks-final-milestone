@@ -27,21 +27,17 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
+
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.dto.AtpMilestoneRelationInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.dto.RestrictionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -70,16 +66,15 @@ public class TestServiceDictionaries {
         inputFiles.add(calculateXmlFileName(AtpInfo.class));
         inputFiles.add(calculateXmlFileName(MilestoneInfo.class));
         inputFiles.add(calculateXmlFileName(AtpAtpRelationInfo.class));
-        inputFiles.add(calculateXmlFileName(AtpMilestoneRelationInfo.class));
 //       Learning Unit Instance (LUI) Service
         inputFiles.add(calculateXmlFileName(LuiInfo.class));
         inputFiles.add(calculateXmlFileName(LuiLuiRelationInfo.class));
         inputFiles.add(calculateXmlFileName(LuiCapacityInfo.class));
 //       Course Offering Service"
-        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
-        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
-        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
-        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
+//        inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
+//        inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
+//        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
+//        inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
         return inputFiles;
     }
 
@@ -99,7 +94,7 @@ public class TestServiceDictionaries {
         String[] configLocs = configLocations.toArray(new String[0]);
         ApplicationContext ac = new ClassPathXmlApplicationContext(configLocs);
         Map<String, DataObjectEntry> beansOfType =
-                (Map<String, DataObjectEntry>) ac.getBeansOfType(DataObjectEntry.class);
+                ac.getBeansOfType(DataObjectEntry.class);
         for (DataObjectEntry doe : beansOfType.values()) {
             System.out.println("Loading object structure: " + doe.getFullClassName());
             if ("org.kuali.rice.krad.bo.AttributeReferenceDummy".equals(doe.getFullClassName())) {

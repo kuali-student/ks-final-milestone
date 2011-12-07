@@ -191,7 +191,8 @@ CREATE TABLE KSEN_LUI_TYPE
 			TYPE_DESC VARCHAR2(2000), 
 			EFF_DT TIMESTAMP (6), 
 			EXPIR_DT TIMESTAMP (6), 
-			NAME VARCHAR2(255)
+			NAME VARCHAR2(255),
+			REF_OBJECT_URI VARCHAR2(255)
    )
 /
 
@@ -330,21 +331,3 @@ END;
       LUI_ID VARCHAR2(255)
    )
  /
-
- --------------------------------------------------------
---  KSEN_LUI_RV_GRP_RELTN
---------------------------------------------------------
-DECLARE temp NUMBER;
-BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_LUI_RV_GRP_RELTN';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_LUI_RV_GRP_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
-END;
-/
-
-create table  KSEN_LUI_RV_GRP_RELTN
-  (
-        ID VARCHAR2(255),
-	    LUI_ID varchar2(255),
-	    RV_GRP_ID varchar2(255)
-  )
-/

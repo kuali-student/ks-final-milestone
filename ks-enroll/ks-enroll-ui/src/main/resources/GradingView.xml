@@ -157,13 +157,6 @@ limitations under the License.
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.inquiryParameters">
-        <map>
-          <entry key="form.studentId" value="principalId"/>
-        </map>
-      </property>
-      <property name="renderLineActions" value="@{readOnly eq false}"/>
       <property name="items">
         <list>
           <bean parent="AttributeField" p:propertyName="firstName" p:label="First Name" p:readOnly="true">
@@ -176,14 +169,14 @@ limitations under the License.
               <bean parent="TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions" p:readOnly="@{readOnly}">
+          <bean parent="AttributeField" p:propertyName="selectedGrade" p:label="Grade" p:finalizeMethodToCall="populateGradeOptions">
             <property name="control">
               <bean parent="SelectControl">
               </bean>
             </property>
               <property name="propertyReplacers">
              <list>
-                <bean parent="PropertyReplacer" p:propertyName="control" p:condition="#line.percentGrade eq true">
+                <bean parent="PropertyReplacer" p:propertyName="control" p:condition="#line.percentGrade eq false">
                     <property name="replacement">
                     <bean parent="TextControl" p:size="26"/>
               </property>
@@ -195,7 +188,7 @@ limitations under the License.
       </property>
         <property name="actionFields">
               <list>
-                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade"/>
+                  <bean parent="ActionField_Small" p:methodToCall="unassignGrade" p:actionLabel="No Grade" p:title="No Grade" />
               </list>
         </property>
    </bean>
@@ -211,10 +204,9 @@ limitations under the License.
    <bean id="Grading_Footer_gradeRosterPage" parent="Footer">
       <property name="items">
         <list>
-          <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{readOnly eq false}"/>
-          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{readOnly eq false}" p:methodToCall="submit"/>
+          <bean parent="ActionField_Secondary" p:clientSideJs="saveForm();" p:actionLabel="Save" p:render="@{saveEnabled eq true}"/>
+          <bean parent="ActionField_Secondary" p:actionLabel="Submit" p:render="@{submitEnabled eq true}"/>
           <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
-          <bean parent="ActionLinkField" p:methodToCall="backToGrading" p:actionLabel="Back to Grading" p:style="text-align:center;"/>
         </list>
 
       </property>

@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 
 
 /**
@@ -45,7 +44,7 @@ import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
  * @Version: 1.0 (Dev) DRAFT - NOT READY FOR RELEASE.
  * @author Kuali Student Team (Kamal)
  */
-@WebService(name = "LearningResultRecordService", targetNamespace = LrrServiceConstants.NAMESPACE) // TODO CHECK THESE VALUES
+@WebService(name = "LearningResultRecordService", targetNamespace = "http://student.kuali.org/wsdl/lrr") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface LearningResultRecordService { 
 
@@ -79,21 +78,6 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
 	 */
     public List<LearningResultRecordInfo> getLearningResultRecordsForLpr(@WebParam(name="lprId")String lprId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    
-    /**
-     * 
-     * Retrieves a list of learning result records based on LPR and the type of LRR
-     * 
-     * @param lprId
-     * @param lrrType
-     * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     */
-    public List<LearningResultRecordInfo> getLearningResultRecordsForLprAndType(@WebParam(name="lprId")String lprId, @WebParam(name="lrrType")String lrrType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
 
     /** 

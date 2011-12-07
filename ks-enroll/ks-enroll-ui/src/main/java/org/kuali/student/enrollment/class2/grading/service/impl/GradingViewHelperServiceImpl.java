@@ -25,18 +25,12 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
-import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
-import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -44,7 +38,6 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
@@ -57,8 +50,6 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;
-    private GradingService gradingService;
-    private AcademicRecordService academicRecordService;
 
     @Override
     public void populateGradeOptions(AttributeField field, GradingForm gradingForm) {
@@ -69,7 +60,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                 && field.getControl() instanceof SelectControl) {
             GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
             for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
-                keyValues.add(new ConcreteKeyValue(option.getKey(), option.getValue()));
+                keyValues.add(new ConcreteKeyValue(option.getValue(), option.getValue()));
             }
             ((SelectControl) field.getControl()).setOptions(keyValues);
         }
@@ -95,33 +86,29 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         ContextInfo context = TestHelper.getContext1();
 
+        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(
+                GradingConstants.GRADING_SERVICE_URL, GradingConstants.GRADING_SERVICE_NAME));
         IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName(
                 GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
 
         List<GradeStudent> students = new ArrayList();
-        List<GradeRosterInfo> rosterInfos = getGradingService().getFinalGradeRostersForCourseOffering(selectedCourse, context);
-        gradingForm.setRosterInfos(rosterInfos);
-
+        List<GradeRosterInfo> rosterInfos = gradingService.getFinalGradeRostersForCourseOffering(selectedCourse,
+                context);
         if (rosterInfos != null) {
             for (GradeRosterInfo rosterInfo : rosterInfos) {
-                if (StringUtils.equals(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,rosterInfo.getStateKey())){
-                    gradingForm.setReadOnly(true);
+                if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey()) ||
+                    StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
+                    gradingForm.setSubmitEnabled(true);
+                    gradingForm.setSaveEnabled(true);
                 }
-
-                if (rosterInfo.getGradeRosterEntryIds().isEmpty()){
-                    return students;
-                }
-
-                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
-
-                if (!entryInfos.isEmpty() && entryInfos.get(0).getValidGradeGroupKeys().isEmpty()){
-                    GlobalVariables.getMessageMap().putWarning("selectedGrade",GradingConstants.WARNING_GRADING_OPTIONS_NOT_FOUND,"test");
-                    gradingForm.setReadOnly(true);
-                }
-
+                List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(
+                        rosterInfo.getGradeRosterEntryIds(), context);
+                int i = 0;
                 for (GradeRosterEntryInfo entryInfo : entryInfos) {
                     GradeStudent student = new GradeStudent();
-                    student.setGradeRosterEntryInfo(entryInfo);
+                    //FIXME:Temp flag set for testing, have to delete
+                    student.setPercentGrade(true);
+
                     student.setStudentId(entryInfo.getStudentId());
                     Entity entityInfo = identityService.getEntityByPrincipalId(entryInfo.getStudentId());
                     List<EntityName> entityNameInfos = entityInfo.getNames();
@@ -131,24 +118,32 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                             student.setLastName(entityNameInfo.getLastNameUnmasked());
                         }
                     }
+                    /*List<String> grades = gradingService.getValidGradeGroupKeysForStudentByRoster(
+                            entryInfo.getStudentId(), rosterInfo.getId(), context);
 
-                    List<String> validGradeGroupKeys = entryInfo.getValidGradeGroupKeys();
-
-                    List<GradeValuesGroupInfo> gradeValueInfos = getGradingService().getGradeGroupsByKeyList(validGradeGroupKeys, context);
+                    List<GradeValuesGroupInfo> gradeValueInfos = gradingService.getGradeGroupsByKeyList(grades, context);
                     student.setGradeValuesGroupInfoList(gradeValueInfos);
 
                     for (GradeValuesGroupInfo grade : gradeValueInfos) {
                         if (grade.getResultValueInfos() != null && !grade.getResultValueInfos().isEmpty()) {
                             student.getAvailabeGradingOptions().addAll(grade.getResultValueInfos());
-                            student.setPercentGrade(false);
-                        } else if (grade.getResultValueRange() != null) {
                             student.setPercentGrade(true);
+                        } else if (grade.getResultValueRange() != null) {
+                            student.setPercentGrade(false);
+                            // Populate the range info to the form.
                         }
-                    }
+                    }*/
 
-                    if (StringUtils.isNotBlank(entryInfo.getAssignedGradeKey())) {
-                        student.setSelectedGrade(entryInfo.getAssignedGradeKey());
+                    /*String assignedGrade = null;
+                    String assignedGradeKey = entryInfo.getAssignedGradeKey();
+
+                    // TODO change key to actual value - need to call Grading
+                    // Service getGrade method
+                    if (assignedGradeKey != null) {
+                        assignedGrade = assignedGradeKey;
+
                     }
+                    student.setSelectedGrade(assignedGrade);*/
 
                     students.add(student);
                 }
@@ -156,70 +151,6 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         }
 
         return students;
-    }
-
-    public boolean saveGrades(GradingForm gradingForm)throws Exception {
-
-        ContextInfo context = TestHelper.getContext1();
-
-        List<GradeStudent> gradeStudentList = gradingForm.getStudents();
-        boolean updateRoster = false;
-        for (GradeStudent gradeStudent : gradeStudentList) {
-            GradeRosterEntryInfo gradeRosterEntryInfo = gradeStudent.getGradeRosterEntryInfo();
-            String assignedGradeKey = gradeStudent.getSelectedGrade();
-            boolean returnValue = getGradingService().updateGrade(gradeRosterEntryInfo.getId(), assignedGradeKey, context);
-            if (returnValue){
-                updateRoster = true;
-            }
-        }
-
-        if (updateRoster){
-            for (GradeRosterInfo info : gradingForm.getRosterInfos()){
-                getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SAVED_STATE_KEY,context);
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean submitGradeRoster(GradingForm gradingForm)throws Exception {
-        boolean save = saveGrades(gradingForm);
-        ContextInfo context = TestHelper.getContext1();
-
-        for (GradeRosterInfo info : gradingForm.getRosterInfos()){
-            getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,context);
-        }
-
-        return true;
-    }
-
-    public void loadStudentGrades(StudentGradeForm studentGradeForm)
-    throws Exception {
-
-        List creditList = new ArrayList();
-
-        ContextInfo context = ContextInfo.newInstance();
-
-        TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
-
-        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
-        if (null != courseRecords) {
-            for (StudentCourseRecord courseRecord : courseRecords) {
-                StudentCredit credit = new StudentCredit();
-                // TODO - is this correct?
-                credit.setCourseId(courseRecord.getCourseCode());
-                // TODO - is this correct?
-                credit.setCourseName(courseRecord.getCourseTitle());
-
-                credit.setGrade(courseRecord.getAssignedGradeValue());
-                credit.setCredits(courseRecord.getCreditsEarned());
-                creditList.add(credit);
-            }
-        }
-
-        studentGradeForm.setCreditList(creditList);
-        studentGradeForm.setTitle(term.getName() + " Grades");
     }
 
     private TermInfo getCurrentACal(){
@@ -281,29 +212,15 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     protected AcademicCalendarService getAcalService() {
         if(acalService == null) {
-            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
         }
         return this.acalService;
     }
 
     protected CourseOfferingService getCOService(){
         if (coService == null){
-            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+            coService = (CourseOfferingService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOffering", "coService"));
         }
         return coService;
-    }
-
-    protected GradingService getGradingService() {
-        if (gradingService == null){
-            gradingService = (GradingService) GlobalResourceLoader.getService(new QName(GradingServiceConstants.NAMESPACE, GradingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return gradingService;
-    }
-
-    protected AcademicRecordService getAcademicRecordService() {
-        if (academicRecordService == null){
-            academicRecordService = (AcademicRecordService) GlobalResourceLoader.getService(new QName(AcademicRecordServiceConstants.NAMESPACE, AcademicRecordServiceConstants.SERVICE_NAME));
-        }
-        return academicRecordService;
     }
 }
