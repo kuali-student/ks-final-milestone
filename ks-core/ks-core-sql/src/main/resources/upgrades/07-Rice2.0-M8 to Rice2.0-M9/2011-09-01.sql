@@ -1,6 +1,3 @@
-alter table KREW_PPL_FLW_MBR_T drop constraint KREW_PPL_FLW_MBR_TC1
-/
-
 alter table KREW_PPL_FLW_MBR_T add (constraint KREW_PPL_FLW_MBR_TC1 unique ( PPL_FLW_ID, MBR_TYP_CD, MBR_ID ))
 /
 
