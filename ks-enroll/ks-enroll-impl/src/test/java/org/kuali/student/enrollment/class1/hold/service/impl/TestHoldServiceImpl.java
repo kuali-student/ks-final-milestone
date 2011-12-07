@@ -19,9 +19,6 @@ import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceAuthorizationDecorator;
 import org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -32,28 +29,26 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:hold-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestHoldServiceImpl {
+    @Autowired
     private HoldServiceAuthorizationDecorator holdService;
     
     public static String principalId = "123";
     
     public ContextInfo callContext = ContextInfo.newInstance();
-    
-    @Autowired
-    public void setHoldServiceValidation(HoldServiceValidationDecorator holdServiceValidationDecorator) {
-        this.holdService = holdServiceValidationDecorator;
-    }
-    
+
     @Before
     public void setUp() {
         principalId = "123";    
@@ -84,7 +79,36 @@ public class TestHoldServiceImpl {
         }
     }
     
-    
+    @Test
+    public void testGetIssuesByKeyList() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        List<String> issueKeys = new ArrayList<String>();
+        issueKeys.addAll(Arrays.asList("Hold-Issue-1", "Hold-Issue-2"));
+        
+        List<IssueInfo> issues = holdService.getIssuesByIds (issueKeys, callContext);
+        
+        assertNotNull(issues);
+        assertEquals(issueKeys.size(), issues.size());
+        
+        // check that all the expected ids came back
+        for(IssueInfo info : issues) {
+            issueKeys.remove(info.getId());
+        }
+        
+        assertTrue(issueKeys.isEmpty());
+        
+        // now make sure an exception is thrown for any not found keys
+        
+        List<String> fakeKeys = Arrays.asList("Hold-Issue-1", "fakeKey1", "fakeKey2");
+        
+        List<IssueInfo> shouldBeNull = null;
+        try {
+            shouldBeNull = holdService.getIssuesByIds(fakeKeys, callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
 
     
     @Test
@@ -119,23 +143,19 @@ public class TestHoldServiceImpl {
     	//info.setId("Test-Hold-1"); id should be system generated
     	info.setName("Test hold one");
         info.setPersonId("person.1");
-    	info.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
+    	info.setStateKey(HoldServiceConstants.HOLD_ACIVE_STATE_KEY);
     	info.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
     	info.setIssueId("Hold-Issue-1");
     	info.setEffectiveDate(Calendar.getInstance().getTime());
     	
     	HoldInfo created = null;
-//    	try{
-    	try {
+   	try {
             created = holdService.createHold(info, callContext);
-        } catch (ReadOnlyException e1) {
-            e1.printStackTrace();
+            assertNotNull(created);
+            assertEquals("Test hold one", created.getName());
+    	} catch (Exception e) {
+            fail(e.getMessage());
         }
-    	assertNotNull(created);
-        assertEquals("Test hold one", created.getName());
-//    	} catch (Exception e) {
-//            fail(e.getMessage());
-//        }
     	
     	try {
 			HoldInfo retrieved = holdService.getHold(created.getId(), callContext);
@@ -146,7 +166,7 @@ public class TestHoldServiceImpl {
 		}
     }
    
-    @Test 
+    @Test
     public void testGetHold()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
     	try{
     		holdService.getHold("Hold-blah", callContext);
@@ -158,7 +178,7 @@ public class TestHoldServiceImpl {
     		HoldInfo info = holdService.getHold("Hold-1", callContext);
     		assertNotNull(info);
     		assertEquals("Hold one", info.getName()); 
- 	        assertEquals(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY, info.getStateKey()); 
+ 	        assertEquals(HoldServiceConstants.HOLD_ACIVE_STATE_KEY, info.getStateKey()); 
  	        assertEquals(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY, info.getTypeKey()); 
  	        assertEquals("Hold Desc student", info.getDescr().getPlain()); 
     	} catch (Exception e) {
@@ -215,9 +235,59 @@ public class TestHoldServiceImpl {
     	
     }
 
-   
+    @Test
+    public void testGetRestrictionsByIssue() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RestrictionInfo> restrictions = holdService.getRestrictionsByIssue("Hold-Issue-1", callContext);
+        
+        assertNotNull(restrictions);
+        assertEquals(1, restrictions.size());
+        
+        List<String> expectedIds = new ArrayList<String>();
+        expectedIds.add("Hold-Restriction-1");
+        
+        // check that all the expected ids came back
+        for(RestrictionInfo info : restrictions) {
+            expectedIds.remove(info.getKey());
+        }
+        
+        assertTrue(expectedIds.isEmpty());
+        
+        List<RestrictionInfo> fakeRestrictions = null;
+        
+        try {
+            fakeRestrictions = holdService.getRestrictionsByIssue("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        }
+        catch(DoesNotExistException e) {
+            assertNull(fakeRestrictions);
+        }
+    }
     
-   
+    @Test
+    public void testGetRestrictionKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String expectedRestrictionType = "kuali.hold.restriction.type.registration";
+        
+        List<String> restrictionKeys = holdService.getRestrictionKeysByType(expectedRestrictionType, callContext);
+        
+        assertTrue(restrictionKeys.contains("Hold-Restriction-1"));
+        
+        String expectedEmptyRestrictionType = "kuali.hold.restriction.type.add.drop.class";
+        
+        restrictionKeys = holdService.getRestrictionKeysByType(expectedEmptyRestrictionType, callContext);
+        
+        assertTrue(restrictionKeys == null || restrictionKeys.isEmpty());
+        
+        String fakeRestrictionType = "fakeTypeKey";
+        
+        List<String> shouldBeNull = null;
+        try {
+            shouldBeNull = holdService.getRestrictionKeysByType(fakeRestrictionType, callContext);
+            fail("Did not get a InvalidParameterException when expected");
+        }
+        catch(InvalidParameterException e) {
+            assertNull(shouldBeNull);
+        }
+    }
     
     @Test
     public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {

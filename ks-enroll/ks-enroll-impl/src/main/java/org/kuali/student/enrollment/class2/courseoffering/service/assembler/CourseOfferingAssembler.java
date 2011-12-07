@@ -1,10 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
@@ -20,14 +15,13 @@ import org.kuali.student.r2.common.assembler.DTOAssembler;
 import org.kuali.student.r2.common.assembler.EntityDTOAssembler;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo, LuiInfo>{
 	private LuiService luiService;
@@ -72,15 +66,32 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			co.setTermKey(lui.getAtpKey());
 			co.setUnitsDeployment(lui.getUnitsDeployment());
 			co.setUnitsContentOwner(lui.getUnitsContentOwner());
-			
+
 			co.setFees(lui.getFees());
 			co.setRevenues(lui.getRevenues());
-			co.setExpenditure(lui.getExpenditure());
+            co.setGradingOptionKeys(lui.getResultValuesGroupKeys());
+
+            /*
+             * From Bonnie: Comment out setting for Expenditure since we got  DataValidationErrorException:
+             * Error(s) validating course offering Validation Results:
+             *             [2] Path: [expenditure.id] - error.outOfRange data=[null]
+             * the value of expenditure.id looks like this org.kuali.student.lum.course.dto.CourseExpenditureInfo@16a3516.
+             * Norm's input:
+             *  the problem is in the code I wrote a long time ago...
+             *  // TODO: worry about using the toString method for the id
+             *  r2.setId(r1.toString());
+             *  well I should have worried about it more... :(
+             *  I was using that as part of a mock impl where I needed a fake id but we should remove it
+             * it is in the R1ToR2CopyHelper.java
+             *
+             * After the above issue is fixed, we can revisit about   co.setExpenditure(lui.getExpenditure());
+             */
+//			co.setExpenditure(lui.getExpenditure());
 			co.setFormatIds(lui.getCluCluRelationIds());
 			
 			assembleIdentifier(lui, co);
 			
-			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionIds --- call LRCService.getResultValuesByIdList
+			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIdList
 			
 			//instructors
 			assembleInstructors(co, lui.getId(), context);
@@ -130,7 +141,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 		if(lprs != null && !lprs.isEmpty()){
 			List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 			for (LuiPersonRelationInfo lpr : lprs){
-				if(lpr != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
+				if(lpr != null && lpr.getTypeKey() != null && lpr.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)){
 					OfferingInstructorInfo instructor = new OfferingInstructorInfo();
 					instructor.setPersonId(lpr.getPersonId());
 					instructor.setPercentageEffort(lpr.getCommitmentPercent());
@@ -208,7 +219,10 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			lui.setAtpKey(co.getTermKey());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
-		
+			lui.setMaximumEnrollment(co.getMaximumEnrollment());
+			lui.setMinimumEnrollment(co.getMinimumEnrollment());
+		    lui.setResultValuesGroupKeys(co.getGradingOptionKeys());
+
 			lui.setFees(co.getFees());
 			lui.setExpenditure(co.getExpenditure());
 			lui.setRevenues(co.getRevenues());

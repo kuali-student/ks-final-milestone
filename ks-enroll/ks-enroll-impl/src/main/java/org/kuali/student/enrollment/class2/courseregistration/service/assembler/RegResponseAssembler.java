@@ -36,12 +36,12 @@ public class RegResponseAssembler implements DTOAssembler<RegResponseInfo, LprTr
 
     public RegResponseItemInfo assembleItem(LprTransactionItemInfo baseDTO, ContextInfo context) {
         RegResponseItemInfo regResponseItem = new RegResponseItemInfo();
-        if (baseDTO.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_WAITLIST_TYPE_KEY)) {
+        if (baseDTO.getTypeKey().equals(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY)) {
             regResponseItem.setCourseWaitlistEntryId(baseDTO.getLprTransactionItemResult().getResultingLprId());
         } else {
             regResponseItem.setCourseRegistrationId(baseDTO.getLprTransactionItemResult().getResultingLprId());
         }
-
+        regResponseItem.setRegRequestItemId(baseDTO.getId());
         OperationStatusInfo operationStatus = new OperationStatusInfo();
         operationStatus.setStatus(baseDTO.getLprTransactionItemResult().getStatus());
         operationStatus.setMessages(baseDTO.getLprTransactionItemResult().getMessages());
