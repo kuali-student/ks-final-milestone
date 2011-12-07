@@ -157,6 +157,8 @@ public class LuServiceImpl implements LuService {
 	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
 	private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
 	private static final String SEARCH_KEY_LU_RESULT_COMPONENTS = "lu.search.resultComponents";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERIC = "cluset.search.generic";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS = "cluset.search.genericWithClus";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -3128,6 +3130,14 @@ public class LuServiceImpl implements LuService {
         	return doBrowseVersionsSearch(searchRequest);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
         	return doResultComponentTypesForCluSearch(searchRequest);
+        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
+    		//If any clu specific params are set, use a search key that has the clu defined in the JPQL 
+        	for(SearchParam param:searchRequest.getParams()){
+    			if(param.getKey().contains("queryParam.luOptional")){
+    				searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
+    				break;
+    			}
+    		}
         }
         return searchManager.search(searchRequest, luDao);
 	}

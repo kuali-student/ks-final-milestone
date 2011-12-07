@@ -976,6 +976,9 @@
 			<ref bean="cluset.criteria.cluAdvancedCriteria"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	<!-- This search type is a special case, when there are query params that involve a clu -->
+	<!-- The code to handle the switching is done in the search implementation -->
+	<search:searchType id="cluset.search.genericWithClus" parent="cluset.search.generic-parent"/>
 
     <search:resultColumn id="cluset.resultColumn.cluSetId" parent="cluset.resultColumn.cluSetId-parent"/>
 	<search:resultColumn id="cluset.resultColumn.cluSetId-parent"  abstract="true">
@@ -1809,6 +1812,15 @@
 
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain, cluset.type
+		            FROM CluSet cluset
+		            LEFT JOIN cluset.cluVerIndIds cluVerIndId 
+		            LEFT JOIN cluset.cluSets subcluset
+		            LEFT JOIN cluset.descr clusetDescr
+		            </value>
+		        </entry>
+		        
+		        <entry key="cluset.search.genericWithClus">
+		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain, cluset.type
 		            FROM Clu clu, CluSet cluset
 		            LEFT JOIN cluset.cluVerIndIds cluVerIndId 
 		            LEFT JOIN cluset.cluSets subcluset
@@ -1816,6 +1828,7 @@
 		            WHERE clu.version.versionIndId = cluVerIndId.cluVersionIndId
 		            </value>
 		        </entry>
+		        
 				<entry key="lu.search.cluCluRelation">
 				    <value>SELECT rel.clu.id, rel.relatedClu.id FROM CluCluRelation rel</value>
 				</entry>
