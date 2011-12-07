@@ -27,31 +27,28 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.infc.Context;
+import org.kuali.student.r2.common.infc.Locale;
 import org.w3c.dom.Element;
 
 /**
  * @author Kamal
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ContextInfo", propOrder = {"principalId", "localeLanguage", "localeVariant", "localeRegion", "localeScript", "timeZone", "attributes", "_futureElements"})
+@XmlType(name = "ContextInfo", propOrder = {"principalId", "locale", "timeZone", "attributes", "_futureElements"})
 public class ContextInfo extends HasAttributesInfo implements Context, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String principalId;
     @XmlElement
-    private String localeLanguage;
-    @XmlElement
-    private String localeVariant;
-    @XmlElement
-    private String localeRegion;
-    @XmlElement
-    private String localeScript;
+    private LocaleInfo locale;
     @XmlElement
     private String timeZone;
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
 
     public static ContextInfo newInstance() {
@@ -68,33 +65,31 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         return new ContextInfo(callContext);
     }
     
-    public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
+    public static ContextInfo getInstance(String principalId, Locale locale) {
         ContextInfo ctx = new ContextInfo();
-        
-        ctx.setPrincipalId(principalId);
-        ctx.setLocaleLanguage(localeLanguage);
-        ctx.setLocaleRegion(localeRegion);
-        
+        ctx.principalId = principalId;
+        ctx.locale = (null != locale) ? new LocaleInfo(locale) : null;
         return ctx;
+    }
+
+    public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
+
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeLanguage);
+        localeInfo.setLocaleRegion(localeRegion);
+        return ContextInfo.getInstance(principalId, localeInfo);
     }
     
     public ContextInfo() {
-        principalId = null;
-        localeLanguage = null;
-        localeVariant = null;
-        localeRegion = null;
-        localeScript = null;
-        timeZone = null;
-        _futureElements = null;
+        this.locale = new LocaleInfo();
     }
 
     public ContextInfo(Context context) {
         super(context);
         this.principalId = context.getPrincipalId();
-        this.localeLanguage = context.getLocaleLanguage();
-        this.localeVariant = context.getLocaleVariant();
-        this.localeRegion = context.getLocaleRegion();
-        this.localeScript = context.getLocaleScript();
+        if (null != context.getLocale()) {
+            this.locale = (null != context.getLocale()) ? new LocaleInfo(context.getLocale()) : null;
+        }
         this.timeZone = context.getTimeZone();
         this._futureElements = null;
     }
@@ -109,44 +104,15 @@ public class ContextInfo extends HasAttributesInfo implements Context, Serializa
         this.principalId = principalId;
     }
 
+
     @Override
-    public String getLocaleLanguage() {
-        return localeLanguage;
+    public Locale getLocale() {
+        return this.locale;
     }
 
     
-    public void setLocaleLanguage(String localeLanguage) {
-        this.localeLanguage = localeLanguage;
-    }
-
-    @Override
-    public String getLocaleVariant() {
-        return localeVariant;
-    }
-
-    
-    public void setLocaleVariant(String localeVariant) {
-        this.localeVariant = localeVariant;
-    }
-
-    @Override
-    public String getLocaleRegion() {
-        return localeRegion;
-    }
-
-    
-    public void setLocaleRegion(String localeRegion) {
-        this.localeRegion = localeRegion;
-    }
-
-    @Override
-    public String getLocaleScript() {
-        return localeScript;
-    }
-
-    
-    public void setLocaleScript(String localeScript) {
-        this.localeScript = localeScript;
+    public void setLocale(LocaleInfo locale) {
+        this.locale = locale;
     }
 
     @Override

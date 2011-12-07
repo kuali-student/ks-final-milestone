@@ -16,6 +16,7 @@
 package org.kuali.student.r2.common.messages.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.infc.HasKey;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.messages.infc.Message;
 import org.w3c.dom.Element;
@@ -33,11 +34,12 @@ import java.util.List;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MessageInfo", propOrder = { "id", "typeKey", "stateKey",
-        "locale", "groupName", "value",
-        "meta", "attributes", "_futureElements" })
-public class MessageInfo extends IdNamelessEntityInfo implements Serializable, Message {
+@XmlType(name = "MessageInfo", propOrder = { "key", "locale", "groupName", "value", "_futureElements" })
+public class MessageInfo implements Message, Serializable {
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String key;
 
     @XmlElement
     protected String locale;
@@ -55,8 +57,6 @@ public class MessageInfo extends IdNamelessEntityInfo implements Serializable, M
     }
 
     public MessageInfo(Message message) {
-        super(message);
-
         if(null != message) {
             this.locale = message.getLocale();
             this.groupName = message.getGroupName();
@@ -65,8 +65,17 @@ public class MessageInfo extends IdNamelessEntityInfo implements Serializable, M
     }
 
     @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public String getLocale() {
-        return locale;
+        return this.locale;
     }
 
     public void setLocale(String locale) {
@@ -75,7 +84,7 @@ public class MessageInfo extends IdNamelessEntityInfo implements Serializable, M
 
     @Override
     public String getGroupName() {
-        return groupName;
+        return this.groupName;
     }
 
     public void setGroupName(String groupName) {
@@ -84,7 +93,7 @@ public class MessageInfo extends IdNamelessEntityInfo implements Serializable, M
 
     @Override
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     public void setValue(String value) {

@@ -16,7 +16,7 @@
 
 package org.kuali.student.r2.common.infc;
 
-/**
+/*
  * This is a generic context container to be used by services to pass
  * user identity and preferences
  *
@@ -31,6 +31,9 @@ package org.kuali.student.r2.common.infc;
  * http://download.oracle.com/javase/1.4.2/docs/api/java/util/TimeZone.html
  *
  * @author Kamal
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
  */
 
 public interface Context extends HasAttributes {
@@ -43,31 +46,13 @@ public interface Context extends HasAttributes {
      * @name Principal Id
      */
     public String getPrincipalId();
-   
 
     /**
-     * Language portion of the locale information used in this context
-     * @name Locale Language
+     * Locale information associated with this context
+     *
+     * @name Locale
      */
-    public String getLocaleLanguage();
-   
-    /**
-     * Language variant portion of the locale information to be used in this context
-     * @name Locale Language Variant
-     */
-    public String getLocaleVariant();
-   
-    /**
-     * Language Region portion of the locale information to be used in this context
-     * @name Locale Region
-     */
-    public String getLocaleRegion();
-   
-    /**
-     * Language Script to be used in this context
-     * @name Locale Script
-     */
-    public String getLocaleScript();
+    public Locale getLocale();
    
     /**
      * The time zone to be used in this context

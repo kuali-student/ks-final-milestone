@@ -15,6 +15,7 @@
 package org.kuali.student.r2.common.messages.service;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -23,12 +24,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.messages.dto.LocaleKeysInfo;
-import org.kuali.student.r2.common.messages.dto.MessageGroupKeysInfo;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
-import org.kuali.student.r2.common.messages.dto.MessagesInfo;
 
 import javax.jws.WebParam;
+import java.util.List;
 
 /**
  * Refer to service contract javadoc
@@ -52,42 +51,42 @@ public class MessageServiceDecorator implements MessageService {
         this.nextDecorator = nextDecorator;
     }
     @Override
-    public LocaleKeysInfo getLocales(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LocaleInfo> getLocales(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLocales(contextInfo);
     }
 
     @Override
-    public MessageGroupKeysInfo getMessageGroups(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMessageGroups(contextInfo);
+    public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMessageGroupKeys(contextInfo);
     }
 
     @Override
-    public MessageInfo getMessage(@WebParam(name = "localeKey") String localeKey, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMessage(localeKey, messageGroupKey, messageKey, contextInfo);
+    public MessageInfo getMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMessage(localeInfo, messageGroupKey, messageKey, contextInfo);
     }
 
     @Override
-    public MessagesInfo getMessages(@WebParam(name = "localeKey") String localeKey, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMessages(localeKey, messageGroupKey, contextInfo);
+    public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMessages(localeInfo, messageGroupKey, contextInfo);
     }
 
     @Override
-    public MessagesInfo getMessagesByGroups(@WebParam(name = "localeKey") String localeKey, @WebParam(name = "messageGroupKeys") MessageGroupKeysInfo messageGroupKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMessagesByGroups(localeKey, messageGroupKeys, contextInfo);
+    public List<MessageInfo> getMessagesByGroups(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKeys") List<String> messageGroupKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMessagesByGroups(localeInfo, messageGroupKeys, contextInfo);
     }
 
     @Override
-    public MessageInfo updateMessage(@WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateMessage(messageKey, messageInfo, contextInfo);
+    public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateMessage(localeInfo, messageKey, messageInfo, contextInfo);
     }
 
     @Override
-    public StatusInfo deleteMessage(@WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteMessage(messageKey, contextInfo);
+    public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteMessage(localeInfo, messageKey, contextInfo);
     }
 
     @Override
-    public StatusInfo addMessage(@WebParam(name = "localeKey") String localeKey, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().addMessage(localeKey, messageGroupKey, messageInfo, contextInfo);
+    public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().addMessage(localeInfo, messageGroupKey, messageInfo, contextInfo);
     }
 }

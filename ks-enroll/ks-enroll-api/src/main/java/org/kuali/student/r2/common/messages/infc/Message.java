@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.common.messages.infc;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.HasKey;
 
 /**
  *  Information about a message
@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.IdNamelessEntity;
  * @Author Sri komandur@uw.edu
  *
  */
-public interface Message extends IdNamelessEntity {
+public interface Message extends HasKey {
 
     /**
      * Unique identifier for a locale
