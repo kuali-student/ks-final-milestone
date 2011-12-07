@@ -30,6 +30,7 @@ import org.kuali.student.security.saml.service.SamlIssuerService;
 import org.kuali.student.security.util.SamlUtils;
 import org.opensaml.SAMLAssertion;
 import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.providers.AbstractAuthenticationToken;
 import org.springframework.security.providers.cas.CasAuthenticationToken;
 import org.springframework.security.ui.FilterChainOrder;
 import org.springframework.security.ui.SpringSecurityFilter;
@@ -44,9 +45,9 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     @Override
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+    	AbstractAuthenticationToken cat = (AbstractAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         
-        if(cat != null && !isSAMLInSecurityContext()){
+        if(cat != null && cat instanceof CasAuthenticationToken && !isSAMLInSecurityContext()){
             // This is not a SAML Assertion. It is CAS specific way to hold information about the authenticated user.
             // The information is returned from the CAS server as a response to a validation request.
             Assertion casAssertion = null;
@@ -54,8 +55,8 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
             String principal = null;
             
             System.out.println("ProxyTicketRetrieverFilter : inside if");
-            casAssertion = cat.getAssertion();
-            if(casAssertion != null){
+        	casAssertion = ((CasAuthenticationToken)cat).getAssertion();
+            if (casAssertion != null){
                 System.out.println("ProxyTicketRetrieverFilter : casAssertion is not null");
                 if(useCasProxyMechanism){
                     proxyTicket = casAssertion.getPrincipal().getProxyTicketFor(proxyTargetService);
@@ -96,7 +97,7 @@ public class ProxyTicketRetrieverFilter extends SpringSecurityFilter {
     }
     
     private boolean isSAMLInSecurityContext(){
-        CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+    	AbstractAuthenticationToken cat = (AbstractAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
         if(cat.getDetails() instanceof SAMLAssertion){
             return true;
         }
