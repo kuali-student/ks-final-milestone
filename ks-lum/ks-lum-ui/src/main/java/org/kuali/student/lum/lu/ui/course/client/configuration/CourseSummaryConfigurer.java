@@ -90,7 +90,7 @@ public class CourseSummaryConfigurer extends Configurer implements
     private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
     private boolean showingValidation = false;
 
-    private List<StatementTypeInfo> stmtTypes;
+    protected List<StatementTypeInfo> stmtTypes;
 
     protected Controller controller;
     protected SummaryTableSection tableSection; // review proposal data display
@@ -853,7 +853,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         return block;
     }
 
-    private FieldDescriptorReadOnly addRequisiteField(final FlowPanel panel,
+    protected FieldDescriptorReadOnly addRequisiteField(final FlowPanel panel,
             final StatementTypeInfo stmtType) {
 
         final ModelWidgetBinding<FlowPanel> widgetBinding = new ModelWidgetBinding<FlowPanel>() {
@@ -891,7 +891,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         return requisiteField;
     }
 
-    private FieldDescriptorReadOnly addRequisiteFieldComp(
+    protected FieldDescriptorReadOnly addRequisiteFieldComp(
             final FlowPanel panel, final StatementTypeInfo stmtType) {
 
         final ModelWidgetBinding<FlowPanel> widgetBinding = new ModelWidgetBinding<FlowPanel>() {
