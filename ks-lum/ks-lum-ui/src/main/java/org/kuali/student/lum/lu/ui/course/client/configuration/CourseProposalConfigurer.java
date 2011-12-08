@@ -767,7 +767,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     }
     
-    private void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
+    protected void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
         if (section != null){
             List<FieldDescriptor> fields = section.getFields(); 
             if ((fields != null) && (fields.size() > 0)){
