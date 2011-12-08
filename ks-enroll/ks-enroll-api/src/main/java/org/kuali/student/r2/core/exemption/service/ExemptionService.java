@@ -55,8 +55,6 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  * govern what data is stored in the Exemption structure. Current
  * types include:
  *
- *     Restriction Exemption: overrides a Restriction in the Hold Service
- *     Statement Exemption: overrides a Statement in the Statement Service to true
  *     Date Exemption: overrides a Milestone in ATP with a Date
  *     Milestone Exemption: overrides a Milestone in ATP with another Milestone
  *
@@ -70,6 +68,8 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
  * A code example that demonstrates a way to check for Exemptions
  * while performing a task with restrictions, deadlines, and statement
  * evaluations:
+ *
+ * NEEDS UPDATING
  *
  * <pre>
  * pretendToRegisterStudentInCourse(String personId, RegstrationGroup regGrp) {
@@ -178,40 +178,6 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
 
     /** 
      * Retrieves an active effective exemption for a person to
-     * override a Restriction. An effective exemption is one with an
-     * active state, the current date falls within the effective
-     * date range, and the use count is less than the use limit.
-     *
-     * Exemptions may have a qualifier which serves to scope the
-     * Exemption. An Exemption that is unqualified is global such that
-     * any Exemption that is related to the person and restriction may
-     * be returned. Otherwise, the qualifier and qualifier type in the
-     * Exemption must match the given qualifier and qualifier type.
-     *
-     * In the case multiple Exemptions meet the criteria, the
-     * implementation chooses the one that expires the soonest.
-     *
-     * The Check to which the Exemption applies is implied by the
-     * Restriction.
-     *
-     * @param personId a unique Id of the Person
-     * @param restrictionKey a unique key for the restriction to exempt
-     * @param qualifierTypeKey the key for a qualifier type
-     * @param qualifierId the Id for a qualifier
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return an Exemption if one exists
-     * @throws DoesNotExistException no valid exemption exists
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-     ExemptionInfo retrieveRestrictionExemption(@WebParam(name="personId") String personId, @WebParam(name = "restrictionKey") String restrictionKey, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieves an active effective exemption for a person to
      * override a Milestone. An effective exemption is one with an
      * active state, the current date falls within the effective
      * date range, and the use count is less than the use limit.
@@ -281,43 +247,6 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      ExemptionInfo retrieveDateExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "milestoneKey") String milestoneKey, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
-     * Retrieves an active effective exemption for a person to
-     * override a Milestone. An effective exemption is one with an
-     * active state, the current date falls within the effective
-     * date range, and the use count is less than the use limit.
-     *
-     * The Statement Override instructs the caller to evaluate the
-     * given statement as true.
-     *
-     * Exemptions may have a qualifier which serves to scope the
-     * Exemption. An Exemption that is unqualified is global such that
-     * any Exemption that is related to the person and restriction may
-     * be returned. Otherwise, the qualifier and qualifier type in the
-     * Exemption must match the given qualifier and qualifier type.
-     *
-     * In the case multiple Exemptions meet the criteria, the
-     * implementation chooses the one that expires the soonest.
-     *
-     * @param checkKey a key indicating the check to which the
-     *        exemption applies
-     * @param personId a unique Id of the Person
-     * @param statementId a unique Id for a Statement
-     * @param statementAnchorId the Statement anchor
-     * @param qualifierTypeKey the key for a qualifier type
-     * @param qualifierId the Id for a qualifier
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return an Exemption if one exists
-     * @throws DoesNotExistException no valid exemption exists
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-     ExemptionInfo retrieveStatementExemption(@WebParam(name = "checkKey") String checkKey, @WebParam(name="personId") String personId, @WebParam(name = "statementId") String statementId, @WebParam(name = "statementAnchorId") String statementAnchorId, @WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
      * Indicate that the given Exemption has been used successfully in
      * a transaction. This method increments the Exemption use count.
      *
@@ -339,22 +268,6 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * This set of methods examines all Exemptions as it
      * related to a person.
      */
-
-    /** 
-     * Gets a list of all exemptions by qualfiier. 
-     *
-     * @param qualifierTypeKey the qualifier type
-     * @param qualifierId the qualifier
-     * @param context Context information containing the principalId
-     *                and locale information about the caller of service
-     *                operation
-     * @return a list of Exemptions
-     * @throws InvalidParameterException invalid parameter
-     * @throws MissingParameterException missing parameter
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<ExemptionInfo> getExemptionsByQualifier(@WebParam(name = "qualifierTypeKey") String qualifierTypeKey, @WebParam(name = "qualifierId") String qualifierId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Gets a list of all exemptions for a Person.
@@ -652,7 +565,7 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
     /** 
      * Retrieves a list Exemption Request Ids by Check Key.
      *
-     * @param checkKey a unique key for a Check
+     * @param checkId a unique key for a Check
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -662,7 +575,7 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getExemptionRequestIdsByCheck(@WebParam(name = "checkId") String checkId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates an ExemptionRequest. Depending on the value of

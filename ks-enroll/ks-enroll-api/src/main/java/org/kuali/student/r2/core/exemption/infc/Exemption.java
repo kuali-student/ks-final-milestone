@@ -36,86 +36,65 @@ import java.util.Date;
 public interface Exemption extends IdEntity {
 
     /**
-     * Name: Exemption Request Id
      * The Id of the Exemption Request.
+     *
+     * @name Exemption Request Id
      */
     public String getExemptionRequestId();
 
     /**
-     * Name: Exempted Person Id
      * The Id of the Person exempted.
+     *
+     * @name Exempted Person Id
      */
     public String getExemptedPersonId();
 
     /**
-     * Name: Qualifier Type Key
-     * The Type of a Qualifier to scope the Exemption.
-     */
-    public String getQualifierTypeKey();
-
-    /**
-     * Name: Qualifier Id
-     * The Id of a Qualifier to scope the Exemption.
-     */
-    public String getQualifierId();
-
-    /**
-     * Name: Effective Date
      * The date this exemption becomes effective.
+     *
+     * @name Effective Date
      */
     public Date getEffectiveDate();
 
     /**
-     * Name: Expiration Date
      * The date this exemption expires.
+     *
+     * @name Expiration Date
      */
     public Date getExpirationDate(); 
 
     /**
-     * Name: Use Limit
      * The number of times this Exemption may be used.
+     *
+     * @name Use Limit
      */
     public Integer getUseLimit();
 
     /**
-     * Name: Use Count
      * The number of times this Exemption was marked as used.
+     *
+     * @name Use Count
      */
     public Integer getUseCount();
 
     /**
-     * Name: Restriction Override
-     * The data for a restriction override.
-     */
-    public RestrictionOverride getRestrictionOverride(); 
-
-    /**
-     * Name: Date Override
      * The data for a date override.
+     *
+     * @name Date Override
      */
     public DateOverride getDateOverride(); 
 
     /**
-     * Name: Milestone Override
      * The data for a milestone override.
+     *
+     * @name Milestone Override
      */
     public MilestoneOverride getMilestoneOverride(); 
 
     /**
-     * Name: Statement Override
-     * The data for a statement override.
-     */
-    public StatementOverride getStatementOverride(); 
-
-    /**
-     * Name: Hold Override
-     * The data for a hold override.
-     */
-    public HoldOverride getHoldOverride(); 
-
-    /**
-     * Name: Learning Result Override
      * The data for a learning result override.
+     *
+     * @name Learning Result Override
      */
     public LearningResultOverride getLearningResultOverride(); 
 }

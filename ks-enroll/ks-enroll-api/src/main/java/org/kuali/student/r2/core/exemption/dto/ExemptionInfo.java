@@ -20,23 +20,20 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.exemption.infc.Exemption;
-import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
-import org.kuali.student.r2.core.exemption.infc.RestrictionOverride;
-import org.kuali.student.r2.core.exemption.infc.DateOverride;
-import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
-import org.kuali.student.r2.core.exemption.infc.StatementOverride;
-import org.kuali.student.r2.core.exemption.infc.HoldOverride;
-import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
-
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.exemption.infc.Exemption;
+import org.kuali.student.r2.core.exemption.infc.DateOverride;
+import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
+import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExemptionInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "exemptionRequestId",
-        "exemptedPersonId", "qualifierTypeKey", "qualifierId", "effectiveDate", "expirationDate", "useLimit",
-        "useCount", "restrictionOverride", "dateOverride", "milestoneOverride", "statementOverride", "holdOverride",
-        "learningResultOverride", "meta", "attributes", "_futureElements"})
+@XmlType(name = "ExemptionInfo", propOrder = {"id", "typeKey", "stateKey", 
+                "name", "descr", "exemptionRequestId",
+                "exemptedPersonId", "effectiveDate", "expirationDate", 
+                "useLimit", "useCount", "dateOverride", "milestoneOverride",
+                "learningResultOverride", "meta", "attributes", "_futureElements"})
 public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -45,12 +42,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
     @XmlElement
     private String exemptedPersonId;
-
-    @XmlElement
-    private String qualifierTypeKey;
-
-    @XmlElement
-    private String qualifierId;
 
     @XmlElement
     private Date effectiveDate;
@@ -65,46 +56,19 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
     private Integer useCount;
 
     @XmlElement
-    private RestrictionOverrideInfo restrictionOverride;
+    private DateOverrideInfo dateOverrideInfo;
 
     @XmlElement
-    private DateOverrideInfo dateOverride;
+    private MilestoneOverrideInfo milestoneOverrideInfo;
 
     @XmlElement
-    private MilestoneOverrideInfo milestoneOverride;
-
-    @XmlElement
-    private StatementOverrideInfo statementOverride;
-
-    @XmlElement
-    private HoldOverrideInfo holdOverride;
-
-    @XmlElement
-    private LearningResultOverrideInfo learningResultOverride;
+    private LearningResultOverrideInfo learningResultOverrideInfo;
 
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public ExemptionInfo() {
         super();
-
-        exemptionRequestId = null;
-        exemptedPersonId = null;
-        qualifierTypeKey = null;
-        qualifierId = null;
-        effectiveDate = null;
-        expirationDate = null;
-        useLimit = null;
-        useCount = null;
-
-        restrictionOverride = null;
-        dateOverride = null;
-        milestoneOverride = null;
-        statementOverride = null;
-        holdOverride = null;
-        learningResultOverride = null;
-
-        _futureElements = null;
     }
 
     /**
@@ -115,38 +79,25 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
      */
     public ExemptionInfo(Exemption exemption) {
         super(exemption);
+
         if (null != exemption) {
             this.exemptionRequestId = exemption.getExemptionRequestId();
             this.exemptedPersonId = exemption.getExemptedPersonId();
-            this.qualifierTypeKey = exemption.getQualifierTypeKey();
-            this.qualifierId = exemption.getQualifierId();
             this.effectiveDate = exemption.getEffectiveDate();
             this.expirationDate = exemption.getExpirationDate();
             this.useLimit = exemption.getUseLimit();
             this.useCount = exemption.getUseCount();
 
-            if (exemption.getRestrictionOverride() != null) {
-                this.restrictionOverride = new RestrictionOverrideInfo(exemption.getRestrictionOverride());
-            }
-
             if (exemption.getDateOverride() != null) {
-                this.dateOverride = new DateOverrideInfo(exemption.getDateOverride());
+                this.dateOverrideInfo = new DateOverrideInfo(exemption.getDateOverride());
             }
 
             if (exemption.getMilestoneOverride() != null) {
-                this.milestoneOverride = new MilestoneOverrideInfo(exemption.getMilestoneOverride());
-            }
-
-            if (exemption.getStatementOverride() != null) {
-                this.statementOverride = new StatementOverrideInfo(exemption.getStatementOverride());
-            }
-
-            if (exemption.getHoldOverride() != null) {
-                this.holdOverride = new HoldOverrideInfo(exemption.getHoldOverride());
+                this.milestoneOverrideInfo = new MilestoneOverrideInfo(exemption.getMilestoneOverride());
             }
 
             if (exemption.getLearningResultOverride() != null) {
-                this.learningResultOverride = new LearningResultOverrideInfo(exemption.getLearningResultOverride());
+                this.learningResultOverrideInfo = new LearningResultOverrideInfo(exemption.getLearningResultOverride());
             }
         }
 
@@ -169,24 +120,6 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
     public void setExemptedPersonId(String exemptedPersonId) {
         this.exemptedPersonId = exemptedPersonId;
-    }
-
-    @Override
-    public String getQualifierTypeKey() {
-        return qualifierTypeKey;
-    }
-
-    public void setQualfiierTypeKey(String qualiferTypeKey) {
-        this.qualifierTypeKey = qualifierTypeKey;
-    }
-
-    @Override
-    public String getQualifierId() {
-        return qualifierId;
-    }
-
-    public void setQualfiierId(String qualiferId) {
-        this.qualifierId = qualifierId;
     }
 
     @Override
@@ -226,56 +159,29 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
     }
 
     @Override
-    public RestrictionOverrideInfo getRestrictionOverride() {
-        return restrictionOverride;
+    public DateOverride getDateOverride() {
+        return dateOverrideInfo;
     }
 
-    public void setRestrictionOverride(RestrictionOverride restrictionOverride) {
-        this.restrictionOverride = new RestrictionOverrideInfo(restrictionOverride);
-    }
-
-    @Override
-    public DateOverrideInfo getDateOverride() {
-        return dateOverride;
-    }
-
-    public void setDateOverride(DateOverride dateOverride) {
-        this.dateOverride = new DateOverrideInfo(dateOverride);
+    public void setDateOverride(DateOverrideInfo dateOverrideInfo) {
+        this.dateOverrideInfo = new DateOverrideInfo(dateOverrideInfo);
     }
 
     @Override
-    public MilestoneOverrideInfo getMilestoneOverride() {
-        return milestoneOverride;
+    public MilestoneOverride getMilestoneOverride() {
+        return milestoneOverrideInfo;
     }
 
-    public void setMilestoneOverride(MilestoneOverride milestoneOverride) {
-        this.milestoneOverride = new MilestoneOverrideInfo(milestoneOverride);
-    }
-
-    @Override
-    public StatementOverrideInfo getStatementOverride() {
-        return statementOverride;
-    }
-
-    public void setStatementOverride(StatementOverride statementOverride) {
-        this.statementOverride = new StatementOverrideInfo(statementOverride);
+    public void setMilestoneOverride(MilestoneOverrideInfo milestoneOverrideInfo) {
+        this.milestoneOverrideInfo = milestoneOverrideInfo;
     }
 
     @Override
-    public HoldOverrideInfo getHoldOverride() {
-        return holdOverride;
+    public LearningResultOverride getLearningResultOverride() {
+        return learningResultOverrideInfo;
     }
 
-    public void setHoldOverride(HoldOverride holdOverride) {
-        this.holdOverride = new HoldOverrideInfo(holdOverride);
-    }
-
-    @Override
-    public LearningResultOverrideInfo getLearningResultOverride() {
-        return learningResultOverride;
-    }
-
-    public void setLearningResultOverride(LearningResultOverride learningResultOverride) {
-        this.learningResultOverride = new LearningResultOverrideInfo(learningResultOverride);
+    public void setLearningResultOverride(LearningResultOverrideInfo learningResultOverrideInfo) {
+        this.learningResultOverrideInfo = learningResultOverrideInfo;
     }
 }

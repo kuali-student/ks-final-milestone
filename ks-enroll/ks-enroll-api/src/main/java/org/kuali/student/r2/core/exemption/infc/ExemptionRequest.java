@@ -37,81 +37,70 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface ExemptionRequest extends IdEntity {
 
     /**
-     * Name: Check Key
-     * The key of a Check that indicates to what
+     * The key of a Process that indicates to what Process in the
      * the exemption is applied.
+     *
+     * @name Process Key
+     * @required
      */
-    public String getCheckKey();
+    public String getProcessKey();
+
+    /**
+     * The Id of a Check that indicates to what Check in the Process
+     * the exemption is applied.
+     *
+     * @name Check Id
+     */
+    public String getCheckId();
  
     /**
-     * Name: Person Id
      * The Id of the Person making the request.
+     *
+     * @name Requester Id
+     * @required
      */
-    public String getPersonId();
+    public String getRequesterId();
 
     /**
-     * Name: Qualifier Type Key
-     * The Type of a Qualifier to scope the Exemption.
-     */
-    public String getQualifierTypeKey();
-
-    /**
-     * Name: Qualifier Id
-     * The Id of a Qualifier to scope the Exemption.
-     */
-    public String getQualifierId();
-
-    /**
-     * Name: Request Date
-     * The date this exemption request.
+     * The date of this exemption request.
+     *
+     * @name Request Date
+     * @required
      */
     public Date getRequestDate();
 
     /**
-     * Name: Approved By Person Id
      * The Id of the Person who approved this request.
+     *
+     * @name Approved By Person Id
      */
     public String getApprovedByPersonId();
 
     /**
-     * Name: Approved Date
      * The date this request was approved.
+     *
+     * @name Approved Date
      */
     public Date getApprovedDate();
 
     /**
-     * Name: Restriction Override
-     * The data for a restriction override request.
-     */
-    public RestrictionOverride getRestrictionOverride(); 
-
-    /**
-     * Name: Date Override
      * The data for a date override.
+     *
+     * @name Date Override
      */
     public DateOverride getDateOverride(); 
 
     /**
-     * Name: Milestone Override
      * The data for a milestone override.
+     *
+     * @name Milestone Override
      */
     public MilestoneOverride getMilestoneOverride(); 
 
     /**
-     * Name: Hold Override
-     * The data for a hold override.
-     */
-    public HoldOverride getHoldOverride(); 
-
-    /**
-     * Name: Statement Override
-     * The data for a statement override.
-     */
-    public StatementOverride getStatementOverride(); 
-
-    /**
-     * Name: Learning Result Override
      * The data for a learning result override.
+     *
+     * @name Learning Result Override
      */
     public LearningResultOverride getLearningResultOverride(); 
 }
