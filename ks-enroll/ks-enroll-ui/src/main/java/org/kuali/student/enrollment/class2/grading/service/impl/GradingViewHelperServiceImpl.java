@@ -31,6 +31,7 @@ import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
@@ -38,6 +39,7 @@ import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.test.utilities.TestHelper;
 
@@ -98,8 +100,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
             for (GradeRosterInfo rosterInfo : rosterInfos) {
                 if (StringUtils.equals("kuali.assessment.roster.state.ready",rosterInfo.getStateKey()) ||
                     StringUtils.equals("kuali.assessment.roster.state.saved",rosterInfo.getStateKey())){
-                    gradingForm.setSubmitEnabled(true);
-                    gradingForm.setSaveEnabled(true);
+                    gradingForm.setReadOnly(true);
                 }
                 List<GradeRosterEntryInfo> entryInfos = gradingService.getGradeRosterEntriesByIdList(
                         rosterInfo.getGradeRosterEntryIds(), context);

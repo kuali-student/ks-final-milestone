@@ -23,19 +23,22 @@ import java.util.List;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 
 public class GradingForm extends UifFormBase{
 
     private static final long serialVersionUID = -1054046347823986329L;
 
+    private String title = "Grading";
+    private String gradeDueDate = " ";
     private String selectedCourse;
     private String selectedTerm;
+    private boolean readOnly;
 
+    private List<GradeStudent> students;
+    private List<CourseOfferingInfo> courseOfferingInfoList;
     private CourseOfferingInfo selectedCourseOffering;
-
-    private String title = "Grading";
-
-    private String gradeDueDate = " ";
+    private List<GradeRosterInfo> rosterInfos;
 
     private AcademicCalendarService acalService;
     private CourseOfferingService coService;
@@ -98,5 +101,21 @@ public class GradingForm extends UifFormBase{
 
     public void setGradeDueDate(String gradeDueDate) {
         this.gradeDueDate = gradeDueDate;
+    }
+
+    public List<GradeRosterInfo> getRosterInfos() {
+        return rosterInfos;
+    }
+
+    public void setRosterInfos(List<GradeRosterInfo> rosterInfos) {
+        this.rosterInfos = rosterInfos;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }
