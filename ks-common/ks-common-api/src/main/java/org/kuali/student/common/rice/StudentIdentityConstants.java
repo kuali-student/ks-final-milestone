@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class StudentIdentityConstants {
 
-    public static final String SYSTEM_USER_PRINCIPAL_NAME = "KS";
+    public static final String SYSTEM_USER_PRINCIPAL_NAME = "ks";
 
     public static final String QUALIFICATION_KS_PROPOSAL_ID = "ksProposalIdQualificationKey";
 
