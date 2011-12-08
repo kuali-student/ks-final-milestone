@@ -32,176 +32,66 @@ import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.core.proposal.infc.ProposalDocRelation;
 
 /**
  * Information about the proposal to document relation.
- *
+ * 
  * @Author KSContractMojo
  * @Author Neerav Agrawal
  * @Since Thu May 28 10:25:45 EDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/proposalDocRelationInfo+Structure">ProposalDocRelationInfo</>
- *
+ * @See <a href=
+ *      "https://test.kuali.org/confluence/display/KULSTU/proposalDocRelationInfo+Structure"
+ *      >ProposalDocRelationInfo</>
+ * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProposalDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class ProposalDocRelationInfo extends RelationshipInfo implements
+		ProposalDocRelation, Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @XmlElement
-    private String proposalId;
+	@XmlElement
+	private String proposalId;
 
-    @XmlElement
-    private String documentId;
+	@XmlElement
+	private String documentId;
 
-    @XmlElement
-    private String title;
+	@XmlElement
+	private String title;
 
-    @XmlElement
-    private RichTextInfo desc;
+	/**
+	 * Unique identifier for a Proposal.
+	 */
+	public String getProposalId() {
+		return proposalId;
+	}
 
-    @XmlElement
-    private Date effectiveDate;
+	public void setProposalId(String proposalId) {
+		this.proposalId = proposalId;
+	}
 
-    @XmlElement
-    private Date expirationDate;
+	/**
+	 * Unique identifier for a document.
+	 */
+	public String getDocumentId() {
+		return documentId;
+	}
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
 
-    @XmlElement
-    private MetaInfo metaInfo;
+	/**
+	 * The title of the document usage in the context of the Proposal.
+	 */
+	public String getTitle() {
+		return title;
+	}
 
-    @XmlAttribute
-    private String type;
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
-
-    /**
-     * Unique identifier for a Proposal.
-     */
-    public String getProposalId() {
-        return proposalId;
-    }
-
-    public void setProposalId(String proposalId) {
-        this.proposalId = proposalId;
-    }
-
-    /**
-     * Unique identifier for a document.
-     */
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
-    /**
-     * The title of the document usage in the context of the Proposal.
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * The description of the document usage in the context of the Proposal.
-     */
-    public RichTextInfo getDesc() {
-        return desc;
-    }
-
-    public void setDesc(RichTextInfo desc) {
-        this.desc = desc;
-    }
-
-    /**
-     * Date and time that this Proposal Doc Relation became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * Date and time that this Proposal Doc Relation expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a proposal document relation type. Describes the type of usage of the document.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the Proposal to document relationship. The values for this field are constrained to those in the proposalDocRelationState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for a proposal to document relation. This is optional, due to the identifier being set at the time of creation. Once the connection has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }
