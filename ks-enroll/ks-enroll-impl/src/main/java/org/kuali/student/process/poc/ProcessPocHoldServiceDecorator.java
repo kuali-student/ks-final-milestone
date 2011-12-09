@@ -56,7 +56,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setIsOverridable(true);
         hold.setIsWarning(false);
         hold.setEffectiveDate(new Date());
-        hold.setIssueId(unpaidTuitionIssue.getId());
+        hold.setIssueKey(unpaidTuitionIssue.getKey());
         hold.setPersonId(ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397);
         try {
             this.createHold(hold, context);
@@ -77,7 +77,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setIsOverridable(true);
         hold.setIsWarning(false);
         hold.setEffectiveDate(new Date());
-        hold.setIssueId(overdueBookIssue.getId());
+        hold.setIssueKey(overdueBookIssue.getKey());
         hold.setPersonId(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005);
         try {
             this.createHold(hold, context);
