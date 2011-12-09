@@ -1,12 +1,14 @@
 package org.kuali.student.r2.core.proposal.infc;
 
+import org.kuali.student.r2.common.infc.Relationship;
+
 /**
  * Information about the proposal to document relation.
  * 
  * @author sambit
  * 
  */
-public interface ProposalDocRelation {
+public interface ProposalDocRelation extends Relationship {
 
 	/**
 	 * Unique identifier for a Proposal.

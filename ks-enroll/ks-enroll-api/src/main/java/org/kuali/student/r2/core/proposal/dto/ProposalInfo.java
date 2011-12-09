@@ -18,12 +18,18 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import org.kuali.student.r2.core.proposal.infc.Proposal;
+import org.w3c.dom.Element;
 
+@XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", "proposerPerson", "proposerOrg", "proposalReferenceType", "proposalReference", "rationale", "detailDesc", "effectiveDate",
+        "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
@@ -45,7 +51,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     private String rationale;
 
     @XmlElement
-    private String detailDesc;
+    private RichTextInfo detailDesc;
 
     @XmlElement
     private Date effectiveDate;
@@ -56,10 +62,29 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     @XmlElement
     private String workflowId;
 
-    /**
-     * List of person identifiers. Structure should contain a proposerPerson OR
-     * a proposerOrg.
-     */
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public ProposalInfo() {
+
+    }
+
+    public ProposalInfo(Proposal proposal) {
+        super(proposal);
+        if (proposal != null) {
+            this.proposerPerson = new ArrayList<String>(proposal.getProposerPerson());
+            this.proposerOrg = new ArrayList<String>(proposal.getProposerOrg());
+            this.proposalReferenceType = proposal.getProposalReferenceType();
+            this.proposalReference = new ArrayList<String>(proposal.getProposalReference());
+            this.rationale = proposal.getRationale();
+            this.detailDesc = new RichTextInfo(proposal.getDetailDesc());
+            this.effectiveDate = new Date(proposal.getEffectiveDate().getTime());
+            this.expirationDate = new Date(proposal.getExpirationDate().getTime());
+            this.workflowId = proposal.getWorkflowId();
+        }
+
+    }
+
     @Override
     public List<String> getProposerPerson() {
         if (proposerPerson == null) {
@@ -72,10 +97,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposerPerson = proposerPerson;
     }
 
-    /**
-     * List of organization identifiers. Structure should contain a
-     * proposerPerson OR a proposerOrg
-     */
     @Override
     public List<String> getProposerOrg() {
         if (proposerOrg == null) {
@@ -88,9 +109,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposerOrg = proposerOrg;
     }
 
-    /**
-     * Unique identifier for a reference type.
-     */
     @Override
     public String getProposalReferenceType() {
         return proposalReferenceType;
@@ -100,9 +118,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposalReferenceType = proposalReferenceType;
     }
 
-    /**
-     * List of reference identifiers.
-     */
     @Override
     public List<String> getProposalReference() {
         if (proposalReference == null) {
@@ -115,9 +130,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposalReference = proposalReference;
     }
 
-    /**
-     * Brief explanation of the reason for the proposal
-     */
     @Override
     public String getRationale() {
         return rationale;
@@ -127,24 +139,15 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.rationale = rationale;
     }
 
-    /**
-     * Detailed description of the proposed changes.
-     */
     @Override
-    public String getDetailDesc() {
+    public RichTextInfo getDetailDesc() {
         return detailDesc;
     }
 
-    public void setDetailDesc(String detailDesc) {
+    public void setDetailDesc(RichTextInfo detailDesc) {
         this.detailDesc = detailDesc;
     }
 
-    /**
-     * Date and time that this proposal became effective. This is a similar
-     * concept to the effective date on enumerated values. When an expiration
-     * date has been specified, this field must be less than or equal to the
-     * expiration date.
-     */
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;
@@ -154,13 +157,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this proposal expires. This is a similar concept to
-     * the expiration date on enumerated values. If specified, this should be
-     * greater than or equal to the effective date. If this field is not
-     * specified, then no expiration date has been currently defined and should
-     * automatically be considered greater than the effective date.
-     */
     @Override
     public Date getExpirationDate() {
         return expirationDate;
@@ -170,11 +166,6 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * The workflow document associated with this proposal.
-     * 
-     * @return
-     */
     @Override
     public String getWorkflowId() {
         return workflowId;
