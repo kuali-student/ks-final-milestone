@@ -36,6 +36,9 @@ import org.springframework.security.util.AuthorityUtils;
  */
 public class KSRiceDefaultUserDetailsService implements UserDetailsService{
 
+	static private String BASE_ROLES = "ROLE_KS_ADMIN, ROLE_KS_USER";
+	
+	
     private UserWithId ksuser = null;
     private String password = "";
    
@@ -47,15 +50,22 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
     private GrantedAuthority[] authorities = 
-        AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
+        AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES);
+    
+    private Config config = null;
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
         
-        Config config = ConfigContext.getCurrentContextConfig();
-        String ksIgnoreRiceLogin = config.getProperty("ks.ignore.rice.login");
+        // Enable backdoor login. The LUMMain.jsp has will actually display the login. 
+        if (enableBackdoorLogin()) {
+            authorities = AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES + ", ROLE_KS_BACKDOOR");
+        }
+        
+                
+        String ksIgnoreRiceLogin = getConfig().getProperty("ks.ignore.rice.login");
         
         // if property was not set in a config file then 
         // it will be null and it falls through to the identityService code.
@@ -85,9 +95,12 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
+                
+        String ksIgnoreRiceLogin = getConfig().getProperty("ks.ignore.rice.login");
         
-        Config config = ConfigContext.getCurrentContextConfig();
-        String ksIgnoreRiceLogin = config.getProperty("ks.ignore.rice.login");
+        if (enableBackdoorLogin()) {
+            authorities = AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES + ", ROLE_KS_BACKDOOR");
+        }
         
         // if property was not set in a config file then 
         // it will be null and it falls through to the identityService code.
@@ -148,11 +161,27 @@ public class KSRiceDefaultUserDetailsService implements UserDetailsService{
         return ksuser;
     }
     
-    public void setAuthorities(String[] roles) {
+    public Config getConfig() {
+    	if(this.config == null){
+    		this.config = ConfigContext.getCurrentContextConfig();
+    	}
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
+
+	public void setAuthorities(String[] roles) {
         this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
     }
 
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
+    
+    protected boolean enableBackdoorLogin() {
+        return "true".equalsIgnoreCase(getConfig().getProperty("enableKSBackdoorLogin"));
+    }
+    
 }

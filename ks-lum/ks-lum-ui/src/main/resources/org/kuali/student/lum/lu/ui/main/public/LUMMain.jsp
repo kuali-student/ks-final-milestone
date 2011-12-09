@@ -15,6 +15,7 @@
 
 --%>
 
+<%@page import="org.kuali.rice.core.config.ConfigContext"%>
 <%
 // We need to detect the browser in order to populate the correct DOCTYPE
 String browser = request.getHeader("User-Agent");
@@ -104,17 +105,17 @@ Server Info:
 	<iframe src="javascript:''" id="__gwt_historyFrame"
 		style="width: 0; height: 0; border: 0"> </iframe>
 		
-		
-		<!-- needs css switch included -->
-		<div id="switchuser" style="display: block">
-			<form action="../j_spring_security_switch_user" method="get">
-				<input type="text" name="j_username" id="j_username"/> <input type="submit" value="Change User">
-			</form>
-		</div>
-		<div id="switchback" style="display: none">
-			<input type="button" value="go" onclick="document.location = "/j_spring_security_exit_user">
-		</div>
-	
+		<% if("true".equalsIgnoreCase(ConfigContext.getCurrentContextConfig().getProperty("enableKSBackdoorLogin"))){ %>
+			<!-- needs css switch included -->
+			<div id="switchuser" style="display: block">
+				<form action="../j_spring_security_switch_user" method="get">
+					<input type="text" name="j_username" id="j_username"/> <input type="submit" value="Change User">
+				</form>
+			</div>
+			<div id="switchback" style="display: none">
+				<input type="button" value="go" onclick="document.location = "/j_spring_security_exit_user">
+			</div>
+		<% }%>
 	<div id="applicationPanel" style="height: 100%; width: 100%; overflow: auto"></div>
 
 	<script type="text/javascript" language="javascript"

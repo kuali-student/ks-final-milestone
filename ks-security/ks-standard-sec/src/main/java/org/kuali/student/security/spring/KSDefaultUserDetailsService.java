@@ -15,6 +15,8 @@
 
 package org.kuali.student.security.spring;
 
+import org.kuali.rice.core.config.Config;
+import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.util.security.UserWithId;
@@ -24,7 +26,6 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.security.util.AuthorityUtils;
-import org.kuali.student.common.util.security.UserWithId;
 
 
 /**
@@ -35,18 +36,23 @@ import org.kuali.student.common.util.security.UserWithId;
  */
 public class KSDefaultUserDetailsService implements UserDetailsService{
 
+	static private String BASE_ROLES = "ROLE_KS_ADMIN, ROLE_KS_USER";
+	
     private UserWithId ksuser = null;
     private String password = "";
    
     private boolean enabled = true;
     private boolean nonlocked = true;
+    
+    private Config config = null;
+    
     private IdentityService identityService = null; // This is added so we can get the correct principal ID
     
     
     // Spring Security requires roles to have a prefix of ROLE_ , 
     // look in org.springframework.security.vote.RoleVoter to change.
     private GrantedAuthority[] authorities = 
-        AuthorityUtils.commaSeparatedStringToAuthorityArray("ROLE_KS_ADMIN, ROLE_KS_USER");
+        AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES);
     
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
@@ -55,7 +61,9 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
         }
         password = username;
         
-        //ksuser = new User(username, password, enabled, true, true, nonlocked, authorities);
+        if (enableBackdoorLogin()) {
+            authorities = AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES + ", ROLE_KS_BACKDOOR");
+        }       
         
         KimPrincipalInfo kimPrincipalInfo = null;
         try {
@@ -89,5 +97,20 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     
     public void setAuthorities(String[] roles) {
         this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
+    }
+    
+    public Config getConfig() {
+    	if(this.config == null){
+    		this.config = ConfigContext.getCurrentContextConfig();
+    	}
+		return config;
+	}
+
+	public void setConfig(Config config) {
+		this.config = config;
+	}
+	
+	protected boolean enableBackdoorLogin() {
+        return "true".equalsIgnoreCase(getConfig().getProperty("enableKSBackdoorLogin"));
     }
 }
