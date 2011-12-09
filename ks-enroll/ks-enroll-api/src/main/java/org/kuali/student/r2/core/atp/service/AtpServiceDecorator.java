@@ -469,8 +469,5 @@ public class AtpServiceDecorator implements AtpService {
         return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpKey, relationType, context);
     }
 
-    @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpRelationTypeKey,atpKey,atpPeerKey,contextInfo);
-    }
+ 
 }

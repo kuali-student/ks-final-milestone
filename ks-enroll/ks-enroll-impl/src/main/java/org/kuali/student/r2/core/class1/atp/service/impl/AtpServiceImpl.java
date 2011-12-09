@@ -777,15 +777,6 @@ public class AtpServiceImpl implements AtpService {
         return atpRelation;
     }
 
-    @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpsAndRelationType(atpKey, atpPeerKey, atpRelationTypeKey);
-        List<AtpAtpRelationInfo> atpRelation = new ArrayList<AtpAtpRelationInfo>();
-        for (AtpAtpRelationEntity rel : rels) {
-            atpRelation.add(rel.toDto());
-        }
-        return atpRelation;
-    }
 
     @Override
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context) 
