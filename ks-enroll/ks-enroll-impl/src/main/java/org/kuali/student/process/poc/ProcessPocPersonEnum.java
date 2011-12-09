@@ -10,6 +10,7 @@ package org.kuali.student.process.poc;
  */
 public enum ProcessPocPersonEnum {
 
+    STUDENT1(2272,"STDNT", "888030001", "student1", "kstone@kuali.edu", "student1", "kstone", true, "Biochemistry", "Kara", "Q", "Stone", "Female", "Ms.", "", "11 Walrus Circle", "West Newton", "MA", "02165", "1952-04-21", "2011-12-01"),
     STUDENT2(2016, "STDNT", "888030002", "student2", "bharris@kuali.edu", "student2", "bharris", true, "Biology", "Barbara", "A", "Harris", "Female", "Ms.", "", "35 Penny Circle", "Boston", "MA", "02299", "1953-02-06", ""),
     STUDENT3(2397, "STDNT", "888030003", "student3", "criddle@kuali.edu", "student3", "criddle", true, "Botany", "Clifford", "I", "Riddle", "Male", "Mr.", "", "59 Atlantis Avenue", "Lynnfield", "MA", "01940", "1935-12-23", ""),
     STUDENT4(2166, "STDNT", "888030004", "student4", "nwelch@kuali.edu", "student4", "nwelch", true, "CareerServices", "Nina", "X", "Welch", "Female", "Ms.", "", "66 Gina Circle", "East Boston", "MA", "02128", "1966-05-07", ""),
