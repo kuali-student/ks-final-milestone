@@ -1,16 +1,19 @@
 package org.kuali.student.r2.lum.lo.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.Relationship;
 
-import java.util.Date;
+public interface LoLoRelation extends Relationship {
 
-public interface LoLoRelation extends IdEntity {
-
-    // TODO JAVADOCS
-
+    /**
+     * Unique identifier for a learning objective record. This is the "From" or
+     * "Parent" in the relation.
+     */
     public String getLoId();
+
+    /**
+     * Unique identifier for a learning objective record. This is the "To" or
+     * "Child" of the relation.
+     */
     public String getRelatedLoId();
-    public Date getEffectiveDate();
-    public Date getExpirationDate();
 
 }

@@ -30,6 +30,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
@@ -47,7 +48,7 @@ import java.util.List;
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = LearningObjectiveServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LearningObjectiveService extends DataDictionaryService, TypeService {
+public interface LearningObjectiveService extends DataDictionaryService, TypeService, StateService {
 
     /**
      * Retrieves a single LoRepository by an LoRepository Key.
