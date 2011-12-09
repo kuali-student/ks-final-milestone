@@ -282,8 +282,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionIds" parent="CourseRegistrationInfo.courseOffering.gradingOptionIds-parent"/>
-	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionIds-parent" abstract="true" parent="CourseRegistrationInfo.courseOffering.gradingOptionIds-generated">
+	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionKeys" parent="CourseRegistrationInfo.courseOffering.gradingOptionKeys-parent"/>
+	<bean id="CourseRegistrationInfo.courseOffering.gradingOptionKeys-parent" abstract="true" parent="CourseRegistrationInfo.courseOffering.gradingOptionKeys-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -647,8 +647,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseRegistrationInfo.gradingOptionId" parent="CourseRegistrationInfo.gradingOptionId-parent"/>
-	<bean id="CourseRegistrationInfo.gradingOptionId-parent" abstract="true" parent="CourseRegistrationInfo.gradingOptionId-generated">
+	<bean id="CourseRegistrationInfo.gradingOptionKey" parent="CourseRegistrationInfo.gradingOptionKey-parent"/>
+	<bean id="CourseRegistrationInfo.gradingOptionKey-parent" abstract="true" parent="CourseRegistrationInfo.gradingOptionKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
