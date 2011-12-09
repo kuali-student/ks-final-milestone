@@ -111,7 +111,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         if(holdState != null)
             obj.setStateKey(holdState.getId());
         if(issue != null)
-        	obj.setIssueId(issue.getId());
+        	obj.setIssueKey(issue.getId());
         obj.setMeta(super.toDTO());
         if(descr != null)
             obj.setDescr(descr.toDto());

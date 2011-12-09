@@ -270,8 +270,8 @@ public class HoldServiceImpl implements HoldService {
         HoldEntity entity = new HoldEntity(holdInfo);
         entity.setId(UUIDHelper.genStringUUID());
         
-        if(null != holdInfo.getIssueId())
-        	entity.setIssue(findIssue(holdInfo.getIssueId()));
+        if(null != holdInfo.getIssueKey())
+        	entity.setIssue(findIssue(holdInfo.getIssueKey()));
 
         if (null != holdInfo.getStateKey())
         	entity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
@@ -298,8 +298,8 @@ public class HoldServiceImpl implements HoldService {
         
         if( null != entity){
         	HoldEntity modifiedEntity = new HoldEntity(holdInfo);
-            if(null != holdInfo.getIssueId())
-            	modifiedEntity.setIssue(findIssue(holdInfo.getIssueId()));
+            if(null != holdInfo.getIssueKey())
+            	modifiedEntity.setIssue(findIssue(holdInfo.getIssueKey()));
             if(holdInfo.getStateKey() != null)
             	modifiedEntity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
             if(holdInfo.getTypeKey() != null)
@@ -358,7 +358,7 @@ public class HoldServiceImpl implements HoldService {
   
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getIssueKeysByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<String>();
     }
 
@@ -378,7 +378,7 @@ public class HoldServiceImpl implements HoldService {
    
 
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForIssueKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

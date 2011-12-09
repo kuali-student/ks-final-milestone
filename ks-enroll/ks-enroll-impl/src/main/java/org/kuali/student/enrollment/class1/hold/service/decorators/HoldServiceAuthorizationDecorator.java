@@ -357,13 +357,13 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getIssueKeysByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssueIdsByType", null, null)) {
-            return getNextDecorator().getIssueIdsByType(issueTypeKey, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIssueKeysByType", null, null)) {
+            return getNextDecorator().getIssueKeysByType(issueTypeKey, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -383,14 +383,14 @@ public class HoldServiceAuthorizationDecorator extends HoldServiceDecorator impl
     }
 
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForIssueKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForIssueIds", null, null)) {
-            return getNextDecorator().searchForIssueIds(criteria, context);
+            return getNextDecorator().searchForIssueKeys(criteria, context);
         } else {
             throw new PermissionDeniedException();
         }

@@ -92,7 +92,7 @@ public class TestHoldServiceImpl {
 
         // check that all the expected ids came back
         for (IssueInfo info : issues) {
-            issueKeys.remove(info.getId());
+            issueKeys.remove(info.getKey());
         }
 
         assertTrue(issueKeys.isEmpty());
@@ -122,7 +122,7 @@ public class TestHoldServiceImpl {
 
         // check that all the expected ids came back
         for (IssueInfo info : issues) {
-            issueKeys.remove(info.getId());
+            issueKeys.remove(info.getKey());
         }
 
         assertTrue(issueKeys.isEmpty());
@@ -141,7 +141,7 @@ public class TestHoldServiceImpl {
         info.setPersonId("person.1");
         info.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         info.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
-        info.setIssueId("Hold-Issue-1");
+        info.setIssueKey("Hold-Issue-1");
         info.setEffectiveDate(Calendar.getInstance().getTime());
 
         HoldInfo created = null;

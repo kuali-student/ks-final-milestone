@@ -134,7 +134,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     public IssueInfo toDto() {
         IssueInfo info = new IssueInfo();
         
-        info.setId(getId());
+        info.setKey(getId());
         info.setName(getName());
         info.setTypeKey(getIssueType().getId());
         info.setStateKey(getIssueState().getId());
