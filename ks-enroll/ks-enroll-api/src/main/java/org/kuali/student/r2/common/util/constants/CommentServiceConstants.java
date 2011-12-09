@@ -16,5 +16,5 @@ public class CommentServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "comment";
     public static final String REF_OBJECT_URI_COMMENT = NAMESPACE + "/" + CommentInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_MILESTONE = NAMESPACE + "/" + TagInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_TAG = NAMESPACE + "/" + TagInfo.class.getSimpleName();
 }
