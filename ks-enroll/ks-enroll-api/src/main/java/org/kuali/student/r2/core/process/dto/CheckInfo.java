@@ -24,24 +24,24 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CheckInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-                "descr", "issueId", "milestoneTypeKey", 
+@XmlType(name = "CheckInfo", propOrder = { "key", "typeKey", "stateKey", "name",
+                "descr", "issueKey", "milestoneTypeKey", 
                 "agendaId", "processKey", "meta", "attributes",
 		"_futureElements" })
 
-public class CheckInfo extends IdEntityInfo 
+public class CheckInfo extends KeyEntityInfo 
     implements Check, Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @XmlElement 
-    private String issueId;
+    private String issueKey;
 
     @XmlElement 
     private String milestoneTypeKey;
@@ -71,7 +71,7 @@ public class CheckInfo extends IdEntityInfo
         super(check);
 
         if (check != null) {
-            this.issueId = check.getIssueId();
+            this.issueKey = check.getIssueKey();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.agendaId = check.getAgendaId();
             this.processKey = check.getProcessKey();
@@ -79,12 +79,12 @@ public class CheckInfo extends IdEntityInfo
     }
 
     @Override
-    public String getIssueId() {
-        return this.issueId;
+    public String getIssueKey() {
+        return this.issueKey;
     }
 
-    public void setIssueId(String issueId) {
-        this.issueId = issueId;
+    public void setIssueKey(String issueKey) {
+        this.issueKey = issueKey;
     }
 
     @Override

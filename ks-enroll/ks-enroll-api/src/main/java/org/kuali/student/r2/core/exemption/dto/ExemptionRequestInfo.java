@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "processKey", "checkId", 
+                "stateKey", "name", "descr", "processKey", "checkKey", 
                 "requesterId", "requestDate", 
                 "approvedByPersonId", "approvedDate", 
                 "dateOverride", "milestoneOverride", 
@@ -47,7 +47,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     private String processKey;
     
     @XmlElement
-    private String checkId;
+    private String checkKey;
     
     @XmlElement
     private String requesterId;
@@ -88,7 +88,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
         super(request);
         if (null != request) {
             this.processKey = request.getProcessKey();
-            this.checkId = request.getCheckId();
+            this.checkKey = request.getCheckKey();
             this.requesterId = request.getRequesterId();
             this.requestDate = request.getRequestDate();
             this.approvedByPersonId = request.getApprovedByPersonId();
@@ -120,12 +120,12 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
     
     @Override
-    public String getCheckId() {
-        return checkId;
+    public String getCheckKey() {
+        return checkKey;
     }
     
-    public void setCheckId(String checkId) {
-        this.checkId = checkId;
+    public void setCheckKey(String checkKey) {
+        this.checkKey = checkKey;
     }
     
     @Override

@@ -57,14 +57,14 @@ public interface Instruction
      * @required
      * @readOnly
      */
-    public String getCheckId();
+    public String getCheckKey();
 
     /**
      * The Population Ids to which the Check applies.
      *
      * @name Applied Population Ids
      */
-    public List<String> getAppliedPopulationIds();
+    public List<String> getAppliedPopulationKeys();
 
     /**
      * The ATP Type keys to which the Check applies.

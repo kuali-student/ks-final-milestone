@@ -143,14 +143,14 @@ public class HoldServiceMockImpl implements HoldService {
 	
 
 	@Override
-	public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context)
+	public List<HoldInfo> getHoldsByIssue(String issueKey, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
 		List<HoldInfo> allHold = new ArrayList<HoldInfo>();
 		List<HoldInfo> holdsToReturn = new ArrayList<HoldInfo>();
 		for (HoldInfo hold : allHold) {
-			if (hold.getIssueId().equals(issueId)) {
+			if (hold.getIssueKey().equals(issueKey)) {
 				holdsToReturn.add(hold);
 			}
 		}
@@ -218,17 +218,17 @@ public class HoldServiceMockImpl implements HoldService {
 	}
 
 	@Override
-	public IssueInfo getIssue(String issueId, ContextInfo context)
+	public IssueInfo getIssue(String issueKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		return issuesCache.get(issueId);
+		return issuesCache.get(issueKey);
 	}
 
 
 
 	@Override
-	public List<String> getIssueIdsByType(String issueTypeKey,
+	public List<String> getIssueKeysByType(String issueTypeKey,
 			ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -236,7 +236,7 @@ public class HoldServiceMockImpl implements HoldService {
 
 		for (IssueInfo issue : issuesCache.values()) {
 			if (issue.getTypeKey().equals(issueTypeKey)) {
-				issueList.add(issue.getId());
+				issueList.add(issue.getKey());
 			}
 		}
 		return issueList;
@@ -259,7 +259,7 @@ public class HoldServiceMockImpl implements HoldService {
 
 	
     @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForIssueKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	return new ArrayList<String>();
     }	
 
@@ -281,26 +281,26 @@ public class HoldServiceMockImpl implements HoldService {
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		issuesCache.put(issueInfo.getId(), issueInfo);
+		issuesCache.put(issueInfo.getKey(), issueInfo);
 		return issueInfo;
 	}
 
 	@Override
-	public IssueInfo updateIssue(String issueId, IssueInfo issueInfo,
+	public IssueInfo updateIssue(String issueKey, IssueInfo issueInfo,
 			ContextInfo context) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		issuesCache.put(issueId, issueInfo);
+		issuesCache.put(issueKey, issueInfo);
 		return issueInfo;
 	}
 
 	@Override
-	public StatusInfo deleteIssue(String issueId, ContextInfo context)
+	public StatusInfo deleteIssue(String issueKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		issuesCache.remove(issueId);
+		issuesCache.remove(issueKey);
 		return new StatusInfo();
 	}
 
@@ -331,21 +331,21 @@ public class HoldServiceMockImpl implements HoldService {
     }
 
     @Override
-    public List<HoldInfo> getHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<HoldInfo> getHoldsByIssueAndPerson(String issueKey, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueKey, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<IssueInfo> getIssuesByIds(List<String> issueKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

@@ -117,8 +117,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public PopulationInfo updatePopulation(String populationId, PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updatePopulation(populationId, populationInfo, contextInfo);
+    public PopulationInfo updatePopulation(String populationKey, PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updatePopulation(populationKey, populationInfo, contextInfo);
     }
 
     @Override
@@ -137,18 +137,18 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public List<String> searchForPopulationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForPopulationIds(criteria, contextInfo);
+    public List<String> searchForPopulationKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForPopulationKeys(criteria, contextInfo);
     }
 
     @Override
-    public StatusInfo removePopulationRuleFromPopulation(String populationRuleId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().removePopulationRuleFromPopulation(populationRuleId, populationId, contextInfo);
+    public StatusInfo removePopulationRuleFromPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().removePopulationRuleFromPopulation(populationRuleId, populationKey, contextInfo);
     }
 
     @Override
-    public Boolean isMember(String personId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().isMember(personId, populationId, contextInfo);
+    public Boolean isMember(String personId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().isMember(personId, populationKey, contextInfo);
     }
 
     @Override
@@ -157,8 +157,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public List<PopulationInfo> getPopulationsByIds(List<String> populationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getPopulationsByIds(populationIds, contextInfo);
+    public List<PopulationInfo> getPopulationsByIds(List<String> populationKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getPopulationsByIds(populationKeys, contextInfo);
     }
 
     @Override
@@ -172,8 +172,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public PopulationRuleInfo getPopulationRuleForPopulation(String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getPopulationRuleForPopulation(populationId, contextInfo);
+    public PopulationRuleInfo getPopulationRuleForPopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getPopulationRuleForPopulation(populationKey, contextInfo);
     }
 
     @Override
@@ -182,18 +182,18 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public List<String> getPopulationIdsByType(String populationTypeId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getPopulationIdsByType(populationTypeId, contextInfo);
+    public List<String> getPopulationKeysByType(String populationTypeId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getPopulationKeysByType(populationTypeId, contextInfo);
     }
 
     @Override
-    public PopulationInfo getPopulation(String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getPopulation(populationId, contextInfo);
+    public PopulationInfo getPopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getPopulation(populationKey, contextInfo);
     }
 
     @Override
-    public List<String> getMembers(String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMembers(populationId, contextInfo);
+    public List<String> getMembers(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMembers(populationKey, contextInfo);
     }
 
     @Override
@@ -202,8 +202,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public StatusInfo deletePopulation(String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deletePopulation(populationId, contextInfo);
+    public StatusInfo deletePopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deletePopulation(populationKey, contextInfo);
     }
 
     @Override
@@ -217,8 +217,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().applyPopulationRuleToPopulation(populationRuleId, populationId, contextInfo);
+    public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().applyPopulationRuleToPopulation(populationRuleId, populationKey, contextInfo);
     }
     
 }

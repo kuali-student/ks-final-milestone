@@ -34,7 +34,7 @@ public interface Hold extends IdEntity {
      * @name Issue Id
      * @required
      */
-    public String getIssueId();
+    public String getIssueKey();
    
 
     /**

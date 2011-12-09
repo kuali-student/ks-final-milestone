@@ -66,5 +66,5 @@ public interface PopulationRule extends IdEntity {
      *
      * @name Population Ids
      */
-    public List<String> getPopulationIds();
+    public List<String> getPopulationKeys();
 }

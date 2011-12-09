@@ -23,14 +23,14 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.hold.infc.Issue;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IssueInfo", propOrder = { "id", "typeKey", "stateKey", "name",
+@XmlType(name = "IssueInfo", propOrder = { "key", "typeKey", "stateKey", "name",
 		"descr", "organizationId", "meta", "attributes", "_futureElements" })
-public class IssueInfo extends IdEntityInfo implements Issue, Serializable {
+public class IssueInfo extends KeyEntityInfo implements Issue, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement

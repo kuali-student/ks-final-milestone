@@ -51,7 +51,7 @@ public interface ExemptionRequest extends IdEntity {
      *
      * @name Check Id
      */
-    public String getCheckId();
+    public String getCheckKey();
  
     /**
      * The Id of the Person making the request.

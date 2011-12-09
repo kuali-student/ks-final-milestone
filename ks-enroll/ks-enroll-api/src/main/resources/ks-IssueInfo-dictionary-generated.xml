@@ -57,7 +57,7 @@ Information about an Issue.
 
 		<property name="attributes">
 			<list>
-				<ref bean="IssueInfo.id"/>
+				<ref bean="IssueInfo.key"/>
 				<ref bean="IssueInfo.typeKey"/>
 				<ref bean="IssueInfo.stateKey"/>
 				<ref bean="IssueInfo.name"/>
@@ -78,8 +78,8 @@ Information about an Issue.
 		</property>
 	</bean>
 
-	<bean id="IssueInfo.id-generated" abstract="true" parent="BaseKuali.id">
-		<property name="name" value="id"/>
+	<bean id="IssueInfo.key-generated" abstract="true" parent="BaseKuali.key">
+		<property name="name" value="key"/>
 	</bean>
 
 	<bean id="IssueInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">

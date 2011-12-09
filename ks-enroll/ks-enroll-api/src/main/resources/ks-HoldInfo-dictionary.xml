@@ -77,8 +77,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="HoldInfo.issueId" parent="HoldInfo.issueId-parent"/>
-	<bean id="HoldInfo.issueId-parent" abstract="true" parent="HoldInfo.issueId-generated">
+	<bean id="HoldInfo.issueKey" parent="HoldInfo.issueKey-parent"/>
+	<bean id="HoldInfo.issueKey-parent" abstract="true" parent="HoldInfo.issueKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

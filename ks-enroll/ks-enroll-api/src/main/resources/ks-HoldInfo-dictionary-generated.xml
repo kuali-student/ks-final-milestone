@@ -61,7 +61,7 @@ Information about a Hold.
 				<ref bean="HoldInfo.typeKey"/>
 				<ref bean="HoldInfo.stateKey"/>
 				<ref bean="HoldInfo.name"/>
-				<ref bean="HoldInfo.issueId"/>
+				<ref bean="HoldInfo.issueKey"/>
 				<ref bean="HoldInfo.personId"/>
 				<ref bean="HoldInfo.isWarning"/>
 				<ref bean="HoldInfo.isOverridable"/>
@@ -153,18 +153,18 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="HoldInfo.issueId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="issueId"/>
+	<bean id="HoldInfo.issueKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="issueKey"/>
 		<property name="shortLabel" value="Issue Id"/>
 		<property name="summary">
 			<value>
-The Issue Id.
+The Issue Key.
 			</value>
 		</property>
 		<property name="label" value="Issue Id"/>
 		<property name="description">
 			<value>
-The Issue Id.
+The Issue Key.
 			</value>
 		</property>
 		<property name="required" value="true"/>

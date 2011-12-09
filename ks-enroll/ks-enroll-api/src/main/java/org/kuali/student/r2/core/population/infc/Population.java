@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.population.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
@@ -25,5 +25,5 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @since Thu Nov 21 14:22:34 EDT 2011
  */ 
 
-public interface Population extends IdEntity {
+public interface Population extends KeyEntity {
 }

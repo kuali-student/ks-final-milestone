@@ -23,17 +23,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.population.infc.Population;
 
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PopulationInfo", propOrder = { "id", "typeKey", "stateKey", 
+@XmlType(name = "PopulationInfo", propOrder = { "key", "typeKey", "stateKey", 
                 "name", "descr", "meta", "attributes",
                 "_futureElements" })
 
-public class PopulationInfo extends IdEntityInfo 
+public class PopulationInfo extends KeyEntityInfo 
     implements Population, Serializable {
 
     private static final long serialVersionUID = 1L;

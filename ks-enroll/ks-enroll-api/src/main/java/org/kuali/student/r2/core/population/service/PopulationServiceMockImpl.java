@@ -47,11 +47,11 @@ public class PopulationServiceMockImpl implements PopulationService {
             final String SUMMER_ONLY_STUDENTS = "summerOnlyStudents";
 
             PopulationInfo allStudentsPopulation = new PopulationInfo();
-            allStudentsPopulation.setId(ALL_STUDENTS);
+            allStudentsPopulation.setKey(ALL_STUDENTS);
             createPopulation(allStudentsPopulation, new ContextInfo());
 
             PopulationInfo summerOnlyStudentsPopulation = new PopulationInfo();
-            summerOnlyStudentsPopulation.setId(SUMMER_ONLY_STUDENTS);
+            summerOnlyStudentsPopulation.setKey(SUMMER_ONLY_STUDENTS);
             createPopulation(summerOnlyStudentsPopulation, new ContextInfo());
 
             caches.get(SUMMER_ONLY_STUDENTS).add("2155");
@@ -72,58 +72,58 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public Boolean isMember(@WebParam(name = "personId") String personId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Boolean isMember(@WebParam(name = "personId") String personId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == personId || 0 == personId.length()) {
             throw new MissingParameterException("personId");
         }
-        if (null == populationId || 0 == populationId.length()) {
-            throw new MissingParameterException("populationId");
+        if (null == populationKey || 0 == populationKey.length()) {
+            throw new MissingParameterException("populationKey");
         }
 
-        Set<String> cache = caches.get(populationId);
+        Set<String> cache = caches.get(populationKey);
         if (null == cache) {
-            throw new DoesNotExistException("populationId '" + populationId + "' not found");
+            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
         }
         return cache.contains(personId);
     }
 
     @Override
-    public List<String> getMembers(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationId || 0 == populationId.length()) {
-            throw new MissingParameterException("populationId");
+    public List<String> getMembers(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == populationKey || 0 == populationKey.length()) {
+            throw new MissingParameterException("populationKey");
         }
 
-        Set<String> cache = caches.get(populationId);
+        Set<String> cache = caches.get(populationKey);
         if (null == cache) {
-            throw new DoesNotExistException("populationId '" + populationId + "' not found");
+            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
         }
         return new ArrayList<String>(cache);
     }
 
     @Override
-    public PopulationInfo getPopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationId || 0 == populationId.length()) {
-            throw new MissingParameterException("populationId");
+    public PopulationInfo getPopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == populationKey || 0 == populationKey.length()) {
+            throw new MissingParameterException("populationKey");
         }
 
-        PopulationInfo population = populations.get(populationId);
+        PopulationInfo population = populations.get(populationKey);
         if (null == population) {
-            throw new DoesNotExistException("populationId '" + populationId + "' not found");
+            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
         }
         return population;
     }
 
     @Override
-    public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationIds") List<String> populationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (0 == populationIds.size()) {
-            throw new MissingParameterException("populationIds");
+    public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationKeys") List<String> populationKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (0 == populationKeys.size()) {
+            throw new MissingParameterException("populationKeys");
         }
 
         List<PopulationInfo> result = new ArrayList<PopulationInfo>();
-        for (String populationId : populationIds) {
-            PopulationInfo population = populations.get(populationId);
+        for (String populationKey : populationKeys) {
+            PopulationInfo population = populations.get(populationKey);
             if (null == population) {
-                throw new DoesNotExistException("populationId '" + populationId + "' not found");
+                throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
             }
             result.add(population);
         }
@@ -131,7 +131,7 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public List<String> getPopulationIdsByType(@WebParam(name = "populationTypeId") String populationTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getPopulationKeysByType(@WebParam(name = "populationTypeId") String populationTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 
@@ -141,7 +141,7 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public List<String> searchForPopulationIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForPopulationKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 
@@ -157,32 +157,32 @@ public class PopulationServiceMockImpl implements PopulationService {
 
     @Override
     public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        PopulationInfo population = populations.get(populationInfo.getId());
+        PopulationInfo population = populations.get(populationInfo.getKey());
         if (null != population) {
-            throw new AlreadyExistsException("populationId '" + populationInfo.getId() + "' already exists");
+            throw new AlreadyExistsException("populationKey '" + populationInfo.getKey() + "' already exists");
         }
-        populations.put(populationInfo.getId(), populationInfo);
-        caches.put(populationInfo.getId(), new HashSet<String>());
+        populations.put(populationInfo.getKey(), populationInfo);
+        caches.put(populationInfo.getKey(), new HashSet<String>());
         return populationInfo;
     }
 
     @Override
-    public PopulationInfo updatePopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public PopulationInfo updatePopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new OperationFailedException("Method not implemented.");
     }
 
     @Override
-    public StatusInfo deletePopulation(@WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationId || 0 == populationId.length()) {
-            throw new MissingParameterException("populationId");
+    public StatusInfo deletePopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == populationKey || 0 == populationKey.length()) {
+            throw new MissingParameterException("populationKey");
         }
 
-        PopulationInfo population = populations.get(populationId);
+        PopulationInfo population = populations.get(populationKey);
         if (null == population) {
-            throw new DoesNotExistException("populationId '" + populationId + "' not found");
+            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
         }
-        populations.remove(populationId);
-        caches.remove(populationId);
+        populations.remove(populationKey);
+        caches.remove(populationKey);
         return new StatusInfo();
     }
 
@@ -202,7 +202,7 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationid") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationid") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 
@@ -237,12 +237,12 @@ public class PopulationServiceMockImpl implements PopulationService {
     }
 
     @Override
-    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 
     @Override
-    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationId") String populationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 

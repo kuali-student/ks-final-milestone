@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "searchCriteria", "statementIds", 
-                "groupIds", "personIds", "populationIds", "meta", "attributes",
+                "groupIds", "personIds", "populationKeys", "meta", "attributes",
 		"_futureElements" })
 
 public class PopulationRuleInfo extends IdEntityInfo 
@@ -57,7 +57,7 @@ public class PopulationRuleInfo extends IdEntityInfo
     private List<String> personIds;
 
     @XmlElement
-    private List<String> populationIds;
+    private List<String> populationKeys;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -92,8 +92,8 @@ public class PopulationRuleInfo extends IdEntityInfo
                 this.personIds = new ArrayList<String>(populationRule.getPersonIds());
             }
             
-            if (populationRule.getPopulationIds() != null) {
-                this.populationIds = new ArrayList<String>(populationRule.getPopulationIds());
+            if (populationRule.getPopulationKeys() != null) {
+                this.populationKeys = new ArrayList<String>(populationRule.getPopulationKeys());
             }
         }
     }
@@ -147,15 +147,15 @@ public class PopulationRuleInfo extends IdEntityInfo
     }
 
     @Override
-    public List<String> getPopulationIds() {
-        if (this.populationIds == null) {
-            this.populationIds = new ArrayList<String>();
+    public List<String> getPopulationKeys() {
+        if (this.populationKeys == null) {
+            this.populationKeys = new ArrayList<String>();
         }
 
-        return this.populationIds;
+        return this.populationKeys;
     }
 
-    public void setPopulationIds(List<String> populationIds) {
-        this.populationIds = populationIds;
+    public void setPopulationKeys(List<String> populationKeys) {
+        this.populationKeys = populationKeys;
     }
 }

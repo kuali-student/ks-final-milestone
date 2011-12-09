@@ -59,4 +59,9 @@ public class PopulationServiceConstants {
         POPULATION_RULE_ACTIVE_STATE_KEY,
         POPULATION_RULE_INACTIVE_STATE_KEY
     };
+    
+    /**
+     * known population keys
+     */
+    public static final String SUMMER_ONLY_STUDENTS_POPULATION_KEY = "kuali.population.summer.only.student";
 }

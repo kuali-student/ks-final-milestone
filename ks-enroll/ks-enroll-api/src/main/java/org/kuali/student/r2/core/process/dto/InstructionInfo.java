@@ -34,8 +34,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "effectiveDate", "expirationDate",
-                "processKey", "checkId", 
-                "appliedPopulationIds", "appliedAtpTypeKeys",
+                "processKey", "checkKey", 
+                "appliedPopulationKeys", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
                 "meta", "attributes",
@@ -50,10 +50,10 @@ public class InstructionInfo extends RelationshipInfo
     private String processKey;
 
     @XmlElement 
-    private String checkId;
+    private String checkKey;
 
     @XmlElement 
-    private List<String> appliedPopulationIds;
+    private List<String> appliedPopulationKeys;
 
     @XmlElement 
     private List<String> appliedAtpTypeKeys;
@@ -93,10 +93,10 @@ public class InstructionInfo extends RelationshipInfo
 
         if (instruction != null) {
             this.processKey= instruction.getProcessKey();
-            this.checkId = instruction.getCheckId();
+            this.checkKey = instruction.getCheckKey();
 
-            if (instruction.getAppliedPopulationIds() != null) {
-                this.appliedPopulationIds = new ArrayList<String>(instruction.getAppliedPopulationIds());
+            if (instruction.getAppliedPopulationKeys() != null) {
+                this.appliedPopulationKeys = new ArrayList<String>(instruction.getAppliedPopulationKeys());
             }
 
             if (instruction.getAppliedAtpTypeKeys() != null) {
@@ -121,25 +121,25 @@ public class InstructionInfo extends RelationshipInfo
     }
 
     @Override
-    public String getCheckId() {
-        return this.checkId;
+    public String getCheckKey() {
+        return this.checkKey;
     }
 
-    public void setCheckId(String checkId) {
-        this.checkId = checkId;
+    public void setCheckKey(String checkKey) {
+        this.checkKey = checkKey;
     }
 
     @Override
-    public List<String> getAppliedPopulationIds() {
-        if (this.appliedPopulationIds == null) {
-            this.appliedPopulationIds = new ArrayList<String>();
+    public List<String> getAppliedPopulationKeys() {
+        if (this.appliedPopulationKeys == null) {
+            this.appliedPopulationKeys = new ArrayList<String>();
         }
 
-        return this.appliedPopulationIds;
+        return this.appliedPopulationKeys;
     }
 
-    public void setAppliedPopulationIds(List<String> appliedPopulationIds) {
-        this.appliedPopulationIds = appliedPopulationIds;
+    public void setAppliedPopulationKeys(List<String> appliedPopulationKeys) {
+        this.appliedPopulationKeys = appliedPopulationKeys;
     }
 
     @Override

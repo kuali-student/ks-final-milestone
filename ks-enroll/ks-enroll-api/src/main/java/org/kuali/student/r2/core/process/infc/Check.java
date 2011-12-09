@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.process.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.KeyEntity;
 
 
 /**
@@ -38,14 +38,14 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */ 
 
 public interface Check 
-    extends IdEntity {
+    extends KeyEntity {
 
     /**
-     * The Issue Id if this Check is for a Hold.
+     * The Issue Key if this Check is for a Hold.
      *
-     * @name Issue Id
+     * @name Issue Key
      */
-    public String getIssueId();
+    public String getIssueKey();
 
     /**
      * The Milestone Type Key if this Check is for a deadline, "not

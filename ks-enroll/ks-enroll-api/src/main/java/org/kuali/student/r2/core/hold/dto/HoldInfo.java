@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "issueId", "personId", "isWarning", "isOverridable",
+		"descr", "issueKey", "personId", "isWarning", "isOverridable",
 		"effectiveDate", "releasedDate", "meta", "attributes",
 		"_futureElements" })
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
@@ -40,7 +40,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	private String personId;
 
 	@XmlElement
-	private String issueId;
+	private String issueKey;
 
 	@XmlElement
 	private Boolean isWarning;
@@ -62,7 +62,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 		personId = null;
 		isWarning = false;
 		isOverridable = false;
-		issueId = null;
+		issueKey = null;
 		effectiveDate = null;
 		releasedDate = null;
 		_futureElements = null;
@@ -74,7 +74,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 			this.personId = hold.getPersonId();
 			this.isWarning = hold.getIsWarning();
 			this.isOverridable = hold.getIsOverridable();
-			this.issueId = hold.getIssueId();
+			this.issueKey = hold.getIssueKey();
 			this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
 			this.releasedDate = new Date(hold.getReleasedDate().getTime());
 		}
@@ -92,12 +92,12 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 	}
 
 	@Override
-	public String getIssueId() {
-		return issueId;
+	public String getIssueKey() {
+		return issueKey;
 	}
 
-	public void setIssueId(String issueId) {
-		this.issueId = issueId;
+	public void setIssueKey(String issueKey) {
+		this.issueKey = issueKey;
 	}
 
 	@Override
