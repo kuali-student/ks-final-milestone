@@ -26,12 +26,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.enrollment.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.hold.infc.Issue;
+
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.infc.Issue;
 
 /**
  * This is a description of what this class does - andy don't forget to fill this in. 
@@ -133,7 +134,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     public IssueInfo toDto() {
         IssueInfo info = new IssueInfo();
         
-        info.setId(getId());
+        info.setKey(getId());
         info.setName(getName());
         info.setTypeKey(getIssueType().getId());
         info.setStateKey(getIssueState().getId());

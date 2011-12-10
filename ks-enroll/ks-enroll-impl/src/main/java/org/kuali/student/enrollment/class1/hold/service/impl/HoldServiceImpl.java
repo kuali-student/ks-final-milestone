@@ -34,10 +34,7 @@ import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
-import org.kuali.student.enrollment.hold.dto.HoldInfo;
-import org.kuali.student.enrollment.hold.dto.IssueInfo;
-import org.kuali.student.enrollment.hold.dto.RestrictionInfo;
-import org.kuali.student.enrollment.hold.service.HoldService;
+
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -59,6 +56,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.hold.dto.HoldInfo;
+import org.kuali.student.r2.core.hold.dto.IssueInfo;
+import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "HoldService", serviceName = "HoldService", portName = "HoldService", targetNamespace = "http://student.kuali.org/wsdl/hold")
@@ -199,25 +199,6 @@ public class HoldServiceImpl implements HoldService {
         return new ArrayList<TypeTypeRelationInfo>();
     }
 
-    @Override
-    public Boolean isPersonRestricted(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public List<String> getRestrictedPersons(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByRestrictionForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getActiveHoldsByRestrForPerson(String restrictionKey, String personId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
 
     @Override
     public HoldInfo getHold(String holdId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -229,35 +210,7 @@ public class HoldServiceImpl implements HoldService {
         return entity.toDto();
     }
 
-    @Override
-    public List<HoldInfo> getHoldsByIdList(List<String> holdIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getActiveHoldsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
-
-    @Override
-    public List<HoldInfo> getActiveHoldsByIssueForPerson(String issueId, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<HoldInfo>();
-    }
+  
 
     @Override
     public List<String> searchForHoldIds(QueryByCriteria criteria, ContextInfo context)
@@ -317,8 +270,8 @@ public class HoldServiceImpl implements HoldService {
         HoldEntity entity = new HoldEntity(holdInfo);
         entity.setId(UUIDHelper.genStringUUID());
         
-        if(null != holdInfo.getIssueId())
-        	entity.setIssue(findIssue(holdInfo.getIssueId()));
+        if(null != holdInfo.getIssueKey())
+        	entity.setIssue(findIssue(holdInfo.getIssueKey()));
 
         if (null != holdInfo.getStateKey())
         	entity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
@@ -345,8 +298,8 @@ public class HoldServiceImpl implements HoldService {
         
         if( null != entity){
         	HoldEntity modifiedEntity = new HoldEntity(holdInfo);
-            if(null != holdInfo.getIssueId())
-            	modifiedEntity.setIssue(findIssue(holdInfo.getIssueId()));
+            if(null != holdInfo.getIssueKey())
+            	modifiedEntity.setIssue(findIssue(holdInfo.getIssueKey()));
             if(holdInfo.getStateKey() != null)
             	modifiedEntity.setHoldState(findState(HoldServiceConstants.STUDENT_HOLD_PROCESS_KEY, holdInfo.getStateKey(), context));
             if(holdInfo.getTypeKey() != null)
@@ -402,28 +355,10 @@ public class HoldServiceImpl implements HoldService {
         return entity.toDto();
     }
 
-    @Override
-    public List<IssueInfo> getIssuesByIdList(List<String> issueIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<IssueEntity> issues = issueDao.findByIds(issueIdList);
-        
-        if(issues == null) {
-            throw new DoesNotExistException();
-        }
-        
-        List<IssueInfo> result = new ArrayList<IssueInfo>(issues.size());
-        for(IssueEntity entity : issues) {
-            if(entity == null) {
-                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
-                throw new DoesNotExistException();
-            }
-            result.add(entity.toDto());
-        }
-        
-        return result;
-    }
+  
 
     @Override
-    public List<String> getIssueIdsByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getIssueKeysByType(String issueTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<String>();
     }
 
@@ -440,23 +375,10 @@ public class HoldServiceImpl implements HoldService {
         return results;
     }
 
-    @Override
-    public List<IssueInfo> getIssuesByRestriction(String restrictionKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<IssueInfo>();
-    }
+   
 
     @Override
-    public StatusInfo addIssueToRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public StatusInfo removeIssueFromRestriction(String restrictionKey, String issueId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public List<String> searchForIssueIds(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForIssueKeys(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -492,92 +414,58 @@ public class HoldServiceImpl implements HoldService {
     }
 
     @Override
-    public RestrictionInfo getRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
-    }
-
-    @Override
-    public List<RestrictionInfo> getRestrictionsByKeyList(List<String> restrictionKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<RestrictionInfo>();
-    }
-
-    @Override
-    public List<String> getRestrictionKeysByType(String restrictionTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        
-        HoldTypeEntity type = holdTypeDao.find(restrictionTypeKey);
-        
-        if(type == null) {
-            throw new InvalidParameterException(restrictionTypeKey);
-        }
-        
-        List<RestrictionEntity> entities = restrictionDao.getByRestrictionTypeId(restrictionTypeKey);
-        
-        if(entities == null) {
-            return Collections.emptyList();
-        }
-        
-        List<String> results = new ArrayList<String>(entities.size());
-        
-        for(RestrictionEntity entity : entities) {
-            results.add(entity.getId());
-        }
-        
-        return results;
-    }
-
-
-    @Override
-    public List<RestrictionInfo> getRestrictionsByIssue(String issueId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        IssueEntity entity = issueDao.find(issueId);
-        
-        if(entity == null) {
-            throw new DoesNotExistException(issueId);
-        }
-        
-        List<RestrictionEntity> restrictions = restrictionDao.getByIssueId(issueId);
-        
-        List<RestrictionInfo> results = new ArrayList<RestrictionInfo>(restrictions.size());
-        for(RestrictionEntity restriction : restrictions) {
-            results.add(restriction.toDto());
-        }
-        
-        return results;
-    }
-
-    @Override
-    public List<String> searchForRestrictionKeys(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<HoldInfo> getHoldsByIds(List<String> holdIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<String>();
+        return null;
     }
 
     @Override
-    public List<RestrictionInfo> searchForRestrictions(QueryByCriteria criteria, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getHoldIdsByType(String holdTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<HoldInfo> getHoldsByIssue(String issueId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<HoldInfo> getHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<HoldInfo> getActiveHoldsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-
-        return new ArrayList<RestrictionInfo>();
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateRestriction(String validationTypeKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return new ArrayList<ValidationResultInfo>();
-    }
-
-    @Override
-    public RestrictionInfo createRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public RestrictionInfo updateRestriction(String restrictionKey, RestrictionInfo restrictionInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public List<HoldInfo> getHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public StatusInfo deleteRestriction(String restrictionKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<HoldInfo> getActiveHoldsByIssueAndPerson(String issueId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
+    @Override
+    public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+  
 
 }
