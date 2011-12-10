@@ -33,6 +33,7 @@
     <krad:script value="
            jq('#' +'${control.scheduleId}').ready(function() {
                 jq('#' +'${control.scheduleId}').addBulkTimesAndKeys(eval('(' + jq('#' + '${control.id}-value').val() + ')'),'${control.id}');
+                jq('#' +'${control.id}-cart').addButton('${control.removeText}',${control.removeJsFunction});
            });
     "/>
 </div>

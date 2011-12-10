@@ -38,15 +38,17 @@
     </bean>
 
     <bean id="KSGroup" abstract="true" parent="Group-parentBean">
-      <property name="accordion">
-        <bean parent="KSAccordion"/>
+      <property name="disclosure">
+        <bean parent="KSDisclosure"/>
       </property>
     </bean>
 
-    <bean id="KSAccordion" abstract="true" parent="Accordion-parentBean">
+
+    <bean id="KSDisclosure" abstract="true" parent="Disclosure-parentBean">
       <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
       <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
     </bean>
+
 
     <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
     <bean id="ScheduleControl-parentBean" abstract="true"
@@ -112,6 +114,28 @@
                 p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
         </list>
       </property>
-  </bean>
+    </bean>
+
+    <bean id="KSFooter_SubmitCancel" parent="KSFooterDocument">
+      <property name="items">
+        <list>
+            <bean parent="ActionField" p:clientSideJs="validateAndSubmit('route', replacePage);" p:actionLabel="Submit"
+                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+            <bean parent="ActionLinkField" p:methodToCall="cancel" p:actionLabel="Cancel"
+                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+        </list>
+      </property>
+    </bean>
+
+    <bean id="KSHeader_Empty" parent="Header">
+      <property name="items">
+          <list/>
+      </property>
+    </bean>
+
+    <bean id="KSInputField" abstract="true" parent="InputField"
+          p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
+          p:labelPlacement="TOP" p:labelField.requiredMessagePlacement="LEFT"
+          p:instructionalMessageField.render="false" />
 
 </beans>

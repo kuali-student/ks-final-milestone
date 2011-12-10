@@ -30,8 +30,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           	 <property name="title" value="Manage Holds for Person"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="personId"/>
-                <bean parent="AttributeField" p:propertyName="issueId"/>
+                <bean parent="InputField" p:propertyName="personId"/>
+                <bean parent="InputField" p:propertyName="issueId"/>
                </list>
              </property>             
           </bean> 
@@ -42,7 +42,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="propertyName" value="issueId"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="id"/>
+                  <bean parent="InputField" p:propertyName="id"/>
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Issues"/> 

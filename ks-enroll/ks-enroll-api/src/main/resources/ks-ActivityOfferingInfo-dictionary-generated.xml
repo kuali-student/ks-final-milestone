@@ -158,9 +158,9 @@ Indicates that the course is an Honors Course
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityOfferingInfo.gradingOptions-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="gradingOptions"/>
-		<property name="shortLabel" value="Grading Options"/>
+	<bean id="ActivityOfferingInfo.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptionKeys"/>
+		<property name="shortLabel" value="Grading Option Keys"/>
 		<property name="summary">
 			<value>
 The options/scales that indicate the allowable grades that can be awarded.

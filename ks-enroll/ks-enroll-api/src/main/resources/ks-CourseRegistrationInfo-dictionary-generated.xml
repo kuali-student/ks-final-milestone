@@ -2311,7 +2311,7 @@ Returns the credit count for this registration
 
 	<bean id="CourseRegistrationInfo.gradingOptionKey-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="gradingOptionKey"/>
-		<property name="shortLabel" value="Grading Option Id"/>
+		<property name="shortLabel" value="Grading Option Key"/>
 		<property name="summary">
 			<value>
 Returns the grading option

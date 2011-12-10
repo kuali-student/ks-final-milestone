@@ -12,7 +12,6 @@ import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
 import org.kuali.student.enrollment.class1.hold.model.RestrictionEntity;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 
-//@Ignore
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestRestrictionDao extends AbstractTransactionalDaoTest{
 	@Dao(value = "org.kuali.student.enrollment.class1.hold.dao.RestrictionDao", testSqlFile = "classpath:ks-hold.sql")
@@ -24,7 +23,8 @@ public class TestRestrictionDao extends AbstractTransactionalDaoTest{
 			RestrictionEntity obj = dao.find("Hold-Restriction-1");
 			assertNotNull(obj);
 	        assertEquals("Restriction one", obj.getName()); 
-	       
+	        assertEquals(HoldServiceConstants.RESTRICTION_ACIVE_STATE_KEY, obj.getRestrictionState().getId()); 
+	        assertEquals(HoldServiceConstants.REGISTERATION_RESTRICTION_TYPE_KEY, obj.getRestrictionType().getId()); 
 	        assertEquals("Hold Desc 101", obj.getDescr().getPlain());  
 		}catch (Exception ex){
 			ex.printStackTrace();

@@ -1138,6 +1138,10 @@
             <reference foreign="ID" local="LPRROSTER_ID"/>
         </foreign-key>
     </table>
+    <table name="KSEN_LPR_RV_GRP_RELTN">
+        <column name="LPR_ID" size="255" type="VARCHAR"/>
+        <column name="RV_GRP_ID" size="255" type="VARCHAR"/>
+    </table>
     <table name="KSEN_LPR_TRANS">
         <column name="ID" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
@@ -1172,6 +1176,9 @@
         <column name="PERSON_ID" size="255" type="VARCHAR"/>
         <column name="NEW_LUI_ID" size="255" type="VARCHAR"/>
         <column name="EXIST_LUI_ID" size="255" type="VARCHAR"/>
+        <column name="RESULTING_LPR_ID" size="255" type="VARCHAR"/>
+        <column name="GROUP_ID" size="255" type="VARCHAR"/>
+        <column name="STATUS" size="255" type="VARCHAR"/>
         <column name="LPR_TRANS_ID" size="255" type="VARCHAR"/>
         <column name="STATE_ID" size="255" type="VARCHAR"/>
         <column name="TYPE_ID" size="255" type="VARCHAR"/>
@@ -1184,6 +1191,165 @@
         <column name="OWNER" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LPR_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_SCALE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="MIN_VALUE" size="255" type="VARCHAR"/>
+        <column name="MAX_VALUE" size="255" type="VARCHAR"/>
+        <column name="INCR" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_SCALE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_VALUE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="RES_SCALE_ID" size="255" type="VARCHAR"/>
+        <column name="NUMERIC_VALUE" size="255" type="VARCHAR"/>
+        <column name="VALUE" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_VALUE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_VAL_GRP">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="EFFECTIVEDATE" type="TIMESTAMP"/>
+        <column name="EXPIRATIONDATE" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="MIN_VALUE" size="255" type="VARCHAR"/>
+        <column name="MAX_VALUE" size="255" type="VARCHAR"/>
+        <column name="INCR" size="255" type="VARCHAR"/>
+        <column name="RES_SCALE_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RES_VAL_GRP_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_RVGP_RV_RELTN">
+        <column name="RES_VAL_GRP_ID" size="255" type="VARCHAR"/>
+        <column name="RES_VAL_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRC_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="STATE_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="LPR_ID" size="255" type="VARCHAR"/>
+        <column name="RESULT_VALUE_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="FK1BE15Q7B1D2EA121">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_LRR_TYPE" name="FK1BE15Q7B1D2EF131">
+            <reference foreign="TYPE_KEY" local="TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_COMM_STATE" name="FK1BE2597A61E975Q1">
+            <reference foreign="ID" local="STATE_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LRR_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LRR" name="FKSF4BE635DC3CD510">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_LRR_RES_SOURCE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="ARTICULATE_ID" size="255" type="VARCHAR"/>
+        <column name="RES_TRANS_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRR_RES_SOURCE_ATTR">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRR_RES_SRC_RELTN">
+        <column name="LRR_ID" size="255" type="VARCHAR"/>
+        <column name="RES_SRC_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LRR_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
@@ -1391,6 +1557,11 @@
         <column name="VER_NBR" size="19" type="DECIMAL"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_LUI_RV_GRP_RELTN">
+        <column name="ID" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" size="255" type="VARCHAR"/>
+        <column name="RV_GRP_ID" size="255" type="VARCHAR"/>
     </table>
     <table name="KSEN_LUI_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
@@ -4334,6 +4505,7 @@
     <sequence name="KREW_EDL_S" nextval="2020"/>
     <sequence name="KREW_OUT_BOX_ITM_S" nextval="10043"/>
     <sequence name="KREW_PPL_FLW_ATTR_S" nextval="10000"/>
+    <sequence name="KREW_PPL_FLW_DLGT_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_MBR_S" nextval="10000"/>
     <sequence name="KREW_PPL_FLW_S" nextval="10000"/>
     <sequence name="KREW_RSP_S" nextval="2065"/>
@@ -4347,7 +4519,7 @@
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
     <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10008"/>
-    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10001"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10000"/>
@@ -4365,13 +4537,13 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10000"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10001"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10000"/>
+    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10001"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1000"/>
+    <sequence name="KRIM_ROLE_ID_S" nextval="10004"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10001"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1014"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>

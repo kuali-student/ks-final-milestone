@@ -42,105 +42,105 @@ import java.util.Set;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
-    private LuiService luiService;
-    private CourseService courseService;
-    private AcademicCalendarService acalService;
-    private CourseOfferingAssembler coAssembler;
-    private ActivityOfferingAssembler aoAssembler;
-    private RegistrationGroupAssembler rgAssembler;
-    private StateService stateService;
-    private LuiPersonRelationService lprService;
+	private LuiService luiService;
+	private CourseService courseService;
+	private AcademicCalendarService acalService;
+	private CourseOfferingAssembler coAssembler;
+	private ActivityOfferingAssembler aoAssembler;
+	private RegistrationGroupAssembler rgAssembler;
+	private StateService stateService;
+	private LuiPersonRelationService lprService;
 
     // TODO - remove when KSENROLL-247 is resolved
     private static final Integer TEMP_MAX_ENROLLMENT_DEFAULT = 50;
 
     public LuiService getLuiService() {
-        return luiService;
-    }
+		return luiService;
+	}
 
-    public void setLuiService(LuiService luiService) {
-        this.luiService = luiService;
-    }
+	public void setLuiService(LuiService luiService) {
+		this.luiService = luiService;
+	}
 
-    public CourseService getCourseService() {
-        return courseService;
-    }
+	public CourseService getCourseService() {
+		return courseService;
+	}
 
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
+	public void setCourseService(CourseService courseService) {
+		this.courseService = courseService;
+	}
 
-    public AcademicCalendarService getAcalService() {
-        return acalService;
-    }
+	public AcademicCalendarService getAcalService() {
+		return acalService;
+	}
 
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
-    }
+	public void setAcalService(AcademicCalendarService acalService) {
+		this.acalService = acalService;
+	}
 
-    public CourseOfferingAssembler getCoAssembler() {
-        return coAssembler;
-    }
+	public CourseOfferingAssembler getCoAssembler() {
+		return coAssembler;
+	}
 
-    public void setCoAssembler(CourseOfferingAssembler coAssembler) {
-        this.coAssembler = coAssembler;
-    }
+	public void setCoAssembler(CourseOfferingAssembler coAssembler) {
+		this.coAssembler = coAssembler;
+	}
 
-    public ActivityOfferingAssembler getAoAssembler() {
-        return aoAssembler;
-    }
+	public ActivityOfferingAssembler getAoAssembler() {
+		return aoAssembler;
+	}
 
-    public void setAoAssembler(ActivityOfferingAssembler aoAssembler) {
-        this.aoAssembler = aoAssembler;
-    }
+	public void setAoAssembler(ActivityOfferingAssembler aoAssembler) {
+		this.aoAssembler = aoAssembler;
+	}
 
-    public RegistrationGroupAssembler getRgAssembler() {
-        return rgAssembler;
-    }
+	public RegistrationGroupAssembler getRgAssembler() {
+		return rgAssembler;
+	}
 
-    public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
-        this.rgAssembler = rgAssembler;
-    }
+	public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
+		this.rgAssembler = rgAssembler;
+	}
 
-    public StateService getStateService() {
-        return stateService;
-    }
+	public StateService getStateService() {
+		return stateService;
+	}
 
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
 
-    public LuiPersonRelationService getLprService() {
-        return lprService;
-    }
+	public LuiPersonRelationService getLprService() {
+		return lprService;
+	}
 
-    public void setLprService(LuiPersonRelationService lprService) {
-        this.lprService = lprService;
-    }
+	public void setLprService(LuiPersonRelationService lprService) {
+		this.lprService = lprService;
+	}
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
+			throws OperationFailedException, MissingParameterException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-            ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
+			ContextInfo context) throws OperationFailedException,
+			MissingParameterException, PermissionDeniedException,
+			DoesNotExistException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public CourseOfferingInfo getCourseOffering(String courseOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        LuiInfo lui = luiService.getLui(courseOfferingId, context);
+	@Override
+	public CourseOfferingInfo getCourseOffering(String courseOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		LuiInfo lui = luiService.getLui(courseOfferingId, context);
         CourseOfferingInfo co;
         try {
             co = coAssembler.assemble(lui, context);
@@ -151,27 +151,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         return co;
     }
 
-    @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(
-            String courseId, String termKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(
+			String courseId, String termKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<String> getCourseOfferingIdsForTerm(String termKey,
-            Boolean useIncludedTerm, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<String> getCourseOfferingIdsForTerm(String termKey,
+			Boolean useIncludedTerm, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
+	@Override
     /**
      * HACK HACK HACK
      *
@@ -182,12 +182,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
      *
      * HACK HACK HACK
      */
-    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey,
-            String subjectArea, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO UNHACK THIS HACK!!
+	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey,
+			String subjectArea, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO UNHACK THIS HACK!!
 
         TermInfo term = acalService.getTerm(termKey, context);
 
@@ -203,8 +203,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
             }
         }
 
-        return results;
-    }
+		return results;
+	}
 
     @Override
     public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) 
@@ -221,44 +221,44 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
         
         
-    @Override
-    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey,
-            String unitOwnerId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey,
+			String unitOwnerId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    @Transactional
-    public CourseOfferingInfo createCourseOfferingFromCanonical(
-            String courseId, String termKey, List<String> formatIdList,
-            ContextInfo context) throws AlreadyExistsException,
-            DoesNotExistException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+	@Override
+	@Transactional
+	public CourseOfferingInfo createCourseOfferingFromCanonical(
+			String courseId, String termKey, List<String> formatIdList,
+			ContextInfo context) throws AlreadyExistsException,
+			DoesNotExistException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo courseOfferingInfo = null;
 
         CourseInfo courseInfo = getCourse(courseId);
         if (courseInfo != null){
-            courseOfferingInfo = coAssembler.assemble(courseInfo);
-            courseOfferingInfo.setCourseId(courseId);
+        	courseOfferingInfo = coAssembler.assemble(courseInfo);
+        	courseOfferingInfo.setCourseId(courseId);
         }
         else {
-            throw new DoesNotExistException("The course does not exist. course: " + courseId);
+        	throw new DoesNotExistException("The course does not exist. course: " + courseId);
         }
 
         if(acalService.getTerm(termKey, context) != null) {
-            courseOfferingInfo.setTermKey(termKey);
+        	courseOfferingInfo.setTermKey(termKey);
         }
         else {
-            throw new DoesNotExistException("The term does not exist. term: " + termKey);
+        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
         }
 
         if (checkExistenceForFormats(formatIdList, context)) {
-            courseOfferingInfo.setFormatIds(formatIdList);
+        	courseOfferingInfo.setFormatIds(formatIdList);
         }
 
         courseOfferingInfo.setStateKey(getStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, context));
@@ -268,7 +268,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         LuiInfo created = luiService.createLui(courseId, termKey, luiInfo, context);
         
         if (created != null) {
-            courseOfferingInfo.setId(created.getId());
+        	courseOfferingInfo.setId(created.getId());
 
             // Create an LprRoster for this CourseOffering
             LprRosterInfo lprrInfo = new LprRosterInfo();
@@ -290,169 +290,169 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                 throw new OperationFailedException(roe.getClass() + ": " + roe.getMessage());
             }
         }
-        return courseOfferingInfo;
-    }
+		return courseOfferingInfo;
+	}
 
-    private CourseInfo getCourse(String courseId)throws DoesNotExistException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException{
-        CourseInfo course = null;
-        try {
-            course = courseService.getCourse(courseId);
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
-            throw new DoesNotExistException("The course does not exist. course: " + courseId);
-        } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
-            throw new InvalidParameterException("The course has invalid parameter. course: " + courseId);
-        } catch (org.kuali.student.common.exceptions.MissingParameterException e) {
-            throw new MissingParameterException("The course is missing parameter. course: " + courseId);
-        } catch (org.kuali.student.common.exceptions.OperationFailedException e) {
-            throw new OperationFailedException("Operation failed when getting course: " + courseId);
-        } catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
-            throw new PermissionDeniedException("Permission denied when getting course: " + courseId);
-        }
-        
-        return course;
-    }
-    
-    //TODO:call LuService 
-    private boolean checkExistenceForFormats(List<String> formatIds, ContextInfo context){
-        if(formatIds != null && !formatIds.isEmpty()){
-            for(String formatId : formatIds){
-                //luService.getClu(formatId, context);
-            }
-        }
+	private CourseInfo getCourse(String courseId)throws DoesNotExistException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException{
+		CourseInfo course = null;
+		try {
+			course = courseService.getCourse(courseId);
+		} catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+			throw new DoesNotExistException("The course does not exist. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+			throw new InvalidParameterException("The course has invalid parameter. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.MissingParameterException e) {
+			throw new MissingParameterException("The course is missing parameter. course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.OperationFailedException e) {
+			throw new OperationFailedException("Operation failed when getting course: " + courseId);
+		} catch (org.kuali.student.common.exceptions.PermissionDeniedException e) {
+			throw new PermissionDeniedException("Permission denied when getting course: " + courseId);
+		}
+		
+		return course;
+	}
+	
+	//TODO:call LuService 
+	private boolean checkExistenceForFormats(List<String> formatIds, ContextInfo context){
+		if(formatIds != null && !formatIds.isEmpty()){
+			for(String formatId : formatIds){
+				//luService.getClu(formatId, context);
+			}
+		}
 
-        return true;
+    	return true;
     }
-    
-    private String getStateKey(String processKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
-            MissingParameterException, OperationFailedException{
+	
+	private String getStateKey(String processKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException{
         String stateKey = null;
         List<StateInfo> ivStates = stateService.getInitialValidStates(processKey, context);
         if(ivStates != null && ivStates.size() > 0) {
-            stateKey = ivStates.get(0).getKey();
+        	stateKey = ivStates.get(0).getKey();
         }
         else {
-            stateKey = defaultState;
+        	stateKey = defaultState;
         }
         
         return stateKey;
-    }
-    
-    @Override
-    @Transactional
-    public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
-            CourseOfferingInfo courseOfferingInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+	}
+	
+	@Override
+	@Transactional
+	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
+			CourseOfferingInfo courseOfferingInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
         try{
-            LuiInfo existing = luiService.getLui(courseOfferingId, context);
-            if(existing != null){
-                LuiInfo lui = coAssembler.disassemble(courseOfferingInfo, context);
-    
-                if(lui != null){
-                    LuiInfo updated = luiService.updateLui(courseOfferingId, lui, context);
-                    if (updated != null) {
-                        processRelationsForCourseOffering(courseOfferingInfo, context);
+        	LuiInfo existing = luiService.getLui(courseOfferingId, context);
+        	if(existing != null){
+        		LuiInfo lui = coAssembler.disassemble(courseOfferingInfo, context);
+	
+	            if(lui != null){
+	            	LuiInfo updated = luiService.updateLui(courseOfferingId, lui, context);
+	            	if (updated != null) {
+	            		processRelationsForCourseOffering(courseOfferingInfo, context);
                     }
-                }
-            }
-            else {
-                throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
+	            }
+        	}
+        	else {
+        		throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
             }
         } catch (DoesNotExistException e1) {
             throw new DoesNotExistException("The CourseOffering does not exist: " + courseOfferingId);
         }
         
         return courseOfferingInfo;
-    }
-    
-    private void processRelationsForCourseOffering(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
-            PermissionDeniedException, VersionMismatchException{
+	}
+	
+	private void processRelationsForCourseOffering(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
+			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+			PermissionDeniedException, VersionMismatchException{
 
-        processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
+		processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
 
-        //how to determine that the lui already exist?
-        if(co.getHasFinalExam()) {
+		//how to determine that the lui already exist?
+		if(co.getHasFinalExam()) {
             processFinalExam(co, context);
         }
-            
-        //TODO:jointOfferingIds -- ignore for core slice
+			
+		//TODO:jointOfferingIds -- ignore for core slice
 
         processFinalRoster(co.getId(), co.getMaximumEnrollment(), context);
-    }
+	}
 
-    private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
-    DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        String cluId = co.getCourseId();
-        String atpKey = co.getTermKey();
-        LuiInfo finalExam = new LuiInfo();
-        finalExam.setCluId(cluId);
-        finalExam.setAtpKey(atpKey);
-        finalExam.setStateKey(co.getStateKey());
-        //TODO: not sure what type
-        finalExam.setTypeKey("kuali.lui.type.course.finalExam");
-        //TODO: what else inherit or fill into finalExam?
-        LuiInfo created;
-        try {
-            created = luiService.createLui(cluId, atpKey, finalExam, context);
-        } catch (AlreadyExistsException e1) {
-            throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpKey: " + atpKey);
-        }
-        
-        if(created != null){
-            try {
-                createLuiLuiRelation(co.getId(), created.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
-            } catch (AlreadyExistsException e1) {
-                throw new OperationFailedException();
-            }
-        }
-    }
-    
-    private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpKey, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
-        PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
-        
-        List<String> currrentInstructors = lprService.getPersonIdsByLui(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
-        
-        if(instructors != null && !instructors.isEmpty()){
-            for(OfferingInstructorInfo instructor : instructors){
-                try{
-                    if(currrentInstructors.contains(instructor.getPersonId())){
-                        LuiPersonRelationInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
-                        if (existingLpr != null){
-                            existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
-                            lprService.updateLpr(existingLpr.getId(), existingLpr, context);
-                            currrentInstructors.remove(instructor.getPersonId());
-                        }
-                    }   
-                    else{
-                        lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), getNewLpr(instructor, courseOfferingId), context);
+	private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
+	DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		String cluId = co.getCourseId();
+		String atpKey = co.getTermKey();
+		LuiInfo finalExam = new LuiInfo();
+		finalExam.setCluId(cluId);
+		finalExam.setAtpKey(atpKey);
+		finalExam.setStateKey(co.getStateKey());
+		//TODO: not sure what type
+		finalExam.setTypeKey("kuali.lui.type.course.finalExam");
+		//TODO: what else inherit or fill into finalExam?
+		LuiInfo created;
+		try {
+			created = luiService.createLui(cluId, atpKey, finalExam, context);
+		} catch (AlreadyExistsException e1) {
+			throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpKey: " + atpKey);
+		}
+		
+		if(created != null){
+			try {
+				createLuiLuiRelation(co.getId(), created.getId(), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+			} catch (AlreadyExistsException e1) {
+				throw new OperationFailedException();
+			}
+		}
+	}
+	
+	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpKey, ContextInfo context) 
+		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+		PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
+		
+		List<String> currrentInstructors = lprService.getPersonIdsByLui(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
+		
+		if(instructors != null && !instructors.isEmpty()){
+			for(OfferingInstructorInfo instructor : instructors){
+				try{
+					if(currrentInstructors.contains(instructor.getPersonId())){
+						LuiPersonRelationInfo existingLpr = getLpr(instructor.getPersonId(), courseOfferingId, context);
+						if (existingLpr != null){
+							existingLpr.setCommitmentPercent(instructor.getPercentageEffort());
+							lprService.updateLpr(existingLpr.getId(), existingLpr, context);
+							currrentInstructors.remove(instructor.getPersonId());
+						}
+					}	
+					else{
+						lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), getNewLpr(instructor, courseOfferingId), context);
+					}
+				} catch (AlreadyExistsException e) {
+					throw new OperationFailedException();
+				} catch (DisabledIdentifierException e) {
+					throw new OperationFailedException();
+				} catch (ReadOnlyException e) {
+					throw new OperationFailedException();
+				}
+			}
+		}
+		
+		if (currrentInstructors != null && currrentInstructors.size() > 0){
+			if(atpKey != null){
+				for(String instructorId: currrentInstructors){
+					LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
+					if(lpr != null ) {
+						lprService.deleteLpr(lpr.getId(), context);
                     }
-                } catch (AlreadyExistsException e) {
-                    throw new OperationFailedException();
-                } catch (DisabledIdentifierException e) {
-                    throw new OperationFailedException();
-                } catch (ReadOnlyException e) {
-                    throw new OperationFailedException();
-                }
-            }
-        }
-        
-        if (currrentInstructors != null && currrentInstructors.size() > 0){
-            if(atpKey != null){
-                for(String instructorId: currrentInstructors){
-                    LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
-                    if(lpr != null ) {
-                        lprService.deleteLpr(lpr.getId(), context);
-                    }
-                }
-            }
-        }
-    }
+				}
+			}
+		}
+	}
 
    private void processFinalRoster(String courseOfferingId, Integer maxEnrollment, ContextInfo context) throws DataValidationErrorException,
            InvalidParameterException, MissingParameterException,
@@ -471,55 +471,55 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-    private LuiPersonRelationInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId){
-        LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
-        lpr.setPersonId(instructor.getPersonId());
-        lpr.setCommitmentPercent(instructor.getPercentageEffort());
-        lpr.setId(UUIDHelper.genStringUUID());
-        lpr.setLuiId(courseOfferingId);
-        lpr.setTypeKey(instructor.getTypeKey());
-        lpr.setStateKey(instructor.getStateKey());      
-        return lpr;
-    }
-    
-    private LuiPersonRelationInfo getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        LuiPersonRelationInfo lpr = null;
-        try {
-            List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(instructor, courseOfferingId, context);
-            
-            if(lprs != null && !lprs.isEmpty()){
-                for(LuiPersonRelationInfo lpri : lprs){
-                    if(lpri.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
-                         lpr = lpri;
+	private LuiPersonRelationInfo getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId){
+		LuiPersonRelationInfo lpr = new LuiPersonRelationInfo();
+		lpr.setPersonId(instructor.getPersonId());
+		lpr.setCommitmentPercent(instructor.getPercentageEffort());
+		lpr.setId(UUIDHelper.genStringUUID());
+		lpr.setLuiId(courseOfferingId);
+		lpr.setTypeKey(instructor.getTypeKey());
+		lpr.setStateKey(instructor.getStateKey());		
+		return lpr;
+	}
+	
+	private LuiPersonRelationInfo getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+			InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		LuiPersonRelationInfo lpr = null;
+		try {
+			List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(instructor, courseOfferingId, context);
+			
+			if(lprs != null && !lprs.isEmpty()){
+				for(LuiPersonRelationInfo lpri : lprs){
+					if(lpri.getTypeKey().equals(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+						 lpr = lpri;
                     }
-                }
-            }           
-        } catch (DisabledIdentifierException e) {
-            throw new OperationFailedException();
-        }
-        
-        return lpr;
-    }
-    
-    @Override
-    @Transactional
-    public CourseOfferingInfo updateCourseOfferingFromCanonical(
-            String courseOfferingId, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+				}
+			}			
+		} catch (DisabledIdentifierException e) {
+			throw new OperationFailedException();
+		}
+		
+		return lpr;
+	}
+	
+	@Override
+	@Transactional
+	public CourseOfferingInfo updateCourseOfferingFromCanonical(
+			String courseOfferingId, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    @Transactional
-    public StatusInfo deleteCourseOffering(String courseOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+	@Override
+	@Transactional
+	public StatusInfo deleteCourseOffering(String courseOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
         try {
             return luiService.deleteLui(courseOfferingId,context);
         } catch (DependentObjectsExistException e) {
@@ -527,62 +527,62 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-    @Override
-    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(
-            String courseOfferingId, String nlUsageTypeKey, String language,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<StatementTreeViewInfo> getCourseOfferingRestrictions(
+			String courseOfferingId, String nlUsageTypeKey, String language,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatementTreeViewInfo createCourseOfferingRestriction(
-            String courseOfferingId, StatementTreeViewInfo restrictionInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatementTreeViewInfo createCourseOfferingRestriction(
+			String courseOfferingId, StatementTreeViewInfo restrictionInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DataValidationErrorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatementTreeViewInfo updateCourseOfferingRestriction(
-            String courseOfferingId, StatementTreeViewInfo restrictionInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, CircularReferenceException,
-            VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatementTreeViewInfo updateCourseOfferingRestriction(
+			String courseOfferingId, StatementTreeViewInfo restrictionInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DataValidationErrorException, CircularReferenceException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId,
-            String restrictionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId,
+			String restrictionId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public TypeInfo getActivityOfferingType(String activityOfferingTypeKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public TypeInfo getActivityOfferingType(String activityOfferingTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+	@Override
+	public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
         try {
             return luiService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
         } catch (DoesNotExistException e) {
@@ -590,22 +590,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-    @Override
-    public List<TypeInfo> getActivityOfferingTypesForActivityType(
-            String activityTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+	@Override
+	public List<TypeInfo> getActivityOfferingTypesForActivityType(
+			String activityTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
 //        TypeInfo activityType = luiService.getType(activityTypeKey, context);    
         
-        return luiService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
-    }
+    	return luiService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
+	}
 
-    @Override
-    public ActivityOfferingInfo getActivityOffering(String activityOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        LuiInfo lui = luiService.getLui(activityOfferingId, context);
+	@Override
+	public ActivityOfferingInfo getActivityOffering(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao;
         try {
             ao = aoAssembler.assemble(lui, context);
@@ -616,50 +616,50 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         return ao;
     }
 
-    @Override
-    public List<ActivityOfferingInfo> getActivitiesForCourseOffering(
-            String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return getActivitiesForRelation(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, "kuali.lui.type.course.finalExam", context);
-    }
+	@Override
+	public List<ActivityOfferingInfo> getActivitiesForCourseOffering(
+			String courseOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getActivitiesForRelation(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, "kuali.lui.type.course.finalExam", context);
+	}
 
 
-    private List<ActivityOfferingInfo> getActivitiesForRelation(String relatedLuiId, String relType, String exludedLuiType, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException{
-        //TODO: implement LuiService.getLuiIdsByRelation and call it instead
-        List<ActivityOfferingInfo> aos = new ArrayList<ActivityOfferingInfo>();
-        List<String> aoIds = new ArrayList<String>();
-        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(relatedLuiId, context);
-        if(rels != null && !rels.isEmpty()){                  
+	private List<ActivityOfferingInfo> getActivitiesForRelation(String relatedLuiId, String relType, String exludedLuiType, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException{
+		//TODO: implement LuiService.getLuiIdsByRelation and call it instead
+		List<ActivityOfferingInfo> aos = new ArrayList<ActivityOfferingInfo>();
+		List<String> aoIds = new ArrayList<String>();
+		List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(relatedLuiId, context);
+		if(rels != null && !rels.isEmpty()){                  
             for(LuiLuiRelationInfo rel : rels){
-                if(rel.getRelatedLuiId().equals(relatedLuiId)){
-                    if(rel.getTypeKey().equals(relType)){
-                        String luiId = rel.getLuiId();
-                        LuiInfo lui = luiService.getLui(luiId, context);
-                        if(lui != null && !lui.getTypeKey().equals(exludedLuiType) && !aoIds.contains(luiId)){
-                            aoIds.add(luiId);
-                            aos.add(getActivityOffering(luiId, context));
-                        }
-                    }
-                }
+            	if(rel.getRelatedLuiId().equals(relatedLuiId)){
+            		if(rel.getTypeKey().equals(relType)){
+            			String luiId = rel.getLuiId();
+            			LuiInfo lui = luiService.getLui(luiId, context);
+            			if(lui != null && !lui.getTypeKey().equals(exludedLuiType) && !aoIds.contains(luiId)){
+            				aoIds.add(luiId);
+            				aos.add(getActivityOffering(luiId, context));
+            			}
+            		}
+            	}
             }
-        }
-        
-        return aos;     
-    }
-    
-    @Override
-    @Transactional
-    public ActivityOfferingInfo createActivityOffering(
-            List<String> courseOfferingIdList,
-            ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+		}
+		
+		return aos;		
+	}
+	
+	@Override
+	@Transactional
+	public ActivityOfferingInfo createActivityOffering(
+			List<String> courseOfferingIdList,
+			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
 
         if (null == courseOfferingIdList || courseOfferingIdList.isEmpty()) {
             throw new MissingParameterException("Course offering ID list parameter is required");
@@ -685,71 +685,71 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         catch (DoesNotExistException e) {
             throw new OperationFailedException();
         }
-    }
-    
-    private void processRelationsForActivityOffering(List<String> courseOfferingIdList, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)  
-            throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, 
-            OperationFailedException, PermissionDeniedException{
-        
-        processLuiluiRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
-        
-        try {
-            processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermKey(), context);
-    
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException();
-        } catch (VersionMismatchException e) {
-            throw new OperationFailedException();
-        }
-        
-        //TODO: ao.setGradingOptionKeys -- ignore for core slice
+	}
+	
+	private void processRelationsForActivityOffering(List<String> courseOfferingIdList, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)  
+			throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, 
+			OperationFailedException, PermissionDeniedException{
+		
+		processLuiluiRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
+		
+		try {
+			processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermKey(), context);
+	
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException();
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException();
+		}
+		
+		//TODO: ao.setGradingOptionKeys -- ignore for core slice
 }
 
-    
-    private void processLuiluiRelationsForActivityOffering(List<String> courseOfferingIdList,
-            ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+	
+	private void processLuiluiRelationsForActivityOffering(List<String> courseOfferingIdList,
+			ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-        for (String courseOfferingId : courseOfferingIdList) {
-            createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
-        }
-            
-    }
-    
-    private void createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws AlreadyExistsException, 
-            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        try {
-            luiService.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, 
-                    initLuiLuiRelationInfo(luiId, relatedLuiId, luLuRelationTypeKey, context), context);
-        } catch (CircularRelationshipException e) {
-            throw new OperationFailedException();
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException();
-        }
-    }
-    private LuiLuiRelationInfo initLuiLuiRelationInfo(String luiId, String relatedLuiId, String typeKey, ContextInfo context) throws InvalidParameterException, 
-            MissingParameterException, OperationFailedException{
-        LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
-        luiRel.setLuiId(luiId);
-        luiRel.setRelatedLuiId(relatedLuiId);
-        luiRel.setTypeKey(typeKey);
-        try {
-            luiRel.setStateKey(getStateKey(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, context));
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException();
-        }
-        return luiRel;
-    }
+		for (String courseOfferingId : courseOfferingIdList) {
+			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+		}
+			
+	}
+	
+	private void createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws AlreadyExistsException, 
+			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+		try {
+			luiService.createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, 
+					initLuiLuiRelationInfo(luiId, relatedLuiId, luLuRelationTypeKey, context), context);
+		} catch (CircularRelationshipException e) {
+			throw new OperationFailedException();
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException();
+		}
+	}
+	private LuiLuiRelationInfo initLuiLuiRelationInfo(String luiId, String relatedLuiId, String typeKey, ContextInfo context) throws InvalidParameterException, 
+			MissingParameterException, OperationFailedException{
+		LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
+		luiRel.setLuiId(luiId);
+		luiRel.setRelatedLuiId(relatedLuiId);
+		luiRel.setTypeKey(typeKey);
+		try {
+			luiRel.setStateKey(getStateKey(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY, context));
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException();
+		}
+		return luiRel;
+	}
 
-    @Override
-    @Transactional
-    public ActivityOfferingInfo updateActivityOffering(
-            String activityOfferingId,
-            ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+	@Override
+	@Transactional
+	public ActivityOfferingInfo updateActivityOffering(
+			String activityOfferingId,
+			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
 
         LuiInfo lui = null;
         try {
@@ -767,14 +767,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 
         return activity;
-    }
+	}
 
-    @Override
-    @Transactional
-    public StatusInfo deleteActivityOffering(String activityOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+	@Override
+	@Transactional
+	public StatusInfo deleteActivityOffering(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
         try {
             return luiService.deleteLui(activityOfferingId,context);
         } catch (DependentObjectsExistException e) {
@@ -782,94 +782,94 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-    @Override
-    public List<StatementTreeViewInfo> getActivityOfferingRestrictions(
-            String activityOfferingId, String nlUsageTypeKey, String language,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<StatementTreeViewInfo> getActivityOfferingRestrictions(
+			String activityOfferingId, String nlUsageTypeKey, String language,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatementTreeViewInfo createActivityOfferingRestriction(
-            String activityOfferingId, StatementTreeViewInfo restrictionInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatementTreeViewInfo createActivityOfferingRestriction(
+			String activityOfferingId, StatementTreeViewInfo restrictionInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DataValidationErrorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatementTreeViewInfo updateActivityOfferingRestriction(
-            String activityOfferingId, StatementTreeViewInfo restrictionInfo,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, CircularReferenceException,
-            VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatementTreeViewInfo updateActivityOfferingRestriction(
+			String activityOfferingId, StatementTreeViewInfo restrictionInfo,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DataValidationErrorException, CircularReferenceException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatusInfo deleteActivityOfferingRestriction(
-            String activityOfferingId, String restrictionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatusInfo deleteActivityOfferingRestriction(
+			String activityOfferingId, String restrictionId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Float calculateInClassContactHoursForTerm(String activityOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public Float calculateInClassContactHoursForTerm(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Float calculateOutofClassContactHoursForTerm(
-            String activityOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public Float calculateOutofClassContactHoursForTerm(
+			String activityOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public Float calculateTotalContactHoursForTerm(String activityOfferingId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public Float calculateTotalContactHoursForTerm(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<ActivityOfferingInfo> copyActivityOffering(
-            String activityOfferingId, Integer numberOfCopies,
-            String copyContextTypeKey, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<ActivityOfferingInfo> copyActivityOffering(
+			String activityOfferingId, Integer numberOfCopies,
+			String copyContextTypeKey, ContextInfo context)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public RegistrationGroupInfo getRegistrationGroup(
-            String registrationGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        LuiInfo lui = luiService.getLui(registrationGroupId, context);
+	@Override
+	public RegistrationGroupInfo getRegistrationGroup(
+			String registrationGroupId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		LuiInfo lui = luiService.getLui(registrationGroupId, context);
         RegistrationGroupInfo rg;
         try {
             rg = rgAssembler.assemble(lui, context);
@@ -880,54 +880,54 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         return rg;
     }
 
-    @Override
-    public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(
-            String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        //TODO: implement LuiService.getLuiIdsByRelation and call it instead
-        List<RegistrationGroupInfo> rgs = new ArrayList<RegistrationGroupInfo>();
-        List<String> rgIds = new ArrayList<String>();
-        List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
-        if(rels != null && !rels.isEmpty()){                  
+	@Override
+	public List<RegistrationGroupInfo> getRegGroupsForCourseOffering(
+			String courseOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		//TODO: implement LuiService.getLuiIdsByRelation and call it instead
+		List<RegistrationGroupInfo> rgs = new ArrayList<RegistrationGroupInfo>();
+		List<String> rgIds = new ArrayList<String>();
+		List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
+		if(rels != null && !rels.isEmpty()){                  
             for(LuiLuiRelationInfo rel : rels){
-                if(rel.getRelatedLuiId().equals(courseOfferingId)){
-                    if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY)){
-                        String luiId = rel.getLuiId();
-                        LuiInfo lui = luiService.getLui(luiId, context);
-                        if(lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)){
-                            rgIds.add(luiId);
-                            rgs.add(getRegistrationGroup(luiId, context));
-                        }
-                    }
-                }
+            	if(rel.getRelatedLuiId().equals(courseOfferingId)){
+            		if(rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY)){
+            			String luiId = rel.getLuiId();
+            			LuiInfo lui = luiService.getLui(luiId, context);
+            			if(lui != null && lui.getTypeKey().equals(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY) && !rgIds.contains(luiId)){
+            				rgIds.add(luiId);
+            				rgs.add(getRegistrationGroup(luiId, context));
+            			}
+            		}
+            	}
             }
-        }
-        
-        return rgs;     
-    }
+		}
+		
+		return rgs;		
+	}
 
-    @Override
-    public List<RegistrationGroupInfo> getRegGroupsByFormatForCourse(
-            String courseOfferingId, String formatTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<RegistrationGroupInfo> getRegGroupsByFormatForCourse(
+			String courseOfferingId, String formatTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    @Transactional
-    public RegistrationGroupInfo createRegistrationGroup(
-            String courseOfferingId,
-            RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-            throws AlreadyExistsException, DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        if(courseOfferingId != null){
+	@Override
+	@Transactional
+	public RegistrationGroupInfo createRegistrationGroup(
+			String courseOfferingId,
+			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
+			throws AlreadyExistsException, DoesNotExistException,
+			DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		if(courseOfferingId != null){
             LuiInfo lui = null;
             try {
                 lui = rgAssembler.disassemble(registrationGroupInfo, context);
@@ -936,71 +936,71 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
             }
 
             try {
-                String termKey = null;
-                
-                if(registrationGroupInfo.getTermKey()!= null) {
-                    termKey = registrationGroupInfo.getTermKey();
+				String termKey = null;
+				
+				if(registrationGroupInfo.getTermKey()!= null) {
+					termKey = registrationGroupInfo.getTermKey();
                 }
-                else {
-                    termKey = getTermkeyByCourseOffering(courseOfferingId, context);
+				else {
+					termKey = getTermkeyByCourseOffering(courseOfferingId, context);
                 }
-                
-                if(termKey != null){
-                    LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
-                    
-                    if(created != null){
-                        registrationGroupInfo.setId(created.getId());
-                        registrationGroupInfo.setTermKey(termKey);
-                        processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
-                    }
-                    
-                    return registrationGroupInfo;
+				
+				if(termKey != null){
+					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
+					
+					if(created != null){
+						registrationGroupInfo.setId(created.getId());
+						registrationGroupInfo.setTermKey(termKey);
+						processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
+					}
+					
+					return registrationGroupInfo;
+				}
+				else {
+					throw new OperationFailedException("termkey is missing.");
                 }
-                else {
-                    throw new OperationFailedException("termkey is missing.");
-                }
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException();
-            }
-        }
-        else
-            return null;
-    }
-    
-    private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
-        InvalidParameterException, MissingParameterException, OperationFailedException{
-        String termKey = null;
-        
-        LuiInfo co = luiService.getLui(courseOfferingId, context);
-        if(co != null){
-            termKey = co.getAtpKey();
-        }
-        
-        return termKey;
-    }
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException();
+			}
+		}
+		else
+			return null;
+	}
+	
+	private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
+		InvalidParameterException, MissingParameterException, OperationFailedException{
+		String termKey = null;
+		
+		LuiInfo co = luiService.getLui(courseOfferingId, context);
+		if(co != null){
+			termKey = co.getAtpKey();
+		}
+		
+		return termKey;
+	}
 
-    private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 
-            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
-            MissingParameterException, OperationFailedException, PermissionDeniedException{
+	private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 
+			throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-            createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
-            
-            if(registrationGroupInfo.getActivityOfferingIds() != null && !registrationGroupInfo.getActivityOfferingIds().isEmpty()){
-                for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()){
-                    createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
-                }
-            }   
-    }
-    
-    @Override
-    @Transactional
-    public RegistrationGroupInfo updateRegistrationGroup(
-            String registrationGroupId,
-            RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
+			createLuiLuiRelation(registrationGroupInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
+			
+			if(registrationGroupInfo.getActivityOfferingIds() != null && !registrationGroupInfo.getActivityOfferingIds().isEmpty()){
+				for (String activityOfferingId : registrationGroupInfo.getActivityOfferingIds()){
+					createLuiLuiRelation(registrationGroupInfo.getId(), activityOfferingId, LuiServiceConstants.LUI_LUI_RELATION_REGISTEREDFORVIA_TYPE_KEY, context);
+				}
+			}	
+	}
+	
+	@Override
+	@Transactional
+	public RegistrationGroupInfo updateRegistrationGroup(
+			String registrationGroupId,
+			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
 
         Set<String> existingRelatedLuiIds = new HashSet<String>();
         Set<String> newRelatedLuiIds = new HashSet<String>(registrationGroupInfo.getActivityOfferingIds());
@@ -1036,81 +1036,81 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         } catch (AssemblyException e) {
             throw new OperationFailedException("Could not disassemble RegistrationGroup " + registrationGroupInfo.getId(), e);
         }
-    }
+	}
 
-    @Override
-    @Transactional
-    public StatusInfo deleteRegistrationGroup(String registrationGroupId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+	@Override
+	@Transactional
+	public StatusInfo deleteRegistrationGroup(String registrationGroupId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
         try {
             return luiService.deleteLui(registrationGroupId, context);
         } catch (DependentObjectsExistException e) {
             throw new OperationFailedException("Could not delete LUI '" + registrationGroupId + "'", e);
         }
-    }
+	}
 
-    @Override
+	@Override
     public SeatPoolDefinitionInfo getSeatPoolDefinition(
-            String seatPoolDefinitionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+			String seatPoolDefinitionId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolsForCourseOffering(
-            String courseOfferingId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<SeatPoolDefinitionInfo> getSeatPoolsForCourseOffering(
+			String courseOfferingId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public List<SeatPoolDefinitionInfo> getSeatPoolsForRegGroup(
-            String registrationGroupId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public List<SeatPoolDefinitionInfo> getSeatPoolsForRegGroup(
+			String registrationGroupId, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public SeatPoolDefinitionInfo createSeatPoolDefinition(
-            SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public SeatPoolDefinitionInfo createSeatPoolDefinition(
+			SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
+			throws AlreadyExistsException, DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public SeatPoolDefinitionInfo updateSeatPoolDefinition(
-            String seatPoolDefinitionId,
-            SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            VersionMismatchException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public SeatPoolDefinitionInfo updateSeatPoolDefinition(
+			String seatPoolDefinitionId,
+			SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public StatusInfo deleteSeatPoolDefinition(String seatPoolDefinitionId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

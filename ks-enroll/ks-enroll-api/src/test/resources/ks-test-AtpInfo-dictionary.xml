@@ -38,7 +38,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
     
     <bean id="AtpInfo.required.when.state.is.official" parent="CaseConstraint">
         <property name="operator" value="EQUALS" />
-        <property name="fieldPath" value="stateKey" />
         <property name="caseSensitive" value="true" />
         <property name="whenConstraint">
             <list>

@@ -11,12 +11,13 @@ package org.kuali.student.enrollment.class2.grading.dataobject;
  * governing permissions and limitations under the License.
  */
 
+import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 
 public class GradeStudent implements Serializable {
 
@@ -31,6 +32,8 @@ public class GradeStudent implements Serializable {
     private List<ResultValueInfo> availabeGradingOptions;
 
     private List<GradeValuesGroupInfo> gradeValuesGroupInfoList;
+
+    private GradeRosterEntryInfo gradeRosterEntryInfo;
 
     public GradeStudent() {}
 
@@ -91,5 +94,13 @@ public class GradeStudent implements Serializable {
 
     public void setGradeValuesGroupInfoList(List<GradeValuesGroupInfo> resultValuesGroupInfoList) {
         this.gradeValuesGroupInfoList = resultValuesGroupInfoList;
+    }
+
+    public GradeRosterEntryInfo getGradeRosterEntryInfo() {
+        return gradeRosterEntryInfo;
+    }
+
+    public void setGradeRosterEntryInfo(GradeRosterEntryInfo gradeRosterEntryInfo) {
+        this.gradeRosterEntryInfo = gradeRosterEntryInfo;
     }
 }

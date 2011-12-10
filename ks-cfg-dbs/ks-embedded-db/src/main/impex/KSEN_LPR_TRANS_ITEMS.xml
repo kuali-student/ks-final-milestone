@@ -4,5 +4,5 @@
 <dataset>
     <KSEN_LPR_TRANS_ITEMS ID="testLprTransItemId1"
         LPR_TRANS_ID="testLprTransId1" NEW_LUI_ID="Lui-1"
-        PERSON_ID="Student1" STATE_ID="kuali.lpr.trans.item.new" TYPE_ID="kuali.lpr.trans.item.add"/>
+        PERSON_ID="Student1" STATE_ID="kuali.lpr.trans.item.state.new" TYPE_ID="kuali.lpr.trans.item.type.add"/>
 </dataset>

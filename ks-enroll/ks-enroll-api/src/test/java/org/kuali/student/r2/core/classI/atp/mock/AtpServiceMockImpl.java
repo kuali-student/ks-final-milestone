@@ -48,9 +48,9 @@ import javax.jws.WebParam;
  */
 public class AtpServiceMockImpl implements AtpService {
 
-    private final Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
-    private final Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
-    private final Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
+    private Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
+    private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();
+    private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
 
     @Override
     public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
@@ -336,7 +336,6 @@ public class AtpServiceMockImpl implements AtpService {
         return new ArrayList<AtpInfo>();
     }
 
-    @Override
     public List<ValidationResultInfo> validateAtp(String validationType, String atpTypeKey, AtpInfo atpInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();

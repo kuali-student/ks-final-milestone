@@ -42,14 +42,7 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
-	public static AtpInfo newInstance() {
-		return new AtpInfo();
-	}
-
-	public static AtpInfo getInstance(Atp atp) {
-		return new AtpInfo(atp);
-	}
-
+	
 	public AtpInfo() {
 		startDate = null;
 		endDate = null;

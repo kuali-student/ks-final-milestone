@@ -22,23 +22,26 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+//import org.kuali.rice.kew.actionrequest.ActionRequestValue;
+//import org.kuali.rice.kew.actiontaken.ActionTakenValue;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionRequest;
-import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
-import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
-import org.kuali.rice.kew.postprocessor.BeforeProcessEvent;
-import org.kuali.rice.kew.postprocessor.DeleteEvent;
-import org.kuali.rice.kew.postprocessor.DocumentLockingEvent;
-import org.kuali.rice.kew.postprocessor.DocumentRouteLevelChange;
-import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.postprocessor.IDocumentEvent;
-import org.kuali.rice.kew.postprocessor.PostProcessor;
-import org.kuali.rice.kew.postprocessor.ProcessDocReport;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.AfterProcessEvent;
+import org.kuali.rice.kew.framework.postprocessor.BeforeProcessEvent;
+import org.kuali.rice.kew.framework.postprocessor.DeleteEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentLockingEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteLevelChange;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
+import org.kuali.rice.kew.framework.postprocessor.PostProcessor;
+import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
@@ -48,6 +51,7 @@ import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.ProposalConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
+
 public class KualiStudentPostProcessorBase implements PostProcessor{
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiStudentPostProcessorBase.class);
 
@@ -62,7 +66,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	}
 
 	public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
-		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
+/*		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
 		if (actionTaken == null) {
 		    if (LOG.isInfoEnabled()) {
 		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" + 
@@ -70,20 +74,24 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 		    }
 		    actionTaken = actionTakenEvent.getActionTaken();
 		}
+*/
 		boolean success = true;
+        ActionTaken actionTaken = actionTakenEvent.getActionTaken();
+        String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
-		if (!StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, actionTaken.getActionTaken())) {
+		if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
             ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString());
             if (actionTaken == null) {
                 throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getDocumentId());
             }
-    	    if (StringUtils.equals(KEWConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTaken.getActionTaken())) {
+    	    if (StringUtils.equals(KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTakeCode)) {
     	        // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
     	        processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
     	    }
             // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation 
-    	    else if (!StringUtils.equals(KEWConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTaken.getActionTaken())) {
-    			for (ActionRequestValue actionRequest : actionTaken.getActionRequests()) {
+    	    else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
+                List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
+     			for (ActionRequest actionRequest : actionRequests) {
     		        if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest()) {
     		            processActionTakenOnAdhocRequest(actionTakenEvent, actionRequest);
     		        }
@@ -96,23 +104,23 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         return new ProcessDocReport(success);
 	}
 
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         // do nothing
         return true;
     }
 
-    protected boolean processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken) throws Exception {
+    protected boolean processCustomSaveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken) throws Exception {
         // do nothing
         return true;
     }
 
-    protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequestValue actionRequestValue) throws Exception {
+    protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequest actionRequest) throws Exception {
         WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getDocumentId());
-        LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestValue.getPrincipalId());
-        removeEditAdhocPermissions(actionRequestValue.getPrincipalId(), doc);
+        LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
+        removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
     }
 
-    protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected void processSuperUserDisapproveActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         LOG.info("Action taken was 'Super User Disapprove' which is a 'Withdraw' in Kuali Student");
         LOG.info("Will set proposal state to '" + ProposalConstants.PROPOSAL_STATE_WITHDRAWN + "'");
         updateProposal(actionTakenEvent, ProposalConstants.PROPOSAL_STATE_WITHDRAWN, proposalInfo);
@@ -158,8 +166,8 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
 	    boolean success = true;
 	    // if document is transitioning from INITIATED to SAVED then transaction prevents us from retrieving the proposal
-	    if (StringUtils.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD, statusChangeEvent.getOldRouteStatus()) && 
-	            StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getNewRouteStatus())) {
+	    if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, statusChangeEvent.getOldRouteStatus()) &&
+	            StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getNewRouteStatus())) {
 	        // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(statusChangeEvent);
 	    } else {
@@ -197,17 +205,17 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             // if the current proposal state is Withdrawn... don't change the proposal state
             return null;
         }
-        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
+        if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_SAVED);
-        } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_ENROUTE);
-        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_CANCELLED);
-        } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_REJECTED);
-        } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_APPROVED);
-        } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
             return getProposalStateFromNewState(currentProposalState, ProposalConstants.PROPOSAL_STATE_EXCEPTION);
         } else {
             // no status to set
@@ -287,5 +295,9 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         }
         return this.proposalService;
     }
+
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+		return KewApiServiceLocator.getWorkflowDocumentService();
+	}
 
 }

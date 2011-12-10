@@ -86,33 +86,12 @@
         PARM_DESC_TXT="Batch file types that are active options for the file upload screen."
         PARM_NM="ACTIVE_FILE_TYPES" PARM_TYP_CD="CONFG"
         VAL="collectorInputFileType;procurementCardInputFileType;enterpriseFeederFileSetType;assetBarcodeInventoryInputFileType;customerLoadInputFileType" VER_NBR="1"/>
-    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocSearchCriteriaDTO"
-        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
-        OBJ_ID="E78100F6F14C4932B54F7719FA5C27E9"
-        PARM_DESC_TXT="Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window."
-        PARM_NM="DOCUMENT_SEARCH_POPUP_IND" PARM_TYP_CD="CONFG" VAL="Y" VER_NBR="1"/>
-    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocSearchCriteriaDTO"
-        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
-        OBJ_ID="632680DDE9A7478CBD379FAF90C7AE72"
-        PARM_DESC_TXT="Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window."
-        PARM_NM="DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND"
-        PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>
-    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocSearchCriteriaDTO"
-        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
-        OBJ_ID="D43459D143FC46C6BF83C71AC2383B76"
-        PARM_DESC_TXT="Limit of fetch more iterations for document searches."
-        PARM_NM="FETCH_MORE_ITERATION_LIMIT" PARM_TYP_CD="CONFG" VER_NBR="1"/>
-    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocSearchCriteriaDTO"
-        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
-        OBJ_ID="E324D85082184EB6967537B3EE1F655B"
-        PARM_DESC_TXT="Maximum number of documents to return from a search."
-        PARM_NM="RESULT_CAP" PARM_TYP_CD="CONFG" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Document" EVAL_OPRTR_CD="A"
         NMSPC_CD="KR-IDM" OBJ_ID="2238b58e-8fb9-102c-9461-def224dad9b3"
         PARM_DESC_TXT="The maximum number of role or group members to display at once on their documents. If the number is above this value, the document will switch into a paging mode with only this many rows displayed at a time."
         PARM_NM="MAX_MEMBERS_PER_PAGE" PARM_TYP_CD="CONFG" VAL="20" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Document" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="B312545EDCB366C2E040C60AF05B4BEF"
+        NMSPC_CD="KR-NS" OBJ_ID="B38810F3C14696A0E040C60AF05B0815"
         PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
         PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
         PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>
@@ -135,6 +114,27 @@
         PARM_DESC_TXT="The number of minutes before a session expires that user should be warned when a document uses pessimistic locking."
         PARM_NM="SESSION_TIMEOUT_WARNING_MESSAGE_TIME"
         PARM_TYP_CD="CONFG" VAL="5" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocumentSearch"
+        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
+        OBJ_ID="E78100F6F14C4932B54F7719FA5C27E9"
+        PARM_DESC_TXT="Flag to specify if clicking on a Document ID from Document Search will load the Document in a new window."
+        PARM_NM="DOCUMENT_SEARCH_POPUP_IND" PARM_TYP_CD="CONFG" VAL="Y" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocumentSearch"
+        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
+        OBJ_ID="632680DDE9A7478CBD379FAF90C7AE72"
+        PARM_DESC_TXT="Flag to specify if clicking on a Route Log from Document Search will load the Route Log in a new window."
+        PARM_NM="DOCUMENT_SEARCH_ROUTE_LOG_POPUP_IND"
+        PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocumentSearch"
+        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
+        OBJ_ID="D43459D143FC46C6BF83C71AC2383B76"
+        PARM_DESC_TXT="Limit of fetch more iterations for document searches."
+        PARM_NM="FETCH_MORE_ITERATION_LIMIT" PARM_TYP_CD="CONFG" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="DocumentSearch"
+        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
+        OBJ_ID="E324D85082184EB6967537B3EE1F655B"
+        PARM_DESC_TXT="Maximum number of documents to return from a search."
+        PARM_NM="RESULT_CAP" PARM_TYP_CD="CONFG" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="EDocLite" EVAL_OPRTR_CD="A"
         NMSPC_CD="KR-WKFLW" OBJ_ID="68B2EA08E13A4FF3B9EDBD5415818C93"
         PARM_DESC_TXT="Defines whether the debug transform is enabled for eDcoLite."
@@ -173,10 +173,10 @@
         PARM_NM="FROM_ADDRESS" PARM_TYP_CD="CONFG"
         VAL="quickstart@localhost" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Notification"
-        EVAL_OPRTR_CD="A" NMSPC_CD="KR-WKFLW"
+        EVAL_OPRTR_CD="D" NMSPC_CD="KR-WKFLW"
         OBJ_ID="08280F2575904F3586CF48BB97907506"
-        PARM_DESC_TXT="Defines whether or not to send a notification to users excluded from a workgroup."
-        PARM_NM="NOTIFY_EXCLUDED_USERS_IND" PARM_TYP_CD="CONFG" VER_NBR="1"/>
+        PARM_DESC_TXT="Defines a group name (in the format &quot;namespace:name&quot;) which contains members who should never receive &quot;notifications&quot; action requests from KEW."
+        PARM_NM="NOTIFY_GROUPS" PARM_TYP_CD="CONFG" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="PersonDocumentName"
         EVAL_OPRTR_CD="A" NMSPC_CD="KR-IDM"
         OBJ_ID="61645D045B0105D7E0404F8189D849B1" PARM_NM="PREFIXES"

@@ -6,8 +6,8 @@ import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityName;
@@ -55,15 +55,15 @@ public class CollaboratorHelper implements Serializable {
 
         DocumentActionResult stdResp = null;
         if (StudentWorkflowConstants.ActionRequestEnum.APPROVE.equals(actionRequestEnum)) {
-            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
+            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
         else if (StudentWorkflowConstants.ActionRequestEnum.ACKNOWLEDGE.equals(actionRequestEnum)) {
-            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
         else if (StudentWorkflowConstants.ActionRequestEnum.FYI.equals(actionRequestType)) {
-            ahtpBuilder.setResponsibilityDescription(KEWConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
         else {
@@ -142,7 +142,7 @@ public class CollaboratorHelper implements Serializable {
 	        	for(ActionRequest actionRequest :actionRequests){
 	        		if (actionRequest.isAdHocRequest()) {
 	                    // if action request is complete and action taken was a 'revoke action' we do not want to show the person
-	                    if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && KEWConstants.ACTION_TAKEN_ADHOC_REVOKED_CD.equals(actionRequest.getActionTaken().getActionTaken())) {
+	                    if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD.equals(actionRequest.getActionTaken().getActionTaken())) {
 	                        continue;
 	                    }
 

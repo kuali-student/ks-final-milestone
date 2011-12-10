@@ -10,8 +10,8 @@ import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.*;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.PermissionService;
@@ -204,9 +204,9 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
             for(Map.Entry<String,String> entry:results.entrySet()){
             	// if saved or initiated status... must show only 'complete' button
-            	if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, docDetail.getDocument().getStatus().getCode()) || StringUtils.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD, docDetail.getDocument().getStatus().getCode())) {
+            	if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, docDetail.getDocument().getStatus().getCode()) || StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, docDetail.getDocument().getStatus().getCode())) {
             		// show only complete button if complete or approve code in this doc status
-            		if ( (StringUtils.equals(KEWConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KEWConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
+            		if ( (StringUtils.equals(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
                         actionsRequestedBuffer.append("C");
             		}
@@ -221,7 +221,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 	if("true".equals(entry.getValue())){
                 		actionsRequestedBuffer.append(entry.getKey());
                         // show the return to previous button if there is a COMPLETE or APPROVE action request
-                        if ( (StringUtils.equals(KEWConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KEWConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
+                        if ( (StringUtils.equals(KewApiConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KewApiConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
                             actionsRequestedBuffer.append("R");
                         }
                 	}

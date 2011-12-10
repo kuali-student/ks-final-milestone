@@ -11,31 +11,18 @@ package org.kuali.student.enrollment.class2.grading.controller;
  * governing permissions and limitations under the License.
  */
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
-import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
 import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.grading.service.GradingViewHelperService;
 import org.kuali.student.enrollment.class2.grading.util.GradingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,11 +30,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/grading")
 public class GradingController extends UifControllerBase {
 
     @Override
+    public UifFormBase initForm(HttpServletRequest request) {
+        UifFormBase form = null;
+        String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
+
+        if (StringUtils.isNotBlank(formKeyParam)) {
+            return super.initForm(request);
+        } else {
+            form = createInitialForm(request);
+        }
+
+        return form;
+    }
+
+    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
+//    @Override
+    protected Class<? extends UifFormBase> formType() {
+        return GradingForm.class;
+    }
+
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         if (StringUtils.equals(httpServletRequest.getParameter("viewId"), "StudentGradeView")) {
             return new StudentGradeForm();
@@ -64,7 +75,7 @@ public class GradingController extends UifControllerBase {
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(selectedCourse,gradingForm);
         gradingForm.setStudents(students);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=loadStudents")
@@ -81,13 +92,23 @@ public class GradingController extends UifControllerBase {
         String courseId = selectedCourse.getId();
         gradingForm.setSelectedCourseOffering(selectedCourse);
 
+        //Reset all the students and other info from the form, which might be set for some other course selected before
+        resetValuesForPageChange(gradingForm);
+
         //FIXME: Just a workaround as the propertyreplacer not working
         gradingForm.setTitle(selectedCourse.getCourseOfferingCode() + " - " + selectedCourse.getCourseTitle());
 
         List<GradeStudent> students = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadStudents(courseId,gradingForm);
-        gradingForm.setStudents(students);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        if (students == null || students.isEmpty()){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
+            GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_STUDENTS_NOT_FOUND,selectedCourse.getCourseOfferingCode());
+            gradingForm.setReadOnly(true);
+        }else{
+            gradingForm.setStudents(students);
+        }
+
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.UNASSIGN_GRADE_METHOD)
@@ -110,98 +131,68 @@ public class GradingController extends UifControllerBase {
                     "Selected line index was not set for delete unassign action, cannot unassign grade");
         }
 
-        // TODO: Needs to be a client side method instead of handling at server
-        // side
+        // TODO: Needs to be a client side method instead of handling at server side
         ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).unAssignGrade(gradingForm.getView(),
                 gradingForm, selectedCollectionPath, selectedLineIndex);
 
-        return getUIFModelAndView(gradingForm, gradingForm.getViewId(), GradingConstants.GRADE_ROSTER_PAGE);
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_GRADING_METHOD)
+    public ModelAndView backToGrading(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.BACK_TO_TERM)
+    public ModelAndView backToTerm(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return getUIFModelAndView(studentGradeForm, GradingConstants.STUDENT_TERM_RECORD_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.SAVE_METHOD)
     public ModelAndView save(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String selectedCourse = gradingForm.getSelectedCourse();
-        ContextInfo context = TestHelper.getContext1(); // TODO replace
-        GradingService gradingService = (GradingService) GlobalResourceLoader.getService(new QName(
-                "http://student.kuali.org/wsdl/grading", "GradingService"));
+        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).saveGrades(gradingForm);
 
-        // Get the GradeRosterEntryInfo objects mapped by studentId
-        List<GradeRosterInfo> gradeRosterInfoList = gradingService.getFinalGradeRostersForCourseOffering(
-                selectedCourse, context);
-        Map<String, GradeRosterEntryInfo> gradeRosterEntryInfoMap = new HashMap<String, GradeRosterEntryInfo>();
-        if (gradeRosterInfoList != null) {
-            for (GradeRosterInfo rosterInfo : gradeRosterInfoList) {
-                List<GradeRosterEntryInfo> gradeRosterEntryInfoList = gradingService.getGradeRosterEntriesByIdList(
-                        rosterInfo.getGradeRosterEntryIds(), context);
-                for (GradeRosterEntryInfo gradeRosterEntryInfo : gradeRosterEntryInfoList) {
-                    String gradeRosterEntryStudentId = gradeRosterEntryInfo.getStudentId();
-                    gradeRosterEntryInfoMap.put(gradeRosterEntryStudentId, gradeRosterEntryInfo);
-                }
-            }
+        if (success){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
+            GlobalVariables.getMessageMap().putInfo("firstName", GradingConstants.INFO_GRADE_ROSTER_SAVED);
+        }
+        // only refreshing page
+        gradingForm.setRenderFullView(false);
+
+        return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.SUBMIT_METHOD)
+    public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        boolean success = ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).submitGradeRoster(gradingForm);
+
+        if (success){
+            //FIXME: Not sure how to set a global error instead of for a field. If no fields mentioned, KRAD throwing error
+            GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_GRADE_ROSTER_SUBMITTED);
         }
 
-        // Update the assigned grade for each student in form.
-        List<GradeStudent> gradeStudentList = gradingForm.getStudents();
-        for (GradeStudent gradeStudent : gradeStudentList) {
-            GradeRosterEntryInfo gradeRosterEntryInfo = gradeRosterEntryInfoMap.get(gradeStudent.getStudentId());
-            if (gradeRosterEntryInfo == null) {
-                // TODO Do we need to throw an error?
-            }
-
-            // TODO review this block since assigned grade is key now - not an
-            // object
-
-            String assignedGradeKey = gradeRosterEntryInfo.getAssignedGradeKey();
-            if (assignedGradeKey == null) {
-                // TODO not sure if this is how to get a new one.
-                // TODO Sambit Commented out - assignedGradeKey = new
-                // AssignedGradeInfo();
-            }
-            String grade = gradeStudent.getSelectedGrade();
-            String gradeRosterEntryId = gradeRosterEntryInfo.getId();
-
-            // TODO Sambit Commented out - assignedGradeKey.setGrade(grade);
-            gradingService.updateGrade(gradeRosterEntryId, assignedGradeKey, context);
-
-        }
-
-        return close(gradingForm, result, request, response);
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=" + GradingConstants.VIEW_GRADES)
     public ModelAndView viewGrades(@ModelAttribute("KualiForm") StudentGradeForm studentGradeForm,
             BindingResult result, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List creditList = studentGradeForm.getCreditList();
-        if (creditList.isEmpty()) {
-            StudentCredit credit = new StudentCredit();
-            credit.setCourseId("PHY121");
-            credit.setCourseName("Fundamentals of Physics I");
-            credit.setGrade("A");
-            credit.setCredits("3.0");
-            creditList.add(credit);
+        ((GradingViewHelperService) studentGradeForm.getView().getViewHelperService()).loadStudentGrades(studentGradeForm);
 
-            StudentCredit credit1 = new StudentCredit();
-            credit1.setCourseId("MUSIC200");
-            credit1.setCourseName("Music, Children and Family");
-            credit1.setGrade("A-");
-            credit1.setCredits("2.0");
-            creditList.add(credit1);
+        return getUIFModelAndView(studentGradeForm, GradingConstants.STUDENT_CREDIT_DETAILS_PAGE);
+    }
 
-            StudentCredit credit2 = new StudentCredit();
-            credit2.setCourseId("ENG222");
-            credit2.setCourseName("English I");
-            credit2.setGrade("B+");
-            credit2.setCredits("2.0");
-            creditList.add(credit2);
-
-            studentGradeForm.setName("Mary");
-            studentGradeForm.setFirstTerm("Fall, 2011");
-        }
-
-        return getUIFModelAndView(studentGradeForm, studentGradeForm.getViewId(), "page2");
+    private void resetValuesForPageChange(GradingForm form){
+        form.setStudents(new ArrayList());
+        form.setReadOnly(false);
+        form.setRosterInfos(new ArrayList());
     }
 
 }

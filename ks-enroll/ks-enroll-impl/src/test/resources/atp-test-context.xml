@@ -113,7 +113,15 @@
     	<property name="stateService" ref="stateService"/>
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     </bean>
-	
+
+    <bean id="atpServiceAuthDecorator"
+          class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
+      <property name="nextDecorator" ref="atpServiceValidationDecorator"/>
+      <property name="permissionService" ref="permissionService"/>
+    </bean>
+    
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"></bean>	
+    
     <bean id="atpServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
       <property name="nextDecorator" ref="atpServiceImpl"/>

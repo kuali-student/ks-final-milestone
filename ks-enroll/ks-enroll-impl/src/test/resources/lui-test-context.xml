@@ -102,7 +102,7 @@
 	  	<property name="luiRichTextDao" ref="luiRichTextDao"/>
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
-	  	<property name="atpService" ref="atpService"/>
+	  	<property name="atpService" ref="atpServiceAuthorization"/>
 	</bean>
 	
     <bean id="luiServiceValidation" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
@@ -110,7 +110,15 @@
       <property name="validator" ref="validator"/>
       <property name="dataDictionaryService" ref="dataDictionaryServiceForLui"/>
     </bean>
-    
+
+	<bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+	
+	<bean id="luiServiceAuthDecorator"
+	      class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceAuthorizationDecorator">
+	  <property name="nextDecorator" ref="luiServiceValidation"/>
+	  <property name="permissionService" ref="permissionService"/>
+	</bean>
+	    
      <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
     	<property name="em" ref="entityManager"/>
     </bean>   
@@ -149,6 +157,16 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
+    <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
+      <property name="nextDecorator" ref="atpServiceValidation"/>
+      <property name="permissionService" ref="permissionService" />
+    </bean>
+    	
+    <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+      <property name="nextDecorator" ref="atpService"/>
+      <property name="validator" ref="validator"/>
+    </bean>
+    
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
 	  	<property name="atpDao" ref="atpDao"/>
 	  	<property name="atpTypeDao" ref="atpTypeDao"/>

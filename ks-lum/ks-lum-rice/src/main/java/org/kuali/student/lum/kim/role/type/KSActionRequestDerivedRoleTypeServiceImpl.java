@@ -21,11 +21,10 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.util.KimConstants;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
@@ -183,7 +182,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	            }
 	            for (Map.Entry<String, List<ActionRequest>> mapEntry : requestsByPrincipalId.entrySet()) {
 					if (containsActivatedRequest(roleName, mapEntry.getValue())) {
-		                members.add(RoleMembership.Builder.create(null/*roleId*/, null, mapEntry.getKey(), Role.PRINCIPAL_MEMBER_TYPE, null).build() );
+		                members.add(RoleMembership.Builder.create(null/*roleId*/, null, mapEntry.getKey(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build() );
 					}
 				}
 			}
@@ -206,7 +205,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 		try {
 			String documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
-				List<ActionRequest> actionRequests = getWorkflowDocumentService().getActionRequests(documentNumber, null, principalId);
+				List<ActionRequest> actionRequests = getWorkflowDocumentService().getActionRequestsForPrincipalAtNode(documentNumber, null, principalId);
 				return containsActivatedRequest(roleName, actionRequests);
 			}
 			return false;

@@ -20,10 +20,6 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="lprTypeDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao"/>
-
-    <bean id="lprStateDao" class="org.kuali.student.r2.common.dao.StateDao"/>
-
     <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>

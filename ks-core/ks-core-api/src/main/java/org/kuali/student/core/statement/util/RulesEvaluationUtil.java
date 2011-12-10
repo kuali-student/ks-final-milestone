@@ -65,7 +65,7 @@ public class RulesEvaluationUtil {
         contextQualifiers.put("docTypeName", "Course.PreRequisities");
 
         Map<String, String> empty = Collections.emptyMap();
-        selectionCriteria = SelectionCriteria.createCriteria(RulesExecutionConstants.STATEMENT_EVENT_NAME, new DateTime(), contextQualifiers, empty);
+        selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, empty);
     }
 
     private ProviderBasedEngine buildEngine(Agenda agenda) {
@@ -78,7 +78,7 @@ public class RulesEvaluationUtil {
         return engine;
     }
 
-    public EngineResults executeAgenda(Agenda agenda, Map<Term, Object> executionFacts) {
+    public EngineResults executeAgenda(Agenda agenda, Map<String, Object> executionFacts) {
 
         Engine engine = buildEngine(agenda);
         EngineResults results = engine.execute(selectionCriteria, executionFacts, executionOptions);

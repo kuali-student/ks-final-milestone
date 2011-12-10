@@ -3,8 +3,7 @@ package org.kuali.student.enrollment.class1.lpr.service.decorators;
 import java.util.*;
 
 
-import org.kuali.rice.kim.service.PermissionService;
-
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;

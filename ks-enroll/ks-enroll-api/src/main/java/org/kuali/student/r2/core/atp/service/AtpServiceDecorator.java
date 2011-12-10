@@ -328,13 +328,6 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, context);
-    }
-
-    @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -345,27 +338,6 @@ public class AtpServiceDecorator implements AtpService {
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getAtpAtpRelationsByAtps(atpKey, contextInfo);
-    }
-
-    @Override
-    public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpAtpRelationIds(criteria, context);
-    }
-
-    @Override
-    public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        return getNextDecorator().searchForAtpAtpRelations(criteria, context);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey, String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
-            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        return getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpKey, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
     }
 
     @Override
@@ -382,10 +354,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey, String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, context);
+        return getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpKey, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
     }
 
     @Override
@@ -393,4 +365,29 @@ public class AtpServiceDecorator implements AtpService {
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpKey, relationType, context);
     }
+
+    @Override
+    public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getAtpAtpRelationIdsByType(atpAtpRelationTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().searchForAtpAtpRelations(criteria, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteAtpAtpRelation(atpAtpRelationId, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().searchForAtpAtpRelationIds(criteria, contextInfo);
+    }
+
 }

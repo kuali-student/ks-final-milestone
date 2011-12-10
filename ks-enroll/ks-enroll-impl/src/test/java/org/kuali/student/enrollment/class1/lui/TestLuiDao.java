@@ -12,8 +12,6 @@ import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
-//TODO: works fine in eclipse. un-ignore when fixing mvn build
-@Ignore
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestLuiDao extends AbstractTransactionalDaoTest{
 	@Dao(value = "org.kuali.student.enrollment.class1.lui.dao.LuiDao", testSqlFile = "classpath:ks-lui.sql")

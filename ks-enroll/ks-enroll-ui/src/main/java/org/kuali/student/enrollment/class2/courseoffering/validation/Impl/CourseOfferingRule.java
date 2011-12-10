@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import org.hibernate.mapping.Index;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.MaintenanceDocument;
 import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -30,7 +32,7 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
  * To change this template use File | Settings | File Templates.
  */
 public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
-     private static final String COURSE_ID_PROPERTY_PATH = "courseId";
+     private static final String COURSE_CODE_PROPERTY_PATH = "document.newMaintainableObject.dataObject.courseOfferingCode";
 
      private transient LuService luService;
      private transient IdentityService identityService;
@@ -47,31 +49,51 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
         String courseCode =  courseOfferingInfo.getCourseOfferingCode();
         String courseId = retrieveCourseIdFromCourseCode(courseCode);
         if (courseId == null) {
-            System.out.println(">>>Error: Fail to retrieve the courseId with courseCode equal to "+courseCode);
-//               GlobalVariables.getMessageMap().putError(
-//                    COURSE_ID_PROPERTY_PATH,"??ERROR_KEY??", "Error: Failed to retrieve a course with courseId equal to "+courseId);
+             GlobalVariables.getMessageMap().putError(
+                COURSE_CODE_PROPERTY_PATH,"error.enroll.courseoffering.courseOfferingCode.notExists");
              isValid = false;
         }
         else{
              courseOfferingInfo.setCourseId(courseId);
         }
 
-        // need to verify principalId
+        // need to verify principalIds again since the user might modify the input after add it to the collection
         List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
+        int index = 0;
         for(OfferingInstructorInfo instructor : instructors){
             String principalId = instructor.getPersonId();
             if (getIdentityService().getPrincipal(principalId) == null) {
-                System.out.println(">>>Error: Fail to retrieve an instructor with instructorId equal to "+principalId);
-////               GlobalVariables.getMessageMap().putError(
-////                    COURSE_ID_PROPERTY_PATH,"??ERROR_KEY??", "Error: Failed to retrieve a course with courseId equal to "+courseId);
+                    GlobalVariables.getMessageMap().putError(
+                     "document.newMaintainableObject.dataObject.instructors["+index+"]", "error.enroll.courseoffering.instructors.notExists", "The instructor: "+principalId+" does not exist.");
                 isValid = false;
             }
+            index++;
         }
         isValid &= super.processCustomRouteDocumentBusinessRules(document);
         isValid &= GlobalVariables.getMessageMap().hasNoErrors();
 
         return isValid;
     }
+
+/*
+    @Override
+    public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName,
+            PersistableBusinessObject line) {
+        // need to verify principalId when add it to the collection
+        List<OfferingInstructorInfo> instructors = courseOfferingInfo.getInstructors();
+        int index = 0;
+        for(OfferingInstructorInfo instructor : instructors){
+            String principalId = instructor.getPersonId();
+            if (getIdentityService().getPrincipal(principalId) == null) {
+                System.out.println(">>>Error: Fail to retrieve an instructor with instructorId equal to "+principalId);
+                    GlobalVariables.getMessageMap().putError(
+                     "instructors("+principalId+")", "error.enroll.courseoffering.instructors.notExists", "The instructor: "+principalId+" does not exist.");
+                isValid = false;
+            }
+            index++;
+        }
+    }
+*/
 
     //Note: here I am using r1 LuService implementation!!!
     protected LuService getLuService() {

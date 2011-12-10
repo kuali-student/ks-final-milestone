@@ -16,6 +16,7 @@ public  class RelationshipDTOAssembler< E extends RelationshipInfo, F extends Re
         toDTO.setMeta(fromDTO.getMeta());
         toDTO.setStateKey(fromDTO.getStateKey());
         toDTO.setTypeKey(fromDTO.getTypeKey());
+        toDTO.setId(fromDTO.getId());
         return toDTO;
 
     }

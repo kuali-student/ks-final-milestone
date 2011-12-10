@@ -18,7 +18,7 @@ import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
@@ -140,7 +140,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      *         KS code)
      */
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
-        String baseXpathExpression = "/" + KEWConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KEWConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
+        String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
         Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();

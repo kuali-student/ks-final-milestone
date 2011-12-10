@@ -244,5 +244,53 @@ public class MockConfig implements Config {
     public void removeProperty(String key) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public String getApplicationName() {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getApplicationVersion() {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Boolean getBooleanProperty(String arg0) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public Long getNumericProperty(String arg0) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public long getNumericProperty(String arg0, long arg1) {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return 0;
+    }
+
+    @Override
+    public String getProductionEnvironmentCode() {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public String getRiceVersion() {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public boolean isProductionEnvironment() {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return false;
+    }
     
 }

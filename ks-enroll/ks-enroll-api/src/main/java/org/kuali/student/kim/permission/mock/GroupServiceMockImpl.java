@@ -25,12 +25,15 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupMemberQueryResults;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.Role;
+
+import javax.jws.WebParam;
 
 /**
  * @author nwright
@@ -41,10 +44,10 @@ public class GroupServiceMockImpl implements GroupService {
     private transient Map<String, GroupMember> groupMembershipCache = new HashMap<String, GroupMember>();
 
     @Override
-    public List<String> getDirectGroupIdsForPrincipal(String principalId) {
+    public List<String> getDirectGroupIdsByPrincipalId(String principalId) {
         List<String> groups = new ArrayList<String>();
         for (GroupMember groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+            if (groupMembership.getType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getMemberId().equals(principalId)) {
                     groups.add(groupMembership.getGroupId());
                 }
@@ -57,7 +60,7 @@ public class GroupServiceMockImpl implements GroupService {
     public List<String> getDirectMemberGroupIds(String groupId) {
         List<String> members = new ArrayList<String>();
         for (GroupMember groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+            if (groupMembership.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                 if (groupMembership.getGroupId().equals(groupId)) {
                     members.add(groupMembership.getMemberId());
                 }
@@ -70,7 +73,7 @@ public class GroupServiceMockImpl implements GroupService {
     public List<String> getDirectMemberPrincipalIds(String groupId) {
         List<String> members = new ArrayList<String>();
         for (GroupMember groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+            if (groupMembership.getType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getGroupId().equals(groupId)) {
                     members.add(groupMembership.getMemberId());
                 }
@@ -83,7 +86,7 @@ public class GroupServiceMockImpl implements GroupService {
     public List<String> getDirectParentGroupIds(String groupId) {
         List<String> members = new ArrayList<String>();
         for (GroupMember groupMembership : this.groupMembershipCache.values()) {
-            if (groupMembership.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+            if (groupMembership.getType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                 if (groupMembership.getMemberId().equals(groupId)) {
                     members.add(groupMembership.getGroupId());
                 }
@@ -117,9 +120,9 @@ public class GroupServiceMockImpl implements GroupService {
     
     
     @Override
-    public List<String> getGroupIdsForPrincipal(String principalId) {
+    public List<String> getGroupIdsByPrincipalId(String principalId) {
         List<String> allGroups = new ArrayList<String>();
-        List<String> directGroups = getDirectGroupIdsForPrincipal(principalId);
+        List<String> directGroups = getDirectGroupIdsByPrincipalId(principalId);
         allGroups.addAll(directGroups);
         for (String groupId : directGroups) {
             List<String> ancestors = this.getParentGroupIds(groupId);
@@ -129,7 +132,7 @@ public class GroupServiceMockImpl implements GroupService {
     }
 
     @Override
-    public List<String> getGroupIdsForPrincipalByNamespace(String principalId,
+    public List<String> getGroupIdsByPrincipalIdAndNamespaceCode(String principalId,
             String namespaceCode) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -140,7 +143,7 @@ public class GroupServiceMockImpl implements GroupService {
     }
 
     @Override
-    public Group getGroupByName(String namespaceCode, String groupName) {
+    public Group getGroupByNameAndNamespaceCode(String namespaceCode, String groupName) {
         for (Group group : this.groupCache.values()) {
             if (namespaceCode.equals(group.getNamespaceCode())) {
                 if (groupName.equals(group.getName())) {
@@ -176,8 +179,8 @@ public class GroupServiceMockImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getGroupsForPrincipal(String principalId) {
-        Collection<String> groupIds = this.getGroupIdsForPrincipal(principalId);
+    public List<Group> getGroupsByPrincipalId(String principalId) throws RiceIllegalArgumentException {
+        Collection<String> groupIds = this.getGroupIdsByPrincipalId(principalId);
         List<Group> groups = new ArrayList<Group>();
         for (String groupId : groupIds) {
             Group group = this.getGroup(groupId);
@@ -187,10 +190,10 @@ public class GroupServiceMockImpl implements GroupService {
     }
 
     @Override
-    public List<Group> getGroupsForPrincipalByNamespace(String principalId,
+    public List<Group> getGroupsByPrincipalIdAndNamespaceCode(String principalId,
             String namespaceCode) {
         List<Group> groups = new ArrayList<Group>();
-        for (Group group : this.getGroupsForPrincipal(principalId)) {
+        for (Group group : this.getGroupsByPrincipalId(principalId)) {
             if (namespaceCode.equals(group.getNamespaceCode())) {
                 groups.add(group);
             }
@@ -203,7 +206,7 @@ public class GroupServiceMockImpl implements GroupService {
         List<String> groupIds = new ArrayList<String>();
         for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                     groupIds.add(info.getMemberId());
                     groupIds.addAll(this.getMemberGroupIds(info.getMemberId()));
                 }
@@ -218,9 +221,9 @@ public class GroupServiceMockImpl implements GroupService {
         List<String> principalIds = new ArrayList<String>();
         for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                     principalIds.addAll(this.getMemberPrincipalIds(info.getMemberId()));
-                } else if (info.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+                } else if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                     principalIds.add(info.getMemberId());
                 }
             }
@@ -232,7 +235,7 @@ public class GroupServiceMockImpl implements GroupService {
     public List<String> getParentGroupIds(String groupId) {
         List<String> groupIds = new ArrayList<String>();
         for (GroupMember info : this.groupMembershipCache.values()) {
-            if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+            if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                 if (groupId.equals(info.getMemberId())) {
                     groupIds.add(info.getGroupId());
                     groupIds.addAll(this.getParentGroupIds(info.getGroupId()));
@@ -246,7 +249,7 @@ public class GroupServiceMockImpl implements GroupService {
     public boolean isDirectMemberOfGroup(String principalId, String groupId) {
         for (GroupMember info : this.groupMembershipCache.values()) {
             if (groupId.equals(info.getGroupId())) {
-                if (info.getTypeCode().equals(Role.PRINCIPAL_MEMBER_TYPE)) {
+                if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                     if (principalId.equals(info.getMemberId())) {
                         return true;
                     }
@@ -305,7 +308,7 @@ public class GroupServiceMockImpl implements GroupService {
         }
         GroupMember.Builder GMB = GroupMember.Builder.create(parentId,
         		childId,
-                Role.GROUP_MEMBER_TYPE);
+                KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE);
         GMB.setId(UUID.randomUUID().toString());
         GroupMember groupMembership = GMB.build();
         this.groupMembershipCache.put(groupMembership.getMemberId(), groupMembership);
@@ -320,7 +323,7 @@ public class GroupServiceMockImpl implements GroupService {
         }
         GroupMember.Builder GMB = GroupMember.Builder.create(groupId,
                 principalId,
-                Role.PRINCIPAL_MEMBER_TYPE);
+                KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE);
         GMB.setId(UUID.randomUUID().toString());
         GroupMember groupMembership = GMB.build();
         
@@ -341,7 +344,7 @@ public class GroupServiceMockImpl implements GroupService {
         } else {
             Group.Builder.create(group) .setId(UUID.randomUUID().toString());
         }
-        if (this.getGroupByName(copy.getNamespaceCode(), copy.getName()) != null) {
+        if (this.getGroupByNameAndNamespaceCode(copy.getNamespaceCode(), copy.getName()) != null) {
             throw new IllegalArgumentException("name in use");
         }
         this.groupCache.put(copy.getId(), copy);
@@ -362,7 +365,7 @@ public class GroupServiceMockImpl implements GroupService {
     public boolean removeGroupFromGroup(String childId, String parentId) throws UnsupportedOperationException {
         for (GroupMember info : this.groupMembershipCache.values()) {
             if (info.getGroupId().equals(parentId)) {
-                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                     if (info.getMemberId().equals(childId)) {
                         groupMembershipCache.remove(info.getMemberId());
                         return true;
@@ -378,7 +381,8 @@ public class GroupServiceMockImpl implements GroupService {
             throws UnsupportedOperationException {
         for (GroupMember info : this.groupMembershipCache.values()) {
             if (info.getGroupId().equals(groupId)) {
-                if (info.getTypeCode().equals(Role.GROUP_MEMBER_TYPE)) {
+                //or MemberType.GROUP.getCode()
+                if (info.getType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                     if (this.removePrincipalFromGroup(principalId, info.getMemberId())) {
                         return true;
                     }
@@ -404,7 +408,7 @@ public class GroupServiceMockImpl implements GroupService {
         if (existing == null) {
             throw new IllegalArgumentException("group id not found");
         }
-        Group matching = this.getGroupByName(Group.getNamespaceCode(), Group.getName());
+        Group matching = this.getGroupByNameAndNamespaceCode(Group.getNamespaceCode(), Group.getName());
         if (matching != null) {
             if (matching != existing) {
                 throw new IllegalArgumentException("name in use");
@@ -420,5 +424,16 @@ public class GroupServiceMockImpl implements GroupService {
     public Group updateGroup(Group Group) throws UnsupportedOperationException {
     	return updateGroup(Group.getId(), Group);
     }
+
+    @Override
+    public GroupMember createGroupMember(@WebParam(name="groupMember") GroupMember groupMember) throws RiceIllegalArgumentException{
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public GroupMember updateGroupMember(@WebParam(name="groupMember") GroupMember groupMember) throws RiceIllegalArgumentException{
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
 

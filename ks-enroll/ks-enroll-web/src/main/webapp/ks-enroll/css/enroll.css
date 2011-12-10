@@ -1,0 +1,17 @@
+.ks-termDates-table{
+
+}
+
+.ks-termDates-table tr{
+    border-top:  1px solid #d3d3d3;
+    border-bottom:  1px solid #d3d3d3;
+
+}
+
+.ks-termDates-table th{
+    border-right:  1px solid #d3d3d3;
+}
+
+.ks-termDates-table .constraint{
+    margin-bottom: 0px;
+}

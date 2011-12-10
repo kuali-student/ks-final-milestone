@@ -16,21 +16,28 @@ package org.kuali.student.enrollment.class2.grading.service;
  * limitations under the License.
  */
 
-import org.kuali.rice.krad.uif.field.AttributeField;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 import org.kuali.student.enrollment.class2.grading.form.GradingForm;
+import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 
 import java.util.List;
 
 public interface GradingViewHelperService extends ViewHelperService{
 
-    public void populateGradeOptions(AttributeField field, GradingForm gradingForm);
+    public void populateGradeOptions(InputField field, GradingForm gradingForm);
 
     public void unAssignGrade(View view,Object model,String selectedCollectionPath, Integer selectedLine );
 
     public List<GradeStudent> loadStudents(String selectedCourse,GradingForm gradingForm) throws  Exception;
+
+    public boolean saveGrades(GradingForm gradingForm)throws Exception;
+
+    public boolean submitGradeRoster(GradingForm gradingForm)throws Exception;
+
+    public void loadStudentGrades(StudentGradeForm studentGradeForm) throws Exception;
 
     public void loadCourses(GradingForm gradingForm) throws Exception;
 

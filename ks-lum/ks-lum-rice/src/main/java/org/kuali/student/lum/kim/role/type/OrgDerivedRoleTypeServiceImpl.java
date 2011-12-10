@@ -17,7 +17,7 @@ package org.kuali.student.lum.kim.role.type;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
@@ -77,7 +77,7 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
 					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType);
 					for(String principalId:principalIds){
-						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
+						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
 						members.add(member);
 					}
 				}
@@ -91,12 +91,12 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.
 					    if(relation.getExpirationDate()!=null){
 					        if(relation.getExpirationDate().compareTo(now)>=0){
-					            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
+					            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
 					            members.add(member);
 					        }
 					    }
 					    else{
-                            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), Role.PRINCIPAL_MEMBER_TYPE, attributes).build();
+                            RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, relation.getPersonId(), KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
                             members.add(member);
 					    }
 					}

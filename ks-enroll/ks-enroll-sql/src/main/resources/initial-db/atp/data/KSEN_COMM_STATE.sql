@@ -83,11 +83,39 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 /
 INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.assigned',null,0,null,null,null,null, 'The instructor is assigned to teach this course or section.', null, null, 'Assigned', 'kuali.lpr.process.instructor.course.assignment')
 /
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.trans.item.new', 'New', 'kuali.lpr.process.student.course.registration', 'The student is attemptng to enroll in this course or section.', 0)
+INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.trans.item.state.new', 'New', 'kuali.lpr.process.student.course.registration', 'The student is attemptng to enroll in this course or section.', 0)
 /
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.lpr.trans.registered', 'Active', 'kuali.hold.process.student', 'This hold is active and should be enforced', 0)
 /
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.assessment.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.assessment.process.course.grading')
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.ready',null,0,null,null,null,null,'Active Roster entry',null,null,'Assigned','kuali.lpr.roster.process.course.grading')
 /
-INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.assessment.process.course.grading')
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.saved',null,0,null,null,null,null,'The roster has had information entered against it and it has been saved',null,null,'Saved','kuali.lpr.roster.process.course.grading')
+/
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.lpr.roster.state.submitted',null,0,null,null,null,null,'The roster has has been submitted',null,null,'Submitted','kuali.lpr.roster.process.course.grading')
+/
+INSERT INTO KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) VALUES ('kuali.roster.entry.state.active',null,0,null,null,null,null,'The roster has been created and is ready to have grades entered',null,null,'Ready','kuali.lpr.roster.process.course.grading')
+/
+INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.roster.state.created', 'New roster entry', 'New roster entry', 'kuali.lpr.roster.process.course.grading', 0)
+/
+INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.trans.item.state.succeeded', 'Transaction Item Succeeded', 'Transaction Item Succeeded', 'kuali.lpr.trans.item.process', 0)
+/
+INSERT INTO KSEN_COMM_STATE (ID, NAME, DESCR, PROCESS_KEY, VER_NBR) VALUES ('kuali.lpr.trans.item.state.failed', 'Transaction Item Failed', 'Transaction Item failed', 'kuali.lpr.trans.item.process', 0)
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.values.group.state.draft','Draft','The result is just draft and cannot yet be used','kuali.result.values.group.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.values.group.state.approved','Approved','The result has been approved to be used and awarded','kuali.result.values.group.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.values.group.state.retired','The result has been retired and can still exist on records but can no longer be used','Retired','kuali.result.values.group.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.scale.state.draft ','Draft','The result scale is just draft and cannot yet be used','kuali.result.scale.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.scale.state.approved','Approved','The result scale has been approved to be used and awarded','kuali.result.scale.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.scale.state.retired','Retired','The result scale has been retired and can still exist on records but can no longer be used','kuali.result.scale.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.value.state.draft ','Draft','The result value is just draft and cannot yet be used','kuali.result.value.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.value.state.approved','Approved','The result value has been approved to be used and awarded','kuali.result.value.process')
+/
+INSERT INTO KSEN_COMM_STATE (ID,DESCR,NAME,PROCESS_KEY) VALUES ('kuali.result.value.state.retired','Retired','The result value has been retired and can still exist on records but can no longer be used','kuali.result.value.process')
 /

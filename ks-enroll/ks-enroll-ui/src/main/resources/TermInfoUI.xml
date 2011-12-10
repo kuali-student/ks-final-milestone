@@ -48,10 +48,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Key" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property> 
@@ -64,16 +63,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="unique" value="true"/> 
-        <property name="validationPattern" >
-      		<bean parent="AnyCharacterValidationPattern"
-            	  p:allowWhitespace="false" />
-    	</property>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
     	<property name="controlField">
       		<bean parent="TextControl" p:size="60"/>
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
-	    </property>    	    	
+	    </property>
+        <property name="summary"  value="Type of the Term"/>
     </bean>
     
     <bean id="TermInfoUI.startDate" parent="TermInfo.startDate-parent">
@@ -84,6 +83,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official start date of the Term"/>
     </bean>
 
     <bean id="TermInfoUI.endDate" parent="TermInfo.endDate-parent">
@@ -94,6 +94,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
       		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
+        <property name="summary"  value="Official end date of the Term"/>
     </bean>
 
   <bean id="TermInfo-LookupView" parent="KSLookupView">
@@ -103,16 +104,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaAttributeField" p:propertyName="key" />
-<!--    <bean parent="LookupCriteriaAttributeField" p:propertyName="typeKey"/> -->
+        <bean parent="LookupCriteriaInputField" p:propertyName="key" />
+<!--    <bean parent="LookupCriteriaInputField" p:propertyName="typeKey"/> -->
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="AttributeField" p:propertyName="key" />
-        <bean parent="AttributeField" p:propertyName="typeKey" /> 		
-        <bean parent="AttributeField" p:propertyName="startDate" />
-        <bean parent="AttributeField" p:propertyName="endDate" />       
+		<bean parent="InputField" p:propertyName="key" />
+        <bean parent="InputField" p:propertyName="typeKey" />
+        <bean parent="InputField" p:propertyName="startDate" />
+        <bean parent="InputField" p:propertyName="endDate" />
       </list>
     </property>
   </bean>
@@ -129,10 +130,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Term Info Inquiry"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="key"/>
-                <bean parent="AttributeField" p:propertyName="typeKey"/>
-                <bean parent="AttributeField" p:propertyName="startDate"/>
-                <bean parent="AttributeField" p:propertyName="endDate"/>                
+                <bean parent="InputField" p:propertyName="key"/>
+                <bean parent="InputField" p:propertyName="typeKey"/>
+                <bean parent="InputField" p:propertyName="startDate"/>
+                <bean parent="InputField" p:propertyName="endDate"/>
                </list>
              </property>             
            </bean>
@@ -151,7 +152,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
           	 <property name="title" value="Term"/>
              <property name="items">
                <list>
-                <bean parent="AttributeField" p:propertyName="typeKey">
+                <bean parent="InputField" p:propertyName="typeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
@@ -159,8 +160,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
             		</property>
                 </bean>
-                <bean parent="AttributeField" p:propertyName="startDate"/>
-                <bean parent="AttributeField" p:propertyName="endDate"/>
+                <bean parent="InputField" p:propertyName="startDate"/>
+                <bean parent="InputField" p:propertyName="endDate"/>
                </list>
              </property>             
           </bean> 
@@ -171,8 +172,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
               <property name="propertyName" value="fiscalOfficer.accounts"/>
               <property name="items">
                 <list>
-                  <bean parent="AttributeField" p:propertyName="startDate"/>
-                  <bean parent="AttributeField" p:propertyName="endDate"/>
+                  <bean parent="InputField" p:propertyName="startDate"/>
+                  <bean parent="InputField" p:propertyName="endDate"/>
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Term"/> 

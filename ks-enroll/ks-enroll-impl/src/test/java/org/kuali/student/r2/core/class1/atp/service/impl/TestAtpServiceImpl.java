@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.Resource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +26,6 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -40,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class TestAtpServiceImpl {
 
-    @Autowired
-    @Qualifier("atpServiceValidationDecorator")
+    @Resource(name="atpServiceAuthDecorator")
     public AtpService atpService;
 
     public static String principalId = "123";
@@ -81,7 +77,7 @@ public class TestAtpServiceImpl {
 		}
     }
 
-    @Test 
+    @Test
     public void testAtpCrud()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException {
         // test create
@@ -117,7 +113,7 @@ public class TestAtpServiceImpl {
          
         // test update
         String atpNameOrig = fetched.getName();
-        AtpInfo modified = AtpInfo.getInstance(fetched);
+        AtpInfo modified = new AtpInfo(fetched);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = null;
         try {
@@ -163,7 +159,7 @@ public class TestAtpServiceImpl {
         assertEquals("testAtpId1", atpInfo.getKey());
         
         String atpNameOrig = atpInfo.getName();
-        AtpInfo modified = AtpInfo.getInstance(atpInfo);
+        AtpInfo modified = new AtpInfo(atpInfo);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = null;
         try {
@@ -178,7 +174,7 @@ public class TestAtpServiceImpl {
     @Test
     public void testCreateAtp()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException{
-        AtpInfo atpInfo = AtpInfo.newInstance();
+        AtpInfo atpInfo = new AtpInfo();
         atpInfo.setKey("newId2");
         atpInfo.setName("newId2");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");

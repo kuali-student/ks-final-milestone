@@ -17,7 +17,8 @@ package org.kuali.student.enrollment.class1.hold.service.decorators;
 
 import java.util.List;
 
-
+import org.kuali.student.enrollment.hold.dto.HoldInfo;
+import org.kuali.student.enrollment.hold.service.HoldServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,12 +30,9 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.hold.dto.HoldInfo;
-import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
 import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 public class HoldServiceValidationDecorator extends HoldServiceDecorator implements HoldsDataDictionaryService, HoldsValidator
@@ -81,15 +79,14 @@ public class HoldServiceValidationDecorator extends HoldServiceDecorator impleme
 
     @Override
     public HoldInfo createHold(HoldInfo holdInfo, ContextInfo context)
-    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    		throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	_holdFullValidation(holdInfo, context);
-            return getNextDecorator().createHold(holdInfo, context);
-       
+        return getNextDecorator().createHold(holdInfo, context);
     }
 
     @Override
     public HoldInfo updateHold(String holdId, HoldInfo holdInfo, ContextInfo context)
-    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
+    		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
     	_holdFullValidation(holdInfo, context);
         return getNextDecorator().updateHold(holdId, holdInfo, context);
     }

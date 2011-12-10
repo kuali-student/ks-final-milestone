@@ -8,8 +8,7 @@ import org.kuali.rice.kew.api.document.DocumentContentUpdate;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.DocumentUpdate;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.StringKey;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -226,8 +225,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
         //Save
         DocumentActionResult stdResp;
-        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
-        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
+        if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
+        	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
         	//if the route status is initial, then save initial
             stdResp = workflowDocumentActionsService.save(docActionParams);
         } else {

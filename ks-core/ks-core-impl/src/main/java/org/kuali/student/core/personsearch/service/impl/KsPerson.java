@@ -53,13 +53,13 @@ public class KsPerson implements Person {
     }
 
     @Override
-    public String getAddressCityName() {
+    public String getAddressCity() {
 
         return null;
     }
 
     @Override
-    public String getAddressCityNameUnmasked() {
+    public String getAddressCityUnmasked() {
 
         return null;
     }
@@ -125,13 +125,13 @@ public class KsPerson implements Person {
     }
 
     @Override
-    public String getAddressStateCode() {
+    public String getAddressStateProvinceCode() {
 
         return null;
     }
 
     @Override
-    public String getAddressStateCodeUnmasked() {
+    public String getAddressStateProvinceCodeUnmasked() {
 
         return null;
     }

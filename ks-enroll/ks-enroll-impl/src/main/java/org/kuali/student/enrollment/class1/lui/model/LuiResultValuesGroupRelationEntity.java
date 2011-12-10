@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "KSEN_LUI_RV_GRP_RELTN")
-public class LuiResultValuesGroupRelationEntity {
+public class LuiResultValuesGroupRelationEntity{
 
     @Id
 	@Column(name = "ID")
