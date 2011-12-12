@@ -29,9 +29,17 @@ public interface Building extends IdEntity {
      * Unique code for the building
      *
      * @name Building Code
-     * @readOnly
      * @required
+     *
      */
     public String getBuildingCode();
 
+    /**
+     * Unique key for the campus, the building is part of
+     *
+     * @name Campus Key
+     * @required
+     *
+     */
+    public String getCampusKey();
 }

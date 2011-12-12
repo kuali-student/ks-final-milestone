@@ -352,18 +352,18 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
     /**
      * Retrieves a list of Buildings corresponding to the Campus id
      *
-     * @param campusId    a unique Id of a Building
+     * @param campusKey    a unique Id of a Building
      * @param contextInfo Context information containing the
      *                    principalId and locale information about the caller of
      *                    service operation
      * @return a list of Buildings
-     * @throws DoesNotExistException     campusId not found
-     * @throws InvalidParameterException invalid campusId or contextInfo
-     * @throws MissingParameterException missing campusId or contextInfo
+     * @throws DoesNotExistException     campusKey not found
+     * @throws InvalidParameterException invalid campusKey or contextInfo
+     * @throws MissingParameterException missing campusKey or contextInfo
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<BuildingInfo> getBuildingByCampus(@WebParam(name = "campusId") String campusId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<BuildingInfo> getBuildingByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a Building to which Room belongs

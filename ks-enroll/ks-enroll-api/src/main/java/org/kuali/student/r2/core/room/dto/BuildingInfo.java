@@ -35,13 +35,16 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildingInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "buildingCode", "meta", "attributes", "_futureElements"})
+        "name", "descr", "buildingCode", "campusKey", "meta", "attributes", "_futureElements"})
 public class BuildingInfo extends IdEntityInfo implements Building, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String buildingCode;
+    
+    @XmlElement
+    private String campusKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -63,5 +66,14 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
 
     public void setBuildingCode(String buildingCode) {
         this.buildingCode = buildingCode;
+    }
+
+    @Override
+    public String getCampusKey() {
+        return this.campusKey;
+    }
+
+    public void setCampusKey(String campusKey) {
+        this.campusKey = campusKey;
     }
 }
