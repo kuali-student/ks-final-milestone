@@ -6,8 +6,11 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.main.client.configuration.AcknowledgeView;
 import org.kuali.student.lum.lu.ui.main.client.views.HomeView;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * Home controller for the LUM Application, controls its default view, the curriculum home view, and the
@@ -18,7 +21,7 @@ import org.kuali.student.lum.lu.ui.main.client.views.HomeView;
  */
 public class HomeController extends LayoutController{
 	
-	private final CurriculumHomeController curriculumHomeView;
+	private final CurriculumHomeController curriculumHomeView = GWT.create(CurriculumHomeController.class);
 	private final HomeView defaultView = new HomeView(this, HomeViews.DEFAULT);
 	private final AcknowledgeView ackView = new AcknowledgeView(this, HomeViews.ACKNOWLEDGEMENTS);
 	private SpanPanel panel = new SpanPanel();
@@ -32,8 +35,15 @@ public class HomeController extends LayoutController{
 		super.setViewEnum(viewType);
 		this.initWidget(panel);
 		
-		curriculumHomeView = new CurriculumHomeController(this, "Curriculum Management", HomeViews.CURRICULUM_HOME);
+		initCirriculumHomeView(this, "Curriculum Management", HomeViews.CURRICULUM_HOME);
 		setupViews();
+	}
+	
+	private void initCirriculumHomeView(Controller controller, String name, Enum<?> viewType){
+		curriculumHomeView.setController(controller);
+		curriculumHomeView.setName(name);
+        curriculumHomeView.setViewEnum(viewType);
+        
 	}
 	
 	private void setupViews(){
