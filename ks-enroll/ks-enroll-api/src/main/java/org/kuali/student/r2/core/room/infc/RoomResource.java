@@ -39,7 +39,6 @@ public interface RoomResource extends IdEntity {
      * Size (small, large, medium or other description)
      *
      * @name Size
-     * @required
      *
      */
     public String getSize();
