@@ -77,7 +77,6 @@ public interface Room extends IdEntity {
      *  Usage types for the room (class, exam, yoga, ...)
      *
      * @name Usage Type Keys
-     * @readOnly
      *
      */
     public List<String> getUsageTypeKeys();
@@ -86,7 +85,6 @@ public interface Room extends IdEntity {
      *  Accessibility types for the room (wheelchair, ...)
      *
      * @name Accessibility Type Keys
-     * @readOnly
      *
      */
     public List<String> getAccessibilityTypeKeys();
