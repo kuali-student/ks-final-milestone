@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
-@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loId", "relatedLoId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "loId", "relatedLoId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, Serializable {
 
