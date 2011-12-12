@@ -56,19 +56,20 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     //view's widgets
     protected FlowPanel layout = new FlowPanel();
-    private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
+    protected ActionCancelGroup actionCancelButtons = new ActionCancelGroup(
+            ButtonEnumerations.SaveContinueCancelEnum.SAVE_CONTINUE, ButtonEnumerations.SaveContinueCancelEnum.CANCEL);
     protected Map<String, Widget> addButtonsList = new HashMap<String, Widget>();
 
     //view's data
     protected CourseRequirementsViewController parentController;
     protected CourseRequirementsDataModel rules;
     protected boolean isReadOnly;
-    private boolean showSaveButtons;
+    protected boolean showSaveButtons;
     private static int tempProgReqInfoID = 9999;
     public static final String NEW_STMT_TREE_ID = "NEWSTMTTREE";
     public static final String NEW_REQ_COMP_ID = "NEWREQCOMP";    
 
-    private Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
+    protected Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
 
     public CourseRequirementsSummaryView() {
         super();
@@ -300,7 +301,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         layout.add(requirementsPanel);
     }
 
-    private SubrulePreviewWidget addCourseRequisite(final SpanPanel requirementsPanel,final StatementTreeViewInfo rule) {
+    protected SubrulePreviewWidget addCourseRequisite(final SpanPanel requirementsPanel,
+            final StatementTreeViewInfo rule) {
 
         Integer internalProgReqID =  rules.getInternalCourseReqID(rule);
         String stmtTypeId = rule.getType();
