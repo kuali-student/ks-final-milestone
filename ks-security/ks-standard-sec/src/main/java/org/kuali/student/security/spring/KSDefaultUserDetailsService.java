@@ -15,13 +15,16 @@
 
 package org.kuali.student.security.spring;
 
+import java.util.ArrayList;
+
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.service.RoleService;
+import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.util.security.UserWithId;
 import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.User;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
@@ -36,44 +39,30 @@ import org.springframework.security.util.AuthorityUtils;
  */
 public class KSDefaultUserDetailsService implements UserDetailsService{
 
-	static private String BASE_ROLES = "ROLE_KS_ADMIN, ROLE_KS_USER";
-	
-    private UserWithId ksuser = null;
-    private String password = "";
    
-    private boolean enabled = true;
-    private boolean nonlocked = true;
+    protected boolean enabled = true;
+    protected boolean nonlocked = true;
     
-    private Config config = null;
+    protected Config config = null;
     
-    private IdentityService identityService = null; // This is added so we can get the correct principal ID
+    protected IdentityService identityService = null; // This is added so we can get the correct principal ID
+    protected RoleService roleService = null;  // needed for future client overrides.
     
     
-    // Spring Security requires roles to have a prefix of ROLE_ , 
-    // look in org.springframework.security.vote.RoleVoter to change.
-    private GrantedAuthority[] authorities = 
-        AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES);
-    
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+   
+
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        String password;
         
         if(username==null || username.equals("")){
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
-        password = username;
         
-        if (enableBackdoorLogin()) {
-            authorities = AuthorityUtils.commaSeparatedStringToAuthorityArray(BASE_ROLES + ", ROLE_KS_BACKDOOR");
-        }       
+        // This is for the dummy KS Login
+        password = username;        
         
         KimPrincipalInfo kimPrincipalInfo = null;
-        try {
-        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);
-        }catch(Exception e)
-        {
-        	System.out.println("This is the error" + e.getMessage());
-        			return new User(username, password, enabled, true, true, nonlocked, authorities);
-        }
-        
+        kimPrincipalInfo = identityService.getPrincipalByPrincipalName(username);                
         
         String userId;
         if (null != kimPrincipalInfo) {
@@ -86,17 +75,43 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
             //System.out.println("kimPrincipalInfo is null ");
             throw new KimUserNotFoundException("Invalid username or password");  
         }
-        ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, authorities);
-        ksuser.setUserId(userId);
-        
-        
-        
+        UserWithId ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, getGrantedAuthority(userId));
+        ksuser.setUserId(userId);                     
         
         return ksuser;
     }
     
-    public void setAuthorities(String[] roles) {
-        this.authorities =  AuthorityUtils.stringArrayToAuthorityArray(roles);
+    protected GrantedAuthority[] getGrantedAuthority(String principalId){
+    	
+    	String springRoles = "";
+    	
+    	ArrayList<String> adminRoleIdList = new ArrayList<String>();
+        String adminRoleId = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME).getRoleId();
+        adminRoleIdList.add(adminRoleId);
+        
+        ArrayList<String> ksUserRoleIdList = new ArrayList<String>();
+        String ksUserRoleId = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME).getRoleId();
+        ksUserRoleIdList.add(ksUserRoleId);
+        
+        if(roleService.principalHasRole(principalId, adminRoleIdList, null)){
+        	springRoles += "ROLE_KS_ADMIN";
+        }
+        if(roleService.principalHasRole(principalId, ksUserRoleIdList, null)){
+        	if(!"".equals(springRoles)){
+        		springRoles += ", ";
+        	}        	
+        	springRoles += "ROLE_KS_USER";        	
+        }        
+        // Enable backdoor login. The LUMMain.jsp has will actually display the login. 
+        if (enableBackdoorLogin()) {
+        	if(!"".equals(springRoles)){
+        		springRoles += ", ";
+        	}
+        	springRoles += "ROLE_KS_BACKDOOR";
+        }
+        
+        return AuthorityUtils.commaSeparatedStringToAuthorityArray(springRoles);                
+        
     }
     
     public Config getConfig() {
@@ -110,7 +125,23 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
 		this.config = config;
 	}
 	
-	protected boolean enableBackdoorLogin() {
-        return "true".equalsIgnoreCase(getConfig().getProperty("enableKSBackdoorLogin"));
-    }
+	 public void setIdentityService(IdentityService identityService) {
+	        this.identityService = identityService;
+	 }
+	    
+	 protected boolean enableBackdoorLogin() {
+	     return "true".equalsIgnoreCase(getConfig().getProperty("enableKSBackdoorLogin"));
+	 }
+	        
+	 public RoleService getRoleService() {    	
+		 return roleService;
+	 }
+
+	public void setRoleService(RoleService roleService) {
+		this.roleService = roleService;
+	}
+	
+	public IdentityService getIdentityService() {
+		return identityService;
+	}
 }

@@ -62,6 +62,11 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-api</artifactId>
     </dependency>
+    <dependency>
+       <groupId>org.kuali.student.common</groupId>
+       <artifactId>ks-common-api</artifactId>
+       <version>${project.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

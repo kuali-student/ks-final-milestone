@@ -48,6 +48,7 @@
   	</bean>
   	
   	<!--List of Custom Providers that can be registered with the default authentication manager -->
+  	
   	<bean id="daoAuthenticationProvider" 
       	class="org.kuali.student.security.kim.KimAuthenticationProvider">
       	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
@@ -59,10 +60,26 @@
       	<property name="userDetailsService" ref="ksUserDetailsService"/>
     	<security:custom-authentication-provider />
    	</bean>
-   	   	
+   	
+   	<bean id="exceptionTranslationFilter"
+     class="org.springframework.security.ui.ExceptionTranslationFilter">
+	  <property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+	  <property name="accessDeniedHandler" ref="accessDeniedHandler"/>
+	</bean>
+
+	<bean id="authenticationEntryPoint"
+	     class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+	  <property name="loginFormUrl" value="/login.jsp"/>
+	</bean>
+	
+	<bean id="accessDeniedHandler"
+	     class="org.springframework.security.ui.AccessDeniedHandlerImpl">
+	  <property name="errorPage" value="/login.jsp"/>
+	</bean>
+   	
  <bean id="switchUserProcessingFilter" class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter">
   <security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
-     <property name="userDetailsService" ref="ksUserDetailsService" />
+     <property name="userDetailsService" ref="ksRiceUserDetailsService" />
      <property name="switchUserUrl" value="/j_spring_security_switch_user" />
      <property name="exitUserUrl" value="/j_spring_security_exit_user" />
      <property name="targetUrl" value="${application.url}/" />
