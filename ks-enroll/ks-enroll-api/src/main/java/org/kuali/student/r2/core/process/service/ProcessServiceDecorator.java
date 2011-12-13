@@ -23,7 +23,6 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
-import javax.jws.WebParam;
 import java.util.List;
 
 public abstract class ProcessServiceDecorator implements ProcessService {
@@ -76,8 +75,8 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createProcessCategory(processInfo, contextInfo);
+    public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processCategoryInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createProcessCategory(processCategoryInfo, contextInfo);
     }
 
     @Override

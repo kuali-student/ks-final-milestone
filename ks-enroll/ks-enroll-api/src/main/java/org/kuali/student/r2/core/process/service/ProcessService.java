@@ -15,27 +15,11 @@
 
 package org.kuali.student.r2.core.process.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
-import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -45,8 +29,18 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
+import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 /**
  * Process Service Description and Assumptions.
@@ -184,7 +178,7 @@ public interface ProcessService
      * server assigning an identifier.
      *
      * @param validationTypeKey the identifier of the extent of validation
-     * @param processInfo the ProcessCategory information to be tested
+     * @param processCategoryInfo the ProcessCategory information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -202,7 +196,7 @@ public interface ProcessService
     /** 
      * Creates a new ProcessCategory.
      *
-     * @param processInfo the details of ProcessCategory to be created
+     * @param processCategoryInfo the details of ProcessCategory to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -220,7 +214,7 @@ public interface ProcessService
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processInfo") ProcessCategoryInfo processInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ProcessCategoryInfo createProcessCategory(@WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing ProcessCategory.
