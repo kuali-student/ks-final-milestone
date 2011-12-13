@@ -1,6 +1,5 @@
-package org.kuali.student.r2.core.process.service;
+package org.kuali.student.r2.core.process.service.decorators;
 
-import org.kuali.rice.krad.dao.PersistenceDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -15,12 +14,11 @@ import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
 
 import java.util.List;
 
-public class ProcessServiceValidationDecorator extends ProcessServiceDecorator {
-
-
+public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorator {
     @Override
     public ProcessCategoryInfo createProcessCategory(ProcessCategoryInfo processInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return super.createProcessCategory(processInfo, contextInfo);    // TODO needs implementation
