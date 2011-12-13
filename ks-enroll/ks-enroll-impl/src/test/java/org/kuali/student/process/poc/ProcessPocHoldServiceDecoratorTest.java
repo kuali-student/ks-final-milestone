@@ -4,8 +4,7 @@
  */
 package org.kuali.student.process.poc;
 
-import org.kuali.student.process.poc.ProcessPocConstants;
-import org.kuali.student.process.poc.ProcessPocHoldServiceDecorator;
+import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,19 +43,40 @@ public class ProcessPocHoldServiceDecoratorTest {
     }
 
     @Test
-    public void testPocMethods() {
+    public void testPocMethods() throws Exception {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
-        
+
         HoldService holdService = new HoldServiceMockImpl();
         holdService = new ProcessPocHoldServiceDecorator(holdService);
         List<HoldInfo> holds = null;
+            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
+                    ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, context);
+
+        assertEquals(1, holds.size());
+
         try {
-            // TODO: fix this
-            holds = holdService.getActiveHoldsByIssueAndPerson("fixme", ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, context);
+            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM, 
+                    ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
         }
-        assertEquals (holds.size(), 1);
+        assertEquals(1, holds.size());
+
+        try {
+            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 
+                    ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, context);
+        } catch (Exception ex) {
+            throw new RuntimeException("unexpected", ex);
+        }
+        assertEquals(1, holds.size());
+
+        try {
+            holds = holdService.getActiveHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM,
+                    ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, context);
+        } catch (Exception ex) {
+            throw new RuntimeException("unexpected", ex);
+        }
+        assertEquals(1, holds.size());
     }
 }
