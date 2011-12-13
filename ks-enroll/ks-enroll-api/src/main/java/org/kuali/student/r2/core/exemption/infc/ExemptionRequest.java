@@ -12,12 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.exemption.infc;
 
 import java.util.Date;
 import org.kuali.student.r2.common.infc.IdEntity;
-
 
 /**
  * Information about an ExemptionRequest. 
@@ -33,7 +31,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  *
  * @author tom
  * @since Tue Jun 14 14:22:34 EDT 2011
- */ 
+ */
 public interface ExemptionRequest extends IdEntity {
 
     /**
@@ -52,7 +50,15 @@ public interface ExemptionRequest extends IdEntity {
      * @name Check Id
      */
     public String getCheckKey();
- 
+
+    /**
+     * The Id of the Person to whom the request should be applied.
+     *
+     * @name Person Id
+     * @required
+     */
+    public String getPersonId();
+
     /**
      * The Id of the Person making the request.
      *
@@ -88,19 +94,19 @@ public interface ExemptionRequest extends IdEntity {
      *
      * @name Date Override
      */
-    public DateOverride getDateOverride(); 
+    public DateOverride getDateOverride();
 
     /**
      * The data for a milestone override.
      *
      * @name Milestone Override
      */
-    public MilestoneOverride getMilestoneOverride(); 
+    public MilestoneOverride getMilestoneOverride();
 
     /**
      * The data for a learning result override.
      *
      * @name Learning Result Override
      */
-    public LearningResultOverride getLearningResultOverride(); 
+    public LearningResultOverride getLearningResultOverride();
 }
