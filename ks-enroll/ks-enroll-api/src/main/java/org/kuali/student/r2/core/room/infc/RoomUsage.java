@@ -16,33 +16,58 @@
 package org.kuali.student.r2.core.room.infc;
 
 import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.common.infc.Relationship;
+
+import java.util.List;
 
 /**
- * Room Responsible Org
- * Note that multiple orgs can be responsible for a room in different roles like maintenance, scheduling etc
+ * Room Usage
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  *
  */
-public interface RoomResponsibleOrg extends Relationship {
+public interface RoomUsage extends HasId {
 
     /**
-     * Unique id for the organization
+     *  Preferred capacity of the room
      *
-     * @name Org Id
+     * @name Preferred Capacity
      * @required
      *
      */
-    public String getOrgId();
+    public Integer getPreferredCapacity();
 
     /**
-     * Unique id for the organization
+     *  Hard capacity of the room
      *
-     * @name Org Id
+     * @name Hard Capacity
      * @required
      *
      */
-    String getRoomId();
+    public Integer getHardCapacity();
+
+    /**
+     *  Exam capacity of the room
+     *
+     * @name Exam Capacity
+     *
+     */
+    public Integer getExamCapacity();
+
+    /**
+     *  Usage Type (classes, exams, meetings, ...)
+     *
+     * @name Usage Types
+     *
+     */
+    public List<String> getUsageTypeKeys();
+
+    /**
+     *  Layout Type (classes, exams, business school, ...)
+     *
+     * @name Layout Types
+     *
+     */
+    public List<String> getLayoutTypeKeys();
+    
 }

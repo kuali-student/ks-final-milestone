@@ -34,13 +34,15 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey",
-        "stateKey", "orgKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey", "stateKey", "roomId", "orgId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class RoomResponsibleOrgInfo extends RelationshipInfo implements RoomResponsibleOrg, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String orgKey;
+    private String roomId;
+    @XmlElement
+    private String orgId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -50,18 +52,28 @@ public class RoomResponsibleOrgInfo extends RelationshipInfo implements RoomResp
     }
 
     public RoomResponsibleOrgInfo(RoomResponsibleOrg roomResponsibleOrg) {
-        super(roomResponsibleOrg);
         if (null != roomResponsibleOrg) {
-            this.orgKey = roomResponsibleOrg.getOrgKey();
+            this.roomId = roomResponsibleOrg.getRoomId();
+            this.orgId = roomResponsibleOrg.getOrgId();
         }
     }
 
     @Override
-    public String getOrgKey() {
-        return this.orgKey;
+    public String getRoomId() {
+        return roomId;
     }
 
-    public void setOrgKey(String orgKey) {
-        this.orgKey = orgKey;
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
     }
+
+    @Override
+    public String getOrgId() {
+        return this.orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
 }

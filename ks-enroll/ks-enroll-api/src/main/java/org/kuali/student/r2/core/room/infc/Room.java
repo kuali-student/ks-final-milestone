@@ -16,8 +16,7 @@
 package org.kuali.student.r2.core.room.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.room.dto.RoomResourceInfo;
-import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
+import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
 
 import java.util.List;
 
@@ -40,46 +39,20 @@ public interface Room extends IdEntity {
     public String getFloorKey();
 
     /**
-     *  Soft capacity of the room
-     *
-     * @name Soft Capacity
-     * @required
-     *
-     */
-    public Integer getSoftCapacity();
-
-    /**
-     *  Hard capacity of the room
-     *
-     * @name Hard Capacity
-     * @required
-     *
-     */
-    public Integer getHardCapacity();
-
-    /**
-     *  Exam capacity of the room
-     *
-     * @name Exam Capacity
-     *
-     */
-    public Integer getExamCapacity();
-
-    /**
      *  Resources in the room
      *
      * @name Room Resources
      *
      */
-    public List<RoomResource> getRoomResources();
+    public List<RoomFixedResource> getRoomFixedResources();
 
     /**
-     *  Usage types for the room (class, exam, yoga, ...)
+     *  Various usage information for the room
      *
-     * @name Usage Type Keys
+     * @name Room Usages
      *
      */
-    public List<String> getUsageTypeKeys();
+    public List<RoomUsageInfo> getRoomUsages();
 
     /**
      *  Accessibility types for the room (wheelchair, ...)
@@ -88,15 +61,5 @@ public interface Room extends IdEntity {
      *
      */
     public List<String> getAccessibilityTypeKeys();
-
-    /**
-     *  Room Responsible Orgs (multiple orgs in different roles like
-     *      maintenance, scheduling, ...)
-     *
-     * @name Room Responsible Orgs
-     * @required
-     *
-     */
-    public List<RoomResponsibleOrg> getRoomResponsibleOrgs();
     
 }

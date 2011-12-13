@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.room.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasId;
 
 /**
  *
@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface RoomResource extends IdEntity {
+public interface RoomFixedResource extends HasId {
 
     /**
      * Quantity of this resource
@@ -36,10 +36,10 @@ public interface RoomResource extends IdEntity {
     public Integer getQuantity();
 
     /**
-     * Size (small, large, medium or other description)
+     *  Type of the Resource
      *
-     * @name Size
-     *
+     * @name Resource Type
+     * @required
      */
-    public String getSize();
+    public String getResourceType();
 }

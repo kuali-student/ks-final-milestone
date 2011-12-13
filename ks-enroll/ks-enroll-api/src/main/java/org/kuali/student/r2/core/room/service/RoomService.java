@@ -122,7 +122,7 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
     /**
      * Retrieves a list of Rooms corresponding to the list of Room Usage type
      *
-     * @param roomTypeKeys a list of Room Usage type keys
+     * @param roomUsageTypeKeys a list of Room Usage type keys
      * @param contextInfo  Context information containing the
      *                     principalId and locale information about the caller of
      *                     service operation
