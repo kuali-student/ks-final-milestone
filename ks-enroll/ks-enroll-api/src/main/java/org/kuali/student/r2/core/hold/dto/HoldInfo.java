@@ -29,112 +29,112 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldInfo", propOrder = { "id", "typeKey", "stateKey", "name",
-		"descr", "issueKey", "personId", "isWarning", "isOverridable",
-		"effectiveDate", "releasedDate", "meta", "attributes",
-		"_futureElements" })
+@XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
+    "descr", "issueKey", "personId", "isWarning", "isOverridable",
+    "effectiveDate", "releasedDate", "meta", "attributes",
+    "_futureElements"})
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@XmlElement
-	private String personId;
+    private static final long serialVersionUID = 1L;
+    @XmlElement
+    private String personId;
+    @XmlElement
+    private String issueKey;
+    @XmlElement
+    private Boolean isWarning;
+    @XmlElement
+    private Boolean isOverridable;
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date releasedDate;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	@XmlElement
-	private String issueKey;
+    public HoldInfo() {
+        super();
+        personId = null;
+        isWarning = false;
+        isOverridable = false;
+        issueKey = null;
+        effectiveDate = null;
+        releasedDate = null;
+        _futureElements = null;
+    }
 
-	@XmlElement
-	private Boolean isWarning;
+    public HoldInfo(Hold hold) {
+        super(hold);
+        if (null != hold) {
+            this.personId = hold.getPersonId();
+            this.isWarning = hold.getIsWarning();
+            this.isOverridable = hold.getIsOverridable();
+            this.issueKey = hold.getIssueKey();
+            if (hold.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
+            }
+            if (hold.getReleasedDate() != null) {
+                this.releasedDate = new Date(hold.getReleasedDate().getTime());
+            }
+        }
 
-	@XmlElement
-	private Boolean isOverridable;
+        _futureElements = null;
+    }
 
-	@XmlElement
-	private Date effectiveDate;
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
 
-	@XmlElement
-	private Date releasedDate;
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+    @Override
+    public String getIssueKey() {
+        return issueKey;
+    }
 
-	public HoldInfo() {
-		super();
-		personId = null;
-		isWarning = false;
-		isOverridable = false;
-		issueKey = null;
-		effectiveDate = null;
-		releasedDate = null;
-		_futureElements = null;
-	}
+    public void setIssueKey(String issueKey) {
+        this.issueKey = issueKey;
+    }
 
-	public HoldInfo(Hold hold) {
-		super(hold);
-		if (null != hold) {
-			this.personId = hold.getPersonId();
-			this.isWarning = hold.getIsWarning();
-			this.isOverridable = hold.getIsOverridable();
-			this.issueKey = hold.getIssueKey();
-			this.effectiveDate = new Date(hold.getEffectiveDate().getTime());
-			this.releasedDate = new Date(hold.getReleasedDate().getTime());
-		}
+    @Override
+    public Boolean getIsWarning() {
+        return isWarning;
+    }
 
-		_futureElements = null;
-	}
+    public void setIsWarning(Boolean isWarning) {
+        this.isWarning = isWarning;
+    }
 
-	@Override
-	public String getPersonId() {
-		return personId;
-	}
+    @Override
+    public Boolean getIsOverridable() {
+        return isOverridable;
+    }
 
-	public void setPersonId(String personId) {
-		this.personId = personId;
-	}
+    public void setIsOverridable(Boolean isOverridable) {
+        this.isOverridable = isOverridable;
+    }
 
-	@Override
-	public String getIssueKey() {
-		return issueKey;
-	}
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
+    }
 
-	public void setIssueKey(String issueKey) {
-		this.issueKey = issueKey;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        if (effectiveDate != null) {
+            this.effectiveDate = new Date(effectiveDate.getTime());
+        }
+    }
 
-	@Override
-	public Boolean getIsWarning() {
-		return isWarning;
-	}
+    @Override
+    public Date getReleasedDate() {
+        return releasedDate != null ? new Date(releasedDate.getTime()) : null;
+    }
 
-	public void setIsWarning(Boolean isWarning) {
-		this.isWarning = isWarning;
-	}
-
-	@Override
-	public Boolean getIsOverridable() {
-		return isOverridable;
-	}
-
-	public void setIsOverridable(Boolean isOverridable) {
-		this.isOverridable = isOverridable;
-	}
-
-	@Override
-	public Date getEffectiveDate() {
-		return effectiveDate != null ? new Date(effectiveDate.getTime()) : null;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		if (effectiveDate != null)
-			this.effectiveDate = new Date(effectiveDate.getTime());
-	}
-
-	@Override
-	public Date getReleasedDate() {
-		return releasedDate != null ? new Date(releasedDate.getTime()) : null;
-	}
-
-	public void setReleasedDate(Date releasedDate) {
-		if (releasedDate != null)
-			this.releasedDate = new Date(releasedDate.getTime());
-	}
+    public void setReleasedDate(Date releasedDate) {
+        if (releasedDate != null) {
+            this.releasedDate = new Date(releasedDate.getTime());
+        }
+    }
 }

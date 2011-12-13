@@ -17,8 +17,6 @@ package org.kuali.student.r2.common.util.constants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 
-
-
 /**
  * This class holds the constants used by the Hold service
  *
@@ -32,7 +30,6 @@ public class HoldServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "hold";
     public static final String REF_OBJECT_URI_HOLD = NAMESPACE + "/" + HoldInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ISSUE = NAMESPACE + "/" + IssueInfo.class.getSimpleName();
-
     /**
      * Hold types
      */
@@ -57,6 +54,65 @@ public class HoldServiceConstants {
     public static final String PRIOR_TRANSCRIPT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.prior.transcript";
     public static final String INCOMPLETE_BIO_ISSUE_TYPE_KEY = "kuali.hold.issue.type.incomplete.bio";
     public static final String RESIDENCY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residency";
+    /**
+     * known issue keys
+     */
+    public static final String ISSUE_KEY_BOOK_OVERDUE = "kuali.hold.issue.library.book.overdue";
+    public static final String ISSUE_KEY_UNPAID_FINE = "kuali.hold.issue.library.unpaid.fine";
+    public static final String ISSUE_KEY_UNPAID_TUITION_PRIOR_TERM = "kuali.hold.issue.financial.unpaid.tuition.prior.term";
+    public static final String ISSUE_KEY_UNPAID_TUITION_CURRENT_TERM = "kuali.hold.issue.financial.unpaid.tuition.current.term";
+    public static final String ISSUE_KEY_FULL_PAYMENT_REQUIRED = "kuali.hold.issue.financial.full.payment.required";
+    public static final String ISSUE_KEY_TUITION_EXCHANGE = "kuali.hold.issue.financial.tuition.exchange";
+    public static final String ISSUE_KEY_TUITION_SPONSOR = "kuali.hold.issue.financial.tuition.sponsor";
+    public static final String ISSUE_KEY_COLLECTIONS = "kuali.hold.issue.financial.collections";
+    public static final String ISSUE_KEY_BOOK_STORE_DEBT = "kuali.hold.issue.financial.book.store.debt";
+    public static final String ISSUE_KEY_IMMUNIZATION = "kuali.hold.issue.medical.immunization";
+    public static final String ISSUE_KEY_HEALTH_INSURANCE = "kuali.hold.issue.medical.health.insurance";
+    public static final String ISSUE_KEY_VISA_CERTIFICATION = "kuali.hold.issue.international.visa.certification";
+    public static final String ISSUE_KEY_VISA_VERIFICATION = "kuali.hold.issue.international.visa.verification";
+    public static final String ISSUE_KEY_ENGLISH_LANGUAGE_REMEDIATION = "kuali.hold.issue.international.english.language.remediation";
+    public static final String ISSUE_KEY_DISCIPLINARY_INVESTIGATION = "kuali.hold.issue.disciplinary.investigation";
+    public static final String ISSUE_KEY_DISCIPLINARY_WARNING = "kuali.hold.issue.disciplinary.warning";
+    public static final String ISSUE_KEY_DISCIPLINARY_SUSPENSION = "kuali.hold.issue.disciplinary.suspension";
+    public static final String ISSUE_KEY_DISCIPLINARY_EXPULSION = "kuali.hold.issue.disciplinary.expulsion";
+    public static final String ISSUE_KEY_ACADEMIC_PROBATION = "kuali.hold.issue.progress.academic.probation";
+    public static final String ISSUE_KEY_ACADEMIC_RESTRICTION = "kuali.hold.issue.progress.academic.restriction";
+    public static final String ISSUE_KEY_ACADEMICALLY_INELIGIBLE = "kuali.hold.issue.progress.academically.ineligible";
+    public static final String ISSUE_KEY_HOUSING_CONTRACT_CANCELLED = "kuali.hold.issue.residence.housing.contract.cancelled";
+    public static final String ISSUE_KEY_DORMATORY_DAMAGE = "kuali.hold.issue.residence.dormatory.damage";
+    public static final String ISSUE_KEY_RETURNED_CHECK = "kuali.hold.issue.unpaid.fee.returned.check";
+    public static final String ISSUE_KEY_TRANSCRIPT_FEE_PENDING = "kuali.hold.issue.unpaid.fee.transcript.fee.pending";
+    public static final String ISSUE_KEY_PARKING_TICKET = "kuali.hold.issue.unpaid.fee.parking.ticket";
+    public static final String ISSUE_KEY_OVER_AWARD = "kuali.hold.issue.financial.aid.over.award";
+    public static final String ISSUE_KEY_FINANCIAL_AID_PAPERWORK_COMPLIANCE = "kuali.hold.issue.financial.aid.paperwork.compliance";
+    public static final String ISSUE_KEY_LOAN_DEFAULT = "kuali.hold.issue.financial.aid.loan.default";
+    public static final String ISSUE_KEY_OTHER_REFUND_HOLD = "kuali.hold.issue.financial.aid.other.refund.hold";
+    public static final String ISSUE_KEY_ATHLETICS_PROPERTY_NOT_RETURNED = "kuali.hold.issue.athletics.property.not.returned";
+    public static final String ISSUE_KEY_ARMY_PROPERTY_NOT_RETURNED = "kuali.hold.issue.army.property.not.returned";
+    public static final String ISSUE_KEY_UNPAID_APPLICATION_FEE = "kuali.hold.issue.admissions.unpaid.application.fee";
+    public static final String ISSUE_KEY_APPLICATION_INCOMPLETE = "kuali.hold.issue.admissions.application.incomplete";
+    public static final String ISSUE_KEY_NOT_ADMITTED = "kuali.hold.issue.admissions.not.admitted";
+    public static final String ISSUE_KEY_UNPAID_BINDING_FEE = "kuali.hold.issue.admissions.unpaid.binding.fee";
+    public static final String ISSUE_KEY_CONDITIONAL_ADMIT_NOT_VERIFIED = "kuali.hold.issue.admissions.conditional.admit.not.verified";
+    public static final String ISSUE_KEY_RESTRICTED_ADMISSION = "kuali.hold.issue.admissions.restricted.admission";
+    public static final String ISSUE_KEY_IDENTITY_RESOLUTION = "kuali.hold.issue.identity.resolution";
+    public static final String ISSUE_KEY_IDENTITY_INFORMATION = "kuali.hold.issue.identity.information";
+    public static final String ISSUE_KEY_PRIOR_SCHOOL = "kuali.hold.issue.incomplete.record.prior.school";
+    public static final String ISSUE_KEY_RESIDENCY_QUESTION = "kuali.hold.issue.residency.question";
+    public static final String ISSUE_KEY_MANDATORY_ADVISING = "kuali.hold.issue.advising.mandatory.advising";
+    public static final String ISSUE_KEY_EXCESSIVE_WITHDRAWALS_MEETING = "kuali.hold.issue.advising.excessive.withdrawals.meeting";
+    public static final String ISSUE_KEY_LEAVE_OF_ABSENCE = "kuali.hold.issue.leave.of.absence";
+    public static final String ISSUE_KEY_LOAN_CANCELLATION = "kuali.hold.issue.loan.loan.cancellation";
+    public static final String ISSUE_KEY_LOAN_EXIT_INTERVIEW = "kuali.hold.issue.loan.loan.exit.interview";
+    public static final String ISSUE_KEY_LOAN_PAPERWORK_COMPLIANCE = "kuali.hold.issue.loan.paperwork.compliance";
+    public static final String ISSUE_KEY_LOAN_PAYMENTS_PAST_DUE = "kuali.hold.issue.loan.payments.past.due";
+    public static final String ISSUE_KEY_ATHLETE_LOAD = "kuali.hold.issue.review.athlete.load";
+    public static final String ISSUE_KEY_ATHLETE_PROGRESS = "kuali.hold.issue.review.athlete.progress";
+    public static final String ISSUE_KEY_ROTC_LOAD = "kuali.hold.issue.review.rotc.load";
+    public static final String ISSUE_KEY_NON_MAJOR_CREDITS = "kuali.hold.issue.review.non-major.credits";
+    public static final String ISSUE_KEY_PRIVACY_REQUEST = "kuali.hold.issue.annotation.privacy.request";
+    public static final String ISSUE_KEY_TRANSCRIPT_NOTATION_REQUIRED = "kuali.hold.issue.annotation.transcript.notation.required";
+    public static final String ISSUE_KEY_WILL_NOT_CHANGE_RESTRICTIONS = "kuali.hold.issue.annotation.will.not.change.restrictions";
     /**
      * RESTRICTION TYPES
      */
