@@ -64,6 +64,8 @@ public class KSRiceDefaultUserDetailsService extends KSDefaultUserDetailsService
         // to do this we need to throw a AccountStatusException and not UsernameNotFoundException.
             throw new KimUserNotFoundException("Invalid username or password");  
         }
+        
+        password = (password == null ? "":password);
         UserWithId ksuser = new UserWithId(username, password, super.enabled, true, true, super.nonlocked, getGrantedAuthority(userId));
         ksuser.setUserId(userId);
         return ksuser;
