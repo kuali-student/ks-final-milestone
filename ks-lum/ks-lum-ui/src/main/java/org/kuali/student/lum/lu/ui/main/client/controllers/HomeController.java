@@ -27,9 +27,23 @@ public class HomeController extends LayoutController{
 	private SpanPanel panel = new SpanPanel();
 	
 	public enum HomeViews{DEFAULT, CURRICULUM_HOME, ACKNOWLEDGEMENTS}
-
+    
+	public HomeController() {
+		
+	}
+	
 	public HomeController(Controller controller, String name, Enum<?> viewType) {
 		super();
+		super.setController(controller);
+		super.setName(name);
+		super.setViewEnum(viewType);
+		this.initWidget(panel);
+		
+		initCirriculumHomeView(this, "Curriculum Management", HomeViews.CURRICULUM_HOME);
+		setupViews();
+	}
+	
+	public void init(Controller controller, String name, Enum<?> viewType) {
 		super.setController(controller);
 		super.setName(name);
 		super.setViewEnum(viewType);
@@ -73,4 +87,5 @@ public class HomeController extends LayoutController{
     	}
     	super.showView(viewType, onReadyCallback);
     };
+    
 }
