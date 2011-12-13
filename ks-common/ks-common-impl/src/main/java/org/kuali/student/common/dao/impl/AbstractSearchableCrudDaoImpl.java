@@ -81,6 +81,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					
 					//if optional query parameter has only a column name then create proper search expression
 					String condition = queryMap.get(searchParam.getKey());
+					if(condition==null){
+						throw new RuntimeException("Optional Param "+searchParam.getKey()+" must have a queryMap definition");
+					}
 					if (condition.trim().startsWith("!!")) {
 					    String substitutionType = condition.trim().substring("!!".length());
 					    // to detect queryMap value in the form of !!____ ___
@@ -217,12 +220,26 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
                     } catch (ParseException e) {
                         throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
                     }
-			    } if ("long".equals(paramDataType) && searchParam.getValue() instanceof String) {
-			        try{
-			        	queryParamValue = Long.valueOf((String)searchParam.getValue());
-	                } catch (NumberFormatException e) {
-	                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
-	                }
+			    } if ("long".equals(paramDataType)){
+			    	if(searchParam.getValue() instanceof String) {
+			            try{
+				        	queryParamValue = Long.valueOf((String)searchParam.getValue());
+		                } catch (NumberFormatException e) {
+		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+		                }
+			    	}else if(searchParam.getValue() instanceof Collection){
+			    		try{
+			    			List<Long> longList = new ArrayList<Long>();
+			    			if(searchParam.getValue()!=null){
+			    				for(String value:(Collection<String>)searchParam.getValue()){
+			    					longList.add(Long.parseLong(value));
+			    				}
+			    			}
+				        	queryParamValue = longList;
+		                } catch (NumberFormatException e) {
+		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+		                }
+			    	}
 			    } else {
 			        queryParamValue = searchParam.getValue();
 			    }
