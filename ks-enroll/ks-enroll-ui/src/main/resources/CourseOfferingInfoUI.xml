@@ -107,9 +107,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="controlField">
             <bean parent="SelectControl"/>
         </property>
+        <!--
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-        </property>
+        </property> -->
     </bean>   
 
     <bean id="CourseOfferingInfoUI.subjectArea" parent="CourseOfferingInfo.subjectArea-parent">
@@ -168,9 +169,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 <property name="control">
               			            <bean parent="SelectControl"/>
             		            </property>
+                                <!--
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-                                </property>
+                                </property>    -->
                              </bean>
                             <bean parent="InputField" p:propertyName="courseOfferingCode">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
