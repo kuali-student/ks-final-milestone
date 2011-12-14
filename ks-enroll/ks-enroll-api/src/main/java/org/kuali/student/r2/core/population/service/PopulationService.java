@@ -228,12 +228,12 @@ public interface PopulationService
      * @throws DoesNotExistException validationTypeId not found
      * @throws InvalidParameterException invalid validationTypeId,
      *         populationInfo, or contextInfo
-     * @throws MissingParameterException missing validationTypeId,
+     * @throws MissingParameterException missing validationTypeKey,
      *         populationInfo, or contextInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validatePopulation(@WebParam(name = "validationTypeId") String validationTypeId, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validatePopulation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Creates a new Population.
