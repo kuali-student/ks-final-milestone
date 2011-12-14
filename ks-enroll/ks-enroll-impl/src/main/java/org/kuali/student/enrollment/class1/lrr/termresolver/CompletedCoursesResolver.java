@@ -32,9 +32,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,8 +58,8 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(RulesExecutionConstants.studentIdTermSpec);
-        prerequisites.add(RulesExecutionConstants.contextInfoTermSpec);
+        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     public void setLrrService(LearningResultRecordService lrrService) {
@@ -83,7 +81,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.completedCourseIdsTermSpec;
+        return RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME;
     }
 
     @Override
@@ -99,8 +97,8 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String studentId = resolvedPrereqs.get(RulesExecutionConstants.studentIdTermSpec).toString();
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
+        String studentId = resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME).toString();
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         Collection<String> results = null;
 

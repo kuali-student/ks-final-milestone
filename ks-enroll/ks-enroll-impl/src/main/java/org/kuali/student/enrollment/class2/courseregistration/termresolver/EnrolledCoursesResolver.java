@@ -29,8 +29,8 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(RulesExecutionConstants.studentIdTermSpec);
-        prerequisites.add(RulesExecutionConstants.contextInfoTermSpec);
+        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.enrolledCourseIdsTermSpec;
+        return RulesExecutionConstants.STUDENT_ENROLLED_COURSE_IDS_TERM_NAME;
     }
 
     @Override
@@ -56,8 +56,8 @@ public class EnrolledCoursesResolver implements TermResolver<Collection<String>>
 
     @Override
     public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String studentId = resolvedPrereqs.get(RulesExecutionConstants.studentIdTermSpec).toString();
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
+        String studentId = resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME).toString();
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         Collection<String> results = null;
 

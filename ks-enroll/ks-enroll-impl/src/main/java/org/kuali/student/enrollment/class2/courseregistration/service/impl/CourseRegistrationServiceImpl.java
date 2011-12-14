@@ -3,8 +3,6 @@ package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.api.engine.Term;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -61,7 +59,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -378,9 +375,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 }
 
                 Map<String, Object> executionFacts = new HashMap<String, Object>();
-                executionFacts.put(RulesExecutionConstants.studentIdTermSpec, studentId);
-                executionFacts.put(RulesExecutionConstants.courseIdToEnroll, courseOffering.getCourseId());
-                executionFacts.put(RulesExecutionConstants.contextInfoTermSpec, context);
+                executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, studentId);
+                executionFacts.put(RulesExecutionConstants.COURSE_ID_TO_ENROLL_TERM_NAME, courseOffering.getCourseId());
+                executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
 
                 EngineResults engineResults = rulesEvaluationUtil.executeAgenda(translationResults.agenda, executionFacts);
 
@@ -777,7 +774,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<CourseRegistrationInfo> getCourseRegistrationsByIdList(List<String> courseRegistrationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList();
+        List<CourseRegistrationInfo> courseRegistrationInfos = new ArrayList<CourseRegistrationInfo>();
         ResultValuesGroup rvGroup = null;
         List<LuiPersonRelationInfo> lprs = lprService.getLprsByIdList(courseRegistrationIds, context);
         for (LuiPersonRelationInfo lpr : lprs){

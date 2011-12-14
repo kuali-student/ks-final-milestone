@@ -25,12 +25,12 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.contextInfoTermSpec);
+        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.courseSetTermSpec;
+        return RulesExecutionConstants.COURSE_SET_TERM_NAME;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
     @Override
     public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String courseSetId = parameters.get(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.contextInfoTermSpec);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
         
         if(courseSetId == null) {
             throw new TermResolutionException("No parameter found with name: " + RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, this, parameters);
