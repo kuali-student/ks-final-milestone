@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
 import org.kuali.student.r2.lum.course.infc.Format;
 
-@XmlType(name = "FormatInfo", propOrder = {"id", "typeKey", "stateKey", "activities", "termsOffered", "duration", "meta", "attributes", "versionInfo", "_futureElements"})
+@XmlType(name = "FormatInfo", propOrder = {"id", "typeKey", "stateKey", "activities", "termsOffered", "duration", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializable {
 

@@ -27,7 +27,7 @@ import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "descr", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseCrossListingInfo extends IdNamelessEntityInfo implements CourseCrossListing, Serializable {
 

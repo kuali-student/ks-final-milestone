@@ -264,7 +264,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.unitsContentOwner = courseInfo.getUnitsContentOwner() != null ? new ArrayList<String>(courseInfo.getUnitsContentOwner()) : new ArrayList<String>();
             
-            this.versionInfo =  new VersionInfo(courseInfo.getVersion());
+            this.versionInfo =  new VersionInfo(courseInfo.getVersionInfo());
 
         }
     }
@@ -704,7 +704,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
     
     @Override
-    public VersionInfo getVersion() {
+    public VersionInfo getVersionInfo() {
         return versionInfo;
     }
 

@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
 import org.w3c.dom.Element;
 
-@XmlType(name = "CourseFeeInfo", propOrder = {"id", "name", "typeKey", "stateKey", "code", "descr", "feeType", "rateType", "feeAmounts", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CourseFeeInfo", propOrder = {"id", "name", "typeKey", "stateKey", "feeType", "rateType", "feeAmounts", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializable {
 
