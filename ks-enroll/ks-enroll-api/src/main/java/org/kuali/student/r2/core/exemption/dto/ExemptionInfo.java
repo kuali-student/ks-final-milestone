@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionInfo", propOrder = {"id", "typeKey", "stateKey", 
-                "name", "descr", "exemptionRequestId",
-                "exemptedPersonId", "effectiveDate", "expirationDate", 
+                "name", "descr", "exemptionRequestId", "processKey", "checkKey",
+                "personId", "effectiveDate", "expirationDate", 
                 "useLimit", "useCount", "dateOverride", "milestoneOverride",
                 "learningResultOverride", "meta", "attributes", "_futureElements"})
 public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializable {
@@ -39,9 +39,14 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
     @XmlElement
     private String exemptionRequestId;
-
+    
     @XmlElement
-    private String exemptedPersonId;
+    private String processKey;
+    
+    @XmlElement
+    private String checkKey;
+    @XmlElement
+    private String personId;
 
     @XmlElement
     private Date effectiveDate;
@@ -82,7 +87,9 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
 
         if (null != exemption) {
             this.exemptionRequestId = exemption.getExemptionRequestId();
-            this.exemptedPersonId = exemption.getExemptedPersonId();
+            this.processKey = exemption.getProcessKey();
+            this.checkKey = exemption.getCheckKey();
+            this.personId = exemption.getPersonId();
             this.effectiveDate = exemption.getEffectiveDate();
             this.expirationDate = exemption.getExpirationDate();
             this.useLimit = exemption.getUseLimit();
@@ -113,13 +120,33 @@ public class ExemptionInfo extends IdEntityInfo implements Exemption, Serializab
         this.exemptionRequestId = exemptionRequestId;
     }
 
+    
     @Override
-    public String getExemptedPersonId() {
-        return exemptedPersonId;
+    public String getProcessKey() {
+        return processKey;
     }
 
-    public void setExemptedPersonId(String exemptedPersonId) {
-        this.exemptedPersonId = exemptedPersonId;
+    public void setProcessKey(String processKey) {
+        this.processKey = processKey;
+    }
+
+    @Override
+    public String getCheckKey() {
+        return checkKey;
+    }
+
+    public void setCheckKey(String checkKey) {
+        this.checkKey = checkKey;
+    }
+    
+    
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String exemptedPersonId) {
+        this.personId = exemptedPersonId;
     }
 
     @Override

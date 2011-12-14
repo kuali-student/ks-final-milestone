@@ -136,6 +136,11 @@ public class ExemptionServiceDecorator implements ExemptionService {
     }
 
     @Override
+    public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActiveExemptionsByTypeProcessAndCheckForPerson(typeKey, processKey, checkKey, personId, context);
+    }
+
+    @Override
     public StatusInfo deleteExemptionRequest(String exemptionRequestId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteExemptionRequest(exemptionRequestId, context);
     }

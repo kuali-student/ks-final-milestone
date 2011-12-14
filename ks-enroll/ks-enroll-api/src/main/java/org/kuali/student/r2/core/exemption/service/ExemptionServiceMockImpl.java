@@ -44,7 +44,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private MetaInfo newMeta(ContextInfo context) {
+    private MetaInfo _newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(context.getPrincipalId());
         meta.setCreateTime(new Date());
@@ -58,7 +58,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     public ExemptionInfo createExemption(String exemptionRequestId, ExemptionInfo exemptionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         copy.setId(exemptions.size() + "");
-        copy.setMeta(newMeta(context));
+        copy.setMeta(_newMeta(context));
         exemptions.put(copy.getId(), copy);
         return new ExemptionInfo(copy);
     }
@@ -67,12 +67,12 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     public ExemptionRequestInfo createExemptionRequest(ExemptionRequestInfo exemptionRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         copy.setId(exemptionRequests.size() + "");
-        copy.setMeta(newMeta(context));
+        copy.setMeta(_newMeta(context));
         this.exemptionRequests.put(copy.getId(), copy);
         return new ExemptionRequestInfo(copy);
     }
 
-    private StatusInfo newStatus() {
+    private StatusInfo _newStatus() {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -83,7 +83,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         if (this.exemptions.remove(exemptionId) == null) {
             throw new DoesNotExistException(exemptionId);
         }
-        return newStatus();
+        return _newStatus();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         if (this.exemptionRequests.remove(exemptionRequestId) == null) {
             throw new DoesNotExistException(exemptionRequestId);
         }
-        return newStatus();
+        return _newStatus();
     }
 
     @Override
@@ -99,7 +99,21 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
         for (ExemptionInfo info : this.getExemptionsByTypeForPerson(typeKey, personId, context)) {
             if (info.getStateKey().equals(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY)) {
+                // TODO: also check effective dates and use count
                 list.add(info);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
+        for (ExemptionInfo info : this.getActiveExemptionsByTypeForPerson(typeKey, personId, context)) {
+            if (processKey.equals(info.getProcessKey())) {
+                if (checkKey.equals(info.getCheckKey())) {
+                    list.add(info);
+                }
             }
         }
         return list;
@@ -190,7 +204,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
         for (ExemptionInfo info : this.exemptions.values()) {
             if (info.getTypeKey().equals(typeKey)) {
-                if (info.getExemptedPersonId().equals(personId)) {
+                if (info.getPersonId().equals(personId)) {
                     list.add(info);
                 }
             }
@@ -202,7 +216,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     public List<ExemptionInfo> getExemptionsForPerson(String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
         for (ExemptionInfo info : this.exemptions.values()) {
-            if (info.getExemptedPersonId().equals(personId)) {
+            if (info.getPersonId().equals(personId)) {
                 list.add(info);
             }
         }
@@ -241,7 +255,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+    private MetaInfo _updateMeta(MetaInfo old, ContextInfo context) {
         MetaInfo meta = new MetaInfo(old);
         meta.setUpdateId(context.getPrincipalId());
         meta.setUpdateTime(new Date());
@@ -254,9 +268,9 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         ExemptionInfo old = this.getExemption(exemptionId, context);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException (old.getMeta().getVersionInd());
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
-        copy.setMeta(updateMeta(copy.getMeta(), context));        
+        copy.setMeta(_updateMeta(copy.getMeta(), context));
         this.exemptions.put(exemptionInfo.getId(), copy);
         return new ExemptionInfo(copy);
     }
@@ -266,9 +280,9 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         ExemptionRequestInfo old = this.getExemptionRequest(exemptionRequestId, context);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException (old.getMeta().getVersionInd());
-        }        
-        copy.setMeta(updateMeta(copy.getMeta(), context));
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(_updateMeta(copy.getMeta(), context));
         this.exemptionRequests.put(exemptionRequestInfo.getId(), copy);
         return new ExemptionRequestInfo(copy);
     }

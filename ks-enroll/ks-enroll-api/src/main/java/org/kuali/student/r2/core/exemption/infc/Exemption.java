@@ -42,12 +42,30 @@ public interface Exemption extends IdEntity {
      */
     public String getExemptionRequestId();
 
+     /**
+     * The key of a Process that indicates to what Process in the
+     * the exemption is applied.
+     *
+     * @name Process Key
+     * @required
+     */
+    public String getProcessKey();
+
+    /**
+     * The Id of a Check that indicates to what Check in the Process
+     * the exemption is applied.
+     *
+     * @name Check Id
+     */
+    public String getCheckKey();
+
+    
     /**
      * The Id of the Person exempted.
      *
      * @name Exempted Person Id
      */
-    public String getExemptedPersonId();
+    public String getPersonId();
 
     /**
      * The date this exemption becomes effective.

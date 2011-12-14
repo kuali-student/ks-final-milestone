@@ -116,18 +116,18 @@ public class HoldServiceConstants {
     /**
      * RESTRICTION TYPES
      */
-    public static final String REGISTERATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.registration";
-    public static final String ADD_DROP_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.drop.class";
-    public static final String REQUEST_TRANSCRIPT_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.request.transcript";
-    public static final String AWARD_DEGREE_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.award.degree";
-    public static final String RECEIVE_DIPLOMA_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.receive.diploma";
-    public static final String ADD_CHARGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.charges";
-    public static final String LIBRARY_PRIVILEGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.library.privileges";
-    public static final String DORM_ACCESS_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.dorm.access";
-    public static final String UPDATE_PROGRAM_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.update.program";
-    public static final String ACCESS_GRADES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.access.grades";
-    public static final String BURSAR_REFUND_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.bursar.refund";
-    public static final String VERIFICATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.verification";
+//    public static final String REGISTERATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.registration";
+//    public static final String ADD_DROP_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.drop.class";
+//    public static final String REQUEST_TRANSCRIPT_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.request.transcript";
+//    public static final String AWARD_DEGREE_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.award.degree";
+//    public static final String RECEIVE_DIPLOMA_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.receive.diploma";
+//    public static final String ADD_CHARGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.add.charges";
+//    public static final String LIBRARY_PRIVILEGES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.library.privileges";
+//    public static final String DORM_ACCESS_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.dorm.access";
+//    public static final String UPDATE_PROGRAM_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.update.program";
+//    public static final String ACCESS_GRADES_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.access.grades";
+//    public static final String BURSAR_REFUND_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.bursar.refund";
+//    public static final String VERIFICATION_RESTRICTION_TYPE_KEY = "kuali.hold.restriction.type.verification";
     /**
      * STATES FOR holds
      */
@@ -146,12 +146,12 @@ public class HoldServiceConstants {
     public static final String ISSUE_INACTIVE_STATE_KEY = "kuali.hold.issue.state.inactive";
     public static final String[] ISSUE_PROCESS_KEYS = {ISSUE_ACTIVE_STATE_KEY,
         ISSUE_INACTIVE_STATE_KEY};
-    /**
-     * STATES FOR hold RESTRICTIONS
-     */
-    public static final String RESTRICTION_PROCESS_KEY = "kuali.hold.restriction.process";
-    public static final String RESTRICTION_ACIVE_STATE_KEY = "kuali.hold.restriction.state.active";
-    public static final String RESTRICTION_INACTIVE_STATE_KEY = "kuali.hold.restriction.state.inactive";
-    public static final String[] RESTRICTION_PROCESS_KEYS = {RESTRICTION_ACIVE_STATE_KEY,
-        RESTRICTION_INACTIVE_STATE_KEY};
+//    /**
+//     * STATES FOR hold RESTRICTIONS
+//     */
+//    public static final String RESTRICTION_PROCESS_KEY = "kuali.hold.restriction.process";
+//    public static final String RESTRICTION_ACIVE_STATE_KEY = "kuali.hold.restriction.state.active";
+//    public static final String RESTRICTION_INACTIVE_STATE_KEY = "kuali.hold.restriction.state.inactive";
+//    public static final String[] RESTRICTION_PROCESS_KEYS = {RESTRICTION_ACIVE_STATE_KEY,
+//        RESTRICTION_INACTIVE_STATE_KEY};
 }

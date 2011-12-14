@@ -54,14 +54,14 @@ public class ExemptionServicePersistenceConformanceTest {
      */
     @Test
     public void testExemptionCrud() throws Exception {
-        System.out.println("createExemption");
+        System.out.println("exemptionCrud");
         ContextInfo context = getContext();
         // create
         String exemptionRequestId = "request1";
         ExemptionInfo info = new ExemptionInfo();
-        info.setTypeKey(ExemptionServiceConstants.DATE_EXEMPTION_TYPE_KEY);
+        info.setTypeKey(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY);
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
-        info.setExemptedPersonId("person1");
+        info.setPersonId("person1");
         Date before = new Date();
         ExemptionInfo result = instance.createExemption(exemptionRequestId, info, context);
         Date after = new Date();
@@ -71,7 +71,7 @@ public class ExemptionServicePersistenceConformanceTest {
         assertNotNull(result.getId());
         assertEquals(info.getTypeKey(), result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(info.getExemptedPersonId(), result.getExemptedPersonId());
+        assertEquals(info.getPersonId(), result.getPersonId());
         assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().before(before)) {
             fail("create time should not be before the call");
@@ -115,7 +115,7 @@ public class ExemptionServicePersistenceConformanceTest {
         assertEquals (info.getId(), result.getId());
         assertEquals(info.getTypeKey(), result.getTypeKey());
         assertEquals(info.getStateKey(), result.getStateKey());
-        assertEquals(info.getExemptedPersonId(), result.getExemptedPersonId());
+        assertEquals(info.getPersonId(), result.getPersonId());
         assertEquals(TEST_PRINCIPAL_ID1, result.getMeta().getCreateId());
         if (result.getMeta().getCreateTime().after(before)) {
             fail("create time should be before the update call");
@@ -141,7 +141,7 @@ public class ExemptionServicePersistenceConformanceTest {
     public void testExemptionRequestCrud() throws Exception {
         System.out.println("createExemptionRequest");
         ExemptionRequestInfo exemptionRequestInfo = new ExemptionRequestInfo();
-        exemptionRequestInfo.setTypeKey(ExemptionServiceConstants.DATE_EXEMPTION_REQUEST_TYPE_KEY);
+        exemptionRequestInfo.setTypeKey(ExemptionServiceConstants.GENERIC_EXEMPTION_REQUEST_TYPE_KEY);
         exemptionRequestInfo.setStateKey(ExemptionServiceConstants.EXEMPTION_REQUEST_APPROVED_STATE_KEY);
         exemptionRequestInfo.setPersonId("person1");
         ContextInfo context = getContext();

@@ -294,8 +294,10 @@ public class HoldServiceMockImpl implements HoldService {
             throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        issues.put(issueInfo.getKey(), issueInfo);
-        return issueInfo;
+        IssueInfo copy = new IssueInfo(issueInfo);
+        copy.setMeta(newMeta(context));
+        issues.put(copy.getKey(), copy);
+        return new IssueInfo(copy);
     }
 
     @Override

@@ -34,25 +34,26 @@ public class ExemptionServiceConstants {
     /**
      * Exemption types
      */
-    public static final String DATE_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.date";
-    public static final String EXTERNAL_EXEMPTION_TYPE_KEY        = "kuali.exemption.type.external";
-    public static final String HOLD_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.hold";
-    public static final String LEARNING_RESULT_EXEMPTION_TYPE_KEY = "kuali.exemption.type.learning.result";
-    public static final String MILESTONE_EXEMPTION_TYPE_KEY       = "kuali.exemption.type.milestone";
-    public static final String RESTRICTION_EXEMPTION_TYPE_KEY     = "kuali.exemption.type.restriction";
-    public static final String STATEMENT_EXEMPTION_TYPE_KEY       = "kuali.exemption.type.statement";
+    public static final String MILESTONE_DATE_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.process.check.milestone.date";
+    public static final String CHECK_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check";
+//    public static final String EXTERNAL_EXEMPTION_TYPE_KEY        = "kuali.exemption.type.external";
+//    public static final String HOLD_EXEMPTION_TYPE_KEY            = "kuali.exemption.type.hold";
+//    public static final String LEARNING_RESULT_EXEMPTION_TYPE_KEY = "kuali.exemption.type.learning.result";
+//    public static final String MILESTONE_EXEMPTION_TYPE_KEY       = "kuali.exemption.type.milestone";
+//    public static final String RESTRICTION_EXEMPTION_TYPE_KEY     = "kuali.exemption.type.restriction";
+//    public static final String STATEMENT_EXEMPTION_TYPE_KEY       = "kuali.exemption.type.statement";
 
     /**
      * Exemption Request types
      */
-    public static final String DATE_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.date";
-    public static final String EXTERNAL_EXEMPTION_REQUEST_TYPE_KEY       = "kuali.exemption.request.type.external";
+//    public static final String DATE_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.date";
+//    public static final String EXTERNAL_EXEMPTION_REQUEST_TYPE_KEY       = "kuali.exemption.request.type.external";
     public static final String GENERIC_EXEMPTION_REQUEST_TYPE_KEY        = "kuali.exemption.request.type.generic";
-    public static final String HOLD_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.hold";
-    public static final String LEARNING_RESULT_EXEMPTION_REQUESTTYPE_KEY = "kuali.exemption.request.type.learning.result";
-    public static final String MILESTONE_EXEMPTION_REQUEST_TYPE_KEY      = "kuali.exemption.request.type.milestone";
-    public static final String RESTRICTION_EXEMPTION_REQUEST_TYPE_KEY    = "kuali.exemption.request.type.restriction";
-    public static final String STATEMENT_EXEMPTION_REQUEST_TYPE_KEY      = "kuali.exemption.request.type.statement";
+//    public static final String HOLD_EXEMPTION_REQUEST_TYPE_KEY           = "kuali.exemption.request.type.hold";
+//    public static final String LEARNING_RESULT_EXEMPTION_REQUEST_TYPE_KEY = "kuali.exemption.request.type.learning.result";
+//    public static final String MILESTONE_EXEMPTION_REQUEST_TYPE_KEY      = "kuali.exemption.request.type.milestone";
+//    public static final String RESTRICTION_EXEMPTION_REQUEST_TYPE_KEY    = "kuali.exemption.request.type.restriction";
+//    public static final String STATEMENT_EXEMPTION_REQUEST_TYPE_KEY      = "kuali.exemption.request.type.statement";
 
     /**
      * States For Exemptions

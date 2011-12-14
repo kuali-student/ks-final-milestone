@@ -337,6 +337,25 @@ public interface ExemptionService extends DataDictionaryService, StateService, T
      */
     public List<ExemptionInfo> getActiveExemptionsByTypeForPerson(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "personId") String personId, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+     /** 
+     * Gets a list of all effective exemptions by Type, Process and check for a
+     * Person. An effective exemption is one with an active state, the
+     * current date falls within the effective date range, and the use
+     * count is less than the use limit.
+     *
+     * @param typeKey an exemption Type
+     * @param personId a unique Id of the Person
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of Exemptions
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+     public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+  
 
     /*
      * This section defines the standard crud pattern for
