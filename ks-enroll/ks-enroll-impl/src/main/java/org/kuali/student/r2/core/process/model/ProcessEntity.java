@@ -53,12 +53,7 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	public ProcessEntity(Process process){
 	    super(process);
         try {
-            /** TODO
-             * getId , do we need to create this as a getter/setter since it doesn't
-             * exist in this context?
-             * @return
-             */
-	        //this.setId(process.getId());   <---- FIX THIS
+	        this.setId(process.getKey());
 	        this.setName(process.getName());
 	        if(process.getDescr() != null) {
 	            this.setDescr(new ProcessRichTextEntity(process.getDescr()));
@@ -76,14 +71,12 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
         }
 	}
 
-    /** TODO
-     * Clean up the toDto function
-     * Deal with the issues of
-     * @return
+    /**
+     * @return Process Information DTO
      */
     public ProcessInfo toDto(){
 	    ProcessInfo obj = new ProcessInfo();
-    	//obj.setId(getId());   <---- FIX THIS: Only OwnerOrgID exists as getter/setters
+    	obj.setKey(getId());
     	obj.setName(name);
         if (processTypeID != null)
             obj.setTypeKey(processTypeID.getId());
