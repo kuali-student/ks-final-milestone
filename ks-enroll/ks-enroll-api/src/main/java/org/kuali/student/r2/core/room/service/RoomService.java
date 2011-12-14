@@ -19,6 +19,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -42,8 +43,11 @@ import java.util.List;
 
 /**
  *
- * Room Service manages Buildings and Rooms so that locations can be referenced
- *  in other KS services
+ * Room Service Description and Assumptions
+ *
+ * If a room is e62-221, the Building code is "e62" and the Room code is "221".
+ * The Room will always be referenced by the internal Room Id and not the code
+ * when used by other KS services.
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
@@ -255,6 +259,38 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
      */
     public List<RoomInfo> searchForRooms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /**
+     * Validates a Room. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is
+     * present for the Process and a record is found for that
+     * identifier, the validation checks if the Process can be shifted
+     * to the new values. If a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as
+     * such, the checks performed will be much shallower, typically
+     * mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the
+     * standard validation as the caller provides the identifier in
+     * the create statement instead of the server assigning an
+     * identifier.
+     *
+     * @param validationTypeKey the identifier of the extent of validation
+     * @param roomInfo the Room information to be tested
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid roomInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     *         roomInfo, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateRoom(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * Creates a new Room
      *
@@ -382,6 +418,37 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
     public BuildingInfo getBuildingByRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Validates a Building. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is
+     * present for the Process and a record is found for that
+     * identifier, the validation checks if the Process can be shifted
+     * to the new values. If a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as
+     * such, the checks performed will be much shallower, typically
+     * mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the
+     * standard validation as the caller provides the identifier in
+     * the create statement instead of the server assigning an
+     * identifier.
+     *
+     * @param validationTypeKey the identifier of the extent of validation
+     * @param buildingInfo the Building information to be tested
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid buildingInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     *         buildingInfo, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateBuilding(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Creates a new Building
      *
      * @param buildingInfo the details of Building to be created
@@ -441,25 +508,6 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Associates an existing Building with a Room
-     *
-     * @param roomId         identifier of the Room
-     * @param buildingId     building id
-     * @param contextInfo    Context information containing the
-     *                       principalId and locale information about the caller of
-     *                       service operation
-     * @return status of the operation (success, failed)
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException        roomId, buildingId does not exist
-     * @throws InvalidParameterException    invalid roomId, buildingId, contextInfo
-     * @throws MissingParameterException    roomId, buildingId, contextInfo not specified
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     * @throws VersionMismatchException     action was attempted on an out of date version
-     */
-    public StatusInfo addBuildingToRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Retrieves a Room Responsible Org
@@ -544,8 +592,42 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
     public List<RoomResponsibleOrgInfo> getRoomResponsibleOrgsByBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Validates a RoomResponsibleOrg. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is
+     * present for the Process and a record is found for that
+     * identifier, the validation checks if the Process can be shifted
+     * to the new values. If a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as
+     * such, the checks performed will be much shallower, typically
+     * mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the
+     * standard validation as the caller provides the identifier in
+     * the create statement instead of the server assigning an
+     * identifier.
+     *
+     * @param validationTypeKey the identifier of the extent of validation
+     * @param roomResponsibleOrgInfo the Room Responsible Org information to be tested
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid roomResponsibleOrgInfo, or contextInfo
+     * @throws MissingParameterException missing validationTypeKey,
+     *         roomResponsibleOrgInfo, or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateRoomResponsibleOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Creates a new Room Responsible Org
      *
+     * @param roomId room identifier
+     * @param orgId  org identifier
+     * @param roomResponsibleOrgTypeKey Type of Room Responsible Org
      * @param roomResponsibleOrgInfo the details of Room Responsible Org to be created
      * @param contextInfo     Context information containing the
      *                        principalId and locale information about the caller of
@@ -554,14 +636,15 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
      * @throws AlreadyExistsException       the Room Responsible Org being created already exists
      * @throws DataValidationErrorException one or more values invalid
      *                                      for this operation
+     * @throws DoesNotExistException        roomId or orgId not found
      * @throws InvalidParameterException    invalid roomResponsibleOrgInfo or contextInfo
-     * @throws MissingParameterException    missing roomResponsibleOrgInfo or contextInfo
+     * @throws MissingParameterException    missing roomId, orgId, roomResponsibleOrgInfo or contextInfo
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public RoomResponsibleOrgInfo createRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public RoomResponsibleOrgInfo createRoomResponsibleOrg(@WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Room Responsible Org
@@ -603,24 +686,5 @@ public interface RoomService extends DataDictionaryService, TypeService, StateSe
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgKey") String roomResponsibleOrgKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Associates an existing Room Responsible Org with a Room
-     *
-     * @param roomId         identifier of the Room
-     * @param roomResponsibleOrgKey Room Responsible Org key
-     * @param contextInfo    Context information containing the
-     *                       principalId and locale information about the caller of
-     *                       service operation
-     * @return status of the operation (success, failed)
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException        roomId, roomResponsibleOrgKey does not exist
-     * @throws InvalidParameterException    invalid roomId, roomResponsibleOrgKey, contextInfo
-     * @throws MissingParameterException    roomId, roomResponsibleOrgKey, contextInfo not specified
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    authorization failure
-     * @throws VersionMismatchException     action was attempted on an out of date version
-     */
-    public StatusInfo addRoomResponsibleOrgToRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "roomResponsibleOrgKey") String roomResponsibleOrgKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
 }

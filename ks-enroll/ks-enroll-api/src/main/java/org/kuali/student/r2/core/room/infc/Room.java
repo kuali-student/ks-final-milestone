@@ -29,14 +29,34 @@ import java.util.List;
 public interface Room extends IdEntity {
 
     /**
-     * Floor the room is in
+     * Code assigned to room (for example, "239")
      *
-     * @name Floor Key
+     * @name Room Code
      * @readOnly
      * @required
      *
      */
-    public String getFloorKey();
+    public String getRoomCode();
+
+    /**
+     * Building the room is in
+     *
+     * @name Building Id
+     * @readOnly
+     * @required
+     *
+     */
+    public String getBuildingId();
+
+    /**
+     * Floor the room is in
+     *
+     * @name Floor
+     * @readOnly
+     * @required
+     *
+     */
+    public String getFloor();
 
     /**
      *  Resources in the room

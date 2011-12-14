@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.room.infc;
 
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 
 /**
@@ -24,7 +25,7 @@ import org.kuali.student.r2.common.infc.HasId;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface RoomFixedResource extends HasId {
+public interface RoomFixedResource extends HasId, HasAttributesAndMeta {
 
     /**
      * Quantity of this resource
@@ -38,8 +39,8 @@ public interface RoomFixedResource extends HasId {
     /**
      *  Type of the Resource
      *
-     * @name Resource Type
+     * @name Resource Type key
      * @required
      */
-    public String getResourceType();
+    public String getResourceTypeKey();
 }

@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface Building extends IdEntity {
 
     /**
-     * Unique code for the building
+     * Unique code for the building (for example, "UWTT")
      *
      * @name Building Code
      * @required

@@ -15,18 +15,19 @@
 
 package org.kuali.student.r2.core.room.infc;
 
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 
 import java.util.List;
 
 /**
- * Room Usage
+ * Room Usage information
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  *
  */
-public interface RoomUsage extends HasId {
+public interface RoomUsage extends HasId, HasAttributesAndMeta {
 
     /**
      *  Preferred capacity of the room
@@ -55,19 +56,19 @@ public interface RoomUsage extends HasId {
     public Integer getExamCapacity();
 
     /**
-     *  Usage Type (classes, exams, meetings, ...)
+     *  Usage type (classe, exam, meeting, ...)
      *
-     * @name Usage Types
+     * @name Usage Type key
      *
      */
-    public List<String> getUsageTypeKeys();
+    public String getUsageTypeKey();
 
     /**
-     *  Layout Type (classes, exams, business school, ...)
+     *  Layout type (class, exam, business school, ...)
      *
-     * @name Layout Types
+     * @name Layout Type key
      *
      */
-    public List<String> getLayoutTypeKeys();
+    public String getLayoutTypeKey();
     
 }

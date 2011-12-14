@@ -28,12 +28,11 @@ import javax.jws.WebParam;
 import java.util.List;
 
 /**
- *  Refer to service contract javadoc
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public class RoomServiceServiceDecorator implements RoomService {
+public class RoomServiceDecorator implements RoomService {
 
     private RoomService nextDecorator;
 
@@ -126,6 +125,11 @@ public class RoomServiceServiceDecorator implements RoomService {
     }
 
     @Override
+    public List<ValidationResultInfo> validateRoom(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.validateRoom(validationTypeKey, roomInfo, contextInfo);
+    }
+
+    @Override
     public RoomInfo createRoom(@WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createRoom(roomInfo, contextInfo);
     }
@@ -161,6 +165,11 @@ public class RoomServiceServiceDecorator implements RoomService {
     }
 
     @Override
+    public List<ValidationResultInfo> validateBuilding(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.validateBuilding(validationTypeKey, buildingInfo, contextInfo);
+    }
+
+    @Override
     public BuildingInfo createBuilding(@WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createBuilding(buildingInfo, contextInfo);
     }
@@ -173,11 +182,6 @@ public class RoomServiceServiceDecorator implements RoomService {
     @Override
     public StatusInfo deleteBuilding(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteBuilding(buildingId, contextInfo);
-    }
-
-    @Override
-    public StatusInfo addBuildingToRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "buildingId") String buildingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().addBuildingToRoom(roomId, buildingId, contextInfo);
     }
 
     @Override
@@ -206,8 +210,13 @@ public class RoomServiceServiceDecorator implements RoomService {
     }
 
     @Override
-    public RoomResponsibleOrgInfo createRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createRoomResponsibleOrg(roomResponsibleOrgInfo, contextInfo);
+    public List<ValidationResultInfo> validateRoomResponsibleOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.validateRoomResponsibleOrg(validationTypeKey, roomResponsibleOrgInfo, contextInfo);
+    }
+
+    @Override
+    public RoomResponsibleOrgInfo createRoomResponsibleOrg(@WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return this.createRoomResponsibleOrg(roomId, orgId, roomResponsibleOrgTypeKey, roomResponsibleOrgInfo, contextInfo);
     }
 
     @Override
@@ -218,11 +227,6 @@ public class RoomServiceServiceDecorator implements RoomService {
     @Override
     public StatusInfo deleteRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgKey") String roomResponsibleOrgKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteRoomResponsibleOrg(roomResponsibleOrgKey, contextInfo);
-    }
-
-    @Override
-    public StatusInfo addRoomResponsibleOrgToRoom(@WebParam(name = "roomId") String roomId, @WebParam(name = "roomResponsibleOrgKey") String roomResponsibleOrgKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return getNextDecorator().addRoomResponsibleOrgToRoom(roomId, roomResponsibleOrgKey, contextInfo);
     }
 
     @Override

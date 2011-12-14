@@ -1,7 +1,10 @@
 package org.kuali.student.r2.core.room.dto;
 
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.core.room.infc.RoomUsage;
+import org.w3c.dom.Element;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +13,25 @@ import java.util.List;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public class RoomUsageInfo implements RoomUsage, Serializable {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "examCapacity", "meta", "attributes", "_futureElements"})
+public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage, Serializable {
 
+    @XmlElement
     private String id;
+    @XmlElement
+    private String usageTypeKey;
+    @XmlElement
+    private String layoutTypeKey;
+    @XmlElement
     private Integer preferredCapacity;
+    @XmlElement
     private Integer hardCapacity;
+    @XmlElement
     private Integer examCapacity;
-    private List<String> usageTypeKeys;
-    private List<String> layoutTypeKeys;
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
 
     public RoomUsageInfo() {
 
@@ -28,12 +42,8 @@ public class RoomUsageInfo implements RoomUsage, Serializable {
             this.preferredCapacity = roomUsage.getPreferredCapacity();
             this.hardCapacity = roomUsage.getHardCapacity();
             this.examCapacity = roomUsage.getExamCapacity();
-            if (null != roomUsage.getUsageTypeKeys()) {
-                this.usageTypeKeys = new ArrayList<String>(roomUsage.getUsageTypeKeys());
-            }
-            if (null != roomUsage.getLayoutTypeKeys()) {
-                this.layoutTypeKeys = new ArrayList<String>(roomUsage.getLayoutTypeKeys());
-            }
+            this.usageTypeKey = roomUsage.getUsageTypeKey();
+            this.layoutTypeKey = roomUsage.getLayoutTypeKey();
         }
     }
 
@@ -44,6 +54,24 @@ public class RoomUsageInfo implements RoomUsage, Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String getUsageTypeKey() {
+        return this.usageTypeKey;
+    }
+
+    public void setUsageTypeKey(String usageTypeKey) {
+        this.usageTypeKey = usageTypeKey;
+    }
+
+    @Override
+    public String getLayoutTypeKey() {
+        return this.layoutTypeKey;
+    }
+
+    public void setLayoutTypeKey(String layoutTypeKey) {
+        this.layoutTypeKey = layoutTypeKey;
     }
     
     @Override
@@ -73,22 +101,5 @@ public class RoomUsageInfo implements RoomUsage, Serializable {
         this.examCapacity = examCapacity;
     }
 
-    @Override
-    public List<String> getUsageTypeKeys() {
-        return this.usageTypeKeys;
-    }
-
-    public void setUsageTypeKeys(List<String> usageTypeKeys) {
-        this.usageTypeKeys = usageTypeKeys;
-    }
-
-    @Override
-    public List<String> getLayoutTypeKeys() {
-        return this.layoutTypeKeys;
-    }
-
-    public void setLayoutTypeKeys(List<String> layoutTypeKeys) {
-        this.layoutTypeKeys = layoutTypeKeys;
-    }
 
 }

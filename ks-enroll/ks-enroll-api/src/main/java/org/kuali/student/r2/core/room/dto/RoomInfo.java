@@ -30,20 +30,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Refer to interface javadoc
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoomInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "floorKey", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
+        "name", "descr", "roomCode", "buildingId", "floor", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
         "meta", "attributes", "_futureElements"})
 public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @XmlElement
-    private String floorKey;
+    private String roomCode;
+    @XmlElement
+    private String buildingId;
+    @XmlElement
+    private String floor;
     @XmlElement
     List<RoomFixedResource> roomFixedResources;
     @XmlElement
@@ -60,7 +64,9 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     public RoomInfo(Room room) {
         super(room);
         if (null != room) {
-            this.floorKey = room.getFloorKey();
+            this.roomCode =
+            this.buildingId = room.getBuildingId();
+            this.floor = room.getFloor();
             if (null != room.getRoomFixedResources()) {
                 this.roomFixedResources = new ArrayList<RoomFixedResource>(room.getRoomFixedResources());
             }
@@ -74,12 +80,30 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     }
 
     @Override
-    public String getFloorKey() {
-        return this.floorKey;
+    public String getRoomCode() {
+        return this.roomCode;
     }
 
-    public void setFloorKey(String floorKey) {
-        this.floorKey = floorKey;
+    public void setRoomCode(String roomCode) {
+        this.roomCode = roomCode;
+    }
+
+    @Override
+    public String getBuildingId() {
+        return this.buildingId;
+    }
+
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+    }
+
+    @Override
+    public String getFloor() {
+        return this.floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 
     @Override

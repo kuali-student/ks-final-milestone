@@ -20,7 +20,8 @@ import org.kuali.student.r2.common.infc.Relationship;
 
 /**
  * Room Responsible Org
- * Note that multiple orgs can be responsible for a room in different roles like maintenance, scheduling etc
+ * Note that multiple orgs can be responsible for a room in different roles
+ * like maintenance, scheduling etc
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
@@ -32,15 +33,17 @@ public interface RoomResponsibleOrg extends Relationship {
      * Unique id for the organization
      *
      * @name Org Id
+     * @readOnly
      * @required
      *
      */
     public String getOrgId();
 
     /**
-     * Unique id for the organization
+     * Unique id for the room
      *
-     * @name Org Id
+     * @name Room Id
+     * @readOnly
      * @required
      *
      */

@@ -15,23 +15,31 @@
 
 package org.kuali.student.r2.core.room.dto;
 
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
+import org.w3c.dom.Element;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * Refer to interface javadoc
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public class RoomFixedResourceInfo implements RoomFixedResource, Serializable {
-    
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes", "_futureElements"})
+public class RoomFixedResourceInfo extends HasAttributesAndMetaInfo implements RoomFixedResource, Serializable {
+
+    @XmlElement
     private String id;
-
+    @XmlElement
     private Integer quantity;
-
-    private String resourceType;
+    @XmlElement
+    private String resourceTypeKey;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public RoomFixedResourceInfo() {
 
@@ -40,7 +48,7 @@ public class RoomFixedResourceInfo implements RoomFixedResource, Serializable {
     public RoomFixedResourceInfo(RoomFixedResource roomFixedResource) {
         if (null != roomFixedResource) {
             this.quantity = roomFixedResource.getQuantity();
-            this.resourceType = roomFixedResource.getResourceType();
+            this.resourceTypeKey = roomFixedResource.getResourceTypeKey();
         }
     }
     
@@ -59,7 +67,7 @@ public class RoomFixedResourceInfo implements RoomFixedResource, Serializable {
     }
 
     @Override
-    public String getResourceType() {
-        return this.resourceType;
+    public String getResourceTypeKey() {
+        return this.resourceTypeKey;
     }
 }
