@@ -5,13 +5,33 @@
 ALTER TABLE "KSEN_PROCESS" MODIFY ("ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_PROCESS" MODIFY ("PROCESS_STATE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_PROCESS" MODIFY ("STATE_ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_PROCESS" MODIFY ("PROCESS_TYPE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_PROCESS" MODIFY ("TYPE_ID" NOT NULL ENABLE)
 /
 
 ALTER TABLE "KSEN_PROCESS" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_PROCESS_RICH_TEXT
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_PROCESS_RICH_TEXT" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_PROCESS_RICH_TEXT" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_PROCESS_TYPE
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_PROCESS_TYPE" MODIFY ("TYPE_KEY" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_PROCESS_TYPE" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
 /
 
 --------------------------------------------------------
@@ -31,13 +51,33 @@ ALTER TABLE "KSEN_PROCESS_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 ALTER TABLE "KSEN_CHECK" MODIFY ("ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_CHECK" MODIFY ("CHECK_STATE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_CHECK" MODIFY ("STATE_ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_CHECK" MODIFY ("CHECK_TYPE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_CHECK" MODIFY ("TYPE_ID" NOT NULL ENABLE)
 /
 
 ALTER TABLE "KSEN_CHECK" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_CHECK_RICH_TEXT
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_CHECK_RICH_TEXT" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_CHECK_RICH_TEXT" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_CHECK_TYPE
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_CHECK_TYPE" MODIFY ("TYPE_KEY" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_CHECK_TYPE" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
 /
 
 --------------------------------------------------------
@@ -57,10 +97,10 @@ ALTER TABLE "KSEN_CHECK_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 ALTER TABLE "KSEN_INSTR" MODIFY ("ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_INSTR" MODIFY ("INSTR_STATE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_INSTR" MODIFY ("STATE_ID" NOT NULL ENABLE)
 /
 
-ALTER TABLE "KSEN_INSTR" MODIFY ("INSTR_TYPE_ID" NOT NULL ENABLE)
+ALTER TABLE "KSEN_INSTR" MODIFY ("TYPE_ID" NOT NULL ENABLE)
 /
 
 ALTER TABLE "KSEN_INSTR" ADD PRIMARY KEY ("ID") ENABLE
@@ -74,6 +114,16 @@ ALTER TABLE "KSEN_INSTR_ATTR" MODIFY ("ID" NOT NULL ENABLE)
 /
 
 ALTER TABLE "KSEN_INSTR_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_INSTR_TYPE
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_INSTR_TYPE" MODIFY ("TYPE_KEY" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_INSTR_TYPE" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
 /
 
 --------------------------------------------------------
